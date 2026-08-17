@@ -17,7 +17,8 @@ const modules=[
   ['engineer-ui-phase4-module','ui-phase4.js'],
   ['engineer-ui-phase5-module','ui-phase5.js'],
   ['engineer-ui-phase6-i18n-module','ui-phase6-i18n.js'],
-  ['engineer-rich-topic-australia-nato-eod-module','rich-topic-australia-nato-eod.js']
+  ['engineer-rich-topic-australia-nato-eod-module','rich-topic-australia-nato-eod.js'],
+  ['engineer-topic-czech-engineers-eod-module','ui-topic-czech-engineers-eod.js']
 ];
 for(const [id,file] of modules){
   const js=readFileSync(join(src,file),'utf8');
@@ -32,11 +33,12 @@ const flags=[
   'claim_level_provenance=enabled','visual_gallery=enabled',
   'claim_source_map=enabled','compare_related_visuals=enabled','coverage_drilldown=enabled','maturity_history=enabled',
   'rich_entity_cards=enabled','card_completeness=enabled','information_age=enabled',
-  'entity_enrichment_backlog=enabled','topic_page_eod_cied_eoc_eor=enabled','topic_page_australia_nato_eod=enabled',
+  'entity_enrichment_backlog=enabled','topic_page_eod_cied_eoc_eor=enabled','topic_page_australia_nato_eod=enabled','topic_page_czech_engineers_eod=enabled',
   'rich_content_backfill=enabled','rich_content_backfill_entities=11',
   'rich_backfill_israel_turkiye_eod=enabled','rich_backfill_eoc_lead=enabled','rich_backfill_usa_rok=enabled',
   'i18n=enabled','i18n_cs=enabled','i18n_en=enabled','terminology_registry=enabled','translation_fallback=enabled',
-  'i18n_usa_rok=enabled','i18n_observer_fix=enabled','translation_registry_version=1.0'
+  'i18n_usa_rok=enabled','i18n_observer_fix=enabled','translation_registry_version=1.0',
+  'czech_republic_priority=enabled'
 ];
 for(const f of flags)if(!h.includes(f))h+=f+'\n';
 writeFileSync(health,h,'utf8');
