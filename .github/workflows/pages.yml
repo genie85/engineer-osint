@@ -46,13 +46,19 @@ jobs:
           cat docs/engineer-osint-dist/health.txt
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
           grep -q 'entity_navigation=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'grouped_navigation=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'entity_id_search=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'translation_audit_view=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
-          grep -q 'engineerUnitsBtn' docs/engineer-osint-dist/index.html
-          grep -q 'engineerSignalsBtn' docs/engineer-osint-dist/index.html
+          grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
+          grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
+          grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
+          grep -q "^ENG-UNIT-" docs/engineer-osint-dist/index.html
+          grep -q "^ENG-SIG-" docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           grep -q 'ENG-SIG-0006' docs/engineer-osint-dist/index.html
           grep -q 'experimentální doprava ženijního prostředku' docs/engineer-osint-dist/index.html
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch');"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
