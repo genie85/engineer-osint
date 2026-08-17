@@ -36,6 +36,8 @@ jobs:
           node --check docs/engineer-osint/ui-phase6-i18n.js
           node --check docs/engineer-osint/ui-phase7-media.js
           node --check docs/engineer-osint/ui-phase8-navigation.js
+          node --check docs/engineer-osint/ui-phase9-intelligence.js
+          node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
       - name: Build dashboard
         run: node docs/engineer-osint/build-pages.mjs
@@ -49,10 +51,22 @@ jobs:
           grep -q 'grouped_navigation=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'entity_id_search=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'translation_audit_view=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'knowledge_graph=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'orbat_view=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'evidence_registry=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'advanced_search=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'csv_json_export=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'historical_coverage_heatmap=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'source_methodology=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
           grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
           grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
+          grep -q 'ENGINEER_INTELLIGENCE' docs/engineer-osint-dist/index.html
+          grep -q 'WarSpotting' docs/engineer-osint-dist/index.html
+          grep -q 'SIPRI Arms Transfers' docs/engineer-osint-dist/index.html
+          grep -q 'Observed minimum' docs/engineer-osint-dist/index.html
           grep -q 'ENG-UNIT-' docs/engineer-osint-dist/index.html
           grep -q 'ENG-SIG-' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
