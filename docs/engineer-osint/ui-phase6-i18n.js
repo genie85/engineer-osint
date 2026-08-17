@@ -2,7 +2,11 @@
   const D=window.__ENGINEER_DATA__,I=window.__ENGINEER_I18N__;
   if(!D||!I)return;
   const KEY='engineer_osint_language';
+  const EXPLICIT_KEY='engineer_osint_language_user_selected';
+  const DEFAULT_LANG=I.default_language||'cs';
   const R=D.records?.records||[],L=D.leads?.leads||[],E=[...R,...L];
+  const currentLang=()=>localStorage.getItem(EXPLICIT_KEY)==='1'?(localStorage.getItem(KEY)||DEFAULT_LANG):DEFAULT_LANG;
+  if(localStorage.getItem(EXPLICIT_KEY)!=='1')localStorage.setItem(KEY,DEFAULT_LANG);
   for(const e of E){
     e.__orig=e.__orig||{title:e.title,summary:e.summary,description:e.description};
   }
@@ -60,6 +64,7 @@
         const s=document.createElement('span');
         s.className='translation-fallback-badge';
         s.textContent=' EN FALLBACK';
+        s.title='Český překlad této položky zatím není k dispozici';
         s.style.cssText='font-size:8px;color:#e7ca84;margin-left:5px';
         (el.querySelector('strong,h3,h2')||el).appendChild(s);
       }
@@ -77,7 +82,7 @@
     clearTimeout(timer);
     observer.disconnect();
     try{
-      const lang=localStorage.getItem(KEY)||'en';
+      const lang=currentLang();
       document.documentElement.lang=lang==='cs'?'cs':'en';
       translateStatic(document,lang);
       updateSwitch(lang);
@@ -98,6 +103,7 @@
   function set(lang){
     if(lang!=='cs'&&lang!=='en')return;
     localStorage.setItem(KEY,lang);
+    localStorage.setItem(EXPLICIT_KEY,'1');
     applyEntity(lang);
     const active=document.querySelector('#sidebar nav .active,[data-view].active');
     if(active?.click){
@@ -111,7 +117,7 @@
     if(b)set(b.dataset.lang);
   };
 
-  applyEntity(localStorage.getItem(KEY)||'en');
+  applyEntity(currentLang());
   decorateNow();
-  window.ENGINEER_I18N={setLanguage:set,getLanguage:()=>localStorage.getItem(KEY)||'en',terminology:new Map((I.terms||[]).map(t=>[t.original_term,t]))};
+  window.ENGINEER_I18N={setLanguage:set,getLanguage:currentLang,terminology:new Map((I.terms||[]).map(t=>[t.original_term,t]))};
 })();
