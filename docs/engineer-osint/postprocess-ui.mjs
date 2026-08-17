@@ -1,0 +1,40 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+const out='docs/engineer-osint-dist';
+const src='docs/engineer-osint';
+const index=join(out,'index.html');
+let html=readFileSync(index,'utf8');
+const modules=[
+  ['engineer-rich-backfill-module','rich-backfill.js'],
+  ['engineer-rich-backfill-israel-turkiye-eod-module','rich-backfill-israel-turkiye-eod.js'],
+  ['engineer-rich-backfill-eod-lead-module','rich-backfill-eod-lead.js'],
+  ['engineer-i18n-terminology-module','i18n-terminology.js'],
+  ['engineer-i18n-content-cs-module','i18n-content-cs.js'],
+  ['engineer-ui-phase2-module','ui-phase2.js'],
+  ['engineer-ui-phase3-module','ui-phase3.js'],
+  ['engineer-ui-phase4-module','ui-phase4.js'],
+  ['engineer-ui-phase5-module','ui-phase5.js'],
+  ['engineer-ui-phase6-i18n-module','ui-phase6-i18n.js']
+];
+for(const [id,file] of modules){
+  const js=readFileSync(join(src,file),'utf8');
+  if(!html.includes(id))html=html.replace('</body>',`<script id="${id}">${js}</script></body>`);
+}
+writeFileSync(index,html,'utf8');
+const health=join(out,'health.txt');
+let h='';try{h=readFileSync(health,'utf8')}catch{}
+const flags=[
+  'entity_timeline=enabled','watchlist_health=enabled','graph_search=enabled',
+  'technology_maturity=enabled','coverage_matrix=enabled','staff_training_relevance=enabled',
+  'claim_level_provenance=enabled','visual_gallery=enabled',
+  'claim_source_map=enabled','compare_related_visuals=enabled','coverage_drilldown=enabled','maturity_history=enabled',
+  'rich_entity_cards=enabled','card_completeness=enabled','information_age=enabled',
+  'entity_enrichment_backlog=enabled','topic_page_eod_cied_eoc_eor=enabled',
+  'rich_content_backfill=enabled','rich_content_backfill_entities=9',
+  'rich_backfill_israel_turkiye_eod=enabled','rich_backfill_eoc_lead=enabled',
+  'i18n=enabled','i18n_cs=enabled','i18n_en=enabled','terminology_registry=enabled','translation_fallback=enabled',
+  'translation_registry_version=1.0'
+];
+for(const f of flags)if(!h.includes(f))h+=f+'\n';
+writeFileSync(health,h,'utf8');
+console.log('ENGINEER OSINT bilingual CZ-EN postprocess enabled');
