@@ -1,0 +1,32 @@
+(function(){
+  const D=window.__ENGINEER_DATA__; if(!D)return;
+  const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
+  const put=(id,p)=>{const x=R.get(id); if(!x)return; Object.assign(x,p); x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION'; x.translation_provenance_cs=p.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
+
+  put('ENG-UNIT-0011',{
+    title_cs:'19. ženijní pluk (19e Régiment du génie)',
+    summary_cs:'Francouzský 19. ženijní pluk je veřejně popisován jako mnohostranný ženijní útvar s úkoly v oblasti bojové ženijní podpory, infrastruktury, překonávání překážek, vyhledávání, odminování a potápěčských činností. Veřejný snapshot z roku 2026 jej zároveň spojuje s prvním zaváděním systému SDZ.',
+    why_it_matters_cs:'Jde o užitečný veřejný organizační bod pro sledování toho, jak Francie soustřeďuje klasickou ženijní podporu, specializované vyhledávací/odminovací úkoly a nové teleoperované prostředky v jednom plukovním rámci.',
+    staff_relevance_cs:'Relevantní pro srovnání národních modelů plukovní ženijní podpory, přidělování specializovaných schopností a vztahu mezi manévrovou podporou, search/demining a novými teleoperovanými systémy.',
+    intelligence_gaps_cs:['Úplné aktuální TO&E pluku','Přesné rozdělení SDZ a dalších specializovaných systémů mezi podřízené roty','Současný C2 model pro EOD/EOC/search úkoly','Přesný vztah francouzské terminologie dépollution/déminage k NATO EOD/EOC/EOR kategoriím']
+  });
+
+  put('ENG-UNIT-0019',{
+    title_cs:'Bundeswehr Kampfmittelabwehrschule — škola boje proti výbušným prostředkům',
+    summary_cs:'Bundeswehr veřejně označuje Kampfmittelabwehrschule ve Stetten am kalten Markt za ústřední výcvikové pracoviště pro Kampfmittelabwehr v rámci Pionierschule. Veřejné materiály spojují tuto oblast s průzkumem, identifikací a zneškodňováním výbušných hrozeb a s používáním specializovaných detekčních, rentgenových a ochranných prostředků.',
+    why_it_matters_cs:'Německý model ukazuje centralizované institucionální ukotvení Kampfmittelabwehr uvnitř ženijního školského systému. Je proto vhodný pro srovnání s armádami, které EOD/EOC schopnosti organizují více decentralizovaně u operačních útvarů.',
+    staff_relevance_cs:'Relevantní pro návrh výcvikových a certifikačních modelů, standardizaci odborné přípravy a porovnání institucionální vazby mezi ženijním vojskem a činnostmi v oblasti výbušných hrozeb.',
+    intelligence_gaps_cs:['Aktuální úplná struktura školy a specializovaných kurzů','Přesná kvalifikační návaznost na NATO EOD/EOC/EOR','Operační vazba školy na nasazené EOD/Kampfmittelabwehr prvky','Aktuální počty specialistů a kapacita výcviku'],
+    terminology_note_cs:'Německý pojem Kampfmittelabwehr je zachován zdrojově věrně a není automaticky převáděn one-to-one na EOD, EOC nebo EOR.'
+  });
+
+  put('ENG-UNIT-0020',{
+    title_cs:'Centralny Ośrodek Koordynacji Rozminowania — Centrální koordinační centrum odminování',
+    summary_cs:'Polský veřejný baseline popisuje centralizovaný koordinační prvek pro rozminování a činnosti související s výbušnými hrozbami. Záznam je důležitý především jako C2 a koordinační datapoint, nikoli jako úplný model všech polských EOD/clearance jednotek.',
+    why_it_matters_cs:'Polský model přidává do srovnání centralizovanou koordinační vrstvu. To umožňuje sledovat rozdíl mezi národními systémy, kde jsou clearance/EOD schopnosti organizovány převážně v operačních jednotkách, a systémy s výraznějším centrálním koordinačním prvkem.',
+    staff_relevance_cs:'Relevantní pro srovnání C2, taskingu, evidence hrozeb, koordinace rozminování a vztahu mezi ženijními, EOD a dalšími specializovanými prvky.',
+    intelligence_gaps_cs:['Přesné současné pravomoci centra v míru a za operace','Úplná vazba na polské ženijní a EOD jednotky','Rozhraní se systémem civilního odstraňování munice','Přesný NATO EOD/EOC/EOR crosswalk a certifikační model']
+  });
+
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020'].filter(id=>R.has(id)),version:'1.0'};
+})();
