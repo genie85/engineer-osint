@@ -39,7 +39,50 @@
     'Tato událost představuje veřejně doložený datapoint schopnosti překonávání vodních překážek na úrovni brigády, nikoli úplné TO&E brigády.'
   ]);
 
+  // Batch 2026-08-17-2334: complete next TECH-priority translation batch.
+  put('ENG-TECH-0011',{
+    title_cs:'SDZ — Système de dépollution de zone',
+    summary_cs:'Francouzský SDZ je teleoperovaný systém pro čištění rozsáhlejších prostorů od nebezpečné munice a min, vyvinutý společností CEFA jako náhrada staršího MADEM. Veřejný armádní zdroj jej popisuje jako dvourobotový systém s důrazem na omezení expozice obsluhy.',
+    intelligence_gaps_cs:['Přesný aktuální stav flotily po zveřejnění údajů 21. dubna 2026','Úplná veřejná technická specifikace obou robotů a výměnných pracovních nástrojů','Přesné doktrinální přiřazení francouzské terminologie dépollution k NATO kategoriím EOC a route/area clearance']
+  });
+  translateClaims('ENG-TECH-0011',[
+    'SDZ je teleoperovaný systém tvořený dvěma roboty.',
+    'TerreMag popsal systém jako náhradu MADEM a k datu zveřejnění uvedl šest systémů ve službě.'
+  ]);
+
+  put('ENG-TECH-0012',{
+    title_cs:'SYFRALL — modulární systém pro překonávání vodních překážek',
+    summary_cs:'SYFRALL je francouzský modulární systém pro překonávání vodních překážek určený k obnově schopností wet-gap crossing. DGA objednala osm systémů, které mají dohromady představovat přibližně 300 metrů lineárního přemostění.',
+    intelligence_gaps_cs:['Harmonogram dodávek a přidělení jednotlivým jednotkám','Aktuální stav kvalifikace nad rámec veřejně oznámených programových milníků','Přesné vojenské zatěžovací třídy a výkonnost jednotlivých konfigurací v autoritativních veřejně dostupných podkladech']
+  });
+  translateClaims('ENG-TECH-0012',[
+    'DGA objednala SYFRALL 30. prosince 2025 od konsorcia CNIM SI, CEFA a SOFRAME.',
+    'Objednávka zahrnuje osm systémů představujících přibližně 300 lineárních metrů a určených pro ženijní pluky francouzské armády.'
+  ]);
+
+  put('ENG-TECH-0014',{
+    title_cs:'BLT Arjun — mostní tank',
+    summary_cs:'BLT Arjun je těžký mostní tank na podvozku MBT Arjun. DRDO jej popisuje jako útočný mostní systém se způsobem pokládání slide-launch, mostní nástavbou MLC-70 a dvoučlennou osádkou.',
+    intelligence_gaps_cs:['Aktuální počet zavedených kusů','Rozdělení mezi jednotky','Operační dostupnost a použití při cvičeních po posledním veřejném baseline','Současná omezení přepravy a vyprošťování']
+  });
+  translateClaims('ENG-TECH-0014',[
+    'BLT Arjun používá podvozek Arjun a mostní nástavbu MLC-70.',
+    'DRDO uvádí variantu 24m ocelového a 26m mostu z hliníkové slitiny a dvoučlennou osádku.',
+    'DRDO uvádí dobu položení nebo stažení mostu 10 minut.'
+  ]);
+
+  put('ENG-TECH-0015',{
+    title_cs:'Short Span Bridge 10 m',
+    summary_cs:'Short Span Bridge 10 m je indický mechanicky pokládaný mostní systém MLC-70 určený pro menší mezery a kanály do 10 metrů. DRDO zdůrazňuje mobilní pokládací prostředek a konstrukci navrženou pro rychlou obsluhu s minimálním počtem personálu.',
+    intelligence_gaps_cs:['Aktuální počet kusů ve výzbroji','Přesný podvozek a konfigurace pokládacího prostředku u současných zavedených sérií','Rozdělení mezi jednotky a doklady z cvičení','Doba rozvinutí v polních podmínkách podle nezávislých nebo armádních zdrojů']
+  });
+  translateClaims('ENG-TECH-0015',[
+    'Systém je mechanicky pokládaný, má klasifikaci MLC-70 a je určen pro mezery a kanály do 10 metrů.',
+    'DRDO uvádí vysoce mobilní pokládací platformu, dvojitou podpěru typu A a koncepci s minimálním počtem obsluhy.'
+  ]);
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-17-2232',processed_ids:['ENG-UNIT-0012','ENG-UNIT-0013'],fully_translated:2,partially_translated:0,review_needed:0,scope:'UNIT priority; public entity fields and claim text',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),version:'1.1',last_batch:'2026-08-17-2232'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-17-2334',processed_ids:['ENG-TECH-0011','ENG-TECH-0012','ENG-TECH-0014','ENG-TECH-0015'],fully_translated:4,partially_translated:0,review_needed:0,scope:'TECH priority; title, summary, intelligence gaps and claim text',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),version:'1.2',last_batch:'2026-08-17-2334'};
 })();
