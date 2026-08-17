@@ -1,6 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {join} from 'node:path';
+import {execFileSync} from 'node:child_process';
 const s='docs/engineer-osint',o='docs/engineer-osint-dist';mkdirSync(o,{recursive:true});
 const parts=Array.from({length:9},(_,i)=>readFileSync(join(s,`p${String(i+1).padStart(2,'0')}.txt`),'utf8').replace(/[^A-Za-z0-9+/=]/g,''));
 const patch=JSON.parse(readFileSync(join(s,'b11-patch.json'),'utf8'));
@@ -18,4 +19,9 @@ d.run_history=d.run_history||{runs:[]};d.run_history.runs=d.run_history.runs||[]
 d.dashboard_patch_extras={visuals:patch.visuals||[],doctrine:patch.doctrine||patch.doctrine_updates||[],technology_signals:patch.technology_signals||[],trends:patch.trends||[],confirmations:patch.confirmations||[],contradictions:patch.contradictions||[],corrections:patch.corrections||[],data_quality:patch.data_quality||null,updated_records:patch.updated_records||[]};
 html=html.slice(0,j)+JSON.stringify(d)+html.slice(b);
 const mobile=`<script>(function(){function i(){const s=document.getElementById('sidebar');if(!s)return;let c=document.getElementById('engineerMenuClose');if(!c){c=document.createElement('button');c.id='engineerMenuClose';c.textContent='×';c.style.cssText='position:absolute;top:12px;right:12px;width:40px;height:40px;z-index:9999;font-size:26px';s.appendChild(c)}const shut=()=>s.classList.remove('open');c.onclick=shut;s.querySelectorAll('nav a,nav button').forEach(x=>x.addEventListener('click',shut));document.addEventListener('keydown',e=>e.key==='Escape'&&shut())}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',i):i()})();</script>`;html=html.replace('</body>',mobile+'</body>');
-writeFileSync(join(o,'index.html'),html,'utf8');writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');writeFileSync(join(o,'.nojekyll'),'','utf8');console.log(`Built ENGINEER OSINT ${patch.state.run_id}: ${Buffer.byteLength(html)} bytes`);
+writeFileSync(join(o,'index.html'),html,'utf8');
+writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');
+writeFileSync(join(o,'.nojekyll'),'','utf8');
+execFileSync(process.execPath,[join(s,'postprocess-ui.mjs')],{stdio:'inherit'});
+const finalHtml=readFileSync(join(o,'index.html'),'utf8');
+console.log(`Built full ENGINEER OSINT ${patch.state.run_id}: ${Buffer.byteLength(finalHtml)} bytes`);
