@@ -12,6 +12,7 @@ const modules=[
   ['engineer-i18n-terminology-module','i18n-terminology.js'],
   ['engineer-i18n-content-cs-module','i18n-content-cs.js'],
   ['engineer-i18n-content-cs-usa-rok-module','i18n-content-cs-usa-rok.js'],
+  ['engineer-i18n-content-cs-japan-australia-module','i18n-content-cs-japan-australia.js'],
   ['engineer-ui-phase2-module','ui-phase2.js'],
   ['engineer-ui-phase3-module','ui-phase3.js'],
   ['engineer-ui-phase4-module','ui-phase4.js'],
@@ -38,7 +39,7 @@ const flags=[
   'rich_content_backfill=enabled','rich_content_backfill_entities=11',
   'rich_backfill_israel_turkiye_eod=enabled','rich_backfill_eoc_lead=enabled','rich_backfill_usa_rok=enabled',
   'i18n=enabled','i18n_cs=enabled','i18n_en=enabled','terminology_registry=enabled','translation_fallback=enabled',
-  'i18n_usa_rok=enabled','i18n_observer_fix=enabled','translation_registry_version=1.0',
+  'i18n_usa_rok=enabled','i18n_japan_australia=enabled','i18n_observer_fix=enabled','translation_registry_version=1.1',
   'czech_republic_priority=enabled',
   'visual_first_tech_cards=enabled','visual_gap_tracking=enabled','media_hub=enabled','worth_watching=enabled','worth_listening=enabled','media_registry_support=enabled'
 ];
