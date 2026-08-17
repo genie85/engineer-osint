@@ -36,6 +36,7 @@ jobs:
           node --check docs/engineer-osint/ui-phase6-i18n.js
           node --check docs/engineer-osint/ui-phase7-media.js
           node --check docs/engineer-osint/ui-phase8-navigation.js
+          node --check docs/engineer-osint/bootstrap-v36-golden.js
           node --check docs/engineer-osint/ui-phase9-intelligence.js
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
@@ -58,12 +59,25 @@ jobs:
           grep -q 'csv_json_export=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'historical_coverage_heatmap=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'source_methodology=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'golden_entities_bootstrap=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'czech_orbat_bootstrap=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'bootstrap_registry_audit=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-bootstrap-v36-golden-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
           grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
           grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
           grep -q 'ENGINEER_INTELLIGENCE' docs/engineer-osint-dist/index.html
+          grep -q 'Analytické nástroje' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-REL-PB-0001' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVID-PB-0001' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-LL-PB-0001' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-UNIT-0030' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-UNIT-0031' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-UNIT-0032' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-UNIT-0033' docs/engineer-osint-dist/index.html
+          grep -q 'HISTORICAL_SNAPSHOT_NOT_CURRENT' docs/engineer-osint-dist/index.html
           grep -q 'WarSpotting' docs/engineer-osint-dist/index.html
           grep -q 'SIPRI Arms Transfers' docs/engineer-osint-dist/index.html
           grep -q 'Observed minimum' docs/engineer-osint-dist/index.html
@@ -92,4 +106,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# migration-trigger-20260817
+# v36-bootstrap-trigger-20260817
