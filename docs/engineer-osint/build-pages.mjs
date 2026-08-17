@@ -1,0 +1,21 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import {join} from 'node:path';
+const s='docs/engineer-osint',o='docs/engineer-osint-dist';mkdirSync(o,{recursive:true});
+const parts=Array.from({length:9},(_,i)=>readFileSync(join(s,`p${String(i+1).padStart(2,'0')}.txt`),'utf8').replace(/[^A-Za-z0-9+/=]/g,''));
+const patch=JSON.parse(readFileSync(join(s,'b11-patch.json'),'utf8'));
+let html=null;
+for(const decode of [()=>Buffer.from(parts.join(''),'base64'),()=>Buffer.concat(parts.map(x=>Buffer.from(x,'base64')))]){try{const b=decode();if(b[0]===31&&b[1]===139){const t=gunzipSync(b).toString('utf8');if(/^<!doctype html>/i.test(t)){html=t;break}}}catch{}}
+if(!html)throw new Error('Unable to reconstruct ENGINEER OSINT V3 payload');
+const marker='window.__ENGINEER_DATA__=',a=html.indexOf(marker),b=html.indexOf(';</script>',a);if(a<0||b<0)throw new Error('ENGINEER_DATA marker missing');
+const j=a+marker.length,d=JSON.parse(html.slice(j,b));Object.assign(d.state_latest,patch.state);
+const rm=new Map((d.records?.records||[]).map(x=>[x.id,x]));
+for(const x of [...(patch.new_records||[]),...(patch.updated_records||[])]){if(!x?.id)continue;const old=rm.get(x.id)||{};const type=x.type||(x.id.startsWith('ENG-TECH-')?'ENG-TECH':x.id.startsWith('ENG-EVT-')?'ENG-EVT':x.id.startsWith('ENG-UNIT-')?'ENG-UNIT':x.id.startsWith('ENG-SIG-')?'ENG-SIG':old.type||'ENG-RECORD');const merged={...old,...x,type,run_id:old.run_id||patch.state.run_id,last_update_run:patch.state.run_id};if(x.summary&&!merged.analysis)merged.analysis=x.summary;if(x.summary&&!merged.fact)merged.fact=x.summary;if(x.source_ids)merged.source_ids=[...new Set([...(old.source_ids||[]),...x.source_ids])];rm.set(x.id,merged)}
+d.records=d.records||{};d.records.records=[...rm.values()].sort((x,y)=>x.id.localeCompare(y.id));
+const lm=new Map((d.leads?.leads||[]).map(x=>[x.id,x]));for(const x of patch.leads||[])lm.set(x.id,{...(lm.get(x.id)||{}),...x,title:x.topic||x.title||x.id,last_update:patch.state.run_id});d.leads=d.leads||{};d.leads.leads=[...lm.values()];
+const sm=new Map((d.sources?.sources||[]).map(x=>[x.id,x]));for(const x of patch.sources||[])sm.set(x.id,{...(sm.get(x.id)||{}),...x,name:x.title||x.name||x.id,tier:x.source_tier??x.tier,url:x.url||x.source_url||null,run_id:patch.state.run_id});d.sources=d.sources||{};d.sources.sources=[...sm.values()].sort((x,y)=>x.id.localeCompare(y.id));
+d.run_history=d.run_history||{runs:[]};d.run_history.runs=d.run_history.runs||[];if(!d.run_history.runs.some(x=>x.run_id===patch.state.run_id))d.run_history.runs.unshift({run_id:patch.state.run_id,parent:patch.state.parent_run_id,status:'SUCCESS',window:`${patch.state.window_from} → ${patch.state.window_to}`,counts:patch.state.counts});
+d.dashboard_patch_extras={visuals:patch.visuals||[],doctrine:patch.doctrine||patch.doctrine_updates||[],technology_signals:patch.technology_signals||[],trends:patch.trends||[],confirmations:patch.confirmations||[],contradictions:patch.contradictions||[],corrections:patch.corrections||[],data_quality:patch.data_quality||null,updated_records:patch.updated_records||[]};
+html=html.slice(0,j)+JSON.stringify(d)+html.slice(b);
+const mobile=`<script>(function(){function i(){const s=document.getElementById('sidebar');if(!s)return;let c=document.getElementById('engineerMenuClose');if(!c){c=document.createElement('button');c.id='engineerMenuClose';c.textContent='×';c.style.cssText='position:absolute;top:12px;right:12px;width:40px;height:40px;z-index:9999;font-size:26px';s.appendChild(c)}const shut=()=>s.classList.remove('open');c.onclick=shut;s.querySelectorAll('nav a,nav button').forEach(x=>x.addEventListener('click',shut));document.addEventListener('keydown',e=>e.key==='Escape'&&shut())}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',i):i()})();</script>`;html=html.replace('</body>',mobile+'</body>');
+writeFileSync(join(o,'index.html'),html,'utf8');writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');writeFileSync(join(o,'.nojekyll'),'','utf8');console.log(`Built ENGINEER OSINT ${patch.state.run_id}: ${Buffer.byteLength(html)} bytes`);
