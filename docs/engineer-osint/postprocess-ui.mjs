@@ -18,7 +18,8 @@ const modules=[
   ['engineer-ui-phase5-module','ui-phase5.js'],
   ['engineer-ui-phase6-i18n-module','ui-phase6-i18n.js'],
   ['engineer-rich-topic-australia-nato-eod-module','rich-topic-australia-nato-eod.js'],
-  ['engineer-topic-czech-engineers-eod-module','ui-topic-czech-engineers-eod.js']
+  ['engineer-topic-czech-engineers-eod-module','ui-topic-czech-engineers-eod.js'],
+  ['engineer-ui-phase7-media-module','ui-phase7-media.js']
 ];
 for(const [id,file] of modules){
   const js=readFileSync(join(src,file),'utf8');
@@ -38,8 +39,9 @@ const flags=[
   'rich_backfill_israel_turkiye_eod=enabled','rich_backfill_eoc_lead=enabled','rich_backfill_usa_rok=enabled',
   'i18n=enabled','i18n_cs=enabled','i18n_en=enabled','terminology_registry=enabled','translation_fallback=enabled',
   'i18n_usa_rok=enabled','i18n_observer_fix=enabled','translation_registry_version=1.0',
-  'czech_republic_priority=enabled'
+  'czech_republic_priority=enabled',
+  'visual_first_tech_cards=enabled','visual_gap_tracking=enabled','media_hub=enabled','worth_watching=enabled','worth_listening=enabled','media_registry_support=enabled'
 ];
 for(const f of flags)if(!h.includes(f))h+=f+'\n';
 writeFileSync(health,h,'utf8');
-console.log('ENGINEER OSINT bilingual CZ-EN postprocess enabled');
+console.log('ENGINEER OSINT bilingual visual-first multimedia postprocess enabled');
