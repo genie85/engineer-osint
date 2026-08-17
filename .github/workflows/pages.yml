@@ -53,8 +53,8 @@ jobs:
           grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
           grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
           grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
-          grep -q "^ENG-UNIT-" docs/engineer-osint-dist/index.html
-          grep -q "^ENG-SIG-" docs/engineer-osint-dist/index.html
+          grep -q 'ENG-UNIT-' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-SIG-' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           grep -q 'ENG-SIG-0006' docs/engineer-osint-dist/index.html
           grep -q 'experimentální doprava ženijního prostředku' docs/engineer-osint-dist/index.html
