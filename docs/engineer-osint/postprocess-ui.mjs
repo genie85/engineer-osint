@@ -25,11 +25,20 @@ const modules=[
   ['engineer-ui-phase8-navigation-module','ui-phase8-navigation.js']
 ];
 for(const [id,file] of modules){const js=readFileSync(join(src,file),'utf8');if(!html.includes(id))html=html.replace('</body>',`<script id="${id}">${js}</script></body>`)}
+const navFix=`<style id="engineer-entity-nav-visibility-fix">
+.sidebar{min-height:0}
+#sidebar nav{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:14px;scrollbar-gutter:stable}
+#sidebar nav #engineerEntityNavHeading,#sidebar nav #engineerEntityNavHeading~button{order:-1}
+#engineerEntityNavHeading{position:sticky;top:0;background:rgba(8,12,18,.98);z-index:4;padding-top:10px;padding-bottom:7px}
+#sidebar .side-note{flex-shrink:0}
+@media(max-width:900px){#sidebar nav{overflow-y:auto;max-height:calc(100vh - 150px);padding-bottom:24px}}
+</style>`;
+if(!html.includes('engineer-entity-nav-visibility-fix'))html=html.replace('</head>',navFix+'</head>');
 writeFileSync(index,html,'utf8');
 const health=join(out,'health.txt');let h='';try{h=readFileSync(health,'utf8')}catch{}
 const flags=[
   'entity_timeline=enabled','watchlist_health=enabled','graph_search=enabled','temporal_intelligence=enabled','historical_backfill=enabled','temporal_status=enabled','current_state_vs_timeline=enabled','historical_coverage_backlog=enabled','current_confirmation_gap=enabled','temporal_audit=enabled',
   'technology_maturity=enabled','coverage_matrix=enabled','staff_training_relevance=enabled','claim_level_provenance=enabled','visual_gallery=enabled','claim_source_map=enabled','compare_related_visuals=enabled','coverage_drilldown=enabled','maturity_history=enabled','rich_entity_cards=enabled','card_completeness=enabled','information_age=enabled','entity_enrichment_backlog=enabled','topic_page_eod_cied_eoc_eor=enabled','topic_page_australia_nato_eod=enabled','topic_page_czech_engineers_eod=enabled','rich_content_backfill=enabled','rich_content_backfill_entities=11','rich_backfill_israel_turkiye_eod=enabled','rich_backfill_eoc_lead=enabled','rich_backfill_usa_rok=enabled','i18n=enabled','i18n_cs=enabled','i18n_en=enabled','terminology_registry=enabled','translation_fallback=enabled','i18n_usa_rok=enabled','i18n_japan_australia=enabled','i18n_france_germany_poland=enabled','i18n_observer_fix=enabled','translation_registry_version=1.3','czech_republic_priority=enabled','czech_historical_priority=enabled','visual_first_tech_cards=enabled','visual_gap_tracking=enabled','media_hub=enabled','worth_watching=enabled','worth_listening=enabled','media_registry_support=enabled',
-  'entity_navigation=enabled','units_navigation=enabled','technology_signals_navigation=enabled','translation_audit_view=enabled','localized_entity_rendering=enabled','localized_claim_rendering=enabled','localized_rich_cards=enabled'
+  'entity_navigation=enabled','units_navigation=enabled','technology_signals_navigation=enabled','translation_audit_view=enabled','localized_entity_rendering=enabled','localized_claim_rendering=enabled','localized_rich_cards=enabled','entity_navigation_visible=enabled','sidebar_navigation_scroll=enabled'
 ];
 for(const f of flags)if(!h.includes(f))h+=f+'\n';writeFileSync(health,h,'utf8');console.log('ENGINEER OSINT bilingual visual-first multimedia temporal-intelligence navigation postprocess enabled');
