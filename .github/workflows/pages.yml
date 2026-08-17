@@ -27,6 +27,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Validate UI modules
+        run: |
+          node --check docs/engineer-osint/ui-phase2.js
+          node --check docs/engineer-osint/ui-phase3.js
+          node --check docs/engineer-osint/ui-phase4.js
+          node --check docs/engineer-osint/ui-phase5.js
+          node --check docs/engineer-osint/ui-phase6-i18n.js
+          node --check docs/engineer-osint/ui-phase7-media.js
+          node --check docs/engineer-osint/ui-phase8-navigation.js
+          node --check docs/engineer-osint/postprocess-ui.mjs
       - name: Build dashboard
         run: node docs/engineer-osint/build-pages.mjs
       - name: Verify dashboard
@@ -35,6 +45,14 @@ jobs:
           test -s docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/health.txt
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
+          grep -q 'entity_navigation=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'translation_audit_view=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineerUnitsBtn' docs/engineer-osint-dist/index.html
+          grep -q 'engineerSignalsBtn' docs/engineer-osint-dist/index.html
+          grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
+          grep -q 'ENG-SIG-0006' docs/engineer-osint-dist/index.html
+          grep -q 'experimentální doprava ženijního prostředku' docs/engineer-osint-dist/index.html
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
