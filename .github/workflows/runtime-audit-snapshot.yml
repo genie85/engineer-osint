@@ -1,5 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
+# One-shot audit trigger 2026-08-18T14:55+02:00
 on:
   push:
     branches: [main]
