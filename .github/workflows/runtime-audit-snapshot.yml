@@ -31,6 +31,17 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Extract priority records
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
+          const marker='window.__ENGINEER_DATA__=';
+          const a=html.indexOf(marker),b=html.indexOf(';</script>',a);
+          const d=JSON.parse(html.slice(a+marker.length,b));
+          const ids=new Set(['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010']);
+          fs.writeFileSync('docs/engineer-osint-dist/priority-records.json',JSON.stringify((d.records?.records||[]).filter(r=>ids.has(r.id)),null,2));
+          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
@@ -42,4 +53,5 @@ jobs:
           path: |
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
+            docs/engineer-osint-dist/priority-records.json
             docs/engineer-osint-dist/health.txt
