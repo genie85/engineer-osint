@@ -27,7 +27,24 @@
     operational_evidence_cs:'Turecké ministerstvo obrany přímo připisuje ženijní brigádě 2. armády vybudování 240m plovoucího mostu přes Eufrat v Dajr az-Zauru.'
   });
 
+  put('ENG-TECH-0014',{
+    engineering_equipment_cs:'Jednopolový mostní komplet; 24m ocelový nebo 26m most z hliníkové slitiny; samostatná pohonná jednotka pro pokládání a stažení mostu.',
+    technical_profile_cs:'Mostní tank na podvozku Arjun s mostní nástavbou MLC-70, mechanismem pokládání typu slide-launch a veřejně uváděnou dobou položení/stažení 10 minut.',
+    operational_evidence_cs:'Aktuální produktová stránka DRDO potvrzuje konstrukční a technický baseline systému, sama však neprokazuje současný počet kusů v Indian Army ani jejich rozdělení mezi jednotky.'
+  });
+
+  put('ENG-TECH-0015',{
+    technical_profile_cs:'Mechanicky pokládaný most pro krátké mezery s klasifikací MLC-70, určený pro překážky a kanály do 10 m; používá vysoce mobilní pokládací platformu, dvojitou podpěru typu A pro stabilitu a beta světlo pro noční rozvinutí.',
+    operational_evidence_cs:'Produktová stránka DRDO dokládá konstrukční baseline systému; současné počty ve výzbroji a jednotkové rozdělení na ní uvedeny nejsou.'
+  });
+
+  put('ENG-SIG-0007',{
+    technical_profile_cs:'Technologický výhled DRDO zahrnuje autonomní vnímání a navigaci, kolaborativní manipulaci, human–robot teaming, robotické manipulátory a autonomní úkoly podpory bojového ženijního zabezpečení.',
+    operational_evidence_cs:'Citované foresight stránky nedokládají akvizici Indian Army ani operační zavedení; představují důkaz výzkumných, vývojových a technologických úkolů.'
+  });
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1313-israel-turkiye-rich',processed_ids:['ENG-UNIT-0012','ENG-TECH-0013','ENG-EVT-0021','ENG-UNIT-0013'],fully_translated:4,partially_translated:0,review_needed:0,scope:'Translate user-visible Israel/Türkiye rich presentation fields while preserving original English fields, source caveats and evidentiary strength.',english_preserved:true});
-  window.__ENGINEER_I18N_ISRAEL_TURKIYE_RICH_CS__={version:'1.0',last_batch:'2026-08-18-1313-israel-turkiye-rich'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1313-india-rich',processed_ids:['ENG-TECH-0014','ENG-TECH-0015','ENG-SIG-0007'],fully_translated:3,partially_translated:0,review_needed:0,scope:'Translate user-visible India rich technical/equipment/operational fields while preserving original English fields, R&D maturity and evidentiary limitations.',english_preserved:true});
+  window.__ENGINEER_I18N_ISRAEL_TURKIYE_RICH_CS__={version:'1.1',last_batch:'2026-08-18-1313-india-rich'};
 })();
