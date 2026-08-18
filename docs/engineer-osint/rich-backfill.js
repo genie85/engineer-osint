@@ -5,7 +5,7 @@
   const rm=new Map(records.map(x=>[x.id,x]));
   const sm=new Map(sources.map(x=>[x.id,x]));
   const addSource=s=>{if(!sm.has(s.id)){sm.set(s.id,s);sources.push(s)}};
-  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;Object.assign(r,p);if(p.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...p.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
+  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;const q={...p};if(Object.prototype.hasOwnProperty.call(q,'summary')){q.summary_cs=q.summary;delete q.summary}Object.assign(r,q);if(q.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...q.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
   addSource({id:'RICH-SRC-001',name:'TerreMag — Le SDZ, nouveau système de dépollution de zone',type:'PRIMARY',tier:1,publication_date:'2026-04-21',url:'https://www.terremag.defense.gouv.fr/enquetes/zoom-sur/le-sdz-nouveau-systeme-de-depollution-de-zone',lineage:'French Army / Ministry of Armed Forces'});
   addSource({id:'RICH-SRC-002',name:'DGA — La DGA commande le système de franchissement Syfrall',type:'PRIMARY',tier:1,publication_date:'2026-02-02',url:'https://www.defense.gouv.fr/dga/actualites/dga-commande-systeme-franchissement-syfrall',lineage:'French DGA'});
   addSource({id:'RICH-SRC-003',name:'DRDO — Bridge Layer Tank (BLT) Arjun',type:'PRIMARY',tier:1,url:'https://drdo.gov.in/drdo/en/offerings/products/bridge-layer-tank-blt-arjun',lineage:'DRDO / Government of India'});
