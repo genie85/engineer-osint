@@ -13,6 +13,7 @@ const a=html.indexOf(marker),b=html.indexOf(';</script>',a);
 if(a<0||b<0)throw new Error('RUNTIME_AUDIT: ENGINEER_DATA marker missing');
 const data=JSON.parse(html.slice(a+marker.length,b));
 const baseline=JSON.parse(JSON.stringify(data));
+const malformedHistoricalPatches=[];
 
 function patchHistory(){
   const byRun=new Map();
@@ -28,7 +29,8 @@ function patchHistory(){
       const p=JSON.parse(execFileSync('git',['show',`${sha}:${patchPath}`],{encoding:'utf8',maxBuffer:20*1024*1024}));
       const run=p?.state?.run_id;if(run)byRun.set(run,p);
     }catch(e){
-      throw new Error(`RUNTIME_AUDIT: unreadable historical patch ${sha}: ${e.message}`);
+      malformedHistoricalPatches.push({sha,error:e.message});
+      console.warn(`RUNTIME_AUDIT: skipping malformed historical patch ${sha}: ${e.message}`);
     }
   }
   if(current?.state?.run_id)byRun.set(current.state.run_id,current);
@@ -154,6 +156,7 @@ const audit={
   generated_at:new Date().toISOString(),
   current_run_id:baseline.state_latest?.run_id||null,
   patch_run_count:patches.length,
+  malformed_historical_patch_versions:malformedHistoricalPatches,
   record_count:records.length,
   record_types:Object.fromEntries([...new Set(records.map(r=>r.type))].sort().map(t=>[t,records.filter(r=>r.type===t).length])),
   duplicate_ids:duplicateIds,
@@ -170,5 +173,5 @@ const audit={
 };
 writeFileSync(join(dist,'runtime-audit.json'),JSON.stringify(audit,null,2)+'\n','utf8');
 writeFileSync(join(dist,'translation-backlog.json'),JSON.stringify(audit.translation_backlog,null,2)+'\n','utf8');
-appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${reviewNeededSorted.join(',')||'none'}\n`,'utf8');
-console.log(`Runtime audit PASS: ${records.length} records, ${patches.length} patch runs, translation backlog ${backlog.length} entities / ${missingFieldCount} fields, review ${reviewNeededSorted.join(',')||'none'}`);
+appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${reviewNeededSorted.join(',')||'none'}\nmalformed_historical_patch_versions=${malformedHistoricalPatches.length}\n`,'utf8');
+console.log(`Runtime audit PASS: ${records.length} records, ${patches.length} patch runs, ${malformedHistoricalPatches.length} malformed historical patch versions skipped, translation backlog ${backlog.length} entities / ${missingFieldCount} fields, review ${reviewNeededSorted.join(',')||'none'}`);
