@@ -116,10 +116,13 @@ for(const id of resolved)unresolved.delete(id);
 // i18n modules may explicitly quarantine records even when patch-history metadata does not.
 // Merge those explicit review markers into the audit instead of under-reporting review backlog.
 const explicitReviewNeeded=new Set();
+const explicitResolvedMappings=new Set();
 for(const value of Object.values(context.window)){
   if(!value||typeof value!=='object'||Array.isArray(value))continue;
   for(const id of value.review_needed_entities||[])if(typeof id==='string'&&id)explicitReviewNeeded.add(id);
+  for(const id of value.resolved_mapping_entities||[])if(typeof id==='string'&&id)explicitResolvedMappings.add(id);
 }
+for(const id of explicitResolvedMappings){unresolved.delete(id);explicitReviewNeeded.delete(id);}
 const translationReviewNeeded=new Set([...unresolved,...explicitReviewNeeded]);
 
 const coreFields=['title','summary','description','why_it_matters','staff_relevance','training_relevance','intelligence_gaps'];
@@ -166,7 +169,8 @@ const audit={
   translation_review_needed:reviewNeededSorted,
   translation_review_sources:{
     patch_history:[...unresolved].sort(),
-    explicit_i18n:[...explicitReviewNeeded].sort()
+    explicit_i18n:[...explicitReviewNeeded].sort(),
+    explicit_resolved_i18n:[...explicitResolvedMappings].sort()
   },
   translation_backlog:{entity_count:backlog.length,missing_field_count:missingFieldCount,by_type:byType,items:backlog},
   status:'PASS_WITH_TRANSLATION_BACKLOG'
