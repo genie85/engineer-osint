@@ -5,7 +5,7 @@
   const rm=new Map(records.map(x=>[x.id,x]));
   const sm=new Map(sources.map(x=>[x.id,x]));
   const addSource=s=>{if(!sm.has(s.id)){sm.set(s.id,s);sources.push(s)}};
-  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;Object.assign(r,p);if(p.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...p.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
+  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;const q={...p};if(Object.prototype.hasOwnProperty.call(q,'summary')){q.summary_cs=q.summary;delete q.summary}Object.assign(r,q);if(q.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...q.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
   addSource({id:'RICH-SRC-007',name:'IDF — Combat Engineering Corps',type:'PRIMARY',tier:1,url:'https://www.idf.il/en/mini-sites/our-units/combat-engineering-corps/combat-engineering-corps/',lineage:'Israel Defense Forces'});
   addSource({id:'RICH-SRC-008',name:'IDF — Get To Know The Yahalom Unit',type:'PRIMARY',tier:1,publication_date:'2022-12-07',url:'https://www.idf.il/en/articles/2022/get-to-know-the-yahalom-unit/',lineage:'Israel Defense Forces'});
   addSource({id:'RICH-SRC-009',name:'IDF — Yahalom Unit',type:'PRIMARY',tier:1,url:'https://m.www.idf.il/en/mini-sites/our-units/yahalom-unit/yahalom-unit/',lineage:'Israel Defense Forces'});
