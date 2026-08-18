@@ -28,5 +28,18 @@
     intelligence_gaps_cs:['Přesné současné pravomoci centra v míru a za operace','Úplná vazba na polské ženijní a EOD jednotky','Rozhraní se systémem civilního odstraňování munice','Přesný NATO EOD/EOC/EOR crosswalk a certifikační model']
   });
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020'].filter(id=>R.has(id)),version:'1.0'};
+  put('ENG-TECH-0011',{
+    engineering_equipment_cs:'Dva teleoperované roboty pro úkoly plošného čištění prostoru / dépollution.',
+    operational_evidence_cs:'Veřejný materiál francouzské armády uváděl k 21. dubnu 2026 šest systémů ve službě, mimo jiné u École du génie a podpůrných rot 19e a 31e Régiment du génie.'
+  });
+
+  put('ENG-TECH-0012',{
+    technical_profile_cs:'Modulární plovoucí mostní systém přepravovaný na nákladních vozidlech, konfigurovatelný jako přívoz nebo most sestavováním plovoucích modulů a nájezdových ramp.',
+    operational_evidence_cs:'DGA zadala objednávku 30. prosince 2025; veřejná zpráva DGA uvádí osm systémů určených pro ženijní pluky francouzské armády. Jde o důkaz akvizičního programu, nikoli o důkaz operačního zavedení.'
+  });
+
+  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1106',processed_ids:['ENG-TECH-0011','ENG-TECH-0012'],fully_translated:2,partially_translated:0,review_needed:0,scope:'France TECH continuation; translate rich technical/operational presentation fields while preserving English source fields and evidentiary meaning',english_preserved:true});
+
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),version:'1.1',last_batch:'2026-08-18-1106'};
 })();
