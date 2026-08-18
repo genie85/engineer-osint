@@ -1,8 +1,7 @@
 name: ENGINEER OSINT runtime audit snapshot
 
+# PR audit trigger 2026-08-18T15:00+02:00
 on:
-  push:
-    branches: [translation-20260818-1951]
   pull_request:
     branches: [main]
     paths:
@@ -32,17 +31,6 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
-      - name: Extract audited TTP records
-        run: |
-          node <<'NODE'
-          const fs=require('fs');
-          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
-          const marker='window.__ENGINEER_DATA__=';
-          const a=html.indexOf(marker),b=html.indexOf(';</script>',a);
-          const d=JSON.parse(html.slice(a+marker.length,b));
-          const ids=new Set(['ENG-TTP-0004','ENG-TTP-0005']);
-          fs.writeFileSync('docs/engineer-osint-dist/translation-targets.json',JSON.stringify((d.records?.records||[]).filter(x=>ids.has(x.id)),null,2)+'\n');
-          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
@@ -54,5 +42,4 @@ jobs:
           path: |
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
-            docs/engineer-osint-dist/translation-targets.json
             docs/engineer-osint-dist/health.txt
