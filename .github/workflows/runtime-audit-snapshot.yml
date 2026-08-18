@@ -1,8 +1,7 @@
 name: ENGINEER OSINT runtime audit snapshot
 
+# PR audit trigger 2026-08-18T15:00+02:00
 on:
-  push:
-    branches: [translation-20260818-1934]
   pull_request:
     branches: [main]
     paths:
@@ -32,15 +31,15 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
-      - name: Extract TTP candidates
-        run: |
-          node <<'NODE'
-          const fs=require('fs'),vm=require('vm');
-          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
-          const m=html.match(/window\.__ENGINEER_DATA__\s*=\s*({[\s\S]*?});\s*<\/script>/);
-          if(!m) throw new Error('ENGINEER_DATA not found');
-          const D=vm.runInNewContext('('+m[1]+')');
-          for(const id of ['ENG-TTP-0004','ENG-TTP-0005']) console.log('TTP_OBJECT '+JSON.stringify((D.records?.records||[]).find(x=>x.id===id)));
-          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
+      - name: Upload audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineer-osint-runtime-audit
+          if-no-files-found: warn
+          path: |
+            docs/engineer-osint-dist/runtime-audit.json
+            docs/engineer-osint-dist/translation-backlog.json
+            docs/engineer-osint-dist/health.txt
