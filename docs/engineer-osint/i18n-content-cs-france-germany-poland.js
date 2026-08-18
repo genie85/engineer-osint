@@ -9,6 +9,9 @@
   put('ENG-UNIT-0008',{title_cs:'19e régiment du génie — širokospektrální ženijní/EOD schopnosti a modernizace pomocí dronů'});
   put('ENG-UNIT-0009',{title_cs:'Ženijní a chemická brigáda skupinové armády PLAA — historické doklady reformy'});
   put('ENG-UNIT-0010',{title_cs:'Ženijní prvek vševojskové brigády PLAA — doklad ženijní čety vševojskového praporu'});
+  put('ENG-UNIT-0022',{title_cs:'Patrol Saperski nr 17 / 1 Warszawska Brygada Pancerna — sapérská hlídka č. 17'});
+  put('ENG-UNIT-0029',{title_cs:'Deutsch/Britisches Pionierbrückenbataillon 130 — německo-britský ženijní mostní prapor'});
+  put('ENG-UNIT-FR-31RG',{title_cs:'31e Régiment du génie — 31. ženijní pluk'});
 
   put('ENG-UNIT-0011',{
     title_cs:'19e Régiment du génie — 19. ženijní pluk',
@@ -51,6 +54,7 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1504-canonical-title-preservation',processed_ids:['ENG-UNIT-0019','ENG-UNIT-0020'],fully_translated:0,partially_translated:0,review_needed:0,scope:'Align overlay title_cs exactly with B26 TRANSLATION_CANONICALIZATION while retaining existing translated presentation fields.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0011'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0011 title is 19e Régiment du génie. Restore matching Czech presentation overlay; English fields unchanged.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1610-unit-title-backlog',processed_ids:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010'],fully_translated:6,partially_translated:0,review_needed:0,scope:'Translate the only missing public presentation field (title_cs) for six highest-priority ENG-UNIT backlog entities; preserve canonical English/base fields and evidentiary classifications.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0021','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG'],fully_translated:3,partially_translated:0,review_needed:1,scope:'Translate sole missing title_cs for three unambiguous remaining European ENG-UNIT records. ENG-UNIT-0021 retains TRANSLATION_REVIEW_NEEDED because canonical runtime title is only the record ID and assigning a patrol identity from surrounding evidence would exceed presentation translation.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.5',last_batch:'2026-08-18-1610-unit-title-backlog'};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.6',last_batch:'2026-08-18-1618-unit-title-backlog'};
 })();
