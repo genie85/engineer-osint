@@ -4,7 +4,7 @@
   const put=(id,p)=>{const x=R.get(id); if(!x)return; Object.assign(x,p); x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION'; x.translation_provenance_cs=p.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
 
   put('ENG-UNIT-0019',{
-    title_cs:'Bundeswehr Kampfmittelabwehrschule — škola boje proti výbušným prostředkům',
+    title_cs:'Bundeswehr Kampfmittelabwehrschule — škola Kampfmittelabwehr',
     summary_cs:'Bundeswehr veřejně označuje Kampfmittelabwehrschule ve Stetten am kalten Markt za ústřední výcvikové pracoviště pro Kampfmittelabwehr v rámci Pionierschule. Veřejné materiály spojují tuto oblast s průzkumem, identifikací a zneškodňováním výbušných hrozeb a s používáním specializovaných detekčních, rentgenových a ochranných prostředků.',
     why_it_matters_cs:'Německý model ukazuje centralizované institucionální ukotvení Kampfmittelabwehr uvnitř ženijního školského systému. Je proto vhodný pro srovnání s armádami, které EOD/EOC schopnosti organizují více decentralizovaně u operačních útvarů.',
     staff_relevance_cs:'Relevantní pro návrh výcvikových a certifikačních modelů, standardizaci odborné přípravy a porovnání institucionální vazby mezi ženijním vojskem a činnostmi v oblasti výbušných hrozeb.',
@@ -13,7 +13,7 @@
   });
 
   put('ENG-UNIT-0020',{
-    title_cs:'Centralny Ośrodek Koordynacji Rozminowania — Centrální koordinační centrum odminování',
+    title_cs:'Centralny Ośrodek Koordynacji Rozminowania — centrální koordinační pracoviště rozminování',
     summary_cs:'Polský veřejný baseline popisuje centralizovaný koordinační prvek pro rozminování a činnosti související s výbušnými hrozbami. Záznam je důležitý především jako C2 a koordinační datapoint, nikoli jako úplný model všech polských EOD/clearance jednotek.',
     why_it_matters_cs:'Polský model přidává do srovnání centralizovanou koordinační vrstvu. To umožňuje sledovat rozdíl mezi národními systémy, kde jsou clearance/EOD schopnosti organizovány převážně v operačních jednotkách, a systémy s výraznějším centrálním koordinačním prvkem.',
     staff_relevance_cs:'Relevantní pro srovnání C2, taskingu, evidence hrozeb, koordinace rozminování a vztahu mezi ženijními, EOD a dalšími specializovanými prvky.',
@@ -33,6 +33,7 @@
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1106',processed_ids:['ENG-TECH-0011','ENG-TECH-0012'],fully_translated:2,partially_translated:0,review_needed:0,scope:'France TECH continuation; translate rich technical/operational presentation fields while preserving English source fields and evidentiary meaning',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0011'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Quarantine Czech presentation overlay for ENG-UNIT-0011 until historical ID mapping is resolved canonically; do not project 19e Régiment du génie content onto an unresolved record ID.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1504-canonical-title-preservation',processed_ids:['ENG-UNIT-0019','ENG-UNIT-0020'],fully_translated:0,partially_translated:0,review_needed:0,scope:'Align overlay title_cs exactly with B26 TRANSLATION_CANONICALIZATION while retaining existing translated presentation fields.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0011'],version:'1.2',last_batch:'2026-08-18-1316-mapping-quarantine'};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0011'],version:'1.3',last_batch:'2026-08-18-1504-canonical-title-preservation'};
 })();
