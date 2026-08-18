@@ -21,7 +21,28 @@
     'Událost je důkazem jednotkového military testing, nikoli plošného zavedení v U.S. Army ani standardizovaného TTP.',
     'Článek U.S. Army uvádí, že jedním ze zdrojů inspirace pro koncept byla pozorování z Ukrajiny.'
   ]);
+
+  put('ENG-UNIT-0014',{
+    title_cs:'ROK Army 1115 Engineer Group — veřejný výcvikový baseline',
+    summary_cs:'Jihokorejské ministerstvo obrany veřejně uvádí Army 1115 Engineer Group jako jedno z míst konání programu UN Triangular Partnership. Šestitýdenní běh v roce 2026 probíhal od 4. května do 12. června a rozšířil výuku z obsluhy ženijní techniky také o identifikaci nebezpečných výbušných předmětů a řízení hrozeb IED.',
+    mission_cs:'Veřejně doložená role hostitelského pracoviště pro mnohonárodní ženijní výcvik zaměřený na mírové operace OSN; citovaná zpráva nedefinuje úplný operační úkol jednotky ani její válečné TO&E.',
+    organization_profile_cs:'Běh programu UN TPP v roce 2026 využil 18 instruktorů z Korejské republiky, Austrálie a Japonska a 72 frekventantů ze 13 zemí. Výcvik probíhal u Army 1115 Engineer Group a Medical School.',
+    training_cs:'Osnova obsahovala čtyři oblasti: obsluhu ženijní techniky, identifikaci nebezpečných výbušných předmětů, řízení hrozeb IED a polní zdravotnickou přípravu.',
+    operational_evidence_cs:'TRAINING_EVIDENCE. Zdroj dokládá využití 1115 Engineer Group jako hostitelského pracoviště pro mnohonárodní ženijní výcvik. Nedokládá ekvivalenci certifikace EOD/EOC, aktuální bojovou připravenost, velikost jednotky ani úplné stavy techniky.',
+    why_it_matters_cs:'Záznam poskytuje aktuální organizační kotvu pro jihokorejský mezinárodní ženijní výcvik a ukazuje propojení výuky ženijní techniky s problematikou výbušných hrozeb a IED v rámci přípravy pro mírové operace OSN.',
+    staff_relevance_cs:'Relevantní pro návrh multinational training, peacekeeping engineer capacity building a rozhraní ženijního, explosive-hazard a zdravotnického výcviku. Bez dalších podkladů z něj nelze odvozovat ekvivalenci s NATO EOD/EOC kvalifikacemi.',
+    training_relevance_cs:'Program 2026 ukazuje širší balík přípravy než samotnou obsluhu ženijní techniky a je vhodný pro srovnání modelů mezinárodního budování ženijních schopností.',
+    intelligence_gaps_cs:['Úplný mírový a válečný úkol 1115 Engineer Group','Aktuální struktura praporů/rot a personální síla','Organická technika a stav připravenosti','Přesné kvalifikační standardy modulů pro výbušné hrozby a IED','Další národní nebo mezinárodní kurzy pořádané jednotkou mimo UN TPP']
+  });
+  translateClaims('ENG-UNIT-0014',[
+    'Výcvik ženijního a zdravotnického programu UN Triangular Partnership v první polovině roku 2026 probíhal od 4. května do 12. června u Army 1115 Engineer Group a Medical School.',
+    'Běhu v roce 2026 se účastnilo 18 instruktorů z Korejské republiky, Austrálie a Japonska a 72 frekventantů ze 13 zemí.',
+    'K výcviku obsluhy ženijní techniky byly v osnově doplněny identifikace nebezpečných výbušných předmětů, řízení hrozeb IED a polní zdravotnická příprava.',
+    'Veřejná zpráva nedokládá ekvivalenci kvalifikací NATO EOD/EOC ani úplné operační TO&E jednotky.'
+  ]);
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0014'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Quarantine Czech presentation overlay for ENG-UNIT-0014 until historical ID mapping is resolved canonically; do not project ROK 1115 Engineer Group content onto an unresolved record ID.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0006'],review_needed_entities:['ENG-UNIT-0014'],version:'1.3',last_batch:'2026-08-18-1316-mapping-quarantine'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0014'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Historical quarantine pending mapping resolution.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0014'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0014 title is ROK Army 1115 Engineer Group baseline. Restore matching Czech presentation overlay and claim translations; English fields and factual classifications unchanged.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0006','ENG-UNIT-0014'],review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0014'],version:'1.4',last_batch:'2026-08-18-1530-mapping-resolution'};
 })();
