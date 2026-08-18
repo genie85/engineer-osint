@@ -1,6 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
+# One-shot mapping extraction for ENG-UNIT-0011 / ENG-UNIT-0014
 on:
   pull_request:
     branches: [main]
@@ -31,15 +31,32 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Extract mapping evidence
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
+          const marker='window.__ENGINEER_DATA__=';
+          const a=html.indexOf(marker), b=html.indexOf(';</script>',a);
+          const d=JSON.parse(html.slice(a+marker.length,b));
+          const ids=new Set(['ENG-UNIT-0011','ENG-UNIT-0014']);
+          const recs=(d.records?.records||[]).filter(r=>ids.has(r.id));
+          const sourceIds=new Set(recs.flatMap(r=>r.source_ids||[]));
+          const sources=(d.sources?.sources||[]).filter(s=>sourceIds.has(s.id));
+          const relations=(d.relations?.relations||[]).filter(r=>ids.has(r.subject_id)||ids.has(r.object_id));
+          const evidence=(d.evidence?.evidence||[]).filter(e=>(e.related_ids||[]).some(id=>ids.has(id)));
+          const neighbors=(d.records?.records||[]).filter(r=>['ENG-UNIT-0010','ENG-UNIT-0012','ENG-UNIT-0013','ENG-UNIT-0015'].includes(r.id));
+          fs.writeFileSync('docs/engineer-osint-dist/mapping-evidence.json',JSON.stringify({records:recs,sources,relations,evidence,neighbors},null,2));
+          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engineer-osint-runtime-audit
+          name: engineer-osint-mapping-evidence
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/mapping-evidence.json
             docs/engineer-osint-dist/runtime-audit.json
-            docs/engineer-osint-dist/translation-backlog.json
             docs/engineer-osint-dist/health.txt
