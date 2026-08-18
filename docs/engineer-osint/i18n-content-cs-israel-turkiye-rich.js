@@ -27,6 +27,8 @@
     operational_evidence_cs:'Turecké ministerstvo obrany přímo připisuje ženijní brigádě 2. armády vybudování 240m plovoucího mostu přes Eufrat v Dajr az-Zauru.'
   });
 
+  put('ENG-TECH-0022',{title_cs:'KUNDUZ / Armoured Amphibious Combat Earthmover (AACE) — obrněný obojživelný ženijní zemní stroj'});
+
   put('ENG-TECH-0014',{
     engineering_equipment_cs:'Jednopolový mostní komplet; 24m ocelový nebo 26m most z hliníkové slitiny; samostatná pohonná jednotka pro pokládání a stažení mostu.',
     technical_profile_cs:'Mostní tank na podvozku Arjun s mostní nástavbou MLC-70, mechanismem pokládání typu slide-launch a veřejně uváděnou dobou položení/stažení 10 minut.',
@@ -46,5 +48,6 @@
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1313-israel-turkiye-rich',processed_ids:['ENG-UNIT-0012','ENG-TECH-0013','ENG-EVT-0021','ENG-UNIT-0013'],fully_translated:4,partially_translated:0,review_needed:0,scope:'Translate user-visible Israel/Türkiye rich presentation fields while preserving original English fields, source caveats and evidentiary strength.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1313-india-rich',processed_ids:['ENG-TECH-0014','ENG-TECH-0015','ENG-SIG-0007'],fully_translated:3,partially_translated:0,review_needed:0,scope:'Translate user-visible India rich technical/equipment/operational fields while preserving original English fields, R&D maturity and evidentiary limitations.',english_preserved:true});
-  window.__ENGINEER_I18N_ISRAEL_TURKIYE_RICH_CS__={version:'1.1',last_batch:'2026-08-18-1313-india-rich'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0022'],fully_translated:1,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing title_cs for KUNDUZ/AACE while preserving the manufacturer designation, English/base fields and evidentiary caveats.',english_preserved:true});
+  window.__ENGINEER_I18N_ISRAEL_TURKIYE_RICH_CS__={version:'1.2',last_batch:'2026-08-18-1848-tech-backlog'};
 })();
