@@ -1,5 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
+# PR audit trigger 2026-08-18T15:00+02:00
 on:
   pull_request:
     branches: [main]
@@ -30,16 +31,6 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
-      - name: Extract bounded EVT canonical fields
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const h=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
-          const m='window.__ENGINEER_DATA__='; const a=h.indexOf(m), b=h.indexOf(';</script>',a);
-          const d=JSON.parse(h.slice(a+m.length,b));
-          const ids=new Set(['ENG-EVT-0001','ENG-EVT-0002','ENG-EVT-0003','ENG-EVT-0014','ENG-EVT-0015']);
-          for(const r of d.records.records.filter(x=>ids.has(x.id))) console.log('EVT_CANONICAL '+JSON.stringify({id:r.id,title:r.title,title_en:r.title_en,intelligence_gaps:r.intelligence_gaps}));
-          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
