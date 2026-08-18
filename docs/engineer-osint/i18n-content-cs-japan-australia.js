@@ -12,6 +12,8 @@
   put('ENG-UNIT-0027',{title_cs:'JGSDF 10th Engineer Battalion — aktuální základní profil jednotky'});
   put('ENG-UNIT-0028',{title_cs:'JGSDF 8th Engineer Battalion — 8. ženijní prapor'});
 
+  put('ENG-TECH-0006',{title_cs:'JGSDF 07式機動支援橋 / 07MSB — mobilní podpůrný most'});
+
   put('ENG-TECH-0016',{
     title_cs:'07式機動支援橋 / 07MSB — mobilní podpůrný most',
     summary_cs:'Japonský mobilní mostní systém zavedený u ženijních jednotek JGSDF jako nástupce staršího Type 81. Veřejné materiály jej spojují s překonáváním řek a terénních mezer; údaje o rozměrech se v různých oficiálních stránkách vztahují zřejmě k odlišným částem systému, což zůstává předmětem ověření.',
@@ -71,10 +73,11 @@
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-integrity-fix',processed_ids:['ENG-TECH-0019'],fully_translated:0,partially_translated:1,review_needed:1,scope:'Remove stale Type 75 dozer overlay from ENG-TECH-0019 because the canonical runtime ID is Type 92 Floating Bridge; preserve canonical title_cs and allow EN fallback for untranslated fields.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028'],fully_translated:8,partially_translated:0,review_needed:0,scope:'Translate sole missing public field title_cs for eight Japanese ENG-UNIT records; preserve official JGSDF names and canonical English/base data.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1802-tech-backlog',processed_ids:['ENG-TECH-0006'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Translate the sole missing public title_cs for the JGSDF 07 Type Mobile Support Bridge baseline while preserving the official Japanese designation and English/base data.',english_preserved:true});
   window.__ENGINEER_I18N_CONTENT_CS_JAPAN_AU__={
-    translated_entities:['ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-EVT-0023','ENG-TTP-0001'],
+    translated_entities:['ENG-TECH-0006','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-EVT-0023','ENG-TTP-0001'],
     review_needed_entities:['ENG-TECH-0019'],
-    version:'1.2',
-    last_batch:'2026-08-18-1618-unit-title-backlog'
+    version:'1.3',
+    last_batch:'2026-08-18-1802-tech-backlog'
   };
 })();
