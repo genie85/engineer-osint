@@ -3,6 +3,15 @@
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const put=(id,p)=>{const x=R.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs='ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
 
+  put('ENG-UNIT-0017',{title_cs:'JGSDF ženijní vojsko / Engineer School — základní profil'});
+  put('ENG-UNIT-0018',{title_cs:'JGSDF 11th Engineer Unit — 11. ženijní jednotka'});
+  put('ENG-UNIT-0023',{title_cs:'JGSDF 2nd Engineer Battalion — základní profil jednotky a techniky'});
+  put('ENG-UNIT-0024',{title_cs:'JGSDF 7th Engineer Battalion — 7. ženijní prapor'});
+  put('ENG-UNIT-0025',{title_cs:'JGSDF 3rd Engineer Battalion — 3. ženijní prapor'});
+  put('ENG-UNIT-0026',{title_cs:'JGSDF 8th Engineer Battalion — 8. ženijní prapor'});
+  put('ENG-UNIT-0027',{title_cs:'JGSDF 10th Engineer Battalion — aktuální základní profil jednotky'});
+  put('ENG-UNIT-0028',{title_cs:'JGSDF 8th Engineer Battalion — 8. ženijní prapor'});
+
   put('ENG-TECH-0016',{
     title_cs:'07式機動支援橋 / 07MSB — mobilní podpůrný most',
     summary_cs:'Japonský mobilní mostní systém zavedený u ženijních jednotek JGSDF jako nástupce staršího Type 81. Veřejné materiály jej spojují s překonáváním řek a terénních mezer; údaje o rozměrech se v různých oficiálních stránkách vztahují zřejmě k odlišným částem systému, což zůstává předmětem ověření.',
@@ -61,10 +70,11 @@
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-integrity-fix',processed_ids:['ENG-TECH-0019'],fully_translated:0,partially_translated:1,review_needed:1,scope:'Remove stale Type 75 dozer overlay from ENG-TECH-0019 because the canonical runtime ID is Type 92 Floating Bridge; preserve canonical title_cs and allow EN fallback for untranslated fields.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028'],fully_translated:8,partially_translated:0,review_needed:0,scope:'Translate sole missing public field title_cs for eight Japanese ENG-UNIT records; preserve official JGSDF names and canonical English/base data.',english_preserved:true});
   window.__ENGINEER_I18N_CONTENT_CS_JAPAN_AU__={
-    translated_entities:['ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-EVT-0023','ENG-TTP-0001'],
+    translated_entities:['ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-EVT-0023','ENG-TTP-0001'],
     review_needed_entities:['ENG-TECH-0019'],
-    version:'1.1',
-    last_batch:'2026-08-18-1316-integrity-fix'
+    version:'1.2',
+    last_batch:'2026-08-18-1618-unit-title-backlog'
   };
 })();
