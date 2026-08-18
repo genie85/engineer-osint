@@ -1,5 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
+# PR audit trigger 2026-08-18T15:00+02:00
 on:
   pull_request:
     branches: [main]
@@ -9,57 +10,29 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR head with full history
+      - name: Checkout full history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Apply translation batch and remove temporary trigger
-        run: |
-          node <<'NODE'
-          const fs=require('fs');
-          const p='docs/engineer-osint/i18n-content-cs.js';
-          let s=fs.readFileSync(p,'utf8');
-          if(!s.includes("put('ENG-UNIT-0001'")){
-            const block=`\n  put('ENG-UNIT-0001',{title_cs:'Support Forces Ozbrojených sil Ukrajiny — organizační struktura'});\n  put('ENG-UNIT-0002',{title_cs:'24th Chinese Peacekeeping Multi-role Engineering Company / čínská schopnost odminování a EOD v UNIFIL'});\n  put('ENG-UNIT-0003',{title_cs:'16th Chinese Peacekeeping Horizontal Engineering Company pro UNMISS'});\n  put('ENG-UNIT-0004',{title_cs:'1st Armored Division Engineer Brigade — reaktivace / přechod force designu'});\n`;
-            s=s.replace("\n\n  put('ENG-EVT-0021'",block+"\n  put('ENG-EVT-0021'");
-          }
-          if(!s.includes("2026-08-18-1514")){
-            const audit="  D.translation_audit_cs.batches.push({batch:'2026-08-18-1514',processed_ids:['ENG-UNIT-0001','ENG-UNIT-0002','ENG-UNIT-0003','ENG-UNIT-0004'],fully_translated:4,partially_translated:0,review_needed:0,scope:'UNIT priority; fill only missing title_cs from audited runtime backlog while preserving official unit names, English source fields and all factual classifications',english_preserved:true});\n";
-            s=s.replace("  window.__ENGINEER_I18N_CONTENT_CS__=",audit+"  window.__ENGINEER_I18N_CONTENT_CS__=");
-          }
-          s=s.replace("version:'1.6',last_batch:'2026-08-18-1120'","version:'1.7',last_batch:'2026-08-18-1514'");
-          fs.writeFileSync(p,s);
-          NODE
-          git checkout origin/main -- .github/workflows/runtime-audit-snapshot.yml
-          rm -f docs/engineer-osint/.translation-batch-trigger-20260818-1514
       - name: Syntax checks
         run: |
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
           node --check docs/engineer-osint/validate-runtime.mjs
-          node --check docs/engineer-osint/i18n-content-cs.js
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Commit validated translation batch
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
-          git commit -m 'Translate ENGINEER OSINT batch 2026-08-18-1514'
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4

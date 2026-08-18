@@ -1,0 +1,738 @@
+{
+  "entity_count": 65,
+  "missing_field_count": 67,
+  "by_type": {
+    "ENG-UNIT": 20,
+    "ENG-TECH": 14,
+    "ENG-SIG": 6,
+    "ENG-TTP": 2,
+    "ENG-EVT": 23
+  },
+  "items": [
+    {
+      "id": "ENG-UNIT-0005",
+      "type": "ENG-UNIT",
+      "country": "United Kingdom",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0006",
+      "type": "ENG-UNIT",
+      "country": "Germany",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0007",
+      "type": "ENG-UNIT",
+      "country": "France",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0008",
+      "type": "ENG-UNIT",
+      "country": "France",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0009",
+      "type": "ENG-UNIT",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0010",
+      "type": "ENG-UNIT",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0011",
+      "type": "ENG-UNIT",
+      "country": null,
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": true
+    },
+    {
+      "id": "ENG-UNIT-0014",
+      "type": "ENG-UNIT",
+      "country": "South Korea",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": true
+    },
+    {
+      "id": "ENG-UNIT-0017",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0018",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0021",
+      "type": "ENG-UNIT",
+      "country": "Poland",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0022",
+      "type": "ENG-UNIT",
+      "country": "Poland",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0023",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0024",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0025",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0026",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0027",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0028",
+      "type": "ENG-UNIT",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-0029",
+      "type": "ENG-UNIT",
+      "country": "Germany/United Kingdom",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-UNIT-FR-31RG",
+      "type": "ENG-UNIT",
+      "country": null,
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0001",
+      "type": "ENG-TECH",
+      "country": "Germany/Croatia/UK",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0002",
+      "type": "ENG-TECH",
+      "country": "India",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0003",
+      "type": "ENG-TECH",
+      "country": "Russia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0004",
+      "type": "ENG-TECH",
+      "country": "Russia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0005",
+      "type": "ENG-TECH",
+      "country": "United Kingdom/Germany",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0006",
+      "type": "ENG-TECH",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0007",
+      "type": "ENG-TECH",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0008",
+      "type": "ENG-TECH",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0009",
+      "type": "ENG-TECH",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0010",
+      "type": "ENG-TECH",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0011",
+      "type": "ENG-TECH",
+      "country": "France",
+      "status": "PARTIAL",
+      "missing_fields": [
+        "technical_profile"
+      ],
+      "translated_fields": [
+        "title",
+        "summary",
+        "intelligence_gaps",
+        "operational_evidence",
+        "engineering_equipment",
+        "claims[0].text",
+        "claims[1].text"
+      ],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0020",
+      "type": "ENG-TECH",
+      "country": "Japan",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0021",
+      "type": "ENG-TECH",
+      "country": "Germany",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TECH-0022",
+      "type": "ENG-TECH",
+      "country": "Türkiye",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0001",
+      "type": "ENG-SIG",
+      "country": "Ukraine",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0002",
+      "type": "ENG-SIG",
+      "country": "Germany/Croatia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0003",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0004",
+      "type": "ENG-SIG",
+      "country": "Russia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0005",
+      "type": "ENG-SIG",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-SIG-0008",
+      "type": "ENG-SIG",
+      "country": "United States",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TTP-0004",
+      "type": "ENG-TTP",
+      "country": "Germany/United Kingdom/United States",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-TTP-0005",
+      "type": "ENG-TTP",
+      "country": "United States",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0001",
+      "type": "ENG-EVT",
+      "country": "NATO",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0002",
+      "type": "ENG-EVT",
+      "country": "NATO/Belgium",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title",
+        "intelligence_gaps"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0003",
+      "type": "ENG-EVT",
+      "country": "NATO",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0004",
+      "type": "ENG-EVT",
+      "country": "Ukraine",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0005",
+      "type": "ENG-EVT",
+      "country": "Ukraine",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0006",
+      "type": "ENG-EVT",
+      "country": "Ukraine",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0007",
+      "type": "ENG-EVT",
+      "country": "Ukraine/Lithuania/Iceland/partners",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0008",
+      "type": "ENG-EVT",
+      "country": "Australia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0009",
+      "type": "ENG-EVT",
+      "country": "Australia/PNG/partners",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0010",
+      "type": "ENG-EVT",
+      "country": "Australia",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0011",
+      "type": "ENG-EVT",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0012",
+      "type": "ENG-EVT",
+      "country": "China",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0013",
+      "type": "ENG-EVT",
+      "country": "China / Lebanon / UNIFIL",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0014",
+      "type": "ENG-EVT",
+      "country": "NATO",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0015",
+      "type": "ENG-EVT",
+      "country": "NATO",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0016",
+      "type": "ENG-EVT",
+      "country": "United Kingdom/Ukraine/USA/NATO partners",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0017",
+      "type": "ENG-EVT",
+      "country": "Poland",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0018",
+      "type": "ENG-EVT",
+      "country": "Poland",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0020",
+      "type": "ENG-EVT",
+      "country": "NATO/Ukraine",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title",
+        "intelligence_gaps"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0022",
+      "type": "ENG-EVT",
+      "country": "South Korea",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0024",
+      "type": "ENG-EVT",
+      "country": "Germany",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0025",
+      "type": "ENG-EVT",
+      "country": "United States",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    },
+    {
+      "id": "ENG-EVT-0026",
+      "type": "ENG-EVT",
+      "country": "Türkiye / Syria",
+      "status": "UNTRANSLATED",
+      "missing_fields": [
+        "title"
+      ],
+      "translated_fields": [],
+      "translation_review_needed": false
+    }
+  ]
+}
