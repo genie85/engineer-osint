@@ -3,6 +3,14 @@
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const put=(id,p)=>{const x=R.get(id); if(!x)return; Object.assign(x,p); x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION'; x.translation_provenance_cs=p.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
 
+  put('ENG-UNIT-0011',{
+    title_cs:'19e Régiment du génie — 19. ženijní pluk',
+    summary_cs:'Francouzský 19. ženijní pluk je veřejně popisován jako mnohostranný ženijní útvar s úkoly v oblasti bojové ženijní podpory, infrastruktury, překonávání překážek, vyhledávání, odminování a potápěčských činností. Veřejný snapshot z roku 2026 jej zároveň spojuje s prvním zaváděním systému SDZ.',
+    why_it_matters_cs:'Jde o užitečný veřejný organizační bod pro sledování toho, jak Francie soustřeďuje klasickou ženijní podporu, specializované vyhledávací/odminovací úkoly a nové teleoperované prostředky v jednom plukovním rámci.',
+    staff_relevance_cs:'Relevantní pro srovnání národních modelů plukovní ženijní podpory, přidělování specializovaných schopností a vztahu mezi manévrovou podporou, search/demining a novými teleoperovanými systémy.',
+    intelligence_gaps_cs:['Úplné aktuální TO&E pluku','Přesné rozdělení SDZ a dalších specializovaných systémů mezi podřízené roty','Současný C2 model pro EOD/EOC/search úkoly','Přesný vztah francouzské terminologie dépollution/déminage k NATO EOD/EOC/EOR kategoriím']
+  });
+
   put('ENG-UNIT-0019',{
     title_cs:'Bundeswehr Kampfmittelabwehrschule — škola Kampfmittelabwehr',
     summary_cs:'Bundeswehr veřejně označuje Kampfmittelabwehrschule ve Stetten am kalten Markt za ústřední výcvikové pracoviště pro Kampfmittelabwehr v rámci Pionierschule. Veřejné materiály spojují tuto oblast s průzkumem, identifikací a zneškodňováním výbušných hrozeb a s používáním specializovaných detekčních, rentgenových a ochranných prostředků.',
@@ -32,8 +40,9 @@
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1106',processed_ids:['ENG-TECH-0011','ENG-TECH-0012'],fully_translated:2,partially_translated:0,review_needed:0,scope:'France TECH continuation; translate rich technical/operational presentation fields while preserving English source fields and evidentiary meaning',english_preserved:true});
-  D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0011'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Quarantine Czech presentation overlay for ENG-UNIT-0011 until historical ID mapping is resolved canonically; do not project 19e Régiment du génie content onto an unresolved record ID.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0011'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Historical quarantine pending mapping resolution.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1504-canonical-title-preservation',processed_ids:['ENG-UNIT-0019','ENG-UNIT-0020'],fully_translated:0,partially_translated:0,review_needed:0,scope:'Align overlay title_cs exactly with B26 TRANSLATION_CANONICALIZATION while retaining existing translated presentation fields.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0011'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0011 title is 19e Régiment du génie. Restore matching Czech presentation overlay; English fields unchanged.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0011'],version:'1.3',last_batch:'2026-08-18-1504-canonical-title-preservation'};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.4',last_batch:'2026-08-18-1530-mapping-resolution'};
 })();
