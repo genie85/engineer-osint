@@ -1,6 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
+# PR audit trigger 2026-08-18T16:12+02:00
 on:
   pull_request:
     branches: [main]
@@ -31,15 +31,28 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Extract remaining ENG-UNIT backlog records
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
+          const marker='window.__ENGINEER_DATA__=';
+          const a=html.indexOf(marker), b=html.indexOf(';</script>',a);
+          const d=JSON.parse(html.slice(a+marker.length,b));
+          const ids=new Set(['ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0021','ENG-UNIT-0022','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-UNIT-0029','ENG-UNIT-FR-31RG']);
+          const recs=(d.records?.records||[]).filter(r=>ids.has(r.id));
+          fs.writeFileSync('docs/engineer-osint-dist/unit-title-records.json',JSON.stringify(recs,null,2));
+          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engineer-osint-runtime-audit
+          name: engineer-osint-unit-title-records
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/unit-title-records.json
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
             docs/engineer-osint-dist/health.txt
