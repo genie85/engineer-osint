@@ -7,7 +7,7 @@
   const sm=new Map(sources.map(x=>[x.id,x]));
   const vm=new Map(visuals.map(x=>[x.id||x.asset_id,x]));
   const addSource=s=>{if(!sm.has(s.id)){sm.set(s.id,s);sources.push(s)}};
-  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;Object.assign(r,p);if(p.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...p.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
+  const merge=(id,p)=>{const r=rm.get(id);if(!r)return;const q={...p};if(Object.prototype.hasOwnProperty.call(q,'summary')){q.summary_en=q.summary;delete q.summary}Object.assign(r,q);if(q.source_ids)r.source_ids=[...new Set([...(r.source_ids||[]),...q.source_ids])];r.rich_backfill_status='PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION';};
 
   addSource({id:'RICH-SRC-014',name:'U.S. Army — Soldiers test drone-delivered breach capability',type:'PRIMARY',tier:1,publication_date:'2026-06-25',url:'https://www.army.mil/article/293513/oregon_engineers_test_drone_delivered_breach_capability',lineage:'U.S. Army / Oregon National Guard Public Affairs'});
   addSource({id:'RICH-SRC-015',name:'U.S. Army Europe and Africa / DVIDS — Oregon engineers breach wire obstacle with drone-delivered Bangalore',type:'PRIMARY',tier:1,publication_date:'2026-06-25',url:'https://www.europeafrica.army.mil/Innovation/videoid/1012370/dvpmoduleid/104815/dvpTag/drones/',lineage:'U.S. Army / Oregon National Guard Public Affairs'});
