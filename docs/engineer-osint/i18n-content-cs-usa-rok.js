@@ -6,6 +6,9 @@
   put('ENG-SIG-0006',{
     title_cs:'USA — experimentální doprava ženijního prostředku pro breaching pomocí UAS',
     summary_cs:'U.S. Army a Oregon Army National Guard veřejně doložily červnový proof-of-concept, při němž Bravo Company, 741st Brigade Engineer Battalion použila těžší bezpilotní systém Mule 28 k dopravě živého Bangalore prostředku proti překážce z koncertiny na Orchard Combat Training Center. Jde o jednotkový experiment a military testing, nikoli důkaz plošného zavedení nebo standardizovaného Army TTP.',
+    technical_profile_cs:'Doprava ženijního prostředku pro breaching pomocí bezpilotního letounu s vyšší nosností. Armádní článek identifikuje použitý prostředek jako Lorica Technologies Mule 28 a ostrý prostředek jako Bangalore torpedo M1A3.',
+    testing_evidence_cs:'Dne 22. června 2026 provedla Bravo Company, 741st Brigade Engineer Battalion, 41st Infantry Brigade Combat Team na Orchard Combat Training Center inertní a ostré proof-of-concept iterace. Armádní článek uvádí, že při ostré iteraci byl Bangalore dopraven k překážce z koncertiny a odpálen, čímž vytvořil průchod.',
+    operational_evidence_cs:'Pouze MILITARY TESTING. Zdroj popisuje proof-of-concept během výročního výcviku a plánovaný battalion white paper pro ženijní komunitu; nedokládá operační nasazení, status programu zavedeného do výzbroje ani plošné přijetí TTP v U.S. Army.',
     why_it_matters_cs:'Experiment ukazuje praktické propojení UAS s klasickým ženijním účinkem při bojovém překonávání překážek s cílem omezit expozici personálu. Současně jde o konkrétní příklad, kdy americká ženijní jednotka uvádí inspiraci zkušenostmi z Ukrajiny.',
     staff_relevance_cs:'Relevantní pro plánování snižování rizika při překonávání překážek, integraci UAS do ženijních úkolů a experimentování v podmínkách elektronického boje. Při štábním použití je nutné oddělit místní proof-of-concept od schválené Army schopnosti nebo doktríny.',
     training_relevance_cs:'Vhodné jako Lessons Learned případ pro postupné experimentální ověřování, integraci UAS do ženijních úkolů a práci s failure modes; nejde o náhradu schválených postupů pro výbušniny ani UAS.',
@@ -21,6 +24,10 @@
   put('ENG-UNIT-0014',{
     title_cs:'ROK Army 1115 Engineer Group — veřejný výcvikový baseline',
     summary_cs:'Jihokorejské ministerstvo obrany veřejně uvádí Army 1115 Engineer Group jako jedno z míst konání programu UN Triangular Partnership. Šestitýdenní běh v roce 2026 probíhal od 4. května do 12. června a rozšířil výuku z obsluhy ženijní techniky také o identifikaci nebezpečných výbušných předmětů a řízení hrozeb IED.',
+    mission_cs:'Veřejně doložená role hostitelského pracoviště pro mnohonárodní ženijní výcvik zaměřený na mírové operace OSN; citovaná zpráva nedefinuje úplný operační úkol jednotky ani její válečné TO&E.',
+    organization_profile_cs:'Běh programu UN TPP v roce 2026 využil 18 instruktorů z Korejské republiky, Austrálie a Japonska a 72 frekventantů ze 13 zemí. Výcvik probíhal u Army 1115 Engineer Group a Medical School.',
+    training_cs:'Osnova obsahovala čtyři oblasti: obsluhu ženijní techniky, identifikaci nebezpečných výbušných předmětů, řízení hrozeb IED a polní zdravotnickou přípravu.',
+    operational_evidence_cs:'TRAINING_EVIDENCE. Zdroj dokládá využití 1115 Engineer Group jako hostitelského pracoviště pro mnohonárodní ženijní výcvik. Nedokládá ekvivalenci certifikace EOD/EOC, aktuální bojovou připravenost, velikost jednotky ani úplné stavy techniky.',
     why_it_matters_cs:'Záznam poskytuje aktuální organizační kotvu pro jihokorejský mezinárodní ženijní výcvik a ukazuje propojení výuky ženijní techniky s problematikou výbušných hrozeb a IED v rámci přípravy pro mírové operace OSN.',
     staff_relevance_cs:'Relevantní pro návrh multinational training, peacekeeping engineer capacity building a rozhraní ženijního, explosive-hazard a zdravotnického výcviku. Bez dalších podkladů z něj nelze odvozovat ekvivalenci s NATO EOD/EOC kvalifikacemi.',
     training_relevance_cs:'Program 2026 ukazuje širší balík přípravy než samotnou obsluhu ženijní techniky a je vhodný pro srovnání modelů mezinárodního budování ženijních schopností.',
@@ -34,5 +41,6 @@
   ]);
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-0036',processed_ids:['ENG-SIG-0006','ENG-UNIT-0014'],fully_translated:2,partially_translated:0,review_needed:0,scope:'Complete existing USA/ROK translations with public claim text; preserve classification and English fields',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0006','ENG-UNIT-0014'],version:'1.1',last_batch:'2026-08-18-0036'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1058',processed_ids:['ENG-SIG-0006','ENG-UNIT-0014'],fully_translated:2,partially_translated:0,review_needed:0,scope:'Extend Czech translations to technical, testing, operational, mission, organization and training presentation fields; preserve English fields and claim classifications',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0006','ENG-UNIT-0014'],version:'1.2',last_batch:'2026-08-18-1058'};
 })();
