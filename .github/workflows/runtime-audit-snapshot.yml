@@ -1,6 +1,8 @@
 name: ENGINEER OSINT runtime audit snapshot
 
 on:
+  push:
+    branches: [translation-20260818-1855]
   pull_request:
     branches: [main]
     paths:
@@ -79,10 +81,11 @@ jobs:
           node --check docs/engineer-osint/i18n-content-cs.js
           node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
           node --check docs/engineer-osint/i18n-content-cs-usa-rok.js
-      - name: Commit translation source changes to PR branch
+      - name: Commit translation source changes to branch
         run: |
           git config user.name genie85
           git config user.email tom.repak@gmail.com
           git add docs/engineer-osint/i18n-content-cs.js docs/engineer-osint/i18n-content-cs-france-germany-poland.js docs/engineer-osint/i18n-content-cs-usa-rok.js
           git commit -m 'Translate ENGINEER OSINT batch 2026-08-18-1919'
-          git push origin HEAD:$GITHUB_HEAD_REF
+          TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          git push origin HEAD:$TARGET_BRANCH
