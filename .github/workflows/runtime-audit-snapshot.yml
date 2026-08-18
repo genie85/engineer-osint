@@ -1,6 +1,5 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
 on:
   pull_request:
     branches: [main]
@@ -33,13 +32,26 @@ jobs:
         run: node docs/engineer-osint/build-pages.mjs
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
+      - name: Extract exact ENG-TECH runtime records
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
+          const marker='window.__ENGINEER_DATA__=';
+          const a=html.indexOf(marker), b=html.indexOf(';</script>',a);
+          const d=JSON.parse(html.slice(a+marker.length,b));
+          const ids=new Set(['ENG-TECH-0002','ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0007','ENG-TECH-0008','ENG-TECH-0009','ENG-TECH-0010','ENG-TECH-0020','ENG-TECH-0021','ENG-TECH-0022']);
+          const recs=(d.records?.records||[]).filter(r=>ids.has(r.id));
+          fs.writeFileSync('docs/engineer-osint-dist/tech-title-records.json',JSON.stringify(recs,null,2));
+          NODE
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engineer-osint-runtime-audit
+          name: engineer-osint-tech-title-records
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/tech-title-records.json
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
             docs/engineer-osint-dist/health.txt
