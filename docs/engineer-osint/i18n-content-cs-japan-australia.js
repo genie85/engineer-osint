@@ -27,14 +27,6 @@
     intelligence_gaps_cs:['Aktuální počet vozidel','Rozdělení mezi ženijní jednotky','Úroveň ochrany a případné modernizace','Současné použití při cvičeních a operačních úkolech']
   });
 
-  put('ENG-TECH-0019',{
-    title_cs:'75式ドーザ — Type 75 obrněný buldozer',
-    summary_cs:'Starší japonský pásový obrněný buldozer určený k zemním a ženijním pracím v podmínkách zvýšeného ohrožení. V současné znalostní bázi slouží především jako historický a technologický předchůdce novějšího 施設作業車.',
-    why_it_matters_cs:'Umožňuje sledovat vývoj japonské koncepce chráněných ženijních pracovních vozidel a kontinuitu požadavku na zemní práce v blízkosti bojové činnosti.',
-    staff_relevance_cs:'Vhodné pro historické srovnání vývoje ženijní techniky a požadavků na ochranu osádky.',
-    intelligence_gaps_cs:['Současný stav vyřazování nebo rezervního použití','Přesné období nahrazování novější technikou','Zbytkové počty a jednotkové použití']
-  });
-
   put('ENG-UNIT-0015',{
     title_cs:'Royal Australian Engineers — základní organizační profil',
     summary_cs:'Royal Australian Engineers představují ženijní složku Australian Army pro bojové, geospatial a force-support engineering úkoly. Veřejné zdroje dokládají Combat Engineer Regiments, Engineer Support Regiments, Reserve Engineer Regiments a Special Operations Engineer Regiment.',
@@ -67,8 +59,12 @@
     intelligence_gaps_cs:['Rozsah formálního zapracování do australské doktríny','Standardizované normy a časové požadavky','Vazba na nové mechanizované zemní prostředky a counter-UAS opatření']
   });
 
+  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-integrity-fix',processed_ids:['ENG-TECH-0019'],fully_translated:0,partially_translated:1,review_needed:1,scope:'Remove stale Type 75 dozer overlay from ENG-TECH-0019 because the canonical runtime ID is Type 92 Floating Bridge; preserve canonical title_cs and allow EN fallback for untranslated fields.',english_preserved:true});
   window.__ENGINEER_I18N_CONTENT_CS_JAPAN_AU__={
-    translated_entities:['ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-TECH-0019','ENG-UNIT-0015','ENG-UNIT-0016','ENG-EVT-0023','ENG-TTP-0001'],
-    version:'1.0'
+    translated_entities:['ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-EVT-0023','ENG-TTP-0001'],
+    review_needed_entities:['ENG-TECH-0019'],
+    version:'1.1',
+    last_batch:'2026-08-18-1316-integrity-fix'
   };
 })();
