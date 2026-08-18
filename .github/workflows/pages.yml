@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Validate UI modules
+      - name: Validate UI and i18n modules
         run: |
           node --check docs/engineer-osint/ui-phase2.js
           node --check docs/engineer-osint/ui-phase3.js
@@ -39,18 +39,33 @@ jobs:
           node --check docs/engineer-osint/ui-phase7-media.js
           node --check docs/engineer-osint/ui-phase8-navigation.js
           node --check docs/engineer-osint/ui-phase9-intelligence.js
+          node --check docs/engineer-osint/rich-backfill.js
+          node --check docs/engineer-osint/rich-backfill-israel-turkiye-eod.js
+          node --check docs/engineer-osint/rich-backfill-usa-rok.js
+          node --check docs/engineer-osint/i18n-content-cs.js
+          node --check docs/engineer-osint/i18n-content-cs-usa-rok.js
+          node --check docs/engineer-osint/i18n-content-cs-japan-australia.js
+          node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
+          node --check docs/engineer-osint/i18n-content-cs-israel-turkiye-rich.js
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
+          node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Audit cumulative runtime
+        run: node docs/engineer-osint/validate-runtime.mjs
       - name: Verify dashboard
         run: |
           test -s docs/engineer-osint-dist/index.html
           test -s docs/engineer-osint-dist/health.txt
+          test -s docs/engineer-osint-dist/runtime-audit.json
+          test -s docs/engineer-osint-dist/translation-backlog.json
           cat docs/engineer-osint-dist/health.txt
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
           grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
+          grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'translation_canary=pass' docs/engineer-osint-dist/health.txt
           grep -q 'presentation_fact_overlay_gap=open' docs/engineer-osint-dist/health.txt
           grep -q 'presentation_bootstrap_pb_overlay=retired' docs/engineer-osint-dist/health.txt
           ! grep -q 'presentation_bootstrap_overlay=retired' docs/engineer-osint-dist/health.txt
@@ -69,6 +84,8 @@ jobs:
           grep -q 'czech_orbat=canonical-data' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_registry_audit=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'external_source_registry=canonical-data' docs/engineer-osint-dist/health.txt
+          grep -q 'i18n_israel_turkiye_rich=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'engineer-i18n-content-cs-israel-turkiye-rich-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           ! grep -q 'engineer-bootstrap-v36-golden-module' docs/engineer-osint-dist/index.html
@@ -76,6 +93,8 @@ jobs:
           ! grep -q 'ENG-REL-PB-' docs/engineer-osint-dist/index.html
           ! grep -q 'ENG-EVID-PB-' docs/engineer-osint-dist/index.html
           ! grep -q 'ENG-LL-PB-' docs/engineer-osint-dist/index.html
+          ! grep -q '75式ドーザ — Type 75 obrněný buldozer' docs/engineer-osint-dist/index.html
+          grep -q '92式浮橋 — Type 92 plovoucí most' docs/engineer-osint-dist/index.html
           grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
           grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
           grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
