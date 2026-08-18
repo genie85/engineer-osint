@@ -1,6 +1,6 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
+# Translation audit snapshot 2026-08-18T16:33+02:00
 on:
   pull_request:
     branches: [main]
@@ -40,6 +40,7 @@ jobs:
           name: engineer-osint-runtime-audit
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/index.html
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
             docs/engineer-osint-dist/health.txt
