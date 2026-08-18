@@ -16,6 +16,8 @@
   put('ENG-TECH-0001',{title_cs:'MV-8 KOMODO — bezosádkový systém pro breaching'});
   put('ENG-TECH-0005',{title_cs:'Britsko-německý program Wide Wet Gap Crossing založený na nejnovější generaci M3'});
   put('ENG-SIG-0002',{title_cs:'Rheinmetall získal 51% podíl v DOK-ING a zřídil kompetenční centrum pro těžká autonomní vozidla'});
+  put('ENG-TTP-0004',{title_cs:'Dálkový/digitální hydrografický průzkum pro přípravu překonání vodní překážky'});
+  put('ENG-TTP-0005',{title_cs:'Přežití přizpůsobené hrozbě při trvalém pozorování bezpilotními prostředky'});
 
   put('ENG-UNIT-0011',{
     title_cs:'19e Régiment du génie — 19. ženijní pluk',
@@ -65,5 +67,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1802-tech-backlog',processed_ids:['ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011'],fully_translated:3,partially_translated:0,review_needed:0,scope:'Translate sole missing title_cs for two Germany/UK-linked ENG-TECH records and complete technical_profile_cs for SDZ from the exact canonical runtime object; English/base fields and claim classifications unchanged.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0021'],fully_translated:1,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing title_cs for the canonical Sonobot 5 military hydrographic reconnaissance record; English/base fields unchanged.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1919-sig-backlog',processed_ids:['ENG-SIG-0002'],fully_translated:1,partially_translated:0,review_needed:0,scope:'SIG priority; translate the sole missing title_cs for the audited Rheinmetall/DOK-ING autonomy signal while preserving company names and English/base fields.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011','ENG-TECH-0012','ENG-TECH-0021','ENG-SIG-0002'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.9',last_batch:'2026-08-18-1919-sig-backlog'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1951-ttp-backlog',processed_ids:['ENG-TTP-0004','ENG-TTP-0005'],fully_translated:2,partially_translated:0,review_needed:0,scope:'TTP priority; translate the sole missing title_cs for two exact audited runtime records. Preserve wet-gap/UAV terminology, English/base fields, evidence, classifications and maturity caveats.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011','ENG-TECH-0012','ENG-TECH-0021','ENG-SIG-0002','ENG-TTP-0004','ENG-TTP-0005'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'2.0',last_batch:'2026-08-18-1951-ttp-backlog'};
 })();
