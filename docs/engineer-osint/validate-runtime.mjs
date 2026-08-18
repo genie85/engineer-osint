@@ -111,6 +111,15 @@ for(const p of patches){
 }
 for(const id of resolved)unresolved.delete(id);
 
+// i18n modules may explicitly quarantine records even when patch-history metadata does not.
+// Merge those explicit review markers into the audit instead of under-reporting review backlog.
+const explicitReviewNeeded=new Set();
+for(const value of Object.values(context.window)){
+  if(!value||typeof value!=='object'||Array.isArray(value))continue;
+  for(const id of value.review_needed_entities||[])if(typeof id==='string'&&id)explicitReviewNeeded.add(id);
+}
+const translationReviewNeeded=new Set([...unresolved,...explicitReviewNeeded]);
+
 const coreFields=['title','summary','description','why_it_matters','staff_relevance','training_relevance','intelligence_gaps'];
 const extendedFields=['mission','organization_profile','technical_profile','testing_evidence','operational_evidence','engineering_equipment','equipment','capability_demonstrated','what_it_does_not_prove','training','note','scope'];
 const czechCountries=new Set(['CZE','Czech Republic','Czechia','Česko','CZ']);
@@ -129,7 +138,7 @@ for(const r of localized.records?.records||[]){
     const c=r.claims[i],english=c?.text_en??c?.text;
     if(english&&!c?.text_cs)missing.push(`claims[${i}].text`);else if(c?.text_cs)translated.push(`claims[${i}].text`);
   }
-  if(missing.length)backlog.push({id:r.id,type:r.type,country:r.country||null,status:translated.length?'PARTIAL':'UNTRANSLATED',missing_fields:missing,translated_fields:translated,translation_review_needed:unresolved.has(r.id)});
+  if(missing.length)backlog.push({id:r.id,type:r.type,country:r.country||null,status:translated.length?'PARTIAL':'UNTRANSLATED',missing_fields:missing,translated_fields:translated,translation_review_needed:translationReviewNeeded.has(r.id)});
 }
 const priority=['ENG-UNIT','ENG-TECH','ENG-SIG','ENG-DOC','ENG-TTP','ENG-EVT','ENG-LL','ENG-TREND'];
 backlog.sort((x,y)=>priority.indexOf(x.type)-priority.indexOf(y.type)||x.id.localeCompare(y.id));
@@ -140,6 +149,7 @@ for(const r of localized.records?.records||[])for(const sid of r.source_ids||[])
   const present=(localized.sources?.sources||[]).some(s=>s.id===sid);if(!present)throw new Error(`RUNTIME_AUDIT: record ${r.id} references missing source ${sid}`);
 }
 
+const reviewNeededSorted=[...translationReviewNeeded].sort();
 const audit={
   generated_at:new Date().toISOString(),
   current_run_id:baseline.state_latest?.run_id||null,
@@ -150,11 +160,15 @@ const audit={
   orphan_relations:orphanRelations,
   orphan_evidence_record_refs:orphanEvidenceRecords,
   translation_canary:canary,
-  translation_review_needed:[...unresolved].sort(),
+  translation_review_needed:reviewNeededSorted,
+  translation_review_sources:{
+    patch_history:[...unresolved].sort(),
+    explicit_i18n:[...explicitReviewNeeded].sort()
+  },
   translation_backlog:{entity_count:backlog.length,missing_field_count:missingFieldCount,by_type:byType,items:backlog},
   status:'PASS_WITH_TRANSLATION_BACKLOG'
 };
 writeFileSync(join(dist,'runtime-audit.json'),JSON.stringify(audit,null,2)+'\n','utf8');
 writeFileSync(join(dist,'translation-backlog.json'),JSON.stringify(audit.translation_backlog,null,2)+'\n','utf8');
-appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${[...unresolved].sort().join(',')||'none'}\n`,'utf8');
-console.log(`Runtime audit PASS: ${records.length} records, ${patches.length} patch runs, translation backlog ${backlog.length} entities / ${missingFieldCount} fields, review ${[...unresolved].sort().join(',')||'none'}`);
+appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${reviewNeededSorted.join(',')||'none'}\n`,'utf8');
+console.log(`Runtime audit PASS: ${records.length} records, ${patches.length} patch runs, translation backlog ${backlog.length} entities / ${missingFieldCount} fields, review ${reviewNeededSorted.join(',')||'none'}`);
