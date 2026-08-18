@@ -3,6 +3,13 @@
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const put=(id,p)=>{const x=R.get(id); if(!x)return; Object.assign(x,p); x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION'; x.translation_provenance_cs=p.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
 
+  put('ENG-UNIT-0005',{title_cs:'8 Engineer Brigade — aktuální britský baseline víceoborové ženijní a EOD&S struktury'});
+  put('ENG-UNIT-0006',{title_cs:'Panzerpionierbataillon 1 — základní profil'});
+  put('ENG-UNIT-0007',{title_cs:'Francouzská Brigade du génie — základní profil obnovené brigády'});
+  put('ENG-UNIT-0008',{title_cs:'19e régiment du génie — širokospektrální ženijní/EOD schopnosti a modernizace pomocí dronů'});
+  put('ENG-UNIT-0009',{title_cs:'Ženijní a chemická brigáda skupinové armády PLAA — historické doklady reformy'});
+  put('ENG-UNIT-0010',{title_cs:'Ženijní prvek vševojskové brigády PLAA — doklad ženijní čety vševojskového praporu'});
+
   put('ENG-UNIT-0011',{
     title_cs:'19e Régiment du génie — 19. ženijní pluk',
     summary_cs:'Francouzský 19. ženijní pluk je veřejně popisován jako mnohostranný ženijní útvar s úkoly v oblasti bojové ženijní podpory, infrastruktury, překonávání překážek, vyhledávání, odminování a potápěčských činností. Veřejný snapshot z roku 2026 jej zároveň spojuje s prvním zaváděním systému SDZ.',
@@ -43,6 +50,7 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0011'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Historical quarantine pending mapping resolution.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1504-canonical-title-preservation',processed_ids:['ENG-UNIT-0019','ENG-UNIT-0020'],fully_translated:0,partially_translated:0,review_needed:0,scope:'Align overlay title_cs exactly with B26 TRANSLATION_CANONICALIZATION while retaining existing translated presentation fields.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0011'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0011 title is 19e Régiment du génie. Restore matching Czech presentation overlay; English fields unchanged.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1610-unit-title-backlog',processed_ids:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010'],fully_translated:6,partially_translated:0,review_needed:0,scope:'Translate the only missing public presentation field (title_cs) for six highest-priority ENG-UNIT backlog entities; preserve canonical English/base fields and evidentiary classifications.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.4',last_batch:'2026-08-18-1530-mapping-resolution'};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.5',last_batch:'2026-08-18-1610-unit-title-backlog'};
 })();
