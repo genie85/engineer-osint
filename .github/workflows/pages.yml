@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -47,6 +49,11 @@ jobs:
           test -s docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/health.txt
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
+          grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
+          grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
+          grep -q 'presentation_fact_overlay_gap=open' docs/engineer-osint-dist/health.txt
+          grep -q 'presentation_bootstrap_pb_overlay=retired' docs/engineer-osint-dist/health.txt
+          ! grep -q 'presentation_bootstrap_overlay=retired' docs/engineer-osint-dist/health.txt
           grep -q 'entity_navigation=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'grouped_navigation=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'entity_id_search=enabled' docs/engineer-osint-dist/health.txt
@@ -62,7 +69,6 @@ jobs:
           grep -q 'czech_orbat=canonical-data' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_registry_audit=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'external_source_registry=canonical-data' docs/engineer-osint-dist/health.txt
-          grep -q 'presentation_bootstrap_overlay=retired' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           ! grep -q 'engineer-bootstrap-v36-golden-module' docs/engineer-osint-dist/index.html
@@ -81,6 +87,14 @@ jobs:
           grep -q 'ENG-UNIT-0031' docs/engineer-osint-dist/index.html
           grep -q 'ENG-UNIT-0032' docs/engineer-osint-dist/index.html
           grep -q 'ENG-UNIT-0033' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVT-081' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-TECH-0030' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-TECH-0032' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVT-083' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVT-084' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVT-085' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-TTP-0002' docs/engineer-osint-dist/index.html
+          grep -q 'ENG-EVT-088' docs/engineer-osint-dist/index.html
           grep -q 'WarSpotting' docs/engineer-osint-dist/index.html
           grep -q 'SIPRI Arms Transfers' docs/engineer-osint-dist/index.html
           grep -q 'Observed minimum' docs/engineer-osint-dist/index.html
