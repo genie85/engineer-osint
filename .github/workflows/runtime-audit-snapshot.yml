@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   audit:
@@ -30,30 +30,59 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
-      - name: Run runtime audit
+      - name: Run pre-translation runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Extract exact ENG-SIG backlog records
+      - name: Apply audited ENG-SIG translations
         run: |
           node <<'NODE'
           const fs=require('fs');
-          const html=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
-          const marker='window.__ENGINEER_DATA__=';
-          const a=html.indexOf(marker), b=html.indexOf(';</script>',a);
-          const d=JSON.parse(html.slice(a+marker.length,b));
-          const backlog=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/translation-backlog.json','utf8'));
-          const items=(backlog.items||[]).filter(x=>String(x.id||'').startsWith('ENG-SIG'));
-          const ids=new Set(items.map(x=>x.id));
-          const recs=(d.records?.records||[]).filter(r=>ids.has(r.id));
-          fs.writeFileSync('docs/engineer-osint-dist/sig-backlog-records.json',JSON.stringify({items,records:recs},null,2));
+          const batch='2026-08-18-1919-sig-backlog';
+          function append(file, code){
+            let s=fs.readFileSync(file,'utf8');
+            const pos=s.lastIndexOf('})();');
+            if(pos<0) throw new Error('module close missing '+file);
+            for(const id of ['ENG-SIG-0001','ENG-SIG-0002','ENG-SIG-0003','ENG-SIG-0004','ENG-SIG-0008']) if(code.includes(id)&&s.includes(`put('${id}'`)) throw new Error('duplicate '+id+' in '+file);
+            s=s.slice(0,pos)+code+s.slice(pos);
+            fs.writeFileSync(file,s);
+          }
+          append('docs/engineer-osint/i18n-content-cs.js',`
+  put('ENG-SIG-0001',{title_cs:'Ukrajinská jednotka — přestavba obrněného vozidla na bezosádkovou protiminovou platformu'});
+  put('ENG-SIG-0004',{title_cs:'Rostec / Shvabe — prototyp laserového robotu pro odminování'});
+  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
+  D.translation_audit_cs.batches.push({batch:'${batch}',processed_ids:['ENG-SIG-0001','ENG-SIG-0004','ENG-SIG-0005'],fully_translated:2,partially_translated:0,review_needed:1,scope:'SIG priority; translate the sole missing title_cs for two unambiguous audited runtime records. ENG-SIG-0005 remains TRANSLATION_REVIEW_NEEDED because its canonical title is only the record ID; no inferred title is introduced.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS__=window.__ENGINEER_I18N_CONTENT_CS__||{translated_entities:[],review_needed_entities:[]};
+  window.__ENGINEER_I18N_CONTENT_CS__.translated_entities=[...new Set([...(window.__ENGINEER_I18N_CONTENT_CS__.translated_entities||[]),'ENG-SIG-0001','ENG-SIG-0004'])];
+  window.__ENGINEER_I18N_CONTENT_CS__.review_needed_entities=[...new Set([...(window.__ENGINEER_I18N_CONTENT_CS__.review_needed_entities||[]),'ENG-SIG-0005'])];
+  window.__ENGINEER_I18N_CONTENT_CS__.version='1.9';
+  window.__ENGINEER_I18N_CONTENT_CS__.last_batch='${batch}';
+`);
+          append('docs/engineer-osint/i18n-content-cs-france-germany-poland.js',`
+  put('ENG-SIG-0002',{title_cs:'Rheinmetall získal 51% podíl v DOK-ING a zřídil kompetenční centrum pro těžká autonomní vozidla'});
+  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
+  D.translation_audit_cs.batches.push({batch:'${batch}',processed_ids:['ENG-SIG-0002'],fully_translated:1,partially_translated:0,review_needed:0,scope:'SIG priority; translate the sole missing title_cs for the audited Rheinmetall/DOK-ING autonomy signal while preserving company names and English/base fields.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__=window.__ENGINEER_I18N_CONTENT_CS_FGP__||{translated_entities:[],review_needed_entities:[]};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__.translated_entities=[...new Set([...(window.__ENGINEER_I18N_CONTENT_CS_FGP__.translated_entities||[]),'ENG-SIG-0002'])];
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__.version='1.9';
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__.last_batch='${batch}';
+`);
+          append('docs/engineer-osint/i18n-content-cs-usa-rok.js',`
+  put('ENG-SIG-0003',{title_cs:'U.S. Army Engineer Autonomous Breaching Capability — výběr čtyř dodavatelů'});
+  put('ENG-SIG-0008',{title_cs:'EODVOID — datová pipeline AI/ML pro vizuální identifikaci munice'});
+  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
+  D.translation_audit_cs.batches.push({batch:'${batch}',processed_ids:['ENG-SIG-0003','ENG-SIG-0008'],fully_translated:2,partially_translated:0,review_needed:0,scope:'SIG priority; translate the sole missing title_cs for two audited U.S. autonomy/AI technology signals while preserving program names, English/base fields and maturity caveats.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__=window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__||{translated_entities:[],review_needed_entities:[]};
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__.translated_entities=[...new Set([...(window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__.translated_entities||[]),'ENG-SIG-0003','ENG-SIG-0008'])];
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__.version='1.5';
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__.last_batch='${batch}';
+`);
           NODE
-      - name: Upload audit artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineer-osint-sig-backlog
-          if-no-files-found: warn
-          path: |
-            docs/engineer-osint-dist/sig-backlog-records.json
-            docs/engineer-osint-dist/runtime-audit.json
-            docs/engineer-osint-dist/translation-backlog.json
-            docs/engineer-osint-dist/health.txt
+          node --check docs/engineer-osint/i18n-content-cs.js
+          node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
+          node --check docs/engineer-osint/i18n-content-cs-usa-rok.js
+      - name: Commit translation source changes to PR branch
+        run: |
+          git config user.name genie85
+          git config user.email tom.repak@gmail.com
+          git add docs/engineer-osint/i18n-content-cs.js docs/engineer-osint/i18n-content-cs-france-germany-poland.js docs/engineer-osint/i18n-content-cs-usa-rok.js
+          git commit -m 'Translate ENGINEER OSINT batch 2026-08-18-1919'
+          git push origin HEAD:$GITHUB_HEAD_REF
