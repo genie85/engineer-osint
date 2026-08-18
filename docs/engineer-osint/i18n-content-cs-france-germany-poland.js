@@ -41,6 +41,8 @@
     intelligence_gaps_cs:['Přesné současné pravomoci centra v míru a za operace','Úplná vazba na polské ženijní a EOD jednotky','Rozhraní se systémem civilního odstraňování munice','Přesný NATO EOD/EOC/EOR crosswalk a certifikační model']
   });
 
+  put('ENG-TECH-0021',{title_cs:'EvoLogics Sonobot 5 USV — vojenský hydrografický průzkum'});
+
   put('ENG-TECH-0011',{
     technical_profile_cs:{manufacturer:'CEFA',remote_control:'Teleoperované ovládání',configuration:'Dva teleoperované roboty na podvozcích',weight:'TerreMag uvádí 10 t pro systém/vozidlo; údaj není interpretován jako hmotnost každého robota.'},
     engineering_equipment_cs:'Dva teleoperované roboty pro úkoly plošného čištění prostoru / dépollution.',
@@ -61,5 +63,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0021','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG'],fully_translated:3,partially_translated:0,review_needed:1,scope:'Translate sole missing title_cs for three unambiguous remaining European ENG-UNIT records. ENG-UNIT-0021 retains TRANSLATION_REVIEW_NEEDED because canonical runtime title is only the record ID and assigning a patrol identity from surrounding evidence would exceed presentation translation.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1802-tech-backlog',processed_ids:['ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011'],fully_translated:3,partially_translated:0,review_needed:0,scope:'Translate sole missing title_cs for two Germany/UK-linked ENG-TECH records and complete technical_profile_cs for SDZ from the exact canonical runtime object; English/base fields and claim classifications unchanged.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.7',last_batch:'2026-08-18-1802-tech-backlog'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0021'],fully_translated:1,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing title_cs for the canonical Sonobot 5 military hydrographic reconnaissance record; English/base fields unchanged.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011','ENG-TECH-0012','ENG-TECH-0021'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.8',last_batch:'2026-08-18-1848-tech-backlog'};
 })();

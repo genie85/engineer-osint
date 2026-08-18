@@ -9,6 +9,14 @@
   put('ENG-UNIT-0003',{title_cs:'16th Chinese Peacekeeping Horizontal Engineering Company pro UNMISS'});
   put('ENG-UNIT-0004',{title_cs:'1st Armored Division Engineer Brigade — reaktivace / přechod force designu'});
 
+  put('ENG-TECH-0002',{title_cs:'Indie — nákup sestav TRAWL pro T-72/T-90'});
+  put('ENG-TECH-0003',{title_cs:'Ruský UBIM — přijat do výzbroje ženijních vojsk'});
+  put('ENG-TECH-0004',{title_cs:'IMR-3M — vybaven prostředky elektronického boje a dodatečnou ochranou proti dronům'});
+  put('ENG-TECH-0007',{title_cs:'PLAA 综合扫雷车 / 履带式综合扫雷车 — integrované odminovací vozidlo; formální označení nevyřešeno'});
+  put('ENG-TECH-0008',{title_cs:'PLAA Rapidly Emplaced Bridge System (REBS) — oficiální anglický popis; přesné označení nevyřešeno'});
+  put('ENG-TECH-0009',{title_cs:'PLAA plovoucí pontonový mostní systém — přesné označení nevyřešeno'});
+  put('ENG-TECH-0010',{title_cs:'PLAA vozidlový / raketový systém kladení min (火箭布雷车) — formální označení nevyřešeno'});
+
   put('ENG-EVT-0021',{title_cs:'240m plovoucí most přes Eufrat v Dajr az-Zauru',summary_cs:'Türkiye MSB 9. července 2026 uvedlo dokončení 240m plovoucího mostu ženijní brigádou 2. armády.',intelligence_gaps_cs:['Přesný typ/model mostního systému','Počet modulů a zatěžovací klasifikace','Doba výstavby a počet nasazených ženistů','Zda šlo o taktické dočasné přemostění, nebo o přechod určený k delšímu operačnímu použití','Navazující doklad o provozu/otevření po kontrolních přejezdech']});
   translateClaims('ENG-EVT-0021',['Turecké ministerstvo národní obrany uvedlo, že ženijní brigáda 2. armády dokončila v Dajr az-Zauru 240m plovoucí most přes Eufrat.','Ministerstvo uvedlo, že most bude 10. července po kontrolních přejezdech otevřen.','Přesný model mostního systému a jeho zatěžovací klasifikace nejsou v citovaném sdělení zveřejněny.']);
   put('LEAD-001',{title_cs:'EOC standardizace — identita annexu / study draftu',summary_cs:'Veřejné materiály NATO EOD WG potvrzují standardizační práci na EOC, ale přesné označení annexu/study draftu zůstává nezjištěné.',note_cs:'Veřejný záznam 68. NATO EOD WG uvádí, že minimální standardy odborné způsobilosti EOC budou znovu definovány s podporou komunity MILENG; EOD COE zároveň prezentovalo analýzu úkolů EOC v operacích NATO. Přesné označení pozdějšího annexu / study draftu zůstává v kontrolovaných veřejných materiálech nevyřešené.'});
@@ -41,5 +49,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-0942',processed_ids:['ENG-EVT-0021'],fully_translated:1,partially_translated:0,review_needed:0,scope:'EVT continuation; complete existing Euphrates bridge translation with intelligence gaps and claim text; preserve classification and English fields; correct prior Czech typo in ENG-UNIT-0012',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1120',processed_ids:['LEAD-001'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Presentation lead continuation; translate public EOC lead note and claim text while preserving FACT/INFERENCE classifications and English fields',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1514',processed_ids:['ENG-UNIT-0001','ENG-UNIT-0002','ENG-UNIT-0003','ENG-UNIT-0004'],fully_translated:4,partially_translated:0,review_needed:0,scope:'UNIT priority; fill only missing title_cs from audited runtime backlog while preserving official unit names, English source fields and all factual classifications',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),version:'1.7',last_batch:'2026-08-18-1514'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0002','ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0007','ENG-TECH-0008','ENG-TECH-0009','ENG-TECH-0010'],fully_translated:7,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing public title_cs for audited India, Russia and China runtime records; preserve unresolved-designation caveats, official descriptors, English/base fields and evidentiary classifications',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),version:'1.8',last_batch:'2026-08-18-1848-tech-backlog'};
 })();
