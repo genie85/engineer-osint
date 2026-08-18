@@ -1,0 +1,51 @@
+name: ENGINEER OSINT runtime audit snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/runtime-audit-snapshot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Syntax checks
+        run: |
+          node --check docs/engineer-osint/build-pages.mjs
+          node --check docs/engineer-osint/postprocess-ui.mjs
+          node --check docs/engineer-osint/validate-runtime.mjs
+      - name: Build cumulative dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+      - name: Run runtime audit
+        run: node docs/engineer-osint/validate-runtime.mjs
+      - name: Persist audit snapshot
+        run: |
+          mkdir -p docs/engineer-osint-audit
+          cp docs/engineer-osint-dist/runtime-audit.json docs/engineer-osint-audit/runtime-audit.json
+          cp docs/engineer-osint-dist/translation-backlog.json docs/engineer-osint-audit/translation-backlog.json
+          cp docs/engineer-osint-dist/health.txt docs/engineer-osint-audit/health.txt
+          printf '%s\n' "source_commit=${GITHUB_SHA}" > docs/engineer-osint-audit/source-commit.txt
+      - name: Commit audit snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/engineer-osint-audit
+          if git diff --cached --quiet; then
+            echo 'No audit snapshot changes.'
+          else
+            git commit -m 'Publish ENGINEER OSINT runtime audit snapshot'
+            git push
+          fi
