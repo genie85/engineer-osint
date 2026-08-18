@@ -13,6 +13,9 @@
   put('ENG-UNIT-0029',{title_cs:'Deutsch/Britisches Pionierbrückenbataillon 130 — německo-britský ženijní mostní prapor'});
   put('ENG-UNIT-FR-31RG',{title_cs:'31e Régiment du génie — 31. ženijní pluk'});
 
+  put('ENG-TECH-0001',{title_cs:'MV-8 KOMODO — bezosádkový systém pro breaching'});
+  put('ENG-TECH-0005',{title_cs:'Britsko-německý program Wide Wet Gap Crossing založený na nejnovější generaci M3'});
+
   put('ENG-UNIT-0011',{
     title_cs:'19e Régiment du génie — 19. ženijní pluk',
     summary_cs:'Francouzský 19. ženijní pluk je veřejně popisován jako mnohostranný ženijní útvar s úkoly v oblasti bojové ženijní podpory, infrastruktury, překonávání překážek, vyhledávání, odminování a potápěčských činností. Veřejný snapshot z roku 2026 jej zároveň spojuje s prvním zaváděním systému SDZ.',
@@ -39,6 +42,7 @@
   });
 
   put('ENG-TECH-0011',{
+    technical_profile_cs:{manufacturer:'CEFA',remote_control:'Teleoperované ovládání',configuration:'Dva teleoperované roboty na podvozcích',weight:'TerreMag uvádí 10 t pro systém/vozidlo; údaj není interpretován jako hmotnost každého robota.'},
     engineering_equipment_cs:'Dva teleoperované roboty pro úkoly plošného čištění prostoru / dépollution.',
     operational_evidence_cs:'Veřejný materiál francouzské armády uváděl k 21. dubnu 2026 šest systémů ve službě, mimo jiné u École du génie a podpůrných rot 19e a 31e Régiment du génie.'
   });
@@ -55,6 +59,7 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0011'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0011 title is 19e Régiment du génie. Restore matching Czech presentation overlay; English fields unchanged.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1610-unit-title-backlog',processed_ids:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010'],fully_translated:6,partially_translated:0,review_needed:0,scope:'Translate the only missing public presentation field (title_cs) for six highest-priority ENG-UNIT backlog entities; preserve canonical English/base fields and evidentiary classifications.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0021','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG'],fully_translated:3,partially_translated:0,review_needed:1,scope:'Translate sole missing title_cs for three unambiguous remaining European ENG-UNIT records. ENG-UNIT-0021 retains TRANSLATION_REVIEW_NEEDED because canonical runtime title is only the record ID and assigning a patrol identity from surrounding evidence would exceed presentation translation.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1802-tech-backlog',processed_ids:['ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011'],fully_translated:3,partially_translated:0,review_needed:0,scope:'Translate sole missing title_cs for two Germany/UK-linked ENG-TECH records and complete technical_profile_cs for SDZ from the exact canonical runtime object; English/base fields and claim classifications unchanged.',english_preserved:true});
 
-  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.6',last_batch:'2026-08-18-1618-unit-title-backlog'};
+  window.__ENGINEER_I18N_CONTENT_CS_FGP__={translated_entities:['ENG-UNIT-0005','ENG-UNIT-0006','ENG-UNIT-0007','ENG-UNIT-0008','ENG-UNIT-0009','ENG-UNIT-0010','ENG-UNIT-0011','ENG-UNIT-0019','ENG-UNIT-0020','ENG-UNIT-0022','ENG-UNIT-0029','ENG-UNIT-FR-31RG','ENG-TECH-0001','ENG-TECH-0005','ENG-TECH-0011','ENG-TECH-0012'].filter(id=>R.has(id)),review_needed_entities:['ENG-UNIT-0021'],resolved_mapping_entities:['ENG-UNIT-0011'],version:'1.7',last_batch:'2026-08-18-1802-tech-backlog'};
 })();
