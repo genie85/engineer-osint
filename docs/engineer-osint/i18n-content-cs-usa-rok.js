@@ -3,6 +3,8 @@
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const put=(id,p)=>{const x=R.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=p.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
   const translateClaims=(id,texts)=>{const x=R.get(id);if(!x||!Array.isArray(x.claims))return;for(let i=0;i<Math.min(texts.length,x.claims.length);i++)if(texts[i])x.claims[i].text_cs=texts[i];};
+  put('ENG-SIG-0003',{title_cs:'U.S. Army Engineer Autonomous Breaching Capability — výběr čtyř dodavatelů'});
+  put('ENG-SIG-0008',{title_cs:'EODVOID — datová pipeline AI/ML pro vizuální identifikaci munice'});
   put('ENG-SIG-0006',{
     title_cs:'USA — experimentální doprava ženijního prostředku pro breaching pomocí UAS',
     summary_cs:'U.S. Army a Oregon Army National Guard veřejně doložily červnový proof-of-concept, při němž Bravo Company, 741st Brigade Engineer Battalion použila těžší bezpilotní systém Mule 28 k dopravě živého Bangalore prostředku proti překážce z koncertiny na Orchard Combat Training Center. Jde o jednotkový experiment a military testing, nikoli důkaz plošného zavedení nebo standardizovaného Army TTP.',
@@ -44,5 +46,6 @@
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0014'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Historical quarantine pending mapping resolution.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0014'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0014 title is ROK Army 1115 Engineer Group baseline. Restore matching Czech presentation overlay and claim translations; English fields and factual classifications unchanged.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0006','ENG-UNIT-0014'],review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0014'],version:'1.4',last_batch:'2026-08-18-1530-mapping-resolution'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-18-1919-sig-backlog',processed_ids:['ENG-SIG-0003','ENG-SIG-0008'],fully_translated:2,partially_translated:0,review_needed:0,scope:'SIG priority; translate the sole missing title_cs for two audited U.S. autonomy/AI technology signals while preserving program names, English/base fields and maturity caveats.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0003','ENG-SIG-0008','ENG-SIG-0006','ENG-UNIT-0014'],review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0014'],version:'1.5',last_batch:'2026-08-18-1919-sig-backlog'};
 })();
