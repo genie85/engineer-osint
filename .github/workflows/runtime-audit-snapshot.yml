@@ -1,15 +1,15 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# One-shot audit trigger 2026-08-18T14:55+02:00
 on:
-  push:
+  pull_request:
     branches: [main]
     paths:
       - '.github/workflows/runtime-audit-snapshot.yml'
+      - 'docs/engineer-osint/**'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   audit:
@@ -32,21 +32,13 @@ jobs:
         run: node docs/engineer-osint/build-pages.mjs
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Persist audit snapshot
-        run: |
-          mkdir -p docs/engineer-osint-audit
-          cp docs/engineer-osint-dist/runtime-audit.json docs/engineer-osint-audit/runtime-audit.json
-          cp docs/engineer-osint-dist/translation-backlog.json docs/engineer-osint-audit/translation-backlog.json
-          cp docs/engineer-osint-dist/health.txt docs/engineer-osint-audit/health.txt
-          printf '%s\n' "source_commit=${GITHUB_SHA}" > docs/engineer-osint-audit/source-commit.txt
-      - name: Commit audit snapshot
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/engineer-osint-audit
-          if git diff --cached --quiet; then
-            echo 'No audit snapshot changes.'
-          else
-            git commit -m 'Publish ENGINEER OSINT runtime audit snapshot'
-            git push
-          fi
+      - name: Upload audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineer-osint-runtime-audit
+          if-no-files-found: warn
+          path: |
+            docs/engineer-osint-dist/runtime-audit.json
+            docs/engineer-osint-dist/translation-backlog.json
+            docs/engineer-osint-dist/health.txt
