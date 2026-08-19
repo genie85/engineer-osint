@@ -43,9 +43,14 @@
     'Veřejná zpráva nedokládá ekvivalenci kvalifikací NATO EOD/EOC ani úplné operační TO&E jednotky.'
   ]);
 
+  put('ENG-EVT-0016',{title_cs:'Sea Breeze 26-2 propojuje ženijní potápěče British Army, Royal Navy EOD&S a EOD ukrajinského námořnictva'});
+  put('ENG-EVT-0022',{title_cs:'ROK Engineer School — ukázka ostrých demoličních prací'});
+  put('ENG-EVT-0025',{title_cs:'130th Engineer Brigade — výcvik v řízení signatury a maskování'});
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1316-mapping-quarantine',processed_ids:['ENG-UNIT-0014'],fully_translated:0,partially_translated:0,review_needed:1,scope:'Historical quarantine pending mapping resolution.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1530-mapping-resolution',processed_ids:['ENG-UNIT-0014'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Resolve historical ID mapping from materialized canonical runtime: ENG-UNIT-0014 title is ROK Army 1115 Engineer Group baseline. Restore matching Czech presentation overlay and claim translations; English fields and factual classifications unchanged.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1919-sig-backlog',processed_ids:['ENG-SIG-0003','ENG-SIG-0008'],fully_translated:2,partially_translated:0,review_needed:0,scope:'SIG priority; translate the sole missing title_cs for two audited U.S. autonomy/AI technology signals while preserving program names, English/base fields and maturity caveats.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0003','ENG-SIG-0008','ENG-SIG-0006','ENG-UNIT-0014'],review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0014'],version:'1.5',last_batch:'2026-08-18-1919-sig-backlog'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-19-1839-evt-backlog',processed_ids:['ENG-EVT-0016','ENG-EVT-0022','ENG-EVT-0025'],fully_translated:3,partially_translated:0,review_needed:0,scope:'EVT priority; translate the sole missing title_cs for exact audited Sea Breeze 26-2, ROK Engineer School and 130th Engineer Brigade runtime records. Preserve English/base fields, classifications, temporal status and evidence meaning.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_USA_ROK__={translated_entities:['ENG-SIG-0003','ENG-SIG-0008','ENG-SIG-0006','ENG-UNIT-0014','ENG-EVT-0016','ENG-EVT-0022','ENG-EVT-0025'],review_needed_entities:[],resolved_mapping_entities:['ENG-UNIT-0014'],version:'1.6',last_batch:'2026-08-19-1839-evt-backlog'};
 })();
