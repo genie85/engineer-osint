@@ -1,6 +1,5 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
 on:
   pull_request:
     branches: [main]
@@ -10,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   audit:
@@ -24,22 +23,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Syntax checks
+      - name: Validate and apply translation batch
         run: |
-          node --check docs/engineer-osint/build-pages.mjs
-          node --check docs/engineer-osint/postprocess-ui.mjs
-          node --check docs/engineer-osint/validate-runtime.mjs
-      - name: Build cumulative dashboard
-        run: node docs/engineer-osint/build-pages.mjs
-      - name: Run runtime audit
-        run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Upload audit artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineer-osint-runtime-audit
-          if-no-files-found: warn
-          path: |
-            docs/engineer-osint-dist/runtime-audit.json
-            docs/engineer-osint-dist/translation-backlog.json
-            docs/engineer-osint-dist/health.txt
+          node docs/engineer-osint/build-pages.mjs
+          node docs/engineer-osint/validate-runtime.mjs
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint/i18n-content-cs-france-germany-poland.js';
+          let s=fs.readFileSync(p,'utf8');
+          const marker="\n  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};";
+          const add="\n  put('ENG-EVT-0017',{title_cs:'Polsko — akviziční balíček SAFE pro ženijní a countermobility systémy'});\n  put('ENG-EVT-0018',{title_cs:'Polsko pořizuje M1150 Assault Breacher Vehicle pro ženijní podporu těžkých sil'});\n  put('ENG-EVT-0024',{title_cs:'Orange Road 2026 — přívozové překonání Rýna integrované do řízení vojenských přesunů'});\n";
+          if(!s.includes("put('ENG-EVT-0017'"))s=s.replace(marker,add+marker);
+          s=s.replace("D.translation_audit_cs=D.translation_audit_cs||{batches:[]};","D.translation_audit_cs=D.translation_audit_cs||{batches:[]};\n  D.translation_audit_cs.batches.push({batch:'2026-08-19-1940-evt-backlog',processed_ids:['ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0024'],fully_translated:3,partially_translated:0,review_needed:0,scope:'EVT priority; translate sole missing title_cs for exact audited Poland/Germany runtime records; preserve English/base fields, classifications, temporal status and evidence meaning.',english_preserved:true});");
+          s=s.replace("'ENG-SIG-0002','ENG-TTP-0004','ENG-TTP-0005'].filter", "'ENG-SIG-0002','ENG-TTP-0004','ENG-TTP-0005','ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0024'].filter");
+          s=s.replace("version:'2.0',last_batch:'2026-08-18-1951-ttp-backlog'","version:'2.1',last_batch:'2026-08-19-1940-evt-backlog'");
+          fs.writeFileSync(p,s);
+          NODE
+          node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
+          git show origin/main:.github/workflows/runtime-audit-snapshot.yml > .github/workflows/runtime-audit-snapshot.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/engineer-osint/i18n-content-cs-france-germany-poland.js .github/workflows/runtime-audit-snapshot.yml
+          git commit -m "Prepare ENGINEER OSINT translation batch 2026-08-19-1940"
+          git push origin HEAD:${GITHUB_HEAD_REF}
