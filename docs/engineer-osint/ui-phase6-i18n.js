@@ -2,23 +2,52 @@
   const D=window.__ENGINEER_DATA__,I=window.__ENGINEER_I18N__;
   if(!D||!I)return;
   const KEY='engineer_osint_language',EXPLICIT_KEY='engineer_osint_language_user_selected',DEFAULT_LANG=I.default_language||'cs';
-  const entities=()=>[...(D.records?.records||[]),...(D.leads?.leads||[])];
+  const extras=()=>D.dashboard_patch_extras||{};
+  const entities=()=>[...(D.records?.records||[]),...(D.leads?.leads||[]),...(extras().updated_records||[]),...(extras().external_leads||[])];
   const currentLang=()=>localStorage.getItem(EXPLICIT_KEY)==='1'?(localStorage.getItem(KEY)||DEFAULT_LANG):DEFAULT_LANG;
   if(localStorage.getItem(EXPLICIT_KEY)!=='1')localStorage.setItem(KEY,DEFAULT_LANG);
-  const SCALAR_KEYS=['title','summary','description','note','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_does_not_prove','analytical_interpretation'];
+  const SCALAR_KEYS=['title','summary','description','note','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit'];
   const ARRAY_KEYS=['intelligence_gaps'];
+  const STATIC_CS={
+    'FACT / EVIDENCE':'FAKTA / DŮKAZY',
+    'FACT / EVIDENCE ':'FAKTA / DŮKAZY',
+    'ANALYTICAL INTERPRETATION':'ANALYTICKÁ INTERPRETACE',
+    'LIMIT':'OMEZENÍ',
+    'CURRENT CHANGES':'AKTUÁLNÍ ZMĚNY',
+    'Current changes':'Aktuální změny',
+    'P1 Leads':'P1 leady',
+    'LEADS':'LEADY',
+    'Sources':'Zdroje',
+    'Source':'Zdroj',
+    'Evidence':'Důkazy',
+    'Summary':'Shrnutí',
+    'Description':'Popis',
+    'Intelligence gaps':'Informační mezery',
+    'INTELLIGENCE GAPS':'INFORMAČNÍ MEZERY',
+    'Why it matters':'Proč je to důležité',
+    'Staff relevance':'Relevance pro štáb',
+    'Training relevance':'Relevance pro výcvik',
+    'Operational evidence':'Operační důkazy',
+    'No data':'Žádná data',
+    'No explicit gaps recorded.':'Nejsou zaznamenány žádné explicitní informační mezery.'
+  };
   function ensureOrig(e){if(!e.__orig){e.__orig={};for(const k of [...SCALAR_KEYS,...ARRAY_KEYS])e.__orig[k]=e[k]}}
   function pick(e,key,lang=currentLang()){
     if(!e)return '';
     ensureOrig(e);
-    if(lang==='cs')return e[key+'_cs']??e[key]??e[key+'_en']??e.__orig[key]??'';
+    if(lang==='cs'){
+      if(e[key+'_cs']!==undefined)return e[key+'_cs'];
+      if((key==='fact'||key==='analysis')&&e.__orig[key]&&e.__orig.summary&&e.__orig[key]===e.__orig.summary&&e.summary_cs!==undefined)return e.summary_cs;
+      if(key==='limit'&&e.__orig.limit&&e.__orig.what_it_does_not_prove&&e.__orig.limit===e.__orig.what_it_does_not_prove&&e.what_it_does_not_prove_cs!==undefined)return e.what_it_does_not_prove_cs;
+      return e[key]??e[key+'_en']??e.__orig[key]??'';
+    }
     return e[key+'_en']??e.__orig[key]??e[key]??e[key+'_cs']??'';
   }
   function localizeClaims(e,lang){if(!Array.isArray(e?.claims))return;for(const c of e.claims){if(!c.__orig_text)c.__orig_text=c.text;const v=lang==='cs'?(c.text_cs??c.text??c.text_en??c.__orig_text):(c.text_en??c.__orig_text??c.text??c.text_cs);if(v!==undefined&&v!=='')c.text=v}}
   function applyEntity(lang){for(const e of entities()){ensureOrig(e);for(const key of [...SCALAR_KEYS,...ARRAY_KEYS]){const val=pick(e,key,lang);if(val!==''&&val!==undefined)e[key]=val}localizeClaims(e,lang)}}
   let sw=document.getElementById('engineerLanguageSwitch');
   if(!sw){sw=document.createElement('div');sw.id='engineerLanguageSwitch';sw.style.cssText='position:fixed;top:10px;right:12px;z-index:1300;background:#0b141fdd;border:1px solid #33485f;border-radius:10px;padding:4px;display:flex;gap:3px';sw.innerHTML='<button type="button" data-lang="cs">CZ</button><button type="button" data-lang="en">EN</button>';for(const b of sw.querySelectorAll('button'))b.style.cssText='border:0;border-radius:7px;background:transparent;color:#91a3b8;padding:7px 9px;font-weight:800;cursor:pointer';document.body.appendChild(sw)}
-  function translateStatic(root,lang){const d=I.ui?.cs||{},nodes=root.querySelectorAll('button,a,h1,h2,h3,h4,label,span,div');for(const el of nodes){if(el.id==='engineerLanguageSwitch'||el.closest('#engineerLanguageSwitch')||el.closest('[data-i18n-managed="1"]'))continue;if(el.children.length)continue;const t=el.textContent?.trim();if(!t)continue;if(lang==='cs'){const key=el.dataset.i18nKey||t;if(d[key]){el.dataset.i18nKey=key;if(el.textContent!==d[key])el.textContent=d[key]}}else if(el.dataset.i18nKey){if(el.textContent!==el.dataset.i18nKey)el.textContent=el.dataset.i18nKey}}}
+  function translateStatic(root,lang){const d=I.ui?.cs||{},nodes=root.querySelectorAll('button,a,h1,h2,h3,h4,label,span,div');for(const el of nodes){if(el.id==='engineerLanguageSwitch'||el.closest('#engineerLanguageSwitch')||el.closest('[data-i18n-managed="1"]'))continue;if(el.children.length)continue;const t=el.textContent?.trim();if(!t)continue;if(lang==='cs'){const key=el.dataset.i18nKey||t,translated=d[key]||STATIC_CS[key];if(translated){el.dataset.i18nKey=key;if(el.textContent!==translated)el.textContent=translated}}else if(el.dataset.i18nKey){if(el.textContent!==el.dataset.i18nKey)el.textContent=el.dataset.i18nKey}}}
   function updateSwitch(lang){for(const b of sw.querySelectorAll('button[data-lang]')){b.style.background=b.dataset.lang===lang?'#284d78':'transparent';b.style.color=b.dataset.lang===lang?'#fff':'#91a3b8';b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')}}
   function updateFallbackBadges(lang){const R=D.records?.records||[];for(const el of document.querySelectorAll('[data-open]')){const existing=el.querySelector('.translation-fallback-badge');if(lang!=='cs'){if(existing)existing.remove();continue}const r=R.find(x=>x.id===el.dataset.open);if(r&&!r.title_cs&&!r.summary_cs&&!existing){const s=document.createElement('span');s.className='translation-fallback-badge';s.textContent=' EN FALLBACK';s.title='Český překlad této položky zatím není k dispozici';s.style.cssText='font-size:8px;color:#e7ca84;margin-left:5px';(el.querySelector('strong,h3,h2')||el).appendChild(s)}}}
   let busy=false,scheduled=false,timer=0;const observer=new MutationObserver(()=>queueDecorate()),observe=()=>observer.observe(document.body,{childList:true,subtree:true});
