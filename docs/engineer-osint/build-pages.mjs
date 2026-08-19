@@ -65,8 +65,10 @@ for(const p of patches){
     if(!x?.id)continue;
     const old=rm.get(x.id)||{};
     const merged={...old,...x,type:typeFor(x,old),run_id:old.run_id||p.state?.run_id||patch.state.run_id,last_update_run:p.state?.run_id||patch.state.run_id};
-    if(x.summary&&!merged.analysis)merged.analysis=x.summary;
-    if(x.summary&&!merged.fact)merged.fact=x.summary;
+    if(!merged.title&&merged.title_en)merged.title=merged.title_en;
+    if(!merged.summary&&merged.summary_en)merged.summary=merged.summary_en;
+    if(merged.summary&&!merged.analysis)merged.analysis=merged.summary;
+    if(merged.summary&&!merged.fact)merged.fact=merged.summary;
     if(x.source_ids)merged.source_ids=[...new Set([...(old.source_ids||[]),...x.source_ids])];
     const ots=old.temporal_observations||old.timeline_events||[],nts=x.temporal_observations||x.timeline_events||[];
     if(ots.length||nts.length){
@@ -183,23 +185,7 @@ const mobile=`<script>(function(){function i(){const s=document.getElementById('
 html=html.replace('</body>',mobile+'</body>');
 
 writeFileSync(join(o,'index.html'),html,'utf8');
-writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages
-run=${patch.state.run_id}
-status=SUCCESS
-source_attribution=data-enabled
-temporal_intelligence=enabled
-historical_backfill=enabled
-knowledge_graph=data-enabled
-evidence_registry=data-enabled
-external_source_pool=enabled
-patch_history_materialization=enabled
-patch_continuity=complete
-patch_history_runs=${patches.length}
-presentation_fact_overlay_gap=open
-presentation_bootstrap_pb_overlay=retired
-mobile_menu_fix=enabled
-bytes=${Buffer.byteLength(html)}
-`,'utf8');
+writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\ntemporal_intelligence=enabled\nhistorical_backfill=enabled\nknowledge_graph=data-enabled\nevidence_registry=data-enabled\nexternal_source_pool=enabled\npatch_history_materialization=enabled\npatch_continuity=complete\npatch_history_runs=${patches.length}\npresentation_fact_overlay_gap=open\npresentation_bootstrap_pb_overlay=retired\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');
 writeFileSync(join(o,'.nojekyll'),'','utf8');
 execFileSync(process.execPath,[join(s,'postprocess-ui.mjs')],{stdio:'inherit'});
 const healthPath=join(o,'health.txt');
