@@ -32,16 +32,21 @@ jobs:
         run: node docs/engineer-osint/build-pages.mjs
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Extract translation source records
+      - name: Prepare translation candidate
         run: |
           node - <<'NODE'
           const fs=require('fs');
-          const h=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8');
-          const m='window.__ENGINEER_DATA__='; const a=h.indexOf(m), b=h.indexOf(';</script>',a);
-          const d=JSON.parse(h.slice(a+m.length,b));
-          const ids=new Set(['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0020','ENG-EVT-0024','ENG-EVT-0026','ENG-UNIT-0021','ENG-SIG-0005','ENG-TECH-0019']);
-          fs.writeFileSync('docs/engineer-osint-dist/translation-source-records.json',JSON.stringify((d.records?.records||[]).filter(x=>ids.has(x.id)),null,2));
+          const p='docs/engineer-osint/i18n-content-cs-france-germany-poland.js';
+          let s=fs.readFileSync(p,'utf8');
+          const marker="\n  D.translation_audit_cs=D.translation_audit_cs||{batches:[]};";
+          const add="\n  put('ENG-EVT-0017',{title_cs:'Polsko — akviziční balíček SAFE pro ženijní a countermobility systémy'});\n  put('ENG-EVT-0018',{title_cs:'Polsko pořizuje M1150 Assault Breacher Vehicle pro ženijní podporu těžkých sil'});\n  put('ENG-EVT-0024',{title_cs:'Orange Road 2026 — přívozové překonání Rýna integrované do řízení vojenských přesunů'});\n";
+          if(!s.includes("put('ENG-EVT-0017'"))s=s.replace(marker,add+marker);
+          s=s.replace("D.translation_audit_cs=D.translation_audit_cs||{batches:[]};","D.translation_audit_cs=D.translation_audit_cs||{batches:[]};\n  D.translation_audit_cs.batches.push({batch:'2026-08-19-1940-evt-backlog',processed_ids:['ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0024'],fully_translated:3,partially_translated:0,review_needed:0,scope:'EVT priority; translate sole missing title_cs for exact audited Poland/Germany runtime records; preserve English/base fields, classifications, temporal status and evidence meaning.',english_preserved:true});");
+          s=s.replace("version:'2.0',last_batch:'2026-08-18-1951-ttp-backlog'","version:'2.1',last_batch:'2026-08-19-1940-evt-backlog'");
+          s=s.replace("'ENG-TTP-0004','ENG-TTP-0005'","'ENG-TTP-0004','ENG-TTP-0005','ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0024'");
+          fs.writeFileSync('/tmp/i18n-content-cs-france-germany-poland.js',s);
           NODE
+          node --check /tmp/i18n-content-cs-france-germany-poland.js
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -51,5 +56,5 @@ jobs:
           path: |
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
-            docs/engineer-osint-dist/translation-source-records.json
+            /tmp/i18n-content-cs-france-germany-poland.js
             docs/engineer-osint-dist/health.txt
