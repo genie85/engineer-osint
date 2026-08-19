@@ -56,6 +56,10 @@
     intelligence_gaps_cs:['Úplná současná organizační struktura squadrony','Počet EOD týmů a jejich readiness','Vztah k dalším australským EOD prvkům','Přesné kvalifikační vazby na NATO EOD/EOC/EOR']
   });
 
+  put('ENG-EVT-0008',{title_cs:'Australský 3 CER zahájil hodnocení M1150 ABV a M1110 Joint Assault Bridge'});
+  put('ENG-EVT-0009',{title_cs:'Operation Render Safe — integrace ženistů a EOD při odstraňování výbušných pozůstatků války v Pacifiku'});
+  put('ENG-EVT-0010',{title_cs:'Austrálie pokračuje v integrovaném výcvikovém systému bojových ženistů'});
+
   put('ENG-EVT-0023',{
     title_cs:'Diamond Dagger — integrace ženistů, UAS a counter-UAS',
     summary_cs:'Australský výcvikový datapoint z Diamond Dagger zachycuje propojení ženijních prvků s bezpilotními prostředky a opatřeními proti UAS. Jde o výcvikový a adaptační signál, nikoli automaticky o doklad plošně zavedené standardní sestavy.',
@@ -77,10 +81,11 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1618-unit-title-backlog',processed_ids:['ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028'],fully_translated:8,partially_translated:0,review_needed:0,scope:'Translate sole missing public field title_cs for eight Japanese ENG-UNIT records; preserve official JGSDF names and canonical English/base data.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1802-tech-backlog',processed_ids:['ENG-TECH-0006'],fully_translated:1,partially_translated:0,review_needed:0,scope:'Translate the sole missing public title_cs for the JGSDF 07 Type Mobile Support Bridge baseline while preserving the official Japanese designation and English/base data.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0020'],fully_translated:1,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing title_cs for the canonical JGSDF Type 83 mine-laying system while preserving the Japanese designation and countermobility meaning.',english_preserved:true});
+  D.translation_audit_cs.batches.push({batch:'2026-08-19-1452-au-evt-backlog',processed_ids:['ENG-EVT-0008','ENG-EVT-0009','ENG-EVT-0010'],fully_translated:3,partially_translated:0,review_needed:0,scope:'EVT priority; translate exact audited B14 Australian event title fields only; preserve English/base fields, classifications, temporal status and evidentiary meaning.',english_preserved:true});
   window.__ENGINEER_I18N_CONTENT_CS_JAPAN_AU__={
-    translated_entities:['ENG-TECH-0006','ENG-TECH-0020','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-EVT-0023','ENG-TTP-0001'],
+    translated_entities:['ENG-TECH-0006','ENG-TECH-0020','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0018','ENG-UNIT-0015','ENG-UNIT-0016','ENG-UNIT-0017','ENG-UNIT-0018','ENG-UNIT-0023','ENG-UNIT-0024','ENG-UNIT-0025','ENG-UNIT-0026','ENG-UNIT-0027','ENG-UNIT-0028','ENG-EVT-0008','ENG-EVT-0009','ENG-EVT-0010','ENG-EVT-0023','ENG-TTP-0001'],
     review_needed_entities:['ENG-TECH-0019'],
-    version:'1.4',
-    last_batch:'2026-08-18-1848-tech-backlog'
+    version:'1.5',
+    last_batch:'2026-08-19-1452-au-evt-backlog'
   };
 })();
