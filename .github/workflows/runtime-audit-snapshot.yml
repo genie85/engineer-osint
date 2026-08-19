@@ -29,8 +29,11 @@ jobs:
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
           node --check docs/engineer-osint/validate-runtime.mjs
+          node --check docs/engineer-osint/audit-extract-translation-candidates.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Extract translation candidates
+        run: node docs/engineer-osint/audit-extract-translation-candidates.mjs
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
