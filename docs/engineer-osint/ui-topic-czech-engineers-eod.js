@@ -4,12 +4,13 @@
   const btn=document.createElement('button');
   btn.id='engineerCzechTopicBtn';
   btn.type='button';
-  btn.textContent='Topic: Czech Republic / Engineers & EOD';
+  const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||localStorage.getItem('engineer_osint_language')||'cs';
+  const setBtnLabel=()=>{btn.textContent=lang()==='cs'?'Téma: Česká republika / ženisté a EOD':'Topic: Czech Republic / Engineers & EOD'};
+  setBtnLabel();
   btn.style.cssText='display:block;width:100%;text-align:left;border:0;background:transparent;color:#91a3b8;padding:10px 12px';
   btn.onclick=()=>{
     const v=document.getElementById('view'); if(!v)return;
-    const lang=(window.ENGINEER_I18N?.getLanguage?.()||localStorage.getItem('engineer_osint_language')||'en');
-    const cs=lang==='cs';
+    const cs=lang()==='cs';
     const title=cs?'Česká republika — ženijní síly a EOD':'Czech Republic — Engineers & EOD';
     document.getElementById('pageTitle').textContent=title;
     const blocks=[
@@ -34,9 +35,10 @@
         url:'https://acr.mo.gov.cz/informacni-servis/zpravodajstvi/do-bechyne-nove-s-naborakem--shani-i-pyrotechniky--potapece-ci-pruzkumniky-256943/'
       }
     ];
-    v.innerHTML='<section class="card section"><div class="mono">PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION</div><h2>'+title+'</h2><p class="muted">'+(cs?'Syntetický pohled nad ověřenými veřejnými zdroji AČR/MO. Není to náhrada kanonických ENG záznamů ani úplné TO&E.':'Synthetic view over verified public Czech Armed Forces / MoD sources. It is not a replacement for canonical ENG records and is not a complete TO&E.')+'</p>'+
+    v.innerHTML='<section class="card section"><div class="mono">'+(cs?'PREZENTAČNÍ OBOHACENÍ ČEKAJÍCÍ NA KANONIKALIZACI':'PRESENTATION_ENRICHMENT_PENDING_CANONICALIZATION')+'</div><h2>'+title+'</h2><p class="muted">'+(cs?'Syntetický pohled nad ověřenými veřejnými zdroji AČR/MO. Není to náhrada kanonických ENG záznamů ani úplné TO&E.':'Synthetic view over verified public Czech Armed Forces / MoD sources. It is not a replacement for canonical ENG records and is not a complete TO&E.')+'</p>'+
       blocks.map(b=>'<article class="item"><h3>'+b.h+'</h3><p>'+b.p+'</p><div><b>'+(cs?'ZDROJ':'SOURCE')+':</b><br><a href="'+b.url+'" target="_blank" rel="noopener">'+b.url+'</a></div></article>').join('')+
-      '<article class="item"><h3>'+(cs?'Co z toho nelze tvrdit':'What this does not establish')+'</h3><p>'+(cs?'Veřejné zdroje samy o sobě nedávají úplné současné TO&E, přesný počet EOD týmů, úplný C2 model, certifikační stupně ani přesný one-to-one převod českých národních kvalifikací na NATO EOD/EOC/EOR. Tyto oblasti zůstávají intelligence gaps pro další OSINT.':'The public sources do not by themselves provide a complete current TO&E, exact number of EOD teams, full C2 model, certification levels, or a one-to-one mapping of Czech national qualifications to NATO EOD/EOC/EOR. These remain intelligence gaps for further OSINT.')+'</p></article></section>';
+      '<article class="item"><h3>'+(cs?'Co z toho nelze tvrdit':'What this does not establish')+'</h3><p>'+(cs?'Veřejné zdroje samy o sobě nedávají úplné současné TO&E, přesný počet EOD týmů, úplný C2 model, certifikační stupně ani přesný one-to-one převod českých národních kvalifikací na NATO EOD/EOC/EOR. Tyto oblasti zůstávají informačními mezerami pro další OSINT.':'The public sources do not by themselves provide a complete current TO&E, exact number of EOD teams, full C2 model, certification levels, or a one-to-one mapping of Czech national qualifications to NATO EOD/EOC/EOR. These remain intelligence gaps for further OSINT.')+'</p></article></section>';
   };
+  document.addEventListener('engineer-language-changed',setBtnLabel);
   nav.appendChild(btn);
 })();
