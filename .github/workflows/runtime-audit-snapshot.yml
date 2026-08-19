@@ -1,6 +1,5 @@
 name: ENGINEER OSINT runtime audit snapshot
 
-# PR audit trigger 2026-08-18T15:00+02:00
 on:
   pull_request:
     branches: [main]
@@ -31,6 +30,11 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Translation diagnostics
+        run: |
+          node - <<'NODE'
+          const fs=require('fs'); const s=fs.readFileSync('docs/engineer-osint-dist/index.html','utf8'); const m='window.__ENGINEER_DATA__='; const a=s.indexOf(m),b=s.indexOf(';</script>',a); const d=JSON.parse(s.slice(a+m.length,b)); const ids=new Set(['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0016','ENG-EVT-0017','ENG-EVT-0018','ENG-EVT-0020']); for(const r of d.records.records)if(ids.has(r.id))console.log('TRANSLATION_RECORD '+JSON.stringify(r));
+          NODE
       - name: Run runtime audit
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Upload audit artifact
