@@ -5,40 +5,47 @@
   const ver=(run.match(/-B(\d+)$/)||[])[1];
   const raw=st.window_to||st.completed_at||st.updated_at||null;
   const promptVer=st.master_prompt_version||st.master_prompt?.version||null;
+  const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||localStorage.getItem('engineer_osint_language')||'cs';
 
-  function formatPrague(value){
-    if(!value)return 'neuvedeno';
+  function formatPrague(value,l=lang()){
+    if(!value)return l==='cs'?'neuvedeno':'not specified';
     const d=new Date(value);
     if(Number.isNaN(d.getTime()))return String(value);
     try{
-      return new Intl.DateTimeFormat('cs-CZ',{
+      return new Intl.DateTimeFormat(l==='cs'?'cs-CZ':'en-GB',{
         timeZone:'Europe/Prague',day:'2-digit',month:'2-digit',year:'numeric',
         hour:'2-digit',minute:'2-digit',hour12:false,timeZoneName:'short'
       }).format(d).replace(',', '');
     }catch{return String(value)}
   }
 
-  function install(){
-    if(document.getElementById('engineerVersionStatus'))return;
-    const badge=document.createElement('div');
-    badge.id='engineerVersionStatus';
-    badge.setAttribute('role','status');
-    badge.setAttribute('aria-label','Verze a poslední aktualizace ENGINEER OSINT');
-    badge.innerHTML=`<span class="evs-label">Verze dat</span><strong>${ver?'B'+ver:(run||'—')}</strong><span class="evs-sep">·</span><span class="evs-label">Aktualizováno</span><strong>${formatPrague(raw)}</strong>`;
-    badge.title=`Kanonický běh: ${run||'neuveden'}${promptVer?`\nMaster prompt: v${promptVer}`:''}`;
+  function renderBadge(badge){
+    const cs=lang()==='cs';
+    badge.setAttribute('aria-label',cs?'Verze a poslední aktualizace ENGINEER OSINT':'ENGINEER OSINT version and last update');
+    badge.innerHTML=`<span class="evs-label">${cs?'Verze dat':'Data version'}</span><strong>${ver?'B'+ver:(run||'—')}</strong><span class="evs-sep">·</span><span class="evs-label">${cs?'Aktualizováno':'Updated'}</span><strong>${formatPrague(raw,cs?'cs':'en')}</strong>`;
+    badge.title=`${cs?'Kanonický běh':'Canonical run'}: ${run||(cs?'neuveden':'not specified')}${promptVer?`\nMaster prompt: v${promptVer}`:''}`;
+  }
 
-    const candidates=[
-      document.querySelector('header'),
-      document.querySelector('.topbar'),
-      document.querySelector('.header'),
-      document.querySelector('.page-header'),
-      document.querySelector('main h1')?.parentElement,
-      document.querySelector('.main'),
-      document.querySelector('main'),
-      document.body
-    ].filter(Boolean);
-    const host=candidates[0]||document.body;
-    host.appendChild(badge);
+  function install(){
+    let badge=document.getElementById('engineerVersionStatus');
+    if(!badge){
+      badge=document.createElement('div');
+      badge.id='engineerVersionStatus';
+      badge.setAttribute('role','status');
+      const candidates=[
+        document.querySelector('header'),
+        document.querySelector('.topbar'),
+        document.querySelector('.header'),
+        document.querySelector('.page-header'),
+        document.querySelector('main h1')?.parentElement,
+        document.querySelector('.main'),
+        document.querySelector('main'),
+        document.body
+      ].filter(Boolean);
+      const host=candidates[0]||document.body;
+      host.appendChild(badge);
+    }
+    renderBadge(badge);
   }
 
   const css=document.createElement('style');
@@ -49,5 +56,6 @@
 @media(max-width:700px){#engineerVersionStatus{margin:8px 10px;padding:6px 9px;font-size:11px;border-radius:10px;width:auto}.evs-sep{display:none}#engineerVersionStatus .evs-label:nth-of-type(2){margin-left:4px}}
 `;
   if(!document.getElementById(css.id))document.head.appendChild(css);
+  document.addEventListener('engineer-language-changed',()=>{const badge=document.getElementById('engineerVersionStatus');if(badge)renderBadge(badge)});
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',install,{once:true}):install();
 })();
