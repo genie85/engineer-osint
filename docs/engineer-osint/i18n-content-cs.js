@@ -47,6 +47,10 @@
   put('ENG-EVT-0001',{title_cs:'30th NATO Military Engineering Working Group — 30. pracovní skupina NATO pro vojenské ženijní zabezpečení'});
   put('ENG-EVT-0002',{title_cs:'70th NATO EOD Working Group — schválení standardizačních návrhů',intelligence_gaps_cs:['Přesné označení a konečný stav pozdější přílohy EOC / návrhu studie zůstávají ve veřejně dostupných materiálech nevyřešeny.']});
   put('ENG-EVT-0003',{title_cs:'AJP-3.18 — workshop k datové fúzi'});
+  put('ENG-EVT-0004',{title_cs:'Ukrajina přesouvá prioritizaci humanitárního odminování do digitálního a GIS plánování'});
+  put('ENG-EVT-0005',{title_cs:'Ukrajina rozšiřuje fyzickou ochranu logistických tras proti dronům'});
+  put('ENG-EVT-0006',{title_cs:'Ukrajina cvičí odminovací jednotky v kombinovaném využití UAV a specializovaných magnetometrů'});
+  put('ENG-EVT-0007',{title_cs:'Demining Capability Coalition — podrobnosti o vybavení a fondu pro rok 2026 a upřesnění smíšeného kontextu'});
   put('ENG-EVT-0014',{title_cs:'Combined Annual Discipline Conference — sladění vzdělávání a výcviku MILENG, C-IED a EOD pro období 2026–2029'});
   put('ENG-EVT-0015',{title_cs:'11th EOD Workshop 2026 — důraz na adaptaci v polních podmínkách a pokročilé technologie'});
 
@@ -61,5 +65,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1848-tech-backlog',processed_ids:['ENG-TECH-0002','ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0007','ENG-TECH-0008','ENG-TECH-0009','ENG-TECH-0010'],fully_translated:7,partially_translated:0,review_needed:0,scope:'TECH priority; translate the sole missing public title_cs for audited India, Russia and China runtime records; preserve unresolved-designation caveats, official descriptors, English/base fields and evidentiary classifications',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1919-sig-backlog',processed_ids:['ENG-SIG-0001','ENG-SIG-0004','ENG-SIG-0005'],fully_translated:2,partially_translated:0,review_needed:1,scope:'SIG priority; translate the sole missing title_cs for two unambiguous audited runtime records. ENG-SIG-0005 remains TRANSLATION_REVIEW_NEEDED because its canonical title is only the record ID; no inferred title is introduced.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-19-1406-evt-backlog',processed_ids:['ENG-EVT-0001','ENG-EVT-0002','ENG-EVT-0003','ENG-EVT-0014','ENG-EVT-0015'],fully_translated:5,partially_translated:0,review_needed:0,scope:'EVT priority; translate exact audited B13 runtime titles for five NATO events and the sole missing intelligence_gaps_cs on ENG-EVT-0002. Preserve official event names, English/base fields, classifications, temporal status and evidentiary meaning.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),review_needed_entities:['ENG-SIG-0005'],version:'2.0',last_batch:'2026-08-19-1406-evt-backlog'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-19-1458-ukraine-evt-backlog',processed_ids:['ENG-EVT-0004','ENG-EVT-0005','ENG-EVT-0006','ENG-EVT-0007'],fully_translated:4,partially_translated:0,review_needed:0,scope:'EVT priority; translate exact audited B14 Ukrainian event title fields only; preserve English/base fields, humanitarian-versus-military mine-action context, classifications, temporal status and evidentiary meaning.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),review_needed_entities:['ENG-SIG-0005'],version:'2.1',last_batch:'2026-08-19-1458-ukraine-evt-backlog'};
 })();
