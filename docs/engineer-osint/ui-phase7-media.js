@@ -11,8 +11,8 @@ const pick=(r,k)=>window.ENGINEER_I18N?.pick?.(r,k)??(lang()==='cs'?(r?.[k+'_cs'
 const esc=s=>String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));
 const arr=x=>Array.isArray(x)?x:(x?[x]:[]);
 const mediaTypeCs={MEDIA:'MÉDIUM',VIDEO:'VIDEO',YOUTUBE:'YOUTUBE',WEBINAR:'WEBINÁŘ',CONFERENCE:'KONFERENCE',DEMO:'DEMONSTRACE',PODCAST:'PODCAST',AUDIO:'AUDIO'};
-const visualLevelCs={PRIMARY:'PRIMÁRNÍ',SECONDARY:'SEKUNDÁRNÍ',TERTIARY:'TERCIÁRNÍ',DIRECT:'PŘÍMÝ',INDIRECT:'NEPŘÍMÝ',UNKNOWN:'NEZNÁMÉ'};
-const observationBasisCs={DIRECT_OBSERVATION:'PŘÍMÉ POZOROVÁNÍ',SOURCE_DESCRIPTION:'POPIS VE ZDROJI',CAPTION:'POPISEK',IMAGE_ANALYSIS:'ANALÝZA OBRAZU',VIDEO_ANALYSIS:'ANALÝZA VIDEA',INFERENCE:'ODVOZENÝ ZÁVĚR',UNKNOWN:'NEZNÁMÉ'};
+const visualLevelCs={PRIMARY:'PRIMÁRNÍ',SECONDARY:'SEKUNDÁRNÍ',TERTIARY:'TERCIÁRNÍ',DIRECT:'PŘÍMÝ',INDIRECT:'NEPŘÍMÝ',VIS_LINK:'VIZUÁLNÍ ODKAZ','VIS-LINK':'VIZUÁLNÍ ODKAZ',UNKNOWN:'NEZNÁMÉ'};
+const observationBasisCs={DIRECT_OBSERVATION:'PŘÍMÉ POZOROVÁNÍ',SOURCE_DESCRIPTION:'POPIS VE ZDROJI',CAPTION:'POPISEK',OFFICIAL_CAPTION_ONLY:'POUZE OFICIÁLNÍ POPISEK',IMAGE_ANALYSIS:'ANALÝZA OBRAZU',VIDEO_ANALYSIS:'ANALÝZA VIDEA',INFERENCE:'ODVOZENÝ ZÁVĚR',UNKNOWN:'NEZNÁMÉ'};
 const enumLabel=(v,map)=>lang()==='cs'?(map[String(v||'').toUpperCase()]||v):v;
 function related(x,id){return arr(x.related_ids||x.related_id||x.entity_ids||x.record_ids).includes(id)||arr(x.related).includes(id)}
 function imageUrl(x){return x.thumbnail_url||x.direct_image_url||x.image_url||x.media_url||x.preview_url||''}
