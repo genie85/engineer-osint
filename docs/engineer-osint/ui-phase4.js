@@ -4,7 +4,7 @@ const R=D.records?.records||[],S=new Map((D.sources?.sources||[]).map(x=>[x.id,x
 const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs',cs=(a,b)=>lang()==='cs'?a:b;
 const pick=(r,k)=>window.ENGINEER_I18N?.pick?.(r,k)??r?.[k]??'';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const classCs={FACT:'FAKT',INFERENCE:'INFERENCE',ASSESSMENT:'HODNOCENÍ',CLAIM:'TVRZENÍ',CONFIRMATION:'POTVRZENÍ',CONTRADICTION:'ROZPOR',CORRECTION:'OPRAVA'};
+const classCs={FACT:'FAKT',INFERENCE:'ODVOZENÝ ZÁVĚR',ASSESSMENT:'HODNOCENÍ',CLAIM:'TVRZENÍ',CONFIRMATION:'POTVRZENÍ',CONTRADICTION:'ROZPOR',CORRECTION:'OPRAVA'};
 const stageCs={CONCEPT:'KONCEPT',R_AND_D:'VÝZKUM A VÝVOJ',PROTOTYPE:'PROTOTYP',MILITARY_TESTING:'VOJENSKÉ ZKOUŠKY',LIMITED_FIELDING:'OMEZENÉ ZAVEDENÍ',OPERATIONAL:'OPERAČNÍ',WIDESPREAD:'ROZŠÍŘENÉ ZAVEDENÍ',UNKNOWN:'NEZNÁMÉ'};
 const enumLabel=(v,map)=>lang()==='cs'?(map[String(v||'').toUpperCase()]||v):v;
 function detail(){
