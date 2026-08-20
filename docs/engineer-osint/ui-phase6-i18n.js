@@ -9,6 +9,14 @@
   const SCALAR_KEYS=['title','summary','description','note','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit'];
   const ARRAY_KEYS=['intelligence_gaps'];
   const STATIC_CS={
+    'FACT':'FAKT',
+    'EVIDENCE':'DŮKAZY',
+    'CLAIM':'TVRZENÍ',
+    'ANALYSIS':'ANALÝZA',
+    'CONFIDENCE':'MÍRA JISTOTY',
+    'SOURCE QUALITY':'KVALITA ZDROJE',
+    'WHAT IT DOES NOT PROVE':'CO TO NEDOKLÁDÁ',
+    'WHAT THIS DOES NOT PROVE':'CO Z TOHO NELZE TVRDIT',
     'FACT / EVIDENCE':'FAKTA / DŮKAZY',
     'FACT / EVIDENCE ':'FAKTA / DŮKAZY',
     'ANALYTICAL INTERPRETATION':'ANALYTICKÁ INTERPRETACE',
@@ -130,7 +138,7 @@
   if(!sw){sw=document.createElement('div');sw.id='engineerLanguageSwitch';sw.style.cssText='position:fixed;top:10px;right:12px;z-index:1300;background:#0b141fdd;border:1px solid #33485f;border-radius:10px;padding:4px;display:flex;gap:3px';sw.innerHTML='<button type="button" data-lang="cs">CZ</button><button type="button" data-lang="en">EN</button>';for(const b of sw.querySelectorAll('button'))b.style.cssText='border:0;border-radius:7px;background:transparent;color:#91a3b8;padding:7px 9px;font-weight:800;cursor:pointer';document.body.appendChild(sw)}
   function translateStatic(root,lang){const d=I.ui?.cs||{},nodes=root.querySelectorAll('button,a,h1,h2,h3,h4,label,span,div');for(const el of nodes){if(el.id==='engineerLanguageSwitch'||el.closest('#engineerLanguageSwitch')||el.closest('[data-i18n-managed="1"]'))continue;if(el.children.length)continue;const t=el.textContent?.trim();if(!t)continue;if(lang==='cs'){const key=el.dataset.i18nKey||t,translated=d[key]||STATIC_CS[key];if(translated){el.dataset.i18nKey=key;if(el.textContent!==translated)el.textContent=translated}}else if(el.dataset.i18nKey){if(el.textContent!==el.dataset.i18nKey)el.textContent=el.dataset.i18nKey}}}
   function updateSwitch(lang){for(const b of sw.querySelectorAll('button[data-lang]')){b.style.background=b.dataset.lang===lang?'#284d78':'transparent';b.style.color=b.dataset.lang===lang?'#fff':'#91a3b8';b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')}}
-  function updateFallbackBadges(lang){const R=D.records?.records||[];for(const el of document.querySelectorAll('[data-open]')){const existing=el.querySelector('.translation-fallback-badge');if(lang!=='cs'){if(existing)existing.remove();continue}const r=R.find(x=>x.id===el.dataset.open);if(r&&!r.title_cs&&!r.summary_cs&&!existing){const s=document.createElement('span');s.className='translation-fallback-badge';s.textContent=' EN FALLBACK';s.title='Český překlad této položky zatím není k dispozici';s.style.cssText='font-size:8px;color:#e7ca84;margin-left:5px';(el.querySelector('strong,h3,h2')||el).appendChild(s)}}}
+  function updateFallbackBadges(lang){const R=D.records?.records||[];for(const el of document.querySelectorAll('[data-open]')){const existing=el.querySelector('.translation-fallback-badge');if(lang!=='cs'){if(existing)existing.remove();continue}const r=R.find(x=>x.id===el.dataset.open);if(r&&!r.title_cs&&!r.summary_cs&&!existing){const s=document.createElement('span');s.className='translation-fallback-badge';s.textContent=' CHYBÍ CZ · EN';s.title='Český překlad této položky zatím není k dispozici';s.style.cssText='font-size:8px;color:#e7ca84;margin-left:5px';(el.querySelector('strong,h3,h2')||el).appendChild(s)}}}
   let busy=false,scheduled=false,timer=0;const observer=new MutationObserver(()=>queueDecorate()),observe=()=>observer.observe(document.body,{childList:true,subtree:true});
   function decorateNow(){if(busy)return;busy=true;scheduled=false;clearTimeout(timer);observer.disconnect();try{const lang=currentLang();applyEntity(lang);document.documentElement.lang=lang==='cs'?'cs':'en';translateStatic(document,lang);repairRenderedDynamic(lang);updateSwitch(lang);updateFallbackBadges(lang)}finally{busy=false;observe()}}
   function queueDecorate(){if(busy||scheduled)return;scheduled=true;clearTimeout(timer);timer=setTimeout(()=>requestAnimationFrame(decorateNow),70)}
