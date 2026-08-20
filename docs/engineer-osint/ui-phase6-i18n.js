@@ -6,7 +6,7 @@
   const entities=()=>[...(D.records?.records||[]),...(D.leads?.leads||[]),...(extras().updated_records||[]),...(extras().external_leads||[])];
   const currentLang=()=>localStorage.getItem(EXPLICIT_KEY)==='1'?(localStorage.getItem(KEY)||DEFAULT_LANG):DEFAULT_LANG;
   if(localStorage.getItem(EXPLICIT_KEY)!=='1')localStorage.setItem(KEY,DEFAULT_LANG);
-  const SCALAR_KEYS=['title','summary','description','note','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit'];
+  const SCALAR_KEYS=['title','summary','update_summary','description','note','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit'];
   const ARRAY_KEYS=['intelligence_gaps'];
   const STATIC_CS={
     'FACT':'FAKT',
@@ -58,7 +58,7 @@
     const found=entities().filter(e=>(e?.id||e?.lead_id)===id);
     if(!found.length)return null;
     const merged=Object.assign({},...found);
-    const translated=found.find(e=>e.title_cs||e.summary_cs||e.description_cs||e.note_cs||e.what_it_does_not_prove_cs||e.analytical_interpretation_cs);
+    const translated=found.find(e=>e.title_cs||e.summary_cs||e.update_summary_cs||e.description_cs||e.note_cs||e.what_it_does_not_prove_cs||e.analytical_interpretation_cs);
     if(translated)for(const k of [...SCALAR_KEYS,...ARRAY_KEYS])if(merged[k+'_cs']===undefined&&translated[k+'_cs']!==undefined)merged[k+'_cs']=translated[k+'_cs'];
     const original=found.find(e=>e.__orig)||found[0];
     if(original?.__orig)merged.__orig={...original.__orig};
