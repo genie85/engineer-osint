@@ -37,8 +37,24 @@
     'Training relevance':'Relevance pro výcvik',
     'Operational evidence':'Operační důkazy',
     'No data':'Žádná data',
-    'No explicit gaps recorded.':'Nejsou zaznamenány žádné explicitní informační mezery.'
+    'No explicit gaps recorded.':'Nejsou zaznamenány žádné explicitní informační mezery.',
+    'PRIMARY_REPORT':'PRIMÁRNÍ ZPRÁVA',
+    'CORROBORATING_PRIMARY_REPORT':'POTVRZUJÍCÍ PRIMÁRNÍ ZPRÁVA',
+    'RECENT_HISTORICAL_BACKFILL':'DODATEČNĚ DOPLNĚNÝ NEDÁVNÝ HISTORICKÝ ZÁZNAM',
+    'CURRENTLY_ACCESSIBLE_2026_PROFILE_WITH_2025_PUBLICATION_DATE':'PROFIL DOSTUPNÝ V ROCE 2026, PUBLIKOVANÝ V ROCE 2025',
+    'HISTORICAL_TECHNOLOGY_SIGNAL_WITH_2026_PROGRAM_STATUS':'HISTORICKÝ TECHNOLOGICKÝ SIGNÁL SE STAVEM PROGRAMU Z ROKU 2026',
+    'PARTIALLY_VERIFIED':'ČÁSTEČNĚ OVĚŘENO',
+    'LINK_ONLY':'POUZE ODKAZ',
+    'METADATA_AND_OFFICIAL_DESCRIPTION_VERIFIED':'OVĚŘENA METADATA A OFICIÁLNÍ POPIS',
+    'OFFICIAL_CZECH_UGV_CONCEPT_ANNOUNCEMENT':'OFICIÁLNÍ OZNÁMENÍ KONCEPCE UGV AČR',
+    'OFFICIAL_GERMAN_ARMY_UNIT_PROFILE':'OFICIÁLNÍ PROFIL JEDNOTKY BUNDESWEHRU',
+    'DARPA_PROGRAM_AND_DEMONSTRATION_REPORT':'ZPRÁVA DARPA O PROGRAMU A DEMONSTRACI',
+    'OFFICIAL_DOD_VIDEO_EVENT_RECORD':'OFICIÁLNÍ VIDEOZÁZNAM UDÁLOSTI DOD',
+    'HIGH_FOR_ANNOUNCED_CONCEPT_AND_POLYGON_LOW_FOR_IMPLEMENTATION_DETAILS':'VYSOKÁ PRO OZNÁMENOU KONCEPCI A POLYGON; NÍZKÁ PRO PODROBNOSTI REALIZACE',
+    'HIGH_FOR_PUBLISHED_STRUCTURE_AND_ROLE_MEDIUM_HIGH_FOR_2026_CURRENTNESS_OF_EQUIPMENT_PROFILE':'VYSOKÁ PRO PUBLIKOVANOU STRUKTURU A ÚLOHU; STŘEDNĚ VYSOKÁ PRO AKTUÁLNOST PROFILU TECHNIKY V ROCE 2026',
+    'HIGH_FOR_DEMONSTRATION_AND_PROGRAM_STATUS_LOW_FOR_FIELDING':'VYSOKÁ PRO DEMONSTRACI A STAV PROGRAMU; NÍZKÁ PRO ZAVEDENÍ'
   };
+  const textNodeOrig=new WeakMap();
   function ensureOrig(e){if(!e.__orig){e.__orig={};for(const k of [...SCALAR_KEYS,...ARRAY_KEYS])e.__orig[k]=e[k]}}
   function pick(e,key,lang=currentLang()){
     if(!e)return '';
@@ -136,7 +152,22 @@
   }
   let sw=document.getElementById('engineerLanguageSwitch');
   if(!sw){sw=document.createElement('div');sw.id='engineerLanguageSwitch';sw.style.cssText='position:fixed;top:10px;right:12px;z-index:1300;background:#0b141fdd;border:1px solid #33485f;border-radius:10px;padding:4px;display:flex;gap:3px';sw.innerHTML='<button type="button" data-lang="cs">CZ</button><button type="button" data-lang="en">EN</button>';for(const b of sw.querySelectorAll('button'))b.style.cssText='border:0;border-radius:7px;background:transparent;color:#91a3b8;padding:7px 9px;font-weight:800;cursor:pointer';document.body.appendChild(sw)}
-  function translateStatic(root,lang){const d=I.ui?.cs||{},nodes=root.querySelectorAll('button,a,h1,h2,h3,h4,label,span,div');for(const el of nodes){if(el.id==='engineerLanguageSwitch'||el.closest('#engineerLanguageSwitch')||el.closest('[data-i18n-managed="1"]'))continue;if(el.children.length)continue;const t=el.textContent?.trim();if(!t)continue;if(lang==='cs'){const key=el.dataset.i18nKey||t,translated=d[key]||STATIC_CS[key];if(translated){el.dataset.i18nKey=key;if(el.textContent!==translated)el.textContent=translated}}else if(el.dataset.i18nKey){if(el.textContent!==el.dataset.i18nKey)el.textContent=el.dataset.i18nKey}}}
+  function translateInlineTokens(root,lang){
+    const tokenPairs=Object.entries(STATIC_CS).filter(([k])=>k.includes('_')).sort((a,b)=>b[0].length-a[0].length);
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()){
+      const n=walker.currentNode,p=n.parentElement;
+      if(!p||p.closest('#engineerLanguageSwitch')||p.closest('[data-i18n-managed="1"]')||['SCRIPT','STYLE'].includes(p.tagName))continue;
+      if(lang==='en'){
+        if(textNodeOrig.has(n)){n.nodeValue=textNodeOrig.get(n);textNodeOrig.delete(n)}
+        continue;
+      }
+      const original=n.nodeValue||'';let localized=original;
+      for(const [key,value] of tokenPairs)if(localized.includes(key))localized=localized.split(key).join(value);
+      if(localized!==original){if(!textNodeOrig.has(n))textNodeOrig.set(n,original);n.nodeValue=localized}
+    }
+  }
+  function translateStatic(root,lang){const d=I.ui?.cs||{},nodes=root.querySelectorAll('button,a,h1,h2,h3,h4,label,span,div');for(const el of nodes){if(el.id==='engineerLanguageSwitch'||el.closest('#engineerLanguageSwitch')||el.closest('[data-i18n-managed="1"]'))continue;if(el.children.length)continue;const t=el.textContent?.trim();if(!t)continue;if(lang==='cs'){const key=el.dataset.i18nKey||t,translated=d[key]||STATIC_CS[key];if(translated){el.dataset.i18nKey=key;if(el.textContent!==translated)el.textContent=translated}}else if(el.dataset.i18nKey){if(el.textContent!==el.dataset.i18nKey)el.textContent=el.dataset.i18nKey}}translateInlineTokens(root,lang)}
   function updateSwitch(lang){for(const b of sw.querySelectorAll('button[data-lang]')){b.style.background=b.dataset.lang===lang?'#284d78':'transparent';b.style.color=b.dataset.lang===lang?'#fff':'#91a3b8';b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')}}
   function updateFallbackBadges(lang){const R=D.records?.records||[];for(const el of document.querySelectorAll('[data-open]')){const existing=el.querySelector('.translation-fallback-badge');if(lang!=='cs'){if(existing)existing.remove();continue}const r=R.find(x=>x.id===el.dataset.open);if(r&&!r.title_cs&&!r.summary_cs&&!existing){const s=document.createElement('span');s.className='translation-fallback-badge';s.textContent=' CHYBÍ CZ · EN';s.title='Český překlad této položky zatím není k dispozici';s.style.cssText='font-size:8px;color:#e7ca84;margin-left:5px';(el.querySelector('strong,h3,h2')||el).appendChild(s)}}}
   let busy=false,scheduled=false,timer=0;const observer=new MutationObserver(()=>queueDecorate()),observe=()=>observer.observe(document.body,{childList:true,subtree:true});
