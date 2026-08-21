@@ -89,7 +89,13 @@
     PARTIAL_URL_VALIDATION:'ČÁSTEČNÁ VALIDACE URL',
     PRIMARY_OFFICIAL_NATO_REQUEST_DOCUMENT:'PRIMÁRNÍ OFICIÁLNÍ DOKUMENT NATO S ŽÁDOSTÍ',
     DIRECT_NATO_PDF_TEXT_AND_VISUAL_READBACK:'PŘÍMÉ OVĚŘENÍ TEXTU A VIZUÁLU PDF NATO',
-    PRIMARY_DOCUMENT:'PRIMÁRNÍ DOKUMENT'
+    PRIMARY_DOCUMENT:'PRIMÁRNÍ DOKUMENT',
+    HIGH_FOR_REQUEST_METADATA_AND_ITEMIZED_NEEDS:'VYSOKÁ PRO METADATA ŽÁDOSTI A POLOŽKOVĚ UVEDENÉ POTŘEBY',
+    DIRECT_DOCUMENT_PIXEL_INSPECTION:'PŘÍMÁ VIZUÁLNÍ KONTROLA DOKUMENTU NA ÚROVNI OBRAZU',
+    HIGH_FOR_DOCUMENT_VISUAL_CONTENT:'VYSOKÁ PRO VIZUÁLNÍ OBSAH DOKUMENTU',
+    EOD_ROBOTICS_REQUIREMENT_SIGNAL_NOT_FIELDING:'SIGNÁL POŽADAVKU NA EOD ROBOTIKU; NIKOLI DŮKAZ ZAVEDENÍ',
+    ANALYTICAL_OBSERVATION_NOT_OFFICIAL_NATO_LL:'ANALYTICKÉ POZOROVÁNÍ; NIKOLI OFICIÁLNÍ NATO LESSON LEARNED',
+    UKRAINE_DEMINING_CBRN_INTERAGENCY_TRAINING:'UKRAJINSKÝ MEZIRESORTNÍ VÝCVIK V ODMIŇOVÁNÍ A CBRN'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -113,6 +119,6 @@
   putLead('LEAD-B48-03',{topic_cs:'Video ArmyInform z 19. srpna 2026 k zásahu systému Zemledelie — původní řetězec video–datum–lokace a nezávislé vizuální potvrzení zůstávají nevyřešené'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0736-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-DOC-0054','ENG-EVID-0177','ENG-EVID-0178','ENG-SRC-0471','ENG-SRC-0472','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B48 late-discovered training, NATO EADRCC requirement, evidence/source status tokens and P1 Lead topics. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.9',last_batch:'2026-08-21-0736-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0836-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-DOC-0054','ENG-EVID-0177','ENG-EVID-0178','ENG-VIS-0092','B48-TREND-01','B48-LL-OBS-01'],fully_translated:7,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of remaining B48 evidence, visual, trend, lesson and source-role tokens; signal/assessment renderer support handled in ui-phase6-i18n.js. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.10',last_batch:'2026-08-21-0836-public-cz-ui'};
 })();
