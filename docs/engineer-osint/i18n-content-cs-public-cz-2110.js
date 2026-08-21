@@ -2,6 +2,7 @@
   const D=window.__ENGINEER_DATA__;if(!D)return;
   const ex=D.dashboard_patch_extras||{};
   const leads=[...(D.leads?.leads||[]),...(ex.leads||[]),...(ex.external_leads||[])];
+  const records=D.records?.records||[];
   const setLeadAll=(id,p)=>{let hit=false;for(const x of leads)if((x.lead_id||x.id)===id){Object.assign(x,p);x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';hit=true;}return hit;};
   const translated=[];
   if(setLeadAll('LEAD-025',{note_cs:'Rozměry nosiče 07MSB oproti rozměrům rozvinutého mostu zůstávají otázkou sémantiky metadat.'}))translated.push('LEAD-025');
@@ -21,5 +22,25 @@
   if(setLeadAll('LEAD-B33-04',{title_cs:'Aktuální ruské primární obrazové důkazy a důkazy o zavedení ženijních/EOD prostředků do výzbroje',topic_cs:'Aktuální ruské primární obrazové důkazy a důkazy o zavedení ženijních/EOD prostředků do výzbroje'}))translated.push('LEAD-B33-04');
   if(setLeadAll('LEAD-B34-02',{title_cs:'Uran-6 — primární důkazy z roku 2026 o zavedení do výzbroje, jednotce a počtu',topic_cs:'Uran-6 — primární důkazy z roku 2026 o zavedení do výzbroje, jednotce a počtu'}))translated.push('LEAD-B34-02');
   if(setLeadAll('LEAD-B34-03',{title_cs:'DALO ROCUS/SDZ — přímé oficiální důkazy z akce',topic_cs:'DALO ROCUS/SDZ — přímé oficiální důkazy z akce'}))translated.push('LEAD-B34-03');
+  if(setLeadAll('LEAD-B35-01',{title_cs:'Geolokovaný úder z 17.–18. srpna na ruské vozidlo pro kladení min u Sudži — primární obrazový řetězec',topic_cs:'Geolokovaný úder z 17.–18. srpna na ruské vozidlo pro kladení min u Sudži — primární obrazový řetězec'}))translated.push('LEAD-B35-01');
+  if(setLeadAll('LEAD-B35-02',{title_cs:'Navazující certifikace MKR-2 po 20. srpnu 2026',topic_cs:'Navazující certifikace MKR-2 po 20. srpnu 2026'}))translated.push('LEAD-B35-02');
+  if(setLeadAll('LEAD-B35-03',{title_cs:'Výstupy panelů pracovní skupiny NATO MilEng / přesná veřejná metadata změn STANAG',topic_cs:'Výstupy panelů pracovní skupiny NATO MilEng / přesná veřejná metadata změn STANAG'}))translated.push('LEAD-B35-03');
+  if(setLeadAll('LEAD-B36-01',{title_cs:'Oficiální týdenní ukazatele protiminové činnosti v Charkovské oblasti za 13.–19. srpna 2026',topic_cs:'Oficiální týdenní ukazatele protiminové činnosti v Charkovské oblasti za 13.–19. srpna 2026',note_cs:'Indexovaný oficiální obsah uvádí 67 ha a 837 výbušných hrozeb; přímý odkaz nebylo možné v běhovém prostředí načíst, proto čísla nejsou povýšena na nový pozorovaný minimální údaj ani na fakt s vysokou mírou jistoty.'}))translated.push('LEAD-B36-01');
+  if(setLeadAll('LEAD-B36-02',{title_cs:'Aktuální ruský primární obrazový řetězec ženijních a odminovacích aktivit s datem příspěvku',topic_cs:'Aktuální ruský primární obrazový řetězec ženijních a odminovacích aktivit s datem příspěvku'}))translated.push('LEAD-B36-02');
+  if(setLeadAll('LEAD-B36-03',{title_cs:'Fyzická prezentace CEFA SDZ/SMINEX na DALO Industry Days 19.–20. srpna 2026',topic_cs:'Fyzická prezentace CEFA SDZ/SMINEX na DALO Industry Days 19.–20. srpna 2026'}))translated.push('LEAD-B36-03');
+  if(setLeadAll('LEAD-B36-04',{title_cs:'Následník nebo recertifikace MKR-2 po 20. srpnu 2026 zůstává otevřenou otázkou'}))translated.push('LEAD-B36-04');
+  if(setLeadAll('LEAD-B37-01',{title_cs:'Vnitřní konzistence počtu a seznamu na ukrajinské stránce certifikace a akreditace protiminové činnosti',note_cs:'Při opětovné kontrole 20. srpna 2026 ve 22:36 CEST oficiální stránka Ministerstva obrany Ukrajiny stále uváděla text „tři organizace“, ale vyhledaný a vykreslený seznam obsahoval čtyři očíslované položky. B37 přibližně o hodinu dříve zaznamenal pět položek; starší PDF uvádí tři. Bez historie revizí nelze určit, zda jde o živou editaci, rozdíl vykreslení a indexace nebo nekonzistentní obsah stránky. Aktuální počet proto zůstává NEOVĚŘEN.'}))translated.push('LEAD-B37-01');
+  if(setLeadAll('LEAD-B37-02',{title_cs:'Aktuální ruský primární obrazový řetězec ženijních a odminovacích aktivit s datem příspěvku'}))translated.push('LEAD-B37-02');
+  if(setLeadAll('LEAD-B37-03',{title_cs:'Aktuální přiřazení prostředku v primárním zdroji k jihokorejskému cvičení překonání vodní překážky z 20. srpna 2026',topic_cs:'Aktuální přiřazení prostředku v primárním zdroji k jihokorejskému cvičení překonání vodní překážky z 20. srpna 2026'}))translated.push('LEAD-B37-03');
+  if(setLeadAll('LEAD-B37-04',{title_cs:'Přesná plná definice EOC a mapování na nadřazený normativní dokument zůstává otevřené'}))translated.push('LEAD-B37-04');
+  if(setLeadAll('LEAD-B39-01',{title_cs:'Původ, model a provozovatel výbušného námořního dronu Neptun Alpha z 20. srpna 2026',topic_cs:'Původ, model a provozovatel výbušného námořního dronu Neptun Alpha z 20. srpna 2026'}))translated.push('LEAD-B39-01');
+  const tech0011=records.find(x=>x.id==='ENG-TECH-0011');
+  if(tech0011){
+    tech0011.title_cs='SDZ — systém odminování prostoru (Système de dépollution de zone)';
+    if(Array.isArray(tech0011.claims)&&tech0011.claims[2])tech0011.claims[2].text_cs='TerreMag uvádí hmotnost vozidla nebo systému 10 tun.';
+    tech0011.translation_status_cs=tech0011.translation_status_cs||'ANALYST_TRANSLATION';
+    tech0011.translation_provenance_cs=tech0011.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';
+    translated.push('ENG-TECH-0011');
+  }
   window.__ENGINEER_PUBLIC_CZ_2110__={translated};
 })();
