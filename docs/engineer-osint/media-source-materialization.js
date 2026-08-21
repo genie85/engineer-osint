@@ -4,7 +4,7 @@
   const mediaUrl=s=>s?.url||s?.source_url||'';
   const classify=u=>{
     u=String(u||'');
-    if(/(?:youtu\.be\/[\w-]{6,}|youtube\.com\/(?:watch\?[^#]*v=[\w-]{6,}|shorts\/[\w-]{6,}|live\/[\w-]{6,}))/i.test(u))return {type:'YOUTUBE',asset:true};
+    if(/(?:youtu\.be\/[\w-]{6,}|youtube\.com\/(?:watch\?[^#]*v=[\w-]{6,}|shorts\/[\w-]{6,}|live\/[\w-]{6,}|embed\/[\w-]{6,}))/i.test(u))return {type:'YOUTUBE',asset:true};
     if(/youtube\.com/i.test(u))return {type:'YOUTUBE',asset:false};
     if(/spotify\.com\/episode\//i.test(u)||/podcasts\.apple\.com\/[^/]+\/podcast\/[^/]+\/id\d+\?i=\d+/i.test(u)||/soundcloud\.com\/[^/]+\/[^/?#]+/i.test(u))return {type:'PODCAST',asset:true};
     if(/podcast|spotify\.com|podcasts\.apple\.com|soundcloud/i.test(u))return {type:'PODCAST',asset:false};
