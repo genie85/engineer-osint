@@ -53,10 +53,10 @@ const items=[];let missingFields=0,reviewFields=0,fully=0,partial=0,enumMapped=0
 for(const{group,id,x}of dedup.values()){
   const missing=[],review=[],translated=[];
   for(const key of scalar){
-    const base=x[key+'_en']??x.__i18n_public_orig?.[key]??x[key];if(!isPresent(base))continue;
+    const explicitBase=x[key+'_en']??x.__i18n_public_orig?.[key];const base=explicitBase??x[key];if(!isPresent(base))continue;
     const cs=x[key+'_cs'];const rendered=x[key];
     if(isPresent(cs)){
-      const q=csQualityIssue(cs,base);
+      const q=csQualityIssue(cs,explicitBase);
       if(q){review.push(`${key}:${q}`);contentQualityReview++;continue}
       translated.push(key);continue
     }
@@ -65,9 +65,9 @@ for(const{group,id,x}of dedup.values()){
     missing.push(key);
   }
   for(const key of arrays){
-    const base=x[key+'_en']??x.__i18n_public_orig?.[key]??x[key];if(!isPresent(base))continue;const cs=x[key+'_cs'];const rendered=x[key];
+    const explicitBase=x[key+'_en']??x.__i18n_public_orig?.[key];const base=explicitBase??x[key];if(!isPresent(base))continue;const cs=x[key+'_cs'];const rendered=x[key];
     if(isPresent(cs)){
-      const bad=Array.isArray(cs)&&cs.some((v,i)=>csQualityIssue(v,Array.isArray(base)?base[i]:undefined));
+      const bad=Array.isArray(cs)&&cs.some((v,i)=>csQualityIssue(v,Array.isArray(explicitBase)?explicitBase[i]:undefined));
       if(bad){review.push(`${key}:cs-content-quality-review`);contentQualityReview++;continue}
       translated.push(key);continue
     }
@@ -81,9 +81,9 @@ for(const{group,id,x}of dedup.values()){
     missing.push(key);
   }
   if(Array.isArray(x.claims))x.claims.forEach((c,i)=>{
-    const base=c?.text_en??c?.__i18n_public_orig_text??c?.text;if(!isPresent(base))return;const rendered=c?.text;
+    const explicitBase=c?.text_en??c?.__i18n_public_orig_text;const base=explicitBase??c?.text;if(!isPresent(base))return;const rendered=c?.text;
     if(isPresent(c?.text_cs)){
-      const q=csQualityIssue(c.text_cs,base);
+      const q=csQualityIssue(c.text_cs,explicitBase);
       if(q){review.push(`claims[${i}].text:${q}`);contentQualityReview++;return}
       translated.push(`claims[${i}].text`);return
     }
