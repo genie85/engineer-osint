@@ -18,14 +18,15 @@
   else if(Array.isArray(D.media))target=D.media;
   else {D.media=D.media||{};D.media.media=D.media.media||[];target=D.media.media}
   const seen=new Set(target.flatMap(x=>[x.media_id,x.id,x.url,x.exact_url]).filter(Boolean));
-  let skippedContainerCount=0;
+  let skippedContainerCount=0,skippedUnlinkedAssetCount=0;
   for(const s of S){
     const u=mediaUrl(s),c=classify(u);if(!c)continue;
     if(!c.asset){skippedContainerCount++;continue;}
-    const id='SRCMEDIA-'+(s.id||u);if(seen.has(id)||seen.has(u))continue;
     const related=R.filter(r=>(r.source_ids||[]).includes(s.id)).map(r=>r.id);
+    if(!related.length){skippedUnlinkedAssetCount++;continue;}
+    const id='SRCMEDIA-'+(s.id||u);if(seen.has(id)||seen.has(u))continue;
     target.push({media_id:id,media_type:c.type,title:s.title||s.name||(c.type==='YOUTUBE'?'YouTube':'Podcast'),channel_or_publisher:s.publisher||s.organization||'',publication_date:s.publication_date||null,url:u,exact_url:u,source_ids:s.id?[s.id]:[],related_ids:related,source_tier:s.source_tier??s.tier,materialization_status:'DERIVED_FROM_CANONICAL_ASSET_SOURCE_URL'});
     seen.add(id);seen.add(u);
   }
-  window.__ENGINEER_MEDIA_SOURCE_MATERIALIZATION__={derived_count:target.filter(x=>x.materialization_status==='DERIVED_FROM_CANONICAL_ASSET_SOURCE_URL').length,skipped_container_count:skippedContainerCount};
+  window.__ENGINEER_MEDIA_SOURCE_MATERIALIZATION__={derived_count:target.filter(x=>x.materialization_status==='DERIVED_FROM_CANONICAL_ASSET_SOURCE_URL').length,skipped_container_count:skippedContainerCount,skipped_unlinked_asset_count:skippedUnlinkedAssetCount};
 })();
