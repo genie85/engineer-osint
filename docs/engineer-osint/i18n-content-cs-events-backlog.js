@@ -137,7 +137,17 @@
     DIRECT_PUBLIC_NLLP_FULLTEXT_ENGINEERING_STUDY:'PŘÍMÁ VEŘEJNÁ NLLP STUDIE ŽENIJNÍ PODPORY — PLNÝ TEXT',
     DIRECT_PUBLIC_12_PAGE_PDF_FULLTEXT_READBACK:'PŘÍMÉ OVĚŘENÍ PLNÉHO TEXTU 12STRÁNKOVÉHO VEŘEJNÉHO PDF',
     DIRECT_DOCUMENT_CONTENT:'PŘÍMÝ OBSAH DOKUMENTU',
-    HIGH_FOR_DOCUMENT_CONTENT:'VYSOKÁ PRO OBSAH DOKUMENTU'
+    HIGH_FOR_DOCUMENT_CONTENT:'VYSOKÁ PRO OBSAH DOKUMENTU',
+    HISTORICAL_TRAINING_SNAPSHOT:'HISTORICKÝ VÝCVIKOVÝ SNAPSHOT',
+    FACT_ABOUT_DATED_HISTORICAL_TRAINING:'FAKT O DATOVANÉM HISTORICKÉM VÝCVIKU',
+    HIGH_FOR_2013_HISTORY_CURRENT_2026_STATUS_UNKNOWN:'VYSOKÁ PRO HISTORICKÝ STAV Z ROKU 2013; SOUČASNÝ STAV V ROCE 2026 NEZNÁMÝ',
+    'CURRENT_PUBLIC_PROFILE_ACCESSED_2026-08-19_PUBLICATION_DATE_UNKNOWN':'AKTUÁLNĚ DOSTUPNÝ VEŘEJNÝ PROFIL; ZPŘÍSTUPNĚN 19. 8. 2026; DATUM PUBLIKACE NEZNÁMÉ',
+    FACT_ABOUT_CURRENT_PUBLIC_ORGANIZATIONAL_PROFILE_WITH_DATE_LIMIT:'FAKT O AKTUÁLNÍM VEŘEJNÉM ORGANIZAČNÍM PROFILU S ČASOVÝM OMEZENÍM',
+    HIGH_FOR_PAGE_CONTENT_MEDIUM_FOR_UNDATED_PROFILE_FRESHNESS:'VYSOKÁ PRO OBSAH STRÁNKY; STŘEDNÍ PRO ČASOVOU AKTUÁLNOST NEDATOVANÉHO PROFILU',
+    PRIMARY_OFFICIAL_UKRAINE_MOD_CURRENT_PROFILE:'PRIMÁRNÍ OFICIÁLNÍ AKTUÁLNÍ PROFIL MINISTERSTVA OBRANY UKRAJINY',
+    UKR_SUPPORT_FORCES_ORGANIZATION_AND_ENGINEERING_ROLE_PROFILE:'UKRAJINA — ORGANIZAČNÍ PROFIL SIL PODPORY A ÚLOHY ŽENIJNÍHO VOJSKA',
+    OFFICIAL_CURRENT_ORGANIZATION_PROFILE:'OFICIÁLNÍ AKTUÁLNÍ ORGANIZAČNÍ PROFIL',
+    PRIMARY_CURRENT_PROFILE:'PRIMÁRNÍ AKTUÁLNÍ PROFIL'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -166,5 +176,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-21-0933-b49-public-status-ui',processed_ids:['ENG-EVT-0122','ENG-SRC-0471','ENG-EVID-0177','LEAD-B48-01','LEAD-B48-03','LEAD-018'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B49 regional, audit, visual and reconciliation status strings. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1133-b52-public-cz-ui',processed_ids:['ENG-SIG-0026','ENG-EVID-0181','ENG-SRC-0474','ENG-SRC-0475','B52-TREND-01'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B52 UGV institutionalization, procurement, source, evidence and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1218-b50-public-cz-ui',processed_ids:['ENG-DOC-0055','ENG-EVID-0179','ENG-SRC-0334'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B50 historical engineering-support study, source, evidence, validation and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.14',last_batch:'2026-08-21-1218-b50-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1305-b12-public-cz-ui',processed_ids:['ENG-EVT-0110','ENG-UNIT-0036','ENG-EVID-0116','ENG-EVID-0117','ENG-SRC-0406','ENG-SRC-0407'],fully_translated:10,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B12 historical EOR training and current Support Forces organization/profile status tokens. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.15',last_batch:'2026-08-21-1305-b12-public-cz-ui'};
 })();
