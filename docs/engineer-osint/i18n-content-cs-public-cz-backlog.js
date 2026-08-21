@@ -1,16 +1,21 @@
 (function(){
   const D=window.__ENGINEER_DATA__;if(!D)return;
   const ex=()=>D.dashboard_patch_extras||{};
+  const leadObjects=()=>[...(D.leads?.leads||[]),...(ex().leads||[]),...(ex().external_leads||[])];
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
-  const L=new Map([...(D.leads?.leads||[]),...(ex().leads||[]),...(ex().external_leads||[])].map(x=>[x.lead_id||x.id,x]));
+  const L=new Map(leadObjects().map(x=>[x.lead_id||x.id,x]));
   const put=(id,p)=>{const x=R.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const setCs=(id,p)=>{const x=R.get(id);if(!x)return false;Object.assign(x,p);x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const putLead=(id,p)=>{const x=L.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const setLeadAll=(id,p)=>{let hit=false;for(const x of leadObjects())if((x.lead_id||x.id)===id){Object.assign(x,p);x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';hit=true;}return hit;};
   const translated=[];
   const qualityFixed=[];
   const uiMap=window.__ENGINEER_I18N__?.ui?.cs;
   if(uiMap){
     Object.assign(uiMap,{
+      OPEN:'OTEVŘENO',
+      OPEN_PARTIALLY_RESOLVED:'OTEVŘENO – ČÁSTEČNĚ VYŘEŠENO',
+      LEAD_UPDATE:'AKTUALIZACE LEADU',
       PMS_TECHNICAL_BASELINE_NOT_CURRENT_INVENTORY:'TECHNICKÝ REFERENČNÍ PROFIL PMS, NIKOLI SOUČASNÝ INVENTÁŘ',
       MT55A_TECHNICAL_BASELINE_NOT_CURRENT_INVENTORY:'TECHNICKÝ REFERENČNÍ PROFIL MT-55A, NIKOLI SOUČASNÝ INVENTÁŘ',
       XM123_ABS_GOBLN_PROGRAM_LINEAGE_ACQUISITION_ROADMAP:'LINIE PROGRAMU XM123 ABS / GOBLN A AKVIZIČNÍ PLÁN',
@@ -37,9 +42,19 @@
       OFFICIAL_NATO_TRAINING_CATALOGUE_RECORD:'OFICIÁLNÍ ZÁZNAM VÝCVIKOVÉHO KATALOGU NATO',
       PRIMARY_NATO_E_ITEEP_ETOC:'PRIMÁRNÍ NATO e-ITEP / ETOC'
     });
-    qualityFixed.push('UI-PMS-BASELINE','UI-MT55A-BASELINE','UI-XM123-ROADMAP','UI-RENDER-STATUS','UI-DEEP-LINK-CACHE','UI-EVENT-LISTING','B19-EUGS-ENUMS','B19-EVIDENCE-ENUMS','B19-SOURCE-ENUMS','B20-WIT-ENUMS','B20-EVIDENCE-ENUMS');
+    qualityFixed.push('UI-LEAD-OPEN','UI-LEAD-OPEN-PARTIAL','UI-LEAD-UPDATE','UI-PMS-BASELINE','UI-MT55A-BASELINE','UI-XM123-ROADMAP','UI-RENDER-STATUS','UI-DEEP-LINK-CACHE','UI-EVENT-LISTING','B19-EUGS-ENUMS','B19-EVIDENCE-ENUMS','B19-SOURCE-ENUMS','B20-WIT-ENUMS','B20-EVIDENCE-ENUMS');
   }
   if(put('ENG-EVT-0026',{summary_cs:'Türkiye MSB 9. července 2026 uvedlo dokončení 240m plovoucího mostu ženijní brigádou 2. armády.'}))translated.push('ENG-EVT-0026');
+  if(setLeadAll('LEAD-001',{title_cs:'Přesné označení nadřazeného standardu přílohy EOC a nového návrhu studie NATO',note_cs:'69. pracovní skupina EOD znovu potvrzuje návrh přílohy EOC ke standardu NATO a přijetí nového návrhu studie; 68. pracovní skupina EOD potvrzuje práci na minimálních standardech EOC s podporou MILENG. Přesné identifikátory zůstávají ve veřejných podkladech nevyřešeny.',next_action_cs:'Sledovat 70. a 71. pracovní skupinu EOD a metadata standardizace NATO kvůli přesnému označení dokumentu a jeho vyhlášení.'}))translated.push('LEAD-001');
+  if(setLeadAll('LEAD-002',{title_cs:'ATP-3.12.1 Edition B 2026 — obsah věcných změn',note_cs:'Veřejné shrnutí nebo přehled věcných změn ATP-3.12.1 Edition B 2026 nebyl v dosud materializovaných podkladech nalezen; obsah změn nelze odvozovat pouze z názvu.',next_action_cs:'Dohledat veřejné shrnutí, přehled změn nebo právní metadata národní implementace; obsah změn nevyvozovat pouze z názvu.'}))translated.push('LEAD-002');
+  if(setLeadAll('LEAD-003',{title_cs:'Ukrajinský model roty dálkového minování — místní, nebo platný napříč silami',note_cs:'Současné veřejné stránky Pozemních sil Ukrajiny výslovně popisují ženijní UGV používaná k minování, odminování a budování překážek; náborové materiály 110. OMBR uvádějí rotu UGV používající systémy mimo jiné k dálkovému minování a odminování. Posiluje to trend organizační robotizace, ale neprokazuje jednotnou šablonu roty platnou napříč celými silami.',next_action_cs:'Dohledat druhý nezávislý zdroj a určit, zda je reorganizace místní, nebo platná napříč silami.'}))translated.push('LEAD-003');
+  if(setLeadAll('LEAD-004',{topic_cs:'Ruské univerzální obrněné ženijní vozidlo UBIM — přijetí do výzbroje a navazující ověření operačního stavu',next_action_cs:'Dohledat nezávislé obrazové podklady, přiřazení k jednotce nebo oficiální potvrzení ruského ministerstva obrany; opakované kopie tvrzení Rostecu nepovažovat za nezávislé zdroje.'}))translated.push('LEAD-004');
+  if(setLeadAll('LEAD-005',{title_cs:'EABC — konečné přidělení zakázek',note_cs:'NAMC stále uvádí RPP-26-D01 EABC jako „Pending“. U.S. Army 8. července 2026 oznámila výběr čtyř společností, ale veřejná stopa konečného přidělení zakázek zůstává v tomto běhu nevyřešena.',next_action_cs:'Sledovat Army/CPE Mission Autonomy, NAMC a čtyři vybrané dodavatele kvůli formálním oznámením o přidělení zakázek a demonstracím v letech 2026–2027.'}))translated.push('LEAD-005');
+  if(setLeadAll('LEAD-006',{next_action_cs:'Ověřit aktuálnost pro roky 2025–2026 a podrobné složení podřízených prvků brigád ženijní a chemické ochrany skupin armád i ženijních/chemických prvků vševojskových brigád; odlišit standardizovaný model od výjimek.'}))translated.push('LEAD-006');
+  if(setLeadAll('LEAD-007',{title_cs:'Současný referenční profil ženijní techniky PLA',next_action_cs:'Dohledat formální čínská označení a specifikace integrovaného odminovacího vozidla, konfigurací mostních prostředků označovaných REBS, pontonových systémů a ženijních průzkumných či dálkově ovládaných systémů.'}))translated.push('LEAD-007');
+  if(setLeadAll('LEAD-008',{topic_cs:'Engineer Division Operations ATP — přesné číslo, datum a nahrazovaný dokument',next_action_cs:'Zjistit přesné číslo ATP, datum, nahrazovaný dokument a veřejnou dostupnost; samostatně sledovat publikace Engineer Platoons a Field Data.'}))translated.push('LEAD-008');
+  if(setLeadAll('LEAD-009',{next_action_cs:'Zjistit typy UAS, počty, způsob použití na úrovni roty a zda je změna experimentální, nebo institucionalizovaná.'}))translated.push('LEAD-009');
+  if(setLeadAll('LEAD-010',{next_action_cs:'Zmapovat přijímající ženijní jednotky a vztahy velení bez odvozování utajovaných podrobností o rozmístění.'}))translated.push('LEAD-010');
   if(putLead('LEAD-050',{recommended_next_action_cs:'Po 20. 8. 2026 znovu prověřit oficiální certifikační registr; z pouhého skončení platnosti certifikátu nevyvozovat stažení prostředku ani ztrátu schopnosti.'}))translated.push('LEAD-050');
   if(putLead('LEAD-052',{recommended_next_action_cs:'Dohledat primární provozní, akviziční nebo servisní záznamy, které oddělí MV-10 od MV-4 a potvrdí počet, distribuci a provozuschopnost k srpnu 2026.'}))translated.push('LEAD-052');
   if(putLead('LEAD-053',{topic_cs:'Současný veřejný záznam ORBAT ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
@@ -115,6 +130,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1744-b19-b20-enums',processed_ids:[...new Set([...translated,...qualityFixed,...review,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],fully_translated:qualityFixed.length+translated.length+4,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: B19/B20 compound programme, evidence, source and validation enums localized in the existing public i18n layer; stale ENG-SIG-0018 B18 status translation updated to the B19 source-conflict state. EN fields and factual registry data preserved.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','PUBLIC_CURRENT_VALUE_STATUS','PUBLIC_OBSERVATION_BASIS','PUBLIC_URL_VALIDATION_STATUS','B16_B17_TRENDS','B18_PUBLIC_ENUMS','B19_EUGS_ENUMS','B19_EVIDENCE_ENUMS','B20_WIT_ENUMS','PUBLIC_CZ_HYBRID_TEXT','PUBLIC_UI_ENUM_HYBRIDS','AUDIT_VM_SAFE'],version:'2.0',last_batch:'2026-08-21-1744-b19-b20-enums'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1835-p1-leads',processed_ids:[...new Set([...translated,...qualityFixed,...review,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],fully_translated:qualityFixed.length+translated.length+4,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: LEAD-001 až LEAD-010 – doplnění českých veřejných titulů, témat, poznámek a dalších kroků podle materializovaných anglických polí; doplnění bezpečných stavových enum map. EN pole a factual registry data zachována.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','PUBLIC_CURRENT_VALUE_STATUS','PUBLIC_OBSERVATION_BASIS','PUBLIC_URL_VALIDATION_STATUS','B16_B17_TRENDS','B18_PUBLIC_ENUMS','B19_EUGS_ENUMS','B19_EVIDENCE_ENUMS','B20_WIT_ENUMS','P1_LEADS_001_010','PUBLIC_CZ_HYBRID_TEXT','PUBLIC_UI_ENUM_HYBRIDS','AUDIT_VM_SAFE'],version:'2.1',last_batch:'2026-08-21-1835-p1-leads'};
 })();
