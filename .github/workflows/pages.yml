@@ -43,6 +43,8 @@ jobs:
           node --check docs/engineer-osint/ui-phase8-navigation.js
           node --check docs/engineer-osint/ui-phase9-intelligence.js
           node --check docs/engineer-osint/public-cz-ui-canary.js
+          node --check docs/engineer-osint/i18n-content-cs-public-cz-backlog.js
+          node --check docs/engineer-osint/audit-public-cz-ui.mjs
           node --check docs/engineer-osint/media-source-materialization.js
           node --check docs/engineer-osint/audit-media-history.mjs
           node --check docs/engineer-osint/rich-backfill.js
@@ -79,6 +81,17 @@ jobs:
       - name: Audit full-history multimedia records
         run: node docs/engineer-osint/audit-media-history.mjs
 
+      - name: Inject PUBLIC-CZ-UI backlog translation batch
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/i18n-content-cs-public-cz-backlog.js','utf8');
+          let h=fs.readFileSync(p,'utf8');
+          if(!h.includes('engineer-i18n-content-cs-public-cz-backlog-module')) h=h.replace('</body>',`<script id="engineer-i18n-content-cs-public-cz-backlog-module">${js}</script></body>`);
+          fs.writeFileSync(p,h);
+          NODE
+
       - name: Inject public CZ UI canary localization
         run: |
           node - <<'NODE'
@@ -94,6 +107,9 @@ jobs:
         continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
 
+      - name: Audit PUBLIC-CZ-UI runtime
+        run: node docs/engineer-osint/audit-public-cz-ui.mjs
+
       - name: Verify deployable artifact and freshness
         run: |
           set -euo pipefail
@@ -101,14 +117,18 @@ jobs:
           test -s docs/engineer-osint-dist/health.txt
           test -s docs/engineer-osint-dist/media-history-audit.json
           test -s docs/engineer-osint-dist/media-history-audit.md
+          test -s docs/engineer-osint-dist/public-cz-ui-audit.json
+          test -s docs/engineer-osint-dist/public-cz-ui-audit.md
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/media-history-audit.md
+          cat docs/engineer-osint-dist/public-cz-ui-audit.md
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
           grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-media-source-materialization' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-i18n-content-cs-public-cz-backlog-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-public-cz-ui-canary' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',p.state.run_id);"
