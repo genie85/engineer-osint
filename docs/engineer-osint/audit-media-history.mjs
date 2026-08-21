@@ -14,8 +14,8 @@ function mediaArrays(p){
   const direct=[];
   direct.push(...asArray(p.new_media));
   if(Array.isArray(p.media)) direct.push(...p.media);
-  else if(p.media&&typeof p.media==='object') direct.push(...asArray(p.media.new_media),...asArray(p.media.items));
-  if(p.multimedia&&typeof p.multimedia==='object') direct.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items));
+  else if(p.media&&typeof p.media==='object') direct.push(...asArray(p.media.new_media),...asArray(p.media.items),...asArray(p.media.media));
+  if(p.multimedia&&typeof p.multimedia==='object') direct.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items),...asArray(p.multimedia.media));
   return direct;
 }
 function walk(v,path=[],out=[]){
