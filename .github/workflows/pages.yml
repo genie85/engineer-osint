@@ -43,6 +43,7 @@ jobs:
           node --check docs/engineer-osint/ui-phase8-navigation.js
           node --check docs/engineer-osint/ui-phase9-intelligence.js
           node --check docs/engineer-osint/public-cz-ui-canary.js
+          node --check docs/engineer-osint/media-source-materialization.js
           node --check docs/engineer-osint/audit-media-history.mjs
           node --check docs/engineer-osint/rich-backfill.js
           node --check docs/engineer-osint/rich-backfill-israel-turkiye-eod.js
@@ -59,6 +60,21 @@ jobs:
 
       - name: Build full-history dashboard
         run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
 
       - name: Audit full-history multimedia records
         run: node docs/engineer-osint/audit-media-history.mjs
@@ -92,6 +108,7 @@ jobs:
           grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-media-source-materialization' docs/engineer-osint-dist/index.html
           grep -q 'engineer-public-cz-ui-canary' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',p.state.run_id);"
