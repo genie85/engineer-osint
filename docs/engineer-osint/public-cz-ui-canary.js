@@ -5,6 +5,7 @@
   const ARRAY=['intelligence_gaps'];
   const originals=new WeakMap();
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||document.documentElement.lang||'cs';
+  const enumMap=()=>window.__ENGINEER_I18N__?.ui?.cs||{};
   const arr=x=>Array.isArray(x)?x:[];
   const extras=()=>D.dashboard_patch_extras||{};
   function objects(){
@@ -42,12 +43,13 @@
   function apply(){
     const cs=String(lang()).toLowerCase().startsWith('cs');
     if(!cs){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walker.nextNode()){const n=walker.currentNode;if(originals.has(n)){n.nodeValue=originals.get(n);originals.delete(n)}}return}
-    const pairs=translationPairs(),byId=objectMap();
+    const pairs=translationPairs(),byId=objectMap(),enums=enumMap();
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
     while(walker.nextNode()){
       const n=walker.currentNode,p=n.parentElement;if(!p||p.closest('#engineerLanguageSwitch')||['SCRIPT','STYLE','NOSCRIPT'].includes(p.tagName))continue;
       const t=(n.nodeValue||'').trim();if(!t)continue;
       if(STATIC[t]){replaceNode(n,STATIC[t]);continue}
+      const ev=enums[t]??enums[t.toUpperCase()];if(typeof ev==='string'&&ev&&ev!==t){replaceNode(n,ev);continue}
       if(pairs.has(t)){replaceNode(n,pairs.get(t));continue}
       const bad=t.match(/^((?:ENG-(?:TECH|UNIT|EVT|DOC|TTP|SIG|LL|TREND)-\d+|LEAD-[A-Z0-9-]+))\s*[—-]\s*undefined$/i);
       if(bad){const x=byId.get(bad[1]);const title=x?.title_cs||x?.topic_cs;if(title)replaceNode(n,bad[1]+' — '+title);continue}
