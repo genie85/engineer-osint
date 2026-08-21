@@ -147,7 +147,22 @@
     PRIMARY_OFFICIAL_UKRAINE_MOD_CURRENT_PROFILE:'PRIMÁRNÍ OFICIÁLNÍ AKTUÁLNÍ PROFIL MINISTERSTVA OBRANY UKRAJINY',
     UKR_SUPPORT_FORCES_ORGANIZATION_AND_ENGINEERING_ROLE_PROFILE:'UKRAJINA — ORGANIZAČNÍ PROFIL SIL PODPORY A ÚLOHY ŽENIJNÍHO VOJSKA',
     OFFICIAL_CURRENT_ORGANIZATION_PROFILE:'OFICIÁLNÍ AKTUÁLNÍ ORGANIZAČNÍ PROFIL',
-    PRIMARY_CURRENT_PROFILE:'PRIMÁRNÍ AKTUÁLNÍ PROFIL'
+    PRIMARY_CURRENT_PROFILE:'PRIMÁRNÍ AKTUÁLNÍ PROFIL',
+    HISTORICAL_POLICY_SNAPSHOT:'HISTORICKÝ STAV POLITIKY',
+    FACT_ABOUT_DATED_FORTIFICATION_GOVERNANCE_CHANGE:'FAKT O DATOVANÉ ZMĚNĚ ŘÍZENÍ FORTIFIKAČNÍ VÝSTAVBY',
+    HIGH_FOR_POLICY_CHANGE_LOW_FOR_IMPLEMENTATION_SCALE:'VYSOKÁ PRO ZMĚNU POLITIKY; NÍZKÁ PRO ROZSAH REALIZACE',
+    PRIMARY_OFFICIAL_UKRAINE_MOD:'PRIMÁRNÍ OFICIÁLNÍ ZDROJ MINISTERSTVA OBRANY UKRAJINY',
+    UKR_FORTIFICATION_GOVERNANCE_HISTORICAL_BACKFILL:'UKRAJINA — HISTORICKÉ DOPLNĚNÍ ŘÍZENÍ FORTIFIKAČNÍ VÝSTAVBY',
+    OFFICIAL_POLICY_REPORT:'OFICIÁLNÍ ZPRÁVA O POLITICE',
+    PRIMARY_OFFICIAL_UKRAINE_MOD_ARTICLE:'PRIMÁRNÍ OFICIÁLNÍ ČLÁNEK MINISTERSTVA OBRANY UKRAJINY',
+    HIGH_FOR_DATED_POLICY_CHANGE:'VYSOKÁ PRO DATOVANOU ZMĚNU POLITIKY',
+    CURRENT_PUBLIC_TRAINING_PROFILE_FUTURE_ITERATION:'AKTUÁLNÍ VEŘEJNÝ VÝCVIKOVÝ PROFIL PRO BUDOUCÍ ITERACI',
+    HIGH_FOR_PUBLIC_TRAINING_AND_C2_PROFILE:'VYSOKÁ PRO VEŘEJNÝ VÝCVIKOVÝ A C2 PROFIL',
+    PRIMARY_OFFICIAL_NATO_COE_PUBLIC:'PRIMÁRNÍ VEŘEJNÝ OFICIÁLNÍ ZDROJ NATO COE',
+    NATO_CBRN_EOD_BRIGADE_STAFF_C2_TRAINING_PROFILE:'NATO CBRN EOD — VÝCVIKOVÝ PROFIL C2 PRO BRIGÁDNÍ ŠTÁB',
+    OFFICIAL_NATO_COE_COURSE_PROFILE:'OFICIÁLNÍ PROFIL KURZU NATO COE',
+    PRIMARY_OFFICIAL_NATO_EOD_COE_PAGE:'PRIMÁRNÍ OFICIÁLNÍ STRÁNKA NATO EOD COE',
+    HIGH_FOR_PUBLIC_TRAINING_AND_C2_ROLE_PROFILE:'VYSOKÁ PRO VEŘEJNÝ PROFIL VÝCVIKU A ÚLOH C2'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -170,6 +185,7 @@
   putLead('LEAD-B48-02',{topic_cs:'Sledovat reakce na EADRCC 2026/0045, nabídky, kontrakty a potvrzené dodávky; požadované počty nesmějí být považovány za skutečné držení'});
   putLead('LEAD-B48-03',{topic_cs:'Tvrzení ArmyInform z 19. srpna o zásahu systému Zemledelie: veřejný index poskytuje podrobný text, ale přímý deep-link stále vrací HTTP 429 a původní video nebylo přímo prohlédnuto ani nezávisle potvrzeno'});
   putLead('LEAD-018',{topic_cs:'ATP-3.12.1.7 / STANAG 2036: veřejně indexovaná aktualizace doktríny USMC MCES z 13. dubna 2026 uvádí sloučení 2017/2036/2237/2989 a přípravu RD pro státy; artefakt je označen „DISTRIBUTION: DoD COMMUNITY ONLY“, proto zůstává pouze stopou k dalšímu prověření, nikoli nosným kanonickým důkazem'});
+  putLead('LEAD-051',{topic_cs:'Česko-americký historický výcvik C-IED/EOD/EOR z roku 2012 — opětovné ověření přímého zdroje'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-21-0836-b49-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-SRC-0471','ENG-EVID-0177','LEAD-B48-01','LEAD-B48-03','LEAD-018'],fully_translated:6,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B49 reconciliation/source/evidence status tokens and refreshed P1 Lead topics. Preserve English/base fields and factual registries.',english_preserved:true});
@@ -177,5 +193,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1133-b52-public-cz-ui',processed_ids:['ENG-SIG-0026','ENG-EVID-0181','ENG-SRC-0474','ENG-SRC-0475','B52-TREND-01'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B52 UGV institutionalization, procurement, source, evidence and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1218-b50-public-cz-ui',processed_ids:['ENG-DOC-0055','ENG-EVID-0179','ENG-SRC-0334'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B50 historical engineering-support study, source, evidence, validation and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1305-b12-public-cz-ui',processed_ids:['ENG-EVT-0110','ENG-UNIT-0036','ENG-EVID-0116','ENG-EVID-0117','ENG-SRC-0406','ENG-SRC-0407'],fully_translated:10,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B12 historical EOR training and current Support Forces organization/profile status tokens. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.15',last_batch:'2026-08-21-1305-b12-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1340-b11-public-cz-ui',processed_ids:['ENG-DOC-0039','ENG-DOC-0028','ENG-EVID-0114','ENG-EVID-0115','ENG-SRC-0404','ENG-SRC-0405','ENG-VIS-0083','LEAD-051'],fully_translated:16,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B11 fortification-governance, NATO CBRN EOD staff-C2 training, source/evidence status tokens and LEAD-051 topic. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018','LEAD-051'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.16',last_batch:'2026-08-21-1340-b11-public-cz-ui'};
 })();
