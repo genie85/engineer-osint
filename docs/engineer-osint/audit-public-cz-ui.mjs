@@ -9,7 +9,7 @@ if(a<0||b<0)throw new Error('PUBLIC_CZ_UI_AUDIT: ENGINEER_DATA marker missing');
 const baseline=JSON.parse(html.slice(a+marker.length,b));
 const data=JSON.parse(JSON.stringify(baseline));
 const context={window:{__ENGINEER_DATA__:data},console,setTimeout:fn=>{if(typeof fn==='function')fn();return 0}};
-const modules=['i18n-terminology.js','i18n-content-cs.js','i18n-content-cs-usa-rok.js','i18n-content-cs-japan-australia.js','i18n-content-cs-france-germany-poland.js','i18n-content-cs-israel-turkiye-rich.js','i18n-content-cs-events-backlog.js','i18n-content-cs-public-cz-backlog.js'];
+const modules=['i18n-terminology.js','i18n-content-cs.js','i18n-content-cs-usa-rok.js','i18n-content-cs-japan-australia.js','i18n-content-cs-france-germany-poland.js','i18n-content-cs-israel-turkiye-rich.js','i18n-content-cs-events-backlog.js','i18n-content-cs-public-cz-backlog.js','i18n-content-cs-public-cz-2110.js'];
 for(const f of modules)vm.runInNewContext(readFileSync(join(src,f),'utf8'),context,{filename:f,timeout:3000});
 
 const arr=x=>Array.isArray(x)?x:[];
