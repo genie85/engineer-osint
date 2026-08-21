@@ -44,6 +44,7 @@ jobs:
           name: engineer-osint-runtime-audit
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/index.html
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
             docs/engineer-osint-dist/public-cz-ui-audit.json
