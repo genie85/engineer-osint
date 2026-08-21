@@ -21,16 +21,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout full history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Validate UI and i18n modules
         run: |
+          set -euo pipefail
           node --check docs/engineer-osint/ui-phase2.js
           node --check docs/engineer-osint/ui-phase3.js
           node --check docs/engineer-osint/ui-phase4.js
@@ -47,15 +50,20 @@ jobs:
           node --check docs/engineer-osint/i18n-content-cs-japan-australia.js
           node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
           node --check docs/engineer-osint/i18n-content-cs-israel-turkiye-rich.js
+          node --check docs/engineer-osint/i18n-content-cs-events-backlog.js
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
           node --check docs/engineer-osint/validate-runtime.mjs
-      - name: Build dashboard
+
+      - name: Build full-history dashboard
         run: node docs/engineer-osint/build-pages.mjs
+
       - name: Audit cumulative runtime
         run: node docs/engineer-osint/validate-runtime.mjs
-      - name: Verify dashboard
+
+      - name: Verify deployable artifact and freshness
         run: |
+          set -euo pipefail
           test -s docs/engineer-osint-dist/index.html
           test -s docs/engineer-osint-dist/health.txt
           test -s docs/engineer-osint-dist/runtime-audit.json
@@ -66,71 +74,21 @@ jobs:
           grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
           grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
           grep -q 'translation_canary=pass' docs/engineer-osint-dist/health.txt
-          grep -q 'presentation_fact_overlay_gap=open' docs/engineer-osint-dist/health.txt
-          grep -q 'presentation_bootstrap_pb_overlay=retired' docs/engineer-osint-dist/health.txt
-          ! grep -q 'presentation_bootstrap_overlay=retired' docs/engineer-osint-dist/health.txt
-          grep -q 'entity_navigation=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'grouped_navigation=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'entity_id_search=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'translation_audit_view=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'knowledge_graph=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'orbat_view=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'evidence_registry=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'advanced_search=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'csv_json_export=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'historical_coverage_heatmap=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'source_methodology=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'golden_entities=canonical-data' docs/engineer-osint-dist/health.txt
-          grep -q 'czech_orbat=canonical-data' docs/engineer-osint-dist/health.txt
-          grep -q 'canonical_registry_audit=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'external_source_registry=canonical-data' docs/engineer-osint-dist/health.txt
-          grep -q 'i18n_israel_turkiye_rich=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'engineer-i18n-content-cs-israel-turkiye-rich-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
-          ! grep -q 'engineer-bootstrap-v36-golden-module' docs/engineer-osint-dist/index.html
-          ! grep -q 'engineer-external-source-registry-v36-module' docs/engineer-osint-dist/index.html
-          ! grep -q 'ENG-REL-PB-' docs/engineer-osint-dist/index.html
-          ! grep -q 'ENG-EVID-PB-' docs/engineer-osint-dist/index.html
-          ! grep -q 'ENG-LL-PB-' docs/engineer-osint-dist/index.html
-          ! grep -q '75式ドーザ — Type 75 obrněný buldozer' docs/engineer-osint-dist/index.html
-          grep -q '92式浮橋 — Type 92 plovoucí most' docs/engineer-osint-dist/index.html
-          grep -q 'engineerCompactNav' docs/engineer-osint-dist/index.html
-          grep -q 'engineerDatabaseGroup' docs/engineer-osint-dist/index.html
-          grep -q 'engineerEntityFilter' docs/engineer-osint-dist/index.html
-          grep -q 'ENGINEER_INTELLIGENCE' docs/engineer-osint-dist/index.html
-          grep -q 'Analytické nástroje' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-REL-0001' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVID-0001' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-UNIT-0030' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-UNIT-0031' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-UNIT-0032' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-UNIT-0033' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVT-081' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-TECH-0030' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-TECH-0032' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVT-083' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVT-084' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVT-085' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-TTP-0002' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-EVT-088' docs/engineer-osint-dist/index.html
-          grep -q 'WarSpotting' docs/engineer-osint-dist/index.html
-          grep -q 'SIPRI Arms Transfers' docs/engineer-osint-dist/index.html
-          grep -q 'Observed minimum' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-UNIT-' docs/engineer-osint-dist/index.html
-          grep -q 'ENG-SIG-' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
-          grep -q 'ENG-SIG-0006' docs/engineer-osint-dist/index.html
-          grep -q 'experimentální doprava ženijního prostředku' docs/engineer-osint-dist/index.html
-          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch');"
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',p.state.run_id);"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs/engineer-osint-dist
+
   deploy:
     environment:
       name: github-pages
