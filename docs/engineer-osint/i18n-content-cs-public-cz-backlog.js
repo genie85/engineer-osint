@@ -22,13 +22,22 @@
   ].filter(Boolean);
   const scalar=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
   const arrays=['intelligence_gaps'];
+  const enumFields=['classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
+  const uiCs=()=>window.__ENGINEER_I18N__?.ui?.cs||{};
+  const enumCs=v=>{if(v===undefined||v===null)return v;const s=String(v),m=uiCs();return m[s]??m[s.toUpperCase()]??v;};
   function applyPublicRegistry(l=lang()){
     for(const x of publicObjects()){
       x.__i18n_public_orig=x.__i18n_public_orig||{};
       for(const k of [...scalar,...arrays]){
         if(!(k in x.__i18n_public_orig))x.__i18n_public_orig[k]=x[k];
         const v=l==='cs'?(x[k+'_cs']!==undefined?x[k+'_cs']:x.__i18n_public_orig[k]):(x[k+'_en']!==undefined?x[k+'_en']:x.__i18n_public_orig[k]);
+        if(v!==undefined)x[k]=v;
+      }
+      for(const k of enumFields){
+        if(!(k in x.__i18n_public_orig))x.__i18n_public_orig[k]=x[k];
+        const base=x.__i18n_public_orig[k];
+        const v=l==='cs'?(x[k+'_cs']!==undefined?x[k+'_cs']:enumCs(base)):(x[k+'_en']!==undefined?x[k+'_en']:base);
         if(v!==undefined)x[k]=v;
       }
       if(Array.isArray(x.claims))for(const c of x.claims){
@@ -43,6 +52,6 @@
   setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1500-public-registry-i18n',processed_ids:[...translated,...review],fully_translated:translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: zachování ENG-EVT-0026 summary_cs a oprava merge/render vrstvy pro existující *_cs/*_en pole veřejných evidence/source/visual/media/relations/lessons/trend/doctrine/ORBAT registrů; bez změny factual dat.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:translated,review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES'],version:'1.1',last_batch:'2026-08-21-1500-public-registry-i18n'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1518-public-registry-enums',processed_ids:[...translated,...review],fully_translated:translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: rozšíření merge/render lokalizace veřejných registrů o enum/status pole classification, confidence, temporal/canonicalization status, evidence/source class, role, maturity/stage, LL status, coverage, relation, visual a media type. Používají se pouze existující UI CZ mapy nebo explicitní *_cs; EN/base hodnoty zůstávají zachované.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:translated,review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_REGISTRY_ENUMS'],version:'1.2',last_batch:'2026-08-21-1518-public-registry-enums'};
 })();
