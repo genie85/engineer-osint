@@ -7,11 +7,23 @@
   const putLead=(id,p)=>{const x=L.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const translated=[];
   const qualityFixed=[];
+  const uiMap=window.__ENGINEER_I18N__?.ui?.cs;
+  if(uiMap){
+    Object.assign(uiMap,{
+      PMS_TECHNICAL_BASELINE_NOT_CURRENT_INVENTORY:'TECHNICKÝ REFERENČNÍ PROFIL PMS, NIKOLI SOUČASNÝ INVENTÁŘ',
+      MT55A_TECHNICAL_BASELINE_NOT_CURRENT_INVENTORY:'TECHNICKÝ REFERENČNÍ PROFIL MT-55A, NIKOLI SOUČASNÝ INVENTÁŘ',
+      XM123_ABS_GOBLN_PROGRAM_LINEAGE_ACQUISITION_ROADMAP:'LINIE PROGRAMU XM123 ABS / GOBLN A AKVIZIČNÍ PLÁN',
+      DATA_PASS_RENDER_UNVERIFIED:'DATA VYHOVUJÍ – VYKRESLENÍ NEOVĚŘENO',
+      OPEN_LATE_DISCOVERED_CURRENT_OFFICIAL_INDEXED_DEEP_LINK_DIRECT_FETCH_CACHE_MISS:'OTEVŘENO – POZDĚJI NALEZENÝ AKTUÁLNÍ OFICIÁLNÍ INDEXOVANÝ ODKAZ; PŘÍMÉ NAČTENÍ SELHALO, PROTOŽE ZÁZNAM NEBYL V MEZIPAMĚTI',
+      OPEN_OFFICIAL_CATALOGUE_EVENT_LISTING_PIXEL_LEVEL_PHYSICAL_PRESENCE_UNCONFIRMED:'OTEVŘENO – OFICIÁLNÍ KATALOG UVÁDÍ ÚČAST NA AKCI; FYZICKÁ PŘÍTOMNOST KONKRÉTNÍHO SYSTÉMU NENÍ VIZUÁLNĚ POTVRZENA'
+    });
+    qualityFixed.push('UI-PMS-BASELINE','UI-MT55A-BASELINE','UI-XM123-ROADMAP','UI-RENDER-STATUS','UI-DEEP-LINK-CACHE','UI-EVENT-LISTING');
+  }
   if(put('ENG-EVT-0026',{summary_cs:'Türkiye MSB 9. července 2026 uvedlo dokončení 240m plovoucího mostu ženijní brigádou 2. armády.'}))translated.push('ENG-EVT-0026');
   if(putLead('LEAD-050',{recommended_next_action_cs:'Po 20. 8. 2026 znovu prověřit oficiální certifikační registr; z pouhého skončení platnosti certifikátu nevyvozovat stažení prostředku ani ztrátu schopnosti.'}))translated.push('LEAD-050');
   if(putLead('LEAD-052',{recommended_next_action_cs:'Dohledat primární provozní, akviziční nebo servisní záznamy, které oddělí MV-10 od MV-4 a potvrdí počet, distribuci a provozuschopnost k srpnu 2026.'}))translated.push('LEAD-052');
-  if(putLead('LEAD-053',{topic_cs:'Současný veřejný ORBAT lead ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
-  if(putLead('LEAD-054',{topic_cs:'SDZ na DALO Industry Days 2026 — oficiální listing versus přímo pozorované vystavení',status_cs:'POZDNĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA – LISTING POTVRZEN, FYZICKÉ VYSTAVENÍ NEPOZOROVÁNO'}))translated.push('LEAD-054');
+  if(putLead('LEAD-053',{topic_cs:'Současný veřejný záznam ORBAT ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
+  if(putLead('LEAD-054',{topic_cs:'SDZ na DALO Industry Days 2026 — oficiální uvedení v katalogu versus přímo pozorované vystavení',status_cs:'POZDNĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA – UVEDENÍ V KATALOGU POTVRZENO, FYZICKÉ VYSTAVENÍ NEPOZOROVÁNO'}))translated.push('LEAD-054');
   const review=['LEAD-002','LEAD-003','LEAD-005'].filter(id=>L.has(id)&&!(L.get(id)?.title_cs||L.get(id)?.topic_cs)&&!(L.get(id)?.summary_cs||L.get(id)?.description_cs||L.get(id)?.note_cs));
 
   const arr=v=>Array.isArray(v)?v:[];
@@ -81,6 +93,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1733-b16-b17-public',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: B16/B17 external leads a Trend Watch statusy lokalizovány přes existující i18n vrstvu; factual data a EN pole zachována.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','B16_B17_TRENDS','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.7',last_batch:'2026-08-21-1733-b16-b17-public'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1735-hybrid-ui-cleanup',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: odstraněny další hybridní české řetězce v LEAD a stavových/terminologických mapách; EN pole a factual data zachována.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','B16_B17_TRENDS','PUBLIC_CZ_HYBRID_TEXT','PUBLIC_UI_ENUM_HYBRIDS','AUDIT_VM_SAFE'],version:'1.8',last_batch:'2026-08-21-1735-hybrid-ui-cleanup'};
 })();
