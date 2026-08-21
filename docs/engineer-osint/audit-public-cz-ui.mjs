@@ -107,7 +107,7 @@ const byId=new Map();for(const{group,id,x}of dedup.values())if(!byId.has(id))byI
 const hasCsText=(x,key)=>Boolean(x&&isPresent(x[key+'_cs']));
 const renderedCs=(x,key)=>Boolean(x&&isPresent(x[key])&&czechish(String(x[key])));
 const leadCanary=id=>{const x=byId.get(id);if(!x)return {id,status:'MISSING'};const title=hasCsText(x,'title')||hasCsText(x,'topic')||renderedCs(x,'title')||renderedCs(x,'topic');const body=['summary','description','note'].some(k=>hasCsText(x,k)||renderedCs(x,k));return{id,status:title&&body?'PASS':'FAIL',title_cs:title,body_cs:body}};
-const lessonCanary=id=>{const x=byId.get(id);if(!x)return{id,status:'MISSING'};const problem=hasCsText(x,'problem_or_observation')||renderedCs(x,'problem_or_observation');const implication=hasCsText(x,'change_or_implication')||renderedCs(x,'change_or_implication');return{id,status:problem&&implication&&renderer.includes('problem_or_observation')&&renderer.includes('change_or_implication')?'PASS':'FAIL',problem_cs:problem,implication_cs:implication}};
+const lessonCanary=id=>{const x=dedup.get(`lesson:${id}`)?.x;if(!x)return{id,status:'MISSING'};const problem=hasCsText(x,'problem_or_observation')||renderedCs(x,'problem_or_observation');const implication=hasCsText(x,'change_or_implication')||renderedCs(x,'change_or_implication');return{id,status:problem&&implication&&renderer.includes('problem_or_observation')&&renderer.includes('change_or_implication')?'PASS':'FAIL',problem_cs:problem,implication_cs:implication}};
 const evt26=byId.get('ENG-EVT-0026');
 const evt111=byId.get('ENG-EVT-0111');
 const canaries={
