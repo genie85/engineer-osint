@@ -107,13 +107,21 @@ for(const p of [...patches].reverse()){
   d.run_history.runs.unshift({run_id:st.run_id,parent:st.parent_run_id,status:st.status||'SUCCESS',window:`${st.window_from} → ${st.window_to}`,counts:st.counts});
 }
 
-const rels=all(p=>p.relations||p.new_relations||[]);
-const evid=all(p=>p.evidence||p.new_evidence||[]);
-const lessons=all(p=>p.lessons_learned||p.lessons_learned_changes||[]);
-const visuals=all(p=>p.visuals||p.new_visuals||[]);
-const media=all(p=>Array.isArray(p.new_media)?p.new_media:(p.media?.new_media||[]));
+/* Historical patch aliases are concatenated, not selected with ||. Empty arrays are
+   valid values and must not hide a populated legacy/new_* alias from the same run. */
+const rels=all(p=>[...(p.relations||[]),...(p.new_relations||[]),...(p.updated_relations||[])]);
+const evid=all(p=>[...(p.evidence||[]),...(p.new_evidence||[]),...(p.updated_evidence||[])]);
+const lessons=all(p=>[...(p.lessons_learned||[]),...(p.lessons_learned_changes||[])]);
+const visuals=all(p=>[...(p.visuals||[]),...(p.new_visuals||[])]);
+const media=all(p=>[
+  ...(Array.isArray(p.new_media)?p.new_media:[]),
+  ...(Array.isArray(p.media)?p.media:[]),
+  ...(p.media?.new_media||[]),...(p.media?.items||[]),...(p.media?.media||[]),
+  ...(p.multimedia?.media||[])
+]);
 const technologySignals=all(p=>p.technology_signals||[]);
-const trends=all(p=>p.trends||[]);
+const trends=all(p=>[...(p.trends||[]),...(p.trend_watch||[])]);
+const doctrineItems=all(p=>[...(p.doctrine||[]),...(p.doctrine_updates||[])]);
 const externalHits=all(p=>p.external_source_hits||[]);
 const externalLeads=all(p=>p.external_leads||[]);
 const observedMinimum=all(p=>p.observed_minimum_updates||[]);
@@ -125,7 +133,7 @@ d.dashboard_patch_extras={
   patch_continuity:'COMPLETE_FROM_GIT_HISTORY',
   visuals:mergeUnique([],visuals,['asset_id','id']),
   media:mergeUnique([],media,['media_id','id']),
-  doctrine:all(p=>p.doctrine||p.doctrine_updates||[]),
+  doctrine:mergeUnique([],doctrineItems,['id','document_id']),
   technology_signals:mergeUnique([],technologySignals,['id']),
   trends:mergeUnique([],trends,['id']),
   confirmations:all(p=>p.confirmations||[]),
