@@ -125,7 +125,19 @@
     DIRECT_PRIMARY_OFFICIAL_DEEP_LINK_READBACK_TWO_COMPLEMENTARY_SOURCES:'PŘÍMÉ OVĚŘENÍ DVOU DOPLŇUJÍCÍCH SE PRIMÁRNÍCH OFICIÁLNÍCH ZDROJŮ',
     PRIMARY_OFFICIAL_POLICY_AND_PROCUREMENT_SIGNAL:'PRIMÁRNÍ OFICIÁLNÍ POLITICKO-AKVIZIČNÍ SIGNÁL',
     HIGH_FOR_POLICY_AND_CONTRACTING_DIRECTION_MEDIUM_FOR_ENGINEERING_CAPABILITY_SCALE:'VYSOKÁ PRO SMĚR POLITIKY A NASMLOUVÁNÍ; STŘEDNÍ PRO ROZSAH ŽENIJNÍ SCHOPNOSTI',
-    INSTITUTIONALIZATION_SIGNAL_NOT_UNIT_INVENTORY:'SIGNÁL INSTITUCIONALIZACE; NIKOLI INVENTÁŘ JEDNOTEK'
+    INSTITUTIONALIZATION_SIGNAL_NOT_UNIT_INVENTORY:'SIGNÁL INSTITUCIONALIZACE; NIKOLI INVENTÁŘ JEDNOTEK',
+    HISTORICAL_BACKFILL_PUBLIC_ENGINEERING_SUPPORT_STUDY:'HISTORICKÉ DOPLNĚNÍ — VEŘEJNÁ STUDIE ŽENIJNÍ PODPORY',
+    HISTORICAL_BACKFILL_PUBLIC_2024_STUDY:'HISTORICKÉ DOPLNĚNÍ — VEŘEJNÁ STUDIE Z ROKU 2024',
+    PUBLIC_SCIENTIFIC_PROFESSIONAL_ENGINEERING_SUPPORT_STUDY:'VEŘEJNÁ VĚDECKÁ A ODBORNÁ STUDIE ŽENIJNÍ PODPORY',
+    FACT_ABOUT_PUBLIC_DOCUMENT_CONTENT_WITH_ANALYTICAL_LIMITS:'FAKT O OBSAHU VEŘEJNÉHO DOKUMENTU S ANALYTICKÝMI OMEZENÍMI',
+    HIGH_FOR_DOCUMENT_CONTENT_MEDIUM_FOR_INSTITUTIONAL_ADOPTION:'VYSOKÁ PRO OBSAH DOKUMENTU; STŘEDNÍ PRO INSTITUCIONÁLNÍ PŘEVZETÍ',
+    OFFICIAL_NATO_HOSTED_PUBLIC_UKRAINIAN_SCIENTIFIC_PAPER:'OFICIÁLNĚ HOSTOVANÁ VEŘEJNÁ UKRAJINSKÁ VĚDECKÁ PRÁCE NA PORTÁLU NATO',
+    UKRAINE_ENGINEERING_SUPPORT_TASK_TRANSFORMATION_FULLTEXT:'UKRAJINA — TRANSFORMACE ÚKOLŮ ŽENIJNÍ PODPORY, PLNÝ TEXT',
+    VERIFIED_DIRECT_PUBLIC_PDF_FULLTEXT_READBACK:'OVĚŘENO PŘÍMÝM NAČTENÍM PLNÉHO TEXTU VEŘEJNÉHO PDF',
+    DIRECT_PUBLIC_NLLP_FULLTEXT_ENGINEERING_STUDY:'PŘÍMÁ VEŘEJNÁ NLLP STUDIE ŽENIJNÍ PODPORY — PLNÝ TEXT',
+    DIRECT_PUBLIC_12_PAGE_PDF_FULLTEXT_READBACK:'PŘÍMÉ OVĚŘENÍ PLNÉHO TEXTU 12STRÁNKOVÉHO VEŘEJNÉHO PDF',
+    DIRECT_DOCUMENT_CONTENT:'PŘÍMÝ OBSAH DOKUMENTU',
+    HIGH_FOR_DOCUMENT_CONTENT:'VYSOKÁ PRO OBSAH DOKUMENTU'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -153,5 +165,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-21-0836-b49-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-SRC-0471','ENG-EVID-0177','LEAD-B48-01','LEAD-B48-03','LEAD-018'],fully_translated:6,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B49 reconciliation/source/evidence status tokens and refreshed P1 Lead topics. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-0933-b49-public-status-ui',processed_ids:['ENG-EVT-0122','ENG-SRC-0471','ENG-EVID-0177','LEAD-B48-01','LEAD-B48-03','LEAD-018'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B49 regional, audit, visual and reconciliation status strings. Preserve English/base fields and factual registries.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1133-b52-public-cz-ui',processed_ids:['ENG-SIG-0026','ENG-EVID-0181','ENG-SRC-0474','ENG-SRC-0475','B52-TREND-01'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B52 UGV institutionalization, procurement, source, evidence and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.13',last_batch:'2026-08-21-1133-b52-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1218-b50-public-cz-ui',processed_ids:['ENG-DOC-0055','ENG-EVID-0179','ENG-SRC-0334'],fully_translated:12,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B50 historical engineering-support study, source, evidence, validation and confidence tokens. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.14',last_batch:'2026-08-21-1218-b50-public-cz-ui'};
 })();
