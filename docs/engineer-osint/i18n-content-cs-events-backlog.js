@@ -64,7 +64,17 @@
     OFFICIAL_HISTORICAL_CZE_MINIGATOR_EOD_IED_TRAINING:'OFICIÁLNÍ HISTORICKÝ ČESKÝ VÝCVIK MINIGATOR EOD/IED',
     LEAD_VENDOR_SIGNAL_NOT_FORCE_ADOPTION:'VENDOR SIGNÁL PRO DALŠÍ PROVĚŘENÍ; NIKOLI DŮKAZ ZAVEDENÍ V OZBROJENÝCH SILÁCH',
     EXISTING_SIGNAL_RECONFIRMED_NOT_NEW_CANONICAL_RECORD:'EXISTUJÍCÍ SIGNÁL ZNOVU POTVRZEN; NEJDE O NOVÝ KANONICKÝ ZÁZNAM',
-    HIGH_FOR_REPORTED_2020_TRAINING_LOW_FOR_CURRENT_INFERENCE:'VYSOKÁ PRO POPSANÝ VÝCVIK V ROCE 2020; NÍZKÁ PRO SOUČASNÝ ZÁVĚR'
+    HIGH_FOR_REPORTED_2020_TRAINING_LOW_FOR_CURRENT_INFERENCE:'VYSOKÁ PRO POPSANÝ VÝCVIK V ROCE 2020; NÍZKÁ PRO SOUČASNÝ ZÁVĚR',
+    REPUTABLE_NEWS_DIRECT_EXECUTIVE_INTERVIEW:'RENOMOVANÉ ZPRAVODAJSKÉ MÉDIUM — PŘÍMÝ ROZHOVOR S VEDENÍM',
+    MILREM_UKRAINE_UGV_SCALE_FORECAST_2026:'VÝHLED ROZSAHU UGV MILREM NA UKRAJINĚ PRO ROK 2026',
+    REPUTABLE_MEDIA_DIRECT_EXECUTIVE_FORECAST:'RENOMOVANÉ MÉDIUM — PŘÍMÝ VÝHLED VEDENÍ SPOLEČNOSTI',
+    DIRECT_REUTERS_DEEP_LINK_EXECUTIVE_INTERVIEW_READBACK:'PŘÍMÉ OVĚŘENÍ ODKAZU REUTERS A ROZHOVORU S VEDENÍM',
+    SECONDARY_REPUTABLE_DIRECT_QUOTE_FORECAST:'SEKUNDÁRNÍ RENOMOVANÝ ZDROJ — PŘÍMÁ CITACE PROGNÓZY',
+    MEDIUM_HIGH_FOR_EXECUTIVE_FORECAST_LOW_FOR_CURRENT_FORCE_QUANTITY:'STŘEDNĚ VYSOKÁ PRO VÝHLED VEDENÍ; NÍZKÁ PRO SOUČASNÝ POČET V OZBROJENÝCH SILÁCH',
+    ENTITY_ENRICHMENT_FORECAST_NOT_OBSERVED_MINIMUM:'OBOHACENÍ ENTITY — PROGNÓZA, NIKOLI VEŘEJNĚ DOLOŽENÉ MINIMUM',
+    INDUSTRIAL_SCALE_SIGNAL_NOT_FORCE_INVENTORY:'SIGNÁL PRŮMYSLOVÉHO ŠKÁLOVÁNÍ; NIKOLI INVENTÁŘ OZBROJENÝCH SIL',
+    NO_NEW_CURRENT_OR_HISTORICAL_CANONICAL_MATERIAL_THIS_RUN:'V TOMTO BĚHU ŽÁDNÝ NOVÝ AKTUÁLNÍ ANI HISTORICKÝ KANONICKÝ MATERIÁL',
+    NO_NEW_EXACT_OR_LATE_CURRENT_CANONICAL_DELTA_ONE_UKRAINE_UGV_TECHNOLOGY_SIGNAL_ENRICHMENT:'ŽÁDNÁ NOVÁ PŘESNÁ ANI POZDĚ DOHLEDANÁ AKTUÁLNÍ KANONICKÁ ZMĚNA; JEDNO OBOHACENÍ TECHNOLOGICKÉHO SIGNÁLU UGV PRO UKRAJINU'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -85,6 +95,6 @@
   putLead('LEAD-B45-01',{topic_cs:'CNIM ROCUS/AUROCH/PFM na DALO 2026 — před tvrzením o zavedení ověřit demonstraci, akvizici nebo nasazení u konkrétního zákazníka'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0537-public-cz-ui',processed_ids:['ENG-EVT-0120','ENG-EVT-0121','ENG-EVID-0173','ENG-EVID-0174','ENG-SRC-0467','ENG-SRC-0468','B45-TECHSIG-01','B45-TREND-01','LEAD-B45-01'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B45 Czech EOD historical status/evidence/source tokens, Technology Signal/Trend classifications and current lead topic in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.7',last_batch:'2026-08-21-0537-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0635-public-cz-ui',processed_ids:['ENG-SIG-0024','ENG-EVID-0175','ENG-SRC-0469','B46-TECHSIG-01','B46-TREND-01'],fully_translated:5,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B46 Reuters/Milrem source, evidence, forecast, Technology Signal/Trend and regional status tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.8',last_batch:'2026-08-21-0635-public-cz-ui'};
 })();
