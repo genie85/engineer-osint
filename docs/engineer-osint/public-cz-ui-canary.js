@@ -38,7 +38,7 @@
   function replaceNode(n,value){if(!originals.has(n))originals.set(n,n.nodeValue);const raw=n.nodeValue||'',lead=raw.match(/^\s*/)?.[0]||'',trail=raw.match(/\s*$/)?.[0]||'';n.nodeValue=lead+value+trail}
   function apply(){
     const cs=String(lang()).toLowerCase().startsWith('cs');
-    if(!cs){for(const n of document.querySelectorAll('*')){}const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walker.nextNode()){const n=walker.currentNode;if(originals.has(n)){n.nodeValue=originals.get(n);originals.delete(n)}}return}
+    if(!cs){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walker.nextNode()){const n=walker.currentNode;if(originals.has(n)){n.nodeValue=originals.get(n);originals.delete(n)}}return}
     const pairs=translationPairs(),byId=objectMap();
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
     while(walker.nextNode()){
