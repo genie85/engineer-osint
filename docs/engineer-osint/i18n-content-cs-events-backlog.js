@@ -1,7 +1,9 @@
 (function(){
   const D=window.__ENGINEER_DATA__;if(!D)return;
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
+  const L=new Map([...(D.leads?.leads||[]),...(D.dashboard_patch_extras?.leads||[])].map(x=>[x.lead_id||x.id,x]));
   const put=(id,p)=>{const x=R.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
+  const putLead=(id,p)=>{const x=L.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
 
   const I=window.__ENGINEER_I18N__;
   if(I?.ui?.cs)Object.assign(I.ui.cs,{
@@ -19,7 +21,15 @@
     OFFICIAL_REPORTED_HISTORICAL_SNAPSHOT_NOT_CURRENT_INVENTORY:'OFICIÁLNĚ HLÁŠENÝ HISTORICKÝ SNAPSHOT; NIKOLI SOUČASNÝ INVENTÁŘ',
     HISTORICAL_PROCUREMENT_REQUIREMENT_CLOSED_INACTIVE_NOT_FIELDING:'HISTORICKÝ AKVIZIČNÍ POŽADAVEK UZAVŘEN / NEAKTIVNÍ; NIKOLI DŮKAZ ZAVEDENÍ',
     HIGH_FOR_PUBLISHED_REQUIREMENT_AND_PORTAL_STATUS_LOW_FOR_AWARD_FIELDING:'VYSOKÁ PRO ZVEŘEJNĚNÝ POŽADAVEK A STAV PORTÁLU; NÍZKÁ PRO UDĚLENÍ ZAKÁZKY A ZAVEDENÍ',
-    PRIMARY_OFFICIAL_EU_PROCUREMENT_PORTAL:'PRIMÁRNÍ OFICIÁLNÍ PORTÁL EU PRO VEŘEJNÉ ZAKÁZKY'
+    PRIMARY_OFFICIAL_EU_PROCUREMENT_PORTAL:'PRIMÁRNÍ OFICIÁLNÍ PORTÁL EU PRO VEŘEJNÉ ZAKÁZKY',
+    EXISTING_SIGNAL_REINFORCED_NOT_NEW_SIGNAL:'EXISTUJÍCÍ SIGNÁL POSÍLEN; NEJDE O NOVÝ SIGNÁL',
+    ANALYTICAL_OBSERVATION_NOT_NATO_LESSON_IDENTIFIED_OR_LEARNED:'ANALYTICKÉ POZOROVÁNÍ; NIKOLI NATO LESSON IDENTIFIED ANI LESSON LEARNED',
+    MEDIUM_HIGH_HISTORICAL_BODY_PUBLIC_REPORT:'STŘEDNĚ VYSOKÉ — HISTORICKÁ VEŘEJNÁ ZPRÁVA SUBJEKTU',
+    NEW_HISTORICAL_COVERAGE:'NOVĚ DOPLNĚNÉ HISTORICKÉ POKRYTÍ',
+    NO_NEW_CURRENT_CANONICAL_MATERIAL:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL',
+    NO_NEW_CURRENT_CANONICAL_MATERIAL_MKR2_SUCCESSOR_RECHECK_NEGATIVE:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL; OPAKOVANÁ KONTROLA NÁSTUPCE MKR-2 NEGATIVNÍ',
+    HISTORICAL_EOC_STANDARDIZATION_ENRICHMENT_NO_NEW_PROMULGATION:'HISTORICKÉ OBOHACENÍ STANDARDIZACE EOC; ŽÁDNÁ NOVÁ PROMULGACE',
+    HISTORICAL_EOC_STANDARDIZATION_ENRICHMENT:'HISTORICKÉ OBOHACENÍ STANDARDIZACE EOC'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -28,7 +38,14 @@
   put('ENG-EVT-0020',{title_cs:'NATO CAP veřejně uvádí podporu Ukrajině prostředky EOD/odminování a counter-drone vybavením',intelligence_gaps_cs:['Veřejná stránka je souhrnným přehledem pomoci a neuvádí množství, konkrétní příjemce, termíny dodávek, stav připravenosti ani operační použití. Zároveň neposkytuje dostatek podrobností pro jednoznačné zařazení veškeré podpory odminování do vojenského clearance, EOC nebo humanitárního odminování.']});
   put('ENG-EVT-0026',{title_cs:'Ženijní brigáda 2. armády — 240m plovoucí most přes Eufrat'});
 
+  putLead('LEAD-B37-01',{topic_cs:'Ukrajinská stránka certifikace/akreditace v oblasti odminování — nesoulad mezi interním počtem a seznamem'});
+  putLead('LEAD-B37-02',{topic_cs:'Aktuální ruský primární řetězec datum–příspěvek–vizuál pro ženijní/odminovací činnost'});
+  putLead('LEAD-B40-01',{topic_cs:'Most u Zvannoye a minovací vozidlo u Sudži 17.–18. srpna 2026 — sekundární geolokace; primární vizuální a časový řetězec nevyřešen'});
+  putLead('LEAD-B37-04',{topic_cs:'Přesné mapování aktuálního nadřazeného standardu/edice NATO pro EOC — zúženo 68. EOD WG, ale nevyřešeno'});
+  putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 — oficiální registr stále uvádí hranici starého certifikátu; nástupce nenalezen'});
+  putLead('LEAD-B40-02',{topic_cs:'Nizozemská akvizice UGV pro IED z roku 2025 — přesný výsledek zadání/zrušení v TED'});
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0134-public-cz-ui',processed_ids:['ENG-DOC-0051','ENG-EVID-0169','ENG-DOC-0049','ENG-DOC-0050'],fully_translated:0,partially_translated:4,review_needed:0,scope:'PUBLIC-CZ-UI renderer enum coverage for B40/B41 standardization, evidence, procurement and temporal-status tokens. Extend the existing central I.ui.cs map only; preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),review_needed_entities:[],version:'1.2',last_batch:'2026-08-21-0134-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0235-public-cz-ui',processed_ids:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','B41-TREND-01','ENG-DOC-0051','ENG-EVID-0169'],fully_translated:6,partially_translated:3,review_needed:0,scope:'PUBLIC-CZ-UI localization of B41 P1/P2 lead topics plus Trend/Lessons/coverage/regional status tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.3',last_batch:'2026-08-21-0235-public-cz-ui'};
 })();
