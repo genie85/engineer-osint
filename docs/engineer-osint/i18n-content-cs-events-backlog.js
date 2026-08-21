@@ -44,8 +44,10 @@
   putLead('LEAD-B37-04',{topic_cs:'Přesné mapování aktuálního nadřazeného standardu/edice NATO pro EOC — zúženo 68. EOD WG, ale nevyřešeno'});
   putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 — oficiální registr stále uvádí hranici starého certifikátu; nástupce nenalezen'});
   putLead('LEAD-B40-02',{topic_cs:'Nizozemská akvizice UGV pro IED z roku 2025 — přesný výsledek zadání/zrušení v TED'});
+  putLead('LEAD-B42-01',{topic_cs:'Aktuální struktura a technika 91st Support Brigade podle MilitaryLand — sekundární ORBAT stopa vyžadující primární potvrzení jednotlivých položek'});
+  putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — načíst a kanonikalizovat pouze z veřejně zpřístupněné kopie při stabilním přímém přístupu k dokumentu'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0235-public-cz-ui',processed_ids:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','B41-TREND-01','ENG-DOC-0051','ENG-EVID-0169'],fully_translated:6,partially_translated:3,review_needed:0,scope:'PUBLIC-CZ-UI localization of B41 P1/P2 lead topics plus Trend/Lessons/coverage/regional status tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.3',last_batch:'2026-08-21-0235-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0333-public-cz-ui',processed_ids:['LEAD-B42-01','LEAD-B42-02'],fully_translated:2,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B42 lead topics in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.4',last_batch:'2026-08-21-0333-public-cz-ui'};
 })();
