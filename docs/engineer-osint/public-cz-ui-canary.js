@@ -59,7 +59,7 @@
     VIDEO:'VIDEO',
     METADATA_AND_OFFICIAL_DESCRIPTION_VERIFIED:'METADATA A OFICIÁLNÍ POPIS OVĚŘENY'
   };
-  const SCALAR=['title','summary','update','update_summary','description','note','topic','status','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','limitations','relevance_summary','why_relevant','caption','caption_says','what_is_visible','observation','scope'];
+  const SCALAR=['title','summary','update','update_summary','description','note','topic','status','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','problem_or_observation','change_or_implication','fact','analysis','limit','limitations','relevance_summary','why_relevant','caption','caption_says','what_is_visible','observation','scope'];
   const ARRAY=['intelligence_gaps'];
   const originals=new WeakMap();
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||document.documentElement.lang||'cs';
