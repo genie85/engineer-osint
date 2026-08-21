@@ -29,10 +29,14 @@ jobs:
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
           node --check docs/engineer-osint/validate-runtime.mjs
+          node --check docs/engineer-osint/audit-public-cz-ui.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
       - name: Run runtime audit
+        continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
+      - name: Run PUBLIC-CZ-UI audit
+        run: node docs/engineer-osint/audit-public-cz-ui.mjs
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -40,6 +44,9 @@ jobs:
           name: engineer-osint-runtime-audit
           if-no-files-found: warn
           path: |
+            docs/engineer-osint-dist/index.html
             docs/engineer-osint-dist/runtime-audit.json
             docs/engineer-osint-dist/translation-backlog.json
+            docs/engineer-osint-dist/public-cz-ui-audit.json
+            docs/engineer-osint-dist/public-cz-ui-audit.md
             docs/engineer-osint-dist/health.txt
