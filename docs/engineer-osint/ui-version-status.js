@@ -23,7 +23,7 @@
     const cs=lang()==='cs';
     badge.setAttribute('aria-label',cs?'Verze a poslední aktualizace ENGINEER OSINT':'ENGINEER OSINT version and last update');
     badge.innerHTML=`<span class="evs-label">${cs?'Verze dat':'Data version'}</span><strong>${ver?'B'+ver:(run||'—')}</strong><span class="evs-sep">·</span><span class="evs-label">${cs?'Aktualizováno':'Updated'}</span><strong>${formatPrague(raw,cs?'cs':'en')}</strong>`;
-    badge.title=`${cs?'Kanonický běh':'Canonical run'}: ${run||(cs?'neuveden':'not specified')}${promptVer?`\nMaster prompt: v${promptVer}`:''}`;
+    badge.title=`${cs?'Kanonický běh':'Canonical run'}: ${run||(cs?'neuveden':'not specified')}${promptVer?`\n${cs?'Hlavní prompt':'Master prompt'}: v${promptVer}`:''}`;
   }
 
   function install(){
