@@ -24,7 +24,7 @@ const groups=[
   ['confirmation',arr(ex.confirmations)],['contradiction',arr(ex.contradictions)],['correction',arr(ex.corrections)],
   ['lesson',[...arr(data.lessons_learned?.lessons),...arr(ex.lessons_learned)]],['doctrine',[...arr(data.doctrine?.doctrine),...arr(ex.doctrine)]],['orbat',[...arr(data.orbat?.updates),...arr(ex.orbat_updates)]]
 ];
-const scalar=['title','summary','update','update_summary','description','note','topic','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','limitations','relevance_summary','why_relevant','caption','caption_says','what_is_visible','observation','scope'];
+const scalar=['title','summary','update','update_summary','description','note','topic','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','problem_or_observation','change_or_implication','fact','analysis','limit','limitations','relevance_summary','why_relevant','caption','caption_says','what_is_visible','observation','scope'];
 const arrays=['intelligence_gaps'];
 const enumFields=['status','classification','confidence','temporal_status','current_value_status','canonicalization_status','evidence_type','evidence_status','observation_basis','source_class','role','url_validation_status','verification_status','archive_status','document_type','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
 const idOf=(x,t,i)=>x.id||x.lead_id||x.evidence_id||x.media_id||x.asset_id||x.source_id||`${t}#${i}`;
@@ -107,12 +107,14 @@ const byId=new Map();for(const{group,id,x}of dedup.values())if(!byId.has(id))byI
 const hasCsText=(x,key)=>Boolean(x&&isPresent(x[key+'_cs']));
 const renderedCs=(x,key)=>Boolean(x&&isPresent(x[key])&&czechish(String(x[key])));
 const leadCanary=id=>{const x=byId.get(id);if(!x)return {id,status:'MISSING'};const title=hasCsText(x,'title')||hasCsText(x,'topic')||renderedCs(x,'title')||renderedCs(x,'topic');const body=['summary','description','note'].some(k=>hasCsText(x,k)||renderedCs(x,k));return{id,status:title&&body?'PASS':'FAIL',title_cs:title,body_cs:body}};
+const lessonCanary=id=>{const x=dedup.get(`lesson:${id}`)?.x;if(!x)return{id,status:'MISSING'};const problem=hasCsText(x,'problem_or_observation')||renderedCs(x,'problem_or_observation');const implication=hasCsText(x,'change_or_implication')||renderedCs(x,'change_or_implication');return{id,status:problem&&implication&&renderer.includes('problem_or_observation')&&renderer.includes('change_or_implication')?'PASS':'FAIL',problem_cs:problem,implication_cs:implication}};
 const evt26=byId.get('ENG-EVT-0026');
 const evt111=byId.get('ENG-EVT-0111');
 const canaries={
   'ENG-UNIT-0010-detail-labels':{status:['FACT / EVIDENCE','ANALYTICAL INTERPRETATION','LIMIT'].every(k=>renderer.includes(k))?'PASS':'FAIL'},
   'ENG-EVT-0026-current-card':{status:evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary'))?'PASS':'FAIL',title_cs:Boolean(evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))),summary_cs:Boolean(evt26&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary')))},
   'LEAD-001':leadCanary('LEAD-001'),'LEAD-002':leadCanary('LEAD-002'),'LEAD-003':leadCanary('LEAD-003'),'LEAD-005':leadCanary('LEAD-005'),
+  'ENG-LL-0002':lessonCanary('ENG-LL-0002'),'ENG-LL-0003':lessonCanary('ENG-LL-0003'),'ENG-LL-0004':lessonCanary('ENG-LL-0004'),
   'ENG-EVT-0111-undefined-title':{status:renderer.includes('undefined')&&(!evt111||hasCsText(evt111,'title')||renderedCs(evt111,'title'))?'PASS':'FAIL',title_cs:Boolean(evt111&&(hasCsText(evt111,'title')||renderedCs(evt111,'title')))},
   'CZ-EN-switch-preservation':{status:renderer.includes("engineer-language-changed")&&renderer.includes('originals')?'PASS':'FAIL'},
   'PUBLIC-REGISTRY-ENUM-I18N':{status:enumReview===0?'PASS':'REVIEW',mapped_enum_fields:enumMapped,unmapped_enum_fields:enumReview,renderer_enum_mappings:Object.keys(rendererEnumCs).length},
