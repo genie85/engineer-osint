@@ -11,5 +11,15 @@
   if(setLeadAll('LEAD-039',{topic_cs:'PM-55A — akviziční označení a vztah k mostním systémům PM-55 / MT-55A',next_action_cs:'Získat technickou specifikaci z akvizice nebo oficiální technický či příručkový zdroj AČR, který výslovně definuje PM-55A.'}))translated.push('LEAD-039');
   if(setLeadAll('LEAD-041',{title_cs:'Veřejný Ukrainian Engineer Paper v NLLP — úplná kontrola PDF',topic_cs:'NATO NLLP — ukrajinský ženijní dokument z Global Dimensions 2024'}))translated.push('LEAD-041');
   if(setLeadAll('LEAD-050',{topic_cs:'MKR-2 — skončení platnosti certifikátu a stav navazující certifikace'}))translated.push('LEAD-050');
+  if(setLeadAll('LEAD-051',{topic_cs:'Česko-americký historický výcvik C-IED/EOD/EOR z roku 2012 — opětovné ověření přímého zdroje'}))translated.push('LEAD-051');
+  if(setLeadAll('LEAD-052',{topic_cs:'DOK-ING MV-10 — aktuální počet, provozuschopnost a rozdělení mezi provozovatele na Ukrajině v roce 2026'}))translated.push('LEAD-052');
+  if(setLeadAll('LEAD-055',{topic_cs:'DALO 2026 — prezentace přenosného rentgenového detektoru Teledyne ICM TactX/TactXL pro EOD'}))translated.push('LEAD-055');
+  if(setLeadAll('LEAD-056',{topic_cs:'MilitaryLand — aktuální ORBAT Ředitelství ženijního vojska Ukrajiny'}))translated.push('LEAD-056');
+  if(setLeadAll('LEAD-057',{topic_cs:'Ukrajina — státní seznam certifikace odminovacích strojů 2025–2026'}))translated.push('LEAD-057');
+  if(setLeadAll('LEAD-B33-02',{title_cs:'NATO EOC — přesný nadřazený standard / identifikátor návrhu studie',topic_cs:'NATO EOC — přesný nadřazený standard / identifikátor návrhu studie'}))translated.push('LEAD-B33-02');
+  if(setLeadAll('LEAD-B33-03',{title_cs:'Ukrajina — opětovné ověření přímého odkazu na primární ORBAT / ženijní role bezosádkových prostředků',topic_cs:'Ukrajina — opětovné ověření přímého odkazu na primární ORBAT / ženijní role bezosádkových prostředků'}))translated.push('LEAD-B33-03');
+  if(setLeadAll('LEAD-B33-04',{title_cs:'Aktuální ruské primární obrazové důkazy a důkazy o zavedení ženijních/EOD prostředků do výzbroje',topic_cs:'Aktuální ruské primární obrazové důkazy a důkazy o zavedení ženijních/EOD prostředků do výzbroje'}))translated.push('LEAD-B33-04');
+  if(setLeadAll('LEAD-B34-02',{title_cs:'Uran-6 — primární důkazy z roku 2026 o zavedení do výzbroje, jednotce a počtu',topic_cs:'Uran-6 — primární důkazy z roku 2026 o zavedení do výzbroje, jednotce a počtu'}))translated.push('LEAD-B34-02');
+  if(setLeadAll('LEAD-B34-03',{title_cs:'DALO ROCUS/SDZ — přímé oficiální důkazy z akce',topic_cs:'DALO ROCUS/SDZ — přímé oficiální důkazy z akce'}))translated.push('LEAD-B34-03');
   window.__ENGINEER_PUBLIC_CZ_2110__={translated};
 })();
