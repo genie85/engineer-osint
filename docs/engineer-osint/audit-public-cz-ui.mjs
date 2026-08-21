@@ -42,8 +42,14 @@ const csQualityIssue=(cs,base)=>{
   if(residualEnglishPhrase.test(stripRetained(cs)))return 'residual-english-phrase';
   return null;
 };
+const renderer=readFileSync(join(src,'public-cz-ui-canary.js'),'utf8');
+let rendererEnumCs={};
+const enumMatch=renderer.match(/const B21_ENUM_CS=(\{[\s\S]*?\n\s*\});/);
+if(enumMatch){
+  try{rendererEnumCs=vm.runInNewContext(`(${enumMatch[1]})`,{}, {timeout:1000})||{}}catch(e){console.warn('PUBLIC_CZ_UI_AUDIT: unable to parse renderer enum map:',e.message)}
+}
 const uiCs=context.window.__ENGINEER_I18N__?.ui?.cs||{};
-const mappedCs=v=>{if(v===undefined||v===null)return undefined;const s=String(v);return uiCs[s]??uiCs[s.toUpperCase()];};
+const mappedCs=v=>{if(v===undefined||v===null)return undefined;const s=String(v);return uiCs[s]??uiCs[s.toUpperCase()]??rendererEnumCs[s]??rendererEnumCs[s.toUpperCase()];};
 const reviewIds=new Set();
 for(const v of Object.values(context.window))if(v&&typeof v==='object'&&!Array.isArray(v))for(const id of v.review_needed_entities||[])reviewIds.add(id);
 
@@ -103,23 +109,22 @@ const renderedCs=(x,key)=>Boolean(x&&isPresent(x[key])&&czechish(String(x[key]))
 const leadCanary=id=>{const x=byId.get(id);if(!x)return {id,status:'MISSING'};const title=hasCsText(x,'title')||hasCsText(x,'topic')||renderedCs(x,'title')||renderedCs(x,'topic');const body=['summary','description','note'].some(k=>hasCsText(x,k)||renderedCs(x,k));return{id,status:title&&body?'PASS':'FAIL',title_cs:title,body_cs:body}};
 const evt26=byId.get('ENG-EVT-0026');
 const evt111=byId.get('ENG-EVT-0111');
-const renderer=readFileSync(join(src,'public-cz-ui-canary.js'),'utf8');
 const canaries={
   'ENG-UNIT-0010-detail-labels':{status:['FACT / EVIDENCE','ANALYTICAL INTERPRETATION','LIMIT'].every(k=>renderer.includes(k))?'PASS':'FAIL'},
   'ENG-EVT-0026-current-card':{status:evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary'))?'PASS':'FAIL',title_cs:Boolean(evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))),summary_cs:Boolean(evt26&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary')))},
   'LEAD-001':leadCanary('LEAD-001'),'LEAD-002':leadCanary('LEAD-002'),'LEAD-003':leadCanary('LEAD-003'),'LEAD-005':leadCanary('LEAD-005'),
   'ENG-EVT-0111-undefined-title':{status:renderer.includes('undefined')&&(!evt111||hasCsText(evt111,'title')||renderedCs(evt111,'title'))?'PASS':'FAIL',title_cs:Boolean(evt111&&(hasCsText(evt111,'title')||renderedCs(evt111,'title')))},
   'CZ-EN-switch-preservation':{status:renderer.includes("engineer-language-changed")&&renderer.includes('originals')?'PASS':'FAIL'},
-  'PUBLIC-REGISTRY-ENUM-I18N':{status:enumReview===0?'PASS':'REVIEW',mapped_enum_fields:enumMapped,unmapped_enum_fields:enumReview},
+  'PUBLIC-REGISTRY-ENUM-I18N':{status:enumReview===0?'PASS':'REVIEW',mapped_enum_fields:enumMapped,unmapped_enum_fields:enumReview,renderer_enum_mappings:Object.keys(rendererEnumCs).length},
   'PUBLIC-CZ-CONTENT-QUALITY':{status:contentQualityReview===0?'PASS':'REVIEW',review_fields:contentQualityReview}
 };
 const renderingFailures=Object.entries(canaries).filter(([k,x])=>!['PUBLIC-REGISTRY-ENUM-I18N','PUBLIC-CZ-CONTENT-QUALITY'].includes(k)&&x.status!=='PASS').length;
 const backlogItems=items.filter(x=>x.missing_fields.length).length;
 const reviewItems=items.filter(x=>x.status==='TRANSLATION_REVIEW_NEEDED').length;
 const status=missingFields===0&&renderingFailures===0?(reviewFields?'PUBLIC_CZ_UI_BACKLOG_ZERO_WITH_REVIEWS':'PUBLIC_CZ_UI_BACKLOG_ZERO'):'PUBLIC_CZ_UI_BACKLOG_OPEN';
-const report={generated_at:new Date().toISOString(),current_run_id:data.state_latest?.run_id||null,FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,TRANSLATION_REVIEW_FIELDS:reviewFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,canaries,items,status};
+const report={generated_at:new Date().toISOString(),current_run_id:data.state_latest?.run_id||null,FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,TRANSLATION_REVIEW_FIELDS:reviewFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,RENDERER_ENUM_MAPPINGS:Object.keys(rendererEnumCs).length,canaries,items,status};
 writeFileSync(join(dist,'public-cz-ui-audit.json'),JSON.stringify(report,null,2)+'\n');
-const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${fully}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${partial}`,`TRANSLATION_REVIEW_NEEDED: ${reviewItems}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${backlogItems}/${missingFields}`,`I18N_RENDERING_FAILURE: ${renderingFailures}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${enumMapped}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${enumReview}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${contentQualityReview}`,'','## Canaries',...Object.entries(canaries).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...(items.length?items.slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${x.missing_fields.join(',')||'-'}; review=${x.review_fields.join(',')||'-'}`):['- None'])].join('\n');
+const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${fully}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${partial}`,`TRANSLATION_REVIEW_NEEDED: ${reviewItems}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${backlogItems}/${missingFields}`,`I18N_RENDERING_FAILURE: ${renderingFailures}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${enumMapped}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${enumReview}`,`RENDERER_ENUM_MAPPINGS: ${Object.keys(rendererEnumCs).length}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${contentQualityReview}`,'','## Canaries',...Object.entries(canaries).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...(items.length?items.slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${x.missing_fields.join(',')||'-'}; review=${x.review_fields.join(',')||'-'}`):['- None'])].join('\n');
 writeFileSync(join(dist,'public-cz-ui-audit.md'),md+'\n');
-appendFileSync(join(dist,'health.txt'),`public_cz_ui_audit=${report.status}\npublic_cz_ui_backlog_items=${backlogItems}\npublic_cz_ui_backlog_fields=${missingFields}\npublic_cz_ui_review_needed=${reviewItems}\npublic_cz_ui_review_fields=${reviewFields}\npublic_cz_ui_rendering_failures=${renderingFailures}\npublic_cz_ui_enum_mapped=${enumMapped}\npublic_cz_ui_enum_review=${enumReview}\npublic_cz_ui_content_quality_review=${contentQualityReview}\n`);
-console.log(JSON.stringify({FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,canaries}));
+appendFileSync(join(dist,'health.txt'),`public_cz_ui_audit=${report.status}\npublic_cz_ui_backlog_items=${backlogItems}\npublic_cz_ui_backlog_fields=${missingFields}\npublic_cz_ui_review_needed=${reviewItems}\npublic_cz_ui_review_fields=${reviewFields}\npublic_cz_ui_rendering_failures=${renderingFailures}\npublic_cz_ui_enum_mapped=${enumMapped}\npublic_cz_ui_enum_review=${enumReview}\npublic_cz_ui_renderer_enum_mappings=${Object.keys(rendererEnumCs).length}\npublic_cz_ui_content_quality_review=${contentQualityReview}\n`);
+console.log(JSON.stringify({FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,RENDERER_ENUM_MAPPINGS:Object.keys(rendererEnumCs).length,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,canaries}));
