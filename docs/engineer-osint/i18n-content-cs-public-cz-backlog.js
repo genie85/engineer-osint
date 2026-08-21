@@ -4,6 +4,7 @@
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const L=new Map([...(D.leads?.leads||[]),...(ex().leads||[]),...(ex().external_leads||[])].map(x=>[x.lead_id||x.id,x]));
   const put=(id,p)=>{const x=R.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const setCs=(id,p)=>{const x=R.get(id);if(!x)return false;Object.assign(x,p);x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const putLead=(id,p)=>{const x=L.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const translated=[];
   const qualityFixed=[];
@@ -15,16 +16,35 @@
       XM123_ABS_GOBLN_PROGRAM_LINEAGE_ACQUISITION_ROADMAP:'LINIE PROGRAMU XM123 ABS / GOBLN A AKVIZIČNÍ PLÁN',
       DATA_PASS_RENDER_UNVERIFIED:'DATA VYHOVUJÍ – VYKRESLENÍ NEOVĚŘENO',
       OPEN_LATE_DISCOVERED_CURRENT_OFFICIAL_INDEXED_DEEP_LINK_DIRECT_FETCH_CACHE_MISS:'OTEVŘENO – POZDĚJI NALEZENÝ AKTUÁLNÍ OFICIÁLNÍ INDEXOVANÝ ODKAZ; PŘÍMÉ NAČTENÍ SELHALO, PROTOŽE ZÁZNAM NEBYL V MEZIPAMĚTI',
-      OPEN_OFFICIAL_CATALOGUE_EVENT_LISTING_PIXEL_LEVEL_PHYSICAL_PRESENCE_UNCONFIRMED:'OTEVŘENO – OFICIÁLNÍ KATALOG UVÁDÍ ÚČAST NA AKCI; FYZICKÁ PŘÍTOMNOST KONKRÉTNÍHO SYSTÉMU NENÍ VIZUÁLNĚ POTVRZENA'
+      OPEN_OFFICIAL_CATALOGUE_EVENT_LISTING_PIXEL_LEVEL_PHYSICAL_PRESENCE_UNCONFIRMED:'OTEVŘENO – OFICIÁLNÍ KATALOG UVÁDÍ ÚČAST NA AKCI; FYZICKÁ PŘÍTOMNOST KONKRÉTNÍHO SYSTÉMU NENÍ VIZUÁLNĚ POTVRZENA',
+      STATUS_DISCREPANCY_EDA_IN_PREPARATION_VS_RMA_ACTIVE:'ROZPOR STAVU: EDA „V PŘÍPRAVĚ“ VS. RMA „AKTIVNÍ“',
+      CURRENT_PROGRAMME_SIGNAL_WITH_SOURCE_STATUS_CONFLICT:'AKTUÁLNÍ PROGRAMOVÝ SIGNÁL S ROZPOREM STAVU VE ZDROJÍCH',
+      FACT_ABOUT_PUBLIC_PROJECT_RECORDS_PLUS_UNRESOLVED_STATUS_CONFLICT:'FAKT O VEŘEJNÝCH PROJEKTOVÝCH ZÁZNAMECH + NEVYŘEŠENÝ ROZPOR STAVU',
+      HIGH_FOR_DATES_CONTRACT_PARTNERS_MEDIUM_HIGH_FOR_CURRENT_STATUS_DUE_TO_SOURCE_CONFLICT:'VYSOKÁ PRO DATA, KONTRAKT A PARTNERY; STŘEDNĚ VYSOKÁ PRO AKTUÁLNÍ STAV KVŮLI ROZPORU ZDROJŮ',
+      OFFICIAL_MILITARY_ACADEMY_PROJECT_RECORD:'OFICIÁLNÍ ZÁZNAM PROJEKTU VOJENSKÉ AKADEMIE',
+      PRIMARY_MILITARY_ACADEMY_RESEARCH_PORTAL:'PRIMÁRNÍ VÝZKUMNÝ PORTÁL VOJENSKÉ AKADEMIE',
+      PROJECT_LEAD_VENDOR_KICKOFF_RECORD:'ZÁZNAM VEDOUCÍHO DODAVATELE O ZAHÁJENÍ PROJEKTU',
+      PRIMARY_VENDOR_PROJECT_LEAD_PAGE:'PRIMÁRNÍ STRÁNKA VEDOUCÍHO DODAVATELE PROJEKTU',
+      CORROBORATING_PRIMARY_VENDOR_REPORT:'POTVRZUJÍCÍ PRIMÁRNÍ ZPRÁVA DODAVATELE',
+      EUGS_PROGRAMME_PARTICIPANTS_SCHEDULE_AND_SCOPE:'PROGRAM eUGS – ÚČASTNÍCI, HARMONOGRAM A ROZSAH',
+      EUGS_KICKOFF_AND_CONSORTIUM_CORROBORATION:'eUGS – POTVRZENÍ ZAHÁJENÍ PROJEKTU A KONSORCIA',
+      RECENT_HISTORICAL_BACKFILL:'NEDÁVNÝ HISTORICKÝ DOPLNĚK',
+      FACT_ABOUT_OFFICIAL_NATO_TRAINING_PROFILE:'FAKT O OFICIÁLNÍM VÝCVIKOVÉM PROFILU NATO',
+      HIGH_FOR_COURSE_PROFILE_LOW_FOR_NATIONAL_IMPLEMENTATION:'VYSOKÁ PRO PROFIL KURZU; NÍZKÁ PRO NÁRODNÍ IMPLEMENTACI',
+      PRIMARY_NATO_TRAINING_CATALOGUE:'PRIMÁRNÍ VÝCVIKOVÝ KATALOG NATO',
+      C_IED_WEAPONS_INTELLIGENCE_TRAINING_PROFILE:'PROFIL VÝCVIKU WEAPONS INTELLIGENCE V C-IED',
+      VERIFIED_INDEXED_OFFICIAL_PAGE:'OVĚŘENÁ INDEXOVANÁ OFICIÁLNÍ STRÁNKA',
+      OFFICIAL_NATO_TRAINING_CATALOGUE_RECORD:'OFICIÁLNÍ ZÁZNAM VÝCVIKOVÉHO KATALOGU NATO',
+      PRIMARY_NATO_E_ITEEP_ETOC:'PRIMÁRNÍ NATO e-ITEP / ETOC'
     });
-    qualityFixed.push('UI-PMS-BASELINE','UI-MT55A-BASELINE','UI-XM123-ROADMAP','UI-RENDER-STATUS','UI-DEEP-LINK-CACHE','UI-EVENT-LISTING');
+    qualityFixed.push('UI-PMS-BASELINE','UI-MT55A-BASELINE','UI-XM123-ROADMAP','UI-RENDER-STATUS','UI-DEEP-LINK-CACHE','UI-EVENT-LISTING','B19-EUGS-ENUMS','B19-EVIDENCE-ENUMS','B19-SOURCE-ENUMS','B20-WIT-ENUMS','B20-EVIDENCE-ENUMS');
   }
   if(put('ENG-EVT-0026',{summary_cs:'Türkiye MSB 9. července 2026 uvedlo dokončení 240m plovoucího mostu ženijní brigádou 2. armády.'}))translated.push('ENG-EVT-0026');
   if(putLead('LEAD-050',{recommended_next_action_cs:'Po 20. 8. 2026 znovu prověřit oficiální certifikační registr; z pouhého skončení platnosti certifikátu nevyvozovat stažení prostředku ani ztrátu schopnosti.'}))translated.push('LEAD-050');
   if(putLead('LEAD-052',{recommended_next_action_cs:'Dohledat primární provozní, akviziční nebo servisní záznamy, které oddělí MV-10 od MV-4 a potvrdí počet, distribuci a provozuschopnost k srpnu 2026.'}))translated.push('LEAD-052');
   if(putLead('LEAD-053',{topic_cs:'Současný veřejný záznam ORBAT ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
   if(putLead('LEAD-054',{topic_cs:'SDZ na DALO Industry Days 2026 — oficiální uvedení v katalogu versus přímo pozorované vystavení',status_cs:'POZDNĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA – UVEDENÍ V KATALOGU POTVRZENO, FYZICKÉ VYSTAVENÍ NEPOZOROVÁNO'}))translated.push('LEAD-054');
-  if(put('ENG-SIG-0018',{maturity_cs:'V PŘÍPRAVĚ',temporal_status_cs:'AKTUÁLNÍ PROGRAMOVÝ SIGNÁL'}))translated.push('ENG-SIG-0018');
+  if(setCs('ENG-SIG-0018',{maturity_cs:'ROZPOR STAVU: EDA „V PŘÍPRAVĚ“ VS. RMA „AKTIVNÍ“',temporal_status_cs:'AKTUÁLNÍ PROGRAMOVÝ SIGNÁL S ROZPOREM STAVU VE ZDROJÍCH',classification_cs:'FAKT O VEŘEJNÝCH PROJEKTOVÝCH ZÁZNAMECH + NEVYŘEŠENÝ ROZPOR STAVU',confidence_cs:'VYSOKÁ PRO DATA, KONTRAKT A PARTNERY; STŘEDNĚ VYSOKÁ PRO AKTUÁLNÍ STAV KVŮLI ROZPORU ZDROJŮ'}))translated.push('ENG-SIG-0018');
   if(put('ENG-TECH-0040',{maturity_cs:'VEŘEJNÝ PROFIL VOJENSKÉHO TESTOVÁNÍ',current_value_status_cs:'PODLE OFICIÁLNÍ STRÁNKY NENÍ OPERAČNĚ NASAZEN'}))translated.push('ENG-TECH-0040');
   const review=['LEAD-002','LEAD-003','LEAD-005'].filter(id=>L.has(id)&&!(L.get(id)?.title_cs||L.get(id)?.topic_cs)&&!(L.get(id)?.summary_cs||L.get(id)?.description_cs||L.get(id)?.note_cs));
 
@@ -65,7 +85,7 @@
   }
   const scalar=['title','summary','update_summary','description','note','topic','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
   const arrays=['intelligence_gaps'];
-  const enumFields=['status','classification','confidence','temporal_status','current_value_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
+  const enumFields=['status','classification','confidence','temporal_status','current_value_status','canonicalization_status','evidence_type','evidence_status','observation_basis','source_class','role','url_validation_status','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
   const uiCs=()=>window.__ENGINEER_I18N__?.ui?.cs||{};
   const enumCs=v=>{if(v===undefined||v===null)return v;const s=String(v),m=uiCs();return m[s]??m[s.toUpperCase()]??v;};
@@ -95,6 +115,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1740-hybrid-ui-cleanup',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: zachována dávka B18/current_value_status a odstraněny další hybridní české řetězce v LEAD a UI enum mapách; EN pole a factual data zachována.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','PUBLIC_CURRENT_VALUE_STATUS','B16_B17_TRENDS','B18_PUBLIC_ENUMS','PUBLIC_CZ_HYBRID_TEXT','PUBLIC_UI_ENUM_HYBRIDS','AUDIT_VM_SAFE'],version:'1.9',last_batch:'2026-08-21-1740-hybrid-ui-cleanup'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1744-b19-b20-enums',processed_ids:[...new Set([...translated,...qualityFixed,...review,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],fully_translated:qualityFixed.length+translated.length+4,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: B19/B20 compound programme, evidence, source and validation enums localized in the existing public i18n layer; stale ENG-SIG-0018 B18 status translation updated to the B19 source-conflict state. EN fields and factual registry data preserved.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed,'ENG-EVID-0131','ENG-EVID-0132','ENG-DOC-0042','ENG-EVID-0133'])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','PUBLIC_CURRENT_VALUE_STATUS','PUBLIC_OBSERVATION_BASIS','PUBLIC_URL_VALIDATION_STATUS','B16_B17_TRENDS','B18_PUBLIC_ENUMS','B19_EUGS_ENUMS','B19_EVIDENCE_ENUMS','B20_WIT_ENUMS','PUBLIC_CZ_HYBRID_TEXT','PUBLIC_UI_ENUM_HYBRIDS','AUDIT_VM_SAFE'],version:'2.0',last_batch:'2026-08-21-1744-b19-b20-enums'};
 })();
