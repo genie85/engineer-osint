@@ -13,13 +13,13 @@ function mediaArrays(p){
   const direct=[];
   direct.push(...asArray(p.new_media));
   if(Array.isArray(p.media)) direct.push(...p.media);
-  else if(p.media&&typeof p.media==='object') direct.push(...asArray(p.media.new_media),...asArray(p.media.items));
-  if(p.multimedia&&typeof p.multimedia==='object') direct.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items));
+  else if(p.media&&typeof p.media==='object') direct.push(...asArray(p.media.new_media),...asArray(p.media.items),...asArray(p.media.media));
+  if(p.multimedia&&typeof p.multimedia==='object') direct.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items),...asArray(p.multimedia.media));
   return direct;
 }
 function classifyAsset(url=''){
   const u=String(url);
-  if(/(?:youtu\.be\/[\w-]{6,}|youtube\.com\/(?:watch\?[^#]*v=[\w-]{6,}|shorts\/[\w-]{6,}|live\/[\w-]{6,}))/i.test(u)) return {kind:'YOUTUBE',asset_level:true};
+  if(/(?:youtu\.be\/[\w-]{6,}|youtube\.com\/(?:watch\?[^#]*v=[\w-]{6,}|shorts\/[\w-]{6,}|live\/[\w-]{6,}|embed\/[\w-]{6,}))/i.test(u)) return {kind:'YOUTUBE',asset_level:true};
   if(/youtube\.com/i.test(u)) return {kind:'YOUTUBE',asset_level:false};
   if(/spotify\.com\/episode\//i.test(u)||/podcasts\.apple\.com\/[^/]+\/podcast\/[^/]+\/id\d+\?i=\d+/i.test(u)||/soundcloud\.com\/[^/]+\/[^/?#]+/i.test(u)) return {kind:'PODCAST',asset_level:true};
   if(/podcast|spotify\.com|podcasts\.apple\.com|soundcloud/i.test(u)) return {kind:'PODCAST',asset_level:false};
