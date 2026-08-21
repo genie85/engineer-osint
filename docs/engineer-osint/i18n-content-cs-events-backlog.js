@@ -29,7 +29,15 @@
     NO_NEW_CURRENT_CANONICAL_MATERIAL:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL',
     NO_NEW_CURRENT_CANONICAL_MATERIAL_MKR2_SUCCESSOR_RECHECK_NEGATIVE:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL; OPAKOVANÁ KONTROLA NÁSTUPCE MKR-2 NEGATIVNÍ',
     HISTORICAL_EOC_STANDARDIZATION_ENRICHMENT_NO_NEW_PROMULGATION:'HISTORICKÉ OBOHACENÍ STANDARDIZACE EOC; ŽÁDNÁ NOVÁ PROMULGACE',
-    HISTORICAL_EOC_STANDARDIZATION_ENRICHMENT:'HISTORICKÉ OBOHACENÍ STANDARDIZACE EOC'
+    HISTORICAL_EOC_STANDARDIZATION_ENRICHMENT:'HISTORICKÉ OBOHACENÍ STANDARDIZACE EOC',
+    HISTORICAL_PROFESSIONAL_ARTICLE_2026_NOT_DOCTRINE_NOT_FIELDING:'HISTORICKÝ ODBORNÝ ČLÁNEK Z ROKU 2026; NIKOLI DOKTRÍNA ANI DŮKAZ ZAVEDENÍ',
+    HIGH_FOR_PUBLISHED_PROFESSIONAL_ARGUMENT_LOW_FOR_INSTITUTIONAL_ADOPTION:'VYSOKÁ PRO ZVEŘEJNĚNOU ODBORNOU ARGUMENTACI; NÍZKÁ PRO INSTITUCIONÁLNÍ PŘIJETÍ',
+    PRIMARY_OFFICIAL_HOSTED_PROFESSIONAL_ARTICLE_NOT_DOCTRINE:'PRIMÁRNÍ OFICIÁLNĚ HOSTOVANÝ ODBORNÝ ČLÁNEK; NIKOLI DOKTRÍNA',
+    OFFICIAL_HOSTED_PROFESSIONAL_ENGINEER_ARTICLE:'OFICIÁLNĚ HOSTOVANÝ ODBORNÝ ŽENIJNÍ ČLÁNEK',
+    DIRECT_OFFICIAL_ARMY_PUBLICATION_READBACK_TEXT_ONLY_VISUALS_EXCLUDED:'PŘÍMÉ OVĚŘENÍ OFICIÁLNÍ PUBLIKACE U.S. ARMY; POUZE TEXT, VIZUÁLY VYLOUČENY',
+    DIRECT_PRIMARY_HOSTED_PROFESSIONAL_ARGUMENT_NOT_POLICY:'PŘÍMÁ PRIMÁRNÍ HOSTOVANÁ ODBORNÁ ARGUMENTACE; NIKOLI POLITIKA',
+    HIGH_FOR_ARTICLE_CONTENT_LOW_FOR_FORCE_WIDE_IMPLEMENTATION:'VYSOKÁ PRO OBSAH ČLÁNKU; NÍZKÁ PRO IMPLEMENTACI NAPŘÍČ SILAMI',
+    EXISTING_SIGNAL_REINFORCED_NOT_NEW_CANONICAL_SIGNAL:'EXISTUJÍCÍ SIGNÁL POSÍLEN; NEJDE O NOVÝ KANONICKÝ SIGNÁL'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -48,6 +56,6 @@
   putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — načíst a kanonikalizovat pouze z veřejně zpřístupněné kopie při stabilním přímém přístupu k dokumentu'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0333-public-cz-ui',processed_ids:['LEAD-B42-01','LEAD-B42-02'],fully_translated:2,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B42 lead topics in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.4',last_batch:'2026-08-21-0333-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0333-public-cz-ui',processed_ids:['ENG-DOC-0052','ENG-EVID-0170','ENG-SRC-0465','B42-TREND-01','LEAD-B42-01','LEAD-B42-02'],fully_translated:2,partially_translated:4,review_needed:0,scope:'PUBLIC-CZ-UI localization of B42 lead topics and core professional-article status/source/evidence tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.5',last_batch:'2026-08-21-0333-public-cz-ui'};
 })();
