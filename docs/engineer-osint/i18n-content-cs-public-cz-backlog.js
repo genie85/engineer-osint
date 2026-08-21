@@ -10,7 +10,8 @@
   if(put('ENG-EVT-0026',{summary_cs:'Türkiye MSB 9. července 2026 uvedlo dokončení 240m plovoucího mostu ženijní brigádou 2. armády.'}))translated.push('ENG-EVT-0026');
   if(putLead('LEAD-050',{recommended_next_action_cs:'Po 20. 8. 2026 znovu prověřit oficiální certifikační registr; z pouhého skončení platnosti certifikátu nevyvozovat stažení prostředku ani ztrátu schopnosti.'}))translated.push('LEAD-050');
   if(putLead('LEAD-052',{recommended_next_action_cs:'Dohledat primární provozní, akviziční nebo servisní záznamy, které oddělí MV-10 od MV-4 a potvrdí počet, distribuci a provozuschopnost k srpnu 2026.'}))translated.push('LEAD-052');
-  if(putLead('LEAD-053',{topic_cs:'Současný veřejný ORBAT lead ženijního praporu 72. mechanizované brigády'}))translated.push('LEAD-053');
+  if(putLead('LEAD-053',{topic_cs:'Současný veřejný ORBAT lead ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
+  if(putLead('LEAD-054',{topic_cs:'SDZ na DALO Industry Days 2026 — oficiální listing versus přímo pozorované vystavení',status_cs:'POZDNĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA – LISTING POTVRZEN, FYZICKÉ VYSTAVENÍ NEPOZOROVÁNO'}))translated.push('LEAD-054');
   const review=['LEAD-002','LEAD-003','LEAD-005'].filter(id=>L.has(id)&&!(L.get(id)?.title_cs||L.get(id)?.topic_cs)&&!(L.get(id)?.summary_cs||L.get(id)?.description_cs||L.get(id)?.note_cs));
 
   const arr=v=>Array.isArray(v)?v:[];
@@ -32,6 +33,16 @@
     b53Trend.title_cs='Rozšíření ukrajinského vojenského zdrojového ekosystému o strukturovaný repozitář poznatků a zkušeností (Lessons Learned)';
     b53Trend.note_cs='Oficiální repozitář Institutu VMS NU OMA systematicky zpřístupňuje materiály ke studiu a implementaci zkušeností po jednotlivých letech a navazující bulletiny. Jde o nový opakovaně využitelný vyhledávací kanál, nikoli sám o sobě o nový fakt o schopnosti.';
     qualityFixed.push('B53-TREND-01');
+  }
+  const b16Trend=publicById.get('TREND_WATCH_ONLY');
+  if(b16Trend){
+    b16Trend.status_cs='POTVRZUJÍCÍ SIGNÁL – NEJDE O NOVÝ KANONICKÝ TREND';
+    qualityFixed.push('TREND_WATCH_ONLY');
+  }
+  const b17Trend=publicById.get('TREND-WATCH-B17-ROBOTIC_ENGINEER_TELEOPERATION');
+  if(b17Trend){
+    b17Trend.status_cs='POUZE POTVRZENÍ – NEJDE O NOVÝ TREND';
+    qualityFixed.push('TREND-WATCH-B17-ROBOTIC_ENGINEER_TELEOPERATION');
   }
   const orbat0036=publicById.get('ENG-UNIT-0036');
   if(orbat0036&&orbat0036.scope==='CURRENT_PUBLIC_PROFILE_ACCESSED_2026-08-19'){
@@ -70,6 +81,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1714-public-leads-history',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: historické external leads jsou součástí veřejného registru; lokalizováno topic/recommended_next_action a ORBAT note bez změny factual dat.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.6',last_batch:'2026-08-21-1714-public-leads-history'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1733-b16-b17-public',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: B16/B17 external leads a Trend Watch statusy lokalizovány přes existující i18n vrstvu; factual data a EN pole zachována.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','B16_B17_TRENDS','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.7',last_batch:'2026-08-21-1733-b16-b17-public'};
 })();
