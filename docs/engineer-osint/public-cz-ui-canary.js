@@ -1,6 +1,6 @@
 (function(){
   const D=window.__ENGINEER_DATA__;if(!D)return;
-  const STATIC={NEW:'NOVÉ',UPDATE:'AKTUALIZACE',CONFIRMATION:'POTVRZENÍ',Reset:'Vymazat filtry',FACT:'FAKT',EVIDENCE:'DŮKAZY','FACT / EVIDENCE':'FAKTA / DŮKAZY','ANALYTICAL INTERPRETATION':'ANALYTICKÁ INTERPRETACE',LIMIT:'OMEZENÍ','WHAT IT DOES NOT PROVE':'CO TO NEDOKLÁDÁ','WHAT THIS DOES NOT PROVE':'CO Z TOHO NELZE TVRDIT'};
+  const STATIC={NEW:'NOVÉ',UPDATE:'AKTUALIZACE',CONFIRMATION:'POTVRZENÍ',Reset:'Vymazat filtry',FACT:'FAKT',EVIDENCE:'DŮKAZY','FACT / EVIDENCE':'FAKTA / DŮKAZY','ANALYTICAL INTERPRETATION':'ANALYTICKÁ INTERPRETACE',LIMIT:'OMEZENÍ','WHAT IT DOES NOT PROVE':'CO TO NEDOKLÁDÁ','WHAT THIS DOES NOT PROVE':'CO Z TOHO NELZE TVRDIT','WHY IT MATTERS':'PROČ JE TO DŮLEŽITÉ','STAFF RELEVANCE':'VÝZNAM PRO ŠTÁB','TRAINING RELEVANCE':'VÝZNAM PRO VÝCVIK','INTELLIGENCE GAPS':'INFORMAČNÍ MEZERY','CURRENT CHANGES':'AKTUÁLNÍ ZMĚNY','TECHNOLOGY SIGNALS':'TECHNOLOGICKÉ SIGNÁLY','TREND WATCH':'SLEDOVÁNÍ TRENDŮ','SOURCES':'ZDROJE','RELATIONS':'VAZBY','METHODOLOGY':'METODIKA'};
   const SCALAR=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption'];
   const ARRAY=['intelligence_gaps'];
   const originals=new WeakMap();
