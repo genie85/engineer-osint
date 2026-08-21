@@ -41,23 +41,31 @@ const currentWorthListening=asArray(currentPatch?.multimedia?.worth_listening).l
 const currentExplicitZeroSweep=Boolean(currentRunId&&currentMultimediaStatus&&currentDeclared===0&&currentMediaItems===0);
 
 const qaIssues=[];
-for(const x of missingSweepStatus)qaIssues.push({severity:'WARN',type:'MEDIA_SWEEP_STATUS_MISSING',run_id:x.run,message:'Historical run has media-related evidence but no explicit multimedia.status.'});
-for(const x of declaredWithoutArray)qaIssues.push({severity:'ERROR',type:x.type,run_id:x.run,message:'Historical run declares NEW_MEDIA > 0 but no materialized media item is present in the patch.'});
-for(const x of canonicalWithZeroDeclared)qaIssues.push({severity:'WARN',type:x.type,run_id:x.run,message:'Historical patch contains materialized media while declared NEW_MEDIA is zero; verify update/backfill semantics.'});
-for(const s of sourceOnly)qaIssues.push({severity:'INFO',type:'SOURCE_MEDIA_NOT_CANONICALIZED',source_id:s.id||null,url:s.url||s.source_url||null,message:'Media-capable canonical source URL exists in built runtime but is absent from historical canonical media records. Public presentation may derive it, but persistent media_registry canonicalization remains backlog.'});
+for(const x of missingSweepStatus)qaIssues.push({scope:'HISTORICAL',severity:'WARN',type:'MEDIA_SWEEP_STATUS_MISSING',run_id:x.run,message:'Historical run has media-related evidence but no explicit multimedia.status.'});
+for(const x of declaredWithoutArray)qaIssues.push({scope:'HISTORICAL',severity:'ERROR',type:x.type,run_id:x.run,message:'Historical run declares NEW_MEDIA > 0 but no materialized media item is present in the patch.'});
+for(const x of canonicalWithZeroDeclared)qaIssues.push({scope:'HISTORICAL',severity:'WARN',type:x.type,run_id:x.run,message:'Historical patch contains materialized media while declared NEW_MEDIA is zero; verify update/backfill semantics.'});
+for(const s of sourceOnly)qaIssues.push({scope:'PERSISTENCE',severity:'INFO',type:'SOURCE_MEDIA_NOT_CANONICALIZED',source_id:s.id||null,url:s.url||s.source_url||null,message:'Media-capable canonical source URL exists in built runtime but is absent from historical canonical media records. Public presentation may derive it, but persistent media_registry canonicalization remains backlog.'});
 
-if(!currentRunId)qaIssues.push({severity:'ERROR',type:'CURRENT_RUN_ID_MISSING',message:'Current b11 patch has no state.run_id.'});
-if(!currentMultimediaStatus)qaIssues.push({severity:'ERROR',type:'CURRENT_MEDIA_SWEEP_STATUS_MISSING',run_id:currentRunId,message:'Current run does not explicitly record multimedia.status, so NEW_MEDIA=0 cannot be distinguished from a skipped sweep.'});
-if(currentDeclared>0&&currentMediaItems===0)qaIssues.push({severity:'ERROR',type:'CURRENT_DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY',run_id:currentRunId,message:'Current run declares NEW_MEDIA > 0 but has no materialized media item.'});
-if(currentMediaItems>0&&currentDeclared===0)qaIssues.push({severity:'WARN',type:'CURRENT_MEDIA_ARRAY_WITH_ZERO_DECLARED_COUNT',run_id:currentRunId,message:'Current run contains media items while NEW_MEDIA=0; verify whether these are updates/backfill rather than new media.'});
+if(!currentRunId)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_RUN_ID_MISSING',message:'Current b11 patch has no state.run_id.'});
+if(!currentMultimediaStatus)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_MEDIA_SWEEP_STATUS_MISSING',run_id:currentRunId,message:'Current run does not explicitly record multimedia.status, so NEW_MEDIA=0 cannot be distinguished from a skipped sweep.'});
+if(currentDeclared>0&&currentMediaItems===0)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY',run_id:currentRunId,message:'Current run declares NEW_MEDIA > 0 but has no materialized media item.'});
+if(currentMediaItems>0&&currentDeclared===0)qaIssues.push({scope:'CURRENT',severity:'WARN',type:'CURRENT_MEDIA_ARRAY_WITH_ZERO_DECLARED_COUNT',run_id:currentRunId,message:'Current run contains media items while NEW_MEDIA=0; verify whether these are updates/backfill rather than new media.'});
 
-const errorCount=qaIssues.filter(x=>x.severity==='ERROR').length;
+const currentErrors=qaIssues.filter(x=>x.scope==='CURRENT'&&x.severity==='ERROR');
+const historicalErrors=qaIssues.filter(x=>x.scope==='HISTORICAL'&&x.severity==='ERROR');
 const warningCount=qaIssues.filter(x=>x.severity==='WARN').length;
-const status=errorCount?'FAIL_STRUCTURAL':(qaIssues.length?'PASS_WITH_BACKLOG':'PASS');
+const infoCount=qaIssues.filter(x=>x.severity==='INFO').length;
+const status=currentErrors.length?'FAIL_CURRENT_RUN':historicalErrors.length?'PASS_WITH_HISTORICAL_STRUCTURAL_BACKLOG':qaIssues.length?'PASS_WITH_BACKLOG':'PASS';
 const report={
   generated_at:new Date().toISOString(),
   status,
-  interpretation:'A zero media count is not treated as a failure by itself. The current run is checked directly so an explicit completed multimedia sweep with zero canonical additions is distinguishable from a skipped sweep. Historical issues and source-only media remain visible as backlog.',
+  publish_gate:{
+    mode:'CURRENT_RUN_ONLY',
+    pass:currentErrors.length===0,
+    blocking_error_count:currentErrors.length,
+    historical_structural_errors_block_deploy:false
+  },
+  interpretation:'A zero media count is not treated as a failure by itself. Deployment is blocked only by current-run multimedia structural failures. Historical structural inconsistencies and source-only media remain visible as backlog and do not freeze a valid current deployment.',
   current_run:{
     run_id:currentRunId,
     multimedia_status:currentMultimediaStatus,
@@ -77,23 +85,28 @@ const report={
     media_array_with_zero_declared:canonicalWithZeroDeclared.length,
     current_run_media_status_present:Boolean(currentMultimediaStatus),
     current_run_explicit_zero_sweep:currentExplicitZeroSweep,
-    error_count:errorCount,
+    current_blocking_error_count:currentErrors.length,
+    historical_structural_error_count:historicalErrors.length,
     warning_count:warningCount,
-    info_count:qaIssues.filter(x=>x.severity==='INFO').length
+    info_count:infoCount
   },
   issues:qaIssues
 };
 writeFileSync(outPath,JSON.stringify(report,null,2));
 const md=[
   '# ENGINEER OSINT media coverage QA','',
-  `Status: **${status}**`,'',
+  `Status: **${status}**`,
+  `Current-run publish gate: **${report.publish_gate.pass?'PASS':'FAIL'}**`,'',
   report.interpretation,'',
   '## Current run','',
   `- RUN_ID: **${currentRunId||'MISSING'}**`,
   `- multimedia.status: **${currentMultimediaStatus||'MISSING'}**`,
   `- NEW_MEDIA: **${currentDeclared}**`,
   `- Materialized media items: **${currentMediaItems}**`,
-  `- Explicit completed zero-addition sweep: **${currentExplicitZeroSweep?'YES':'NO'}**`,'',
+  `- worth_watching: **${currentWorthWatching}**`,
+  `- worth_listening: **${currentWorthListening}**`,
+  `- Explicit completed zero-addition sweep: **${currentExplicitZeroSweep?'YES':'NO'}**`,
+  `- Blocking current-run errors: **${currentErrors.length}**`,'',
   '## Historical / persistence coverage','',
   `- Runs scanned: **${report.summary.runs_scanned}**`,
   `- Canonical media records: **${report.summary.canonical_media_records}**`,
@@ -101,10 +114,11 @@ const md=[
   `- Source media URLs not persisted in canonical media history: **${report.summary.source_media_not_canonicalized}**`,
   `- Historical media-related runs missing multimedia.status: **${report.summary.media_sweep_status_missing}**`,
   `- Historical declared NEW_MEDIA without media array: **${report.summary.declared_new_media_without_array}**`,
-  `- Historical media array present with NEW_MEDIA=0: **${report.summary.media_array_with_zero_declared}**`,'',
+  `- Historical media array present with NEW_MEDIA=0: **${report.summary.media_array_with_zero_declared}**`,
+  `- Historical structural errors (non-blocking): **${historicalErrors.length}**`,'',
   '## Issues','',
-  ...(qaIssues.length?qaIssues.map(x=>`- ${x.severity} · ${x.type}${x.run_id?' · '+x.run_id:''}${x.source_id?' · '+x.source_id:''}${x.url?' · '+x.url:''}: ${x.message}`):['- None'])
+  ...(qaIssues.length?qaIssues.map(x=>`- ${x.scope} · ${x.severity} · ${x.type}${x.run_id?' · '+x.run_id:''}${x.source_id?' · '+x.source_id:''}${x.url?' · '+x.url:''}: ${x.message}`):['- None'])
 ].join('\n');
 writeFileSync(mdPath,md);
-console.log(JSON.stringify({status,current_run:report.current_run,summary:report.summary}));
-if(errorCount)process.exitCode=2;
+console.log(JSON.stringify({status,publish_gate:report.publish_gate,current_run:report.current_run,summary:report.summary}));
+if(currentErrors.length)process.exitCode=2;
