@@ -40,6 +40,7 @@
   }
   applyPublicRegistry();
   document.addEventListener('engineer-language-changed',e=>applyPublicRegistry(e.detail?.lang||lang()));
+  setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-21-1500-public-registry-i18n',processed_ids:[...translated,...review],fully_translated:translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: zachování ENG-EVT-0026 summary_cs a oprava merge/render vrstvy pro existující *_cs/*_en pole veřejných evidence/source/visual/media/relations/lessons/trend/doctrine/ORBAT registrů; bez změny factual dat.',english_preserved:true});
