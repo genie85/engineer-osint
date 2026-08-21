@@ -45,6 +45,7 @@ jobs:
           node --check docs/engineer-osint/public-cz-ui-canary.js
           node --check docs/engineer-osint/media-source-materialization.js
           node --check docs/engineer-osint/audit-media-history.mjs
+          node --check docs/engineer-osint/validate-media-coverage.mjs
           node --check docs/engineer-osint/rich-backfill.js
           node --check docs/engineer-osint/rich-backfill-israel-turkiye-eod.js
           node --check docs/engineer-osint/rich-backfill-usa-rok.js
@@ -79,6 +80,10 @@ jobs:
       - name: Audit full-history multimedia records
         run: node docs/engineer-osint/audit-media-history.mjs
 
+      - name: Audit media sweep and persistence coverage
+        continue-on-error: true
+        run: node docs/engineer-osint/validate-media-coverage.mjs
+
       - name: Inject public CZ UI canary localization
         run: |
           node - <<'NODE'
@@ -101,8 +106,11 @@ jobs:
           test -s docs/engineer-osint-dist/health.txt
           test -s docs/engineer-osint-dist/media-history-audit.json
           test -s docs/engineer-osint-dist/media-history-audit.md
+          test -s docs/engineer-osint-dist/media-coverage-qa.json
+          test -s docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/media-history-audit.md
+          cat docs/engineer-osint-dist/media-coverage-qa.md
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
           grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
           grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
