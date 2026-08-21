@@ -28,9 +28,9 @@
     b53Trend.note_cs='Oficiální repozitář Institutu VMS NU OMA systematicky zpřístupňuje materiály ke studiu a implementaci zkušeností po jednotlivých letech a navazující bulletiny. Jde o nový opakovaně využitelný vyhledávací kanál, nikoli sám o sobě o nový fakt o schopnosti.';
     qualityFixed.push('B53-TREND-01');
   }
-  const scalar=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
+  const scalar=['title','summary','update_summary','description','note','topic','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
   const arrays=['intelligence_gaps'];
-  const enumFields=['classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
+  const enumFields=['status','classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
   const uiCs=()=>window.__ENGINEER_I18N__?.ui?.cs||{};
   const enumCs=v=>{if(v===undefined||v===null)return v;const s=String(v),m=uiCs();return m[s]??m[s.toUpperCase()]??v;};
@@ -60,6 +60,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1606-public-cz-quality-cleanup',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: jazyková kontrola českých polí, která formálně měla *_cs, ale obsahovala zbytkové anglické prezentační výrazy. B53-TREND-01 byl vyčištěn bez změny faktického významu; termín Lessons Learned je ponechán v závorce jako odborný originál.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_REGISTRY_ENUMS','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.4',last_batch:'2026-08-21-1606-public-cz-quality-cleanup'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1658-public-status-enum',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: status je prezentační enum, nikoli volný text. Český režim nyní používá explicitní status_cs nebo centrální enum mapu, EN režim zachovává status_en/base hodnotu.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.5',last_batch:'2026-08-21-1658-public-status-enum'};
 })();
