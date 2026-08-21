@@ -48,10 +48,10 @@
     }
   }
   applyPublicRegistry();
-  document.addEventListener('engineer-language-changed',e=>applyPublicRegistry(e.detail?.lang||lang()));
-  setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
+  if(typeof document!=='undefined'&&document?.addEventListener)document.addEventListener('engineer-language-changed',e=>applyPublicRegistry(e.detail?.lang||lang()));
+  if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1518-public-registry-enums',processed_ids:[...translated,...review],fully_translated:translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: rozšíření merge/render lokalizace veřejných registrů o enum/status pole classification, confidence, temporal/canonicalization status, evidence/source class, role, maturity/stage, LL status, coverage, relation, visual a media type. Používají se pouze existující UI CZ mapy nebo explicitní *_cs; EN/base hodnoty zůstávají zachované.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:translated,review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_REGISTRY_ENUMS'],version:'1.2',last_batch:'2026-08-21-1518-public-registry-enums'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1548-public-registry-vm-safe',processed_ids:[...translated,...review],fully_translated:translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: VM-safe merge/render lokalizace veřejných registrů. DOM listener a refresh se spouštějí pouze v browserovém prostředí; auditní VM může aplikovat překlady bez DOM závislosti.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:translated,review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_REGISTRY_ENUMS','AUDIT_VM_SAFE'],version:'1.3',last_batch:'2026-08-21-1548-public-registry-vm-safe'};
 })();
