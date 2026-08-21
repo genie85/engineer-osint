@@ -1,6 +1,5 @@
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync} from 'node:fs';
-import {join} from 'node:path';
 
 const patchPath='docs/engineer-osint/b11-patch.json';
 const htmlPath='docs/engineer-osint-dist/index.html';
@@ -43,10 +42,18 @@ for(const sha of shas){
   }
 }
 if(currentPatch?.state?.run_id)byRun.set(currentPatch.state.run_id,currentPatch);
-const historical=[];
+
+const historicalMap=new Map();
+let historicalOccurrences=0;
 for(const [run,p] of byRun){
-  for(const x of mediaFromPatch(p)) historical.push({...x,first_seen_run:x?.first_seen_run||run,last_update_run:run});
+  for(const x of mediaFromPatch(p)){
+    const k=key(x);if(!k)continue;
+    historicalOccurrences++;
+    const old=historicalMap.get(k)||{};
+    historicalMap.set(k,{...old,...x,first_seen_run:old.first_seen_run||x?.first_seen_run||run,last_update_run:run});
+  }
 }
+const historical=[...historicalMap.values()];
 
 let html=readFileSync(htmlPath,'utf8');
 const a=html.indexOf(marker),b=html.indexOf(';</script>',a);
@@ -70,7 +77,8 @@ D.media_materialization={
   mode:'FULL_GIT_HISTORY_CANONICAL_MEDIA',
   current_run_id:currentPatch?.state?.run_id||null,
   patch_runs_scanned:byRun.size,
-  historical_media_items_seen:historical.length,
+  historical_media_occurrences:historicalOccurrences,
+  historical_unique_media_records:historical.length,
   canonical_media_records:merged.length
 };
 html=html.slice(0,a+marker.length)+JSON.stringify(D)+html.slice(b);
