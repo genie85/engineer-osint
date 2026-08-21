@@ -19,14 +19,14 @@ const groups=[
   ['relation',[...arr(data.relations?.relations),...arr(ex.relations)]],['evidence',[...arr(data.evidence?.evidence),...arr(ex.evidence)]],
   ['source',[...arr(data.sources?.sources),...arr(data.external_source_registry?.sources)]],
   ['visual',[...arr(data.visual_registry?.visuals),...arr(data.visuals?.visuals),...arr(ex.visuals)]],
-  ['media',[...arr(data.media_registry?.media),...arr(data.media_registry?.items),...arr(data.media?.media),...arr(data.media?.items),...arr(ex.media)]],
+  ['media',[...arr(data.media_registry?.media),...arr(data.media_registry?.items),...arr(data.media?.media),...arr(data.media?.items),...(Array.isArray(data.media)?data.media:[]),...arr(ex.media)]],
   ['technology_signal',[...arr(data.technology_signals),...arr(ex.technology_signals)]],['trend',[...arr(data.trend_watch),...arr(ex.trends)]],
   ['confirmation',arr(ex.confirmations)],['contradiction',arr(ex.contradictions)],['correction',arr(ex.corrections)],
   ['lesson',[...arr(data.lessons_learned?.lessons),...arr(ex.lessons_learned)]],['doctrine',[...arr(data.doctrine?.doctrine),...arr(ex.doctrine)]],['orbat',[...arr(data.orbat?.updates),...arr(ex.orbat_updates)]]
 ];
-const scalar=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
+const scalar=['title','summary','update_summary','description','note','topic','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
 const arrays=['intelligence_gaps'];
-const enumFields=['classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
+const enumFields=['status','classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
 const idOf=(x,t,i)=>x.id||x.lead_id||x.evidence_id||x.media_id||x.asset_id||x.source_id||`${t}#${i}`;
 const czechish=s=>/[áčďéěíňóřšťúůýž]/i.test(s)||/\b(žádn|aktuáln|zdroj|důkaz|výcvik|ženijn|překáž|odmin|veřejn|zpráv|schopnost|stav|jednotk|systém|potvrzen|historick|primární|sekundární|operační|vysok|nízk|středn|ověřen|čeká|nahrazen)\w*/i.test(s);
 const officialish=s=>/^(?:ENG-|LEAD-)/.test(s)||(/^[A-Z0-9][A-Za-z0-9+./()\-–— ]+$/.test(s)&&s.split(/\s+/).length<=5&&!/[.!?]/.test(s));
