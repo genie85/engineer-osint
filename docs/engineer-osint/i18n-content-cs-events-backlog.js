@@ -95,7 +95,16 @@
     HIGH_FOR_DOCUMENT_VISUAL_CONTENT:'VYSOKÁ PRO VIZUÁLNÍ OBSAH DOKUMENTU',
     EOD_ROBOTICS_REQUIREMENT_SIGNAL_NOT_FIELDING:'SIGNÁL POŽADAVKU NA EOD ROBOTIKU; NIKOLI DŮKAZ ZAVEDENÍ',
     ANALYTICAL_OBSERVATION_NOT_OFFICIAL_NATO_LL:'ANALYTICKÉ POZOROVÁNÍ; NIKOLI OFICIÁLNÍ NATO LESSON LEARNED',
-    UKRAINE_DEMINING_CBRN_INTERAGENCY_TRAINING:'UKRAJINSKÝ MEZIRESORTNÍ VÝCVIK V ODMIŇOVÁNÍ A CBRN'
+    UKRAINE_DEMINING_CBRN_INTERAGENCY_TRAINING:'UKRAJINSKÝ MEZIRESORTNÍ VÝCVIK V ODMIŇOVÁNÍ A CBRN',
+    ONE_EXISTING_CURRENT_RECORD_ENTITY_ENRICHMENT_NO_NEW_CURRENT_EVENT:'JEDNO OBOHACENÍ EXISTUJÍCÍHO AKTUÁLNÍHO ZÁZNAMU; ŽÁDNÁ NOVÁ AKTUÁLNÍ UDÁLOST',
+    ENTITY_TOPIC_ENRICHMENT_SOURCE_BODY_RECONCILIATION:'OBOHACENÍ ENTITY — REKONCILIACE OBSAHU ZDROJE',
+    CURRENT_RECORD_ENRICHED_WITHIN_48H_RECONCILIATION:'AKTUÁLNÍ ZÁZNAM OBOHACEN V RÁMCI 48H REKONCILIACE',
+    FACT_WITH_PARTIAL_DIRECT_URL_VALIDATION:'FAKT S ČÁSTEČNOU VALIDACÍ PŘÍMÉ URL',
+    PARTIAL_SEARCH_INDEX_FULL_BODY_TITLE_PUBLISHER_DATE_MATCH_DIRECT_FETCH_HTTP_429:'ČÁSTEČNÁ VALIDACE: INDEXOVANÝ ÚPLNĚJŠÍ OBSAH, NÁZEV, VYDAVATEL A DATUM SOUHLASÍ; PŘÍMÉ NAČTENÍ HTTP 429',
+    PARTIAL_URL_VALIDATION_FULLER_INDEX_BODY_DIRECT_FETCH_429:'ČÁSTEČNÁ VALIDACE URL: ÚPLNĚJŠÍ INDEXOVANÝ OBSAH; PŘÍMÉ NAČTENÍ HTTP 429',
+    'ARMYINFORM_PUBLIC_SEARCH_INDEX_SUBSTANTIALLY_FULL_BODY; DIRECT_DEEP_LINK_HTTP_429':'VEŘEJNÝ INDEX ARMYINFORM POSKYTUJE PODSTATNĚ ÚPLNĚJŠÍ TEXT; PŘÍMÝ DEEP-LINK VRÁTIL HTTP 429',
+    TARGETED_PASS_CADENCE_NOT_DUE_AFTER_B48_DEEP_PASS:'CÍLENÝ PRŮCHOD; HLOUBKOVÝ PRŮCHOD NENÍ PO B48 ZATÍM NA ŘADĚ',
+    LEAD_ONLY_PUBLIC_INDEX_TEXT_AVAILABLE_DIRECT_FETCH_429_ORIGINAL_VIDEO_NOT_INSPECTED:'POUZE LEAD: DOSTUPNÝ INDEXOVANÝ TEXT; PŘÍMÉ NAČTENÍ HTTP 429; PŮVODNÍ VIDEO NEPROHLÉDNUTO'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -107,18 +116,19 @@
   putLead('LEAD-B37-01',{topic_cs:'Ukrajinská stránka certifikace/akreditace v oblasti odminování — vnitřní konzistence počtu a seznamu'});
   putLead('LEAD-B37-02',{topic_cs:'Aktuální ruský primární řetězec datum–příspěvek–vizuál pro ženijní/odminovací činnost'});
   putLead('LEAD-B40-01',{topic_cs:'Most u Zvannoye a minovací vozidlo u Sudži 17.–18. srpna 2026 — sekundární geolokace; primární vizuální a časový řetězec nevyřešen'});
-  putLead('LEAD-B37-04',{topic_cs:'Přesné mapování aktuálního nadřazeného standardu/edice NATO pro EOC — zúženo 68. EOD WG, ale nevyřešeno'});
-  putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 — veřejný nástupce není k 21. srpnu viditelný; operační závěr z toho nelze vyvozovat'});
+  putLead('LEAD-B37-04',{topic_cs:'Přesné mapování aktuálního nadřazeného standardu/edice NATO pro EOC zůstává nevyřešené'});
+  putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 zůstává otevřená; operační závěr z absence veřejného nástupce nelze vyvozovat'});
   putLead('LEAD-B40-02',{topic_cs:'Nizozemská akvizice UGV pro IED z roku 2025 — přesný výsledek zadání/zrušení v TED'});
-  putLead('LEAD-B42-01',{topic_cs:'Aktuální struktura a technika 91st Support Brigade podle MilitaryLand — sekundární ORBAT stopa vyžadující primární potvrzení jednotlivých položek'});
+  putLead('LEAD-B42-01',{topic_cs:'Podrobná struktura a technika 91st Support Brigade podle MilitaryLand vyžaduje primární potvrzení jednotlivých položek'});
   putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — metadata veřejného zpřístupnění potvrzena; přímé načtení dokumentu zůstává nestabilní'});
   putLead('LEAD-B43-01',{topic_cs:'Článek AČR z 13. července 2012 o česko-americkém výcviku C-IED/EOD/EOR — indexovaný oficiální obsah znovu potvrzen; přímý deep-link v tomto běhu nedostupný'});
   putLead('LEAD-B45-01',{topic_cs:'CNIM ROCUS/AUROCH/PFM na DALO 2026 — před tvrzením o zavedení ověřit demonstraci, akvizici nebo nasazení u konkrétního zákazníka'});
-  putLead('LEAD-B48-01',{topic_cs:'Znovu načíst článek ArmyInform z 19. srpna 2026 o výcviku UTTC v odminování/CBRN po odeznění HTTP 429; ověřit plný text, obrazové podklady, účastníky a techniku'});
+  putLead('LEAD-B48-01',{topic_cs:'Článek ArmyInform z 19. srpna o výcviku UTTC: veřejný index nyní poskytuje podstatně úplnější text, ale přímý deep-link stále vrací HTTP 429; po obnovení přístupu znovu ověřit obrazové podklady a techniku'});
   putLead('LEAD-B48-02',{topic_cs:'Sledovat reakce na EADRCC 2026/0045, nabídky, kontrakty a potvrzené dodávky; požadované počty nesmějí být považovány za skutečné držení'});
-  putLead('LEAD-B48-03',{topic_cs:'Video ArmyInform z 19. srpna 2026 k zásahu systému Zemledelie — původní řetězec video–datum–lokace a nezávislé vizuální potvrzení zůstávají nevyřešené'});
+  putLead('LEAD-B48-03',{topic_cs:'Tvrzení ArmyInform z 19. srpna o zásahu systému Zemledelie: veřejný index poskytuje podrobný text, ale přímý deep-link stále vrací HTTP 429 a původní video nebylo přímo prohlédnuto ani nezávisle potvrzeno'});
+  putLead('LEAD-018',{topic_cs:'ATP-3.12.1.7 / STANAG 2036: veřejně indexovaná aktualizace doktríny USMC MCES z 13. dubna 2026 uvádí sloučení 2017/2036/2237/2989 a přípravu RD pro státy; artefakt je označen „DISTRIBUTION: DoD COMMUNITY ONLY“, proto zůstává pouze stopou k dalšímu prověření, nikoli nosným kanonickým důkazem'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0836-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-DOC-0054','ENG-EVID-0177','ENG-EVID-0178','ENG-VIS-0092','B48-TREND-01','B48-LL-OBS-01'],fully_translated:7,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of remaining B48 evidence, visual, trend, lesson and source-role tokens; signal/assessment renderer support handled in ui-phase6-i18n.js. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.10',last_batch:'2026-08-21-0836-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0836-b49-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-SRC-0471','ENG-EVID-0177','LEAD-B48-01','LEAD-B48-03','LEAD-018'],fully_translated:6,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B49 reconciliation/source/evidence status tokens and refreshed P1 Lead topics. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03','LEAD-018'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.11',last_batch:'2026-08-21-0836-b49-public-cz-ui'};
 })();
