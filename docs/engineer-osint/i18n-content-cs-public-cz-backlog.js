@@ -12,6 +12,8 @@
   if(putLead('LEAD-052',{recommended_next_action_cs:'Dohledat primární provozní, akviziční nebo servisní záznamy, které oddělí MV-10 od MV-4 a potvrdí počet, distribuci a provozuschopnost k srpnu 2026.'}))translated.push('LEAD-052');
   if(putLead('LEAD-053',{topic_cs:'Současný veřejný ORBAT lead ženijního praporu 72. mechanizované brigády',status_cs:'OTEVŘENO – ČÁSTEČNĚ DOPLNĚNO; PRIMÁRNĚ POTVRZENA POUZE ROLE SAPÉRA'}))translated.push('LEAD-053');
   if(putLead('LEAD-054',{topic_cs:'SDZ na DALO Industry Days 2026 — oficiální listing versus přímo pozorované vystavení',status_cs:'POZDNĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA – LISTING POTVRZEN, FYZICKÉ VYSTAVENÍ NEPOZOROVÁNO'}))translated.push('LEAD-054');
+  if(put('ENG-SIG-0018',{maturity_cs:'V PŘÍPRAVĚ',temporal_status_cs:'AKTUÁLNÍ PROGRAMOVÝ SIGNÁL'}))translated.push('ENG-SIG-0018');
+  if(put('ENG-TECH-0040',{maturity_cs:'VEŘEJNÝ PROFIL VOJENSKÉHO TESTOVÁNÍ',current_value_status_cs:'PODLE OFICIÁLNÍ STRÁNKY NENÍ OPERAČNĚ NASAZEN'}))translated.push('ENG-TECH-0040');
   const review=['LEAD-002','LEAD-003','LEAD-005'].filter(id=>L.has(id)&&!(L.get(id)?.title_cs||L.get(id)?.topic_cs)&&!(L.get(id)?.summary_cs||L.get(id)?.description_cs||L.get(id)?.note_cs));
 
   const arr=v=>Array.isArray(v)?v:[];
@@ -51,7 +53,7 @@
   }
   const scalar=['title','summary','update_summary','description','note','topic','signal','assessment','next_action','recommended_next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
   const arrays=['intelligence_gaps'];
-  const enumFields=['status','classification','confidence','temporal_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
+  const enumFields=['status','classification','confidence','temporal_status','current_value_status','canonicalization_status','evidence_type','evidence_status','source_class','role','maturity','stage','institutionalization_status','official_ll_status','coverage','relation_type','visual_level','visual_observation_basis','media_type'];
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
   const uiCs=()=>window.__ENGINEER_I18N__?.ui?.cs||{};
   const enumCs=v=>{if(v===undefined||v===null)return v;const s=String(v),m=uiCs();return m[s]??m[s.toUpperCase()]??v;};
@@ -81,6 +83,6 @@
   if(typeof document!=='undefined')setTimeout(()=>window.ENGINEER_I18N?.refresh?.(),0);
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-1733-b16-b17-public',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: B16/B17 external leads a Trend Watch statusy lokalizovány přes existující i18n vrstvu; factual data a EN pole zachována.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','B16_B17_TRENDS','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.7',last_batch:'2026-08-21-1733-b16-b17-public'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-1738-b18-public-enums',processed_ids:[...new Set([...translated,...qualityFixed,...review])],fully_translated:qualityFixed.length+translated.length,partially_translated:0,review_needed:review.length,scope:'PUBLIC-CZ-UI: current_value_status přidán mezi veřejné enumy; B18 maturity/temporal/current-value hodnoty lokalizovány bez změny factual registry.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_PUBLIC_CZ__={translated_entities:[...new Set([...translated,...qualityFixed])],review_needed_entities:review,resolved_mapping_entities:['PUBLIC_REGISTRIES','PUBLIC_EXTERNAL_LEADS','PUBLIC_REGISTRY_ENUMS','PUBLIC_STATUS_ENUM','PUBLIC_CURRENT_VALUE_STATUS','B16_B17_TRENDS','B18_PUBLIC_ENUMS','AUDIT_VM_SAFE','PUBLIC_CZ_HYBRID_TEXT'],version:'1.8',last_batch:'2026-08-21-1738-b18-public-enums'};
 })();
