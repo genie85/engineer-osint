@@ -36,8 +36,8 @@ function parseRuntime(){
     if(a<0||b<0)return {error:'ENGINEER_DATA marker not found'};
     const d=JSON.parse(html.slice(a+marker.length,b));
     const media=[...asArray(d.media_registry?.media),...asArray(d.media_registry?.items),...asArray(d.media?.media),...asArray(d.media?.items),...(Array.isArray(d.media)?d.media:[])];
-    const sources=asArray(d.sources?.sources);
-    const sourceMedia=sources.filter(s=>mediaUrlRe.test(s?.url||s?.source_url||''));
+    const sources=asArray(d.sources?.sources),records=asArray(d.records?.records);
+    const sourceMedia=sources.filter(s=>mediaUrlRe.test(s?.url||s?.source_url||'')).map(s=>({...s,related_ids:records.filter(r=>asArray(r.source_ids).includes(s.id)).map(r=>r.id)}));
     const mentions=walk(d).filter(x=>mediaUrlRe.test(x.value));
     return {media_records:media,source_media:sourceMedia,media_url_mentions:mentions};
   }catch(e){return {error:e.message}}
@@ -94,6 +94,7 @@ const report={
     unique_media_url_mentions:uniqueMentions.length,
     runtime_media_records:runtimeMedia.length,
     runtime_source_media_urls:runtimeSourceMedia.length,
+    runtime_source_media_linked:runtimeSourceMedia.filter(x=>asArray(x.related_ids).length>0).length,
     runtime_unique_media_url_mentions:new Set(runtimeMentions.map(x=>x.value)).size,
     anomalies:anomalies.length
   },
@@ -121,6 +122,7 @@ const md=[
   `- Unique media URL mentions in patch history: **${s.unique_media_url_mentions}**`,
   `- Media records in built runtime baseline/materialization: **${s.runtime_media_records}**`,
   `- YouTube/podcast/media source URLs in built runtime sources: **${s.runtime_source_media_urls}**`,
+  `- Media source URLs linked to at least one entity: **${s.runtime_source_media_linked}**`,
   `- Unique media URL mentions anywhere in built runtime: **${s.runtime_unique_media_url_mentions}**`,
   `- Structural anomalies: **${s.anomalies}**`,'',
   '## Runs with media-related content','',
@@ -130,7 +132,7 @@ const md=[
   '', '## Built runtime media records', '',
   ...(runtimeMedia.length?runtimeMedia.map(x=>`- ${x.media_id||x.id||x.title||x.url||'media item'}`):['- None']),
   '', '## Built runtime source media URLs', '',
-  ...(runtimeSourceMedia.length?runtimeSourceMedia.map(x=>`- ${x.id||'source'}: ${x.title||x.name||''} — ${x.url||x.source_url||''}`):['- None']),
+  ...(runtimeSourceMedia.length?runtimeSourceMedia.map(x=>`- ${x.id||'source'}: ${x.title||x.name||''} — ${x.url||x.source_url||''} — related=${asArray(x.related_ids).join(',')||'none'}`):['- None']),
   '', '## worth_watching', '',
   ...(worthWatching.length?worthWatching.map(x=>`- ${x.run}: ${typeof x.item==='string'?x.item:JSON.stringify(x.item)}`):['- None']),
   '', '## worth_listening', '',
