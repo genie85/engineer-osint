@@ -41,6 +41,18 @@ const patches=patchHistory();
 const records=baseline.records?.records||[];
 const ids=records.map(x=>x.id).filter(Boolean);
 const idSet=new Set(ids);
+const ex=baseline.dashboard_patch_extras||{};
+const evidenceTargetIds=new Set([
+  ...ids,
+  ...(baseline.technology_signals||[]).map(x=>x?.id).filter(Boolean),
+  ...(ex.technology_signals||[]).map(x=>x?.id).filter(Boolean),
+  ...(baseline.trend_watch||[]).map(x=>x?.id).filter(Boolean),
+  ...(ex.trends||[]).map(x=>x?.id).filter(Boolean),
+  ...(baseline.doctrine?.doctrine||[]).map(x=>x?.id).filter(Boolean),
+  ...(ex.doctrine||[]).map(x=>x?.id).filter(Boolean),
+  ...(baseline.orbat?.updates||[]).map(x=>x?.id).filter(Boolean),
+  ...(ex.orbat_updates||[]).map(x=>x?.id).filter(Boolean)
+]);
 const duplicateIds=[...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];
 if(duplicateIds.length)throw new Error(`RUNTIME_AUDIT: duplicate record IDs: ${duplicateIds.join(', ')}`);
 if(records.length<94)throw new Error(`RUNTIME_AUDIT: cumulative record count regressed below baseline: ${records.length}`);
@@ -52,7 +64,7 @@ if(orphanRelations.length)throw new Error(`RUNTIME_AUDIT: orphan relations: ${or
 const sourceIds=new Set((baseline.sources?.sources||[]).map(x=>x.id).filter(Boolean));
 const evidence=baseline.evidence?.evidence||[];
 const orphanEvidenceRecords=[];
-for(const e of evidence){for(const id of e.related_ids||[])if(/^ENG-(?:UNIT|TECH|SIG|DOC|TTP|EVT|LL|TREND)-/.test(id)&&!idSet.has(id))orphanEvidenceRecords.push(`${e.id||e.evidence_id}:${id}`)}
+for(const e of evidence){for(const id of e.related_ids||[])if(/^ENG-(?:UNIT|TECH|SIG|DOC|TTP|EVT|LL|TREND)-/.test(id)&&!evidenceTargetIds.has(id))orphanEvidenceRecords.push(`${e.id||e.evidence_id}:${id}`)}
 if(orphanEvidenceRecords.length)throw new Error(`RUNTIME_AUDIT: evidence references missing records: ${orphanEvidenceRecords.join(', ')}`);
 
 const dataModules=[
