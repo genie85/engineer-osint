@@ -16,12 +16,15 @@ const arr=x=>Array.isArray(x)?x:[];
 const ex=data.dashboard_patch_extras||{};
 const groups=[
   ['record',arr(data.records?.records)],['lead',[...arr(data.leads?.leads),...arr(ex.leads),...arr(ex.external_leads)]],
-  ['evidence',[...arr(data.evidence?.evidence),...arr(ex.evidence)]],['source',arr(data.sources?.sources)],
-  ['visual',arr(ex.visuals)],['media',arr(ex.media)],['technology_signal',arr(ex.technology_signals)],['trend',arr(ex.trends)],
+  ['relation',[...arr(data.relations?.relations),...arr(ex.relations)]],['evidence',[...arr(data.evidence?.evidence),...arr(ex.evidence)]],
+  ['source',[...arr(data.sources?.sources),...arr(data.external_source_registry?.sources)]],
+  ['visual',[...arr(data.visual_registry?.visuals),...arr(data.visuals?.visuals),...arr(ex.visuals)]],
+  ['media',[...arr(data.media_registry?.media),...arr(data.media_registry?.items),...arr(data.media?.media),...arr(data.media?.items),...arr(ex.media)]],
+  ['technology_signal',[...arr(data.technology_signals),...arr(ex.technology_signals)]],['trend',[...arr(data.trend_watch),...arr(ex.trends)]],
   ['confirmation',arr(ex.confirmations)],['contradiction',arr(ex.contradictions)],['correction',arr(ex.corrections)],
-  ['lesson',[...arr(data.lessons_learned?.lessons),...arr(ex.lessons_learned)]],['doctrine',arr(ex.doctrine)],['orbat',arr(ex.orbat_updates)]
+  ['lesson',[...arr(data.lessons_learned?.lessons),...arr(ex.lessons_learned)]],['doctrine',[...arr(data.doctrine?.doctrine),...arr(ex.doctrine)]],['orbat',[...arr(data.orbat?.updates),...arr(ex.orbat_updates)]]
 ];
-const scalar=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption'];
+const scalar=['title','summary','update_summary','description','note','topic','status','signal','assessment','next_action','why_it_matters','staff_relevance','training_relevance','operational_evidence','training_evidence','testing_evidence','what_it_supports','what_it_does_not_prove','analytical_interpretation','fact','analysis','limit','relevance_summary','why_relevant','caption','scope'];
 const arrays=['intelligence_gaps'];
 const idOf=(x,t,i)=>x.id||x.lead_id||x.evidence_id||x.media_id||x.asset_id||x.source_id||`${t}#${i}`;
 const czechish=s=>/[áčďéěíňóřšťúůýž]/i.test(s)||/\b(žádn|aktuáln|zdroj|důkaz|výcvik|ženijn|překáž|odmin|veřejn|zpráv|schopnost|stav|jednotk|systém)\w*/i.test(s);
