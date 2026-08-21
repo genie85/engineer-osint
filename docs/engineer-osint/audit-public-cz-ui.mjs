@@ -32,6 +32,16 @@ const czechish=s=>/[áčďéěíňóřšťúůýž]/i.test(s)||/\b(žádn|aktuá
 const officialish=s=>/^(?:ENG-|LEAD-)/.test(s)||(/^[A-Z0-9][A-Za-z0-9+./()\-–— ]+$/.test(s)&&s.split(/\s+/).length<=5&&!/[.!?]/.test(s));
 const enumToken=s=>/^[A-Z0-9][A-Z0-9_+./()\-]{1,120}$/.test(String(s||''));
 const isPresent=v=>v!==undefined&&v!==null&&v!==''&&(!Array.isArray(v)||v.length>0);
+const normalize=s=>String(s??'').replace(/\s+/g,' ').trim().toLowerCase();
+const stripRetained=s=>String(s??'').replace(/\([^)]{1,100}\)/g,' ');
+const residualEnglishPhrase=/\b(?:source ecosystem|lessons repository|discovery channel|source repository|source registry|current status|current capability|public role|historical snapshot|training snapshot|primary official|secondary official)\b/i;
+const csQualityIssue=(cs,base)=>{
+  if(typeof cs!=='string'||!cs.trim())return null;
+  const c=normalize(cs),e=normalize(base);
+  if(e&&c===e&&cs.trim().split(/\s+/).length>=4&&!officialish(cs))return 'cs-equals-en';
+  if(residualEnglishPhrase.test(stripRetained(cs)))return 'residual-english-phrase';
+  return null;
+};
 const uiCs=context.window.__ENGINEER_I18N__?.ui?.cs||{};
 const mappedCs=v=>{if(v===undefined||v===null)return undefined;const s=String(v);return uiCs[s]??uiCs[s.toUpperCase()];};
 const reviewIds=new Set();
@@ -39,20 +49,28 @@ for(const v of Object.values(context.window))if(v&&typeof v==='object'&&!Array.i
 
 const dedup=new Map();
 for(const[g,items]of groups)items.forEach((x,i)=>{if(!x||typeof x!=='object')return;const id=idOf(x,g,i);const k=`${g}:${id}`;dedup.set(k,{group:g,id,x})});
-const items=[];let missingFields=0,reviewFields=0,fully=0,partial=0,enumMapped=0,enumReview=0;
+const items=[];let missingFields=0,reviewFields=0,fully=0,partial=0,enumMapped=0,enumReview=0,contentQualityReview=0;
 for(const{group,id,x}of dedup.values()){
   const missing=[],review=[],translated=[];
   for(const key of scalar){
     const base=x[key+'_en']??x.__i18n_public_orig?.[key]??x[key];if(!isPresent(base))continue;
     const cs=x[key+'_cs'];const rendered=x[key];
-    if(isPresent(cs)){translated.push(key);continue}
+    if(isPresent(cs)){
+      const q=csQualityIssue(cs,base);
+      if(q){review.push(`${key}:${q}`);contentQualityReview++;continue}
+      translated.push(key);continue
+    }
     if(typeof rendered==='string'&&czechish(rendered)){translated.push(`${key}:rendered-cs`);continue}
     if((key==='title'||key==='topic')&&typeof base==='string'&&officialish(base)){review.push(`${key}:official-name-review`);continue}
     missing.push(key);
   }
   for(const key of arrays){
     const base=x[key+'_en']??x.__i18n_public_orig?.[key]??x[key];if(!isPresent(base))continue;const cs=x[key+'_cs'];const rendered=x[key];
-    if(isPresent(cs)){translated.push(key);continue}
+    if(isPresent(cs)){
+      const bad=Array.isArray(cs)&&cs.some((v,i)=>csQualityIssue(v,Array.isArray(base)?base[i]:undefined));
+      if(bad){review.push(`${key}:cs-content-quality-review`);contentQualityReview++;continue}
+      translated.push(key);continue
+    }
     if(Array.isArray(rendered)&&rendered.every(v=>typeof v!=='string'||czechish(v))){translated.push(`${key}:rendered-cs`);continue}
     missing.push(key);
   }
@@ -62,7 +80,15 @@ for(const{group,id,x}of dedup.values()){
     if(enumToken(base)){review.push(`${key}:enum-unmapped-review`);enumReview++;continue}
     missing.push(key);
   }
-  if(Array.isArray(x.claims))x.claims.forEach((c,i)=>{const base=c?.text_en??c?.__i18n_public_orig_text??c?.text;if(!isPresent(base))return;const rendered=c?.text;if(isPresent(c?.text_cs)||typeof rendered==='string'&&czechish(rendered))translated.push(`claims[${i}].text`);else missing.push(`claims[${i}].text`)});
+  if(Array.isArray(x.claims))x.claims.forEach((c,i)=>{
+    const base=c?.text_en??c?.__i18n_public_orig_text??c?.text;if(!isPresent(base))return;const rendered=c?.text;
+    if(isPresent(c?.text_cs)){
+      const q=csQualityIssue(c.text_cs,base);
+      if(q){review.push(`claims[${i}].text:${q}`);contentQualityReview++;return}
+      translated.push(`claims[${i}].text`);return
+    }
+    if(typeof rendered==='string'&&czechish(rendered))translated.push(`claims[${i}].text`);else missing.push(`claims[${i}].text`)
+  });
   if(reviewIds.has(id)&&!review.length)review.push('explicit-review');
   if(!missing.length&&!review.length){if(translated.length)fully++;continue}
   if(translated.length)partial++;
@@ -84,15 +110,16 @@ const canaries={
   'LEAD-001':leadCanary('LEAD-001'),'LEAD-002':leadCanary('LEAD-002'),'LEAD-003':leadCanary('LEAD-003'),'LEAD-005':leadCanary('LEAD-005'),
   'ENG-EVT-0111-undefined-title':{status:renderer.includes('undefined')&&(!evt111||hasCsText(evt111,'title')||renderedCs(evt111,'title'))?'PASS':'FAIL',title_cs:Boolean(evt111&&(hasCsText(evt111,'title')||renderedCs(evt111,'title')))},
   'CZ-EN-switch-preservation':{status:renderer.includes("engineer-language-changed")&&renderer.includes('originals')?'PASS':'FAIL'},
-  'PUBLIC-REGISTRY-ENUM-I18N':{status:enumReview===0?'PASS':'REVIEW',mapped_enum_fields:enumMapped,unmapped_enum_fields:enumReview}
+  'PUBLIC-REGISTRY-ENUM-I18N':{status:enumReview===0?'PASS':'REVIEW',mapped_enum_fields:enumMapped,unmapped_enum_fields:enumReview},
+  'PUBLIC-CZ-CONTENT-QUALITY':{status:contentQualityReview===0?'PASS':'REVIEW',review_fields:contentQualityReview}
 };
-const renderingFailures=Object.entries(canaries).filter(([k,x])=>k!=='PUBLIC-REGISTRY-ENUM-I18N'&&x.status!=='PASS').length;
+const renderingFailures=Object.entries(canaries).filter(([k,x])=>!['PUBLIC-REGISTRY-ENUM-I18N','PUBLIC-CZ-CONTENT-QUALITY'].includes(k)&&x.status!=='PASS').length;
 const backlogItems=items.filter(x=>x.missing_fields.length).length;
 const reviewItems=items.filter(x=>x.status==='TRANSLATION_REVIEW_NEEDED').length;
 const status=missingFields===0&&renderingFailures===0?(reviewFields?'PUBLIC_CZ_UI_BACKLOG_ZERO_WITH_REVIEWS':'PUBLIC_CZ_UI_BACKLOG_ZERO'):'PUBLIC_CZ_UI_BACKLOG_OPEN';
-const report={generated_at:new Date().toISOString(),current_run_id:data.state_latest?.run_id||null,FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,TRANSLATION_REVIEW_FIELDS:reviewFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,canaries,items,status};
+const report={generated_at:new Date().toISOString(),current_run_id:data.state_latest?.run_id||null,FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,TRANSLATION_REVIEW_FIELDS:reviewFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,canaries,items,status};
 writeFileSync(join(dist,'public-cz-ui-audit.json'),JSON.stringify(report,null,2)+'\n');
-const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${fully}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${partial}`,`TRANSLATION_REVIEW_NEEDED: ${reviewItems}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${backlogItems}/${missingFields}`,`I18N_RENDERING_FAILURE: ${renderingFailures}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${enumMapped}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${enumReview}`,'','## Canaries',...Object.entries(canaries).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...(items.length?items.slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${x.missing_fields.join(',')||'-'}; review=${x.review_fields.join(',')||'-'}`):['- None'])].join('\n');
+const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${fully}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${partial}`,`TRANSLATION_REVIEW_NEEDED: ${reviewItems}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${backlogItems}/${missingFields}`,`I18N_RENDERING_FAILURE: ${renderingFailures}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${enumMapped}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${enumReview}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${contentQualityReview}`,'','## Canaries',...Object.entries(canaries).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...(items.length?items.slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${x.missing_fields.join(',')||'-'}; review=${x.review_fields.join(',')||'-'}`):['- None'])].join('\n');
 writeFileSync(join(dist,'public-cz-ui-audit.md'),md+'\n');
-appendFileSync(join(dist,'health.txt'),`public_cz_ui_audit=${report.status}\npublic_cz_ui_backlog_items=${backlogItems}\npublic_cz_ui_backlog_fields=${missingFields}\npublic_cz_ui_review_needed=${reviewItems}\npublic_cz_ui_review_fields=${reviewFields}\npublic_cz_ui_rendering_failures=${renderingFailures}\npublic_cz_ui_enum_mapped=${enumMapped}\npublic_cz_ui_enum_review=${enumReview}\n`);
-console.log(JSON.stringify({FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,canaries}));
+appendFileSync(join(dist,'health.txt'),`public_cz_ui_audit=${report.status}\npublic_cz_ui_backlog_items=${backlogItems}\npublic_cz_ui_backlog_fields=${missingFields}\npublic_cz_ui_review_needed=${reviewItems}\npublic_cz_ui_review_fields=${reviewFields}\npublic_cz_ui_rendering_failures=${renderingFailures}\npublic_cz_ui_enum_mapped=${enumMapped}\npublic_cz_ui_enum_review=${enumReview}\npublic_cz_ui_content_quality_review=${contentQualityReview}\n`);
+console.log(JSON.stringify({FULLY_LOCALIZED_PUBLIC_ITEMS:fully,PARTIALLY_LOCALIZED_PUBLIC_ITEMS:partial,TRANSLATION_REVIEW_NEEDED:reviewItems,PUBLIC_CZ_UI_BACKLOG_ITEMS:backlogItems,PUBLIC_CZ_UI_BACKLOG_FIELDS:missingFields,I18N_RENDERING_FAILURE:renderingFailures,ENUM_MAPPED_PUBLIC_FIELDS:enumMapped,ENUM_TRANSLATION_REVIEW_FIELDS:enumReview,CS_CONTENT_QUALITY_REVIEW_FIELDS:contentQualityReview,canaries}));
