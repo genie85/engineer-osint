@@ -37,7 +37,20 @@
     DIRECT_OFFICIAL_ARMY_PUBLICATION_READBACK_TEXT_ONLY_VISUALS_EXCLUDED:'PŘÍMÉ OVĚŘENÍ OFICIÁLNÍ PUBLIKACE U.S. ARMY; POUZE TEXT, VIZUÁLY VYLOUČENY',
     DIRECT_PRIMARY_HOSTED_PROFESSIONAL_ARGUMENT_NOT_POLICY:'PŘÍMÁ PRIMÁRNÍ HOSTOVANÁ ODBORNÁ ARGUMENTACE; NIKOLI POLITIKA',
     HIGH_FOR_ARTICLE_CONTENT_LOW_FOR_FORCE_WIDE_IMPLEMENTATION:'VYSOKÁ PRO OBSAH ČLÁNKU; NÍZKÁ PRO IMPLEMENTACI NAPŘÍČ SILAMI',
-    EXISTING_SIGNAL_REINFORCED_NOT_NEW_CANONICAL_SIGNAL:'EXISTUJÍCÍ SIGNÁL POSÍLEN; NEJDE O NOVÝ KANONICKÝ SIGNÁL'
+    EXISTING_SIGNAL_REINFORCED_NOT_NEW_CANONICAL_SIGNAL:'EXISTUJÍCÍ SIGNÁL POSÍLEN; NEJDE O NOVÝ KANONICKÝ SIGNÁL',
+    ENTITY_TOPIC_ENRICHMENT_TEMPORAL_CERTIFICATION_STATUS:'OBOHACENÍ ENTITY — ČASOVÝ STAV CERTIFIKACE',
+    'LISTED_CERTIFICATE_VALIDITY_ENDED_2026-08-20_NO_PUBLIC_SUCCESSOR_VISIBLE_2026-08-21':'UVEDENÁ PLATNOST CERTIFIKÁTU SKONČILA 20. 8. 2026; K 21. 8. 2026 NENÍ VEŘEJNĚ VIDITELNÝ NÁSTUPCE',
+    FACT_ABOUT_LISTED_CERTIFICATE_DATE_PLUS_NEGATIVE_PUBLIC_REGISTRY_CHECK_WITH_LIMITATION:'FAKT O UVEDENÉM DATU CERTIFIKÁTU A NEGATIVNÍ KONTROLE VEŘEJNÉHO REGISTRU S OMEZENÍM',
+    HIGH_FOR_LISTED_VALIDITY_END_MEDIUM_FOR_NO_SUCCESSOR_VISIBLE_LOW_FOR_ANY_OPERATIONAL_INFERENCE:'VYSOKÁ PRO UVEDENÝ KONEC PLATNOSTI; STŘEDNÍ PRO ABSENCI VIDITELNÉHO NÁSTUPCE; NÍZKÁ PRO JAKÝKOLI OPERAČNÍ ZÁVĚR',
+    OFFICIAL_CERTIFICATION_REGISTRY_TEMPORAL_STATUS:'ČASOVÝ STAV V OFICIÁLNÍM CERTIFIKAČNÍM REGISTRU',
+    DIRECT_OFFICIAL_REGISTRY_READBACK_ROW_40_AND_CURRENT_VISIBLE_LIST:'PŘÍMÉ OVĚŘENÍ OFICIÁLNÍHO REGISTRU — ŘÁDEK 40 A AKTUÁLNĚ VIDITELNÝ SEZNAM',
+    DIRECT_PRIMARY_REGISTRY_FACT_PLUS_LIMITED_NEGATIVE_SEARCH:'PŘÍMÝ PRIMÁRNÍ REGISTRAČNÍ FAKT A OMEZENÉ NEGATIVNÍ VYHLEDÁNÍ',
+    HIGH_FOR_ROW_CONTENT_MEDIUM_FOR_ABSENCE_OF_SUCCESSOR_LOW_FOR_OPERATIONAL_INFERENCE:'VYSOKÁ PRO OBSAH ŘÁDKU; STŘEDNÍ PRO ABSENCI NÁSTUPCE; NÍZKÁ PRO OPERAČNÍ ZÁVĚR',
+    PUBLIC_CERTIFICATE_VALIDITY_DATE_PASSED_NO_SUCCESSOR_VISIBLE_OPERATIONAL_STATUS_UNKNOWN:'DATUM VEŘEJNĚ UVEDENÉ PLATNOSTI CERTIFIKÁTU UPLYNULO; NÁSTUPCE NENÍ VIDITELNÝ; OPERAČNÍ STAV NEZNÁMÝ',
+    NO_NEW_CURRENT_CANONICAL_MATERIAL_2012_HISTORICAL_OFFICIAL_LEAD_DEFERRED_DIRECT_FETCH_FAILED:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL; HISTORICKÁ OFICIÁLNÍ STOPA Z ROKU 2012 ODLOŽENA KVŮLI SELHÁNÍ PŘÍMÉHO NAČTENÍ',
+    NO_NEW_EXACT_OR_48H_CURRENT_CANONICAL_DELTA_MKR2_TEMPORAL_CERTIFICATION_ENRICHMENT_ADDED:'ŽÁDNÁ NOVÁ PŘESNÁ ANI 48H AKTUÁLNÍ KANONICKÁ ZMĚNA; DOPLNĚN ČASOVÝ CERTIFIKAČNÍ STAV MKR-2',
+    NO_NEW_PROMULGATION_NLLP_PUBLIC_METADATA_RECHECKED_DIRECT_DOCUMENT_UNSTABLE:'ŽÁDNÁ NOVÁ PROMULGACE; VEŘEJNÁ METADATA NLLP ZNOVU OVĚŘENA, PŘÍMÝ DOKUMENT NESTABILNÍ',
+    NO_NEW_CURRENT_DELTA_MKR2_CERTIFICATION_METADATA_ENRICHMENT_EOC_PARENT_STANDARD_STILL_OPEN:'ŽÁDNÁ NOVÁ AKTUÁLNÍ ZMĚNA; DOPLNĚNA CERTIFIKAČNÍ METADATA MKR-2; NADŘAZENÝ STANDARD EOC ZŮSTÁVÁ OTEVŘENÝ'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -46,16 +59,17 @@
   put('ENG-EVT-0020',{title_cs:'NATO CAP veřejně uvádí podporu Ukrajině prostředky EOD/odminování a counter-drone vybavením',intelligence_gaps_cs:['Veřejná stránka je souhrnným přehledem pomoci a neuvádí množství, konkrétní příjemce, termíny dodávek, stav připravenosti ani operační použití. Zároveň neposkytuje dostatek podrobností pro jednoznačné zařazení veškeré podpory odminování do vojenského clearance, EOC nebo humanitárního odminování.']});
   put('ENG-EVT-0026',{title_cs:'Ženijní brigáda 2. armády — 240m plovoucí most přes Eufrat'});
 
-  putLead('LEAD-B37-01',{topic_cs:'Ukrajinská stránka certifikace/akreditace v oblasti odminování — nesoulad mezi interním počtem a seznamem'});
+  putLead('LEAD-B37-01',{topic_cs:'Ukrajinská stránka certifikace/akreditace v oblasti odminování — vnitřní konzistence počtu a seznamu'});
   putLead('LEAD-B37-02',{topic_cs:'Aktuální ruský primární řetězec datum–příspěvek–vizuál pro ženijní/odminovací činnost'});
   putLead('LEAD-B40-01',{topic_cs:'Most u Zvannoye a minovací vozidlo u Sudži 17.–18. srpna 2026 — sekundární geolokace; primární vizuální a časový řetězec nevyřešen'});
   putLead('LEAD-B37-04',{topic_cs:'Přesné mapování aktuálního nadřazeného standardu/edice NATO pro EOC — zúženo 68. EOD WG, ale nevyřešeno'});
-  putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 — oficiální registr stále uvádí hranici starého certifikátu; nástupce nenalezen'});
+  putLead('LEAD-B36-04',{topic_cs:'Nástupnická/obnovená certifikace MKR-2 po 20. srpnu 2026 — veřejný nástupce není k 21. srpnu viditelný; operační závěr z toho nelze vyvozovat'});
   putLead('LEAD-B40-02',{topic_cs:'Nizozemská akvizice UGV pro IED z roku 2025 — přesný výsledek zadání/zrušení v TED'});
   putLead('LEAD-B42-01',{topic_cs:'Aktuální struktura a technika 91st Support Brigade podle MilitaryLand — sekundární ORBAT stopa vyžadující primární potvrzení jednotlivých položek'});
-  putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — načíst a kanonikalizovat pouze z veřejně zpřístupněné kopie při stabilním přímém přístupu k dokumentu'});
+  putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — metadata veřejného zpřístupnění potvrzena; přímé načtení dokumentu zůstává nestabilní'});
+  putLead('LEAD-B43-01',{topic_cs:'Článek AČR z 13. července 2012 o česko-americkém výcviku C-IED/EOD/EOR — indexovaný oficiální obsah znovu potvrzen; přímý deep-link v tomto běhu nedostupný'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0333-public-cz-ui',processed_ids:['ENG-DOC-0052','ENG-EVID-0170','ENG-SRC-0465','B42-TREND-01','LEAD-B42-01','LEAD-B42-02'],fully_translated:2,partially_translated:4,review_needed:0,scope:'PUBLIC-CZ-UI localization of B42 lead topics and core professional-article status/source/evidence tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.5',last_batch:'2026-08-21-0333-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0432-public-cz-ui',processed_ids:['ENG-TECH-0042','ENG-EVID-0171','ENG-SRC-0403','B43-TREND-01','LEAD-B37-01','LEAD-B36-04','LEAD-B42-02','LEAD-B43-01'],fully_translated:4,partially_translated:4,review_needed:0,scope:'PUBLIC-CZ-UI localization of B43 MKR-2 certification temporal/status/evidence tokens and current lead topics in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.6',last_batch:'2026-08-21-0432-public-cz-ui'};
 })();
