@@ -74,7 +74,22 @@
     ENTITY_ENRICHMENT_FORECAST_NOT_OBSERVED_MINIMUM:'OBOHACENÍ ENTITY — PROGNÓZA, NIKOLI VEŘEJNĚ DOLOŽENÉ MINIMUM',
     INDUSTRIAL_SCALE_SIGNAL_NOT_FORCE_INVENTORY:'SIGNÁL PRŮMYSLOVÉHO ŠKÁLOVÁNÍ; NIKOLI INVENTÁŘ OZBROJENÝCH SIL',
     NO_NEW_CURRENT_OR_HISTORICAL_CANONICAL_MATERIAL_THIS_RUN:'V TOMTO BĚHU ŽÁDNÝ NOVÝ AKTUÁLNÍ ANI HISTORICKÝ KANONICKÝ MATERIÁL',
-    NO_NEW_EXACT_OR_LATE_CURRENT_CANONICAL_DELTA_ONE_UKRAINE_UGV_TECHNOLOGY_SIGNAL_ENRICHMENT:'ŽÁDNÁ NOVÁ PŘESNÁ ANI POZDĚ DOHLEDANÁ AKTUÁLNÍ KANONICKÁ ZMĚNA; JEDNO OBOHACENÍ TECHNOLOGICKÉHO SIGNÁLU UGV PRO UKRAJINU'
+    NO_NEW_EXACT_OR_LATE_CURRENT_CANONICAL_DELTA_ONE_UKRAINE_UGV_TECHNOLOGY_SIGNAL_ENRICHMENT:'ŽÁDNÁ NOVÁ PŘESNÁ ANI POZDĚ DOHLEDANÁ AKTUÁLNÍ KANONICKÁ ZMĚNA; JEDNO OBOHACENÍ TECHNOLOGICKÉHO SIGNÁLU UGV PRO UKRAJINU',
+    LATE_DISCOVERED_CURRENT_TRAINING:'POZDĚ DOHLEDANÝ AKTUÁLNÍ VÝCVIK',
+    LATE_DISCOVERED_CURRENT_WITHIN_48H_RECONCILIATION:'POZDĚ DOHLEDANÁ AKTUÁLNÍ POLOŽKA V RÁMCI 48H REKONCILIACE',
+    FACT_WITH_PARTIAL_URL_VALIDATION:'FAKT S ČÁSTEČNOU VALIDACÍ URL',
+    ENTITY_TOPIC_ENRICHMENT_EOD_HUMANITARIAN_DEMINING_REQUIREMENT:'OBOHACENÍ ENTITY — POŽADAVEK EOD / HUMANITÁRNÍHO ODMIŇOVÁNÍ',
+    'CURRENT_REQUIREMENT_DOCUMENT_DATED_2026-08-11':'AKTUÁLNÍ DOKUMENT S POŽADAVKEM DATOVANÝ 11. 8. 2026',
+    HIGH_FOR_DOCUMENTED_REQUEST_ONLY:'VYSOKÁ POUZE PRO ZDOKUMENTOVANÝ POŽADAVEK',
+    FACT_ABOUT_OFFICIAL_REQUEST_NOT_CAPABILITY_HOLDING:'FAKT O OFICIÁLNÍ ŽÁDOSTI; NIKOLI O DRŽENÍ SCHOPNOSTI',
+    PRIMARY_OFFICIAL_NATO_DOCUMENT:'PRIMÁRNÍ OFICIÁLNÍ DOKUMENT NATO',
+    UKRAINE_SESU_EOD_HUMANITARIAN_DEMINING_ASSISTANCE_REQUIREMENT:'UKRAJINSKÝ POŽADAVEK SESU NA PODPORU EOD A HUMANITÁRNÍHO ODMIŇOVÁNÍ',
+    PRIMARY_OFFICIAL_MEDIA_INDEXED_REPORT_PARTIAL_DIRECT_ACCESS:'PRIMÁRNÍ OFICIÁLNÍ MEDIÁLNÍ ZPRÁVA Z INDEXU; PŘÍMÝ PŘÍSTUP ČÁSTEČNÝ',
+    ARMYINFORM_SEARCH_INDEX_BODY_EXCERPT_DIRECT_DEEP_LINK_HTTP_429:'VÝŇATEK Z INDEXOVANÉHO OBSAHU ARMYINFORM; PŘÍMÝ DEEP-LINK VRÁTIL HTTP 429',
+    PARTIAL_URL_VALIDATION:'ČÁSTEČNÁ VALIDACE URL',
+    PRIMARY_OFFICIAL_NATO_REQUEST_DOCUMENT:'PRIMÁRNÍ OFICIÁLNÍ DOKUMENT NATO S ŽÁDOSTÍ',
+    DIRECT_NATO_PDF_TEXT_AND_VISUAL_READBACK:'PŘÍMÉ OVĚŘENÍ TEXTU A VIZUÁLU PDF NATO',
+    PRIMARY_DOCUMENT:'PRIMÁRNÍ DOKUMENT'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -93,8 +108,11 @@
   putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — metadata veřejného zpřístupnění potvrzena; přímé načtení dokumentu zůstává nestabilní'});
   putLead('LEAD-B43-01',{topic_cs:'Článek AČR z 13. července 2012 o česko-americkém výcviku C-IED/EOD/EOR — indexovaný oficiální obsah znovu potvrzen; přímý deep-link v tomto běhu nedostupný'});
   putLead('LEAD-B45-01',{topic_cs:'CNIM ROCUS/AUROCH/PFM na DALO 2026 — před tvrzením o zavedení ověřit demonstraci, akvizici nebo nasazení u konkrétního zákazníka'});
+  putLead('LEAD-B48-01',{topic_cs:'Znovu načíst článek ArmyInform z 19. srpna 2026 o výcviku UTTC v odminování/CBRN po odeznění HTTP 429; ověřit plný text, obrazové podklady, účastníky a techniku'});
+  putLead('LEAD-B48-02',{topic_cs:'Sledovat reakce na EADRCC 2026/0045, nabídky, kontrakty a potvrzené dodávky; požadované počty nesmějí být považovány za skutečné držení'});
+  putLead('LEAD-B48-03',{topic_cs:'Video ArmyInform z 19. srpna 2026 k zásahu systému Zemledelie — původní řetězec video–datum–lokace a nezávislé vizuální potvrzení zůstávají nevyřešené'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0635-public-cz-ui',processed_ids:['ENG-SIG-0024','ENG-EVID-0175','ENG-SRC-0469','B46-TECHSIG-01','B46-TREND-01'],fully_translated:5,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B46 Reuters/Milrem source, evidence, forecast, Technology Signal/Trend and regional status tokens in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.8',last_batch:'2026-08-21-0635-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0736-public-cz-ui',processed_ids:['ENG-EVT-0122','ENG-DOC-0054','ENG-EVID-0177','ENG-EVID-0178','ENG-SRC-0471','ENG-SRC-0472','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B48 late-discovered training, NATO EADRCC requirement, evidence/source status tokens and P1 Lead topics. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01','LEAD-B48-01','LEAD-B48-02','LEAD-B48-03'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.9',last_batch:'2026-08-21-0736-public-cz-ui'};
 })();
