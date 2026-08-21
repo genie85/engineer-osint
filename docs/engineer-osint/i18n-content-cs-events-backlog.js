@@ -50,7 +50,21 @@
     NO_NEW_CURRENT_CANONICAL_MATERIAL_2012_HISTORICAL_OFFICIAL_LEAD_DEFERRED_DIRECT_FETCH_FAILED:'ŽÁDNÝ NOVÝ AKTUÁLNÍ KANONICKÝ MATERIÁL; HISTORICKÁ OFICIÁLNÍ STOPA Z ROKU 2012 ODLOŽENA KVŮLI SELHÁNÍ PŘÍMÉHO NAČTENÍ',
     NO_NEW_EXACT_OR_48H_CURRENT_CANONICAL_DELTA_MKR2_TEMPORAL_CERTIFICATION_ENRICHMENT_ADDED:'ŽÁDNÁ NOVÁ PŘESNÁ ANI 48H AKTUÁLNÍ KANONICKÁ ZMĚNA; DOPLNĚN ČASOVÝ CERTIFIKAČNÍ STAV MKR-2',
     NO_NEW_PROMULGATION_NLLP_PUBLIC_METADATA_RECHECKED_DIRECT_DOCUMENT_UNSTABLE:'ŽÁDNÁ NOVÁ PROMULGACE; VEŘEJNÁ METADATA NLLP ZNOVU OVĚŘENA, PŘÍMÝ DOKUMENT NESTABILNÍ',
-    NO_NEW_CURRENT_DELTA_MKR2_CERTIFICATION_METADATA_ENRICHMENT_EOC_PARENT_STANDARD_STILL_OPEN:'ŽÁDNÁ NOVÁ AKTUÁLNÍ ZMĚNA; DOPLNĚNA CERTIFIKAČNÍ METADATA MKR-2; NADŘAZENÝ STANDARD EOC ZŮSTÁVÁ OTEVŘENÝ'
+    NO_NEW_CURRENT_DELTA_MKR2_CERTIFICATION_METADATA_ENRICHMENT_EOC_PARENT_STANDARD_STILL_OPEN:'ŽÁDNÁ NOVÁ AKTUÁLNÍ ZMĚNA; DOPLNĚNA CERTIFIKAČNÍ METADATA MKR-2; NADŘAZENÝ STANDARD EOC ZŮSTÁVÁ OTEVŘENÝ',
+    HISTORICAL_EOD_TRAINING_PUBLICATION_DATE_KNOWN_EVENT_DATE_NOT_SPECIFIED:'HISTORICKÝ EOD VÝCVIK — DATUM PUBLIKACE ZNÁMÉ, DATUM UDÁLOSTI NEUVEDENO',
+    FACT_ABOUT_DATED_OFFICIAL_HISTORICAL_TRAINING_REPORT:'FAKT O DATOVANÉ OFICIÁLNÍ HISTORICKÉ ZPRÁVĚ O VÝCVIKU',
+    HIGH_FOR_REPORTED_2020_TRAINING_LOW_FOR_ANY_CURRENT_INFERENCE:'VYSOKÁ PRO POPSANÝ VÝCVIK V ROCE 2020; NÍZKÁ PRO JAKÝKOLI SOUČASNÝ ZÁVĚR',
+    HISTORICAL_EOD_IED_TRAINING_EVENT:'HISTORICKÁ UDÁLOST VÝCVIKU EOD/IED',
+    FACT_ABOUT_DATED_OFFICIAL_HISTORICAL_TRAINING_EVENT:'FAKT O DATOVANÉ OFICIÁLNÍ HISTORICKÉ VÝCVIKOVÉ UDÁLOSTI',
+    HIGH_FOR_DATED_2020_EVENT_LOW_FOR_ANY_CURRENT_INFERENCE:'VYSOKÁ PRO DATOVANOU UDÁLOST Z ROKU 2020; NÍZKÁ PRO JAKÝKOLI SOUČASNÝ ZÁVĚR',
+    CZE_152EOD_UXO_FIELD_TRAINING_2020:'ČESKÝ POLNÍ VÝCVIK 152. ŽPR EOD/UXO V ROCE 2020',
+    CZE_MINIGATOR_EOD_IED_TRAINING_2020:'ČESKÝ VÝCVIK MINIGATOR EOD/IED V ROCE 2020',
+    OFFICIAL_HISTORICAL_CZE_EOD_UXO_TRAINING:'OFICIÁLNÍ HISTORICKÝ ČESKÝ VÝCVIK EOD/UXO',
+    DIRECT_PRIMARY_OFFICIAL_152ZPR_DEEP_LINK_TITLE_DATE_BODY:'PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ ODKAZ 152. ŽPR — OVĚŘEN NÁZEV, DATUM A OBSAH',
+    OFFICIAL_HISTORICAL_CZE_MINIGATOR_EOD_IED_TRAINING:'OFICIÁLNÍ HISTORICKÝ ČESKÝ VÝCVIK MINIGATOR EOD/IED',
+    LEAD_VENDOR_SIGNAL_NOT_FORCE_ADOPTION:'VENDOR SIGNÁL PRO DALŠÍ PROVĚŘENÍ; NIKOLI DŮKAZ ZAVEDENÍ V OZBROJENÝCH SILÁCH',
+    EXISTING_SIGNAL_RECONFIRMED_NOT_NEW_CANONICAL_RECORD:'EXISTUJÍCÍ SIGNÁL ZNOVU POTVRZEN; NEJDE O NOVÝ KANONICKÝ ZÁZNAM',
+    HIGH_FOR_REPORTED_2020_TRAINING_LOW_FOR_CURRENT_INFERENCE:'VYSOKÁ PRO POPSANÝ VÝCVIK V ROCE 2020; NÍZKÁ PRO SOUČASNÝ ZÁVĚR'
   });
 
   put('ENG-EVT-0011',{title_cs:'Ženijní jednotky PLA cvičí překonávání překážek a nouzové zprůchodňování tras'});
@@ -68,8 +82,9 @@
   putLead('LEAD-B42-01',{topic_cs:'Aktuální struktura a technika 91st Support Brigade podle MilitaryLand — sekundární ORBAT stopa vyžadující primární potvrzení jednotlivých položek'});
   putLead('LEAD-B42-02',{topic_cs:'Veřejný dokument NATO NLLP z roku 2024 o ukrajinské Combat Engineering Support — metadata veřejného zpřístupnění potvrzena; přímé načtení dokumentu zůstává nestabilní'});
   putLead('LEAD-B43-01',{topic_cs:'Článek AČR z 13. července 2012 o česko-americkém výcviku C-IED/EOD/EOR — indexovaný oficiální obsah znovu potvrzen; přímý deep-link v tomto běhu nedostupný'});
+  putLead('LEAD-B45-01',{topic_cs:'CNIM ROCUS/AUROCH/PFM na DALO 2026 — před tvrzením o zavedení ověřit demonstraci, akvizici nebo nasazení u konkrétního zákazníka'});
 
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
-  D.translation_audit_cs.batches.push({batch:'2026-08-21-0432-public-cz-ui',processed_ids:['ENG-TECH-0042','ENG-EVID-0171','ENG-SRC-0403','B43-TREND-01','LEAD-B37-01','LEAD-B36-04','LEAD-B42-02','LEAD-B43-01'],fully_translated:4,partially_translated:4,review_needed:0,scope:'PUBLIC-CZ-UI localization of B43 MKR-2 certification temporal/status/evidence tokens and current lead topics in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.6',last_batch:'2026-08-21-0432-public-cz-ui'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-21-0537-public-cz-ui',processed_ids:['ENG-EVT-0120','ENG-EVT-0121','ENG-EVID-0173','ENG-EVID-0174','ENG-SRC-0467','ENG-SRC-0468','B45-TECHSIG-01','B45-TREND-01','LEAD-B45-01'],fully_translated:9,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI localization of B45 Czech EOD historical status/evidence/source tokens, Technology Signal/Trend classifications and current lead topic in the existing i18n content layer. Preserve English/base fields and factual registries.',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS_EVENTS_BACKLOG__={translated_entities:['ENG-EVT-0011','ENG-EVT-0012','ENG-EVT-0013','ENG-EVT-0020','ENG-EVT-0026'].filter(id=>R.has(id)),translated_leads:['LEAD-B37-01','LEAD-B37-02','LEAD-B40-01','LEAD-B37-04','LEAD-B36-04','LEAD-B40-02','LEAD-B42-01','LEAD-B42-02','LEAD-B43-01','LEAD-B45-01'].filter(id=>L.has(id)),review_needed_entities:[],version:'1.7',last_batch:'2026-08-21-0537-public-cz-ui'};
 })();
