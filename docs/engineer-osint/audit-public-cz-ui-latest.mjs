@@ -5,7 +5,7 @@ const canonical='docs/engineer-osint/audit-public-cz-ui.mjs';
 const generated='docs/engineer-osint/.audit-public-cz-ui-latest.generated.mjs';
 const src=readFileSync(canonical,'utf8');
 const needle="'i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-backlog.js'";
-const replacement="'i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-1746.js','i18n-content-cs-public-cz-1817.js','i18n-content-cs-public-cz-1834.js','i18n-content-cs-public-cz-1940.js','i18n-content-cs-public-cz-2015.js','i18n-content-cs-public-cz-2025.js','i18n-content-cs-public-cz-2045.js','i18n-content-cs-public-cz-backlog.js'";
+const replacement="'data-integrity-identity-fixes.js','i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-1746.js','i18n-content-cs-public-cz-1817.js','i18n-content-cs-public-cz-1834.js','i18n-content-cs-public-cz-1940.js','i18n-content-cs-public-cz-2015.js','i18n-content-cs-public-cz-2025.js','i18n-content-cs-public-cz-2045.js','i18n-content-cs-public-cz-backlog.js'";
 if(!src.includes(needle))throw new Error('PUBLIC_CZ_UI_LATEST: canonical module-list anchor missing');
 const patched=src.replace(needle,replacement);
 writeFileSync(generated,patched,'utf8');
@@ -15,17 +15,15 @@ try{
   try{unlinkSync(generated)}catch{}
 }
 
-// These fields are intentionally not safe translation backlog. They are either
-// structured status/enum values or records with a known semantic identity conflict.
-// Keep them visible in TRANSLATION_REVIEW_NEEDED instead of hiding them or translating
-// them mechanically merely to drive the backlog counter to zero.
+// These fields are intentionally not safe translation backlog. They are structured
+// status/enum values requiring controlled mapping. The two former semantic identity
+// conflicts (ENG-TECH-0036 and ENG-VIS-0054) are no longer listed here because the
+// data-integrity module repairs their canonical identities before this audit runs.
 const explicitFieldReview=new Map([
   ['ENG-SIG-0014',new Map([['maturity','structured-enum-composite-review']])],
-  ['ENG-TECH-0036',new Map([['fact','semantic-identity-conflict-review'],['analysis','semantic-identity-conflict-review']])],
   ['ENG-SRC-0455',new Map([['role','structured-enum-mixed-case-review']])],
   ['ENG-VIS-0001',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
-  ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
-  ['ENG-VIS-0054',new Map([['caption','semantic-identity-conflict-review']])]
+  ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])]
 ]);
 
 const jsonPath='docs/engineer-osint-dist/public-cz-ui-audit.json';
