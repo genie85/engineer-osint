@@ -1,3 +1,4 @@
 Refresh GitHub Pages from current main after localization updates.
-Requested: 2026-08-22 Europe/Prague.
-Base main: 442004d78334c622edc6b6c7be73cceffceab9b9
+Requested: 2026-08-22 14:29 Europe/Prague.
+Base main: 9dd2b1b3f6143df5a8074f91ce962985fb44d437
+Purpose: run full-history PUBLIC-CZ-UI audit with active 0633/2110/backlog/canary modules.
