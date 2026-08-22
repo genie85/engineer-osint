@@ -15,7 +15,7 @@
 
   put('ENG-TECH-0001',{title_cs:'MV-8 KOMODO — bezosádkový systém pro breaching'});
   put('ENG-TECH-0005',{title_cs:'Britsko-německý program Wide Wet Gap Crossing založený na nejnovější generaci M3'});
-  put('ENG-SIG-0002',{title_cs:'Rheinmetall získal 51% podíl v DOK-ING a zřídil kompetenční centrum pro těžká autonomní vozidla'});
+  put('ENG-SIG-0002',{title_cs:'Rheinmetall získal 51% podíl v DOK-ING a zřídil kompetenční centrum pro těžká autonomní vozidla',fact_cs:'Rheinmetall dokončil akvizici 51% podílu v DOK-ING. Nový subjekt je prezentován jako kompetenční centrum pro těžká autonomní vojenská vozidla se zaměřením na bojovou podporu včetně odminování a kladení min.',analysis_cs:'Průmyslová konsolidace zvyšuje pravděpodobnost rychlejšího škálování a integrace bezosádkových ženijních systémů do portfolií velkých pozemních systémů.'});
   put('ENG-TTP-0004',{title_cs:'Dálkový/digitální hydrografický průzkum pro přípravu překonání vodní překážky'});
   put('ENG-TTP-0005',{title_cs:'Přežití přizpůsobené hrozbě při trvalém pozorování bezpilotními prostředky'});
 

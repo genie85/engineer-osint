@@ -2,7 +2,10 @@
   const D=window.__ENGINEER_DATA__; if(!D)return;
   const records=D.records?.records||[];
   const rm=new Map(records.map(x=>[x.id,x]));
+  const putEvt=(id,p)=>{const x=rm.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs='ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
   const put=(id,p)=>{const x=rm.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs='ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
+
+  putEvt('ENG-EVT-0026',{fact_cs:'Týdenní briefing tureckého ministerstva národní obrany uvádí, že ženijní brigáda 2. armády dokončila v Dajr az-Zauru 240m plovoucí most přes Eufrat. Po kontrolách měl být most podle briefingu uveden do provozu 10. července 2026.',analysis_cs:'Položka je užitečným aktuálním datovým bodem o operační podpoře a překonávání vodních překážek pro schopnosti tureckého ženijního mostního vojska.',limit_cs:'Protože B10 má pro tuto konkrétní událost pouze jeden oficiální zdroj, nelze z ní samostatně vyvozovat dlouhodobou propustnost, přesný typ systému ani širší stav nasazených mostních prostředků.',confidence_cs:'STŘEDNĚ VYSOKÁ; jediný oficiální zdroj'});
 
   put('ENG-UNIT-0012',{
     mission_cs:'Bojové ženijní zabezpečení zahrnující mimo jiné odstraňování minových polí, budování mostů, opevňování a specializované ženijní úkoly.',
