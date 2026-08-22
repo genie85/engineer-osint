@@ -28,8 +28,11 @@
   function mount(){const v=document.getElementById('view');if(!v)return false;let host=document.getElementById('engineerOverviewIntro');if(host){const tmp=document.createElement('div');tmp.innerHTML=block();host.replaceWith(tmp.firstElementChild);return true}const first=v.firstElementChild;if(!first)return false;first.insertAdjacentHTML('beforebegin',block());return true}
   const overviewActive=()=>{const p=(document.getElementById('pageTitle')?.textContent||'').trim();return /^(Přehled|Overview)$/i.test(p)};
   function refresh(){if(overviewActive())mount()}
+  function openOverviewItem(id){if(!id)return false;if(typeof window.openDetail==='function'){window.openDetail(id);return true}if(typeof window.ENGINEER_ENTITY_NAV?.open==='function'){window.ENGINEER_ENTITY_NAV.open(id);return true}return false}
+  function overviewItemId(el){return el?.dataset?.open||(el?.textContent||'').match(/(?:ENG-(?:TECH|UNIT|EVT|DOC|TTP|SIG|LL)-\d+|LEAD-[A-Z0-9-]+)/i)?.[0]||null}
+  document.addEventListener('click',e=>{if(!overviewActive())return;const target=e.target;if(!(target instanceof Element)||target.closest('a,button,input,select,textarea,summary'))return;const card=target.closest('#view [data-open],#view .item');if(!card||card.closest('#engineerOverviewIntro'))return;const id=overviewItemId(card);if(!id)return;setTimeout(()=>openOverviewItem(id),0)},false);
   refresh();setTimeout(refresh,100);setTimeout(refresh,600);
   document.addEventListener('engineer-language-changed',()=>setTimeout(refresh,0));
   const v=document.getElementById('view');if(v)new MutationObserver(()=>{if(overviewActive()&&!document.getElementById('engineerOverviewIntro'))setTimeout(refresh,0)}).observe(v,{childList:true});
-  window.ENGINEER_OVERVIEW_STATS={counts,refresh};
+  window.ENGINEER_OVERVIEW_STATS={counts,refresh,openOverviewItem};
 })();
