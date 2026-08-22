@@ -76,3 +76,64 @@
   if(setMissing('ENG-UNIT-0029',{fact_cs:'Oficiální materiál Bundeswehru řadí binacionální prapor v Mindenu pod Panzerlehrbrigade 9. Prapor vznikl 1. října 2021 z Panzerpionierbataillon 130 a zahrnuje britskou 23 Amphibious Engineer Squadron. Veřejná stránka organizace uvádí devět rot a označuje M3 Amphibious Bridging System za charakteristickou schopnost praporu pro překonávání širokých vodních překážek.',analysis_cs:'Jde o vysoce hodnotný základní údaj pro analýzu binacionálního uspořádání sil pro překonávání širokých vodních překážek. Veřejně popsaná struktura podporuje analýzu interoperability, sama o sobě však neprokazuje válečnou připravenost, aktuální počty vozidel ani přesné složení dostupné pro konkrétní přechod.',confidence_cs:'VYSOKÁ pro veřejně doloženou organizační strukturu; NIŽŠÍ pro stav techniky a připravenost'}))done.push('ENG-UNIT-0029');
   window.__ENGINEER_PUBLIC_CZ_BATCH_1920__={processed_ids:done,mapped_fields:19,english_preserved:true};
 })();
+
+(function(){
+  const D=window.__ENGINEER_DATA__;
+  if(!D?.records?.records)return;
+  const R=new Map(D.records.records.map(x=>[x.id,x]));
+  const setMissing=(id,p)=>{const x=R.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(v!==undefined&&v!==null&&v!==''&&!x[k])x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const done=[];
+  if(setMissing('ENG-UNIT-0030',{
+    fact_cs:'15. ženijní pluk je ve veřejných materiálech AČR popisován jako plukovní ženijní útvar pro ženijní podporu operací. Současné veřejné podklady identifikují tři ženijní prapory a spojují 151. ženijní prapor s úkolovými uskupeními založenými na 4. brigádě rychlého nasazení a 153. ženijní prapor s úkolovými uskupeními založenými na 7. mechanizované brigádě.',
+    analysis_cs:'15. ženijní pluk je ve veřejných materiálech AČR popisován jako plukovní ženijní útvar pro ženijní podporu operací. Současné veřejné podklady identifikují tři ženijní prapory a spojují 151. ženijní prapor s úkolovými uskupeními založenými na 4. brigádě rychlého nasazení a 153. ženijní prapor s úkolovými uskupeními založenými na 7. mechanizované brigádě.',
+    intelligence_gaps_cs:['úplné současné TO&E pod úrovní praporu','současné rozdělení techniky podle praporů a rot','podrobné vztahy velení a řízení v konkrétních scénářích nasazení NATO','veřejné mapování národních ženijních kvalifikací na kategorie NATO EOD/EOC/EOR']
+  }))done.push('ENG-UNIT-0030');
+  if(setMissing('ENG-UNIT-0031',{
+    fact_cs:'151. ženijní prapor je ve veřejných podkladech popisován jako útvar posilující úkolová uskupení komplexní ženijní podporou, podporou EOD a provizorním mostním zabezpečením; veřejně popsaná struktura zahrnuje dvě roty bojové ženijní podpory a rotu ženijního zabezpečení.',
+    analysis_cs:'151. ženijní prapor je ve veřejných podkladech popisován jako útvar posilující úkolová uskupení komplexní ženijní podporou, podporou EOD a provizorním mostním zabezpečením; veřejně popsaná struktura zahrnuje dvě roty bojové ženijní podpory a rotu ženijního zabezpečení.',
+    intelligence_gaps_cs:['současná podrobná organizace EOD uvnitř praporu','rozdělení techniky mezi roty bojové ženijní podpory','současný model připravenosti a certifikace','mapování kontextu úkolů mine action']
+  }))done.push('ENG-UNIT-0031');
+  if(setMissing('ENG-UNIT-0032',{
+    operational_evidence_cs:{training_evidence:'Bison Readiness 2025 — mnohonárodní výcvik C-IED/EOD',operational_evidence:'VEŘEJNÁ DATA NENALEZENA',combat_evidence:'VEŘEJNÁ DATA NENALEZENA'}
+  }))done.push('ENG-UNIT-0032');
+  if(setMissing('ENG-UNIT-0033',{
+    fact_cs:'153. ženijní prapor sídlí v Olomouci. Veřejné materiály jej popisují jako útvar poskytující bojovou ženijní podporu brigádním a praporním úkolovým uskupením a jako útvar předurčený pro úkolová uskupení založená na 7. mechanizované brigádě.',
+    analysis_cs:'153. ženijní prapor sídlí v Olomouci. Veřejné materiály jej popisují jako útvar poskytující bojovou ženijní podporu brigádním a praporním úkolovým uskupením a jako útvar předurčený pro úkolová uskupení založená na 7. mechanizované brigádě.',
+    intelligence_gaps_cs:['současné TO&E praporu a rot','současná matice techniky bojové ženijní podpory','podrobnosti velení a řízení v brigádních úkolových uskupeních','současný příspěvek k EOD/EOC, pokud existuje']
+  }))done.push('ENG-UNIT-0033');
+  if(setMissing('ENG-UNIT-0036',{
+    fact_cs:'Aktuálně dostupný profil Ministerstva obrany Ukrajiny popisuje Síly podpory jako samostatný druh vojska sdružující pět složek: ženijní vojsko, ochranu proti CBRN, geodetické zabezpečení, hydrometeorologickou službu a kynologickou službu. Veřejně přisuzuje ženijnímu vojsku vytváření průchodů pro obrněná vozidla, budování opevnění a maskovací úkoly. Stránka neuvádí podrobnou podřízenou organizační strukturu ani početní stavy.',
+    analysis_cs:'Aktuálně dostupný profil Ministerstva obrany Ukrajiny popisuje Síly podpory jako samostatný druh vojska sdružující pět složek: ženijní vojsko, ochranu proti CBRN, geodetické zabezpečení, hydrometeorologickou službu a kynologickou službu. Veřejně přisuzuje ženijnímu vojsku vytváření průchodů pro obrněná vozidla, budování opevnění a maskovací úkoly. Stránka neuvádí podrobnou podřízenou organizační strukturu ani početní stavy.'
+  }))done.push('ENG-UNIT-0036');
+  if(setMissing('ENG-TECH-0028',{
+    operational_evidence_cs:{historical_training_and_disaster_response:'POTVRZENO',current_2026_quantity:'VEŘEJNÁ DATA NENALEZENA',current_2026_serviceability:'VEŘEJNÁ DATA NENALEZENA'},
+    fact_cs:'Kolový mostní automobil na podvozku Tatra T-815 8×8 určený k rychlému překonávání překážek. AČR uvádí délku jednoho přemostění 10 až 12,5 m, možnost až osmi polí, pohotovostní hmotnost 25,9 t, mostní pole o rozměrech 13,5 × 4,0 m a nosnost jednoho pole 50 t.',
+    analysis_cs:'Kolový mostní automobil na podvozku Tatra T-815 8×8 určený k rychlému překonávání překážek. AČR uvádí délku jednoho přemostění 10 až 12,5 m, možnost až osmi polí, pohotovostní hmotnost 25,9 t, mostní pole o rozměrech 13,5 × 4,0 m a nosnost jednoho pole 50 t.'
+  }))done.push('ENG-TECH-0028');
+  if(setMissing('ENG-TECH-0029',{
+    operational_evidence_cs:{historical_quantity_2016:6,current_2026_quantity:'VEŘEJNÁ DATA NENALEZENA',current_2026_serviceability:'VEŘEJNÁ DATA NENALEZENA'},
+    fact_cs:'Pásový mostní tank na upraveném podvozku T-55A. Ministerstvo obrany ČR uvádí hmotnost 36 t, dvoučlennou osádku, délku přemostění až 18 m, šířku 3,3 m a nosnost až 50 t. Nejnovější nalezený oficiální údaj o počtu je historický: šest vozidel k 1. lednu 2016; není považován za stav flotily v roce 2026.',
+    analysis_cs:'Pásový mostní tank na upraveném podvozku T-55A. Ministerstvo obrany ČR uvádí hmotnost 36 t, dvoučlennou osádku, délku přemostění až 18 m, šířku 3,3 m a nosnost až 50 t. Nejnovější nalezený oficiální údaj o počtu je historický: šest vozidel k 1. lednu 2016; není považován za stav flotily v roce 2026.'
+  }))done.push('ENG-TECH-0029');
+  if(setMissing('ENG-TECH-0032',{
+    fact_cs:'Ministerstvo obrany Ukrajiny 9. června 2026 oznámilo, že NEO-1 byl kodifikován a povolen k provozu v Ozbrojených silách Ukrajiny. Oficiální certifikační registr uvádí certifikát UA.017.ПО.089-26 ze dne 23. února 2026. Veřejné zdroje B38 neprokazují počet dodaných kusů, rozdělení k jednotkám, provozuschopnost ani bojovou účinnost.',
+    analysis_cs:'Ministerstvo obrany Ukrajiny 9. června 2026 oznámilo, že NEO-1 byl kodifikován a povolen k provozu v Ozbrojených silách Ukrajiny. Oficiální certifikační registr uvádí certifikát UA.017.ПО.089-26 ze dne 23. února 2026. Veřejné zdroje B38 neprokazují počet dodaných kusů, rozdělení k jednotkám, provozuschopnost ani bojovou účinnost.'
+  }))done.push('ENG-TECH-0032');
+  if(setMissing('ENG-TECH-0034',{
+    fact_cs:'Ministerstvo obrany Ukrajiny 3. března 2025 uvedlo, že v různých regionech Ukrajiny působilo 62 strojů GCS-200 a během roku 2025 očekávalo dalších 26. Zdroj také odkazoval na dřívější dodávky vojenskému útvaru Sil podpory. ArmyInform 16. dubna 2026 informoval o příslušníkovi 48. brigády podpory, který se cvičil na GCS-200. Údaj 62 je historický celoukrajinský veřejný snapshot napříč operátory a nesmí být vykládán jako vojenský inventář ani jako současný stav v srpnu 2026.',
+    analysis_cs:'Ministerstvo obrany Ukrajiny 3. března 2025 uvedlo, že v různých regionech Ukrajiny působilo 62 strojů GCS-200 a během roku 2025 očekávalo dalších 26. Zdroj také odkazoval na dřívější dodávky vojenskému útvaru Sil podpory. ArmyInform 16. dubna 2026 informoval o příslušníkovi 48. brigády podpory, který se cvičil na GCS-200. Údaj 62 je historický celoukrajinský veřejný snapshot napříč operátory a nesmí být vykládán jako vojenský inventář ani jako současný stav v srpnu 2026.'
+  }))done.push('ENG-TECH-0034');
+  if(setMissing('ENG-TECH-0035',{
+    fact_cs:'Ministerstvo obrany Ukrajiny v červnu 2025 kodifikovalo a povolilo TERMIT k použití v obranných silách a veřejně uvedlo konfigurace pro logistiku, zdravotnickou evakuaci, minování a přepravu vybavení. V červnu 2026 Ukrajina a Německo oznámily prováděcí ujednání pro společnou výrobu UGV Termit v Německu s deklarovaným cílem několika tisíc systémů. Aktuální profil Termit 2.0 společnosti Tencore uvádí rovněž minování a ženijní podporu. Parametry se změnily: zpráva MO z roku 2025 uváděla nosnost do 300 kg, zatímco současná stránka Termit 2.0 uvádí až 400 kg. Nejpravděpodobnějším vysvětlením je novější iterace, avšak přesná konfigurační návaznost není veřejně doložena.',
+    analysis_cs:'Ministerstvo obrany Ukrajiny v červnu 2025 kodifikovalo a povolilo TERMIT k použití v obranných silách a veřejně uvedlo konfigurace pro logistiku, zdravotnickou evakuaci, minování a přepravu vybavení. V červnu 2026 Ukrajina a Německo oznámily prováděcí ujednání pro společnou výrobu UGV Termit v Německu s deklarovaným cílem několika tisíc systémů. Aktuální profil Termit 2.0 společnosti Tencore uvádí rovněž minování a ženijní podporu. Parametry se změnily: zpráva MO z roku 2025 uváděla nosnost do 300 kg, zatímco současná stránka Termit 2.0 uvádí až 400 kg. Nejpravděpodobnějším vysvětlením je novější iterace, avšak přesná konfigurační návaznost není veřejně doložena.'
+  }))done.push('ENG-TECH-0035');
+  if(setMissing('ENG-TECH-0037',{
+    fact_cs:'Ministerstvo obrany Ukrajiny 23. dubna 2026 uvedlo, že Bizon-L byl kodifikován a povolen k operačnímu použití. Veřejný profil uvádí rychlost do 12 km/h, nosnost do 300 kg a dojezd do 50 km; s doplňkovým vybavením může zřizovat ženijní překážky a provádět plošné minování. Počet, rozdělení a provozuschopnost nejsou veřejně doloženy.',
+    analysis_cs:'Ministerstvo obrany Ukrajiny 23. dubna 2026 uvedlo, že Bizon-L byl kodifikován a povolen k operačnímu použití. Veřejný profil uvádí rychlost do 12 km/h, nosnost do 300 kg a dojezd do 50 km; s doplňkovým vybavením může zřizovat ženijní překážky a provádět plošné minování. Počet, rozdělení a provozuschopnost nejsou veřejně doloženy.'
+  }))done.push('ENG-TECH-0037');
+  if(setMissing('ENG-TECH-0038',{
+    fact_cs:'Oficiální ukrajinské zdroje potvrzují víceletou certifikační stopu systému MV-10, lokální montáž a opravy i významné historické dodávky. Registr obsahuje nové certifikační záznamy MV-10 od ledna do března 2026. Veřejná data ke konci roku 2025 uvádějí pouze souhrnný počet 69 systémů DOK-ING MV-10/MV-4; přesný počet MV-10, jejich rozdělení a provozuschopnost k 19. srpnu 2026 zůstávají neznámé.',
+    analysis_cs:'Oficiální ukrajinské zdroje potvrzují víceletou certifikační stopu systému MV-10, lokální montáž a opravy i významné historické dodávky. Registr obsahuje nové certifikační záznamy MV-10 od ledna do března 2026. Veřejná data ke konci roku 2025 uvádějí pouze souhrnný počet 69 systémů DOK-ING MV-10/MV-4; přesný počet MV-10, jejich rozdělení a provozuschopnost k 19. srpnu 2026 zůstávají neznámé.'
+  }))done.push('ENG-TECH-0038');
+  window.__ENGINEER_PUBLIC_CZ_BATCH_1930__={processed_ids:done,mapped_fields:28,english_preserved:true,review_skipped:['ENG-TECH-0036']};
+})();
