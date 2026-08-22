@@ -7,7 +7,21 @@ const src=readFileSync(canonical,'utf8');
 const needle="'i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-backlog.js'";
 const replacement="'data-integrity-identity-fixes.js','i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-1746.js','i18n-content-cs-public-cz-1817.js','i18n-content-cs-public-cz-1834.js','i18n-content-cs-public-cz-1940.js','i18n-content-cs-public-cz-2015.js','i18n-content-cs-public-cz-2025.js','i18n-content-cs-public-cz-2045.js','i18n-content-cs-public-cz-backlog.js','i18n-enum-cs-safe-core.js'";
 if(!src.includes(needle))throw new Error('PUBLIC_CZ_UI_LATEST: canonical module-list anchor missing');
-const patched=src.replace(needle,replacement);
+let patched=src.replace(needle,replacement);
+
+// A very small allow-list for public enum values whose correct Czech rendering is
+// intentionally byte-for-byte identical to the base token. Do not generalize this
+// to arbitrary equal strings: equality alone is not proof of localization.
+const neutralEnumValues=['VIDEO'];
+const mappedAnchor="const uiCs=context.window.__ENGINEER_I18N__?.ui?.cs||{};\nconst mappedCs=v=>{if(v===undefined||v===null)return undefined;const s=String(v);return uiCs[s]??uiCs[s.toUpperCase()]??rendererEnumCs[s]??rendererEnumCs[s.toUpperCase()];};";
+const mappedReplacement=mappedAnchor+"\nconst explicitNeutralEnumCs=new Set("+JSON.stringify(neutralEnumValues)+");";
+if(!patched.includes(mappedAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: enum mapping anchor missing');
+patched=patched.replace(mappedAnchor,mappedReplacement);
+const conditionAnchor="mapped!==undefined&&String(mapped)!==String(base)";
+const conditionReplacement="mapped!==undefined&&(String(mapped)!==String(base)||explicitNeutralEnumCs.has(String(base)))";
+if(!patched.includes(conditionAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: enum localization condition anchor missing');
+patched=patched.replace(conditionAnchor,conditionReplacement);
+
 writeFileSync(generated,patched,'utf8');
 try{
   await import(pathToFileURL(generated).href+'?v='+Date.now());
