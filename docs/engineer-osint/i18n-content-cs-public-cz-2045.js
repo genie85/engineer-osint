@@ -84,3 +84,36 @@
   put('ENG-SRC-0419','Pozemní doména — autonomní systémy / ženijní UGS (eUGS)');
   window.__ENGINEER_PUBLIC_CZ_BATCH_2100__={processed_ids:done,mapped_fields:32,english_preserved:true};
 })();
+
+(function(){
+  const D=window.__ENGINEER_DATA__;if(!D)return;
+  const ex=D.dashboard_patch_extras||{};
+  const sourceObjects=[];
+  for(const a of [D.sources?.sources,D.sources,ex.sources,D.source_registry?.sources,ex.source_registry?.sources])if(Array.isArray(a))sourceObjects.push(...a);
+  const setAll=(id,title_cs)=>{let hit=false;for(const x of sourceObjects){if((x.id||x.source_id)!==id)continue;if(x.title_cs===undefined||x.title_cs===null||x.title_cs==='')x.title_cs=title_cs;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';hit=true;}return hit;};
+  const done=[];const put=(id,title)=>{if(setAll(id,title))done.push(id);};
+  put('ENG-SRC-0423','Kooperativní bezosádkové pozemní systémy bojového ženijního zabezpečení');
+  put('ENG-SRC-0424','Zahájení projektu eUGS');
+  put('ENG-SRC-0425','NATO e-ITEP — výcvik zpravodajského vyhodnocování zbraní (Weapons Intelligence Training, WIT), IED-ED-3767');
+  put('ENG-SRC-0430','U.S. Army vybírá čtyři dodavatele pro Engineer Autonomous Breaching Capability k automatizaci vytváření průchodů na bojišti');
+  put('ENG-SRC-0432','Ženisté z Oregonu vytvářejí průchod v drátěné překážce pomocí Bangalore torpéda dopraveného dronem');
+  put('ENG-SRC-0435','Rozpočtové odhady pro fiskální rok 2027 — RDT&E Army, svazek 2a ze 2 — PE 0603619A / CE5 Vývoj schopnosti vytváření průchodů – vozidlová varianta');
+  put('ENG-SRC-0436','Ukrajinské kynologické týmy odhalují výbušné předměty');
+  put('ENG-SRC-0437','Od začátku roku 2026 vojenští kynologové se psy prověřili téměř 230 hektarů území');
+  put('ENG-SRC-0438','Proběhlo dvaadvacáté zasedání Koalice schopností pro odminování Ukrajiny');
+  put('ENG-SRC-0445','Ženisté U.S. Army: připraveni dnes, připraveni na zítřek');
+  put('ENG-SRC-0446','Uran-6');
+  put('ENG-SRC-0448','Operační kurz vojenského ženijního zabezpečení NATO (NOMEC)');
+  put('ENG-SRC-0449','V Charkovské oblasti bylo za týden nalezeno a zničeno více než 800 výbušných předmětů');
+  put('ENG-SRC-0453','Časopis A report 4/2016 — pyrotechnik EOD');
+  put('ENG-SRC-0454','Milrem Robotics dodá společnosti CNIM Systèmes Industriels šest UGV THeMIS určených pro Ukrajinu');
+  put('ENG-SRC-0455','Ukrajinské síly plně využívají své UGV THeMIS');
+  put('ENG-SRC-0456','Milrem Robotics a CNIM Systèmes Industriels podepisují na Eurosatory 2026 memorandum o porozumění k pokročilým bezosádkovým řešením pro ženijní průzkum');
+  put('ENG-SRC-0457','Systém posuzování shody, certifikace a inspekce protiminové činnosti na Ukrajině');
+  put('ENG-SRC-0458','Tisková informace');
+  put('ENG-SRC-0459','Tisková informace — aktualizace');
+  put('ENG-SRC-0462','S novým vozidlem rychleji na místě incidentu');
+  put('ENG-SRC-0465','Chaos při překonávání: ženijní řád v operacích velkého rozsahu (LSCO)');
+  put('ENG-SRC-0469','Podezření na sabotážní útok nenarušilo dodávky Milremu na Ukrajinu');
+  window.__ENGINEER_PUBLIC_CZ_BATCH_2115__={processed_ids:done,mapped_fields:23,english_preserved:true,review_skipped:['ENG-SRC-0455:role','ENG-TECH-0036','ENG-VIS-0054','ENG-SIG-0014','ENG-VIS-0001','ENG-VIS-0002']};
+})();
