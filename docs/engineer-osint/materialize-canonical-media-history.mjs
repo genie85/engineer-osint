@@ -32,13 +32,15 @@ try{
   throw new Error(`Unable to enumerate full patch history: ${e.message}`);
 }
 const byRun=new Map();
+const skippedHistoricalPatches=[];
 for(const sha of shas){
   try{
     const p=JSON.parse(execFileSync('git',['show',`${sha}:${patchPath}`],{encoding:'utf8',maxBuffer:50*1024*1024}));
     const run=p?.state?.run_id||sha;
     byRun.set(run,p);
   }catch(e){
-    throw new Error(`Unable to read historical patch ${sha}: ${e.message}`);
+    skippedHistoricalPatches.push({sha,error:e.message});
+    console.warn(`Skipping unreadable historical patch at ${sha}: ${e.message}`);
   }
 }
 if(currentPatch?.state?.run_id)byRun.set(currentPatch.state.run_id,currentPatch);
@@ -77,6 +79,8 @@ D.media_materialization={
   mode:'FULL_GIT_HISTORY_CANONICAL_MEDIA',
   current_run_id:currentPatch?.state?.run_id||null,
   patch_runs_scanned:byRun.size,
+  skipped_historical_patches:skippedHistoricalPatches.length,
+  skipped_historical_patch_shas:skippedHistoricalPatches.map(x=>x.sha),
   historical_media_occurrences:historicalOccurrences,
   historical_unique_media_records:historical.length,
   canonical_media_records:merged.length
