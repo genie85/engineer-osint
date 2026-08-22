@@ -1,0 +1,25 @@
+(function(){
+  const D=window.__ENGINEER_DATA__;if(!D)return;
+  const ex=D.dashboard_patch_extras||{};
+  const visuals=[...(D.visual_registry?.visuals||[]),...(D.visuals?.visuals||[]),...(ex.visuals||[])];
+  const trendList=[...(Array.isArray(D.trends)?D.trends:(D.trends?.trends||[])),...(Array.isArray(ex.trends)?ex.trends:[])];
+  const V=new Map(visuals.map(x=>[x.asset_id||x.id,x]));
+  const T=new Map(trendList.map(x=>[x.id,x]));
+  const setMissing=(map,id,p)=>{const x=map.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(v!==undefined&&v!==null&&v!==''&&(x[k]===undefined||x[k]===null||x[k]===''))x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const done=[];
+  if(setMissing(T,'TR-B13-01',{title_cs:'Přesun rizika od ženijního personálu k dálkově ovládaným a autonomním systémům'}))done.push('TR-B13-01');
+  if(setMissing(T,'TR-B19-01',{title_cs:'Snižování rizika pro ženijní a EOD personál pomocí robotiky a dálkového průzkumu',note_cs:'České veřejné podklady k EOD odpovídají širšímu mezinárodnímu trendu; tento referenční stav B19 nedokládá nový rozsah pořizování techniky.'}))done.push('TR-B19-01');
+  if(setMissing(T,'TR-B21-01',{title_cs:'Rozšiřování malých UGV do sapérských a odminovacích úkolů',note_cs:'Katjuša představuje další datový bod; plošné zavedení není doloženo.'}))done.push('TR-B21-01');
+  if(setMissing(T,'TR-B22-01',{title_cs:'Obnova mobility pomocí modulárních provizorních mostů a flexibilních manipulačních prostředků',note_cs:'Jeden český výcvikový datový bod z roku 2026; nejde o důkaz modernizace napříč celými silami.'}))done.push('TR-B22-01');
+  if(setMissing(T,'TR-B23-01',{title_cs:'Udržování schopnosti překonávání vodních překážek integrací profesionálů a záloh',note_cs:'Aktuální české výcvikové podklady dokládají integrovaný pontonový výcvik profesionálů a záloh, nikoli modernizaci nebo zvýšení počtu prostředků.'}))done.push('TR-B23-01');
+  if(setMissing(V,'ENG-VIS-0055',{what_it_supports_cs:'Oficiální doložení výcvikové vazby 152. ženijního praporu na soupravu MS-21 v roce 2026.',what_it_does_not_prove_cs:'Počet souprav, míru pohotovosti, vlastnické rozdělení ani válečnou dostupnost.'}))done.push('ENG-VIS-0055');
+  if(setMissing(V,'ENG-VIS-0056',{what_it_supports_cs:'Aktuální vazbu pontonové roty 152. ženijního praporu na výcvik překonávání vodní překážky se soupravou PMS v roce 2026.',what_it_does_not_prove_cs:'Celkový počet souprav, provozuschopnost, přesnou konfiguraci pontonů na každém snímku ani válečnou dostupnost.'}))done.push('ENG-VIS-0056');
+  if(setMissing(V,'ENG-VIS-0057',{title_cs:'AM-50 — vizuální referenční materiál, kategorie Wikimedia Commons'}))done.push('ENG-VIS-0057');
+  if(setMissing(V,'ENG-VIS-0064',{title_cs:'TERMIT — obrazový materiál z oficiální stránky MO Ukrajiny ke kodifikaci'}))done.push('ENG-VIS-0064');
+  const notInspected='NEBYLO PŘÍMO KONTROLOVÁNO — pixely nebyly v tomto běhu přímo inspektovány.';
+  for(const id of ['ENG-VIS-0065','ENG-VIS-0066','ENG-VIS-0067','ENG-VIS-0068','ENG-VIS-0069','ENG-VIS-0070','ENG-VIS-0071','ENG-VIS-0072','ENG-VIS-0073','ENG-VIS-0074','ENG-VIS-0075','ENG-VIS-0076','ENG-VIS-0077','ENG-VIS-0078','ENG-VIS-0079','ENG-VIS-0080','ENG-VIS-0081','ENG-VIS-0082','ENG-VIS-0083','ENG-VIS-0084','ENG-VIS-0085','ENG-VIS-0086','ENG-VIS-0087'])if(setMissing(V,id,{what_is_visible_cs:notInspected}))done.push(id);
+  setMissing(V,'ENG-VIS-0069',{caption_says_cs:'Oficiální stránka označuje zobrazenou platformu jako pásové UGV Bizon-L na nezpevněné cestě v bažinatém terénu.'});
+  setMissing(V,'ENG-VIS-0073',{caption_says_cs:'Oficiální stránka popisuje snímek jako bezosádkové pozemní vozidlo pro odminování pracující v pšeničném poli.'});
+  setMissing(V,'ENG-VIS-0079',{caption_says_cs:'Oficiální stránka označuje snímek jako pozemní robotický systém používaný k logistickým úkolům na frontě.'});
+  window.__ENGINEER_PUBLIC_CZ_BATCH_2025__={processed_ids:done,mapped_fields:41,english_preserved:true,review_skipped:['ENG-VIS-0001','ENG-VIS-0002','ENG-VIS-0054','ENG-TECH-0036','ENG-SIG-0014']};
+})();
