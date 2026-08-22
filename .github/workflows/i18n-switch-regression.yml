@@ -1,0 +1,32 @@
+name: ENGINEER OSINT i18n switch regression
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/i18n-runtime-switch-fix.js'
+      - 'docs/engineer-osint/test-i18n-runtime-switch.mjs'
+      - '.github/workflows/i18n-switch-regression.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/i18n-runtime-switch-fix.js'
+      - 'docs/engineer-osint/test-i18n-runtime-switch.mjs'
+      - '.github/workflows/i18n-switch-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cz-en-cz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Syntax check runtime switch fix
+        run: node --check docs/engineer-osint/i18n-runtime-switch-fix.js
+      - name: Run CZ EN CZ dynamic-content canary
+        run: node docs/engineer-osint/test-i18n-runtime-switch.mjs
