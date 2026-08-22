@@ -31,7 +31,11 @@
     OFFICIAL_TECHNICAL_PROFILE:'OFICIÁLNÍ TECHNICKÝ PROFIL',
     PRIMARY_OFFICIAL_CZECH_ARMED_FORCES_TECHNICAL_PAGE:'PRIMÁRNÍ OFICIÁLNÍ TECHNICKÁ STRÁNKA AČR',
     PRIMARY_REPORT_UNDATED:'PRIMÁRNÍ ZPRÁVA BEZ UVEDENÉHO DATA',
-    HIGH_FOR_TECHNICAL_PAGE_CONTENT_LOW_FOR_CURRENT_STATUS:'VYSOKÁ PRO OBSAH TECHNICKÉ STRÁNKY; NÍZKÁ PRO SOUČASNÝ STAV'
+    HIGH_FOR_TECHNICAL_PAGE_CONTENT_LOW_FOR_CURRENT_STATUS:'VYSOKÁ PRO OBSAH TECHNICKÉ STRÁNKY; NÍZKÁ PRO SOUČASNÝ STAV',
+    HIGH:'VYSOKÁ',
+    'MEDIUM-HIGH':'STŘEDNĚ VYSOKÁ',
+    NEW:'NOVÉ',
+    UPDATE:'AKTUALIZACE'
   });
   window.__ENGINEER_PUBLIC_CZ_ENUM_BATCH_0633__={
     processed_ids:['ENG-UNIT-0035','ENG-SRC-0473','ENG-REL-0013','ENG-EVID-0180','ENG-SIG-0026','ENG-SRC-0474','ENG-SRC-0475','ENG-EVID-0181'],
@@ -43,11 +47,17 @@
     mapped_fields:15,
     english_preserved:true
   };
+  window.__ENGINEER_PUBLIC_CZ_ENUM_BATCH_1035__={
+    processed_ids:['ENG-EVT-0001','ENG-EVT-0002','ENG-EVT-0003','ENG-EVT-0004','ENG-EVT-0005','ENG-EVT-0006','ENG-EVT-0007','ENG-EVT-0008','ENG-EVT-0009','ENG-EVT-0010'],
+    mapped_fields:4,
+    english_preserved:true
+  };
 
   const D=window.__ENGINEER_DATA__;
   if(D?.records?.records){
     const R=new Map(D.records.records.map(x=>[x.id,x]));
     const put=(id,text)=>{const x=R.get(id);if(!x)return false;if(!x.fact_cs)x.fact_cs=text;if(!x.analysis_cs)x.analysis_cs=text;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+    const put2=(id,fact,analysis)=>{const x=R.get(id);if(!x)return false;if(!x.fact_cs)x.fact_cs=fact;if(!x.analysis_cs)x.analysis_cs=analysis;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
     const done=[];
     if(put('ENG-DOC-0046','Oficiální A report 4/2016 popisuje Centrum technické a informační podpory EOD 15. ženijního pluku jako poskytovatele kurzu EOR a navazujícího kurzu pyrotechnika EOD. Záznam je historický snapshot z roku 2016 a neprokazuje současnou organizační podřízenost, dnešní osnovy ani délku kurzů.'))done.push('ENG-DOC-0046');
     if(put('ENG-DOC-0047','Oficiální materiály výrobce dokumentují program THeMIS/ROCUS pro Ukrajinu: sedm THeMIS s payloady CNIM pro route clearance bylo kontrahováno v roce 2022; v roce 2024 výrobce na základě zpětné vazby uživatele uváděl použití při odminování a route clearance; v květnu 2025 oznámil dalších šest ROCUS pro ukrajinskou DSNS a uvedl, že mají navázat na sedm dříve nasazených ROCUS. Jde o vendor-reported historii; sama o sobě neprokazuje aktuální provozuschopný počet v roce 2026.'))done.push('ENG-DOC-0047');
@@ -60,5 +70,18 @@
     if(put('ENG-DOC-0054','Oficiální žádost OPS(EADRCC)(2026)0045 z 11. 8. 2026 uvádí potřeby Státní služby Ukrajiny pro mimořádné situace pro humanitární odminování a přepravu výbušné munice. Mezi požadavky patří lehké a těžší EOD ochranné obleky, magnetometry, dálkové iniciační a manipulační prostředky, podvodní detektory, 10 AUV/ROV Tethys One a 100 robotických systémů typu Vanguard-ST nebo ekvivalent. Jde o deklarovanou potřebu/žádost, nikoli o potvrzené dodávky, držení ani operační stav.'))done.push('ENG-DOC-0054');
     if(put('ENG-DOC-0055','Veřejná 12stránková studie z roku 2024, zpřístupněná přes NATO Lessons Learned Portal, systematizuje úkoly ženijní podpory na základě ukrajinské zkušenosti z války a práce s NATO publikacemi. Navrhuje čtyři skupiny: podpora mobility vlastních vojsk; omezení mobility protivníka; zvýšení přežití a bezpečnosti vojsk a objektů; všeobecná ženijní podpora. Mezi konkrétní úkoly řadí ženijní průzkum, přípravu a údržbu tras, přechody a průchody přes překážky, průchody v zátarasech a destrukcích, odminování, heliporty, zřizování zátarasů, destrukce/zesilování překážek, fortifikace, maskování, polní zásobování vodou a ženijně-technickou podporu. Studie zároveň odkazuje na ukrajinské řídicí dokumenty z let 2019–2021 a na NATO MILENG publikace.'))done.push('ENG-DOC-0055');
     window.__ENGINEER_PUBLIC_CZ_BATCH_0737__={processed_ids:done,mapped_fields:done.length*2,english_preserved:true};
+
+    const evtDone=[];
+    if(put2('ENG-EVT-0001','30. pracovní skupina NATO pro vojenské ženijní zabezpečení je plánována na 15.–19. června 2026. Rozsah pracovní skupiny pokrývá DOTMLPFI a integraci standardů, doktríny, výcviku, postupů, terminologie, výzbroje a techniky.','Jde o významný pravidelný řídicí uzel pro zachycení změn doktríny a schopností ještě předtím, než se objeví v širším veřejném zpravodajství.'))evtDone.push('ENG-EVT-0001');
+    if(put2('ENG-EVT-0002','70. pracovní skupina EOD se sešla v Bruggách. Návrhy EOD COE týkající se terminologie a taxonomie, minimální odborné způsobilosti a revize standardů byly pracovní skupinou přijaty nebo podpořeny.','Standardizace EOD je v aktivním cyklu revizí; definice EOC a odborné způsobilosti je vhodné dlouhodobě sledovat.'))evtDone.push('ENG-EVT-0002');
+    if(put2('ENG-EVT-0003','EOD COE jako správce zastřešující doktríny NATO EOD uspořádalo workshop k datové fúzi pro AJP-3.18.','Pravděpodobně jde o předstupeň budoucí revize nebo aktualizace; přesný obsah návrhu není veřejný a nelze jej dovozovat.'))evtDone.push('ENG-EVT-0003');
+    if(put2('ENG-EVT-0004','Nová digitální platforma kombinuje ekologii, ekonomiku, GIS a datové inženýrství pro prioritizaci odminování zemědělské půdy. Ukrajina uvedla, že v roce 2025 bylo v devíti oblastech prozkoumáno více než 490 km² zemědělské půdy a 367 km² bylo vyčištěno.','Jde o projev institucionalizované prioritizace založené na datech; jedná se o humanitární protiminovou činnost, nikoli o přímý ukazatel taktické schopnosti bojového průlomu.'))evtDone.push('ENG-EVT-0004');
+    if(put2('ENG-EVT-0005','Státní speciální dopravní služba uvedla, že v roce 2025 vybudovala v sedmi oblastech 534 km fyzické ochrany komunikací proti dronům. Současně uváděla rozsáhlou výstavbu opevnění a zátarasů.','Fyzická ochrana proti UAS se vedle klasických úkolů mobility a omezení mobility stává významnou součástí pracovního zatížení ženijního vojska.'))evtDone.push('ENG-EVT-0005');
+    if(put2('ENG-EVT-0006','Ministerstvo obrany Ukrajiny informovalo o výcviku v používání UAV se specializovanými magnetometry pro detekci výbušných hrozeb.','Dálkový průzkum se přesouvá do praktických postupů protiminové činnosti a EOR, aby snižoval expozici personálu a zvyšoval výkon průzkumu.'))evtDone.push('ENG-EVT-0006');
+    if(put2('ENG-EVT-0007','Ministerstvo obrany Ukrajiny uvedlo koaliční fond ve výši 95 milionů EUR a specializované stroje a vybavení v hodnotě 205 milionů EUR plánované na rok 2026. Zároveň výslovně uvádí, že koalice pokrývá humanitární i vojenské odminování.','Odminování představuje dlouhodobou mnohonárodní linii rozvoje schopností, nikoli jednorázový proud darované techniky.'))evtDone.push('ENG-EVT-0007');
+    if(put2('ENG-EVT-0008','M1150 ABV a M1110 JAB dorazily v srpnu 2025 k 3rd Combat Engineer Regiment k testování a hodnocení.','Austrálie tím materiálně rozšiřuje těžké obrněné ženijní schopnosti a podporu kombinovaného průlomu i překonávání vodních a suchých překážek.'))evtDone.push('ENG-EVT-0008');
+    if(put2('ENG-EVT-0009','Australští technici EOD a bojoví ženisté působili se specialisty partnerských států ve Východní Nové Británii. 20 EOD Squadron je dlouhodobě působící specializovaná organizace EOD v rámci Royal Australian Engineers.','Jde o užitečný srovnávací model pro fázovaný EOR, technický průzkum a odstraňování výbušných hrozeb; kontext mise je však poválečné odstraňování ERW, nikoli boj vysoké intenzity.'))evtDone.push('ENG-EVT-0009');
+    if(put2('ENG-EVT-0010','Australian School of Military Engineering připravuje bojové ženisty ve schopnostech zahrnujících mostní prostředky, stavební práce a vyhledávání; výcvik BEPB podporuje postupné budování mostních dovedností.','Stabilní institucionální výcvik zůstává široce zaměřený, nikoli úzce soustředěný pouze na průlom, a je užitečný pro srovnání tvorby a doplňování sil.'))evtDone.push('ENG-EVT-0010');
+    window.__ENGINEER_PUBLIC_CZ_BATCH_1035__={processed_ids:evtDone,mapped_fields:evtDone.length*2,english_preserved:true};
   }
 })();
