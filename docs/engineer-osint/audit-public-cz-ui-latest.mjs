@@ -5,7 +5,7 @@ const canonical='docs/engineer-osint/audit-public-cz-ui.mjs';
 const generated='docs/engineer-osint/.audit-public-cz-ui-latest.generated.mjs';
 const src=readFileSync(canonical,'utf8');
 const needle="'i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-backlog.js'";
-const replacement="'data-integrity-identity-fixes.js','i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-1746.js','i18n-content-cs-public-cz-1817.js','i18n-content-cs-public-cz-1834.js','i18n-content-cs-public-cz-1940.js','i18n-content-cs-public-cz-2015.js','i18n-content-cs-public-cz-2025.js','i18n-content-cs-public-cz-2045.js','i18n-content-cs-public-cz-backlog.js','i18n-enum-cs-safe-core.js','i18n-enum-cs-safe-registry.js'";
+const replacement="'data-integrity-identity-fixes.js','i18n-content-cs-public-cz-2110.js','i18n-content-cs-public-cz-0633.js','i18n-content-cs-public-cz-1746.js','i18n-content-cs-public-cz-1817.js','i18n-content-cs-public-cz-1834.js','i18n-content-cs-public-cz-1940.js','i18n-content-cs-public-cz-2015.js','i18n-content-cs-public-cz-2025.js','i18n-content-cs-public-cz-2045.js','i18n-content-cs-public-cz-backlog.js','i18n-enum-cs-safe-core.js','i18n-enum-cs-safe-registry.js','i18n-enum-cs-safe-state.js'";
 if(!src.includes(needle))throw new Error('PUBLIC_CZ_UI_LATEST: canonical module-list anchor missing');
 let patched=src.replace(needle,replacement);
 
