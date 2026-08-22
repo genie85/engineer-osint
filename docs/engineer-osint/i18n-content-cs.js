@@ -2,7 +2,9 @@
   const D=window.__ENGINEER_DATA__;if(!D)return;
   const R=new Map((D.records?.records||[]).map(x=>[x.id,x]));
   const L=new Map((D.leads?.leads||[]).map(x=>[x.id,x]));
+  const S=new Map([...(D.sources?.sources||[]),...(D.external_source_registry?.sources||[])].map(x=>[x.id||x.source_id,x]));
   const put=(id,p)=>{const x=R.get(id)||L.get(id);if(!x)return;Object.assign(x,p);x.translation_status_cs=p.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs='ENGINEER_OSINT_TRANSLATION_LAYER';};
+  const putSource=(id,p)=>{const x=S.get(id);if(!x)return;for(const[k,v]of Object.entries(p))if(x[k]===undefined||x[k]===null||x[k]==='')x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';};
   const translateClaims=(id,texts)=>{const x=R.get(id)||L.get(id);if(!x||!Array.isArray(x.claims))return;for(let i=0;i<Math.min(texts.length,x.claims.length);i++)if(texts[i])x.claims[i].text_cs=texts[i];};
   put('ENG-UNIT-0001',{title_cs:'Support Forces Ozbrojených sil Ukrajiny — organizační struktura'});
   put('ENG-UNIT-0002',{title_cs:'24th Chinese Peacekeeping Multi-role Engineering Company / čínská schopnost odminování a EOD v UNIFIL'});
@@ -54,6 +56,12 @@
   put('ENG-EVT-0014',{title_cs:'Combined Annual Discipline Conference — sladění vzdělávání a výcviku MILENG, C-IED a EOD pro období 2026–2029'});
   put('ENG-EVT-0015',{title_cs:'11th EOD Workshop 2026 — důraz na adaptaci v polních podmínkách a pokročilé technologie'});
 
+  putSource('ENG-SRC-0471',{title_cs:'Odminování, CBRN ochrana a environmentální kontrola: komplexní příprava na činnost v podmínkách vícerozměrných hrozeb'});
+  putSource('ENG-SRC-0472',{title_cs:'OPS(EADRCC)(2026)0045 — žádost o mezinárodní pomoc prostřednictvím NATO EADRCC: podpora Ukrajiny'});
+  putSource('ENG-SRC-0334',{title_cs:'Global Dimensions 2024 — neutajovaný ukrajinský ženijní dokument: ženijní podpora sil (anglický překlad)'});
+  putSource('ENG-SRC-0474',{title_cs:'Sbory obdrží „těžké“ middle-strike systémy: začíná druhá etapa Základní úrovně zabezpečení'});
+  putSource('ENG-SRC-0475',{title_cs:'Od začátku roku 2026 bylo nasmlouváno přes 22 000 NŘK — téměř dvojnásobek oproti celému minulému roku'});
+
   D.translation_audit_cs=D.translation_audit_cs||{batches:[]};
   D.translation_audit_cs.batches.push({batch:'2026-08-17-2232',processed_ids:['ENG-UNIT-0012','ENG-UNIT-0013'],fully_translated:2,partially_translated:0,review_needed:0,scope:'UNIT priority; public entity fields and claim text',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-17-2334',processed_ids:['ENG-TECH-0011','ENG-TECH-0012','ENG-TECH-0014','ENG-TECH-0015'],fully_translated:4,partially_translated:0,review_needed:0,scope:'TECH priority; title, summary, intelligence gaps and claim text',english_preserved:true});
@@ -66,5 +74,6 @@
   D.translation_audit_cs.batches.push({batch:'2026-08-18-1919-sig-backlog',processed_ids:['ENG-SIG-0001','ENG-SIG-0004','ENG-SIG-0005'],fully_translated:2,partially_translated:0,review_needed:1,scope:'SIG priority; translate the sole missing title_cs for two unambiguous audited runtime records. ENG-SIG-0005 remains TRANSLATION_REVIEW_NEEDED because its canonical title is only the record ID; no inferred title is introduced.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-19-1406-evt-backlog',processed_ids:['ENG-EVT-0001','ENG-EVT-0002','ENG-EVT-0003','ENG-EVT-0014','ENG-EVT-0015'],fully_translated:5,partially_translated:0,review_needed:0,scope:'EVT priority; translate exact audited B13 runtime titles for five NATO events and the sole missing intelligence_gaps_cs on ENG-EVT-0002. Preserve official event names, English/base fields, classifications, temporal status and evidentiary meaning.',english_preserved:true});
   D.translation_audit_cs.batches.push({batch:'2026-08-19-1458-ukraine-evt-backlog',processed_ids:['ENG-EVT-0004','ENG-EVT-0005','ENG-EVT-0006','ENG-EVT-0007'],fully_translated:4,partially_translated:0,review_needed:0,scope:'EVT priority; translate exact audited B14 Ukrainian event title fields only; preserve English/base fields, humanitarian-versus-military mine-action context, classifications, temporal status and evidentiary meaning.',english_preserved:true});
-  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),review_needed_entities:['ENG-SIG-0005'],version:'2.1',last_batch:'2026-08-19-1458-ukraine-evt-backlog'};
+  D.translation_audit_cs.batches.push({batch:'2026-08-22-0536',processed_ids:['ENG-SRC-0471','ENG-SRC-0472','ENG-SRC-0334','ENG-SRC-0474','ENG-SRC-0475'],fully_translated:5,partially_translated:0,review_needed:0,scope:'PUBLIC-CZ-UI source layer; fill only missing title_cs for five unambiguous public source records from B48-B52 while preserving original and English source titles and all factual metadata',english_preserved:true});
+  window.__ENGINEER_I18N_CONTENT_CS__={translated_entities:[...R.values()].filter(x=>x.translation_status_cs).map(x=>x.id),review_needed_entities:['ENG-SIG-0005'],version:'2.2',last_batch:'2026-08-22-0536'};
 })();
