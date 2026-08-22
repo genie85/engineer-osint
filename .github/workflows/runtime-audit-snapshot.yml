@@ -26,12 +26,24 @@ jobs:
           node-version: '20'
       - name: Syntax checks
         run: |
+          set -euo pipefail
           node --check docs/engineer-osint/build-pages.mjs
           node --check docs/engineer-osint/postprocess-ui.mjs
           node --check docs/engineer-osint/validate-runtime.mjs
           node --check docs/engineer-osint/audit-public-cz-ui.mjs
+          node --check docs/engineer-osint/i18n-content-cs-public-cz-0633.js
+          node --check docs/engineer-osint/i18n-content-cs-public-cz-2110.js
+          node --check docs/engineer-osint/i18n-content-cs-public-cz-backlog.js
+          node --check docs/engineer-osint/public-cz-ui-canary.js
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
+      - name: Verify active PUBLIC-CZ runtime modules
+        run: |
+          set -euo pipefail
+          grep -q 'engineer-i18n-content-cs-public-cz-0633-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-i18n-content-cs-public-cz-2110-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-i18n-content-cs-public-cz-backlog-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-public-cz-ui-canary-module' docs/engineer-osint-dist/index.html
       - name: Run runtime audit
         continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
