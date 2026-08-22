@@ -7,12 +7,12 @@
   const done=[];const put=(id,title)=>{if(setAll(id,title))done.push(id);};
   put('ENG-SRC-0313','Seznam certifikátů vydaných Státním vědeckovýzkumným ústavem pro zkoušení a certifikaci výzbroje a vojenské techniky');
   put('ENG-SRC-0317','První pracovní zasedání k revizi AJP-3.18');
-  put('ENG-SRC-0318','SpMO 30791/2023-6624/3 - RD T-813 AM50 2023-2024');
+  put('ENG-SRC-0318','SpMO 30791/2023-6624/3 — rámcová dohoda T-813 AM50 pro roky 2023–2024');
   put('ENG-SRC-0320','49. zasedání pracovní skupiny MCJSB pro spojeneckou společnou doktrínu');
-  put('ENG-SRC-0321','RD na servis a opravy PM-55A na roky 2024-2026');
+  put('ENG-SRC-0321','Rámcová dohoda na servis a opravy PM-55A pro roky 2024–2026');
   put('ENG-SRC-0322','Odminování v Záporožské oblasti');
   put('ENG-SRC-0323','Spojenecká společná doktrína podpory EOD operacím (AJP-3.18)');
-  put('ENG-SRC-0324','AJP-3.18 Edition B Version 1');
+  put('ENG-SRC-0324','AJP-3.18, edice B, verze 1');
   put('ENG-SRC-0326','Úkoly a použití vojenského ženijního vojska — bibliografie');
   put('ENG-SRC-0328','Čištění vojenských výcvikových prostorů: nenápadná práce, která vrací území veřejnosti');
   put('ENG-SRC-0329','Ženisté 91. brigády podpory proměnili drony v nástroj dálkového boje');
@@ -21,7 +21,7 @@
   put('ENG-SRC-0332','HMS Stirling Castle provádí výcvik v protiminových opatřeních na Sea Breeze 26');
   put('ENG-SRC-0335','„Kill zones“, fortifikace a protidronová ochrana: jak ženisté 91. brigády podpory budují obranná postavení');
   put('ENG-SRC-0338','91. samostatná Ochtyrská brigáda podpory — aktuální náborový profil');
-  put('ENG-SRC-0340','828000: Defektace EOD robota Telemax');
+  put('ENG-SRC-0340','828000 — defektace robota EOD Telemax');
   put('ENG-SRC-0342','Odminování ze vzduchu: operátoři UAV a ženisté působí jako jeden tým');
   put('ENG-SRC-0343','808. brigáda sil podpory — lídr hodnocení minování v DELTA');
   put('ENG-SRC-0344','Na Ukrajině je v současnosti v provozu 62 odminovacích strojů GCS-200');
