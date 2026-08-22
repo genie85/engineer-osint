@@ -1,0 +1,21 @@
+(function(){
+  const D=window.__ENGINEER_DATA__;if(!D)return;
+  const ex=D.dashboard_patch_extras||{};
+  const all=[...(D.visual_registry?.visuals||[]),...(D.visuals?.visuals||[]),...(ex.visuals||[])];
+  const V=new Map(all.map(x=>[x.asset_id||x.id,x]));
+  const setMissing=(id,p)=>{const x=V.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(v!==undefined&&v!==null&&v!==''&&(x[k]===undefined||x[k]===null||x[k]===''))x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const done=[];
+  if(setMissing('ENG-VIS-0019',{title_cs:'Operation Render Safe — snímky 20 EOD Squadron',what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0019');
+  if(setMissing('ENG-VIS-0020',{title_cs:'3CER / LAND 907 — snímky vozidla bojového ženijního zabezpečení',what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0020');
+  if(setMissing('ENG-VIS-0021',{what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0021');
+  if(setMissing('ENG-VIS-0022',{what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0022');
+  if(setMissing('ENG-VIS-0023',{what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0023');
+  if(setMissing('ENG-VIS-0024',{title_cs:'JGSDF 11th Engineer Unit — snímky z oficiální stránky',what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0024');
+  if(setMissing('ENG-VIS-0025',{what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0025');
+  if(setMissing('ENG-VIS-0026',{what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0026');
+  if(setMissing('ENG-VIS-0027',{analysis_cs:'Vysoce hodnotný obrazový důkaz konfigurace pro technickou kartu japonského mostního systému.',what_is_visible_cs:'Rozvinutý jednopolový kovový most přes suchou prohlubeň nebo příkop; pásové vozidlo se nachází na mostovce nebo bezprostředně u ní a další vozidlo je viditelné za mostem; patrná je mostovka, nájezd a boční konstrukční prvky.'}))done.push('ENG-VIS-0027');
+  if(setMissing('ENG-VIS-0028',{title_cs:'JGSDF Type 92 Minefield Clearing Vehicle — oficiální snímek odpalu',analysis_cs:'Silné obrazové potvrzení mechanismu a konfigurace na bezpečné úrovni analýzy schopnosti.',what_is_visible_cs:'Pásové vozidlo se zdviženým skříňovým odpalovacím zařízením; z odpalovacího zařízení je zřetelně vypouštěna raketa nebo projektil s výtokem a oblakem spalin.'}))done.push('ENG-VIS-0028');
+  if(setMissing('ENG-VIS-0029',{analysis_cs:'Rozšiřuje přímé ukrajinské obrazové pokrytí; jde však o referenční snímek vztahující se k článku o kodifikaci z června 2026, nikoli o novou událost běhu B11.',what_is_visible_cs:'Kompaktní čtyřkolová bezosádková pozemní platforma v bahnitém a travnatém terénu, se vztyčeným kamerovým nebo senzorovým stožárem, anténami, nízkým podvozkem a předními rámovými prvky vyhledávacích senzorů.'}))done.push('ENG-VIS-0029');
+  if(setMissing('ENG-VIS-0030',{title_cs:'Detail ženijního pracovního nástroje UBIM — sekundární snímek',analysis_cs:'Užitečné potvrzení konfigurace, nikoli však důkaz zavedení u jednotek; sekundární původ zdroje snižuje důkazní váhu.',what_is_visible_cs:'Detail velkého černého hydraulického rypadlového nebo drapákového pracovního nástroje se zahnutou ozubenou horní čelistí; v pozadí jsou viditelná vojenská vozidla a prvky výstavní infrastruktury. Na snímku je zachycena pouze část ženijního vozidla.'}))done.push('ENG-VIS-0030');
+  window.__ENGINEER_PUBLIC_CZ_BATCH_1940__={processed_ids:done,mapped_fields:21,english_preserved:true};
+})();
