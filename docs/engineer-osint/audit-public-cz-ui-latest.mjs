@@ -14,3 +14,41 @@ try{
 }finally{
   try{unlinkSync(generated)}catch{}
 }
+
+// These fields are intentionally not safe translation backlog. They are either
+// structured status/enum values or records with a known semantic identity conflict.
+// Keep them visible in TRANSLATION_REVIEW_NEEDED instead of hiding them or translating
+// them mechanically merely to drive the backlog counter to zero.
+const explicitFieldReview=new Map([
+  ['ENG-SIG-0014',new Map([['maturity','structured-enum-composite-review']])],
+  ['ENG-TECH-0036',new Map([['fact','semantic-identity-conflict-review'],['analysis','semantic-identity-conflict-review']])],
+  ['ENG-SRC-0455',new Map([['role','structured-enum-mixed-case-review']])],
+  ['ENG-VIS-0001',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
+  ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
+  ['ENG-VIS-0054',new Map([['caption','semantic-identity-conflict-review']])]
+]);
+
+const jsonPath='docs/engineer-osint-dist/public-cz-ui-audit.json';
+const mdPath='docs/engineer-osint-dist/public-cz-ui-audit.md';
+const report=JSON.parse(readFileSync(jsonPath,'utf8'));
+for(const item of report.items||[]){
+  const rules=explicitFieldReview.get(item.id);if(!rules||!Array.isArray(item.missing_fields))continue;
+  const keep=[];
+  for(const field of item.missing_fields){
+    const reason=rules.get(field);
+    if(!reason){keep.push(field);continue}
+    item.review_fields=item.review_fields||[];
+    const marker=`${field}:${reason}`;
+    if(!item.review_fields.includes(marker))item.review_fields.push(marker);
+  }
+  item.missing_fields=keep;
+  if(!keep.length)item.status='TRANSLATION_REVIEW_NEEDED';
+}
+report.PUBLIC_CZ_UI_BACKLOG_ITEMS=(report.items||[]).filter(x=>(x.missing_fields||[]).length).length;
+report.PUBLIC_CZ_UI_BACKLOG_FIELDS=(report.items||[]).reduce((n,x)=>n+(x.missing_fields||[]).length,0);
+report.TRANSLATION_REVIEW_NEEDED=(report.items||[]).filter(x=>x.status==='TRANSLATION_REVIEW_NEEDED').length;
+report.TRANSLATION_REVIEW_FIELDS=(report.items||[]).reduce((n,x)=>n+(x.review_fields||[]).length,0);
+report.status=report.PUBLIC_CZ_UI_BACKLOG_FIELDS===0&&report.I18N_RENDERING_FAILURE===0?(report.TRANSLATION_REVIEW_FIELDS?'PUBLIC_CZ_UI_BACKLOG_ZERO_WITH_REVIEWS':'PUBLIC_CZ_UI_BACKLOG_ZERO'):'PUBLIC_CZ_UI_BACKLOG_OPEN';
+writeFileSync(jsonPath,JSON.stringify(report,null,2)+'\n');
+const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${report.FULLY_LOCALIZED_PUBLIC_ITEMS}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${report.PARTIALLY_LOCALIZED_PUBLIC_ITEMS}`,`TRANSLATION_REVIEW_NEEDED: ${report.TRANSLATION_REVIEW_NEEDED}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${report.PUBLIC_CZ_UI_BACKLOG_ITEMS}/${report.PUBLIC_CZ_UI_BACKLOG_FIELDS}`,`I18N_RENDERING_FAILURE: ${report.I18N_RENDERING_FAILURE}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${report.ENUM_MAPPED_PUBLIC_FIELDS}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${report.ENUM_TRANSLATION_REVIEW_FIELDS}`,`RENDERER_ENUM_MAPPINGS: ${report.RENDERER_ENUM_MAPPINGS}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${report.CS_CONTENT_QUALITY_REVIEW_FIELDS}`,'',`STATUS: ${report.status}`,'','## Canaries',...Object.entries(report.canaries||{}).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...((report.items||[]).length?(report.items||[]).slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${(x.missing_fields||[]).join(',')||'-'}; review=${(x.review_fields||[]).join(',')||'-'}`):['- None'])].join('\n')+'\n';
+writeFileSync(mdPath,md);
