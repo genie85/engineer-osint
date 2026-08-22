@@ -32,6 +32,7 @@ jobs:
           node --check docs/engineer-osint/validate-runtime.mjs
           node --check docs/engineer-osint/audit-public-cz-ui.mjs
           node --check docs/engineer-osint/i18n-content-cs-public-cz-0633.js
+          node --check docs/engineer-osint/i18n-content-cs-public-cz-1746.js
           node --check docs/engineer-osint/i18n-content-cs-public-cz-2110.js
           node --check docs/engineer-osint/i18n-content-cs-public-cz-backlog.js
           node --check docs/engineer-osint/public-cz-ui-canary.js
@@ -41,6 +42,7 @@ jobs:
         run: |
           set -euo pipefail
           grep -q 'engineer-i18n-content-cs-public-cz-0633-module' docs/engineer-osint-dist/index.html
+          grep -q 'engineer-i18n-content-cs-public-cz-1746-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-i18n-content-cs-public-cz-2110-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-i18n-content-cs-public-cz-backlog-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-public-cz-ui-canary-module' docs/engineer-osint-dist/index.html
@@ -48,7 +50,12 @@ jobs:
         continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Run PUBLIC-CZ-UI audit
-        run: node docs/engineer-osint/audit-public-cz-ui.mjs
+        run: |
+          set -euo pipefail
+          cp docs/engineer-osint/i18n-content-cs-public-cz-0633.js /tmp/i18n-content-cs-public-cz-0633.js
+          cat docs/engineer-osint/i18n-content-cs-public-cz-1746.js >> docs/engineer-osint/i18n-content-cs-public-cz-0633.js
+          node docs/engineer-osint/audit-public-cz-ui.mjs
+          mv /tmp/i18n-content-cs-public-cz-0633.js docs/engineer-osint/i18n-content-cs-public-cz-0633.js
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
