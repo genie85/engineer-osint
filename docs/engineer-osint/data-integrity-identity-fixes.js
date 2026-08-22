@@ -44,7 +44,8 @@
   // ENG-VIS-0054 originated in B21 (17 Aug 2026) as Katyusha / Flot-2026 media
   // metadata. Restore that identity and remove Czech EOD-gallery fields that were
   // later merged onto this visual by mistake.
-  for(const v of [...(D.visual_registry?.visuals||[]),...(D.visuals?.visuals||[]),...(ex.visuals||[])]){
+  const visualObjects=[...(D.visual_registry?.visuals||[]),...(D.visuals?.visuals||[]),...(ex.visuals||[])];
+  for(const v of visualObjects){
     if(!v||(v.asset_id||v.id)!=='ENG-VIS-0054')continue;
     Object.assign(v,{
       related_ids:['ENG-TECH-0025'],source_ids:['ENG-SRC-0239','ENG-SRC-0238'],
@@ -62,10 +63,20 @@
     katyushaFixed++;
   }
 
+  // Hard regression assertions: fail audit/runtime validation rather than silently
+  // allowing either identity collision to return in a later cumulative replay.
+  const sirko=(D.records?.records||[]).find(x=>x?.id==='ENG-TECH-0036');
+  const neoEvidence=[...(D.evidence?.evidence||[]),...(ex.evidence||[])].find(e=>(e?.evidence_id||e?.id)==='ENG-EVID-0113');
+  const katyusha=visualObjects.find(v=>(v?.asset_id||v?.id)==='ENG-VIS-0054');
+  if(!sirko||!String(sirko.title_cs||'').startsWith('SIRKO-S1')||!(sirko.source_ids||[]).includes('ENG-SRC-0372')||(sirko.source_ids||[]).some(id=>['ENG-SRC-0312','ENG-SRC-0313','ENG-SRC-0403'].includes(id)))throw new Error('DATA_IDENTITY_ASSERT: ENG-TECH-0036 is not clean SIRKO-S1');
+  if(!neo||!(neo.source_ids||[]).includes('ENG-SRC-0403')||!(neo.evidence_ids||[]).includes('ENG-EVID-0113')||!neoEvidence||(neoEvidence.related_ids||[]).length!==1||neoEvidence.related_ids[0]!=='ENG-TECH-0032')throw new Error('DATA_IDENTITY_ASSERT: NEO-1 certification evidence is not bound to ENG-TECH-0032');
+  if(!katyusha||(katyusha.related_ids||[]).length!==1||katyusha.related_ids[0]!=='ENG-TECH-0025'||!(katyusha.source_ids||[]).includes('ENG-SRC-0238')||!(katyusha.source_ids||[]).includes('ENG-SRC-0239')||(katyusha.source_ids||[]).includes('ENG-SRC-0289')||!/Катюша|Katyusha/.test(String(katyusha.caption||'')))throw new Error('DATA_IDENTITY_ASSERT: ENG-VIS-0054 is not clean Katyusha / Flot-2026');
+
   window.__ENGINEER_DATA_IDENTITY_FIX_20260822__={
     sirko_record_fixed:sirkoFixed,
     neo_evidence_rebound:neoEvidenceFixed,
     katyusha_visual_fixed:katyushaFixed,
+    assertions:'PASS',
     provenance:{
       'ENG-TECH-0036':'B53 2026-08-18 SIRKO-S1 creation; B10 2026-08-19 NEO-1 wrong-ID enrichment corrected',
       'ENG-VIS-0054':'B21 2026-08-17 Katyusha/Flot-2026 visual identity restored'
