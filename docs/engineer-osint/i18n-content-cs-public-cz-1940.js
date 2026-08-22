@@ -1,8 +1,9 @@
 (function(){
-  const D=window.__ENGINEER_DATA__;
-  if(!D?.records?.records)return;
-  const R=new Map(D.records.records.map(x=>[x.id,x]));
-  const setMissing=(id,p)=>{const x=R.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(v!==undefined&&v!==null&&v!==''&&!x[k])x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
+  const D=window.__ENGINEER_DATA__;if(!D)return;
+  const ex=D.dashboard_patch_extras||{};
+  const all=[...(D.visual_registry?.visuals||[]),...(D.visuals?.visuals||[]),...(ex.visuals||[])];
+  const V=new Map(all.map(x=>[x.asset_id||x.id,x]));
+  const setMissing=(id,p)=>{const x=V.get(id);if(!x)return false;for(const[k,v]of Object.entries(p))if(v!==undefined&&v!==null&&v!==''&&(x[k]===undefined||x[k]===null||x[k]===''))x[k]=v;x.translation_status_cs=x.translation_status_cs||'ANALYST_TRANSLATION';x.translation_provenance_cs=x.translation_provenance_cs||'ENGINEER_OSINT_TRANSLATION_LAYER';return true;};
   const done=[];
   if(setMissing('ENG-VIS-0019',{title_cs:'Operation Render Safe — snímky 20 EOD Squadron',what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0019');
   if(setMissing('ENG-VIS-0020',{title_cs:'3CER / LAND 907 — snímky vozidla bojového ženijního zabezpečení',what_is_visible_cs:'NENÍ UVÁDĚNO JAKO PŘÍMÉ POZOROVÁNÍ — pixely snímku nebyly v běhu B10 přímo kontrolovány.'}))done.push('ENG-VIS-0020');
