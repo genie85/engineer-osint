@@ -65,3 +65,16 @@ Every run after the immutable cutoff `engineer-osint-20260823-B61` must use `sch
 The acknowledged legacy baseline contains three malformed revisions, five duplicate run IDs, two internal parent gaps and one external checkpoint parent. Their exact commit and content hashes are pinned. This is reported as `DEGRADED_LEGACY_ACKNOWLEDGED`, never as complete history. No new anomaly is accepted.
 
 If the latest Drive SUCCESS is not yet represented in GitHub `main`, a new factual research run must not start. Publication recovery is completed first, preserving every missing run as an ordered immutable revision.
+
+## PUBLIC-CZ regression ratchet
+
+The public Czech presentation layer is a publication-quality gate, not a cleanup task that may grow after each factual run.
+
+- Every new or materially changed public free-text field must have its Czech presentation value before publication when the translation is semantically safe. This includes public titles, summaries, descriptions, notes, topics, facts, analyses, intelligence gaps, relevance/explanation fields, claims and equivalent public text selected by the active audit.
+- A structured enum/role, official system/unit/document/standard name, or genuinely ambiguous translation may remain untranslated only when it is explicitly classified as review-only by the controlled audit. Review-only fields are not ordinary translation backlog.
+- A factual producer may add safe `*_cs` presentation fields for the records/sources/leads it creates or materially changes in the same run to satisfy the bilingual gate. This does not authorize general translation cleanup or factual mutation.
+- `docs/engineer-osint/public-cz-backlog-baseline.json` is a grandfathered legacy-debt ceiling. It is not an allow-list for new debt. Its `known_missing_fields` set may stay unchanged or shrink; automatic additions are forbidden. Expanding it is a quality-gate change requiring explicit user approval and independent validation.
+- When a grandfathered ordinary missing field is fixed, the same PR must remove the corresponding baseline entry. When a field is correctly reclassified as a structured enum/official-name review, the same ratchet rule applies: remove the ordinary-backlog baseline entry and preserve the explicit review classification.
+- Do not change audit semantics merely to hide an ordinary missing translation. Factual or identity conflicts must be routed to the factual owner, not repaired by translation.
+- After a fresh build, run `audit-public-cz-ui-latest.mjs` followed by `validate-public-cz-regression.mjs`. Any ordinary missing field outside the grandfathered baseline, any baseline expansion, any `I18N_RENDERING_FAILURE` above zero, any Czech content-quality regression, or inconsistent audit counts is `PUBLIC_CZ_REGRESSION` and blocks merge/publication.
+- Legacy review-only enum/official-name debt may remain non-zero. The ratchet blocks newly created ordinary translation debt; it does not force unsafe translations merely to reach a metric target.
