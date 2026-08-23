@@ -54,8 +54,16 @@
       "summary_cs": "Oficiální české registry obranné standardizace nyní dovolují přesněji oddělit dvě metadata vrstvy. Registr STANAG vede STANAG 2394 jako edici 5 datovanou 10. 7. 2023. Registr spojeneckých publikací však u přejímané ATP-3.12.1 „TACTICAL DOCTRINE FOR ENGINEERING“ uvádí edici B datovanou 15. 6. 2026 a platnou verzi 2. Rozdílná data nejsou sama o sobě rozporem, protože se vztahují k edici STANAG a k edici/verzi ATP. Veřejné podklady stále neumožňují určit věcný obsah změn verze 2. EOC baseline z AAP-15 zůstává beze změny: EOC = explosive ordnance clearance, reference AJP-3.18 Edition B Version 1, NATO Agreed 20. 5. 2025.",
       "summary_en": "Official Czech defence-standardization registers now allow the two metadata layers to be separated more precisely. The STANAG register lists STANAG 2394 as Edition 5 dated 10 July 2023. The Allied Publications register, however, lists the adopted ATP-3.12.1 'TACTICAL DOCTRINE FOR ENGINEERING' as Edition B dated 15 June 2026 with Current Version 2. The different dates are not by themselves contradictory because they refer to the STANAG edition and the ATP edition/version respectively. Public material still does not reveal the substantive change content of Version 2. The AAP-15 EOC baseline remains unchanged: EOC = explosive ordnance clearance, reference AJP-3.18 Edition B Version 1, NATO Agreed 20 May 2025.",
       "temporal_status": "CURRENT_PUBLIC_STANDARDIZATION_METADATA_RECHECK_2026-08-24",
-      "source_ids": ["ENG-SRC-0470","ENG-SRC-0481","ENG-SRC-0488"],
-      "evidence_ids": ["ENG-EVID-0176","ENG-EVID-0187","ENG-EVID-0193"],
+      "source_ids": [
+        "ENG-SRC-0470",
+        "ENG-SRC-0481",
+        "ENG-SRC-0488"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0176",
+        "ENG-EVID-0187",
+        "ENG-EVID-0193"
+      ],
       "classification": "FACT_ABOUT_PUBLIC_STANDARDIZATION_METADATA",
       "confidence": "HIGH_FOR_PUBLIC_STANDARDIZATION_METADATA; LOW_FOR_SUBSTANTIVE_ATP_VERSION_2_CHANGE_CONTENT; UNRESOLVED_FOR_69TH_EODWG_STUDY_DRAFT_ID",
       "translation_status": "CZ_EN_COMPLETE",
@@ -92,8 +100,13 @@
       "evidence_id": "ENG-EVID-0193",
       "evidence_type": "OFFICIAL_CZECH_DEFENCE_STANDARDIZATION_DUAL_REGISTER_CROSSCHECK",
       "evidence_status": "DIRECT_PRIMARY_PUBLIC_METADATA_CROSSCHECK",
-      "related_ids": ["ENG-DOC-0053"],
-      "source_ids": ["ENG-SRC-0470","ENG-SRC-0488"],
+      "related_ids": [
+        "ENG-DOC-0053"
+      ],
+      "source_ids": [
+        "ENG-SRC-0470",
+        "ENG-SRC-0488"
+      ],
       "evidence_date": "2026-08-24",
       "observation_basis": "DIRECT_OFFICIAL_HTML_REGISTER_ROWS; NO_CONTROLLED_PUBLICATION_FULL_TEXT",
       "what_it_supports_cs": "Oficiální český registr spojeneckých publikací uvádí ATP-3.12.1 „TACTICAL DOCTRINE FOR ENGINEERING“ navázanou na STANAG 2394 jako edici B datovanou 15. 6. 2026 s platnou verzí 2. Samostatný registr STANAG současně vede STANAG 2394 jako edici 5 datovanou 10. 7. 2023. Jde o dvě odlišné metadata vrstvy — edici STANAG a edici/verzi přejímané ATP — a jejich rozdílná data proto sama o sobě nepředstavují rozpor.",
@@ -102,7 +115,9 @@
       "what_it_does_not_prove_en": "The public registers do not disclose the substantive changes between ATP-3.12.1 versions, the controlled full text, or national implementation details beyond the published metadata.",
       "confidence": "HIGH_FOR_PUBLIC_REGISTER_METADATA_LOW_FOR_SUBSTANTIVE_CHANGE_CONTENT",
       "translation_status": "CZ_EN_COMPLETE",
-      "first_seen_run": "engineer-osint-20260824-B64"
+      "first_seen_run": "engineer-osint-20260824-B64",
+      "observation_basis_cs": "PŘÍMÉ ŘÁDKY OFICIÁLNÍCH HTML REGISTRŮ; BEZ PLNÉHO TEXTU PUBLIKACE S OMEZENÝM PŘÍSTUPEM",
+      "observation_basis_en": "DIRECT OFFICIAL HTML REGISTER ROWS; NO CONTROLLED PUBLICATION FULL TEXT"
     }
   ],
   "visuals": [],
@@ -119,7 +134,10 @@
       "note_cs": "B64 zpřesnil současnou veřejnou metadata vrstvu ATP: oficiální český registr spojeneckých publikací uvádí ATP-3.12.1 edici B datovanou 15. 6. 2026, platnou verzi 2, navázanou na STANAG 2394. Samostatný registr STANAG nadále uvádí STANAG 2394 edici 5 datovanou 10. 7. 2023. Nejde o deklarovaný rozpor, protože registry popisují odlišné vrstvy edice/verze. Věcný obsah změn verze 2 zůstává nevyřešen.",
       "next_action_en": "Find an authoritative public change log, promulgation note or national implementation summary describing substantive changes in ATP-3.12.1 Edition B Version 2; do not infer controlled content from metadata.",
       "next_action_cs": "Dohledat autoritativní veřejný change log, promulgační poznámku nebo národní implementační shrnutí věcných změn ATP-3.12.1 Edition B Version 2; obsah neveřejné publikace neodvozovat z metadat.",
-      "source_ids": ["ENG-SRC-0470","ENG-SRC-0488"]
+      "source_ids": [
+        "ENG-SRC-0470",
+        "ENG-SRC-0488"
+      ]
     }
   ],
   "observed_minimum_updates": [],
