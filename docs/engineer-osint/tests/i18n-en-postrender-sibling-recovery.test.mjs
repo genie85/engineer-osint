@@ -14,79 +14,103 @@ function attributeElement(value){
     value:name=>attrs.get(name)
   };
 }
+function installDom({globalNodes=[],boxes=[],attributes=[],managed=[]}={}){
+  globalThis.NodeFilter={SHOW_TEXT:4};
+  globalThis.document={
+    body:{_nodes:globalNodes},documentElement:{},visibilityState:'visible',
+    addEventListener:()=>{},getElementById:()=>null,
+    querySelectorAll(selector){
+      if(selector==='[data-i18n-key]')return managed;
+      if(selector==='[data-open],article,.item')return boxes;
+      if(selector==='input[placeholder],textarea[placeholder],[title],[aria-label]')return attributes;
+      return[];
+    },
+    createTreeWalker(root){
+      const nodes=root?._nodes||[];let i=-1;
+      return{currentNode:null,nextNode(){i++;if(i>=nodes.length)return false;this.currentNode=nodes[i];return true}};
+    }
+  };
+  globalThis.requestAnimationFrame=fn=>{fn();return 1};
+  globalThis.setTimeout=fn=>{fn();return 1};
+  globalThis.clearTimeout=()=>{};
+  globalThis.localStorage={getItem:()=> 'en'};
+}
+function run(label='cleanup'){
+  const src=fs.readFileSync(new URL('../i18n-en-postrender-cleanup.js',import.meta.url),'utf8');
+  vm.runInThisContext(src,{filename:`i18n-en-postrender-${label}.js`});
+}
 
-test('EN cleanup recovers Czech text from localized-only duplicate siblings and mixed base UI',()=>{
+test('EN cleanup uses immutable canonical pairs and restores mixed static UI attributes',()=>{
   const leadCs='Ověřit aktuálnost pro roky 2025–2026 a podrobné složení podřízených prvků.';
   const leadEn='Verify currentness for 2025–2026 and the detailed composition of subordinate elements.';
   const eventCs='Položka je užitečným aktuálním datovým bodem o překonávání vodních překážek.';
   const eventEn='The item is a useful current datapoint for wet-gap crossing.';
-  const nodes=[
-    textNode(leadCs),
-    textNode(eventCs),
-    textNode('100 % aktuálních canonical references materializováno')
-  ];
+  const nodes=[textNode(leadCs),textNode(eventCs),textNode('100 % aktuálních canonical references materializováno')];
   const input=attributeElement('Hledat ID, techniku, jednotku, lead...');
   const managed={children:[],dataset:{i18nKey:'Overview'},textContent:'Přehled'};
-
   globalThis.window={
     __ENGINEER_DATA__:{
-      records:{records:[
-        {id:'ENG-EVT-0026',summary:eventEn},
-        {id:'ENG-TECH-0022',summary:'KUNDUZ/AACE protected engineer-earthmover profile.'}
-      ]},
-      leads:{leads:[{id:'LEAD-006',next_action:leadEn}]},
-      dashboard_patch_extras:{
-        leads:[{id:'LEAD-006',next_action_cs:leadCs,next_action:leadCs}],
-        updated_records:[{id:'ENG-EVT-0026',summary_cs:eventCs,summary:eventCs}]
-      }
+      records:{records:[{id:'ENG-EVT-0026',summary:eventCs,summary_cs:eventCs,summary_en:eventEn}]},
+      leads:{leads:[{id:'LEAD-006',next_action:leadCs,next_action_cs:leadCs,next_action_en:leadEn}]},
+      dashboard_patch_extras:{}
+    },
+    __ENGINEER_CANONICAL_DATA__:{
+      records:{records:[{id:'ENG-EVT-0026',summary:eventEn,summary_cs:eventCs}]},
+      leads:{leads:[{id:'LEAD-006',next_action:leadEn,next_action_cs:leadCs}]},
+      dashboard_patch_extras:{}
     },
     __ENGINEER_I18N__:{ui:{cs:{Overview:'Přehled'}}},
     ENGINEER_I18N:{getLanguage:()=> 'en'}
   };
-  globalThis.localStorage={getItem:()=> 'en'};
-  globalThis.NodeFilter={SHOW_TEXT:4};
-  globalThis.document={
-    body:{},documentElement:{},
-    addEventListener:()=>{},
-    querySelectorAll:selector=>selector==='[data-i18n-key]'?[managed]:selector==='input[placeholder],textarea[placeholder],[title],[aria-label]'?[input]:[],
-    createTreeWalker(){let i=-1;return{currentNode:null,nextNode(){i++;if(i>=nodes.length)return false;this.currentNode=nodes[i];return true}}}
-  };
-  globalThis.requestAnimationFrame=fn=>{fn();return 1};
-  globalThis.setTimeout=fn=>{fn();return 1};
-  globalThis.clearTimeout=()=>{};
-
-  const src=fs.readFileSync(new URL('../i18n-en-postrender-cleanup.js',import.meta.url),'utf8');
-  vm.runInThisContext(src,{filename:'i18n-en-postrender-cleanup.js'});
-
-  assert.equal(nodes[0].nodeValue,leadEn,'LEAD-006 localized-only duplicate must recover English sibling text');
-  assert.equal(nodes[1].nodeValue,eventEn,'ENG-EVT-0026 localized-only update duplicate must recover English sibling text');
-  assert.equal(nodes[2].nodeValue,'100 % current canonical references materialized','mixed-language base statistic must normalize in EN');
-  assert.equal(input.value('placeholder'),'Search ID, equipment, unit, lead...','search placeholder must normalize in EN');
-  assert.equal(managed.textContent,'Overview','managed static label must restore its English i18n key');
+  installDom({globalNodes:nodes,attributes:[input],managed:[managed]});
+  run('canonical-static');
+  assert.equal(nodes[0].nodeValue,leadEn);
+  assert.equal(nodes[1].nodeValue,eventEn);
+  assert.equal(nodes[2].nodeValue,'100 % current canonical references materialized');
+  assert.equal(input.value('placeholder'),'Search ID, equipment, unit, lead...');
+  assert.equal(managed.textContent,'Overview');
 });
 
-test('EN sibling recovery refuses ambiguous English candidates',()=>{
+test('EN canonical recovery refuses globally ambiguous Czech mappings',()=>{
   const cs='Stejný český prezentační text';
   const node=textNode(cs);
   globalThis.window={
+    __ENGINEER_DATA__:{records:{records:[]},leads:{leads:[]},dashboard_patch_extras:{}},
+    __ENGINEER_CANONICAL_DATA__:{
+      records:{records:[]},
+      leads:{leads:[
+        {id:'LEAD-A',note:'English candidate A',note_cs:cs},
+        {id:'LEAD-B',note:'English candidate B',note_cs:cs}
+      ]},dashboard_patch_extras:{}
+    },
+    __ENGINEER_I18N__:{ui:{cs:{}}},ENGINEER_I18N:{getLanguage:()=> 'en'}
+  };
+  installDom({globalNodes:[node]});
+  run('ambiguous-global');
+  assert.equal(node.nodeValue,cs,'ambiguous global mapping must remain unchanged rather than guessed');
+});
+
+test('EN card recovery resolves a globally ambiguous Czech string by canonical entity ID',()=>{
+  const cs='Sdílený český text';
+  const enLead='English text for LEAD-002';
+  const boxNode=textNode(cs);
+  const box={dataset:{open:'LEAD-002'},textContent:`LEAD-002 ${cs}`,_nodes:[boxNode],querySelectorAll:()=>[]};
+  globalThis.window={
     __ENGINEER_DATA__:{
       records:{records:[]},
-      leads:{leads:[{id:'LEAD-X',note:'English candidate A'}]},
-      dashboard_patch_extras:{leads:[{id:'LEAD-X',note:'English candidate B',note_cs:cs}]}
+      leads:{leads:[{id:'LEAD-002',note:cs,note_cs:cs,note_en:enLead}]},
+      dashboard_patch_extras:{leads:[{id:'LEAD-002',note:cs,note_cs:cs,note_en:enLead}]}
     },
-    __ENGINEER_I18N__:{ui:{cs:{}}},
-    ENGINEER_I18N:{getLanguage:()=> 'en'}
+    __ENGINEER_CANONICAL_DATA__:{
+      records:{records:[]},
+      leads:{leads:[
+        {id:'LEAD-002',note:enLead,note_cs:cs},
+        {id:'LEAD-OTHER',note:'Different English text',note_cs:cs}
+      ]},dashboard_patch_extras:{}
+    },
+    __ENGINEER_I18N__:{ui:{cs:{}}},ENGINEER_I18N:{getLanguage:()=> 'en'}
   };
-  globalThis.localStorage={getItem:()=> 'en'};
-  globalThis.NodeFilter={SHOW_TEXT:4};
-  globalThis.document={
-    body:{},documentElement:{},addEventListener:()=>{},querySelectorAll:()=>[],
-    createTreeWalker(){let done=false;return{currentNode:null,nextNode(){if(done)return false;done=true;this.currentNode=node;return true}}}
-  };
-  globalThis.requestAnimationFrame=fn=>{fn();return 1};
-  globalThis.setTimeout=fn=>{fn();return 1};
-  globalThis.clearTimeout=()=>{};
-  const src=fs.readFileSync(new URL('../i18n-en-postrender-cleanup.js',import.meta.url),'utf8');
-  vm.runInThisContext(src,{filename:'i18n-en-postrender-cleanup-ambiguous.js'});
-  assert.equal(node.nodeValue,cs,'ambiguous sibling mappings must remain unchanged rather than guessed');
+  installDom({boxes:[box]});
+  run('per-id');
+  assert.equal(boxNode.nodeValue,enLead,'card-local canonical ID must disambiguate the English restoration');
 });
