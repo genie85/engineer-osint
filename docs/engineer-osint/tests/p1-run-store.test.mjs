@@ -101,7 +101,11 @@ test('repository snapshot is canonical and no Git history is needed to load it',
   const loaded=loadCanonicalRunStore({root:'docs/engineer-osint'});
   assert.equal(loaded.report.snapshot_run_id,'engineer-osint-20260823-B61');
   assert.equal(loaded.report.current_run_id,loaded.data.state_latest.run_id);
-  assert.equal(applyStrictPatchToCanonicalData(loaded.data,patch()).state_latest.run_id,'engineer-osint-20260823-B62');
+  const next=patch(),match=loaded.report.current_run_id.match(/^(engineer-osint-\d{8}-B)(\d+)$/);
+  assert.ok(match,'current run ID must be incrementable for append-only smoke test');
+  next.state.parent_run_id=loaded.report.current_run_id;
+  next.state.run_id=`${match[1]}${String(Number(match[2])+1).padStart(match[2].length,'0')}`;
+  assert.equal(applyStrictPatchToCanonicalData(loaded.data,next).state_latest.run_id,next.state.run_id);
   assert.equal(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8').includes('DEGRADED_LEGACY_ACKNOWLEDGED'),true);
 });
 
