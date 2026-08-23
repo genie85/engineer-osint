@@ -27,6 +27,7 @@ export const LOCALIZATION_DATA_MODULES=[
   ['engineer-i18n-content-cs-public-cz-2045-module','i18n-content-cs-public-cz-2045.js'],
   ['engineer-i18n-content-cs-public-cz-b54-module','i18n-content-cs-public-cz-b54.js'],
   ['engineer-i18n-content-cs-public-cz-b61-module','i18n-content-cs-public-cz-b61.js'],
+  ['engineer-i18n-content-cs-public-cz-b62-module','i18n-content-cs-public-cz-b62.js'],
   ['engineer-i18n-content-cs-public-cz-backlog-module','i18n-content-cs-public-cz-backlog.js'],
   ['engineer-i18n-enum-cs-safe-core-module','i18n-enum-cs-safe-core.js'],
   ['engineer-i18n-enum-cs-safe-registry-module','i18n-enum-cs-safe-registry.js'],
