@@ -34,7 +34,12 @@ const explicitFieldReview=new Map([
   ['ENG-SIG-0014',new Map([['maturity','structured-enum-composite-review']])],
   ['ENG-SRC-0455',new Map([['role','structured-enum-mixed-case-review']])],
   ['ENG-VIS-0001',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
-  ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])]
+  ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
+  ['ENG-EVID-0183',new Map([['observation_basis','structured-status-composite-review']])],
+  ['ENG-EVID-0184',new Map([['observation_basis','structured-status-composite-review']])],
+  ['ENG-EVID-0185',new Map([['observation_basis','structured-status-composite-review']])],
+  ['ENG-EVID-0186',new Map([['observation_basis','structured-status-composite-review']])],
+  ['ENG-EVID-0187',new Map([['observation_basis','structured-status-composite-review']])]
 ]);
 
 const jsonPath='docs/engineer-osint-dist/public-cz-ui-audit.json';
