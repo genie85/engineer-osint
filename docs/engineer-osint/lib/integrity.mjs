@@ -22,6 +22,9 @@ const canonical=value=>{
   if(isObject(value))return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`;
   return JSON.stringify(value);
 };
+export const canonicalStringify=canonical;
+export const sha256Text=text=>createHash('sha256').update(text).digest('hex');
+export const canonicalDigest=value=>sha256Text(canonical(value));
 
 export function deterministicId(prefix,value){
   const digest=createHash('sha256').update(canonical(value)).digest('hex').slice(0,16).toUpperCase();
@@ -318,7 +321,7 @@ function readManifest(path){
   return manifest;
 }
 
-const sha256=text=>createHash('sha256').update(text).digest('hex');
+const sha256=sha256Text;
 
 export function compareRunIds(leftId,rightId){
   const parse=id=>{const match=String(id).match(/^engineer-osint-(\d{8})-B(\d+)$/);assert(match,`Invalid comparable run ID ${id}`);return {date:Number(match[1]),batch:Number(match[2])}};

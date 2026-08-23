@@ -1,146 +1,69 @@
-import {execFileSync} from 'node:child_process';
 import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {loadCanonicalRunStore} from './lib/run-store.mjs';
 
-const repoPath='docs/engineer-osint/b11-patch.json';
-const outDir='docs/engineer-osint-dist';
+const source='docs/engineer-osint',outDir='docs/engineer-osint-dist';
 mkdirSync(outDir,{recursive:true});
-
+const {data,patches,report:store}=loadCanonicalRunStore({root:source});
 const mediaUrlRe=/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be|vimeo\.com|spotify\.com|podcasts\.apple\.com|soundcloud\.com|podbean\.com|buzzsprout\.com|dvidshub\.net\/video|defense\.gov\/Multimedia\/Videos|army\.mil\/video)/i;
-const mediaHintRe=/(youtube|podcast|audio|video|webinar|webcast|interview|livestream|media)/i;
-
-function asArray(v){return Array.isArray(v)?v:[]}
-function mediaArrays(p){
-  const direct=[];
-  direct.push(...asArray(p.new_media));
-  if(Array.isArray(p.media)) direct.push(...p.media);
-  else if(p.media&&typeof p.media==='object') direct.push(...asArray(p.media.new_media),...asArray(p.media.items),...asArray(p.media.media));
-  if(p.multimedia&&typeof p.multimedia==='object') direct.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items),...asArray(p.multimedia.media));
-  return direct;
-}
-function walk(v,path=[],out=[]){
-  if(v===null||v===undefined)return out;
-  if(typeof v==='string'){
-    if(mediaUrlRe.test(v)||mediaHintRe.test(v)&&/^https?:\/\//i.test(v))out.push({path:path.join('.'),value:v});
-    return out;
-  }
-  if(Array.isArray(v)){v.forEach((x,i)=>walk(x,[...path,String(i)],out));return out}
-  if(typeof v==='object')for(const [k,x] of Object.entries(v))walk(x,[...path,k],out);
+const asArray=value=>Array.isArray(value)?value:[];
+const walk=(value,path=[],out=[])=>{
+  if(value===null||value===undefined)return out;
+  if(typeof value==='string'){if(mediaUrlRe.test(value))out.push({path:path.join('.'),value});return out;}
+  if(Array.isArray(value)){value.forEach((item,index)=>walk(item,[...path,String(index)],out));return out;}
+  if(typeof value==='object')for(const [key,item] of Object.entries(value))walk(item,[...path,key],out);
   return out;
-}
-function keyMedia(x){return x?.media_id||x?.id||x?.url||x?.source_url||JSON.stringify(x)}
-function parseRuntime(){
-  try{
-    const html=readFileSync(join(outDir,'index.html'),'utf8');
-    const marker='window.__ENGINEER_DATA__=',a=html.indexOf(marker),b=html.indexOf(';</script>',a);
-    if(a<0||b<0)return {error:'ENGINEER_DATA marker not found'};
-    const d=JSON.parse(html.slice(a+marker.length,b));
-    const media=[...asArray(d.media_registry?.media),...asArray(d.media_registry?.items),...asArray(d.media?.media),...asArray(d.media?.items),...(Array.isArray(d.media)?d.media:[])];
-    const sources=asArray(d.sources?.sources),records=asArray(d.records?.records);
-    const sourceMedia=sources.filter(s=>mediaUrlRe.test(s?.url||s?.source_url||'')).map(s=>({...s,related_ids:records.filter(r=>asArray(r.source_ids).includes(s.id)).map(r=>r.id)}));
-    const mentions=walk(d).filter(x=>mediaUrlRe.test(x.value));
-    return {media_records:media,source_media:sourceMedia,media_url_mentions:mentions};
-  }catch(e){return {error:e.message}}
-}
-
-let shas=[];
-try{
-  shas=execFileSync('git',['log','--format=%H','--all','--',repoPath],{encoding:'utf8'}).trim().split(/\s+/).filter(Boolean).reverse();
-}catch(e){
-  console.error('Unable to enumerate b11-patch history:',e.message);process.exit(2);
-}
-
-const byRun=new Map();
-const parseErrors=[];
-for(const sha of shas){
-  try{
-    const raw=execFileSync('git',['show',`${sha}:${repoPath}`],{encoding:'utf8',maxBuffer:50*1024*1024});
-    const p=JSON.parse(raw);const run=p?.state?.run_id||`UNKNOWN@${sha.slice(0,8)}`;
-    byRun.set(run,{sha,patch:p});
-  }catch(e){parseErrors.push({sha,error:e.message})}
-}
-
-const canonicalMedia=new Map();
-const worthWatching=[];const worthListening=[];const mediaMentions=[];const runs=[];const anomalies=[];
-for(const [run,{sha,patch:p}] of byRun){
-  const arr=mediaArrays(p);
-  for(const m of arr)canonicalMedia.set(keyMedia(m),{run,sha,...m});
-  const ww=asArray(p.multimedia?.worth_watching);const wl=asArray(p.multimedia?.worth_listening);
-  ww.forEach(x=>worthWatching.push({run,sha,item:x}));wl.forEach(x=>worthListening.push({run,sha,item:x}));
-  const mentions=walk(p).map(x=>({run,sha,...x}));mediaMentions.push(...mentions);
-  const declared=Number(p?.state?.counts?.NEW_MEDIA??p?.counts?.NEW_MEDIA??0)||0;
-  if(declared>0&&arr.length===0)anomalies.push({run,sha,type:'DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY',declared});
-  if(arr.length>0&&declared===0)anomalies.push({run,sha,type:'MEDIA_ARRAY_PRESENT_WITH_ZERO_DECLARED_COUNT',array_count:arr.length});
-  runs.push({run,sha,declared_new_media:declared,materialized_media_items:arr.length,worth_watching:ww.length,worth_listening:wl.length,media_url_mentions:mentions.length,multimedia_status:p.multimedia?.status||null});
-}
-const uniqueMentions=[];const seenMentions=new Set();
-for(const m of mediaMentions){const k=m.value;if(seenMentions.has(k))continue;seenMentions.add(k);uniqueMentions.push(m)}
-const runtime=parseRuntime();
-const runtimeMedia=asArray(runtime.media_records);const runtimeSourceMedia=asArray(runtime.source_media);const runtimeMentions=asArray(runtime.media_url_mentions);
-
-const report={
-  generated_at:new Date().toISOString(),
-  patch_history_path:repoPath,
-  commits_scanned:shas.length,
-  unique_runs_scanned:byRun.size,
-  parse_errors:parseErrors,
-  summary:{
-    runs_declaring_new_media:runs.filter(x=>x.declared_new_media>0).length,
-    declared_new_media_total:runs.reduce((a,x)=>a+x.declared_new_media,0),
-    runs_with_materialized_media:runs.filter(x=>x.materialized_media_items>0).length,
-    canonical_media_records:canonicalMedia.size,
-    worth_watching_items:worthWatching.length,
-    worth_listening_items:worthListening.length,
-    unique_media_url_mentions:uniqueMentions.length,
-    runtime_media_records:runtimeMedia.length,
-    runtime_source_media_urls:runtimeSourceMedia.length,
-    runtime_source_media_linked:runtimeSourceMedia.filter(x=>asArray(x.related_ids).length>0).length,
-    runtime_unique_media_url_mentions:new Set(runtimeMentions.map(x=>x.value)).size,
-    anomalies:anomalies.length
-  },
-  runtime,
-  runs:runs.filter(x=>x.declared_new_media||x.materialized_media_items||x.worth_watching||x.worth_listening||x.media_url_mentions),
-  canonical_media:[...canonicalMedia.values()],
-  worth_watching:worthWatching,
-  worth_listening:worthListening,
-  media_url_mentions:uniqueMentions,
-  anomalies
 };
-writeFileSync(join(outDir,'media-history-audit.json'),JSON.stringify(report,null,2));
-const s=report.summary;
-const md=[
-  '# ENGINEER OSINT media history audit','',
-  `Generated: ${report.generated_at}`,
-  `Commits scanned: ${report.commits_scanned}`,
-  `Unique patch runs scanned: ${report.unique_runs_scanned}`,'',
-  `- Runs declaring NEW_MEDIA > 0: **${s.runs_declaring_new_media}**`,
-  `- Declared NEW_MEDIA total: **${s.declared_new_media_total}**`,
-  `- Runs with materialized media arrays: **${s.runs_with_materialized_media}**`,
-  `- Unique materialized media records from patch history: **${s.canonical_media_records}**`,
-  `- worth_watching items: **${s.worth_watching_items}**`,
-  `- worth_listening items: **${s.worth_listening_items}**`,
-  `- Unique media URL mentions in patch history: **${s.unique_media_url_mentions}**`,
-  `- Media records in built runtime baseline/materialization: **${s.runtime_media_records}**`,
-  `- YouTube/podcast/media source URLs in built runtime sources: **${s.runtime_source_media_urls}**`,
-  `- Media source URLs linked to at least one entity: **${s.runtime_source_media_linked}**`,
-  `- Unique media URL mentions anywhere in built runtime: **${s.runtime_unique_media_url_mentions}**`,
-  `- Structural anomalies: **${s.anomalies}**`,'',
-  '## Runs with media-related content','',
-  ...report.runs.map(x=>`- ${x.run}: NEW_MEDIA=${x.declared_new_media}, materialized=${x.materialized_media_items}, watch=${x.worth_watching}, listen=${x.worth_listening}, URL mentions=${x.media_url_mentions}`),
-  '', '## Materialized patch media', '',
-  ...(report.canonical_media.length?report.canonical_media.map(x=>`- ${x.run}: ${x.media_id||x.id||x.title||x.url||'media item'}`):['- None']),
-  '', '## Built runtime media records', '',
-  ...(runtimeMedia.length?runtimeMedia.map(x=>`- ${x.media_id||x.id||x.title||x.url||'media item'}`):['- None']),
-  '', '## Built runtime source media URLs', '',
-  ...(runtimeSourceMedia.length?runtimeSourceMedia.map(x=>`- ${x.id||'source'}: ${x.title||x.name||''} — ${x.url||x.source_url||''} — related=${asArray(x.related_ids).join(',')||'none'}`):['- None']),
-  '', '## worth_watching', '',
-  ...(worthWatching.length?worthWatching.map(x=>`- ${x.run}: ${typeof x.item==='string'?x.item:JSON.stringify(x.item)}`):['- None']),
-  '', '## worth_listening', '',
-  ...(worthListening.length?worthListening.map(x=>`- ${x.run}: ${typeof x.item==='string'?x.item:JSON.stringify(x.item)}`):['- None']),
-  '', '## Unique media URL mentions in patch history', '',
-  ...(uniqueMentions.length?uniqueMentions.map(x=>`- ${x.run} · ${x.path}: ${x.value}`):['- None']),
-  '', '## Anomalies', '',
-  ...(anomalies.length?anomalies.map(x=>`- ${x.run}: ${x.type}`):['- None'])
-].join('\n');
-writeFileSync(join(outDir,'media-history-audit.md'),md);
+const parseRuntime=()=>{
+  const html=readFileSync(join(outDir,'index.html'),'utf8'),marker='window.__ENGINEER_DATA__=';
+  const start=html.indexOf(marker),end=html.indexOf(';</script>',start);
+  if(start<0||end<0)throw new Error('ENGINEER_DATA marker not found');
+  const runtime=JSON.parse(html.slice(start+marker.length,end));
+  const media=runtime.media_registry?.media||runtime.dashboard_patch_extras?.media||[];
+  const sources=runtime.sources?.sources||[],records=runtime.records?.records||[];
+  const sourceMedia=sources.filter(item=>mediaUrlRe.test(item.url||item.source_url||'')).map(item=>({...item,related_ids:records.filter(record=>asArray(record.source_ids).includes(item.id)).map(record=>record.id)}));
+  return {media_records:media,source_media:sourceMedia,media_url_mentions:walk(runtime)};
+};
+
+const canonicalMedia=data.media_registry?.media||data.dashboard_patch_extras?.media||[];
+const currentPatch=patches.at(-1)||JSON.parse(readFileSync(join(source,'b11-patch.json'),'utf8'));
+const runs=patches.map(patch=>({
+  run:patch.state.run_id,declared_new_media:patch.state.counts.NEW_MEDIA,
+  materialized_media_items:patch.media.length,worth_watching:asArray(patch.qa?.worth_watching).length,
+  worth_listening:asArray(patch.qa?.worth_listening).length,
+  multimedia_status:patch.qa?.multimedia_status||patch.qa?.multimedia?.status||null
+}));
+if(!patches.length)runs.push({
+  run:store.snapshot_run_id,declared_new_media:currentPatch.state?.counts?.NEW_MEDIA||0,
+  materialized_media_items:canonicalMedia.length,worth_watching:asArray(currentPatch.multimedia?.worth_watching).length,
+  worth_listening:asArray(currentPatch.multimedia?.worth_listening).length,
+  multimedia_status:currentPatch.multimedia?.status||null,snapshot_baseline:true
+});
+const anomalies=[];
+for(const run of runs){
+  if(!run.snapshot_baseline&&run.declared_new_media>0&&run.materialized_media_items===0)anomalies.push({...run,type:'DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY'});
+  if(!run.snapshot_baseline&&run.materialized_media_items>0&&run.declared_new_media===0)anomalies.push({...run,type:'MEDIA_ARRAY_PRESENT_WITH_ZERO_DECLARED_COUNT'});
+}
+const runtime=parseRuntime(),runtimeMedia=runtime.media_records,runtimeSources=runtime.source_media;
+const report={
+  generated_at:new Date().toISOString(),storage_mode:'CANONICAL_SNAPSHOT_PLUS_APPEND_ONLY_RUNS',
+  snapshot_run_id:store.snapshot_run_id,append_only_runs_scanned:store.append_only_run_count,
+  unique_runs_scanned:store.run_count,legacy_history_status:store.legacy_status,parse_errors:[],
+  summary:{
+    runs_declaring_new_media:runs.filter(run=>run.declared_new_media>0).length,
+    declared_new_media_total:runs.reduce((sum,run)=>sum+run.declared_new_media,0),
+    runs_with_materialized_media:runs.filter(run=>run.materialized_media_items>0).length,
+    canonical_media_records:canonicalMedia.length,worth_watching_items:runs.reduce((sum,run)=>sum+run.worth_watching,0),
+    worth_listening_items:runs.reduce((sum,run)=>sum+run.worth_listening,0),
+    unique_media_url_mentions:new Set(walk(data).map(item=>item.value)).size,
+    runtime_media_records:runtimeMedia.length,runtime_source_media_urls:runtimeSources.length,
+    runtime_source_media_linked:runtimeSources.filter(item=>asArray(item.related_ids).length>0).length,
+    runtime_unique_media_url_mentions:new Set(runtime.media_url_mentions.map(item=>item.value)).size,anomalies:anomalies.length
+  },
+  runtime,runs,canonical_media:canonicalMedia,worth_watching:[],worth_listening:[],media_url_mentions:walk(data),anomalies
+};
+writeFileSync(join(outDir,'media-history-audit.json'),JSON.stringify(report,null,2)+'\n');
+const summary=report.summary;
+const markdown=['# ENGINEER OSINT canonical media audit','',`Generated: ${report.generated_at}`,`Storage: ${report.storage_mode}`,`Snapshot: ${report.snapshot_run_id}`,`Canonical runs: ${report.unique_runs_scanned} (${report.append_only_runs_scanned} append-only)`,'',`- Canonical media records: **${summary.canonical_media_records}**`,`- Runtime media records: **${summary.runtime_media_records}**`,`- Runtime source media URLs: **${summary.runtime_source_media_urls}**`,`- Runtime source media linked: **${summary.runtime_source_media_linked}**`,`- Structural anomalies after snapshot: **${summary.anomalies}**`,'','## Canonical media','',...(canonicalMedia.length?canonicalMedia.map(item=>`- ${item.media_id||item.id||item.title||item.url||'media item'}`):['- None']),'','## Post-snapshot anomalies','',...(anomalies.length?anomalies.map(item=>`- ${item.run}: ${item.type}`):['- None'])].join('\n');
+writeFileSync(join(outDir,'media-history-audit.md'),markdown+'\n');
 console.log(JSON.stringify(report.summary));
