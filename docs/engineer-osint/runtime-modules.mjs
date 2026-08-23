@@ -39,6 +39,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-ui-phase4-module','ui-phase4.js'],
   ['engineer-ui-phase5-module','ui-phase5.js'],
   ['engineer-ui-phase6-i18n-module','ui-phase6-i18n.js'],
+  ['engineer-i18n-language-switch-hardening-module','i18n-language-switch-hardening.js'],
   ['engineer-rich-topic-australia-nato-eod-module','rich-topic-australia-nato-eod.js'],
   ['engineer-topic-czech-engineers-eod-module','ui-topic-czech-engineers-eod.js'],
   ['engineer-ui-phase7-media-module','ui-phase7-media.js'],
