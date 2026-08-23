@@ -36,13 +36,12 @@ jobs:
 
       - name: Diagnose B61 mirror state
         run: |
-          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; const mr=s.media_registry?.media||[]; const mex=s.dashboard_patch_extras?.media||[]; console.log(JSON.stringify({visual_registry:vr.length,extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),media_registry:mr.length,extras_media:mex.length},null,2));"
+          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; const mr=s.media_registry?.media||[]; const mex=s.dashboard_patch_extras?.media||[]; const ids=a=>new Set(a.map(x=>x.asset_id||x.media_id||x.id)); console.log(JSON.stringify({visual_registry:vr.length,extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),visual_registry_only:[...ids(vr)].filter(x=>!ids(ex).has(x)),extras_visuals_only:[...ids(ex)].filter(x=>!ids(vr).has(x)),media_registry:mr.length,extras_media:mex.length},null,2));"
 
       - name: Run repository-native append helper
         run: |
           set -euo pipefail
           node docs/engineer-osint/append-run.mjs /tmp/B62.json --write | tee /tmp/b62-append-plan.json
-          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; console.log(JSON.stringify({after_visual_registry:vr.length,after_extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054')},null,2));"
 
       - name: Validate P0/P1 integrity
         run: |
@@ -82,6 +81,7 @@ jobs:
           if-no-files-found: error
           path: |
             /tmp/b62-append-plan.json
+            docs/engineer-osint/data/snapshots/canonical-engineer-osint-20260823-B61.json
             docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json
             docs/engineer-osint/data/run-store-manifest.json
             docs/engineer-osint-dist/health.txt
