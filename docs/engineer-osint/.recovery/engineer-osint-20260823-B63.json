@@ -1,0 +1,289 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260823-B63",
+    "parent_run_id": "engineer-osint-20260823-B62",
+    "status": "SUCCESS",
+    "window_from": "2026-08-23T04:09:47+02:00",
+    "window_to": "2026-08-23T23:12:08+02:00",
+    "counts": {
+      "CURRENT_DELTA": 1,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 2,
+      "UPDATE": 0,
+      "CONFIRMATION": 2,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 2,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE",
+    "drive_parent_run_id": "engineer-osint-20260823-B62",
+    "github_run_store_parent_run_id": "engineer-osint-20260823-B62",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-21T23:09:25+02:00",
+    "reconciliation_window_to": "2026-08-23T23:12:08+02:00"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 1,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0030",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinské a finské firmy oznámily projekty pro výrobu dronů, námořních bezosádkových systémů a pozemních robotických komplexů ve Finsku",
+      "title_en": "Ukrainian and Finnish companies announced projects for drones, maritime unmanned systems and ground robotic systems production in Finland",
+      "summary_cs": "ArmyInform dne 23. 8. 2026 v 16:45 uvedl s odkazem na prezidenta Volodymyra Zelenského, že ukrajinské a finské společnosti podepsaly dokumenty k vývoji a výrobě dronů ve Finsku pro potřeby Ukrajiny a Evropy, rozvoji námořních bezosádkových systémů a vytvoření podniku pro výrobu pozemních robotických komplexů. Veřejný podklad potvrzuje oznámení průmyslové spolupráce, nikoli zahájení sériové výroby, konkrétní typy UGV, počty, termíny dodávek ani zavedení do konkrétních jednotek.",
+      "summary_en": "On 23 August 2026 at 16:45, ArmyInform reported, citing President Volodymyr Zelenskyy, that Ukrainian and Finnish companies signed documents covering development and production of drones in Finland for Ukraine and Europe, development of maritime unmanned-system capabilities, and creation of an enterprise to produce ground robotic systems. The public material establishes an announced industrial-cooperation step, not the start of serial production, specific UGV types, quantities, delivery schedules or fielding by particular units.",
+      "fact_cs": "Ukrajinské a finské společnosti podle veřejného oznámení podepsaly dokumenty k projektům dronů, námořních bezosádkových systémů a podniku pro výrobu pozemních robotických komplexů ve Finsku.",
+      "fact_en": "According to the public announcement, Ukrainian and Finnish companies signed documents for drone, maritime unmanned-system and ground-robotic-system production projects in Finland.",
+      "analysis_cs": "Jde o aktuální technologický a průmyslový signál rozšiřování ukrajinské bezosádkové výrobní spolupráce do partnerské země. Bez dalších smluvních, výrobních nebo jednotkových dat nelze z oznámení odvozovat konkrétní kapacitu ani operační zavedení.",
+      "analysis_en": "This is a current technology and industrial signal of Ukrainian unmanned-systems production cooperation expanding into a partner country. Without additional contractual, production or unit-level data, the announcement does not establish concrete capacity or operational fielding.",
+      "geography": [
+        "Ukraine",
+        "Finland",
+        "Europe"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "UNMANNED_SYSTEMS",
+        "DEFENCE_INDUSTRY",
+        "CO_PRODUCTION",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-23T16:45:00+03:00",
+      "event_time": "2026-08-23",
+      "temporal_status": "CURRENT_DELTA",
+      "classification": "FACT_ABOUT_PUBLICLY_ANNOUNCED_DEFENCE_INDUSTRIAL_COOPERATION",
+      "confidence": "HIGH_FOR_PUBLIC_ANNOUNCEMENT_MEDIUM_FOR_IMPLEMENTATION_DETAILS_NOT_PUBLIC",
+      "source_ids": [
+        "ENG-SRC-0486"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0191"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B63",
+      "publication_safety": "PUBLIC_OK"
+    },
+    {
+      "id": "ENG-SIG-0031",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinská vojenská rozvědka zveřejnila archivní záběry bojového použití ozbrojených pozemních robotických komplexů jednotky Iron Group",
+      "title_en": "Ukrainian military intelligence released archival footage of armed ground robotic systems used in combat by the Iron Group unit",
+      "summary_cs": "ArmyInform dne 22. 8. 2026 ve 12:32 uvedl s odkazem na HUR MO Ukrajiny, že jednotka Iron Group zveřejnila archivní záběry z jara 2026 zachycující bojové použití kulomety vyzbrojených pozemních robotických komplexů. HUR podle článku uvádí jejich použití k palebnému působení a odvádění pozornosti nepřátelských dronů. V tomto běhu nebyly video framy přímo pixelově inspektovány; záznam proto dokládá pouze veřejně připsané tvrzení a existenci zveřejněného materiálu, nikoli nezávislé ověření výkonů, vzdáleností nebo výsledků zásahů.",
+      "summary_en": "On 22 August 2026 at 12:32, ArmyInform reported, citing Ukraine's Defence Intelligence (HUR), that the Iron Group unit released archival footage from spring 2026 showing machine-gun-armed ground robotic systems in combat use. According to the article, HUR described the systems as providing fire and drawing enemy-drone attention. No video frames were directly pixel-inspected in this run; the record therefore establishes the attributed public claim and existence of the released material, not independent verification of performance, distances or strike effects.",
+      "fact_cs": "HUR podle ArmyInform zveřejnila archivní materiál z jara 2026 o bojovém použití kulomety vyzbrojených pozemních robotických komplexů jednotky Iron Group.",
+      "fact_en": "According to ArmyInform, HUR released archival spring-2026 material showing machine-gun-armed ground robotic systems used in combat by the Iron Group unit.",
+      "analysis_cs": "Položka posiluje trend rozšiřování úloh UGV od logistiky a ženijních úkolů také k přímé palebné podpoře. Protože nebyla provedena přímá inspekce videa a zdrojová linie je jediná, nejde o nezávisle potvrzený výkonový údaj.",
+      "analysis_en": "The item strengthens the trend of UGV roles expanding beyond logistics and engineering tasks into direct fire support. Because the video was not directly inspected and the evidence is a single source lineage, it is not an independently confirmed performance claim.",
+      "geography": [
+        "Ukraine",
+        "Russia"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "ARMED_UGV",
+        "UNMANNED_SYSTEMS",
+        "COMBAT_EMPLOYMENT",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-22T12:32:00+03:00",
+      "event_time": "SPRING_2026_ARCHIVAL_FOOTAGE_EXACT_DATE_NOT_PUBLICLY_RESOLVED",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "ATTRIBUTED_UKRAINIAN_DEFENCE_INTELLIGENCE_CLAIM_REPORTED_BY_OFFICIAL_DEFENCE_MEDIA",
+      "confidence": "MEDIUM_FOR_ATTRIBUTION_LOW_TO_MEDIUM_FOR_UNINSPECTED_PERFORMANCE_CLAIMS",
+      "source_ids": [
+        "ENG-SRC-0487"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0192"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B63",
+      "publication_safety": "PUBLIC_OK"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0486",
+      "title": "Україна та Фінляндія домовилися про виробництво дронів, морських безекіпажних систем і НРК",
+      "title_cs": "Ukrajina a Finsko se dohodly na projektech výroby dronů, námořních bezosádkových systémů a NŘK",
+      "title_en": "Ukraine and Finland agreed on drone, maritime unmanned-system and UGV production projects",
+      "publisher": "ArmyInform / Ministry of Defence of Ukraine media",
+      "url": "https://armyinform.com.ua/2026/08/23/ukrayina-ta-finlyandiya-domovylysya-pro-vyrobnycztvo-droniv-morskyh-bezekipazhnyh-system-i-nrk/",
+      "publication_date": "2026-08-23T16:45:00+03:00",
+      "language": "uk",
+      "source_class": "PRIMARY_ADJACENT_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_PRESIDENT",
+      "verification_status": "VERIFIED_DEEP_LINK_TITLE_PUBLISHER_DATETIME_AND_PUBLIC_PRESIDENT_TELEGRAM_POST_SURFACE",
+      "temporal_note": "Published inside B63 exact-current window after B62 window_to.",
+      "first_seen_run": "engineer-osint-20260823-B63"
+    },
+    {
+      "id": "ENG-SRC-0487",
+      "title": "«Криє великим калібром»: ГУР показало роботу своїх бойових НРК по противнику",
+      "title_cs": "„Kryje velkou ráží“: HUR ukázala činnost svých bojových NŘK proti protivníkovi",
+      "title_en": "HUR showed its combat ground robotic systems operating against the enemy",
+      "publisher": "ArmyInform / Ministry of Defence of Ukraine media",
+      "url": "https://armyinform.com.ua/2026/08/22/%C2%ABkryye-velykym-kalibrom%C2%BB-gur-pokazalo-robotu-svogo-bojovogo-nrk-po-protyvnyku/",
+      "publication_date": "2026-08-22T12:32:00+03:00",
+      "language": "uk",
+      "source_class": "PRIMARY_ADJACENT_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_HUR",
+      "verification_status": "VERIFIED_DEEP_LINK_TITLE_PUBLISHER_DATETIME_NO_DIRECT_VIDEO_FRAME_INSPECTION",
+      "temporal_note": "Published before B62 exact window but within B63 48h reconciliation; footage described as archival from spring 2026.",
+      "first_seen_run": "engineer-osint-20260823-B63"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0191",
+      "evidence_id": "ENG-EVID-0191",
+      "evidence_type": "CURRENT_DEFENCE_INDUSTRIAL_COOPERATION_PUBLIC_ANNOUNCEMENT",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_WITH_PUBLIC_PRESIDENT_TELEGRAM_POST_SURFACE",
+      "what_it_supports_cs": "Podporuje veřejné oznámení, že ukrajinské a finské firmy podepsaly dokumenty k výrobě dronů ve Finsku, rozvoji námořních bezosádkových systémů a vytvoření podniku na výrobu pozemních robotických komplexů. Nepodporuje konkrétní výrobní kapacitu, typy, počty, harmonogram dodávek ani jednotkové zavedení.",
+      "what_it_supports_en": "Supports the public announcement that Ukrainian and Finnish companies signed documents for drone production in Finland, maritime unmanned-system development and creation of a ground-robotic-systems production enterprise. It does not establish production capacity, specific types, quantities, delivery schedules or unit fielding.",
+      "related_ids": [
+        "ENG-SIG-0030"
+      ],
+      "source_ids": [
+        "ENG-SRC-0486"
+      ],
+      "exact_urls": [
+        "https://armyinform.com.ua/2026/08/23/ukrayina-ta-finlyandiya-domovylysya-pro-vyrobnycztvo-droniv-morskyh-bezekipazhnyh-system-i-nrk/",
+        "https://t.me/V_Zelenskiy_official/20517"
+      ],
+      "temporal_status": "CURRENT_DELTA",
+      "verification_status": "PUBLIC_ANNOUNCEMENT_VERIFIED_IMPLEMENTATION_DETAILS_UNVERIFIED",
+      "first_seen_run": "engineer-osint-20260823-B63"
+    },
+    {
+      "id": "ENG-EVID-0192",
+      "evidence_id": "ENG-EVID-0192",
+      "evidence_type": "ATTRIBUTED_ARMED_UGV_COMBAT_EMPLOYMENT_PUBLICATION",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_NO_DIRECT_VIDEO_FRAME_INSPECTION",
+      "what_it_supports_cs": "Podporuje pouze to, že HUR podle ArmyInform zveřejnila archivní materiál o bojovém použití ozbrojených NŘK jednotky Iron Group a připsala jim palebnou a odkláněcí úlohu. Nepotvrzuje nezávisle parametry, vzdálenosti, přesný čas/místo ani bojové výsledky.",
+      "what_it_supports_en": "Supports only that, according to ArmyInform, HUR released archival material on armed UGV combat employment by Iron Group and attributed fire-support and diversion roles to the systems. It does not independently confirm specifications, distances, exact time/location or combat effects.",
+      "related_ids": [
+        "ENG-SIG-0031"
+      ],
+      "source_ids": [
+        "ENG-SRC-0487"
+      ],
+      "exact_urls": [
+        "https://armyinform.com.ua/2026/08/22/%C2%ABkryye-velykym-kalibrom%C2%BB-gur-pokazalo-robotu-svogo-bojovogo-nrk-po-protyvnyku/"
+      ],
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "verification_status": "PUBLICATION_AND_ATTRIBUTION_VERIFIED_VIDEO_NOT_DIRECTLY_INSPECTED",
+      "first_seen_run": "engineer-osint-20260823-B63"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0030",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinské a finské firmy oznámily projekty pro výrobu dronů, námořních bezosádkových systémů a pozemních robotických komplexů ve Finsku",
+      "title_en": "Ukrainian and Finnish companies announced projects for drones, maritime unmanned systems and ground robotic systems production in Finland",
+      "summary_cs": "ArmyInform dne 23. 8. 2026 v 16:45 uvedl s odkazem na prezidenta Volodymyra Zelenského, že ukrajinské a finské společnosti podepsaly dokumenty k vývoji a výrobě dronů ve Finsku pro potřeby Ukrajiny a Evropy, rozvoji námořních bezosádkových systémů a vytvoření podniku pro výrobu pozemních robotických komplexů. Veřejný podklad potvrzuje oznámení průmyslové spolupráce, nikoli zahájení sériové výroby, konkrétní typy UGV, počty, termíny dodávek ani zavedení do konkrétních jednotek.",
+      "summary_en": "On 23 August 2026 at 16:45, ArmyInform reported, citing President Volodymyr Zelenskyy, that Ukrainian and Finnish companies signed documents covering development and production of drones in Finland for Ukraine and Europe, development of maritime unmanned-system capabilities, and creation of an enterprise to produce ground robotic systems. The public material establishes an announced industrial-cooperation step, not the start of serial production, specific UGV types, quantities, delivery schedules or fielding by particular units.",
+      "fact_cs": "Ukrajinské a finské společnosti podle veřejného oznámení podepsaly dokumenty k projektům dronů, námořních bezosádkových systémů a podniku pro výrobu pozemních robotických komplexů ve Finsku.",
+      "fact_en": "According to the public announcement, Ukrainian and Finnish companies signed documents for drone, maritime unmanned-system and ground-robotic-system production projects in Finland.",
+      "analysis_cs": "Jde o aktuální technologický a průmyslový signál rozšiřování ukrajinské bezosádkové výrobní spolupráce do partnerské země. Bez dalších smluvních, výrobních nebo jednotkových dat nelze z oznámení odvozovat konkrétní kapacitu ani operační zavedení.",
+      "analysis_en": "This is a current technology and industrial signal of Ukrainian unmanned-systems production cooperation expanding into a partner country. Without additional contractual, production or unit-level data, the announcement does not establish concrete capacity or operational fielding.",
+      "geography": [
+        "Ukraine",
+        "Finland",
+        "Europe"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "UNMANNED_SYSTEMS",
+        "DEFENCE_INDUSTRY",
+        "CO_PRODUCTION",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-23T16:45:00+03:00",
+      "event_time": "2026-08-23",
+      "temporal_status": "CURRENT_DELTA",
+      "classification": "FACT_ABOUT_PUBLICLY_ANNOUNCED_DEFENCE_INDUSTRIAL_COOPERATION",
+      "confidence": "HIGH_FOR_PUBLIC_ANNOUNCEMENT_MEDIUM_FOR_IMPLEMENTATION_DETAILS_NOT_PUBLIC",
+      "source_ids": [
+        "ENG-SRC-0486"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0191"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B63",
+      "publication_safety": "PUBLIC_OK"
+    },
+    {
+      "id": "ENG-SIG-0031",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinská vojenská rozvědka zveřejnila archivní záběry bojového použití ozbrojených pozemních robotických komplexů jednotky Iron Group",
+      "title_en": "Ukrainian military intelligence released archival footage of armed ground robotic systems used in combat by the Iron Group unit",
+      "summary_cs": "ArmyInform dne 22. 8. 2026 ve 12:32 uvedl s odkazem na HUR MO Ukrajiny, že jednotka Iron Group zveřejnila archivní záběry z jara 2026 zachycující bojové použití kulomety vyzbrojených pozemních robotických komplexů. HUR podle článku uvádí jejich použití k palebnému působení a odvádění pozornosti nepřátelských dronů. V tomto běhu nebyly video framy přímo pixelově inspektovány; záznam proto dokládá pouze veřejně připsané tvrzení a existenci zveřejněného materiálu, nikoli nezávislé ověření výkonů, vzdáleností nebo výsledků zásahů.",
+      "summary_en": "On 22 August 2026 at 12:32, ArmyInform reported, citing Ukraine's Defence Intelligence (HUR), that the Iron Group unit released archival footage from spring 2026 showing machine-gun-armed ground robotic systems in combat use. According to the article, HUR described the systems as providing fire and drawing enemy-drone attention. No video frames were directly pixel-inspected in this run; the record therefore establishes the attributed public claim and existence of the released material, not independent verification of performance, distances or strike effects.",
+      "fact_cs": "HUR podle ArmyInform zveřejnila archivní materiál z jara 2026 o bojovém použití kulomety vyzbrojených pozemních robotických komplexů jednotky Iron Group.",
+      "fact_en": "According to ArmyInform, HUR released archival spring-2026 material showing machine-gun-armed ground robotic systems used in combat by the Iron Group unit.",
+      "analysis_cs": "Položka posiluje trend rozšiřování úloh UGV od logistiky a ženijních úkolů také k přímé palebné podpoře. Protože nebyla provedena přímá inspekce videa a zdrojová linie je jediná, nejde o nezávisle potvrzený výkonový údaj.",
+      "analysis_en": "The item strengthens the trend of UGV roles expanding beyond logistics and engineering tasks into direct fire support. Because the video was not directly inspected and the evidence is a single source lineage, it is not an independently confirmed performance claim.",
+      "geography": [
+        "Ukraine",
+        "Russia"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "ARMED_UGV",
+        "UNMANNED_SYSTEMS",
+        "COMBAT_EMPLOYMENT",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-22T12:32:00+03:00",
+      "event_time": "SPRING_2026_ARCHIVAL_FOOTAGE_EXACT_DATE_NOT_PUBLICLY_RESOLVED",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "ATTRIBUTED_UKRAINIAN_DEFENCE_INTELLIGENCE_CLAIM_REPORTED_BY_OFFICIAL_DEFENCE_MEDIA",
+      "confidence": "MEDIUM_FOR_ATTRIBUTION_LOW_TO_MEDIUM_FOR_UNINSPECTED_PERFORMANCE_CLAIMS",
+      "source_ids": [
+        "ENG-SRC-0487"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0192"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B63",
+      "publication_safety": "PUBLIC_OK"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "source_mapping": "PASS",
+    "duplicate_id_audit": "PASS_CANDIDATE_IDS_NOT_FOUND_IN_CURRENT_MAIN",
+    "temporal_audit": "PASS",
+    "bilingual_publish_gate": "PASS_CZ_EN_PRESENT_FOR_NEW_PUBLIC_FREE_TEXT",
+    "visual_gate": "PASS_NO_DIRECT_VISUAL_CLAIM",
+    "public_cz_precheck": "CANDIDATE_BILINGUAL_FIELDS_PRESENT",
+    "telegram": "PUBLIC_POST_SURFACE_RESOLVED_FOR_PRESIDENT_POST; NO_LOAD_BEARING_TELEGRAM_TEXT_USED",
+    "publication_safety": "PUBLIC_OK_FOR_BOTH_NEW_RECORDS",
+    "repository_helper_execution": "UNAVAILABLE_IN_LOCAL_RUNTIME_NETWORK_DNS_BLOCKED"
+  }
+}
