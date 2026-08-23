@@ -101,7 +101,11 @@ test('repository snapshot is canonical and no Git history is needed to load it',
   const loaded=loadCanonicalRunStore({root:'docs/engineer-osint'});
   assert.equal(loaded.report.snapshot_run_id,'engineer-osint-20260823-B61');
   assert.equal(loaded.report.current_run_id,loaded.data.state_latest.run_id);
-  assert.equal(applyStrictPatchToCanonicalData(loaded.data,patch()).state_latest.run_id,'engineer-osint-20260823-B62');
+  const next=patch(),match=loaded.report.current_run_id.match(/^(engineer-osint-\d{8}-B)(\d+)$/);
+  assert.ok(match,'current run ID must be incrementable for append-only smoke test');
+  next.state.parent_run_id=loaded.report.current_run_id;
+  next.state.run_id=`${match[1]}${String(Number(match[2])+1).padStart(match[2].length,'0')}`;
+  assert.equal(applyStrictPatchToCanonicalData(loaded.data,next).state_latest.run_id,next.state.run_id);
   assert.equal(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8').includes('DEGRADED_LEGACY_ACKNOWLEDGED'),true);
 });
 
@@ -110,4 +114,23 @@ test('patch schema publishes the versioned correction operation contract',()=>{
   assert.equal(schema.properties.extensions.properties.operations_v1.items.$ref,'#/$defs/operationV1');
   assert.deepEqual(new Set(schema.$defs.operationV1.properties.op.enum),new Set(['REPLACE_FIELD','REMOVE_REFERENCE','RETRACT']));
   assert.equal(schema.$defs.operationV1.additionalProperties,false);
+});
+
+
+test('strict append preserves disjoint legacy visual mirror before synchronization',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0001',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1']}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Katyusha'}];
+  const result=applyStrictPatchToCanonicalData(base,patch());
+  const canonicalIds=result.visual_registry.visuals.map(item=>item.asset_id||item.id).sort();
+  const mirrorIds=result.dashboard_patch_extras.visuals.map(item=>item.asset_id||item.id).sort();
+  assert.deepEqual(canonicalIds,['ENG-VIS-0001','ENG-VIS-0054']);
+  assert.deepEqual(mirrorIds,canonicalIds);
+});
+
+test('strict append rejects conflicting legacy visual mirror identities',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Canonical'}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Conflicting mirror'}];
+  assert.throws(()=>applyStrictPatchToCanonicalData(base,patch()),IntegrityError);
 });
