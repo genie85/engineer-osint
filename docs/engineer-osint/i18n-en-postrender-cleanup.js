@@ -51,8 +51,6 @@
 
   function buildPairs(){
     const c=pairCollector();
-    // Prefer the immutable restored snapshot. Its base fields are canonical English,
-    // while mutable runtime base fields may currently contain Czech presentation text.
     walkPairs(C||D,c);
     const ui=window.__ENGINEER_I18N__?.ui?.cs||{};
     for(const [en,cs] of Object.entries(ui))c.add(cs,en);
@@ -84,14 +82,11 @@
       if(!csValues.length)continue;
       const scalarCs=new Set(csValues.flatMap(v=>Array.isArray(v)?v:[v]).map(text).filter(Boolean));
       const enCandidates=[];
-      // Canonical snapshot is authoritative for English recovery.
       for(const obj of canon){
         const v=base==='text'?(obj?.text_en??obj?.text):(obj?.[base+'_en']??obj?.[base]);
         if(Array.isArray(v)){if(v.length&&!csValues.some(cs=>sameArray(cs,v)))enCandidates.push(v)}
         else{const s=text(v);if(s&&!scalarCs.has(s))enCandidates.push(s)}
       }
-      // Explicit hydrated *_en on live copies is a safe fallback when the object is
-      // presentation-only and absent from the canonical collection.
       if(!enCandidates.length)for(const obj of live){
         const v=base==='text'?obj?.text_en:obj?.[base+'_en'];
         if(Array.isArray(v)){if(v.length&&!csValues.some(cs=>sameArray(cs,v)))enCandidates.push(v)}
@@ -113,9 +108,11 @@
   }
 
   function repairAttributes(root,pairs){
-    const nodes=root?.querySelectorAll?.('input[placeholder],textarea[placeholder],[title],[aria-label]')||[];
+    const nodes=root===document
+      ?document.querySelectorAll('input[placeholder],textarea[placeholder],[title],[aria-label]')
+      :(root?.querySelectorAll?.('input[placeholder],textarea[placeholder],[title],[aria-label]')||[]);
     for(const el of nodes)for(const attr of ['placeholder','title','aria-label'])if(el.hasAttribute?.(attr)){
-      const raw=el.getAttribute(attr);let next=STATIC_EN_NORMALIZATION.get(raw)||translateText(raw,pairs);if(next!==raw)el.setAttribute(attr,next);
+      const raw=el.getAttribute(attr),next=STATIC_EN_NORMALIZATION.get(raw)||translateText(raw,pairs);if(next!==raw)el.setAttribute(attr,next);
     }
   }
 
@@ -125,13 +122,12 @@
 
   function repairEntityBox(box,globalPairs){
     const id=entityId(box),pairs=buildEntityPairs(id);if(!id||!pairs.length)return;
-    const root=box;
-    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const walker=document.createTreeWalker(box,NodeFilter.SHOW_TEXT);
     while(walker.nextNode()){
       const n=walker.currentNode,p=n.parentElement;if(!p||p.closest?.('#engineerLanguageSwitch,script,style'))continue;
       const next=translateText(n.nodeValue,pairs);if(next!==n.nodeValue)n.nodeValue=next;
     }
-    repairAttributes(root,[...pairs,...globalPairs]);
+    repairAttributes(box,[...pairs,...globalPairs]);
   }
 
   function repair(){
