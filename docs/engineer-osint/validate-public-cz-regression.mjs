@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 export function fieldKey(entry){
@@ -70,8 +70,12 @@ export function evaluatePublicCzRatchet({report,baseline,parentBaseline=null}){
   };
 }
 
+function hasNonEmptyFile(path){
+  try{return Boolean(path)&&existsSync(path)&&statSync(path).size>0;}catch{return false;}
+}
+
 function loadJson(path,label){
-  if(!existsSync(path))throw new Error(`${label} missing: ${path}`);
+  if(!hasNonEmptyFile(path))throw new Error(`${label} missing or empty: ${path}`);
   return JSON.parse(readFileSync(path,'utf8'));
 }
 
@@ -81,7 +85,7 @@ export function runCli(){
   const parentPath=process.env.PUBLIC_CZ_PARENT_BASELINE||'';
   const report=loadJson(reportPath,'PUBLIC-CZ audit');
   const baseline=loadJson(baselinePath,'PUBLIC-CZ baseline');
-  const parentBaseline=parentPath&&existsSync(parentPath)?loadJson(parentPath,'parent PUBLIC-CZ baseline'):null;
+  const parentBaseline=hasNonEmptyFile(parentPath)?loadJson(parentPath,'parent PUBLIC-CZ baseline'):null;
   const result=evaluatePublicCzRatchet({report,baseline,parentBaseline});
   console.log(JSON.stringify({PUBLIC_CZ_RATCHET_STATUS:result.status,...result},null,2));
   if(!result.pass)process.exitCode=1;
