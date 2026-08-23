@@ -34,9 +34,65 @@ jobs:
           test "$(sha256sum /tmp/B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
           node -e "const p=JSON.parse(require('fs').readFileSync('/tmp/B62.json','utf8')); if(p.schema_version!=='engineer-osint-patch-v1'||p.state.run_id!=='engineer-osint-20260823-B62'||p.state.parent_run_id!=='engineer-osint-20260823-B61'||p.state.status!=='SUCCESS') throw new Error('B62 intake identity mismatch')"
 
-      - name: Diagnose B61 mirror state
+      - name: Apply migration-safe visual mirror preservation fix
         run: |
-          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; const mr=s.media_registry?.media||[]; const mex=s.dashboard_patch_extras?.media||[]; const ids=a=>new Set(a.map(x=>x.asset_id||x.media_id||x.id)); console.log(JSON.stringify({visual_registry:vr.length,extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),visual_registry_only:[...ids(vr)].filter(x=>!ids(ex).has(x)),extras_visuals_only:[...ids(ex)].filter(x=>!ids(vr).has(x)),media_registry:mr.length,extras_media:mex.length},null,2));"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('docs/engineer-osint/lib/run-store.mjs')
+          s=p.read_text()
+          marker="export function applyStrictPatchToCanonicalData(input,patch){\n  validatePatch(patch,{strict:true});\n  const data=structuredClone(input),runId=patch.state.run_id;"
+          replacement="""function reconcileLegacyVisualMirror(data){
+            const canonical=asArray(data.visual_registry?.visuals),legacy=asArray(data.dashboard_patch_extras?.visuals);
+            if(!legacy.length)return;
+            const byId=new Map(canonical.map(item=>[itemKey(item,idRules.visuals),item]));
+            for(const item of legacy){
+              const id=itemKey(item,idRules.visuals);
+              ensure(Boolean(id),'Legacy visual mirror item has no stable identifier');
+              const existing=byId.get(id);
+              if(existing)ensure(canonicalDigest(existing)===canonicalDigest(item),`Legacy visual mirror conflict for ${id}`);
+            }
+            data.visual_registry=data.visual_registry||{};
+            data.visual_registry.visuals=mergeIdentified(canonical,structuredClone(legacy),{keys:idRules.visuals,kind:'canonical visuals legacy mirror'});
+          }
+
+          export function applyStrictPatchToCanonicalData(input,patch){
+            validatePatch(patch,{strict:true});
+            const data=structuredClone(input),runId=patch.state.run_id;
+            reconcileLegacyVisualMirror(data);"""
+          if marker not in s:
+              raise SystemExit('run-store insertion marker not found')
+          p.write_text(s.replace(marker,replacement,1))
+
+          t=Path('docs/engineer-osint/tests/p1-run-store.test.mjs')
+          ts=t.read_text()
+          test_marker="strict append preserves disjoint legacy visual mirror before synchronization"
+          if test_marker not in ts:
+              ts += """
+
+test('strict append preserves disjoint legacy visual mirror before synchronization',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0001',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1']}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Katyusha'}];
+  const result=applyStrictPatchToCanonicalData(base,patch());
+  const canonicalIds=result.visual_registry.visuals.map(item=>item.asset_id||item.id).sort();
+  const mirrorIds=result.dashboard_patch_extras.visuals.map(item=>item.asset_id||item.id).sort();
+  assert.deepEqual(canonicalIds,['ENG-VIS-0001','ENG-VIS-0054']);
+  assert.deepEqual(mirrorIds,canonicalIds);
+});
+
+test('strict append rejects conflicting legacy visual mirror identities',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Canonical'}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Conflicting mirror'}];
+  assert.throws(()=>applyStrictPatchToCanonicalData(base,patch()),IntegrityError);
+});
+"""
+              t.write_text(ts)
+          PY
+
+      - name: Verify B61 legacy visual split is preserved by the fix
+        run: |
+          node --input-type=module -e "import {loadCanonicalRunStore,applyStrictPatchToCanonicalData} from './docs/engineer-osint/lib/run-store.mjs'; const {data}=loadCanonicalRunStore({root:'docs/engineer-osint'}); const p=JSON.parse(require('fs').readFileSync('/tmp/B62.json','utf8')); const before=(data.dashboard_patch_extras?.visuals||[]).some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'); const next=applyStrictPatchToCanonicalData(data,p); const vr=next.visual_registry?.visuals||[]; const ex=next.dashboard_patch_extras?.visuals||[]; if(!before||!vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054')||!ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054')||vr.length!==91||ex.length!==91) throw new Error('B61 visual mirror preservation failed'); console.log(JSON.stringify({before_extras_has_0054:before,after_visual_registry:vr.length,after_extras_visuals:ex.length,after_has_0054:true},null,2));"
 
       - name: Run repository-native append helper
         run: |
@@ -63,14 +119,14 @@ jobs:
           test "$(sha256sum docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
           node -e "const m=JSON.parse(require('fs').readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const e=m.runs.at(-1); if(!e||e.run_id!=='engineer-osint-20260823-B62'||e.parent_run_id!=='engineer-osint-20260823-B61'||e.parent_canonical_sha256!=='697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb'||e.file_sha256!=='0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674') throw new Error('manifest B62 integrity mismatch'); console.log(JSON.stringify(e,null,2));"
 
-      - name: Commit deterministic generated run-store outputs to recovery branch
+      - name: Commit validated recovery outputs and implementation fixes
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json docs/engineer-osint/data/run-store-manifest.json
-          git diff --cached --quiet && { echo 'No generated changes to commit'; exit 1; }
-          git commit -m 'Append canonical B62 to P1 run store'
+          git add docs/engineer-osint/lib/run-store.mjs docs/engineer-osint/tests/p1-run-store.test.mjs docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json docs/engineer-osint/data/run-store-manifest.json
+          git diff --cached --quiet && { echo 'No validated recovery changes to commit'; exit 1; }
+          git commit -m 'Append canonical B62 and preserve legacy visual mirror'
           git push origin HEAD:factual/engineer-osint-20260823-B62-recovery
 
       - name: Upload deterministic recovery outputs
@@ -81,7 +137,6 @@ jobs:
           if-no-files-found: error
           path: |
             /tmp/b62-append-plan.json
-            docs/engineer-osint/data/snapshots/canonical-engineer-osint-20260823-B61.json
             docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json
             docs/engineer-osint/data/run-store-manifest.json
             docs/engineer-osint-dist/health.txt
