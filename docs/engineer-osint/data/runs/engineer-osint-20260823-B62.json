@@ -1,0 +1,236 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260823-B62",
+    "parent_run_id": "engineer-osint-20260823-B61",
+    "status": "SUCCESS",
+    "window_from": "2026-08-23T02:08:26+02:00",
+    "window_to": "2026-08-23T04:09:47+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 2,
+      "UPDATE": 0,
+      "CONFIRMATION": 4,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 2,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "recovery_mode": "P1_APPEND_ONLY_RECOVERY",
+    "drive_canonical_run_id": "engineer-osint-20260823-B62",
+    "drive_parent_run_id": "engineer-osint-20260823-B61",
+    "github_run_store_parent_run_id": "engineer-osint-20260823-B61",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0029",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinská 25. výsadková brigáda uvedla zničení několika ruských pozemních robotických komplexů používaných pro zásobování útočných skupin",
+      "title_en": "Ukraine’s 25th Airborne Brigade reported destroying several Russian ground robotic systems used to supply assault groups",
+      "summary_cs": "ArmyInform dne 22. 8. 2026 v 16:58 uvedl s odkazem na 25. samostatnou výsadkovou Sičeslavskou brigádu, že její bezpilotní prostředky zasáhly několik ruských pozemních robotických komplexů, které podle brigády sloužily k zásobování útočných skupin na pokrovském směru. Jde o připsané tvrzení jedné válčící strany. Dostupné veřejné podklady neumožnily nezávisle určit typy platforem, přesný počet, místo jednotlivých zásahů ani potvrdit zničení všech uváděných systémů.",
+      "summary_en": "On 22 August 2026 at 16:58, ArmyInform reported, citing Ukraine’s 25th Separate Airborne Sicheslav Brigade, that its UAV operators struck several Russian ground robotic systems which the brigade said were being used to supply assault groups on the Pokrovsk axis. This is an attributed claim by one belligerent. Available public material did not independently establish the platform types, exact number, individual strike locations, or confirm destruction of every reported system.",
+      "geography": [
+        "Ukraine",
+        "Russia",
+        "Pokrovsk axis"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-22T16:58:00+03:00",
+      "event_time": "REPORTED_22_AUG_2026_EXACT_EVENT_TIME_NOT_PUBLICLY_RESOLVED",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "ATTRIBUTED_BELLIGERENT_CLAIM_REPORTED_BY_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA",
+      "confidence": "MEDIUM_FOR_ATTRIBUTION_AND_PUBLICATION_LOW_FOR_BATTLE_DAMAGE_AND_PLATFORM_IDENTIFICATION",
+      "source_ids": [
+        "ENG-SRC-0484"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0189"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B62"
+    },
+    {
+      "id": "ENG-EVT-0123",
+      "record_type": "organization_governance_event",
+      "title_cs": "32. Steering Committee NATO EOD COE schválil plán rozvoje 2027–2031, úpravu struktury a E&T kurzy pro rok 2027",
+      "title_en": "32nd NATO EOD COE Steering Committee approved the 2027–2031 Development Plan, a structure modification and 2027 E&T courses",
+      "summary_cs": "Oficiální NATO EOD COE uvádí, že 32. zasedání Steering Committee proběhlo 20.–23. 4. 2026 ve Varšavě. Zástupci sponzorských států ČR, Maďarska, Polska, Rumunska, Slovenska a USA na něm schválili Development Plan EOD COE pro roky 2027–2031, úpravu struktury centra a E&T kurzy pro rok 2027. Jde o governance/organization a education-training rozhodnutí centra; veřejná zpráva sama nedokládá promulgaci nové NATO doktríny ani obsah neveřejných schválených dokumentů.",
+      "summary_en": "The official NATO EOD COE states that its 32nd Steering Committee meeting took place in Warsaw from 20–23 April 2026. Sponsoring-nation representatives from the Czech Republic, Hungary, Poland, Romania, Slovakia and the United States approved the EOD COE Development Plan for 2027–2031, a modification of the Centre’s structure and E&T courses for 2027. These are Centre governance/organization and education-training decisions; the public article does not itself establish promulgation of new NATO doctrine or disclose the content of the approved non-public documents.",
+      "geography": [
+        "NATO",
+        "Poland",
+        "Slovakia",
+        "Czech Republic"
+      ],
+      "topics": [
+        "EOD",
+        "ORGANIZATION",
+        "GOVERNANCE",
+        "EDUCATION_TRAINING",
+        "CAPABILITY_DEVELOPMENT"
+      ],
+      "publication_date": "2026-04-30",
+      "event_time": "2026-04-20/2026-04-23",
+      "temporal_status": "HISTORICAL_BACKFILL",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_NATO_ACCREDITED_COE_PUBLICATION",
+      "confidence": "HIGH_FOR_PUBLIC_MEETING_METADATA_AND_LISTED_APPROVALS_NOT_UNPUBLISHED_DOCUMENT_CONTENT",
+      "source_ids": [
+        "ENG-SRC-0485"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0190"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B62"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0484",
+      "title": "Січеславські десантники позбавляють ворога засобів для наступу на Покровському напрямку",
+      "publisher": "ArmyInform / Ministry of Defence of Ukraine media",
+      "url": "https://armyinform.com.ua/2026/08/22/sicheslavski-desantnyky-pozbavlyayut-voroga-zasobiv-dlya-nastupu-na-pokrovskomu-napryamku/",
+      "publication_date": "2026-08-22T16:58:00+03:00",
+      "language": "uk",
+      "source_class": "PRIMARY_ADJACENT_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_UNIT",
+      "verification_status": "VERIFIED_DEEP_LINK_TITLE_PUBLISHER_DATETIME",
+      "temporal_note": "Published before the B61 exact window but inside B62 48h reconciliation; promoted only as attributed claim.",
+      "first_seen_run": "engineer-osint-20260823-B62"
+    },
+    {
+      "id": "ENG-SRC-0485",
+      "title": "32nd EOD COE Steering Committee Meeting",
+      "publisher": "NATO Explosive Ordnance Disposal Centre of Excellence",
+      "url": "https://www.eodcoe.org/en/news/32nd-eod-coe-steering-committee-meeting.html",
+      "publication_date": "2026-04-30",
+      "language": "en",
+      "source_class": "PRIMARY_OFFICIAL_NATO_ACCREDITED_COE_PUBLIC",
+      "verification_status": "VERIFIED_OFFICIAL_SEARCH_INDEX_EXACT_DEEP_LINK_AND_NEWS_INDEX_DATE",
+      "temporal_note": "Meeting held 20–23 Apr 2026; historical backlog resolution, not a current publication. Direct open returned cache miss but current official indexed page content and official news index independently exposed the same event metadata.",
+      "first_seen_run": "engineer-osint-20260823-B62"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0189",
+      "evidence_type": "ATTRIBUTED_CURRENT_TECHNOLOGY_SIGNAL_PUBLICATION",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_NO_DIRECT_VIDEO_FRAME_INSPECTION",
+      "what_it_supports_cs": "Podporuje pouze to, že 25. výsadková brigáda prostřednictvím ArmyInform dne 22. 8. 2026 veřejně tvrdila zásah několika ruských NŘK používaných pro zásobování útočných skupin. Nepotvrzuje nezávisle jejich přesný počet, typ, zničení ani konkrétní geolokaci.",
+      "what_it_supports_en": "Supports only that the 25th Airborne Brigade, through ArmyInform on 22 August 2026, publicly claimed strikes on several Russian UGVs used for assault-group supply. It does not independently confirm exact quantity, type, destruction, or specific geolocation.",
+      "related_ids": [
+        "ENG-SIG-0029"
+      ],
+      "source_ids": [
+        "ENG-SRC-0484"
+      ],
+      "exact_urls": [
+        "https://armyinform.com.ua/2026/08/22/sicheslavski-desantnyky-pozbavlyayut-voroga-zasobiv-dlya-nastupu-na-pokrovskomu-napryamku/"
+      ],
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "verification_status": "PUBLICATION_AND_ATTRIBUTION_VERIFIED_BATTLE_DAMAGE_UNVERIFIED",
+      "first_seen_run": "engineer-osint-20260823-B62",
+      "evidence_id": "ENG-EVID-0189"
+    },
+    {
+      "id": "ENG-EVID-0190",
+      "evidence_type": "PRIMARY_OFFICIAL_ORGANIZATION_GOVERNANCE_EVENT_TEXT",
+      "evidence_status": "OFFICIAL_INDEXED_PUBLIC_TEXT_DEEP_LINK_DIRECT_OPEN_CACHE_MISS",
+      "what_it_supports_cs": "Podporuje datum a místo 32. Steering Committee EOD COE a veřejně uvedená schválení plánu rozvoje 2027–2031, změny struktury a E&T kurzů 2027. Nepodporuje obsah neveřejných dokumentů ani tvrzení o promulgaci nové NATO doktríny.",
+      "what_it_supports_en": "Supports the date/location of the 32nd EOD COE Steering Committee and the publicly listed approvals of the 2027–2031 Development Plan, a structure modification and 2027 E&T courses. It does not support the contents of non-public documents or a claim that new NATO doctrine was promulgated.",
+      "related_ids": [
+        "ENG-EVT-0123"
+      ],
+      "source_ids": [
+        "ENG-SRC-0485"
+      ],
+      "exact_urls": [
+        "https://www.eodcoe.org/en/news/32nd-eod-coe-steering-committee-meeting.html"
+      ],
+      "temporal_status": "HISTORICAL_BACKFILL",
+      "verification_status": "OFFICIAL_CURRENT_INDEX_AND_EXACT_RESULT_VERIFIED_DIRECT_OPEN_CACHE_MISS_DECLARED",
+      "first_seen_run": "engineer-osint-20260823-B62",
+      "evidence_id": "ENG-EVID-0190"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0029",
+      "record_type": "technology_signal",
+      "title_cs": "Ukrajinská 25. výsadková brigáda uvedla zničení několika ruských pozemních robotických komplexů používaných pro zásobování útočných skupin",
+      "title_en": "Ukraine’s 25th Airborne Brigade reported destroying several Russian ground robotic systems used to supply assault groups",
+      "summary_cs": "ArmyInform dne 22. 8. 2026 v 16:58 uvedl s odkazem na 25. samostatnou výsadkovou Sičeslavskou brigádu, že její bezpilotní prostředky zasáhly několik ruských pozemních robotických komplexů, které podle brigády sloužily k zásobování útočných skupin na pokrovském směru. Jde o připsané tvrzení jedné válčící strany. Dostupné veřejné podklady neumožnily nezávisle určit typy platforem, přesný počet, místo jednotlivých zásahů ani potvrdit zničení všech uváděných systémů.",
+      "summary_en": "On 22 August 2026 at 16:58, ArmyInform reported, citing Ukraine’s 25th Separate Airborne Sicheslav Brigade, that its UAV operators struck several Russian ground robotic systems which the brigade said were being used to supply assault groups on the Pokrovsk axis. This is an attributed claim by one belligerent. Available public material did not independently establish the platform types, exact number, individual strike locations, or confirm destruction of every reported system.",
+      "geography": [
+        "Ukraine",
+        "Russia",
+        "Pokrovsk axis"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-08-22T16:58:00+03:00",
+      "event_time": "REPORTED_22_AUG_2026_EXACT_EVENT_TIME_NOT_PUBLICLY_RESOLVED",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "ATTRIBUTED_BELLIGERENT_CLAIM_REPORTED_BY_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA",
+      "confidence": "MEDIUM_FOR_ATTRIBUTION_AND_PUBLICATION_LOW_FOR_BATTLE_DAMAGE_AND_PLATFORM_IDENTIFICATION",
+      "source_ids": [
+        "ENG-SRC-0484"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0189"
+      ],
+      "first_seen_run": "engineer-osint-20260823-B62"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "reconstructed_from_canonical_drive_b62": true,
+    "bilingual_gate": "PASS_CZ_EN",
+    "direct_image_inspection": false,
+    "safety_gate": {
+      "ENG-SIG-0029": "PUBLIC_OK_AGGREGATED_NO_PRECISE_TACTICAL_LOCATION",
+      "ENG-EVT-0123": "PUBLIC_OK"
+    },
+    "note": "Recovery intake only; immutable run-store hashes must be produced by the repository append-run helper."
+  },
+  "presentation_fact_overlay_gap": "OPEN",
+  "extensions": {
+    "recovery": {
+      "reconstructed_at": "2026-08-23",
+      "reason": "Previously reported P1 intake artifact was not discoverable by exact current Drive search; reconstructed from canonical B62 state without changing factual meaning."
+    }
+  }
+}

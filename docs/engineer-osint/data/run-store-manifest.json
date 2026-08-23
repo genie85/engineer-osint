@@ -12,7 +12,16 @@
     "record_count": 215,
     "source_count": 457
   },
-  "runs": [],
+  "runs": [
+    {
+      "run_id": "engineer-osint-20260823-B62",
+      "parent_run_id": "engineer-osint-20260823-B61",
+      "parent_canonical_sha256": "697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb",
+      "path": "data/runs/engineer-osint-20260823-B62.json",
+      "file_sha256": "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674",
+      "canonical_sha256": "f5acd7ad1d7c86af5e1d744a7b6dacbfb9b4f0ef55b7ae8dc5b0ddf54c007742"
+    }
+  ],
   "legacy_history": {
     "status": "DEGRADED_LEGACY_ACKNOWLEDGED",
     "malformed_patch_shas": [

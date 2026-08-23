@@ -202,9 +202,24 @@ function validateCanonicalIdentity(data){
   }
 }
 
+function reconcileLegacyVisualMirror(data){
+  const canonical=asArray(data.visual_registry?.visuals),legacy=asArray(data.dashboard_patch_extras?.visuals);
+  if(!legacy.length)return;
+  const byId=new Map(canonical.map(item=>[itemKey(item,idRules.visuals),item]));
+  for(const item of legacy){
+    const id=itemKey(item,idRules.visuals);
+    ensure(Boolean(id),'Legacy visual mirror item has no stable identifier');
+    const existing=byId.get(id);
+    if(existing)ensure(canonicalDigest(existing)===canonicalDigest(item),`Legacy visual mirror conflict for ${id}`);
+  }
+  data.visual_registry=data.visual_registry||{};
+  data.visual_registry.visuals=mergeIdentified(canonical,structuredClone(legacy),{keys:idRules.visuals,kind:'canonical visuals legacy mirror'});
+}
+
 export function applyStrictPatchToCanonicalData(input,patch){
   validatePatch(patch,{strict:true});
   const data=structuredClone(input),runId=patch.state.run_id;
+  reconcileLegacyVisualMirror(data);
   const touched=new Map([
     ['records',[...patch.new_records,...patch.updated_records]],['sources',patch.sources],['relations',patch.relations],
     ['evidence',patch.evidence],['visuals',patch.visuals],['media',patch.media],['technology_signals',patch.technology_signals],

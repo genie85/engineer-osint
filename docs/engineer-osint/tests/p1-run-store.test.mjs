@@ -115,3 +115,22 @@ test('patch schema publishes the versioned correction operation contract',()=>{
   assert.deepEqual(new Set(schema.$defs.operationV1.properties.op.enum),new Set(['REPLACE_FIELD','REMOVE_REFERENCE','RETRACT']));
   assert.equal(schema.$defs.operationV1.additionalProperties,false);
 });
+
+
+test('strict append preserves disjoint legacy visual mirror before synchronization',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0001',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1']}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Katyusha'}];
+  const result=applyStrictPatchToCanonicalData(base,patch());
+  const canonicalIds=result.visual_registry.visuals.map(item=>item.asset_id||item.id).sort();
+  const mirrorIds=result.dashboard_patch_extras.visuals.map(item=>item.asset_id||item.id).sort();
+  assert.deepEqual(canonicalIds,['ENG-VIS-0001','ENG-VIS-0054']);
+  assert.deepEqual(mirrorIds,canonicalIds);
+});
+
+test('strict append rejects conflicting legacy visual mirror identities',()=>{
+  const base=canonical();
+  base.visual_registry={visuals:[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Canonical'}]};
+  base.dashboard_patch_extras.visuals=[{asset_id:'ENG-VIS-0054',related_ids:['ENG-EVT-TEST1'],source_ids:['ENG-SRC-TEST1'],caption:'Conflicting mirror'}];
+  assert.throws(()=>applyStrictPatchToCanonicalData(base,patch()),IntegrityError);
+});
