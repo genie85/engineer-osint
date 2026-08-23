@@ -4,21 +4,31 @@ on:
   push:
     branches: [main]
     paths:
+      - 'docs/engineer-osint/canonical-snapshot.js'
       - 'docs/engineer-osint/ui-phase6-i18n.js'
       - 'docs/engineer-osint/i18n-language-switch-hardening.js'
       - 'docs/engineer-osint/i18n-runtime-switch-fix.js'
+      - 'docs/engineer-osint/i18n-en-postrender-cleanup.js'
       - 'docs/engineer-osint/runtime-modules.mjs'
       - 'docs/engineer-osint/test-i18n-runtime-switch.mjs'
+      - 'docs/engineer-osint/tests/canonical-en-hydration.test.mjs'
+      - 'docs/engineer-osint/tests/i18n-en-postrender-cleanup.test.mjs'
+      - 'docs/engineer-osint/tests/i18n-en-postrender-sibling-recovery.test.mjs'
       - 'docs/engineer-osint/tests/language-switch-control.test.mjs'
       - '.github/workflows/i18n-switch-regression.yml'
   pull_request:
     branches: [main]
     paths:
+      - 'docs/engineer-osint/canonical-snapshot.js'
       - 'docs/engineer-osint/ui-phase6-i18n.js'
       - 'docs/engineer-osint/i18n-language-switch-hardening.js'
       - 'docs/engineer-osint/i18n-runtime-switch-fix.js'
+      - 'docs/engineer-osint/i18n-en-postrender-cleanup.js'
       - 'docs/engineer-osint/runtime-modules.mjs'
       - 'docs/engineer-osint/test-i18n-runtime-switch.mjs'
+      - 'docs/engineer-osint/tests/canonical-en-hydration.test.mjs'
+      - 'docs/engineer-osint/tests/i18n-en-postrender-cleanup.test.mjs'
+      - 'docs/engineer-osint/tests/i18n-en-postrender-sibling-recovery.test.mjs'
       - 'docs/engineer-osint/tests/language-switch-control.test.mjs'
       - '.github/workflows/i18n-switch-regression.yml'
   workflow_dispatch:
@@ -36,9 +46,15 @@ jobs:
           node-version: '20'
       - name: Syntax check i18n switch runtime
         run: |
+          node --check docs/engineer-osint/canonical-snapshot.js
           node --check docs/engineer-osint/ui-phase6-i18n.js
           node --check docs/engineer-osint/i18n-language-switch-hardening.js
           node --check docs/engineer-osint/i18n-runtime-switch-fix.js
+          node --check docs/engineer-osint/i18n-en-postrender-cleanup.js
+      - name: Run canonical EN hydration regression
+        run: node --test docs/engineer-osint/tests/canonical-en-hydration.test.mjs
+      - name: Run EN post-render regression contracts
+        run: node --test docs/engineer-osint/tests/i18n-en-postrender-cleanup.test.mjs docs/engineer-osint/tests/i18n-en-postrender-sibling-recovery.test.mjs
       - name: Run real control click-path regression
         run: node --test docs/engineer-osint/tests/language-switch-control.test.mjs
       - name: Run CZ EN CZ dynamic-content canary
