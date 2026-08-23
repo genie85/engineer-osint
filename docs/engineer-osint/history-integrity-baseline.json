@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "description": "Exact legacy anomalies acknowledged before P0 enforcement. New anomalies are fatal.",
+  "enforcement": {
+    "schema_required_after_run_id": "engineer-osint-20260823-B61",
+    "cutoff_commit_sha": "a08491eaea259da9e92aa5cb86be4c375ab9ddcb",
+    "cutoff_content_sha256": "3b07392c42afa33a7655a2a94e6ea25bd3373ebbb8ee028113ac96b3bfa961d2"
+  },
+  "legacy": {
+    "first_run_id": "engineer-osint-20260817-B13",
+    "external_checkpoint_parent": "engineer-osint-20260816-B12",
+    "malformed_patches": [
+      {
+        "commit_sha": "eb41315701c0703e720d535cd4bb4985c6158b07",
+        "content_sha256": "83acce8cff053ecb1dd5f36bf2fad7bc51ee4720e1d17b0c43afa1b029264ec3"
+      },
+      {
+        "commit_sha": "b8dbb377d4edc0b9dab8bba015cde742ef279278",
+        "content_sha256": "be02cd29ec69df74d976e3b5e16cc8b609dae04ac52aee35a2277e4866b39243"
+      },
+      {
+        "commit_sha": "29262075888dc0e5dd534823c5b51c2c3768185b",
+        "content_sha256": "c5e50eccbec904692707ed32c968d88f893e30537590478ee8b81893de7effda"
+      }
+    ],
+    "duplicate_runs": [
+      {
+        "run_id": "engineer-osint-20260817-B27",
+        "allowed_commit_shas": ["d2620587588a7187890b3a805c4a4a2c408ed7d1", "c082b241e1962a1e82ffd10ceb88dae8f9ce1d21"]
+      },
+      {
+        "run_id": "engineer-osint-20260818-B47",
+        "allowed_commit_shas": ["2f10b45833c2bcaef2cd2de65691fd6a05d630dd", "515a59ecc33cbe5fae807ed9d197504b870b5758"]
+      },
+      {
+        "run_id": "engineer-osint-20260818-B53",
+        "allowed_commit_shas": ["7de2113f8d0ff7ad000f7514482a9b0653361069", "b0a0958f08459a5571200df6d12f56ff8f5350b8"]
+      },
+      {
+        "run_id": "engineer-osint-20260819-B09",
+        "allowed_commit_shas": ["43aa4dcccd7ba1c959d6e0251116dc87d7430899", "84ecae55921a362e6ef588cab53c6808a5519969"]
+      },
+      {
+        "run_id": "engineer-osint-20260823-B61",
+        "allowed_commit_shas": ["c925f6253bf39a20b3dd6d700a86567fffc024c2", "a08491eaea259da9e92aa5cb86be4c375ab9ddcb"]
+      }
+    ],
+    "parent_discontinuities": [
+      {
+        "previous_run_id": "engineer-osint-20260817-B13",
+        "run_id": "engineer-osint-20260817-B18",
+        "parent_run_id": "engineer-osint-20260817-B17",
+        "commit_sha": "807f4f09cc535935301db7bb6f0d13e7255d228c"
+      },
+      {
+        "previous_run_id": "engineer-osint-20260818-B34",
+        "run_id": "engineer-osint-20260818-B36",
+        "parent_run_id": "engineer-osint-20260818-B35",
+        "commit_sha": "85178709dd64bab39e6e65357cac05ea3be0ba58"
+      }
+    ]
+  }
+}

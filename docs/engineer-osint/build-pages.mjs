@@ -2,36 +2,15 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {itemKey,loadValidatedPatchHistory,mergeIdentified,safeInlineJson,validatePublicUrls,validateStrictMaterialization} from './lib/integrity.mjs';
 
 const s='docs/engineer-osint',o='docs/engineer-osint-dist',patchPath=join(s,'b11-patch.json');
 mkdirSync(o,{recursive:true});
 
 const parts=Array.from({length:9},(_,i)=>readFileSync(join(s,`p${String(i+1).padStart(2,'0')}.txt`),'utf8').replace(/[^A-Za-z0-9+/=]/g,''));
-const currentPatch=JSON.parse(readFileSync(patchPath,'utf8'));
-
-function patchHistory(){
-  const byRun=new Map();
-  let shas=[];
-  try{
-    shas=execFileSync('git',['log','--format=%H','--',patchPath],{encoding:'utf8'})
-      .trim().split(/\s+/).filter(Boolean).reverse();
-  }catch(e){
-    console.warn('Patch-history git log unavailable; using current patch only:',e.message);
-  }
-  for(const sha of shas){
-    try{
-      const p=JSON.parse(execFileSync('git',['show',`${sha}:${patchPath}`],{encoding:'utf8',maxBuffer:20*1024*1024}));
-      const run=p?.state?.run_id;
-      if(run)byRun.set(run,p);
-    }catch(e){
-      console.warn(`Skipping unreadable historical patch at ${sha}: ${e.message}`);
-    }
-  }
-  if(currentPatch?.state?.run_id)byRun.set(currentPatch.state.run_id,currentPatch);
-  return [...byRun.values()];
-}
-const patches=patchHistory();
-const patch=currentPatch;
+const history=loadValidatedPatchHistory({patchPath,manifestPath:join(s,'history-integrity-baseline.json')});
+const patches=history.patches;
+const patch=patches.at(-1);
 
 let html=null;
 for(const decode of [()=>Buffer.from(parts.join(''),'base64'),()=>Buffer.concat(parts.map(x=>Buffer.from(x,'base64')))]){
@@ -48,19 +27,20 @@ if(!html)throw new Error('Unable to reconstruct ENGINEER OSINT V3 payload');
 const marker='window.__ENGINEER_DATA__=',a=html.indexOf(marker),b=html.indexOf(';</script>',a);
 if(a<0||b<0)throw new Error('ENGINEER_DATA marker missing');
 const j=a+marker.length,d=JSON.parse(html.slice(j,b));
+const baseRelations=structuredClone(d.relations?.relations||[]);
+const baseEvidence=structuredClone(d.evidence?.evidence||[]);
+const baseVisuals=structuredClone(d.dashboard_patch_extras?.visuals||[]);
+const baseMedia=structuredClone(d.dashboard_patch_extras?.media||[]);
 Object.assign(d.state_latest,patch.state);
 
-const keyFor=(x,...keys)=>{for(const k of keys)if(x?.[k])return x[k];return null};
-const mergeUnique=(base,items,keys)=>{
-  const m=new Map((base||[]).map(x=>[keyFor(x,...keys),x]).filter(([k])=>k));
-  for(const x of items||[]){const k=keyFor(x,...keys);if(k)m.set(k,{...(m.get(k)||{}),...x})}
-  return [...m.values()];
-};
+const mergeUnique=(base,items,keys,kind,legacyIdPrefix=null)=>mergeIdentified(base,items,{keys,kind,legacyIdPrefix});
 const all=(fn)=>patches.flatMap(p=>fn(p)||[]);
 
 const rm=new Map((d.records?.records||[]).map(x=>[x.id,x]));
+let recordIdsBeforeCurrent=[];
 const typeFor=(x,old)=>{const m=String(x.id||'').match(/^(ENG-(?:TECH|EVT|UNIT|SIG|DOC|TTP|LL|TREND|VIS|SRC|REL|EVID))-/);return x.type||(m?m[1]:old.type||'ENG-RECORD')};
 for(const p of patches){
+  if(p===patches.at(-1))recordIdsBeforeCurrent=[...rm.keys()];
   for(const x of [...(p.materialized_records||[]),...(p.new_records||[]),...(p.updated_records||[])]){
     if(!x?.id)continue;
     const old=rm.get(x.id)||{};
@@ -87,7 +67,10 @@ d.records.records=[...rm.values()].sort((x,y)=>x.id.localeCompare(y.id));
 
 const lm=new Map((d.leads?.leads||[]).map(x=>[x.id||x.lead_id,x]));
 for(const p of patches){
-  for(const x of [...(p.leads||[]),...(p.external_leads||[]),...(p.updated_external_leads||[])]){
+  const normalizedLeads=mergeIdentified([], [...(p.leads||[]),...(p.external_leads||[]),...(p.updated_external_leads||[]),...(p.lead_updates||[])],{
+    keys:['id','lead_id','external_id'],kind:'leads',legacyIdPrefix:'ENG-LEAD-LEGACY'
+  });
+  for(const x of normalizedLeads){
     const id=x?.id||x?.lead_id;if(!id)continue;
     lm.set(id,{...(lm.get(id)||{}),...x,id,title:x.topic||x.title||id,last_update:x.last_update||p.state?.run_id||patch.state.run_id});
   }
@@ -95,9 +78,13 @@ for(const p of patches){
 d.leads=d.leads||{};d.leads.leads=[...lm.values()];
 
 const sm=new Map((d.sources?.sources||[]).map(x=>[x.id,x]));
-for(const p of patches)for(const x of p.sources||[]){
-  if(!x?.id)continue;
-  sm.set(x.id,{...(sm.get(x.id)||{}),...x,name:x.title||x.name||x.id,tier:x.source_tier??x.tier,url:x.url||x.source_url||null,run_id:p.state?.run_id||patch.state.run_id});
+let sourceIdsBeforeCurrent=[];
+for(const p of patches){
+  if(p===patches.at(-1))sourceIdsBeforeCurrent=[...sm.keys()];
+  for(const x of p.sources||[]){
+    if(!x?.id)continue;
+    sm.set(x.id,{...(sm.get(x.id)||{}),...x,name:x.title||x.name||x.id,tier:x.source_tier??x.tier,url:x.url||x.source_url||null,run_id:p.state?.run_id||patch.state.run_id});
+  }
 }
 d.sources=d.sources||{};d.sources.sources=[...sm.values()].sort((x,y)=>x.id.localeCompare(y.id));
 
@@ -123,19 +110,29 @@ const technologySignals=all(p=>p.technology_signals||[]);
 const trends=all(p=>[...(p.trends||[]),...(p.trend_watch||[])]);
 const doctrineItems=all(p=>[...(p.doctrine||[]),...(p.doctrine_updates||[])]);
 const externalHits=all(p=>p.external_source_hits||[]);
-const externalLeads=all(p=>p.external_leads||[]);
-const observedMinimum=all(p=>p.observed_minimum_updates||[]);
+const externalLeads=all(p=>[...(p.external_leads||[]),...(p.updated_external_leads||[]),...(p.lead_updates||[])]);
+const observedMinimum=all(p=>p.observed_minimum_updates||p.observed_minimum||[]);
 const capabilityChanges=all(p=>p.capability_matrix_changes||[]);
 const coverageChanges=all(p=>p.historical_coverage_changes||[]);
+const priorPatches=patches.slice(0,-1),priorAll=fn=>priorPatches.flatMap(p=>fn(p)||[]);
+const idsOf=(items,keys)=>new Set((items||[]).map(item=>itemKey(item,keys)).filter(Boolean));
+const relationIdsBeforeCurrent=idsOf(mergeUnique(baseRelations,priorAll(p=>[...(p.relations||[]),...(p.new_relations||[]),...(p.updated_relations||[])]),['relation_id','id'],'relations','ENG-REL-LEGACY'),['relation_id','id']);
+const evidenceIdsBeforeCurrent=idsOf(mergeUnique(baseEvidence,priorAll(p=>[...(p.evidence||[]),...(p.new_evidence||[]),...(p.updated_evidence||[])]),['evidence_id','id'],'evidence','ENG-EVID-LEGACY'),['evidence_id','id']);
+const visualIdsBeforeCurrent=idsOf(mergeUnique(baseVisuals,priorAll(p=>[...(p.visuals||[]),...(p.new_visuals||[])]),['asset_id','id'],'visuals','ENG-VIS-LEGACY'),['asset_id','id']);
+const mediaIdsBeforeCurrent=idsOf(mergeUnique(baseMedia,priorAll(p=>[
+  ...(Array.isArray(p.new_media)?p.new_media:[]),...(Array.isArray(p.media)?p.media:[]),
+  ...(p.media?.new_media||[]),...(p.media?.items||[]),...(p.media?.media||[]),...(p.multimedia?.media||[])
+]),['media_id','id'],'media','ENG-MEDIA-LEGACY'),['media_id','id']);
 
 d.dashboard_patch_extras={
   patch_history_runs:patches.map(p=>p.state?.run_id).filter(Boolean),
-  patch_continuity:'COMPLETE_FROM_GIT_HISTORY',
-  visuals:mergeUnique([],visuals,['asset_id','id']),
-  media:mergeUnique([],media,['media_id','id']),
-  doctrine:mergeUnique([],doctrineItems,['id','document_id']),
-  technology_signals:mergeUnique([],technologySignals,['id']),
-  trends:mergeUnique([],trends,['id']),
+  patch_continuity:history.report.status,
+  patch_integrity:history.report,
+  visuals:mergeUnique([],visuals,['asset_id','id'],'visuals','ENG-VIS-LEGACY'),
+  media:mergeUnique([],media,['media_id','id'],'media','ENG-MEDIA-LEGACY'),
+  doctrine:mergeUnique([],doctrineItems,['id','document_id'],'doctrine','ENG-DOC-LEGACY'),
+  technology_signals:mergeUnique([],technologySignals,['id'],'technology_signals','ENG-SIG-LEGACY'),
+  trends:mergeUnique([],trends,['id'],'trends','ENG-TREND-LEGACY'),
   confirmations:all(p=>p.confirmations||[]),
   contradictions:all(p=>p.contradictions||[]),
   corrections:all(p=>p.corrections||[]),
@@ -147,12 +144,12 @@ d.dashboard_patch_extras={
   current_confirmation_gaps:all(p=>p.current_confirmation_gaps||[]),
   temporal_conflicts:all(p=>p.temporal_conflicts||[]),
   temporal_audit:patch.temporal_audit||patch.data_quality?.temporal_audit||null,
-  relations:mergeUnique([],rels,['relation_id','id']),
-  evidence:mergeUnique([],evid,['evidence_id','id']),
-  lessons_learned:mergeUnique([],lessons,['id']),
+  relations:mergeUnique([],rels,['relation_id','id'],'relations','ENG-REL-LEGACY'),
+  evidence:mergeUnique([],evid,['evidence_id','id'],'evidence','ENG-EVID-LEGACY'),
+  lessons_learned:mergeUnique([],lessons,['id','lesson_id'],'lessons_learned','ENG-LL-LEGACY'),
   orbat_updates:all(p=>p.orbat_updates||[]),
   external_source_hits:externalHits,
-  external_leads:mergeUnique([],externalLeads,['lead_id','id']),
+  external_leads:mergeUnique([],externalLeads,['lead_id','id','external_id'],'external_leads','ENG-LEAD-LEGACY'),
   observed_minimum_updates:observedMinimum,
   capability_matrix_changes:capabilityChanges,
   historical_coverage_changes:coverageChanges,
@@ -160,7 +157,7 @@ d.dashboard_patch_extras={
 };
 
 d.relations=d.relations||{relations:[]};
-d.relations.relations=mergeUnique(d.relations.relations,d.dashboard_patch_extras.relations,['relation_id','id']).map(x=>({...x,id:x.id||x.relation_id}));
+d.relations.relations=mergeUnique(d.relations.relations,d.dashboard_patch_extras.relations,['relation_id','id'],'relations','ENG-REL-LEGACY').map(x=>({...x,id:x.id||x.relation_id}));
 for(const rel of d.relations.relations||[]){
   if(['HAS_SUBUNIT','HAS_SUBORDINATE'].includes(rel.relation_type)){
     const child=d.records.records.find(x=>x.id===rel.object_id);
@@ -169,10 +166,25 @@ for(const rel of d.relations.relations||[]){
 }
 
 d.evidence=d.evidence||{evidence:[]};
-d.evidence.evidence=mergeUnique(d.evidence.evidence,d.dashboard_patch_extras.evidence,['evidence_id','id']).map(x=>({...x,id:x.id||x.evidence_id}));
+d.evidence.evidence=mergeUnique(d.evidence.evidence,d.dashboard_patch_extras.evidence,['evidence_id','id'],'evidence','ENG-EVID-LEGACY').map(x=>({...x,id:x.id||x.evidence_id}));
+
+validateStrictMaterialization(patch,{
+  recordIdsBefore:recordIdsBeforeCurrent,sourceIdsBefore:sourceIdsBeforeCurrent,
+  relationIdsBefore:[...relationIdsBeforeCurrent],evidenceIdsBefore:[...evidenceIdsBeforeCurrent],
+  visualIdsBefore:[...visualIdsBeforeCurrent],mediaIdsBefore:[...mediaIdsBeforeCurrent],
+  records:d.records.records,sources:d.sources.sources,
+  relations:d.relations.relations,evidence:d.evidence.evidence,
+  visuals:d.dashboard_patch_extras.visuals,media:d.dashboard_patch_extras.media,
+  knownEntityIds:[
+    ...d.dashboard_patch_extras.technology_signals,...d.dashboard_patch_extras.trends,
+    ...d.dashboard_patch_extras.doctrine,...d.dashboard_patch_extras.lessons_learned,
+    ...d.dashboard_patch_extras.external_leads,...d.dashboard_patch_extras.observed_minimum_updates,
+    ...d.dashboard_patch_extras.orbat_updates
+  ].map(item=>item?.id||item?.lead_id||item?.lesson_id).filter(Boolean)
+});
 
 d.lessons_learned=d.lessons_learned||{lessons:[]};
-d.lessons_learned.lessons=mergeUnique(d.lessons_learned.lessons,d.dashboard_patch_extras.lessons_learned,['id']);
+d.lessons_learned.lessons=mergeUnique(d.lessons_learned.lessons,d.dashboard_patch_extras.lessons_learned,['id','lesson_id'],'lessons_learned','ENG-LL-LEGACY');
 
 if(patch.golden_entities)d.golden_entities=patch.golden_entities;
 if(patch.historical_coverage)d.historical_coverage=patch.historical_coverage;
@@ -182,18 +194,19 @@ if(patch.canonical_registry_audit)d.canonical_registry_audit=patch.canonical_reg
 
 d.dashboard_materialization={
   status:'SUCCESS',
-  continuity:'COMPLETE_FROM_GIT_HISTORY',
+  continuity:history.report.status,
   current_run_id:patch.state.run_id,
   patch_run_count:patches.length,
   patch_run_ids:patches.map(p=>p.state?.run_id).filter(Boolean)
 };
 
-html=html.slice(0,j)+JSON.stringify(d)+html.slice(b);
+validatePublicUrls(d);
+html=html.slice(0,j)+safeInlineJson(d)+html.slice(b);
 const mobile=`<script>(function(){function i(){const s=document.getElementById('sidebar');if(!s)return;let c=document.getElementById('engineerMenuClose');if(!c){c=document.createElement('button');c.id='engineerMenuClose';c.textContent='×';c.style.cssText='position:absolute;top:12px;right:12px;width:40px;height:40px;z-index:9999;font-size:26px';s.appendChild(c)}const shut=()=>s.classList.remove('open');c.onclick=shut;s.querySelectorAll('nav a,nav button').forEach(x=>x.addEventListener('click',shut));document.addEventListener('keydown',e=>e.key==='Escape'&&shut())}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',i):i()})();</script>`;
 html=html.replace('</body>',mobile+'</body>');
 
 writeFileSync(join(o,'index.html'),html,'utf8');
-writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\ntemporal_intelligence=enabled\nhistorical_backfill=enabled\nknowledge_graph=data-enabled\nevidence_registry=data-enabled\nexternal_source_pool=enabled\npatch_history_materialization=enabled\npatch_continuity=complete\npatch_history_runs=${patches.length}\npresentation_fact_overlay_gap=open\npresentation_bootstrap_pb_overlay=retired\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');
+writeFileSync(join(o,'health.txt'),`ENGINEER OSINT github-pages\nrun=${patch.state.run_id}\nstatus=SUCCESS\nsource_attribution=data-enabled\ntemporal_intelligence=enabled\nhistorical_backfill=enabled\nknowledge_graph=data-enabled\nevidence_registry=data-enabled\nexternal_source_pool=enabled\npatch_history_materialization=enabled\npatch_continuity=${history.report.status}\npatch_history_runs=${patches.length}\nlegacy_malformed_revisions=${history.report.malformed_patch_shas.length}\nlegacy_duplicate_runs=${history.report.duplicate_run_ids.length}\nlegacy_parent_gaps=${history.report.parent_discontinuities.length+1}\npresentation_fact_overlay_gap=open\npresentation_bootstrap_pb_overlay=retired\nmobile_menu_fix=enabled\nbytes=${Buffer.byteLength(html)}\n`,'utf8');
 writeFileSync(join(o,'.nojekyll'),'','utf8');
 execFileSync(process.execPath,[join(s,'postprocess-ui.mjs')],{stdio:'inherit'});
 const healthPath=join(o,'health.txt');
@@ -202,4 +215,6 @@ if(!finalHealth.includes('presentation_fact_overlay_gap=open'))finalHealth+='pre
 if(!finalHealth.includes('presentation_bootstrap_pb_overlay=retired'))finalHealth+='presentation_bootstrap_pb_overlay=retired\n';
 writeFileSync(healthPath,finalHealth,'utf8');
 const finalHtml=readFileSync(join(o,'index.html'),'utf8');
+finalHealth=readFileSync(healthPath,'utf8').replace(/^bytes=.*$/m,`bytes=${Buffer.byteLength(finalHtml)}`);
+writeFileSync(healthPath,finalHealth,'utf8');
 console.log(`Built cumulative ENGINEER OSINT ${patch.state.run_id}: ${Buffer.byteLength(finalHtml)} bytes from ${patches.length} patch runs`);

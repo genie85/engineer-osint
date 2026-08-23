@@ -1,5 +1,6 @@
-import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {loadValidatedPatchHistory,mergeIdentified,parseJsonStrict,safeInlineJson,validatePublicUrls} from './lib/integrity.mjs';
 
 const patchPath='docs/engineer-osint/b11-patch.json';
 const htmlPath='docs/engineer-osint-dist/index.html';
@@ -14,42 +15,19 @@ function mediaFromPatch(p){
   if(p?.multimedia&&typeof p.multimedia==='object') out.push(...asArray(p.multimedia.new_media),...asArray(p.multimedia.items),...asArray(p.multimedia.media));
   return out;
 }
-function key(x){return x?.media_id||x?.id||x?.exact_url||x?.url||x?.source_url||null}
 function merge(base,items){
-  const m=new Map();
-  for(const x of [...base,...items]){
-    const k=key(x);if(!k)continue;
-    m.set(k,{...(m.get(k)||{}),...x});
-  }
-  return [...m.values()];
+  return mergeIdentified(base,items,{keys:['media_id','id','exact_url','url','source_url'],kind:'media history',legacyIdPrefix:'ENG-MEDIA-LEGACY'});
 }
 
-const currentPatch=JSON.parse(readFileSync(patchPath,'utf8'));
-let shas=[];
-try{
-  shas=execFileSync('git',['log','--format=%H','--',patchPath],{encoding:'utf8'}).trim().split(/\s+/).filter(Boolean).reverse();
-}catch(e){
-  throw new Error(`Unable to enumerate full patch history: ${e.message}`);
-}
-const byRun=new Map();
-const skippedHistoricalPatches=[];
-for(const sha of shas){
-  try{
-    const p=JSON.parse(execFileSync('git',['show',`${sha}:${patchPath}`],{encoding:'utf8',maxBuffer:50*1024*1024}));
-    const run=p?.state?.run_id||sha;
-    byRun.set(run,p);
-  }catch(e){
-    skippedHistoricalPatches.push({sha,error:e.message});
-    console.warn(`Skipping unreadable historical patch at ${sha}: ${e.message}`);
-  }
-}
-if(currentPatch?.state?.run_id)byRun.set(currentPatch.state.run_id,currentPatch);
+const history=loadValidatedPatchHistory({patchPath,manifestPath:join('docs/engineer-osint','history-integrity-baseline.json')});
+const patches=history.patches,currentPatch=patches.at(-1);
 
 const historicalMap=new Map();
 let historicalOccurrences=0;
-for(const [run,p] of byRun){
+for(const p of patches){
+  const run=p.state.run_id;
   for(const x of mediaFromPatch(p)){
-    const k=key(x);if(!k)continue;
+    const k=x?.media_id||x?.id||x?.exact_url||x?.url||x?.source_url;if(!k)continue;
     historicalOccurrences++;
     const old=historicalMap.get(k)||{};
     historicalMap.set(k,{...old,...x,first_seen_run:old.first_seen_run||x?.first_seen_run||run,last_update_run:run});
@@ -60,7 +38,7 @@ const historical=[...historicalMap.values()];
 let html=readFileSync(htmlPath,'utf8');
 const a=html.indexOf(marker),b=html.indexOf(';</script>',a);
 if(a<0||b<0)throw new Error('ENGINEER_DATA marker not found in built HTML');
-const D=JSON.parse(html.slice(a+marker.length,b));
+const D=parseJsonStrict(html.slice(a+marker.length,b),{source:'built ENGINEER_DATA for media materialization'});
 const existing=[
   ...asArray(D.media_registry?.media),
   ...asArray(D.media_registry?.items),
@@ -78,13 +56,15 @@ D.media_materialization={
   status:'SUCCESS',
   mode:'FULL_GIT_HISTORY_CANONICAL_MEDIA',
   current_run_id:currentPatch?.state?.run_id||null,
-  patch_runs_scanned:byRun.size,
-  skipped_historical_patches:skippedHistoricalPatches.length,
-  skipped_historical_patch_shas:skippedHistoricalPatches.map(x=>x.sha),
+  patch_runs_scanned:patches.length,
+  history_integrity_status:history.report.status,
+  skipped_historical_patches:history.report.malformed_patch_shas.length,
+  skipped_historical_patch_shas:history.report.malformed_patch_shas,
   historical_media_occurrences:historicalOccurrences,
   historical_unique_media_records:historical.length,
   canonical_media_records:merged.length
 };
-html=html.slice(0,a+marker.length)+JSON.stringify(D)+html.slice(b);
+validatePublicUrls(D);
+html=html.slice(0,a+marker.length)+safeInlineJson(D)+html.slice(b);
 writeFileSync(htmlPath,html,'utf8');
 console.log(JSON.stringify(D.media_materialization));

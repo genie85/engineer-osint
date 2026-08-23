@@ -34,36 +34,15 @@ jobs:
       - name: Validate UI and i18n modules
         run: |
           set -euo pipefail
-          node --check docs/engineer-osint/ui-phase2.js
-          node --check docs/engineer-osint/ui-phase3.js
-          node --check docs/engineer-osint/ui-phase4.js
-          node --check docs/engineer-osint/ui-phase5.js
-          node --check docs/engineer-osint/ui-phase6-i18n.js
-          node --check docs/engineer-osint/i18n-runtime-switch-fix.js
-          node --check docs/engineer-osint/ui-phase7-media.js
-          node --check docs/engineer-osint/ui-phase8-navigation.js
-          node --check docs/engineer-osint/ui-phase9-intelligence.js
-          node --check docs/engineer-osint/public-cz-ui-canary.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-backlog.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-2110.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-0633.js
-          node --check docs/engineer-osint/audit-public-cz-ui.mjs
-          node --check docs/engineer-osint/media-source-materialization.js
-          node --check docs/engineer-osint/materialize-canonical-media-history.mjs
-          node --check docs/engineer-osint/audit-media-history.mjs
-          node --check docs/engineer-osint/validate-media-coverage.mjs
-          node --check docs/engineer-osint/rich-backfill.js
-          node --check docs/engineer-osint/rich-backfill-israel-turkiye-eod.js
-          node --check docs/engineer-osint/rich-backfill-usa-rok.js
-          node --check docs/engineer-osint/i18n-content-cs.js
-          node --check docs/engineer-osint/i18n-content-cs-usa-rok.js
-          node --check docs/engineer-osint/i18n-content-cs-japan-australia.js
-          node --check docs/engineer-osint/i18n-content-cs-france-germany-poland.js
-          node --check docs/engineer-osint/i18n-content-cs-israel-turkiye-rich.js
-          node --check docs/engineer-osint/i18n-content-cs-events-backlog.js
-          node --check docs/engineer-osint/build-pages.mjs
-          node --check docs/engineer-osint/postprocess-ui.mjs
-          node --check docs/engineer-osint/validate-runtime.mjs
+          for file in docs/engineer-osint/*.js docs/engineer-osint/*.mjs docs/engineer-osint/lib/*.mjs; do
+            node --check "$file"
+          done
+
+      - name: Test P0 integrity contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate patch and full history
+        run: node docs/engineer-osint/validate-patch.mjs
 
       - name: Build full-history dashboard
         run: node docs/engineer-osint/build-pages.mjs
@@ -77,6 +56,7 @@ jobs:
           const fs=require('fs');
           const p='docs/engineer-osint-dist/index.html';
           const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js)) throw new Error('unsafe literal </script in media source module');
           let h=fs.readFileSync(p,'utf8');
           const anchor='<script id="engineer-ui-phase7-media-module">';
           if(!h.includes('engineer-media-source-materialization')){
@@ -92,41 +72,7 @@ jobs:
       - name: Gate current-run media sweep and audit persistence backlog
         run: node docs/engineer-osint/validate-media-coverage.mjs
 
-      - name: Inject PUBLIC-CZ-UI backlog translation batch
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const p='docs/engineer-osint-dist/index.html';
-          const js=fs.readFileSync('docs/engineer-osint/i18n-content-cs-public-cz-backlog.js','utf8');
-          let h=fs.readFileSync(p,'utf8');
-          if(!h.includes('engineer-i18n-content-cs-public-cz-backlog-module')) h=h.replace('</body>',`<script id="engineer-i18n-content-cs-public-cz-backlog-module">${js}</script></body>`);
-          fs.writeFileSync(p,h);
-          NODE
-
-      - name: Inject public CZ UI canary localization
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const p='docs/engineer-osint-dist/index.html';
-          const js=fs.readFileSync('docs/engineer-osint/public-cz-ui-canary.js','utf8');
-          let h=fs.readFileSync(p,'utf8');
-          if(!h.includes('engineer-public-cz-ui-canary')) h=h.replace('</body>',`<script id="engineer-public-cz-ui-canary">${js}</script></body>`);
-          fs.writeFileSync(p,h);
-          NODE
-
-      - name: Inject CZ/EN runtime switch regression fix
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const p='docs/engineer-osint-dist/index.html';
-          const js=fs.readFileSync('docs/engineer-osint/i18n-runtime-switch-fix.js','utf8');
-          let h=fs.readFileSync(p,'utf8');
-          if(!h.includes('engineer-i18n-runtime-switch-fix')) h=h.replace('</body>',`<script id="engineer-i18n-runtime-switch-fix">${js}</script></body>`);
-          fs.writeFileSync(p,h);
-          NODE
-
       - name: Audit cumulative runtime
-        continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
 
       - name: Audit PUBLIC-CZ-UI runtime
@@ -149,7 +95,14 @@ jobs:
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
           grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'patch_continuity=complete' docs/engineer-osint-dist/health.txt
+          grep -q 'patch_continuity=DEGRADED_LEGACY_ACKNOWLEDGED' docs/engineer-osint-dist/health.txt
+          grep -q 'legacy_malformed_revisions=3' docs/engineer-osint-dist/health.txt
+          grep -q 'legacy_duplicate_runs=5' docs/engineer-osint-dist/health.txt
+          grep -q 'legacy_parent_gaps=3' docs/engineer-osint-dist/health.txt
+          grep -q 'legacy_factual_overlays=pinned-migration-debt' docs/engineer-osint-dist/health.txt
+          grep -q 'localization_mutation_violations=0' docs/engineer-osint-dist/health.txt
+          grep -q 'canonical_export_snapshot=legacy-overlay-resolved' docs/engineer-osint-dist/health.txt
+          grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
           grep -q 'engineer-ui-phase8-navigation-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-ui-phase9-intelligence-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-media-source-materialization' docs/engineer-osint-dist/index.html
