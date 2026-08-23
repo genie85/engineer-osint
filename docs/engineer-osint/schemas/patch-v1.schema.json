@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genie85.github.io/engineer-osint/schemas/patch-v1.schema.json",
+  "title": "ENGINEER OSINT dashboard patch v1",
+  "type": "object",
+  "required": [
+    "schema_version", "state", "continuity", "true_delta", "new_records", "updated_records",
+    "sources", "relations", "evidence", "visuals", "media", "technology_signals", "lead_updates",
+    "observed_minimum_updates", "lessons_learned", "qa"
+  ],
+  "properties": {
+    "schema_version": {"const": "engineer-osint-patch-v1"},
+    "state": {
+      "type": "object",
+      "required": ["run_id", "parent_run_id", "status", "window_from", "window_to", "counts"],
+      "properties": {
+        "run_id": {"type": "string", "pattern": "^engineer-osint-[0-9]{8}-B[0-9]{2,}$"},
+        "parent_run_id": {"type": "string", "minLength": 1},
+        "status": {"const": "SUCCESS"},
+        "window_from": {"type": "string", "format": "date-time"},
+        "window_to": {"type": "string", "format": "date-time"},
+        "counts": {
+          "type": "object",
+          "required": [
+            "CURRENT_DELTA", "LATE_DISCOVERED_CURRENT", "HISTORICAL_BACKFILL", "ENTITY_ENRICHMENT",
+            "NEW", "UPDATE", "CONFIRMATION", "CORRECTION", "CONTRADICTION", "LEAD",
+            "NEW_RELATIONS", "UPDATED_RELATIONS", "NEW_EVIDENCE", "UPDATED_EVIDENCE",
+            "NEW_SOURCES", "UPDATED_SOURCES", "NEW_VISUALS", "NEW_MEDIA"
+          ],
+          "properties": {
+            "CURRENT_DELTA": {"$ref": "#/$defs/nonNegativeInteger"},
+            "LATE_DISCOVERED_CURRENT": {"$ref": "#/$defs/nonNegativeInteger"},
+            "HISTORICAL_BACKFILL": {"$ref": "#/$defs/nonNegativeInteger"},
+            "ENTITY_ENRICHMENT": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW": {"$ref": "#/$defs/nonNegativeInteger"},
+            "UPDATE": {"$ref": "#/$defs/nonNegativeInteger"},
+            "CONFIRMATION": {"$ref": "#/$defs/nonNegativeInteger"},
+            "CORRECTION": {"$ref": "#/$defs/nonNegativeInteger"},
+            "CONTRADICTION": {"$ref": "#/$defs/nonNegativeInteger"},
+            "LEAD": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW_RELATIONS": {"$ref": "#/$defs/nonNegativeInteger"},
+            "UPDATED_RELATIONS": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW_EVIDENCE": {"$ref": "#/$defs/nonNegativeInteger"},
+            "UPDATED_EVIDENCE": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW_SOURCES": {"$ref": "#/$defs/nonNegativeInteger"},
+            "UPDATED_SOURCES": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW_VISUALS": {"$ref": "#/$defs/nonNegativeInteger"},
+            "NEW_MEDIA": {"$ref": "#/$defs/nonNegativeInteger"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "continuity": {"type": "object"},
+    "true_delta": {"type": "object"},
+    "new_records": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "updated_records": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "relations": {"type": "array", "items": {"$ref": "#/$defs/relationItem"}},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceItem"}},
+    "visuals": {"type": "array", "items": {"$ref": "#/$defs/visualItem"}},
+    "media": {"type": "array", "items": {"$ref": "#/$defs/mediaItem"}},
+    "technology_signals": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "lead_updates": {"type": "array", "items": {"$ref": "#/$defs/leadItem"}},
+    "observed_minimum_updates": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "lessons_learned": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
+    "qa": {"type": "object"},
+    "presentation_fact_overlay_gap": {"type": "string"},
+    "extensions": {"type": "object"}
+  },
+  "$defs": {
+    "nonNegativeInteger": {"type": "integer", "minimum": 0},
+    "idItem": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "relationItem": {"type": "object", "required": ["relation_id"], "properties": {"relation_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "evidenceItem": {"type": "object", "required": ["evidence_id"], "properties": {"evidence_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "visualItem": {"type": "object", "required": ["asset_id"], "properties": {"asset_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "mediaItem": {"type": "object", "required": ["media_id"], "properties": {"media_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "leadItem": {"type": "object", "required": ["lead_id"], "properties": {"lead_id": {"type": "string", "minLength": 1}}, "additionalProperties": true}
+  },
+  "additionalProperties": false,
+  "$comment": "The stdlib validator additionally enforces stable identifiers, counts, RFC 3339 windows and safe URL protocols. Versioned additions belong under extensions."
+}

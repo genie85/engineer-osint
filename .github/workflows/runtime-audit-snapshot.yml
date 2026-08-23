@@ -27,18 +27,13 @@ jobs:
       - name: Syntax checks
         run: |
           set -euo pipefail
-          node --check docs/engineer-osint/build-pages.mjs
-          node --check docs/engineer-osint/postprocess-ui.mjs
-          node --check docs/engineer-osint/validate-runtime.mjs
-          node --check docs/engineer-osint/audit-public-cz-ui.mjs
-          node --check docs/engineer-osint/audit-public-cz-ui-latest.mjs
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-0633.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-2110.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-1746.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-1817.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-1834.js
-          node --check docs/engineer-osint/i18n-content-cs-public-cz-backlog.js
-          node --check docs/engineer-osint/public-cz-ui-canary.js
+          for file in docs/engineer-osint/*.js docs/engineer-osint/*.mjs docs/engineer-osint/lib/*.mjs; do
+            node --check "$file"
+          done
+      - name: Test P0 integrity contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+      - name: Validate patch and full history
+        run: node docs/engineer-osint/validate-patch.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs
       - name: Verify active PUBLIC-CZ runtime modules
@@ -53,7 +48,6 @@ jobs:
           grep -q 'engineer-i18n-runtime-switch-fix-module' docs/engineer-osint-dist/index.html
           grep -q 'engineer-public-cz-ui-canary-module' docs/engineer-osint-dist/index.html
       - name: Run runtime audit
-        continue-on-error: true
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Run PUBLIC-CZ-UI audit
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
