@@ -24,10 +24,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Decode and verify canonical Drive intake
+      - name: Reassemble and verify canonical Drive intake
         run: |
           set -euo pipefail
-          base64 -d docs/engineer-osint/.b62-recovery-intake.b64 > /tmp/B62.json
+          cat docs/engineer-osint/.b62-part-*.b64 > /tmp/B62.b64
+          test "$(wc -c < /tmp/B62.b64 | tr -d ' ')" = "17752"
+          base64 -d /tmp/B62.b64 > /tmp/B62.json
           test "$(sha256sum /tmp/B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
           node -e "const p=JSON.parse(require('fs').readFileSync('/tmp/B62.json','utf8')); if(p.schema_version!=='engineer-osint-patch-v1'||p.state.run_id!=='engineer-osint-20260823-B62'||p.state.parent_run_id!=='engineer-osint-20260823-B61'||p.state.status!=='SUCCESS') throw new Error('B62 intake identity mismatch')"
 
