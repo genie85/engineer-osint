@@ -161,5 +161,5 @@
   document.addEventListener('input',e=>{if(e.target?.matches?.('select,input,textarea'))schedule()},false);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')schedule()},false);
   schedule();
-  window.ENGINEER_I18N_EN_POSTRENDER_CLEANUP={status:'enabled',version:4,mode:'canonical-english-per-id-plus-static-attribute-invariant',repair,schedule,buildPairs,buildEntityPairs};
+  window.ENGINEER_I18N_EN_POSTRENDER_CLEANUP={status:'enabled',version:4,mode:'global-unique-cs-to-en-invariant+canonical-per-id+static-attribute',repair,schedule,buildPairs,buildEntityPairs};
 })();
