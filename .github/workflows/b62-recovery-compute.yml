@@ -8,15 +8,16 @@ on:
       - 'docs/engineer-osint/**'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   recover-b62:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact PR head
+      - name: Checkout exact recovery branch
         uses: actions/checkout@v4
         with:
+          ref: factual/engineer-osint-20260823-B62-recovery
           fetch-depth: 1
 
       - name: Setup Node
@@ -51,11 +52,22 @@ jobs:
             node docs/engineer-osint/audit-public-cz-ui-latest.mjs
           fi
 
-      - name: Assert frozen B11 unchanged
+      - name: Assert generated B62 and frozen B11
         run: |
           set -euo pipefail
           git diff --exit-code -- docs/engineer-osint/b11-patch.json
-          node -e "const m=JSON.parse(require('fs').readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const e=m.runs.at(-1); if(!e||e.run_id!=='engineer-osint-20260823-B62'||e.parent_run_id!=='engineer-osint-20260823-B61') throw new Error('manifest tip mismatch'); console.log(JSON.stringify(e,null,2));"
+          test "$(sha256sum docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
+          node -e "const m=JSON.parse(require('fs').readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const e=m.runs.at(-1); if(!e||e.run_id!=='engineer-osint-20260823-B62'||e.parent_run_id!=='engineer-osint-20260823-B61'||e.parent_canonical_sha256!=='697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb'||e.file_sha256!=='0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674'||e.canonical_sha256!=='ff49cc0b327b3eae927472f08bc1971be315fa848b0a819e2ea454a7a245cb69') throw new Error('manifest B62 integrity mismatch'); console.log(JSON.stringify(e,null,2));"
+
+      - name: Commit deterministic generated run-store outputs to recovery branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json docs/engineer-osint/data/run-store-manifest.json
+          git diff --cached --exit-code && { echo 'No generated changes to commit'; exit 1; } || true
+          git commit -m 'Append canonical B62 to P1 run store'
+          git push origin HEAD:factual/engineer-osint-20260823-B62-recovery
 
       - name: Upload deterministic recovery outputs
         if: always()
