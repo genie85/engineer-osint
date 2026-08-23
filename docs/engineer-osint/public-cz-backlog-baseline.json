@@ -5,11 +5,6 @@
   "max_i18n_rendering_failures": 0,
   "max_cs_content_quality_review_fields": 0,
   "known_missing_fields": [
-    {"group":"evidence","id":"ENG-EVID-0183","field":"observation_basis"},
-    {"group":"evidence","id":"ENG-EVID-0184","field":"observation_basis"},
-    {"group":"evidence","id":"ENG-EVID-0185","field":"observation_basis"},
-    {"group":"evidence","id":"ENG-EVID-0186","field":"observation_basis"},
-    {"group":"evidence","id":"ENG-EVID-0187","field":"observation_basis"},
     {"group":"lead","id":"B59-LEAD-01","field":"topic"},
     {"group":"lead","id":"B59-LEAD-02","field":"topic"},
     {"group":"lead","id":"B60-LEAD-01","field":"topic"},
