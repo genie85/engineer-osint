@@ -67,7 +67,16 @@
     "lessons_learned": {"type": "array", "items": {"$ref": "#/$defs/idItem"}},
     "qa": {"type": "object"},
     "presentation_fact_overlay_gap": {"type": "string"},
-    "extensions": {"type": "object"}
+    "extensions": {
+      "type": "object",
+      "properties": {
+        "operations_v1": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/operationV1"}
+        }
+      },
+      "additionalProperties": true
+    }
   },
   "$defs": {
     "nonNegativeInteger": {"type": "integer", "minimum": 0},
@@ -76,7 +85,22 @@
     "evidenceItem": {"type": "object", "required": ["evidence_id"], "properties": {"evidence_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "visualItem": {"type": "object", "required": ["asset_id"], "properties": {"asset_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "mediaItem": {"type": "object", "required": ["media_id"], "properties": {"media_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
-    "leadItem": {"type": "object", "required": ["lead_id"], "properties": {"lead_id": {"type": "string", "minLength": 1}}, "additionalProperties": true}
+    "leadItem": {"type": "object", "required": ["lead_id"], "properties": {"lead_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "operationV1": {
+      "type": "object",
+      "required": ["operation_id", "op", "collection", "target_id", "reason", "source_ids"],
+      "properties": {
+        "operation_id": {"type": "string", "pattern": "^ENG-OP-[A-Za-z0-9._-]+$"},
+        "op": {"enum": ["REPLACE_FIELD", "REMOVE_REFERENCE", "RETRACT"]},
+        "collection": {"enum": ["records", "sources", "relations", "evidence", "visuals", "media", "technology_signals", "leads", "observed_minimum", "lessons_learned"]},
+        "target_id": {"type": "string", "minLength": 1},
+        "field": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"},
+        "value": {},
+        "reason": {"type": "string", "minLength": 12},
+        "source_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false,
   "$comment": "The stdlib validator additionally enforces stable identifiers, counts, RFC 3339 windows and safe URL protocols. Versioned additions belong under extensions."

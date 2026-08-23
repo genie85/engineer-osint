@@ -4,9 +4,21 @@ This file mirrors the architectural consolidation approved for the canonical Goo
 
 ## Canonical data flow
 
-`Google Drive canonical state/registries → b11-patch/dashboard materialization → build → renderer/UI → GitHub Pages`
+`Google Drive canonical state/registries → append-only run file + manifest → canonical snapshot materialization → build → renderer/UI → GitHub Pages`
 
 The public dashboard is not an independent source of factual truth.
+
+## P1 canonical run store
+
+- `data/snapshots/canonical-engineer-osint-20260823-B61.json` is the frozen migration checkpoint.
+- `data/run-store-manifest.json` is the ordered, hash-pinned canonical chain.
+- Every later factual run is a new immutable `data/runs/<RUN_ID>.json` file. Existing run files and snapshots are never rewritten.
+- `b11-patch.json` is retained as the frozen B61 compatibility/forensic artifact; it is no longer the publication handoff target.
+- Normal build and CI operate from the snapshot plus manifest-listed runs and do not require full Git history.
+- Legacy history remains explicitly `DEGRADED_LEGACY_ACKNOWLEDGED`; that historical status is separate from the enforced post-snapshot `SNAPSHOT_CHAIN_COMPLETE` status.
+- Corrections and retractions use evidence-backed, versioned `extensions.operations_v1` operations. Silent mutation or deletion is forbidden.
+
+The repository helper `append-run.mjs` validates stale parent, schema, identifiers, counts, references, URLs, operations and the canonical hash chain. It defaults to dry-run and writes only with explicit `--write`.
 
 ## Priority namespaces
 

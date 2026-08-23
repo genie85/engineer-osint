@@ -1,9 +1,11 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {loadCanonicalRunStore} from './lib/run-store.mjs';
 
 const outDir='docs/engineer-osint-dist';
 const audit=JSON.parse(readFileSync(join(outDir,'media-history-audit.json'),'utf8'));
-const currentPatch=JSON.parse(readFileSync('docs/engineer-osint/b11-patch.json','utf8'));
+const store=loadCanonicalRunStore({root:'docs/engineer-osint'});
+const currentPatch=store.patches.at(-1)||JSON.parse(readFileSync('docs/engineer-osint/b11-patch.json','utf8'));
 const runs=Array.isArray(audit.runs)?audit.runs:[];
 const canonical=Array.isArray(audit.canonical_media)?audit.canonical_media:[];
 const runtimeSources=Array.isArray(audit.runtime?.source_media)?audit.runtime.source_media:[];
@@ -44,11 +46,11 @@ const missingSweepStatus=runs.filter(r=>!r.multimedia_status&&(r.declared_new_me
 const declaredWithoutArray=(audit.anomalies||[]).filter(x=>x.type==='DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY');
 const canonicalWithZeroDeclared=(audit.anomalies||[]).filter(x=>x.type==='MEDIA_ARRAY_PRESENT_WITH_ZERO_DECLARED_COUNT');
 const currentRunId=currentPatch?.state?.run_id||null;
-const currentMultimediaStatus=currentPatch?.multimedia?.status||null;
+const currentMultimediaStatus=currentPatch?.qa?.multimedia_status||currentPatch?.qa?.multimedia?.status||currentPatch?.multimedia?.status||null;
 const currentDeclared=Number(currentPatch?.state?.counts?.NEW_MEDIA??currentPatch?.counts?.NEW_MEDIA??0)||0;
 const currentMediaItems=mediaArrays(currentPatch).length;
-const currentWorthWatching=asArray(currentPatch?.multimedia?.worth_watching).length;
-const currentWorthListening=asArray(currentPatch?.multimedia?.worth_listening).length;
+const currentWorthWatching=asArray(currentPatch?.qa?.worth_watching||currentPatch?.multimedia?.worth_watching).length;
+const currentWorthListening=asArray(currentPatch?.qa?.worth_listening||currentPatch?.multimedia?.worth_listening).length;
 const currentExplicitZeroSweep=Boolean(currentRunId&&currentMultimediaStatus&&currentDeclared===0&&currentMediaItems===0);
 
 const qaIssues=[];
@@ -57,7 +59,7 @@ for(const x of declaredWithoutArray)qaIssues.push({scope:'HISTORICAL',severity:'
 for(const x of canonicalWithZeroDeclared)qaIssues.push({scope:'HISTORICAL',severity:'WARN',type:x.type,run_id:x.run,message:'Historical patch contains materialized media while declared NEW_MEDIA is zero; verify update/backfill semantics.'});
 for(const s of sourceOnly)qaIssues.push({scope:'PERSISTENCE',severity:'INFO',type:'SOURCE_MEDIA_NOT_CANONICALIZED',source_id:s.id||null,url:s.url||s.source_url||null,message:'Media-capable source URL exists in built runtime but is absent from historical canonical media records.'});
 for(const s of sourceCandidates.filter(x=>x.disposition==='ASSET_URL_UNLINKED_TO_ENTITY'))qaIssues.push({scope:'PERSISTENCE',severity:'INFO',type:'SOURCE_MEDIA_ASSET_UNLINKED',source_id:s.source_id,url:s.url,message:'Asset-level media URL is not linked to any canonical entity and is therefore excluded from source-derived public media cards.'});
-if(!currentRunId)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_RUN_ID_MISSING',message:'Current b11 patch has no state.run_id.'});
+if(!currentRunId)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_RUN_ID_MISSING',message:'Current canonical run has no state.run_id.'});
 if(!currentMultimediaStatus)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_MEDIA_SWEEP_STATUS_MISSING',run_id:currentRunId,message:'Current run does not explicitly record multimedia.status.'});
 if(currentDeclared>0&&currentMediaItems===0)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY',run_id:currentRunId,message:'Current run declares NEW_MEDIA > 0 but has no materialized media item.'});
 if(currentMediaItems>0&&currentDeclared===0)qaIssues.push({scope:'CURRENT',severity:'WARN',type:'CURRENT_MEDIA_ARRAY_WITH_ZERO_DECLARED_COUNT',run_id:currentRunId,message:'Current run contains media items while NEW_MEDIA=0; verify update/backfill semantics.'});

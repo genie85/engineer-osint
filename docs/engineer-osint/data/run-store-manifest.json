@@ -1,0 +1,52 @@
+{
+  "schema_version": "engineer-osint-run-store-v1",
+  "store_id": "engineer-osint-public-canonical",
+  "snapshot": {
+    "run_id": "engineer-osint-20260823-B61",
+    "path": "data/snapshots/canonical-engineer-osint-20260823-B61.json",
+    "file_sha256": "5283ae59612c822fe3e9ea615e50cdf1857d499356aa1cc43f0561cd886cdb22",
+    "canonical_sha256": "697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb",
+    "source_main_sha": "c33098ccb0b20becba1ec19fbda3ee0b4cd2a59d",
+    "legacy_run_count": 96,
+    "legacy_revision_count": 104,
+    "record_count": 215,
+    "source_count": 457
+  },
+  "runs": [],
+  "legacy_history": {
+    "status": "DEGRADED_LEGACY_ACKNOWLEDGED",
+    "malformed_patch_shas": [
+      "eb41315701c0703e720d535cd4bb4985c6158b07",
+      "b8dbb377d4edc0b9dab8bba015cde742ef279278",
+      "29262075888dc0e5dd534823c5b51c2c3768185b"
+    ],
+    "duplicate_run_ids": [
+      "engineer-osint-20260817-B27",
+      "engineer-osint-20260818-B47",
+      "engineer-osint-20260818-B53",
+      "engineer-osint-20260819-B09",
+      "engineer-osint-20260823-B61"
+    ],
+    "parent_discontinuities": [
+      {
+        "previous_run_id": "engineer-osint-20260817-B13",
+        "run_id": "engineer-osint-20260817-B18",
+        "parent_run_id": "engineer-osint-20260817-B17"
+      },
+      {
+        "previous_run_id": "engineer-osint-20260818-B34",
+        "run_id": "engineer-osint-20260818-B36",
+        "parent_run_id": "engineer-osint-20260818-B35"
+      }
+    ],
+    "external_checkpoint_parent": "engineer-osint-20260816-B12",
+    "enforcement_cutoff": "engineer-osint-20260823-B61"
+  },
+  "policy": {
+    "append_only": true,
+    "manifest_order_is_canonical": true,
+    "run_files_are_immutable": true,
+    "direct_main_write": false,
+    "correction_operations_version": "engineer-osint-operations-v1"
+  }
+}

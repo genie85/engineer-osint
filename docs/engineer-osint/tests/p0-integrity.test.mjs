@@ -25,6 +25,7 @@ const validStrictPatch=()=>({
   technology_signals:[],lead_updates:[],observed_minimum_updates:[],lessons_learned:[],qa:{},
   presentation_fact_overlay_gap:'OPEN',extensions:{}
 });
+const legacyAuditEnabled=process.env.ENGINEER_OSINT_LEGACY_AUDIT==='1';
 
 test('safeInlineJson prevents script termination while preserving JSON round trip',()=>{
   const payload={text:'</script><script>alert(1)</script>&'};
@@ -167,7 +168,7 @@ test('schema document stays aligned with the stdlib strict validator',()=>{
   assert.equal(schema.additionalProperties,false);
 });
 
-test('real legacy history is explicit degraded state, never complete',()=>{
+test('real legacy history is explicit degraded state, never complete',{skip:!legacyAuditEnabled},()=>{
   const source='docs/engineer-osint';
   const {report}=loadValidatedPatchHistory({
     patchPath:join(source,'b11-patch.json'),manifestPath:join(source,'history-integrity-baseline.json')
@@ -177,7 +178,7 @@ test('real legacy history is explicit degraded state, never complete',()=>{
   assert.equal(report.duplicate_run_ids.length,5);
 });
 
-test('worktree after the cutoff cannot bypass strict schema with an older run date',()=>{
+test('worktree after the cutoff cannot bypass strict schema with an older run date',{skip:!legacyAuditEnabled},()=>{
   const source='docs/engineer-osint';
   const legacy=JSON.parse(readFileSync(join(source,'b11-patch.json'),'utf8'));
   legacy.state.run_id='engineer-osint-20260822-B99';
@@ -189,7 +190,7 @@ test('worktree after the cutoff cannot bypass strict schema with an older run da
   }),IntegrityError);
 });
 
-test('published legacy cutoff run cannot be changed in the worktree',()=>{
+test('published legacy cutoff run cannot be changed in the worktree',{skip:!legacyAuditEnabled},()=>{
   const source='docs/engineer-osint';
   const legacy=JSON.parse(readFileSync(join(source,'b11-patch.json'),'utf8'));
   legacy.state.counts.NEW=999;

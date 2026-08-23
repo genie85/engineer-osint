@@ -16,10 +16,10 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout full history
+      - name: Checkout canonical snapshot and append-only runs
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -30,9 +30,9 @@ jobs:
           for file in docs/engineer-osint/*.js docs/engineer-osint/*.mjs docs/engineer-osint/lib/*.mjs; do
             node --check "$file"
           done
-      - name: Test P0 integrity contract
+      - name: Test P0/P1 integrity contract
         run: node --test docs/engineer-osint/tests/*.test.mjs
-      - name: Validate patch and full history
+      - name: Validate canonical snapshot and append-only chain
         run: node docs/engineer-osint/validate-patch.mjs
       - name: Build cumulative dashboard
         run: node docs/engineer-osint/build-pages.mjs

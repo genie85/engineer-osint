@@ -21,10 +21,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout full history
+      - name: Checkout canonical snapshot and append-only runs
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -38,16 +38,16 @@ jobs:
             node --check "$file"
           done
 
-      - name: Test P0 integrity contract
+      - name: Test P0/P1 integrity contract
         run: node --test docs/engineer-osint/tests/*.test.mjs
 
-      - name: Validate patch and full history
+      - name: Validate canonical snapshot and append-only chain
         run: node docs/engineer-osint/validate-patch.mjs
 
-      - name: Build full-history dashboard
+      - name: Build canonical snapshot dashboard
         run: node docs/engineer-osint/build-pages.mjs
 
-      - name: Materialize canonical media from full patch history
+      - name: Materialize canonical media from snapshot and append-only runs
         run: node docs/engineer-osint/materialize-canonical-media-history.mjs
 
       - name: Inject source-derived media materialization
@@ -66,7 +66,7 @@ jobs:
           fs.writeFileSync(p,h);
           NODE
 
-      - name: Audit full-history multimedia records
+      - name: Audit canonical multimedia records
         run: node docs/engineer-osint/audit-media-history.mjs
 
       - name: Gate current-run media sweep and audit persistence backlog
@@ -94,8 +94,10 @@ jobs:
           cat docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
           grep -q 'status=SUCCESS' docs/engineer-osint-dist/health.txt
-          grep -q 'patch_history_materialization=enabled' docs/engineer-osint-dist/health.txt
-          grep -q 'patch_continuity=DEGRADED_LEGACY_ACKNOWLEDGED' docs/engineer-osint-dist/health.txt
+          grep -q 'run_store=append-only-v1' docs/engineer-osint-dist/health.txt
+          grep -q 'patch_history_materialization=snapshot-chain' docs/engineer-osint-dist/health.txt
+          grep -q 'patch_continuity=SNAPSHOT_CHAIN_COMPLETE' docs/engineer-osint-dist/health.txt
+          grep -q 'legacy_history_status=DEGRADED_LEGACY_ACKNOWLEDGED' docs/engineer-osint-dist/health.txt
           grep -q 'legacy_malformed_revisions=3' docs/engineer-osint-dist/health.txt
           grep -q 'legacy_duplicate_runs=5' docs/engineer-osint-dist/health.txt
           grep -q 'legacy_parent_gaps=3' docs/engineer-osint-dist/health.txt
@@ -112,10 +114,10 @@ jobs:
           grep -q 'engineer-public-cz-ui-canary' docs/engineer-osint-dist/index.html
           grep -q 'engineer-i18n-runtime-switch-fix' docs/engineer-osint-dist/index.html
           grep -q 'CZ_EN_CZ_DYNAMIC_CONTENT' docs/engineer-osint-dist/index.html
-          grep -q 'FULL_GIT_HISTORY_CANONICAL_MEDIA' docs/engineer-osint-dist/index.html
+          grep -q 'CANONICAL_SNAPSHOT_PLUS_APPEND_ONLY_RUNS' docs/engineer-osint-dist/index.html
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/media-coverage-qa.json','utf8')); if(q.publish_gate?.pass!==true) throw new Error('current-run media publish gate failed'); console.log('Current-run media gate PASS',q.current_run?.run_id);"
-          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('docs/engineer-osint/b11-patch.json','utf8')); const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+p.state.run_id)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',p.state.run_id);"
+          node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const run=m.runs.at(-1)?.run_id||m.snapshot.run_id; const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+run)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',run);"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

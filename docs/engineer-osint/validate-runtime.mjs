@@ -3,22 +3,22 @@ import {readFileSync,writeFileSync,appendFileSync} from 'node:fs';
 import {join} from 'node:path';
 import vm from 'node:vm';
 import {
-  deepDiff,loadValidatedPatchHistory,mutationFingerprint,parseJsonStrict,
+  deepDiff,mutationFingerprint,parseJsonStrict,
   translationMutationViolations,validatePublicUrls
 } from './lib/integrity.mjs';
+import {loadCanonicalRunStore} from './lib/run-store.mjs';
 import {
   isIntrinsicTranslationPath,LEGACY_FACTUAL_OVERLAY_MODULES,
   LOCALIZATION_DATA_MODULES,PUBLIC_RUNTIME_MODULES
 } from './runtime-modules.mjs';
 
 const src='docs/engineer-osint',dist='docs/engineer-osint-dist';
-const patchPath=join(src,'b11-patch.json'),html=readFileSync(join(dist,'index.html'),'utf8');
+const html=readFileSync(join(dist,'index.html'),'utf8');
 const marker='window.__ENGINEER_DATA__=',a=html.indexOf(marker),b=html.indexOf(';</script>',a);
 if(a<0||b<0)throw new Error('RUNTIME_AUDIT: ENGINEER_DATA marker missing');
 const baseline=parseJsonStrict(html.slice(a+marker.length,b),{source:'built ENGINEER_DATA'});
 validatePublicUrls(baseline);
-const history=loadValidatedPatchHistory({patchPath,manifestPath:join(src,'history-integrity-baseline.json')});
-const patches=history.patches;
+const runStore=loadCanonicalRunStore({root:src}),patches=runStore.patches,history=runStore.report;
 
 const records=baseline.records?.records||[],ids=records.map(x=>x.id).filter(Boolean),idSet=new Set(ids);
 const duplicateIds=[...new Set(ids.filter((id,index)=>ids.indexOf(id)!==index))];
@@ -84,7 +84,8 @@ if(missingInjectedModules.length)throw new Error(`RUNTIME_AUDIT: required public
 const beforeById=new Map((beforeLocalization.records?.records||[]).map(x=>[x.id,x]));
 const afterById=new Map((resolved.records?.records||[]).map(x=>[x.id,x]));
 const canonicalTitles=new Map();
-for(const patch of patches)for(const item of patch.updated_records||[])if(item&&typeof item==='object'&&item.record_nature==='TRANSLATION_CANONICALIZATION'&&item.id&&item.title_cs)canonicalTitles.set(item.id,item.title_cs);
+const patchSources=[{updated_records:baseline.dashboard_patch_extras?.updated_records||[],data_quality:baseline.dashboard_patch_extras?.data_quality||{}},...patches];
+for(const patch of patchSources)for(const item of patch.updated_records||[])if(item&&typeof item==='object'&&item.record_nature==='TRANSLATION_CANONICALIZATION'&&item.id&&item.title_cs)canonicalTitles.set(item.id,item.title_cs);
 const canonicalizationMismatches=[];
 for(const [id,expected] of canonicalTitles){const actual=afterById.get(id)?.title_cs;if(actual&&actual!==expected)canonicalizationMismatches.push(id);}
 if(canonicalizationMismatches.length)throw new Error(`RUNTIME_AUDIT: translation canonicalization overwritten: ${canonicalizationMismatches.join(', ')}`);
@@ -100,7 +101,7 @@ const canary={
 if(Object.values(canary).some(value=>value===false))throw new Error(`RUNTIME_AUDIT: translation canary failed: ${JSON.stringify(canary)}`);
 
 const unresolved=new Set(),resolvedMappings=new Set();
-for(const patch of patches){
+for(const patch of patchSources){
   for(const id of patch?.data_quality?.registry_audit?.id_mapping_unresolved||[])unresolved.add(id);
   for(const id of patch?.presentation_backfill_canonicalization?.remaining_overlay_entities||[])unresolved.add(id);
   for(const id of patch?.presentation_backfill_canonicalization?.canonicalized_this_run||[])resolvedMappings.add(id);
@@ -139,8 +140,8 @@ for(const record of resolved.records?.records||[])for(const sourceId of record.s
 
 const reviewNeededSorted=[...translationReviewNeeded].sort();
 const audit={
-  generated_at:new Date().toISOString(),current_run_id:baseline.state_latest?.run_id||null,patch_run_count:patches.length,
-  patch_integrity:history.report,legacy_factual_overlays:overlayAudit,
+  generated_at:new Date().toISOString(),current_run_id:baseline.state_latest?.run_id||null,patch_run_count:history.run_count,
+  append_only_run_count:history.append_only_run_count,patch_integrity:history,legacy_factual_overlays:overlayAudit,
   legacy_factual_overlay_mutation_count:overlayAudit.reduce((count,item)=>count+item.mutation_count,0),
   localization_mutation_violations:[],record_count:records.length,
   record_types:Object.fromEntries([...new Set(records.map(record=>record.type))].sort().map(type=>[type,records.filter(record=>record.type===type).length])),
@@ -152,5 +153,5 @@ const audit={
 };
 writeFileSync(join(dist,'runtime-audit.json'),JSON.stringify(audit,null,2)+'\n','utf8');
 writeFileSync(join(dist,'translation-backlog.json'),JSON.stringify(audit.translation_backlog,null,2)+'\n','utf8');
-appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\nlegacy_factual_overlays=pinned-migration-debt\nlegacy_factual_overlay_modules=${overlayAudit.length}\nlocalization_mutation_violations=0\ncanonical_export_snapshot=legacy-overlay-resolved\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${reviewNeededSorted.join(',')||'none'}\nmalformed_historical_patch_versions=${history.report.malformed_patch_shas.length}\n`,'utf8');
-console.log(`Runtime audit PASS: ${records.length} records, ${patches.length} runs, ${overlayAudit.length} pinned legacy factual overlays, 0 localization provenance violations, backlog ${backlog.length}/${missingFieldCount}`);
+appendFileSync(join(dist,'health.txt'),`runtime_audit=pass\nruntime_record_count=${records.length}\nlegacy_factual_overlays=pinned-migration-debt\nlegacy_factual_overlay_modules=${overlayAudit.length}\nlocalization_mutation_violations=0\ncanonical_export_snapshot=legacy-overlay-resolved\ntranslation_canary=pass\ntranslation_backlog_entities=${backlog.length}\ntranslation_backlog_fields=${missingFieldCount}\ntranslation_review_needed=${reviewNeededSorted.join(',')||'none'}\nmalformed_historical_patch_versions=${history.malformed_patch_shas.length}\n`,'utf8');
+console.log(`Runtime audit PASS: ${records.length} records, ${history.run_count} canonical runs (${history.append_only_run_count} append-only), ${overlayAudit.length} pinned legacy factual overlays, 0 localization provenance violations, backlog ${backlog.length}/${missingFieldCount}`);
