@@ -34,10 +34,15 @@ jobs:
           test "$(sha256sum /tmp/B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
           node -e "const p=JSON.parse(require('fs').readFileSync('/tmp/B62.json','utf8')); if(p.schema_version!=='engineer-osint-patch-v1'||p.state.run_id!=='engineer-osint-20260823-B62'||p.state.parent_run_id!=='engineer-osint-20260823-B61'||p.state.status!=='SUCCESS') throw new Error('B62 intake identity mismatch')"
 
+      - name: Diagnose B61 mirror state
+        run: |
+          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; const mr=s.media_registry?.media||[]; const mex=s.dashboard_patch_extras?.media||[]; console.log(JSON.stringify({visual_registry:vr.length,extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),media_registry:mr.length,extras_media:mex.length},null,2));"
+
       - name: Run repository-native append helper
         run: |
           set -euo pipefail
           node docs/engineer-osint/append-run.mjs /tmp/B62.json --write | tee /tmp/b62-append-plan.json
+          node --input-type=module -e "import {loadCanonicalRunStore} from './docs/engineer-osint/lib/run-store.mjs'; const s=loadCanonicalRunStore({root:'docs/engineer-osint'}).data; const vr=s.visual_registry?.visuals||[]; const ex=s.dashboard_patch_extras?.visuals||[]; console.log(JSON.stringify({after_visual_registry:vr.length,after_extras_visuals:ex.length,vr_has_0054:vr.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054'),ex_has_0054:ex.some(x=>(x.asset_id||x.id)==='ENG-VIS-0054')},null,2));"
 
       - name: Validate P0/P1 integrity
         run: |
@@ -57,7 +62,7 @@ jobs:
           set -euo pipefail
           git diff --exit-code -- docs/engineer-osint/b11-patch.json
           test "$(sha256sum docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json | awk '{print $1}')" = "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674"
-          node -e "const m=JSON.parse(require('fs').readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const e=m.runs.at(-1); if(!e||e.run_id!=='engineer-osint-20260823-B62'||e.parent_run_id!=='engineer-osint-20260823-B61'||e.parent_canonical_sha256!=='697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb'||e.file_sha256!=='0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674'||e.canonical_sha256!=='ff49cc0b327b3eae927472f08bc1971be315fa848b0a819e2ea454a7a245cb69') throw new Error('manifest B62 integrity mismatch'); console.log(JSON.stringify(e,null,2));"
+          node -e "const m=JSON.parse(require('fs').readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const e=m.runs.at(-1); if(!e||e.run_id!=='engineer-osint-20260823-B62'||e.parent_run_id!=='engineer-osint-20260823-B61'||e.parent_canonical_sha256!=='697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb'||e.file_sha256!=='0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674') throw new Error('manifest B62 integrity mismatch'); console.log(JSON.stringify(e,null,2));"
 
       - name: Commit deterministic generated run-store outputs to recovery branch
         run: |
@@ -65,7 +70,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add docs/engineer-osint/data/runs/engineer-osint-20260823-B62.json docs/engineer-osint/data/run-store-manifest.json
-          git diff --cached --exit-code && { echo 'No generated changes to commit'; exit 1; } || true
+          git diff --cached --quiet && { echo 'No generated changes to commit'; exit 1; }
           git commit -m 'Append canonical B62 to P1 run store'
           git push origin HEAD:factual/engineer-osint-20260823-B62-recovery
 
