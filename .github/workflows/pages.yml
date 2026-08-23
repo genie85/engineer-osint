@@ -76,7 +76,10 @@ jobs:
         run: node docs/engineer-osint/validate-runtime.mjs
 
       - name: Audit PUBLIC-CZ-UI runtime
-        run: node docs/engineer-osint/audit-public-cz-ui.mjs
+        run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
+
+      - name: Gate PUBLIC-CZ regression ratchet
+        run: node docs/engineer-osint/validate-public-cz-regression.mjs
 
       - name: Verify deployable artifact and freshness
         run: |

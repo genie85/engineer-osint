@@ -61,3 +61,14 @@ Do not edit the active master prompt or execution wrapper. Write suggestions onl
 ## OSINT safety classification
 
 Assign every new/materially updated public item one of `PUBLIC_OK`, `REDACT_OR_AGGREGATE`, `REVIEW_REQUIRED`, `DO_NOT_PUBLISH`. Only `PUBLIC_OK` and safely transformed `REDACT_OR_AGGREGATE` items may enter a public patch automatically. Never publish private personal data, exact current tactical locations/movements, exploitable vulnerabilities or actionable explosive-device instructions.
+
+## PUBLIC-CZ completeness ratchet
+
+Before opening a factual or production PR, materialize the current public runtime and run:
+
+```text
+node docs/engineer-osint/audit-public-cz-ui-latest.mjs
+node docs/engineer-osint/validate-public-cz-regression.mjs
+```
+
+Every new or materially changed ordinary public free-text field must have a semantically safe Czech presentation value in the same handoff. Structured enums/roles and official names may remain explicit review-only items when automatic translation could alter meaning. `public-cz-backlog-baseline.json` records grandfathered legacy ordinary debt only; the set may stay unchanged or shrink, never grow automatically. A new ordinary missing field, baseline expansion, renderer failure, Czech content-quality regression or inconsistent audit count is `PUBLIC_CZ_REGRESSION` and blocks publication. When legacy ordinary debt is fixed or correctly reclassified as review-only, remove its baseline entry in the same PR. Never weaken the audit to make the ratchet pass.

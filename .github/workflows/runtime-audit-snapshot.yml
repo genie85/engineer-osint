@@ -51,6 +51,17 @@ jobs:
         run: node docs/engineer-osint/validate-runtime.mjs
       - name: Run PUBLIC-CZ-UI audit
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
+      - name: Prepare parent PUBLIC-CZ ratchet baseline
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          rm -f /tmp/public-cz-parent-baseline.json
+          git fetch --no-tags --depth=1 origin "${GITHUB_BASE_REF}"
+          git show FETCH_HEAD:docs/engineer-osint/public-cz-backlog-baseline.json > /tmp/public-cz-parent-baseline.json 2>/dev/null || true
+      - name: Gate PUBLIC-CZ regression ratchet
+        env:
+          PUBLIC_CZ_PARENT_BASELINE: /tmp/public-cz-parent-baseline.json
+        run: node docs/engineer-osint/validate-public-cz-regression.mjs
       - name: Upload audit artifact
         if: always()
         uses: actions/upload-artifact@v4
