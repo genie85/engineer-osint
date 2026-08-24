@@ -19,6 +19,18 @@ const conditionReplacement="mapped!==undefined&&(String(mapped)!==String(base)||
 if(!patched.includes(conditionAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: enum localization condition anchor missing');
 patched=patched.replace(conditionAnchor,conditionReplacement);
 
+// ENG-TECH-0022 was a browser-observed mixed-language regression canary. Keep a
+// dedicated current-card audit in the latest wrapper so the required PUBLIC-CZ gate
+// fails if its Czech title or summary disappears, rather than relying on generic counts.
+const techVarAnchor="const evt111=byId.get('ENG-EVT-0111');";
+const techVarReplacement=techVarAnchor+"\nconst tech22=byId.get('ENG-TECH-0022');";
+if(!patched.includes(techVarAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: ENG-TECH-0022 variable anchor missing');
+patched=patched.replace(techVarAnchor,techVarReplacement);
+const techCanaryAnchor="  'ENG-EVT-0026-current-card':{status:evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary'))?'PASS':'FAIL',title_cs:Boolean(evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))),summary_cs:Boolean(evt26&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary')))},";
+const techCanaryReplacement=techCanaryAnchor+"\n  'ENG-TECH-0022-current-card':{status:tech22&&(hasCsText(tech22,'title')||renderedCs(tech22,'title'))&&(hasCsText(tech22,'summary')||renderedCs(tech22,'summary'))?'PASS':'FAIL',title_cs:Boolean(tech22&&(hasCsText(tech22,'title')||renderedCs(tech22,'title'))),summary_cs:Boolean(tech22&&(hasCsText(tech22,'summary')||renderedCs(tech22,'summary')))},";
+if(!patched.includes(techCanaryAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: ENG-TECH-0022 canary anchor missing');
+patched=patched.replace(techCanaryAnchor,techCanaryReplacement);
+
 writeFileSync(generated,patched,'utf8');
 try{
   await import(pathToFileURL(generated).href+'?v='+Date.now());
