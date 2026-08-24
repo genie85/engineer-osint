@@ -19,6 +19,18 @@ const conditionReplacement="mapped!==undefined&&(String(mapped)!==String(base)||
 if(!patched.includes(conditionAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: enum localization condition anchor missing');
 patched=patched.replace(conditionAnchor,conditionReplacement);
 
+// ENG-TECH-0022 was a browser-observed mixed-language regression canary. Keep a
+// dedicated current-card audit in the latest wrapper so the required PUBLIC-CZ gate
+// fails if its Czech title or summary disappears, rather than relying on generic counts.
+const techVarAnchor="const evt111=byId.get('ENG-EVT-0111');";
+const techVarReplacement=techVarAnchor+"\nconst tech22=byId.get('ENG-TECH-0022');";
+if(!patched.includes(techVarAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: ENG-TECH-0022 variable anchor missing');
+patched=patched.replace(techVarAnchor,techVarReplacement);
+const techCanaryAnchor="  'ENG-EVT-0026-current-card':{status:evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary'))?'PASS':'FAIL',title_cs:Boolean(evt26&&(hasCsText(evt26,'title')||renderedCs(evt26,'title'))),summary_cs:Boolean(evt26&&(hasCsText(evt26,'summary')||renderedCs(evt26,'summary')))},";
+const techCanaryReplacement=techCanaryAnchor+"\n  'ENG-TECH-0022-current-card':{status:tech22&&(hasCsText(tech22,'title')||renderedCs(tech22,'title'))&&(hasCsText(tech22,'summary')||renderedCs(tech22,'summary'))?'PASS':'FAIL',title_cs:Boolean(tech22&&(hasCsText(tech22,'title')||renderedCs(tech22,'title'))),summary_cs:Boolean(tech22&&(hasCsText(tech22,'summary')||renderedCs(tech22,'summary')))},";
+if(!patched.includes(techCanaryAnchor))throw new Error('PUBLIC_CZ_UI_LATEST: ENG-TECH-0022 canary anchor missing');
+patched=patched.replace(techCanaryAnchor,techCanaryReplacement);
+
 writeFileSync(generated,patched,'utf8');
 try{
   await import(pathToFileURL(generated).href+'?v='+Date.now());
@@ -66,3 +78,4 @@ report.status=report.PUBLIC_CZ_UI_BACKLOG_FIELDS===0&&report.I18N_RENDERING_FAIL
 writeFileSync(jsonPath,JSON.stringify(report,null,2)+'\n');
 const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${report.FULLY_LOCALIZED_PUBLIC_ITEMS}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${report.PARTIALLY_LOCALIZED_PUBLIC_ITEMS}`,`TRANSLATION_REVIEW_NEEDED: ${report.TRANSLATION_REVIEW_NEEDED}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${report.PUBLIC_CZ_UI_BACKLOG_ITEMS}/${report.PUBLIC_CZ_UI_BACKLOG_FIELDS}`,`I18N_RENDERING_FAILURE: ${report.I18N_RENDERING_FAILURE}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${report.ENUM_MAPPED_PUBLIC_FIELDS}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${report.ENUM_TRANSLATION_REVIEW_FIELDS}`,`RENDERER_ENUM_MAPPINGS: ${report.RENDERER_ENUM_MAPPINGS}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${report.CS_CONTENT_QUALITY_REVIEW_FIELDS}`,'',`STATUS: ${report.status}`,'','## Canaries',...Object.entries(report.canaries||{}).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...((report.items||[]).length?(report.items||[]).slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${(x.missing_fields||[]).join(',')||'-'}; review=${(x.review_fields||[]).join(',')||'-'}`):['- None'])].join('\n')+'\n';
 writeFileSync(mdPath,md);
+console.log(`PUBLIC_CZ_UI_LATEST_FINAL run=${report.current_run_id} fully=${report.FULLY_LOCALIZED_PUBLIC_ITEMS} partial=${report.PARTIALLY_LOCALIZED_PUBLIC_ITEMS} review=${report.TRANSLATION_REVIEW_NEEDED} backlog=${report.PUBLIC_CZ_UI_BACKLOG_ITEMS}/${report.PUBLIC_CZ_UI_BACKLOG_FIELDS} i18n_rendering_failure=${report.I18N_RENDERING_FAILURE} cs_content_quality_review_fields=${report.CS_CONTENT_QUALITY_REVIEW_FIELDS} status=${report.status}`);
