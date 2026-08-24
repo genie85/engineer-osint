@@ -37,6 +37,7 @@ export const LOCALIZATION_DATA_MODULES=[
 export const PRESENTATION_MODULES=[
   ['engineer-ui-phase2-module','ui-phase2.js'],
   ['engineer-ui-phase3-module','ui-phase3.js'],
+  ['engineer-ui-maturity-grouping-module','ui-maturity-grouping.js'],
   ['engineer-ui-phase4-module','ui-phase4.js'],
   ['engineer-ui-phase5-module','ui-phase5.js'],
   ['engineer-ui-phase6-i18n-module','ui-phase6-i18n.js'],
