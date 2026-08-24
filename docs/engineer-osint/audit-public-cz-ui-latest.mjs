@@ -56,6 +56,7 @@ const explicitFieldReview=new Map([
 
 const jsonPath='docs/engineer-osint-dist/public-cz-ui-audit.json';
 const mdPath='docs/engineer-osint-dist/public-cz-ui-audit.md';
+const healthPath='docs/engineer-osint-dist/health.txt';
 const report=JSON.parse(readFileSync(jsonPath,'utf8'));
 for(const item of report.items||[]){
   const rules=explicitFieldReview.get(item.id);if(!rules||!Array.isArray(item.missing_fields))continue;
@@ -78,4 +79,23 @@ report.status=report.PUBLIC_CZ_UI_BACKLOG_FIELDS===0&&report.I18N_RENDERING_FAIL
 writeFileSync(jsonPath,JSON.stringify(report,null,2)+'\n');
 const md=['# PUBLIC-CZ-UI audit','',`Run: ${report.current_run_id}`,`FULLY_LOCALIZED_PUBLIC_ITEMS: ${report.FULLY_LOCALIZED_PUBLIC_ITEMS}`,`PARTIALLY_LOCALIZED_PUBLIC_ITEMS: ${report.PARTIALLY_LOCALIZED_PUBLIC_ITEMS}`,`TRANSLATION_REVIEW_NEEDED: ${report.TRANSLATION_REVIEW_NEEDED}`,`PUBLIC_CZ_UI_BACKLOG_ITEMS/FIELDS: ${report.PUBLIC_CZ_UI_BACKLOG_ITEMS}/${report.PUBLIC_CZ_UI_BACKLOG_FIELDS}`,`I18N_RENDERING_FAILURE: ${report.I18N_RENDERING_FAILURE}`,`ENUM_MAPPED_PUBLIC_FIELDS: ${report.ENUM_MAPPED_PUBLIC_FIELDS}`,`ENUM_TRANSLATION_REVIEW_FIELDS: ${report.ENUM_TRANSLATION_REVIEW_FIELDS}`,`RENDERER_ENUM_MAPPINGS: ${report.RENDERER_ENUM_MAPPINGS}`,`CS_CONTENT_QUALITY_REVIEW_FIELDS: ${report.CS_CONTENT_QUALITY_REVIEW_FIELDS}`,'',`STATUS: ${report.status}`,'','## Canaries',...Object.entries(report.canaries||{}).map(([k,v])=>`- ${k}: ${v.status}`),'','## Backlog / review',...((report.items||[]).length?(report.items||[]).slice(0,300).map(x=>`- ${x.group} ${x.id}: ${x.status}; missing=${(x.missing_fields||[]).join(',')||'-'}; review=${(x.review_fields||[]).join(',')||'-'}`):['- None'])].join('\n')+'\n';
 writeFileSync(mdPath,md);
+const finalHealthValues={
+  public_cz_ui_audit:report.status,
+  public_cz_ui_backlog_items:report.PUBLIC_CZ_UI_BACKLOG_ITEMS,
+  public_cz_ui_backlog_fields:report.PUBLIC_CZ_UI_BACKLOG_FIELDS,
+  public_cz_ui_review_needed:report.TRANSLATION_REVIEW_NEEDED,
+  public_cz_ui_review_fields:report.TRANSLATION_REVIEW_FIELDS,
+  public_cz_ui_rendering_failures:report.I18N_RENDERING_FAILURE,
+  public_cz_ui_enum_mapped:report.ENUM_MAPPED_PUBLIC_FIELDS,
+  public_cz_ui_enum_review:report.ENUM_TRANSLATION_REVIEW_FIELDS,
+  public_cz_ui_renderer_enum_mappings:report.RENDERER_ENUM_MAPPINGS,
+  public_cz_ui_content_quality_review:report.CS_CONTENT_QUALITY_REVIEW_FIELDS
+};
+let health=readFileSync(healthPath,'utf8');
+for(const[key,value]of Object.entries(finalHealthValues)){
+  const line=new RegExp(`^${key}=.*$`,'m');
+  if(!line.test(health))throw new Error(`PUBLIC_CZ_UI_LATEST: health metric missing: ${key}`);
+  health=health.replace(line,`${key}=${value}`);
+}
+writeFileSync(healthPath,health);
 console.log(`PUBLIC_CZ_UI_LATEST_FINAL run=${report.current_run_id} fully=${report.FULLY_LOCALIZED_PUBLIC_ITEMS} partial=${report.PARTIALLY_LOCALIZED_PUBLIC_ITEMS} review=${report.TRANSLATION_REVIEW_NEEDED} backlog=${report.PUBLIC_CZ_UI_BACKLOG_ITEMS}/${report.PUBLIC_CZ_UI_BACKLOG_FIELDS} i18n_rendering_failure=${report.I18N_RENDERING_FAILURE} cs_content_quality_review_fields=${report.CS_CONTENT_QUALITY_REVIEW_FIELDS} status=${report.status}`);
