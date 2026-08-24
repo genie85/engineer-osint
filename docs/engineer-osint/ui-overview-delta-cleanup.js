@@ -5,13 +5,17 @@
   const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
   const removePatterns=[
     /^(REGISTR VIZUÁLŮ|VISUAL REGISTRY)\s+\d+$/i,
-    /^(TECHNOLOGICKÉ SIGNÁLY|TECH SIGNALS|TECHNOLOGY SIGNALS)\s+\d+$/i,
-    /^(DALŠÍ OBOHACENÍ|FURTHER ENRICHMENT|ADDITIONAL ENRICHMENT|NEXT ENRICHMENT)(?:\s|$)/i
+    /^(TECHNOLOGICKÉ SIGNÁLY|TECH SIGNALS|TECHNOLOGY SIGNALS)\s+\d+$/i
   ];
+  const enrichmentHeading=/^(DALŠÍ OBOHACENÍ|DALŠÍ ENRICHMENT|FURTHER ENRICHMENT|ADDITIONAL ENRICHMENT|NEXT ENRICHMENT)$/i;
   const leadPatterns=/^(LEADY|LEAD|LEADS)$/i;
   function replaceExactText(root,re,value){
     const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
     while((n=w.nextNode())){if(re.test(norm(n.nodeValue)))n.nodeValue=value;}
+  }
+  function isInternalEnrichmentCard(el){
+    const heading=[...el.children].find(child=>/^H[1-6]$/.test(child.tagName));
+    return Boolean(heading&&enrichmentHeading.test(norm(heading.textContent)));
   }
   function closeInfoPopovers(except){
     document.querySelectorAll('#engineerOverviewIntro .overview-info-popover:not([hidden])').forEach(pop=>{
@@ -58,7 +62,7 @@
     const candidates=[...v.querySelectorAll('.card,article,section')].filter(x=>!x.closest('#engineerOverviewIntro'));
     for(const el of candidates){
       const t=norm(el.textContent);
-      if(removePatterns.some(re=>re.test(t))){el.remove();continue;}
+      if(isInternalEnrichmentCard(el)||removePatterns.some(re=>re.test(t))){el.remove();continue;}
       if(/^((LEADY|LEAD|LEADS)\s+\d+)$/i.test(t))replaceExactText(el,leadPatterns,lang()==='cs'?'NOVÉ LEADY':'NEW LEADS');
     }
     bindInfoButtons();
@@ -73,5 +77,5 @@
   queue();setTimeout(queue,150);setTimeout(queue,700);
   document.addEventListener('engineer-language-changed',()=>{closeInfoPopovers();queue();});
   const v=document.getElementById('view');if(v)new MutationObserver(queue).observe(v,{childList:true,subtree:true});
-  window.ENGINEER_OVERVIEW_DELTA_CLEANUP={cleanup,bindInfoButtons,closeInfoPopovers};
+  window.ENGINEER_OVERVIEW_DELTA_CLEANUP={cleanup,bindInfoButtons,closeInfoPopovers,isInternalEnrichmentCard};
 })();
