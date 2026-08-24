@@ -23,3 +23,11 @@ test('latest PUBLIC-CZ wrapper emits one explicit authoritative summary after fi
     'report.status'
   ])assert.ok(src.includes(token),`authoritative summary must expose ${token}`);
 });
+
+test('latest PUBLIC-CZ wrapper injects dedicated ENG-TECH-0022 current-card canary',()=>{
+  assert.match(src,/ENG-TECH-0022-current-card/,'dedicated ENG-TECH-0022 canary key must be present');
+  assert.match(src,/byId\.get\('ENG-TECH-0022'\)/,'canary must resolve the materialized entity by stable ID');
+  assert.match(src,/hasCsText\(tech22,'title'\)/,'canary must require Czech title');
+  assert.match(src,/hasCsText\(tech22,'summary'\)/,'canary must require Czech summary');
+  assert.match(src,/PUBLIC_CZ_UI_LATEST: ENG-TECH-0022 canary anchor missing/,'wrapper must fail closed if the canonical audit anchor moves');
+});
