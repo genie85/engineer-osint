@@ -1,0 +1,259 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260824-B67",
+    "parent_run_id": "engineer-osint-20260824-B66",
+    "status": "SUCCESS",
+    "window_from": "2026-08-24T06:10:31+02:00",
+    "window_to": "2026-08-24T10:53:54+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 1,
+      "LEAD": 1,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE",
+    "drive_parent_run_id": "engineer-osint-20260824-B66",
+    "github_run_store_parent_run_id": "engineer-osint-20260824-B66",
+    "github_parent_canonical_sha256": "84f6e2dcffedb646622a210c3afcbe3980b12b1ebaa147dd0b3ba6932e82b6dc",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-22T10:53:54+02:00",
+    "reconciliation_window_to": "2026-08-24T10:53:54+02:00",
+    "main_sha_at_start": "b59f6f435fed5b470b78f6b85a23a6284dc3dff8"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-UNIT-0040",
+      "type": "ENG-UNIT",
+      "country": "UKR",
+      "record_role": "ENTITY_ENRICHMENT_PUBLIC_BRIGADE_IDENTITY_ENGINEERING_SUPPORT_WITH_OFFICIAL_DATE_CONFLICT",
+      "name_original": "151 окрема механізована бригада",
+      "name_cs": "151. samostatná mechanizovaná brigáda",
+      "name_en": "151st Separate Mechanized Brigade",
+      "summary_cs": "Dva aktuálně dostupné oficiální ukrajinské vojenské náborové weby identifikují 151. samostatnou mechanizovanou brigádu jako svazek Pozemních sil Ukrajiny. Náborový portál Pozemních sil uvádí mezi prvky struktury ženijní zabezpečení a samostatná oficiální nabídka brigády zveřejňuje pozici sapéra. Oficiální veřejné zdroje se však rozcházejí v datu vytvoření brigády: portál Pozemních sil uvádí 29. 8. 2023, zatímco vlastní web brigády 16. 9. 2023.",
+      "summary_en": "Two currently accessible official Ukrainian military recruiting websites identify the 151st Separate Mechanized Brigade as a Ukrainian Land Forces formation. The Land Forces recruiting portal lists engineering support among the brigade's structural elements, and a separate official brigade vacancy advertises a sapper role. The official public sources conflict on the brigade's formation date: the Land Forces portal states 29 August 2023, while the brigade's own website states 16 September 2023.",
+      "fact_cs": "Oficiální náborový portál Pozemních sil Ukrajiny uvádí, že 151. samostatná mechanizovaná brigáda byla vytvořena 29. 8. 2023, a mezi prvky její struktury uvádí ženijní zabezpečení. Oficiální náborová stránka pozice sapéra potvrzuje veřejně deklarovanou sapérskou specializaci v brigádě. Vlastní oficiální web 151. brigády však uvádí datum vytvoření 16. 9. 2023.",
+      "fact_en": "The official Ukrainian Land Forces recruiting portal states that the 151st Separate Mechanized Brigade was created on 29 August 2023 and lists engineering support among its structural elements. An official sapper vacancy confirms a publicly stated sapper specialization in the brigade. The brigade's own official website, however, gives 16 September 2023 as its creation date.",
+      "analysis_cs": "Rozdíl 29. 8. versus 16. 9. 2023 je nevyřešený rozpor mezi dvěma oficiálními veřejnými zdroji. Bez formálního organizačního rozkazu nebo jiného primárního dokumentu nelze bezpečně rozhodnout, zda jedno datum označuje rozhodnutí o vytvoření a druhé faktické formování či aktivaci. Veřejné zmínky o ženijním zabezpečení a pozici sapéra podporují existenci ženijních funkcí, nikoli konkrétní TO&E samostatné ženijní roty nebo praporu.",
+      "analysis_en": "The 29 August versus 16 September 2023 difference is an unresolved conflict between two official public sources. Without a formal organizational order or another primary document, it is not safe to determine whether one date denotes the decision to establish the brigade and the other its actual formation or activation. Public references to engineering support and a sapper role support the existence of engineering functions, not a specific engineer-company or engineer-battalion TO&E.",
+      "intelligence_gaps_cs": "Dohledat formální rozkaz, organizační direktivu nebo jiný autoritativní dokument, který vysvětlí rozdíl mezi 29. 8. a 16. 9. 2023. Veřejné zdroje neumožňují bezpečně určit konkrétní ženijní TO&E, aktuální personální a materiálové počty, provozuschopnost ani readiness.",
+      "intelligence_gaps_en": "Locate a formal order, organizational directive, or other authoritative document explaining the difference between 29 August and 16 September 2023. Public sources do not safely establish the specific engineer TO&E, current personnel or equipment holdings, serviceability, or readiness.",
+      "what_it_does_not_prove_cs": "Neprokazuje konkrétní TO&E ženijních prvků, jejich početní stav, vybavení, provozuschopnost, readiness ani přesné současné operační rozmístění. Rozpor dat vytvoření není tímto záznamem rozhodnut.",
+      "what_it_does_not_prove_en": "It does not establish the specific engineer-element TO&E, personnel strength, equipment, serviceability, readiness, or exact current operational deployment. This record does not resolve the formation-date conflict.",
+      "topics": [
+        "ENGINEER_ORBAT",
+        "ENGINEERING_SUPPORT",
+        "SAPPER",
+        "UNIT_IDENTITY",
+        "SOURCE_CONFLICT"
+      ],
+      "temporal_status": "CURRENT_PUBLIC_RECRUITING_SURFACES_WITH_HISTORICAL_FORMATION_DATE_CONFLICT",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_PUBLIC_SOURCES_WITH_UNRESOLVED_OFFICIAL_DATE_CONFLICT",
+      "confidence": "HIGH_FOR_UNIT_IDENTITY_AND_ENGINEERING_FUNCTION_MEDIUM_FOR_FORMATION_DATE_UNTIL_PRIMARY_ORDER_RESOLVED",
+      "source_ids": [
+        "ENG-SRC-0492",
+        "ENG-SRC-0493",
+        "ENG-SRC-0494"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0196"
+      ],
+      "translation_status": "CZ_EN_LOCAL_TYPE_SPECIFIC_COMPLETE_REPOSITORY_AUDIT_UNVERIFIED",
+      "record_priority": "RECORD-P1",
+      "first_seen_run": "engineer-osint-20260824-B67",
+      "last_updated_run": "engineer-osint-20260824-B67",
+      "publication_safety": "PUBLIC_OK"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0492",
+      "title": "Вакансії: 151 окрема механізована бригада",
+      "title_cs": "Náborový profil: 151. samostatná mechanizovaná brigáda",
+      "title_en": "Recruiting profile: 151st Separate Mechanized Brigade",
+      "publisher": "Сухопутні війська Збройних Сил України / recruiting portal",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://lfrecruiting.mil.gov.ua/brigade?id=43",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_LAND_FORCES_RECRUITING_BRIGADE_PROFILE",
+      "role": "UNIT_IDENTITY_FORMATION_DATE_29_AUG_2023_AND_ENGINEERING_SUPPORT_PUBLIC_STRUCTURE",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_PUBLIC_PROFILE_PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ VEŘEJNÉ STRÁNCE; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL PUBLIC PAGE; PAGE UNDATED",
+      "verification_basis": "The official Land Forces recruiting profile identifies the brigade as a Land Forces formation, states 29 August 2023 as the creation date, and lists engineering support in the public structure summary.",
+      "verification_basis_cs": "Oficiální náborový profil Pozemních sil identifikuje brigádu jako svazek Pozemních sil, uvádí 29. 8. 2023 jako datum vytvoření a v souhrnu struktury uvádí ženijní zabezpečení.",
+      "verification_basis_en": "The official Land Forces recruiting profile identifies the brigade as a Land Forces formation, states 29 August 2023 as the creation date, and lists engineering support in the public structure summary.",
+      "first_seen_run": "engineer-osint-20260824-B67"
+    },
+    {
+      "id": "ENG-SRC-0493",
+      "title": "151ОМБр | 151 Окрема механізована бригада",
+      "title_cs": "151. samostatná mechanizovaná brigáda — oficiální web brigády",
+      "title_en": "151st Separate Mechanized Brigade — official brigade website",
+      "publisher": "151 окрема механізована бригада / official recruiting website",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://151ombr.mil.gov.ua/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_BRIGADE_RECRUITING_SITE",
+      "role": "UNIT_IDENTITY_FORMATION_DATE_16_SEP_2023_OFFICIAL_SOURCE_CONFLICT",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_BRIGADE_PUBLIC_PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ VEŘEJNÉ STRÁNCE BRIGÁDY; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL BRIGADE PUBLIC PAGE; PAGE UNDATED",
+      "verification_basis": "The brigade's official website identifies the 151st Separate Mechanized Brigade and states 16 September 2023 as its creation date.",
+      "verification_basis_cs": "Vlastní oficiální web brigády identifikuje 151. samostatnou mechanizovanou brigádu a uvádí 16. 9. 2023 jako datum jejího vytvoření.",
+      "verification_basis_en": "The brigade's official website identifies the 151st Separate Mechanized Brigade and states 16 September 2023 as its creation date.",
+      "first_seen_run": "engineer-osint-20260824-B67"
+    },
+    {
+      "id": "ENG-SRC-0494",
+      "title": "Вакансія: Сапер — 151 окрема механізована бригада",
+      "title_cs": "Náborový profil: sapér — 151. samostatná mechanizovaná brigáda",
+      "title_en": "Recruiting profile: sapper — 151st Separate Mechanized Brigade",
+      "publisher": "Сухопутні війська Збройних Сил України / recruiting portal",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://lfrecruiting.mil.gov.ua/vacancy?id=1786",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_LAND_FORCES_RECRUITING_VACANCY",
+      "role": "ENGINEERING_SAPPER_FUNCTION_PUBLIC_CONFIRMATION",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_PUBLIC_VACANCY_PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ VEŘEJNÉ STRÁNCE VOLNÉ POZICE; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL PUBLIC VACANCY PAGE; PAGE UNDATED",
+      "verification_basis": "The official Land Forces vacancy identifies a sapper role in the 151st Separate Mechanized Brigade and publicly describes mine/explosive-hazard and obstacle-related duties.",
+      "verification_basis_cs": "Oficiální nabídka Pozemních sil identifikuje pozici sapéra u 151. samostatné mechanizované brigády a veřejně popisuje úkoly spojené s minami, výbušnými předměty a ženijními překážkami.",
+      "verification_basis_en": "The official Land Forces vacancy identifies a sapper role in the 151st Separate Mechanized Brigade and publicly describes mine/explosive-hazard and obstacle-related duties.",
+      "first_seen_run": "engineer-osint-20260824-B67"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0196",
+      "evidence_id": "ENG-EVID-0196",
+      "evidence_type": "OFFICIAL_UNIT_IDENTITY_ENGINEERING_FUNCTION_AND_FORMATION_DATE_CONFLICT_CROSSCHECK",
+      "evidence_status": "PRIMARY_OFFICIAL_PUBLIC_CROSSCHECK_WITH_UNRESOLVED_DATE_CONFLICT",
+      "evidence_status_cs": "KŘÍŽOVÁ KONTROLA PRIMÁRNÍCH OFICIÁLNÍCH VEŘEJNÝCH ZDROJŮ S NEVYŘEŠENÝM ROZPOREM DATA",
+      "evidence_status_en": "PRIMARY OFFICIAL PUBLIC CROSSCHECK WITH UNRESOLVED DATE CONFLICT",
+      "related_ids": [
+        "ENG-UNIT-0040"
+      ],
+      "source_ids": [
+        "ENG-SRC-0492",
+        "ENG-SRC-0493",
+        "ENG-SRC-0494"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "TWO_OFFICIAL_UNIT_RECRUITING_SURFACES_PLUS_OFFICIAL_LAND_FORCES_SAPPER_VACANCY; PUBLICATION_DATES_UNAVAILABLE",
+      "observation_basis_cs": "DVA OFICIÁLNÍ NÁBOROVÉ POVRCHY JEDNOTKY + OFICIÁLNÍ NABÍDKA POZICE SAPÉRA POZEMNÍCH SIL; DATA PUBLIKACE NEJSOU UVEDENA",
+      "observation_basis_en": "TWO OFFICIAL UNIT RECRUITING SURFACES PLUS OFFICIAL LAND FORCES SAPPER VACANCY; PUBLICATION DATES UNAVAILABLE",
+      "what_it_supports_cs": "Podporuje identitu 151. samostatné mechanizované brigády jako svazku Pozemních sil a existenci veřejně deklarovaných ženijních/sapérských funkcí. Současně přímo dokládá rozpor dvou oficiálních veřejných zdrojů v datu vytvoření brigády: 29. 8. versus 16. 9. 2023.",
+      "what_it_supports_en": "Supports the identity of the 151st Separate Mechanized Brigade as a Land Forces formation and the existence of publicly stated engineering/sapper functions. It also directly establishes a conflict between two official public sources on the brigade's creation date: 29 August versus 16 September 2023.",
+      "what_it_does_not_prove_cs": "Neurčuje, které datum je formálně správné, ani zda označují různé organizační milníky. Neprokazuje konkrétní TO&E ženijních prvků, jejich aktuální počet, vybavení, readiness nebo přesné současné rozmístění.",
+      "what_it_does_not_prove_en": "Does not determine which date is formally correct or whether the dates refer to different organizational milestones. It does not establish the specific engineer-element TO&E, current strength, equipment, readiness, or exact deployment.",
+      "confidence": "HIGH_FOR_IDENTITY_ENGINEERING_FUNCTION_AND_EXISTENCE_OF_OFFICIAL_DATE_CONFLICT",
+      "translation_status": "CZ_EN_LOCAL_TYPE_SPECIFIC_COMPLETE_REPOSITORY_AUDIT_UNVERIFIED",
+      "first_seen_run": "engineer-osint-20260824-B67"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [
+    {
+      "lead_id": "LEAD-058",
+      "priority": "P1",
+      "topic": "Resolve official formation-date conflict for 151st Separate Mechanized Brigade",
+      "topic_cs": "Vyřešit rozpor oficiálních dat vytvoření 151. samostatné mechanizované brigády",
+      "topic_en": "Resolve official formation-date conflict for the 151st Separate Mechanized Brigade",
+      "status": "OPEN_PRIMARY_OFFICIAL_SOURCE_DATE_CONFLICT",
+      "next_action": "Locate the formal Land Forces/General Staff organizational order, directive, or another primary record that explains whether 29 August 2023 and 16 September 2023 represent different organizational milestones.",
+      "next_action_cs": "Dohledat formální organizační rozkaz či direktivu Pozemních sil/Generálního štábu nebo jiný primární dokument, který vysvětlí, zda 29. 8. a 16. 9. 2023 představují rozdílné organizační milníky.",
+      "next_action_en": "Locate the formal Land Forces/General Staff organizational order, directive, or another primary record that explains whether 29 August 2023 and 16 September 2023 represent different organizational milestones.",
+      "source_ids": [
+        "ENG-SRC-0492",
+        "ENG-SRC-0493"
+      ],
+      "related_ids": [
+        "ENG-UNIT-0040"
+      ],
+      "first_seen_run": "engineer-osint-20260824-B67"
+    }
+  ],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "worth_watching": [],
+    "worth_listening": [],
+    "source_mapping": "PASS",
+    "duplicate_id_audit": "PASS_NEW_IDS_NOT_PRESENT_IN_PARENT_STATE",
+    "temporal_audit": "PASS_UNDATED_RECRUITING_SURFACES_NOT_PROMOTED_TO_EXACT_CURRENT_EVENT",
+    "bilingual_publish_gate": "LOCAL_TYPE_SPECIFIC_FIELD_CHECK_COMPLETE_REPOSITORY_AUDIT_UNVERIFIED",
+    "bilingual_precheck": "BILINGUAL_PRECHECK_UNVERIFIED",
+    "expected_public_fields_checked": {
+      "ENG-UNIT-0040": [
+        "name_cs/en",
+        "summary_cs/en",
+        "fact_cs/en",
+        "analysis_cs/en",
+        "intelligence_gaps_cs/en",
+        "what_it_does_not_prove_cs/en"
+      ],
+      "ENG-SRC-0492/0493/0494": [
+        "title_cs/en",
+        "verification_status_cs/en",
+        "verification_basis_cs/en"
+      ],
+      "ENG-EVID-0196": [
+        "evidence_status_cs/en",
+        "observation_basis_cs/en",
+        "what_it_supports_cs/en",
+        "what_it_does_not_prove_cs/en"
+      ],
+      "LEAD-058": [
+        "topic_cs/en",
+        "next_action_cs/en"
+      ]
+    },
+    "known_missing_or_review_only_fields": [],
+    "repository_public_cz_audit": "UNVERIFIED_RUNTIME_CANNOT_CLONE_GITHUB",
+    "visual_gate": "PASS_NO_DIRECT_VISUAL_CLAIM",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "publication_safety": "PUBLIC_OK",
+    "current_window_result": "NO_QUALIFIED_CURRENT_HIT",
+    "reconciliation_result": "NO_NEW_QUALIFIED_LATE_CURRENT_AFTER_B66_DEDUPLICATION",
+    "entity_scope_gate": "PASS_PUBLIC_UNIT_IDENTITY_ENGINEERING_FUNCTION_WITHOUT_TACTICAL_LOCATION_OR_READINESS_INFERENCE",
+    "official_source_conflict": "OPEN_29_AUG_2023_VS_16_SEP_2023_FORMATION_DATE",
+    "telegram_status": "COMPLETE_WEB_SURFACE_NO_QUALIFIED_EXACT_WINDOW_ENGINEER_EOD_HIT",
+    "source_family_status": "COMPLETE_BOUNDED_SWEEP_NO_NEW_FAMILY_PROMOTION"
+  }
+}
