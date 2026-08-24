@@ -1,0 +1,204 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260824-B66",
+    "parent_run_id": "engineer-osint-20260824-B65",
+    "status": "SUCCESS",
+    "window_from": "2026-08-24T02:17:18+02:00",
+    "window_to": "2026-08-24T06:10:31+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE",
+    "drive_parent_run_id": "engineer-osint-20260824-B65",
+    "github_run_store_parent_run_id": "engineer-osint-20260824-B65",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-22T06:10:31+02:00",
+    "reconciliation_window_to": "2026-08-24T06:10:31+02:00",
+    "main_sha_at_start": "e2e8a7005f38d620088f1a97b6e546bb68b0db57"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-UNIT-0039",
+      "type": "ENG-UNIT",
+      "country": "UKR",
+      "record_role": "ENTITY_ENRICHMENT_CURRENT_PUBLIC_UNIT_IDENTITY",
+      "name_original": "534 окремий інженерно-саперний батальйон «Тиса»",
+      "name_cs": "534. samostatný ženijně-ženijní/sapérský prapor „Tysa“",
+      "name_en": "534th Separate Engineer-Sapper Battalion “Tysa”",
+      "summary_cs": "Aktuálně dostupný oficiální náborový profil Pozemních sil Ukrajiny uvádí 534. samostatný ženijně-sapérský prapor jako jednotku ženijního vojska začleněnou do 128. samostatné horské útočné Zakarpatské brigády. Prezidentský dekret č. 992/2025 ze dne 25. 12. 2025 jednotce přiznal čestný název „Tysa“. Veřejný náborový profil uvádí mezi úkoly vyhledávání a zneškodňování min, munice a dalších výbušných předmětů.",
+      "summary_en": "A currently accessible official Ukrainian Land Forces recruiting profile identifies the 534th Separate Engineer-Sapper Battalion as an engineer-troops unit within the 128th Separate Mountain Assault Zakarpattia Brigade. Presidential Decree No. 992/2025 dated 25 December 2025 granted the unit the honorary name “Tysa”. The public recruiting profile lists searching for and neutralizing mines, ordnance, and other explosive hazards among its duties.",
+      "fact_cs": "Oficiální náborový profil Pozemních sil Ukrajiny veřejně uvádí 534. samostatný ženijně-sapérský prapor jako součást 128. samostatné horské útočné Zakarpatské brigády. Prezidentský dekret č. 992/2025 potvrzuje čestný název „Tysa“.",
+      "fact_en": "An official Ukrainian Land Forces recruiting profile publicly identifies the 534th Separate Engineer-Sapper Battalion as part of the 128th Separate Mountain Assault Zakarpattia Brigade. Presidential Decree No. 992/2025 confirms the honorary name “Tysa”.",
+      "analysis_cs": "Zdroje podporují veřejnou identitu, deklarované začlenění a ženijně-sapérské zaměření jednotky. Protože náborový profil není datovaný, nelze z něj vyvozovat aktuální stav, přesné rozmístění, početní stavy, vybavení ani připravenost.",
+      "analysis_en": "The sources support the unit's public identity, stated affiliation, and engineer-sapper role. Because the recruiting profile is undated, it does not establish current status, exact deployment, personnel strength, equipment holdings, or readiness.",
+      "what_it_does_not_prove_cs": "Veřejný náborový profil a prezidentský dekret neprokazují úplné TO&E, aktuální počet osob nebo techniky, provozuschopnost, přesné operační rozmístění, současné bojové úkoly ani readiness. Náborová stránka nemá veřejně uvedené datum publikace.",
+      "what_it_does_not_prove_en": "The public recruiting profile and presidential decree do not establish full TO&E, current personnel or equipment holdings, serviceability, exact operational deployment, current combat tasks, or readiness. The recruiting page does not expose a publication date.",
+      "topics": [
+        "ENGINEER_ORBAT",
+        "DEMINING",
+        "EOD_EO_HAZARDS",
+        "UNIT_IDENTITY"
+      ],
+      "temporal_status": "CURRENT_PUBLIC_PROFILE_UNDATED_WITH_2025_OFFICIAL_NAME_CONFIRMATION",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_PUBLIC_SOURCES_WITH_SCOPE_LIMITS",
+      "confidence": "HIGH_FOR_UNIT_IDENTITY_SUBORDINATION_AND_HONORIFIC_MEDIUM_FOR_TEMPORAL_FRESHNESS_OF_RECRUITING_PROFILE",
+      "source_ids": [
+        "ENG-SRC-0490",
+        "ENG-SRC-0491"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0195"
+      ],
+      "translation_status": "CZ_EN_COMPLETE",
+      "record_priority": "RECORD-P1",
+      "first_seen_run": "engineer-osint-20260824-B66",
+      "last_updated_run": "engineer-osint-20260824-B66",
+      "publication_safety": "PUBLIC_OK"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0490",
+      "title": "Вакансія: Сапер — 534 окремий інженерно-саперний батальйон",
+      "title_cs": "Náborový profil: sapér — 534. samostatný ženijně-sapérský prapor",
+      "title_en": "Recruiting profile: sapper — 534th Separate Engineer-Sapper Battalion",
+      "publisher": "Сухопутні війська Збройних Сил України / recruiting portal",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://lfrecruiting.mil.gov.ua/vacancy?id=3625",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_LAND_FORCES_RECRUITING_UNIT_PROFILE",
+      "role": "ENTITY_ENRICHMENT_UNIT_IDENTITY_SUBORDINATION_AND_DEMINING_ROLE",
+      "verification_status": "VERIFIED_SEARCH_INDEXED_OFFICIAL_DEEP_LINK; PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENÝ OFICIÁLNÍ ODKAZ DOHLEDANÝ VE VYHLEDÁVÁNÍ; STRÁNKA NENÍ DATOVANÁ",
+      "verification_status_en": "VERIFIED OFFICIAL DEEP LINK FOUND THROUGH SEARCH; PAGE UNDATED",
+      "verification_basis": "Official Land Forces recruiting result explicitly identifies the 534th Separate Engineer-Sapper Battalion, its affiliation with the 128th Separate Mountain Assault Zakarpattia Brigade, and demining/explosive-hazard duties; no publication date is exposed.",
+      "first_seen_run": "engineer-osint-20260824-B66"
+    },
+    {
+      "id": "ENG-SRC-0491",
+      "title": "УКАЗ ПРЕЗИДЕНТА УКРАЇНИ №992/2025",
+      "title_cs": "Dekret prezidenta Ukrajiny č. 992/2025 — čestný název praporu „Tysa“",
+      "title_en": "Decree of the President of Ukraine No. 992/2025 — honorary name “Tysa”",
+      "publisher": "Офіційне інтернет-представництво Президента України",
+      "publication_date": "2025-12-25",
+      "accessed_at": "2026-08-24",
+      "url": "https://www.president.gov.ua/documents/9922025-57761",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_PRESIDENTIAL_DECREE",
+      "role": "HISTORICAL_CONFIRMATION_UNIT_HONORIFIC_NAME",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_DECREE_TEXT",
+      "verification_status_cs": "OVĚŘENO PŘÍMÝM TEXTEM OFICIÁLNÍHO DEKRETU",
+      "verification_status_en": "VERIFIED BY DIRECT OFFICIAL DECREE TEXT",
+      "verification_basis": "Decree No. 992/2025 dated 25 December 2025 grants the 534th Separate Engineer-Sapper Battalion the honorary name “Tysa”.",
+      "first_seen_run": "engineer-osint-20260824-B66"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0195",
+      "evidence_id": "ENG-EVID-0195",
+      "evidence_type": "OFFICIAL_UNIT_IDENTITY_SUBORDINATION_AND_HONORIFIC_CROSSCHECK",
+      "evidence_status": "PRIMARY_OFFICIAL_PUBLIC_CROSSCHECK",
+      "evidence_status_cs": "KŘÍŽOVÉ OVĚŘENÍ PRIMÁRNÍMI OFICIÁLNÍMI VEŘEJNÝMI ZDROJI",
+      "evidence_status_en": "CROSS-CHECKED WITH PRIMARY OFFICIAL PUBLIC SOURCES",
+      "related_ids": [
+        "ENG-UNIT-0039"
+      ],
+      "source_ids": [
+        "ENG-SRC-0490",
+        "ENG-SRC-0491"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "OFFICIAL_LAND_FORCES_RECRUITING_PROFILE_PLUS_OFFICIAL_PRESIDENTIAL_DECREE; RECRUITING_PAGE_UNDATED",
+      "observation_basis_cs": "OFICIÁLNÍ NÁBOROVÝ PROFIL POZEMNÍCH SIL + OFICIÁLNÍ PREZIDENTSKÝ DEKRET; NÁBOROVÁ STRÁNKA BEZ DATA PUBLIKACE",
+      "observation_basis_en": "OFFICIAL LAND FORCES RECRUITING PROFILE PLUS OFFICIAL PRESIDENTIAL DECREE; RECRUITING PAGE UNDATED",
+      "what_it_supports_cs": "Podporuje identitu 534. samostatného ženijně-sapérského praporu, jeho veřejně deklarované začlenění do 128. samostatné horské útočné Zakarpatské brigády a čestný název „Tysa“ udělený 25. 12. 2025. Náborový profil rovněž podporuje veřejně deklarovanou roli při vyhledávání a zneškodňování min, munice a dalších výbušných předmětů.",
+      "what_it_supports_en": "Supports the identity of the 534th Separate Engineer-Sapper Battalion, its publicly stated affiliation with the 128th Separate Mountain Assault Zakarpattia Brigade, and the honorary name “Tysa” granted on 25 December 2025. The recruiting profile also supports a publicly stated role in searching for and neutralizing mines, ordnance, and other explosive hazards.",
+      "what_it_does_not_prove_cs": "Neprokazuje úplnou organizační strukturu, personální nebo materiálové počty, současnou provozuschopnost, přesné rozmístění ani aktuální bojové nasazení.",
+      "what_it_does_not_prove_en": "Does not establish full organization, personnel or equipment quantities, current serviceability, exact deployment, or current combat employment.",
+      "confidence": "HIGH_FOR_IDENTITY_SUBORDINATION_AND_HONORIFIC_MEDIUM_FOR_RECRUITING_PROFILE_TEMPORAL_FRESHNESS",
+      "translation_status": "CZ_EN_COMPLETE",
+      "first_seen_run": "engineer-osint-20260824-B66"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "source_mapping": "PASS",
+    "duplicate_id_audit": "PASS_NEW_IDS_NOT_PRESENT_IN_PARENT_STATE",
+    "temporal_audit": "PASS_UNDATED_RECRUITING_PROFILE_NOT_PROMOTED_TO_EXACT_CURRENT_EVENT",
+    "bilingual_publish_gate": "PASS_CZ_EN_PRESENT_FOR_NEW_PUBLIC_FREE_TEXT",
+    "visual_gate": "PASS_NO_DIRECT_VISUAL_CLAIM",
+    "publication_safety": "PUBLIC_OK",
+    "current_window_result": "NO_QUALIFIED_CURRENT_HIT",
+    "reconciliation_result": "NO_NEW_QUALIFIED_LATE_CURRENT_AFTER_B65_DEDUPLICATION",
+    "entity_scope_gate": "PASS_PUBLIC_UNIT_IDENTITY_WITH_NO_TACTICAL_LOCATION_OR_READINESS_INFERENCE"
+  },
+  "presentation_fact_overlay_gap": "OPEN",
+  "extensions": {
+    "source_discovery": {
+      "reviewed_observed_minimum": 30,
+      "deep_reviewed": 11,
+      "material_candidates": 2,
+      "canonicalized_material_hits": 1,
+      "languages": [
+        "cs",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "new_source_family_candidates": 1,
+      "source_family_candidate_note": "The official Ukrainian Land Forces recruiting portal remains a useful unit-identity discovery surface; B66 canonicalized one unit profile but does not yet promote the portal to a dedicated source-family record."
+    },
+    "telegram": {
+      "channels_reviewed": 7,
+      "accessible_surfaces": 7,
+      "current_posts_reviewed": 0,
+      "material_posts": 0,
+      "note": "All seven configured public Telegram web surfaces were reachable/searchable, but no reliably time-bounded engineer/EOD post inside the exact B66 window was identified; stale/undated content was not promoted."
+    },
+    "visual_osint": {
+      "direct_image_inspection": 0,
+      "direct_video_frame_inspection": 0,
+      "pdf_screenshot_attempts": 1,
+      "pdf_screenshot_failures": 1,
+      "note": "A supporting 2020 military-history PDF was text-readable but direct page screenshot failed with cache miss; no visual claim is made and it is not load-bearing evidence for the B66 unit record."
+    }
+  }
+}
