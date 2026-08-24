@@ -1,0 +1,174 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260824-B65",
+    "parent_run_id": "engineer-osint-20260824-B64",
+    "status": "SUCCESS",
+    "window_from": "2026-08-24T00:29:44+02:00",
+    "window_to": "2026-08-24T02:17:18+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 1,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 1,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE",
+    "drive_parent_run_id": "engineer-osint-20260824-B64",
+    "github_run_store_parent_run_id": "engineer-osint-20260824-B64",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-22T02:17:18+02:00",
+    "reconciliation_window_to": "2026-08-24T02:17:18+02:00",
+    "main_sha_at_start": "d4c3a267111a106701728d3d71009fa9c9ce9572"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-TECH-0027",
+      "type": "ENG-TECH",
+      "country": "CZE",
+      "record_role": "HISTORICAL_BACKFILL_ENTITY_ENRICHMENT_REPLACEMENT_REQUIREMENT",
+      "title_cs": "PMS AČR — historický požadavek na náhradu dohledán; stav pořízení 2026 zůstává neověřen",
+      "title_en": "Czech PMS — historical replacement requirement identified; 2026 acquisition status remains unverified",
+      "summary_cs": "Oficiální materiál AČR „Modernizační projekty AČR“ obsahuje samostatný bod pro náhradu pontonové mostové soupravy PMS a stanovuje cílovou schopnost mobilního plovoucího mostního prostředku. Dokument však současně obsahuje u jiných projektů časové plány končící v letech 2020–2023, proto jej B65 používá pouze jako historický plánovací podklad. Neprokazuje současný stav pořízení v roce 2026. Aktuální počet kompletních souprav PMS, provozuschopnost, rozdělení mezi profesionální a aktivní zálohu ani stav nástupnického projektu zůstávají z veřejných podkladů neověřeny.",
+      "summary_en": "The official Czech Armed Forces “Modernization Projects” document contains a dedicated PMS replacement section and defines a target mobile floating-bridge capability. The same document includes timelines for other projects ending in 2020–2023, so B65 treats it only as historical planning evidence. It does not establish the current acquisition status in 2026. The current number of complete PMS sets, serviceability, distribution between professional and Active Reserve elements, and the status of a successor project remain unverified from public sources.",
+      "temporal_status": "HISTORICAL_MODERNIZATION_REQUIREMENT_CURRENT_2026_STATUS_UNVERIFIED",
+      "current_value_status": "CURRENT_2026_QUANTITY_SERVICEABILITY_PROCUREMENT_STATUS_UNKNOWN",
+      "source_ids": [
+        "ENG-SRC-0433",
+        "ENG-SRC-0489"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0141",
+        "ENG-EVID-0194"
+      ],
+      "classification": "FACT_FOR_HISTORICAL_REPLACEMENT_REQUIREMENT_NOT_CURRENT_PROCUREMENT_STATUS",
+      "confidence": "HIGH_FOR_PUBLISHED_HISTORICAL_REQUIREMENT_LOW_FOR_CURRENT_2026_STATUS",
+      "translation_status": "CZ_EN_COMPLETE",
+      "record_priority": "RECORD-P1",
+      "intelligence_gaps_cs": "Dohledat aktuální veřejný stav nástupnického projektu PMS v roce 2026, případný kontrakt/milník pořízení, počet kompletních provozních souprav, provozuschopnost a rozdělení mezi profesionální a záložní prvky. Historický modernizační dokument nepoužívat jako důkaz současného stavu.",
+      "intelligence_gaps_en": "Find the current public 2026 status of the PMS successor project, any acquisition contract or milestone, the number of complete operational sets, serviceability, and distribution between professional and reserve elements. Do not use the historical modernization document as evidence of current status.",
+      "last_update_run": "engineer-osint-20260824-B65",
+      "publication_safety": "PUBLIC_OK"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0489",
+      "title": "Modernizační projekty AČR — historický požadavek na náhradu PMS",
+      "title_cs": "Modernizační projekty AČR — historický požadavek na náhradu PMS",
+      "title_en": "Czech Armed Forces modernization projects — historical PMS replacement requirement",
+      "publisher": "Armáda České republiky / Ministerstvo obrany České republiky",
+      "url": "https://www.army.cz/assets/technika-a-vyzbroj/modernizace/priloha-bez-nazvu_-01508.pdf",
+      "publication_date": "UNDATED_LEGACY_MODERNIZATION_PROJECT",
+      "accessed_at": "2026-08-24",
+      "language": "cs",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_CZECH_ARMY_MODERNIZATION_PROJECT_PDF",
+      "role": "HISTORICAL_BACKFILL_PMS_REPLACEMENT_REQUIREMENT",
+      "verification_status": "VERIFIED_OFFICIAL_PDF_TEXT_EXTRACTION; DIRECT_PDF_SCREENSHOT_UNAVAILABLE_CACHE_MISS",
+      "verification_status_cs": "OVĚŘENO TEXTOVOU EXTRAKCÍ Z OFICIÁLNÍHO PDF; PŘÍMÝ SCREENSHOT PDF NEDOSTUPNÝ KVŮLI CHYBĚ CACHE MISS",
+      "verification_status_en": "VERIFIED BY TEXT EXTRACTION FROM THE OFFICIAL PDF; DIRECT PDF SCREENSHOT UNAVAILABLE DUE TO CACHE MISS",
+      "verification_basis": "Section 12 explicitly describes a replacement PMS requirement. Elsewhere the same document contains dated modernization phases ending in 2020-2023, so it is treated as legacy planning material rather than evidence of current 2026 procurement status.",
+      "first_seen_run": "engineer-osint-20260824-B65"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0194",
+      "evidence_id": "ENG-EVID-0194",
+      "evidence_type": "OFFICIAL_CZECH_ARMY_HISTORICAL_PMS_REPLACEMENT_REQUIREMENT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_DOCUMENT_TEXT; DIRECT_PAGE_SCREENSHOT_UNAVAILABLE",
+      "evidence_status_cs": "PŘÍMÝ TEXT PRIMÁRNÍHO VEŘEJNÉHO DOKUMENTU; PŘÍMÝ SCREENSHOT STRÁNKY NEDOSTUPNÝ",
+      "evidence_status_en": "DIRECT TEXT FROM A PRIMARY PUBLIC DOCUMENT; DIRECT PAGE SCREENSHOT UNAVAILABLE",
+      "related_ids": [
+        "ENG-TECH-0027"
+      ],
+      "source_ids": [
+        "ENG-SRC-0489"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "TEXT_EXTRACTION_FROM_OFFICIAL_PUBLIC_PDF; SCREENSHOT_ATTEMPT_FAILED_CACHE_MISS",
+      "observation_basis_cs": "TEXTOVÁ EXTRAKCE Z OFICIÁLNÍHO VEŘEJNÉHO PDF; POKUS O PŘÍMÝ SCREENSHOT STRÁNKY SELHAL KVŮLI CACHE MISS",
+      "observation_basis_en": "TEXT EXTRACTION FROM OFFICIAL PUBLIC PDF; DIRECT PAGE SCREENSHOT ATTEMPT FAILED DUE TO CACHE MISS",
+      "what_it_supports_cs": "Oficiální dokument AČR výslovně uvádí požadavek na náhradu pontonové mostové soupravy PMS a popisuje cílový mobilní plovoucí mostní prostředek. Jde o doklad historického plánovacího požadavku na náhradu této schopnosti.",
+      "what_it_supports_en": "The official Czech Armed Forces document explicitly states a requirement to replace the PMS pontoon bridge set and describes the target mobile floating-bridge capability. It supports a historical planning requirement to replace this capability.",
+      "what_it_does_not_prove_cs": "Dokument neprokazuje současný stav zakázky nebo pořízení v roce 2026, počet provozních souprav PMS, jejich provozuschopnost, rozmístění ani skutečné zavedení nástupnického systému.",
+      "what_it_does_not_prove_en": "The document does not establish the current 2026 contracting or acquisition status, the number of operational PMS sets, their serviceability or distribution, or actual fielding of a successor system.",
+      "confidence": "HIGH_FOR_DOCUMENTED_HISTORICAL_REQUIREMENT_LOW_FOR_CURRENT_2026_STATUS",
+      "translation_status": "CZ_EN_COMPLETE",
+      "first_seen_run": "engineer-osint-20260824-B65"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "source_mapping": "PASS",
+    "duplicate_id_audit": "PASS_NEW_SOURCE_AND_EVIDENCE_IDS_NOT_PRESENT_IN_PARENT_STATE",
+    "temporal_audit": "PASS_HISTORICAL_REQUIREMENT_NOT_PROMOTED_TO_CURRENT_2026_STATUS",
+    "bilingual_publish_gate": "PASS_CZ_EN_PRESENT_FOR_UPDATED_PUBLIC_FREE_TEXT",
+    "visual_gate": "PASS_NO_DIRECT_VISUAL_CLAIM_SCREENSHOT_UNAVAILABLE",
+    "publication_safety": "PUBLIC_OK",
+    "current_window_result": "NO_QUALIFIED_CURRENT_HIT",
+    "reconciliation_result": "NO_NEW_QUALIFIED_LATE_CURRENT_AFTER_B64_DEDUPLICATION",
+    "historical_scope_gate": "PASS_OFFICIAL_LEGACY_PLANNING_DOCUMENT_BOUNDED_FROM_CURRENT_STATUS"
+  },
+  "presentation_fact_overlay_gap": "OPEN",
+  "extensions": {
+    "source_discovery": {
+      "reviewed_observed_minimum": 30,
+      "deep_reviewed": 10,
+      "material_candidates": 1,
+      "canonicalized_material_hits": 1,
+      "languages": [
+        "cs",
+        "en",
+        "uk",
+        "ru"
+      ],
+      "new_source_family_candidates": 1,
+      "source_family_candidate_note": "Official 23rd Separate Mechanized Brigade recruitment portal surfaced as a potentially useful public unit-level source family; recurring factual value was not established in B65, so it was not canonicalized."
+    },
+    "telegram": {
+      "channels_reviewed": 7,
+      "accessible_surfaces": 7,
+      "current_posts_reviewed": 0,
+      "material_posts": 0,
+      "note": "Public Telegram web surfaces were reachable but cached/stale or insufficiently time-bounded for the exact B65 window; no Telegram content was used as load-bearing current evidence."
+    },
+    "visual_osint": {
+      "direct_image_inspection": 0,
+      "direct_video_frame_inspection": 0,
+      "pdf_screenshot_attempts": 2,
+      "pdf_screenshot_failures": 2,
+      "note": "Direct screenshots of the PMS PDF pages failed with cache-miss errors; only official PDF text extraction was used."
+    }
+  }
+}
