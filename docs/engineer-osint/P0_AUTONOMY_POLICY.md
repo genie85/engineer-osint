@@ -1,6 +1,6 @@
 # ENGINEER OSINT P0 autonomy and publication policy
 
-Status: proposed repository contract. The canonical Google Drive master prompt must adopt the same rules before the first strict-v1 scheduled run.
+Status: active repository contract. The canonical Google Drive master prompt and scheduled wrappers must preserve the same safety, continuity and publication invariants.
 
 ## Trust boundary
 
@@ -64,7 +64,14 @@ Every run after the immutable cutoff `engineer-osint-20260823-B61` must use `sch
 
 The acknowledged legacy baseline contains three malformed revisions, five duplicate run IDs, two internal parent gaps and one external checkpoint parent. Their exact commit and content hashes are pinned. This is reported as `DEGRADED_LEGACY_ACKNOWLEDGED`, never as complete history. No new anomaly is accepted.
 
-If the latest Drive SUCCESS is not yet represented in GitHub `main`, a new factual research run must not start. Publication recovery is completed first, preserving every missing run as an ordered immutable revision.
+Factual continuity and publication continuity use separate tips:
+
+- `FACTUAL_SUCCESS_TIP` is the latest raw-read-back-verified Drive SUCCESS and is the parent of the next factual research run.
+- `PUBLISHED_TIP` is the final GitHub run-store manifest entry and is the parent accepted by the publication append helper.
+- A `PUBLISHED_TIP` that is a proven ancestor of `FACTUAL_SUCCESS_TIP` is normal `PUBLICATION_LAG` and must not block the next factual research run.
+- Every intervening unpublished SUCCESS run must have a complete, validated and immutable handoff; research must never skip the factual parent.
+- Publication lag does not permit reordering: publication recovery appends exactly the first missing immutable run and the helper must reject a patch whose parent is not the current manifest tip.
+- Missing immutable handoff artifacts, an unverifiable ancestor relationship or a lineage divergence are `FACTUAL_PUBLICATION_LINEAGE_DIVERGENCE` and block both factual continuation and publication. Drive SUCCESS never implies dashboard data, build, deploy or public read-back success.
 
 ## PUBLIC-CZ regression ratchet
 

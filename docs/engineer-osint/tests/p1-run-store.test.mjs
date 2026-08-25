@@ -116,6 +116,23 @@ test('patch schema publishes the versioned correction operation contract',()=>{
   assert.equal(schema.$defs.operationV1.additionalProperties,false);
 });
 
+test('P0 and P1 contracts agree that ancestor-only publication lag does not block factual continuity',()=>{
+  const p0=readFileSync('docs/engineer-osint/P0_AUTONOMY_POLICY.md','utf8');
+  const p1=readFileSync('docs/engineer-osint/P1_RUN_STORE.md','utf8');
+  for(const contract of [p0,p1]){
+    assert.match(contract,/`FACTUAL_SUCCESS_TIP`/);
+    assert.match(contract,/`PUBLISHED_TIP`/);
+    assert.match(contract,/`PUBLICATION_LAG`/);
+    assert.match(contract,/must not block (?:the next factual research run|a later research run)/);
+  }
+  assert.doesNotMatch(p0,/new factual research run must not start/);
+  assert.match(p0,/proven ancestor/);
+  assert.match(p0,/Every intervening unpublished SUCCESS run must have a complete, validated and immutable handoff/);
+  assert.match(p0,/`FACTUAL_PUBLICATION_LINEAGE_DIVERGENCE`/);
+  assert.match(p0,/block both factual continuation and publication/);
+  assert.match(p0,/appends exactly the first missing immutable run/);
+});
+
 
 test('strict append preserves disjoint legacy visual mirror before synchronization',()=>{
   const base=canonical();
