@@ -1,0 +1,381 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260825-B69",
+    "parent_run_id": "engineer-osint-20260824-B68",
+    "status": "SUCCESS",
+    "window_from": "2026-08-24T14:24:33+02:00",
+    "window_to": "2026-08-25T20:41:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 2,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 3,
+      "UPDATE": 0,
+      "CONFIRMATION": 3,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 3,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 6,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260824-B68",
+    "factual_success_tip_before_run": "engineer-osint-20260824-B68",
+    "github_run_store_parent_run_id": "engineer-osint-20260824-B67",
+    "published_tip": "engineer-osint-20260824-B67",
+    "github_parent_canonical_sha256": "864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-23T20:41:01+02:00",
+    "reconciliation_window_to": "2026-08-25T20:41:01+02:00",
+    "main_sha_at_start": "16679790c471e0ae2fe73fad7d61bacd81dfea12",
+    "publication_lag_before_run": 1,
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260824-B68",
+      "engineer-osint-20260825-B69"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 2,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-EVT-0125",
+      "type": "ENG-EVT",
+      "title_cs": "U.S. Navy EOD: 85 let a potvrzení pokračující multi-domain role",
+      "title_en": "U.S. Navy EOD: 85 years and confirmation of the continuing multi-domain role",
+      "summary_cs": "U.S. Navy 24. srpna 2026 připomnělo 85 let od vzniku své EOD komunity a současně popsalo její dnešní úlohu při zajišťování přístupu a manévru proti výbušným hrozbám na souši i na moři. Protože veřejný zdroj neuvádí přesný čas publikace, je položka vzhledem k hranici předchozího běhu vedena jako LATE_DISCOVERED_CURRENT.",
+      "summary_en": "On 24 August 2026, the U.S. Navy marked 85 years of its EOD community and described its current role in enabling access and maneuver against explosive hazards on land and at sea. Because the public source does not expose an exact publication time, the item is classified as LATE_DISCOVERED_CURRENT relative to the previous run boundary.",
+      "fact_cs": "Oficiální U.S. Navy uvádí, že první třída Mine Disposal absolvovala 22. srpna 1941 a že dnešní Navy EOD zůstává multi-domain schopností podporující flotilu a joint force proti výbušným hrozbám; článek také veřejně zmiňuje dlouhodobou integraci bezosádkových podvodních prostředků, pokročilých senzorů a analytických technologií.",
+      "fact_en": "The official U.S. Navy states that the first Mine Disposal class graduated on 22 August 1941 and that today's Navy EOD remains a multi-domain capability supporting fleet and joint-force maneuver against explosive hazards; the article also publicly notes long-running integration of unmanned underwater systems, advanced sensors, and analytical technologies.",
+      "analysis_cs": "Jde primárně o aktuální institucionální potvrzení kontinuity schopnosti a směru adaptace, nikoli o důkaz nové organizační změny nebo nově zavedeného konkrétního systému v srpnu 2026.",
+      "analysis_en": "This is primarily a current institutional confirmation of capability continuity and adaptation direction, not evidence of a new organizational change or a newly fielded specific system in August 2026.",
+      "intelligence_gaps_cs": "Veřejný článek neumožňuje určit rozsah současného zavedení jednotlivých technologií, konkrétní jednotkové sestavy ani operační readiness.",
+      "intelligence_gaps_en": "The public article does not establish the current fielding scale of individual technologies, specific unit configurations, or operational readiness.",
+      "what_it_does_not_prove_cs": "Neprokazuje konkrétní současné operační rozmístění, detailní TTP, zranitelnosti ani přesné technické parametry používaných prostředků.",
+      "what_it_does_not_prove_en": "It does not establish precise current operational deployment, detailed TTP, vulnerabilities, or exact technical parameters of employed systems.",
+      "event_date": "2026-08-24",
+      "country": "USA",
+      "topics": [
+        "EOD",
+        "MARITIME_EOD",
+        "MULTI_DOMAIN",
+        "UNMANNED_SYSTEMS",
+        "LESSONS_LEARNED"
+      ],
+      "temporal_status": "LATE_DISCOVERED_CURRENT_PUBLICATION_TIME_NOT_EXPOSED",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_NAVY_SOURCE",
+      "confidence": "HIGH_FOR_STATED_INSTITUTIONAL_CAPABILITY",
+      "source_ids": [
+        "ENG-SRC-0501"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0199"
+      ],
+      "publication_safety": "PUBLIC_OK",
+      "first_seen_run": "engineer-osint-20260825-B69",
+      "last_updated_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-EVT-0126",
+      "type": "ENG-EVT",
+      "title_cs": "AČR: výběr k pyrotechnikům EOD plánovaný na 27. srpna 2026",
+      "title_en": "Czech Armed Forces: EOD specialist selection scheduled for 27 August 2026",
+      "summary_cs": "Velitelství pozemních sil AČR na veřejné stránce pyrotechniků EOD uvádí výběrové řízení k této odbornosti na 27. srpna 2026. Záznam je veden jako pozdně objevené aktuální potvrzení personálního a výcvikového pipeline EOD, nikoli jako změna schopnosti.",
+      "summary_en": "The Czech Land Forces public EOD page lists a selection event for the specialty on 27 August 2026. The record is treated as a late-discovered current confirmation of the EOD personnel/training pipeline, not as a capability change.",
+      "fact_cs": "Oficiální stránka Pozemních sil AČR popisuje EOD specialisty jako vojenské pyrotechniky chránící vojáky, techniku a civilní okolí a uvádí výběrové řízení k pyrotechnikům EOD dne 27. 8. 2026.",
+      "fact_en": "The official Czech Land Forces page describes EOD specialists as military explosive-ordnance technicians protecting personnel, equipment, and civilian surroundings and lists an EOD selection event on 27 August 2026.",
+      "analysis_cs": "Položka potvrzuje pokračující náborovou a personální obnovu specializace EOD. Sama o sobě neprokazuje změnu organizační struktury, početních stavů, vybavení ani dosažené operační kapacity.",
+      "analysis_en": "The item confirms continued recruiting and personnel regeneration for the EOD specialty. By itself it does not establish a change in organizational structure, personnel strength, equipment, or achieved operational capacity.",
+      "intelligence_gaps_cs": "Veřejná stránka neuvádí výsledný počet vybraných kandidátů ani následný stav odborné kvalifikace; tyto údaje lze hodnotit až z pozdějšího oficiálního výstupu.",
+      "intelligence_gaps_en": "The public page does not state the eventual number of selected candidates or their subsequent qualification status; those can only be assessed from later official reporting.",
+      "what_it_does_not_prove_cs": "Neprokazuje aktuální počet EOD týmů, readiness, přesné rozmístění ani zásoby specializovaného vybavení.",
+      "what_it_does_not_prove_en": "It does not establish the current number of EOD teams, readiness, precise deployment, or holdings of specialized equipment.",
+      "event_date": "2026-08-27",
+      "country": "CZE",
+      "topics": [
+        "EOD",
+        "TRAINING",
+        "PERSONNEL",
+        "15_ENGINEER_REGIMENT"
+      ],
+      "temporal_status": "LATE_DISCOVERED_CURRENT_UPCOMING_EVENT",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_CZECH_LAND_FORCES_SOURCE",
+      "confidence": "HIGH",
+      "source_ids": [
+        "ENG-SRC-0502",
+        "ENG-SRC-0503"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0200"
+      ],
+      "publication_safety": "PUBLIC_OK",
+      "first_seen_run": "engineer-osint-20260825-B69",
+      "last_updated_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-UNIT-0042",
+      "type": "ENG-UNIT",
+      "name_original": "249th Engineer Battalion (Prime Power)",
+      "name_cs": "249. ženijní prapor (Prime Power)",
+      "name_en": "249th Engineer Battalion (Prime Power)",
+      "country": "USA",
+      "summary_cs": "Oficiální USACE profil identifikuje 249th Engineer Battalion (Prime Power) jako specializovanou jednotku pro nasazení odborníků na elektrickou energii a uvádí velitelství, čtyři liniové Prime Power roty a Prime Power School. Oficiální armádní články z května a června 2026 potvrzují praktické nasazování této odbornosti při podpoře kritické infrastruktury.",
+      "summary_en": "The official USACE profile identifies the 249th Engineer Battalion (Prime Power) as a specialized unit that deploys electrical-power experts and lists a headquarters, four Prime Power line companies, and the Prime Power School. Official Army reporting from May and June 2026 confirms practical employment of this expertise in support of critical infrastructure.",
+      "fact_cs": "USACE veřejně uvádí, že 249th Engineer Battalion (Prime Power) poskytuje komerční úroveň prime power podpory vojenským jednotkám a federálním organizacím a skládá se z velitelství, čtyř liniových rot A–D a Prime Power School.",
+      "fact_en": "USACE publicly states that the 249th Engineer Battalion (Prime Power) provides commercial-level prime-power support to military units and federal organizations and consists of a headquarters, four line companies A–D, and the Prime Power School.",
+      "analysis_cs": "Jde o entity/ORBAT enrichment významné specializované ženijní schopnosti. Veřejné zdroje dobře potvrzují roli a základní organizační rámec, ale nejsou použity k odvozování aktuálního rozmístění jednotlivých týmů.",
+      "analysis_en": "This is entity/ORBAT enrichment for a significant specialized engineer capability. Public sources strongly support the role and basic organizational framework, but they are not used to infer current deployment of individual teams.",
+      "intelligence_gaps_cs": "Pro detailnější capability kartu by bylo vhodné odděleně ověřit aktuální autorizované personální tabulky a modernizační stav jednotlivých distribučních systémů bez odvozování citlivých operačních detailů.",
+      "intelligence_gaps_en": "A deeper capability card would benefit from separate verification of current authorized personnel structure and modernization status of distribution systems without inferring sensitive operational details.",
+      "what_it_does_not_prove_cs": "Neprokazuje přesné současné rozmístění, dostupnost jednotlivých týmů, readiness ani zranitelnosti energetické infrastruktury.",
+      "what_it_does_not_prove_en": "It does not establish precise current deployment, availability of individual teams, readiness, or vulnerabilities of power infrastructure.",
+      "topics": [
+        "ORBAT",
+        "PRIME_POWER",
+        "INFRASTRUCTURE_SUPPORT",
+        "ENGINEER_SUPPORT"
+      ],
+      "temporal_status": "CURRENT_OFFICIAL_ENTITY_PROFILE_WITH_2026_OPERATIONAL_CORROBORATION",
+      "classification": "FACT_FROM_MULTIPLE_PRIMARY_OFFICIAL_US_ARMY_USACE_SOURCES",
+      "confidence": "HIGH_FOR_PUBLIC_MISSION_AND_BASIC_ORGANIZATION",
+      "source_ids": [
+        "ENG-SRC-0504",
+        "ENG-SRC-0505",
+        "ENG-SRC-0506"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0201"
+      ],
+      "publication_safety": "PUBLIC_OK",
+      "first_seen_run": "engineer-osint-20260825-B69",
+      "last_updated_run": "engineer-osint-20260825-B69"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0501",
+      "title": "Navy EOD Celebrates 85 Years of Excellence",
+      "title_cs": "Navy EOD slaví 85 let",
+      "title_en": "Navy EOD Celebrates 85 Years of Excellence",
+      "publisher": "United States Navy",
+      "publication_date": "2026-08-24",
+      "accessed_at": "2026-08-25",
+      "url": "https://www.navy.mil/Press-Office/News-Stories/display-news/Article/4581205/navy-eod-celebrates-85-years-of-excellence/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_NAVY",
+      "role": "CURRENT_EOD_CAPABILITY_AND_85TH_ANNIVERSARY_CONFIRMATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_SEARCH_RESULT",
+      "verification_status_cs": "OVĚŘENO NA OFICIÁLNÍM VEŘEJNÉM ZDROJI",
+      "verification_status_en": "VERIFIED ON OFFICIAL PUBLIC SOURCE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-SRC-0502",
+      "title": "Pyrotechnici EOD",
+      "title_cs": "Pyrotechnici EOD",
+      "title_en": "EOD specialists",
+      "publisher": "Velitelství pozemních sil AČR",
+      "publication_date": null,
+      "accessed_at": "2026-08-25",
+      "url": "https://vepozs.mo.gov.cz/jednotky-pozemnich-sil-acr/15-zenijni-pluk-generala-karla-husarka-bechyne/pyrotechnici-eod?page=1",
+      "language": "cs",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_CZECH_LAND_FORCES",
+      "role": "CZE_EOD_SELECTION_20260827_AND_ROLE_PROFILE",
+      "verification_status": "VERIFIED_PUBLIC_PAGE_DATE_EVENT_EXPLICIT",
+      "verification_status_cs": "OVĚŘENÁ VEŘEJNÁ STRÁNKA S EXPLICITNÍM DATEM UDÁLOSTI",
+      "verification_status_en": "VERIFIED PUBLIC PAGE WITH EXPLICIT EVENT DATE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-SRC-0503",
+      "title": "Cesta k EOD: sedm měsíců kurzu je jen začátek, rozhodují roky praxe",
+      "title_cs": "Cesta k EOD: sedm měsíců kurzu je jen začátek, rozhodují roky praxe",
+      "title_en": "Path to EOD: seven months of course work is only the beginning",
+      "publisher": "Velitelství pozemních sil AČR",
+      "publication_date": "2026-06-08",
+      "accessed_at": "2026-08-25",
+      "url": "https://vepozs.mo.gov.cz/aktuality/cesta-k-eod-sedm-mesicu-kurzu-je-jen-zacatek-rozhoduji-roky-praxe",
+      "language": "cs",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_CZECH_LAND_FORCES",
+      "role": "CZE_EOD_TRAINING_PIPELINE_CORROBORATION",
+      "verification_status": "VERIFIED_PUBLIC_ARTICLE",
+      "verification_status_cs": "OVĚŘENÝ VEŘEJNÝ ČLÁNEK",
+      "verification_status_en": "VERIFIED PUBLIC ARTICLE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-SRC-0504",
+      "title": "249th Engineer Battalion",
+      "title_cs": "249. ženijní prapor",
+      "title_en": "249th Engineer Battalion",
+      "publisher": "U.S. Army Corps of Engineers",
+      "publication_date": null,
+      "accessed_at": "2026-08-25",
+      "url": "https://www.usace.army.mil/Who-We-Are/249th-Engineer-Battalion/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_USACE_ENTITY_PROFILE",
+      "role": "249TH_ENGINEER_BATTALION_PRIME_POWER_MISSION_ORBAT",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PAGE",
+      "verification_status_cs": "OVĚŘENÁ PŘÍMÁ VEŘEJNÁ STRÁNKA",
+      "verification_status_en": "VERIFIED DIRECT PUBLIC PAGE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-SRC-0505",
+      "title": "Powering the Mission: The Army’s Prime Power Battalion Secures America’s Waterways",
+      "title_cs": "Napájení mise: armádní Prime Power prapor podporuje americké vodní cesty",
+      "title_en": "Powering the Mission: The Army’s Prime Power Battalion Secures America’s Waterways",
+      "publisher": "U.S. Army / U.S. Army Corps of Engineers",
+      "publication_date": "2026-05-27",
+      "accessed_at": "2026-08-25",
+      "url": "https://www.army.mil/article/292825/powering_the_mission_the_armys_prime_power_battalion_secures_americas_waterways",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY_USACE",
+      "role": "249TH_PRIME_POWER_OPERATIONAL_CAPABILITY_CORROBORATION",
+      "verification_status": "VERIFIED_PUBLIC_ARTICLE",
+      "verification_status_cs": "OVĚŘENÝ VEŘEJNÝ ČLÁNEK",
+      "verification_status_en": "VERIFIED PUBLIC ARTICLE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "id": "ENG-SRC-0506",
+      "title": "Prime Power Soldiers maintain inland waterways infrastructure America relies on",
+      "title_cs": "Vojáci Prime Power udržují infrastrukturu vnitrozemských vodních cest",
+      "title_en": "Prime Power Soldiers maintain inland waterways infrastructure America relies on",
+      "publisher": "U.S. Army",
+      "publication_date": "2026-06-10",
+      "accessed_at": "2026-08-25",
+      "url": "https://www.army.mil/article/293179/prime_power_soldiers_maintain_inland_waterways_infrastructure_america_relies_on",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY",
+      "role": "249TH_PRIME_POWER_OPERATIONAL_CAPABILITY_CORROBORATION",
+      "verification_status": "VERIFIED_PUBLIC_ARTICLE",
+      "verification_status_cs": "OVĚŘENÝ VEŘEJNÝ ČLÁNEK",
+      "verification_status_en": "VERIFIED PUBLIC ARTICLE",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "evidence_id": "ENG-EVID-0199",
+      "evidence_type": "CURRENT_OFFICIAL_NAVY_EOD_CAPABILITY_CONFIRMATION",
+      "evidence_status": "PRIMARY_OFFICIAL_PUBLIC_CONFIRMATION",
+      "evidence_status_cs": "PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÉ POTVRZENÍ",
+      "evidence_status_en": "PRIMARY OFFICIAL PUBLIC CONFIRMATION",
+      "related_ids": [
+        "ENG-EVT-0125"
+      ],
+      "source_ids": [
+        "ENG-SRC-0501"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "OFFICIAL_US_NAVY_PUBLIC_ARTICLE",
+      "observation_basis_cs": "OFICIÁLNÍ VEŘEJNÝ ČLÁNEK U.S. NAVY",
+      "observation_basis_en": "OFFICIAL U.S. NAVY PUBLIC ARTICLE",
+      "what_it_supports_cs": "Podporuje kontinuitu multi-domain role Navy EOD a veřejně deklarovaný směr technologické adaptace.",
+      "what_it_supports_en": "Supports continuity of Navy EOD's multi-domain role and its publicly stated direction of technological adaptation.",
+      "what_it_does_not_prove_cs": "Neprokazuje rozsah zavedení konkrétní technologie, aktuální rozmístění ani readiness.",
+      "what_it_does_not_prove_en": "Does not establish the fielding scale of any specific technology, current deployment, or readiness.",
+      "confidence": "HIGH_FOR_STATED_CAPABILITY",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "evidence_id": "ENG-EVID-0200",
+      "evidence_type": "CZE_EOD_PERSONNEL_PIPELINE_CURRENT_EVENT",
+      "evidence_status": "PRIMARY_OFFICIAL_PUBLIC_EVENT_CONFIRMATION",
+      "evidence_status_cs": "PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÉ POTVRZENÍ UDÁLOSTI",
+      "evidence_status_en": "PRIMARY OFFICIAL PUBLIC EVENT CONFIRMATION",
+      "related_ids": [
+        "ENG-EVT-0126"
+      ],
+      "source_ids": [
+        "ENG-SRC-0502",
+        "ENG-SRC-0503"
+      ],
+      "evidence_date": "2026-08-25",
+      "observation_basis": "OFFICIAL_CZECH_LAND_FORCES_EOD_PAGE_PLUS_OFFICIAL_TRAINING_PROFILE",
+      "observation_basis_cs": "OFICIÁLNÍ STRÁNKA EOD POZEMNÍCH SIL + OFICIÁLNÍ PROFIL VÝCVIKOVÉ CESTY",
+      "observation_basis_en": "OFFICIAL CZECH LAND FORCES EOD PAGE PLUS OFFICIAL TRAINING PROFILE",
+      "what_it_supports_cs": "Podporuje závěr, že výběr k odbornosti EOD je plánován na 27. 8. 2026 a že AČR udržuje dlouhodobý odborný výcvikový pipeline.",
+      "what_it_supports_en": "Supports the conclusion that EOD specialty selection is scheduled for 27 August 2026 and that the Czech Armed Forces maintain a long-term specialist training pipeline.",
+      "what_it_does_not_prove_cs": "Neprokazuje výsledek výběru ani změnu počtu operačních EOD týmů.",
+      "what_it_does_not_prove_en": "Does not establish the selection outcome or a change in the number of operational EOD teams.",
+      "confidence": "HIGH",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    },
+    {
+      "evidence_id": "ENG-EVID-0201",
+      "evidence_type": "OFFICIAL_PRIME_POWER_ENTITY_ORBAT_AND_ROLE_CROSSCHECK",
+      "evidence_status": "MULTIPLE_PRIMARY_OFFICIAL_PUBLIC_SOURCES",
+      "evidence_status_cs": "VÍCE PRIMÁRNÍCH OFICIÁLNÍCH VEŘEJNÝCH ZDROJŮ",
+      "evidence_status_en": "MULTIPLE PRIMARY OFFICIAL PUBLIC SOURCES",
+      "related_ids": [
+        "ENG-UNIT-0042"
+      ],
+      "source_ids": [
+        "ENG-SRC-0504",
+        "ENG-SRC-0505",
+        "ENG-SRC-0506"
+      ],
+      "evidence_date": "2026-08-25",
+      "observation_basis": "USACE_ENTITY_PROFILE_PLUS_TWO_OFFICIAL_2026_ARMY_USACE_OPERATIONAL_ARTICLES",
+      "observation_basis_cs": "PROFIL JEDNOTKY USACE + DVA OFICIÁLNÍ ARMÁDNÍ/USACE ČLÁNKY Z ROKU 2026",
+      "observation_basis_en": "USACE ENTITY PROFILE PLUS TWO OFFICIAL 2026 ARMY/USACE OPERATIONAL ARTICLES",
+      "what_it_supports_cs": "Podporuje veřejnou identitu, poslání a základní organizační rámec 249th Engineer Battalion (Prime Power) a praktické využití jeho odbornosti v roce 2026.",
+      "what_it_supports_en": "Supports the public identity, mission, and basic organizational framework of the 249th Engineer Battalion (Prime Power), and practical employment of its expertise in 2026.",
+      "what_it_does_not_prove_cs": "Neprokazuje současné rozmístění jednotlivých týmů, readiness ani aktuální stav veškerého vybavení.",
+      "what_it_does_not_prove_en": "Does not establish current deployment of individual teams, readiness, or status of all equipment.",
+      "confidence": "HIGH",
+      "first_seen_run": "engineer-osint-20260825-B69"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK_OR_AGGREGATED",
+    "bilingual_precheck": "LOCAL_CZ_EN_COMPLETE_FOR_NEW_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "NOT_RUN_NO_GITHUB_MATERIALIZATION_OLDER_B68_PUBLICATION_BACKLOG",
+    "repository_native_validation": "NOT_RUN_PUBLICATION_DEFERRED",
+    "schema_local_required_fields": "PASS",
+    "source_mapping": "PASS_LOCAL_REFERENCE_CHECK",
+    "duplicate_lineage_check": "PASS_AGAINST_B68_CONTINUATION_STATE",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE",
+    "social_discovery_status": "PARTIAL_PUBLIC_WEB_DISCOVERY_NO_CANONICAL_SOCIAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "russia_ukraine_status": "SWEEP_COMPLETE_NO_NEW_SAFE_QUALIFIED_CANONICAL_ITEM",
+    "czech_status": "ONE_LATE_DISCOVERED_CURRENT_EOD_EVENT_PROMOTED",
+    "nato_other_status": "TWO_US_ITEMS_PROMOTED",
+    "osint_safety_note_cs": "Nebyla přenesena přesná aktuální taktická poloha, zneužitelná zranitelnost ani praktický návod k nebezpečné manipulaci.",
+    "osint_safety_note_en": "No precise current tactical location, exploitable vulnerability, or actionable dangerous-handling instruction was transferred."
+  }
+}
