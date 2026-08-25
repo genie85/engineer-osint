@@ -39,13 +39,17 @@ try{
 }
 
 // These fields are intentionally not safe translation backlog. They are structured
-// status/enum values requiring controlled mapping. The two former semantic identity
-// conflicts (ENG-TECH-0036 and ENG-VIS-0054) are no longer listed here because the
-// data-integrity module repairs their canonical identities before this audit runs.
+// status/enum values, exact official source/document titles, or other values requiring
+// controlled review. The two former semantic identity conflicts (ENG-TECH-0036 and
+// ENG-VIS-0054) are no longer listed here because the data-integrity module repairs
+// their canonical identities before this audit runs.
 const explicitFieldReview=new Map([
   ['ENG-SIG-0014',new Map([['maturity','structured-enum-composite-review']])],
   ['ENG-SRC-0455',new Map([['role','structured-enum-mixed-case-review']])],
   ['ENG-DOC-0053',new Map([['confidence','structured-confidence-composite-review']])],
+  ['ENG-SRC-0477',new Map([['title','official-source-title-review']])],
+  ['ENG-SRC-0480',new Map([['title','official-source-title-review']])],
+  ['ENG-SRC-0481',new Map([['title','official-document-title-review']])],
   ['ENG-VIS-0001',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
   ['ENG-VIS-0002',new Map([['observation_basis','structured-status-composite-review'],['verification_status','structured-status-composite-review']])],
   ['ENG-EVID-0183',new Map([['observation_basis','structured-status-composite-review']])],
