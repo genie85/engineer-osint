@@ -10,9 +10,6 @@
     {"group":"lead","id":"MILITARYLAND:1226th-engineering-battalion","field":"topic"},
     {"group":"lead","id":"MILITARYLAND:azov-engineer-battalion","field":"topic"},
     {"group":"record","id":"CZECH_EOD_FORCE_DESIGN_BASELINE","field":"intelligence_gaps"},
-    {"group":"record","id":"ENG-DOC-0051","field":"intelligence_gaps"},
-    {"group":"source","id":"ENG-SRC-0477","field":"title"},
-    {"group":"source","id":"ENG-SRC-0480","field":"title"},
-    {"group":"source","id":"ENG-SRC-0481","field":"title"}
+    {"group":"record","id":"ENG-DOC-0051","field":"intelligence_gaps"}
   ]
 }
