@@ -1,0 +1,380 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260824-B68",
+    "parent_run_id": "engineer-osint-20260824-B67",
+    "status": "SUCCESS",
+    "window_from": "2026-08-24T10:53:54+02:00",
+    "window_to": "2026-08-24T14:24:33+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 2,
+      "UPDATE": 0,
+      "CONFIRMATION": 2,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 1,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 2,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 6,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE",
+    "drive_parent_run_id": "engineer-osint-20260824-B67",
+    "github_run_store_parent_run_id": "engineer-osint-20260824-B67",
+    "github_parent_canonical_sha256": "864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-22T14:24:33+02:00",
+    "reconciliation_window_to": "2026-08-24T14:24:33+02:00",
+    "main_sha_at_start": "f398cf22a1d4e1afd737b3ac6bbfa74280e30338"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-EVT-0124",
+      "type": "ENG-EVT",
+      "title_cs": "47. samostatná ženijní brigáda: aktuální potvrzení pokračujících fortifikačních úkolů",
+      "title_en": "47th Separate Engineer Brigade: current confirmation of continuing fortification tasks",
+      "summary_cs": "ArmijaInform 24. srpna 2026 zveřejnil profil příslušníka 47. samostatné ženijní brigády, který potvrzuje, že brigáda nadále plní fortifikační úkoly. Záznam je publikován pouze v agregované geografické podobě a neobsahuje přesné současné taktické polohy.",
+      "summary_en": "ArmyInform published a profile on 24 August 2026 that confirms the 47th Separate Engineer Brigade continues to perform fortification tasks. This record uses only aggregated geographic context and does not publish precise current tactical locations.",
+      "fact_cs": "Oficiální vojenské médium ArmijaInform dne 24. 8. 2026 popsalo pokračující službu příslušníka 47. samostatné ženijní brigády na fortifikačních pracích a uvedlo, že jeho stavební zkušenosti jsou využívány v ženijních podjednotkách.",
+      "fact_en": "Official military outlet ArmyInform reported on 24 August 2026 that a member of the 47th Separate Engineer Brigade continues serving on fortification work and that civilian construction experience is being applied in engineer elements.",
+      "analysis_cs": "Jde o CURRENT publikované potvrzení pokračování základní schopnosti brigády v oblasti survivability a fortifikací, nikoli o důkaz změny doktríny, nové techniky nebo přesného současného rozmístění. Článek zároveň zpětně potvrzuje kontinuitu fortifikačních úkolů od roku 2024.",
+      "analysis_en": "This is a current published confirmation that the brigade continues its survivability/fortification mission; it is not evidence of a doctrinal change, new equipment, or exact current deployment. The article also retrospectively confirms continuity of fortification work since 2024.",
+      "intelligence_gaps_cs": "Veřejný zdroj neumožňuje určit aktuální organizační rozsah fortifikačních prvků, jejich kapacitu, vybavení, tempo prací ani readiness. Pro tyto údaje je nutný další bezpečný veřejný podklad.",
+      "intelligence_gaps_en": "The public source does not establish the current organizational scale of fortification elements, their capacity, equipment, work rate, or readiness. Further safe public evidence would be required.",
+      "what_it_does_not_prove_cs": "Neprokazuje přesnou současnou polohu jednotek, konkrétní obranné pozice, konstrukční parametry opevnění, jejich zranitelnosti ani aktuální stav připravenosti.",
+      "what_it_does_not_prove_en": "It does not establish precise current unit locations, specific defensive positions, fortification construction parameters, vulnerabilities, or current readiness.",
+      "event_date": "2026-08-24",
+      "publication_time_local": "2026-08-24T11:14:00+03:00",
+      "country": "UKR",
+      "topics": [
+        "SURVIVABILITY",
+        "FORTIFICATION",
+        "ENGINEER_TROOPS",
+        "RUSSIA_UKRAINE"
+      ],
+      "temporal_status": "LATE_DISCOVERED_CURRENT_PUBLISHED_CONFIRMATION",
+      "classification": "FACT_FROM_OFFICIAL_MILITARY_MEDIA",
+      "confidence": "MEDIUM_HIGH_SINGLE_OFFICIAL_MILITARY_MEDIA_REPORT",
+      "source_ids": [
+        "ENG-SRC-0495",
+        "ENG-SRC-0496"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0197"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260824-B68",
+      "last_updated_run": "engineer-osint-20260824-B68",
+      "publication_time_prague": "2026-08-24T10:14:00+02:00"
+    },
+    {
+      "id": "ENG-UNIT-0041",
+      "type": "ENG-UNIT",
+      "name_original": "120 окремий розвідувальний полк",
+      "name_cs": "120. samostatný průzkumný pluk",
+      "name_en": "120th Separate Reconnaissance Regiment",
+      "country": "UKR",
+      "summary_cs": "Oficiální web 120. samostatného průzkumného pluku a náborový portál Pozemních sil Ukrajiny identifikují jednotku jako pluk Pozemních sil zaměřený na vojenský průzkum. Veřejné náborové stránky současně dokládají ženijně-sapérské, ženijně-průzkumné a ženijně-technické funkce v rámci pluku.",
+      "summary_en": "The official website of the 120th Separate Reconnaissance Regiment and the Ukrainian Land Forces recruiting portal identify it as a Land Forces reconnaissance regiment. Public recruiting pages also document engineer-sapper, engineer-reconnaissance, and engineer-equipment functions within the regiment.",
+      "fact_cs": "Oficiální web jednotky uvádí vznik v březnu 2022 jako samostatný průzkumný prapor a rozšíření na pluk v září 2023 na základě rozkazu velitele Pozemních sil. Aktuální veřejné náborové stránky uvádějí službu v ženijně-sapérském oddělení či četě, oddělení ženijní techniky a oddělení ženijního průzkumu.",
+      "fact_en": "The unit's official website states it was formed in March 2022 as a separate reconnaissance battalion and expanded to a regiment in September 2023 by order of the Land Forces commander. Current public recruiting pages refer to an engineer-sapper section/platoon, an engineer-equipment section, and an engineer-reconnaissance section.",
+      "analysis_cs": "Podklady ukazují, že ženijní schopnosti nejsou omezeny pouze na obecnou podporu, ale jsou veřejně popsány uvnitř průzkumného pluku v několika funkčních liniích. Z náborových názvů však nelze bezpečně rekonstruovat úplnou tabulkovou organizaci ani potvrdit, zda všechny uvedené prvky existují současně v přesně těchto stupních.",
+      "analysis_en": "The evidence shows that engineering capability is publicly described inside the reconnaissance regiment across several functional lines rather than only as generic support. Recruiting labels, however, are not sufficient to reconstruct the full authorized organization or prove that every named element concurrently exists at exactly the stated echelon.",
+      "intelligence_gaps_cs": "Dohledat formální organizační dokument nebo více nezávislých oficiálních podkladů k potvrzení přesného TO&E ženijně-sapérských, ženijně-průzkumných a ženijně-technických prvků a jejich vztahu k rotě robotizovaných systémů.",
+      "intelligence_gaps_en": "Locate a formal organizational document or additional independent official evidence to confirm the exact TO&E of engineer-sapper, engineer-reconnaissance, and engineer-equipment elements and their relationship to the regiment's robotic-systems company.",
+      "what_it_does_not_prove_cs": "Neprokazuje přesný současný TO&E, početní stavy, vybavení, provozuschopnost, readiness ani přesné operační rozmístění pluku nebo jeho ženijních prvků.",
+      "what_it_does_not_prove_en": "It does not establish the exact current TO&E, personnel strength, equipment holdings, serviceability, readiness, or precise operational deployment of the regiment or its engineer elements.",
+      "topics": [
+        "ORBAT",
+        "ENGINEER_RECONNAISSANCE",
+        "ENGINEER_SAPPER",
+        "ENGINEER_EQUIPMENT",
+        "RECONNAISSANCE"
+      ],
+      "temporal_status": "CURRENT_PUBLIC_RECRUITING_SURFACES_WITH_HISTORICAL_FORMATION_CONTEXT",
+      "classification": "FACT_FROM_MULTIPLE_OFFICIAL_UNIT_AND_LAND_FORCES_RECRUITING_SOURCES",
+      "confidence": "HIGH_FOR_PUBLIC_IDENTITY_AND_ENGINEERING_FUNCTIONS_MEDIUM_FOR_EXACT_TOE",
+      "source_ids": [
+        "ENG-SRC-0497",
+        "ENG-SRC-0498",
+        "ENG-SRC-0499",
+        "ENG-SRC-0500"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0198"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260824-B68",
+      "last_updated_run": "engineer-osint-20260824-B68"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0495",
+      "title": "З Іспанії — у стрій 47-ї інженерної бригади: історія воїна «Берега», який будує фортифікації на Харківщині",
+      "title_cs": "Z Iberského poloostrova do 47. ženijní brigády: profil vojáka podílejícího se na fortifikacích",
+      "title_en": "From Spain to the 47th Engineer Brigade: profile of a soldier working on fortifications",
+      "publisher": "АрміяInform / Ministry of Defence of Ukraine military media",
+      "publication_date": "2026-08-24",
+      "publication_time": "2026-08-24T11:14:00+03:00",
+      "accessed_at": "2026-08-24",
+      "url": "https://armyinform.com.ua/2026/08/24/z-ispaniyi-u-strij-47-yi-inzhenernoyi-brygady-istoriya-voyina-berega-yakyj-buduye-fortyfikacziyi-na-harkivshhyni/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_MILITARY_MEDIA_CURRENT_PROFILE",
+      "role": "CURRENT_CONFIRMATION_47_ENGINEER_BRIGADE_FORTIFICATION_MISSION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_ARTICLE",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ VEŘEJNÉ STRÁNCE OFICIÁLNÍHO VOJENSKÉHO MÉDIA",
+      "verification_status_en": "VERIFIED ON DIRECT PUBLIC PAGE OF OFFICIAL MILITARY MEDIA",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "id": "ENG-SRC-0496",
+      "title": "On Constitution Day, Volodymyr Zelenskyy Honored Distinguished Ukrainians with State Awards",
+      "title_cs": "Prezident Ukrajiny ocenil vyznamenané Ukrajince při Dni ústavy",
+      "title_en": "On Constitution Day, Volodymyr Zelenskyy Honored Distinguished Ukrainians with State Awards",
+      "publisher": "President of Ukraine",
+      "publication_date": "2025-06-28",
+      "accessed_at": "2026-08-24",
+      "url": "https://www.president.gov.ua/en/news/u-den-konstituciyi-volodimir-zelenskij-vidznachiv-vidatnih-u-98733",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_PRESIDENTIAL_RECORD",
+      "role": "INDEPENDENT_OFFICIAL_UNIT_IDENTITY_CONFIRMATION_47_ENGINEER_BRIGADE",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_PRESIDENTIAL_PAGE",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ STRÁNCE PREZIDENTA UKRAJINY",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL PRESIDENTIAL PAGE",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "id": "ENG-SRC-0497",
+      "title": "120 Окремий Розвідувальний Полк",
+      "title_cs": "120. samostatný průzkumný pluk — oficiální náborový web",
+      "title_en": "120th Separate Reconnaissance Regiment — official recruiting website",
+      "publisher": "120 окремий розвідувальний полк",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://120orp.mil.gov.ua/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UNIT_RECRUITING_WEBSITE",
+      "role": "UNIT_HISTORY_AND_PUBLIC_ENGINEERING_FUNCTIONS",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_MIL_GOV_UA_PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ STRÁNCE MIL.GOV.UA; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL MIL.GOV.UA PAGE; PAGE UNDATED",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "id": "ENG-SRC-0498",
+      "title": "Вакансії: 120 окремий розвідувальний полк",
+      "title_cs": "Náborový profil Pozemních sil: 120. samostatný průzkumný pluk",
+      "title_en": "Land Forces recruiting profile: 120th Separate Reconnaissance Regiment",
+      "publisher": "Сухопутні війська Збройних Сил України",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://lfrecruiting.mil.gov.ua/brigade?id=72",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_LAND_FORCES_RECRUITING_PROFILE",
+      "role": "INDEPENDENT_UNIT_IDENTITY_AND_HISTORY_CROSSCHECK",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_LAND_FORCES_PAGE_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ STRÁNCE POZEMNÍCH SIL; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL LAND FORCES PAGE; PAGE UNDATED",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "id": "ENG-SRC-0499",
+      "title": "Сапер - 120 Окремий Розвідувальний Полк",
+      "title_cs": "Sapér — 120. samostatný průzkumný pluk",
+      "title_en": "Sapper — 120th Separate Reconnaissance Regiment",
+      "publisher": "120 окремий розвідувальний полк",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://120orp.mil.gov.ua/vacancies/saper/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UNIT_VACANCY",
+      "role": "ENGINEER_SAPPER_ELEMENT_PUBLIC_CONFIRMATION",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_MIL_GOV_UA_VACANCY_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ NÁBOROVÉ STRÁNCE; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL RECRUITING PAGE; PAGE UNDATED",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "id": "ENG-SRC-0500",
+      "title": "Розвідник-сапер - 120 Окремий Розвідувальний Полк",
+      "title_cs": "Průzkumník-sapér — 120. samostatný průzkumný pluk",
+      "title_en": "Scout-sapper — 120th Separate Reconnaissance Regiment",
+      "publisher": "120 окремий розвідувальний полк",
+      "publication_date": "UNKNOWN",
+      "accessed_at": "2026-08-24",
+      "url": "https://120orp.mil.gov.ua/vacancies/rozvidnyk-saper/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UNIT_VACANCY",
+      "role": "ENGINEER_RECONNAISSANCE_AND_SAPPER_FUNCTION_PUBLIC_CONFIRMATION",
+      "verification_status": "VERIFIED_DIRECT_OFFICIAL_MIL_GOV_UA_VACANCY_UNDATED",
+      "verification_status_cs": "OVĚŘENO NA PŘÍMÉ OFICIÁLNÍ NÁBOROVÉ STRÁNCE; STRÁNKA BEZ DATA PUBLIKACE",
+      "verification_status_en": "VERIFIED ON DIRECT OFFICIAL RECRUITING PAGE; PAGE UNDATED",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "evidence_id": "ENG-EVID-0197",
+      "evidence_type": "CURRENT_OFFICIAL_MILITARY_MEDIA_CONFIRMATION",
+      "evidence_status": "CURRENT_PUBLISHED_CONFIRMATION_AGGREGATED_FOR_SAFETY",
+      "evidence_status_cs": "AKTUÁLNÍ PUBLIKOVANÉ POTVRZENÍ AGREGOVANÉ Z BEZPEČNOSTNÍCH DŮVODŮ",
+      "evidence_status_en": "CURRENT PUBLISHED CONFIRMATION AGGREGATED FOR SAFETY",
+      "related_ids": [
+        "ENG-EVT-0124"
+      ],
+      "source_ids": [
+        "ENG-SRC-0495",
+        "ENG-SRC-0496"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "OFFICIAL_MILITARY_MEDIA_CURRENT_PROFILE_PLUS_INDEPENDENT_OFFICIAL_UNIT_IDENTITY_RECORD",
+      "observation_basis_cs": "AKTUÁLNÍ PROFIL OFICIÁLNÍHO VOJENSKÉHO MÉDIA + NEZÁVISLÝ OFICIÁLNÍ DOKLAD IDENTITY JEDNOTKY",
+      "observation_basis_en": "OFFICIAL MILITARY MEDIA CURRENT PROFILE PLUS INDEPENDENT OFFICIAL UNIT IDENTITY RECORD",
+      "what_it_supports_cs": "Podporuje závěr, že 47. samostatná ženijní brigáda nadále plní fortifikační úkoly.",
+      "what_it_supports_en": "Supports the conclusion that the 47th Separate Engineer Brigade continues to perform fortification tasks.",
+      "what_it_does_not_prove_cs": "Neprokazuje přesné současné taktické rozmístění, parametry opevnění ani readiness.",
+      "what_it_does_not_prove_en": "Does not establish precise current tactical deployment, fortification parameters, or readiness.",
+      "confidence": "MEDIUM_HIGH",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    },
+    {
+      "evidence_id": "ENG-EVID-0198",
+      "evidence_type": "MULTI_SOURCE_OFFICIAL_UNIT_ENGINEERING_FUNCTION_CROSSCHECK",
+      "evidence_status": "PRIMARY_OFFICIAL_PUBLIC_CROSSCHECK",
+      "evidence_status_cs": "KŘÍŽOVÁ KONTROLA PRIMÁRNÍCH OFICIÁLNÍCH VEŘEJNÝCH ZDROJŮ",
+      "evidence_status_en": "PRIMARY OFFICIAL PUBLIC CROSSCHECK",
+      "related_ids": [
+        "ENG-UNIT-0041"
+      ],
+      "source_ids": [
+        "ENG-SRC-0497",
+        "ENG-SRC-0498",
+        "ENG-SRC-0499",
+        "ENG-SRC-0500"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "OFFICIAL_UNIT_SITE_PLUS_LAND_FORCES_RECRUITING_PROFILE_AND_ROLE_SPECIFIC_VACANCIES",
+      "observation_basis_cs": "OFICIÁLNÍ WEB JEDNOTKY + PROFIL POZEMNÍCH SIL + NÁBOROVÉ STRÁNKY KONKRÉTNÍCH ROLÍ",
+      "observation_basis_en": "OFFICIAL UNIT SITE PLUS LAND FORCES RECRUITING PROFILE AND ROLE-SPECIFIC VACANCIES",
+      "what_it_supports_cs": "Podporuje identitu pluku, historii jeho formování a existenci veřejně popsaných ženijně-sapérských a ženijně-průzkumných funkcí.",
+      "what_it_supports_en": "Supports the regiment's identity, formation history, and the existence of publicly described engineer-sapper and engineer-reconnaissance functions.",
+      "what_it_does_not_prove_cs": "Neprokazuje úplný nebo aktuální tabulkový TO&E, početní stav, techniku ani readiness.",
+      "what_it_does_not_prove_en": "Does not establish the complete or current authorized TO&E, strength, equipment, or readiness.",
+      "confidence": "HIGH_FOR_PUBLIC_FUNCTIONS_MEDIUM_FOR_EXACT_TOE",
+      "first_seen_run": "engineer-osint-20260824-B68"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [
+    {
+      "lead_id": "LEAD-059",
+      "priority": "P1",
+      "topic": "120th Separate Reconnaissance Regiment engineer-element TO&E verification",
+      "topic_cs": "Ověřit TO&E ženijních prvků 120. samostatného průzkumného pluku",
+      "topic_en": "Verify the engineer-element TO&E of the 120th Separate Reconnaissance Regiment",
+      "status": "OPEN_PRIMARY_DOCUMENT_NEEDED",
+      "next_action_cs": "Dohledat formální organizační dokument nebo další nezávislé oficiální podklady k přesnému složení ženijních prvků a jejich vztahu k robotizovaným systémům.",
+      "next_action_en": "Locate a formal organizational document or additional independent official evidence for the exact composition of engineer elements and their relationship to robotic systems.",
+      "source_ids": [
+        "ENG-SRC-0497",
+        "ENG-SRC-0498",
+        "ENG-SRC-0499",
+        "ENG-SRC-0500"
+      ],
+      "related_ids": [
+        "ENG-UNIT-0041"
+      ],
+      "first_seen_run": "engineer-osint-20260824-B68"
+    }
+  ],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "worth_watching": [],
+    "worth_listening": [],
+    "source_mapping": "PASS_LOCAL_STRICT_REFERENCE_CHECK",
+    "duplicate_id_audit": "PASS_AGAINST_B67_CONTINUATION_STATE",
+    "temporal_audit": "PASS_ARTICLE_11_14_EEST_EQUALS_10_14_CEST_AND_PRECEDES_B67_WINDOW_END",
+    "bilingual_publish_gate": "LOCAL_TYPE_SPECIFIC_CZ_EN_COMPLETE_REPOSITORY_AUDIT_UNVERIFIED",
+    "bilingual_precheck": "BILINGUAL_PRECHECK_UNVERIFIED",
+    "public_cz_ratchet_status": "UNVERIFIED_REPOSITORY_RUNTIME_UNAVAILABLE",
+    "repository_native_validation": "UNAVAILABLE_GIT_CLONE_DNS_FAILURE",
+    "repository_clone_error": "Could not resolve host: github.com",
+    "visual_gate": "PASS_NO_DIRECT_VISUAL_CLAIM",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "publication_safety": "PASS_PUBLIC_OK_AGGREGATED",
+    "current_window_result": "NO_QUALIFIED_EXACT_CURRENT_ITEM_PROMOTED",
+    "reconciliation_result": "ONE_LATE_DISCOVERED_CURRENT_PROMOTED_47_ENGINEER_BRIGADE",
+    "regional_sweep": {
+      "GEO_P1_RUSSIA_UKRAINE": "ONE_CURRENT_CONFIRMATION_PLUS_ONE_ENTITY_ENRICHMENT",
+      "GEO_P2_CZECH_REPUBLIC": "REVIEWED_NO_NEW_QUALIFIED_CURRENT_CANONICAL_ITEM",
+      "GEO_P3_NATO_OTHER": "REVIEWED_NO_NEW_QUALIFIED_CURRENT_CANONICAL_ITEM"
+    },
+    "eod_cied_eoc_eor_sweep": "REVIEWED_NO_NEW_QUALIFIED_CURRENT_CANONICAL_ITEM",
+    "doctrine_stanag_sweep": "REVIEWED_NO_NEW_QUALIFIED_CHANGE_PROMOTED",
+    "telegram_status": "WEB_SURFACE_ACCESSIBLE_PARTIAL_NO_ENGINEER_EOD_POST_PROMOTED",
+    "source_family_status": "BOUNDED_SWEEP_COMPLETE_NO_NEW_SOURCE_FAMILY_PROMOTION",
+    "expected_public_fields_checked": {
+      "ENG-EVT-0124": [
+        "title_cs/en",
+        "summary_cs/en",
+        "fact_cs/en",
+        "analysis_cs/en",
+        "intelligence_gaps_cs/en",
+        "what_it_does_not_prove_cs/en"
+      ],
+      "ENG-UNIT-0041": [
+        "name_cs/en",
+        "summary_cs/en",
+        "fact_cs/en",
+        "analysis_cs/en",
+        "intelligence_gaps_cs/en",
+        "what_it_does_not_prove_cs/en"
+      ],
+      "ENG-SRC-0495..0500": [
+        "title_cs/en",
+        "verification_status_cs/en"
+      ],
+      "ENG-EVID-0197..0198": [
+        "evidence_status_cs/en",
+        "observation_basis_cs/en",
+        "what_it_supports_cs/en",
+        "what_it_does_not_prove_cs/en"
+      ],
+      "LEAD-059": [
+        "topic_cs/en",
+        "next_action_cs/en"
+      ]
+    },
+    "known_missing_or_review_only_fields": []
+  }
+}
