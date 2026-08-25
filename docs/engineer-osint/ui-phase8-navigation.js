@@ -1,7 +1,7 @@
 (function(){
   const D=window.__ENGINEER_DATA__; if(!D)return;
   const nav=document.querySelector('#sidebar nav'); if(!nav)return;
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
   const records=()=>D.records?.records||[];
   const pick=(r,key)=>{const l=lang();return(l==='cs'?(r?.[key+'_cs']??r?.[key]??r?.[key+'_en']):(r?.[key+'_en']??r?.__orig?.[key]??r?.[key]??r?.[key+'_cs']))||''};
@@ -14,6 +14,23 @@
   const open=id=>{if(typeof window.openDetail==='function')return window.openDetail(id);const r=records().find(x=>x.id===id),v=view();if(!r||!v)return;v.innerHTML='<section class="card section"><div class="mono">'+esc(r.id)+'</div><h2>'+esc(title(r))+'</h2><p>'+esc(summary(r)||'—')+'</p></section>'};
   const card=r=>'<article class="item" data-open="'+esc(r.id)+'" style="cursor:pointer"><div class="mono muted">'+esc(r.id)+' · '+esc(r.country||'')+'</div><strong>'+esc(title(r))+'</strong>'+(lang()==='cs'&&!r.title_cs&&!r.summary_cs?'<span class="translation-fallback-badge" style="font-size:8px;color:#e7ca84;margin-left:5px"> CHYBÍ ČEŠTINA · ZOBRAZENA ANGLIČTINA</span>':'')+(summary(r)?'<p>'+esc(summary(r))+'</p>':'')+'</article>';
   const wire=root=>root.querySelectorAll('[data-open]').forEach(e=>e.onclick=()=>open(e.dataset.open));
+
+  /* The legacy global filter bar only affects the original Activity Feed and Technology
+     renderers. Hide it everywhere else instead of presenting controls that do nothing. */
+  const globalFilterPanel=()=>document.querySelector('main>.filterbar')||document.getElementById('searchInput')?.parentElement||null;
+  const globalFiltersApply=()=>{
+    const route=(location.hash||'#overview').slice(1).split('?')[0];
+    const t=(document.getElementById('pageTitle')?.textContent||'').trim();
+    return(route==='activity'&&/^Activity Feed$/i.test(t))||(route==='technology'&&/^(Technology|Technologie)$/i.test(t));
+  };
+  const syncGlobalFilterVisibility=()=>{
+    const panel=globalFilterPanel(); if(!panel)return;
+    const show=globalFiltersApply();
+    panel.hidden=!show;
+    panel.style.display=show?'':'none';
+    panel.setAttribute('aria-hidden',show?'false':'true');
+  };
+
   function listPage(button,cs,en,pred){activate(button);const v=view();if(!v)return;const xs=records().filter(pred);setTitle(lang()==='cs'?cs:en);v.dataset.i18nManaged='1';v.innerHTML='<section class="card section" data-i18n-managed="1"><div class="entity-page-head"><div><h2>'+esc(lang()==='cs'?cs:en)+'</h2><div class="muted">'+xs.length+' '+(lang()==='cs'?'záznamů':'records')+'</div></div><input id="engineerEntityFilter" placeholder="'+esc(lang()==='cs'?'Hledat název nebo ENG-* ID':'Search title or ENG-* ID')+'"></div><div id="engineerEntityList">'+xs.map(card).join('')+'</div></section>';wire(v);const input=document.getElementById('engineerEntityFilter');if(input)input.oninput=()=>{const q=input.value.trim().toLowerCase();document.querySelectorAll('#engineerEntityList [data-open]').forEach(el=>el.style.display=!q||el.textContent.toLowerCase().includes(q)?'block':'none')};}
 
   const legacy=[...nav.children];
@@ -59,14 +76,14 @@
     if(node===legacyOverview||/^Přehled$|^Overview$/i.test(t)||/^Technologie$|^Technology$|^Doktrína$|^Doctrine$/i.test(t))return hidden;
     if(/Vizuální OSINT|Visual OSINT|Galerie vizuálních|Visual evidence|Média \/ sledovat|Media \/ watch|poslouchat|listen/i.test(t))return media;
     if(/Activity Feed|Historie běhů|Run history|\bBěhy\b|\bRuns\b|Zdroje|Sources|Kvalita dat|Data quality|Watchlist|Leads/i.test(t))return osint;
-    if(/Země|Countries|Schopnosti|Capabilities|Sledování trendů|Trend Watch|EOD\s*\/\s*C-IED|Czech Republic|Česká republika/i.test(t))return analysis;
+    if(/Země|Countries|Schopnosti|Capabilities|Sledování trendů|Trend Watch|EOD\s*\/\s*C-IED|Czech Republic|Česká republika|Austrálie|Australia/i.test(t))return analysis;
     if(/Technologická vyspělost|Technology maturity|Matice OSINT pokrytí|Coverage matrix|Backlog obohacení|Enrichment backlog/i.test(t))return more;
     return more;
   }
   legacy.forEach(node=>bucket(node).appendChild(node));
   [analysis,media,osint,more].forEach(box=>{const seen=new Set();[...box.children].forEach(node=>{if(node===audit)return;const key=(node.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();if(!key)return;if(seen.has(key)){hidden.appendChild(node)}else seen.add(key)})});
 
-  root.querySelector('#engineerOverviewBtn').onclick=()=>{closeGroups(null);if(legacyOverview)legacyOverview.click();else close()};
+  root.querySelector('#engineerOverviewBtn').onclick=()=>{closeGroups(null);if(legacyOverview)legacyOverview.click();else close();setTimeout(syncGlobalFilterVisibility,0)};
   root.querySelectorAll(':scope>details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)closeGroups(d)}));
 
   /* Phase 9 is loaded after this module and adds "Analytické nástroje" to More.
@@ -74,7 +91,23 @@
   const moveIntelHub=()=>{[...more.querySelectorAll(':scope>button')].forEach(b=>{if(/Analytické nástroje|Intelligence tools/i.test((b.textContent||'')+' '+(b.dataset.labelCs||'')+' '+(b.dataset.labelEn||'')))analysis.appendChild(b)})};
   new MutationObserver(moveIntelHub).observe(more,{childList:true,subtree:false});
 
+  /* rich-topic-australia-nato-eod installs on DOMContentLoaded, after this compact
+     navigation has already collected legacy buttons. Catch that late button and keep
+     it inside Analysis instead of leaving a browser-default standalone button. */
+  const moveLateTopicButtons=()=>{
+    const australia=document.getElementById('engineerAustraliaEodTopicBtn');
+    if(australia&&australia.parentElement!==analysis)analysis.appendChild(australia);
+  };
+  new MutationObserver(moveLateTopicButtons).observe(nav,{childList:true,subtree:false});
+
+  const pageTitle=document.getElementById('pageTitle');
+  if(pageTitle)new MutationObserver(syncGlobalFilterVisibility).observe(pageTitle,{childList:true,subtree:true,characterData:true});
+  window.addEventListener('hashchange',()=>setTimeout(syncGlobalFilterVisibility,0));
+
   labels();
-  document.addEventListener('engineer-language-changed',()=>{labels();root.querySelectorAll('[data-label-cs]').forEach(b=>b.textContent=lang()==='cs'?b.dataset.labelCs:b.dataset.labelEn);moveIntelHub()});
-  window.ENGINEER_ENTITY_NAV={open,listPage};
+  moveLateTopicButtons();
+  syncGlobalFilterVisibility();
+  setTimeout(()=>{moveLateTopicButtons();syncGlobalFilterVisibility()},0);
+  document.addEventListener('engineer-language-changed',()=>{labels();root.querySelectorAll('[data-label-cs]').forEach(b=>b.textContent=lang()==='cs'?b.dataset.labelCs:b.dataset.labelEn);moveIntelHub();moveLateTopicButtons();syncGlobalFilterVisibility()});
+  window.ENGINEER_ENTITY_NAV={open,listPage,syncGlobalFilterVisibility};
 })();
