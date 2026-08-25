@@ -11,10 +11,19 @@ const patch=JSON.parse(runRaw);
 const manifestEntry=manifest.runs.find(item=>item.run_id===patch.state.run_id);
 const reportSnapshotRaw=readFileSync(`${root}/data/attestations/engineer-osint-20260825-B72-report.md`,'utf8');
 const input=()=>({patch:structuredClone(patch),manifestEntry:structuredClone(manifestEntry),repositoryFileRaw:runRaw,reportSnapshotRaw,registry:structuredClone(registry)});
+const b73RunRaw=readFileSync(`${root}/data/runs/engineer-osint-20260825-B73.json`,'utf8');
+const b73Patch=JSON.parse(b73RunRaw);
+const b73ManifestEntry=manifest.runs.find(item=>item.run_id===b73Patch.state.run_id);
+const b73ReportSnapshotRaw=readFileSync(`${root}/data/attestations/engineer-osint-20260825-B73-report.md`,'utf8');
 
 test('exact B72 zero-delta omission is accepted only as a transparent hash-pinned waiver',()=>{
   const result=resolvePinnedMultimediaStatus(input());
   assert.deepEqual(result,{status:'MISSING_WAIVED_PINNED_ZERO_DELTA',basis:'HASH_PINNED_REPORT_ATTESTATION',exception_id:'MEDIA-SWEEP-ATTEST-B72'});
+});
+
+test('exact B73 factual enrichment is accepted only as a pinned no-media-addition waiver',()=>{
+  const result=resolvePinnedMultimediaStatus({patch:b73Patch,manifestEntry:b73ManifestEntry,repositoryFileRaw:b73RunRaw,reportSnapshotRaw:b73ReportSnapshotRaw,registry});
+  assert.deepEqual(result,{status:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',basis:'HASH_PINNED_REPORT_ATTESTATION',exception_id:'MEDIA-SWEEP-ATTEST-B73'});
 });
 
 test('an explicit multimedia status remains the standard path',()=>{
@@ -62,7 +71,7 @@ test('pinned waiver rejects non-zero or malformed media-related content',()=>{
 });
 
 test('future runs and duplicate or broadened registry entries are rejected',()=>{
-  const future=input();future.patch.state.run_id='engineer-osint-20260825-B73';future.patch.state.parent_run_id='engineer-osint-20260825-B72';
+  const future=input();future.patch.state.run_id='engineer-osint-20260825-B75';future.patch.state.parent_run_id='engineer-osint-20260825-B74';
   assert.throws(()=>resolvePinnedMultimediaStatus(future),/no unique hash-pinned attestation/);
 
   const duplicate=structuredClone(registry);duplicate.exceptions.push({...duplicate.exceptions[0],exception_id:'MEDIA-SWEEP-ATTEST-B72-DUP'});

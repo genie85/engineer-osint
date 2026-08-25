@@ -14,7 +14,24 @@
       "report_snapshot_path": "data/attestations/engineer-osint-20260825-B72-report.md",
       "omitted_field": "qa.multimedia_status",
       "resolved_status": "MISSING_WAIVED_PINNED_ZERO_DELTA",
+      "waiver_scope": "ZERO_DELTA",
       "rationale": "Immutable B72 is a verified zero-delta SUCCESS. Its Drive report explicitly records that no new media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
+    },
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B73",
+      "run_id": "engineer-osint-20260825-B73",
+      "parent_run_id": "engineer-osint-20260825-B72",
+      "source_drive_raw_file_sha256": "81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9",
+      "source_transport_normalization": "IDENTITY",
+      "repository_file_sha256": "81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9",
+      "repository_canonical_sha256": "51e4adcaad45a98fa93e30f43c964cb04ad60b53eec4992c39afb7133b5669b2",
+      "report_drive_id": "1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n",
+      "report_text_sha256": "5204e87dd662a821f7ba9bbd78c92f35ad272b9ba28243820a8c913e1fed62b5",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260825-B73-report.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION",
+      "waiver_scope": "NO_MEDIA_ADDITION",
+      "rationale": "Immutable B73 is a verified no-media SUCCESS. Its Drive report explicitly records that no new visual or media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
     }
   ]
 }
