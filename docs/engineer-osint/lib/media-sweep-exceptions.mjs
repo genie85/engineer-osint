@@ -2,12 +2,17 @@ import {createHash} from 'node:crypto';
 
 const REGISTRY_SCHEMA='engineer-osint-media-sweep-exceptions-v1';
 const RESOLVED_STATUS='MISSING_WAIVED_PINNED_ZERO_DELTA';
+const EXPLICIT_STATUSES=new Set([
+  'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',
+  'COMPLETE_WITH_CANONICAL_MEDIA_ADDITION'
+]);
 const ELIGIBLE_RUNS=new Map([
   ['engineer-osint-20260825-B72','1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV']
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
   'exception_id','run_id','parent_run_id','source_drive_raw_file_sha256',
+  'source_transport_normalization',
   'repository_file_sha256','repository_canonical_sha256','report_drive_id','report_text_sha256',
   'report_snapshot_path','omitted_field','resolved_status','rationale'
 ]);
@@ -18,6 +23,7 @@ const sha256=text=>createHash('sha256').update(text).digest('hex');
 
 export function validateMediaSweepExceptionRegistry(registry){
   if(!registry||registry.schema_version!==REGISTRY_SCHEMA)fail('unsupported registry schema');
+  for(const key of Object.keys(registry))if(!['schema_version','exceptions'].includes(key))fail(`registry contains unsupported field ${key}`);
   if(!Array.isArray(registry.exceptions))fail('exceptions must be an array');
   const ids=new Set(),runs=new Set();
   for(const item of registry.exceptions){
@@ -31,6 +37,7 @@ export function validateMediaSweepExceptionRegistry(registry){
     }
     if(item.omitted_field!=='qa.multimedia_status')fail(`${item.exception_id} may only attest qa.multimedia_status`);
     if(item.resolved_status!==RESOLVED_STATUS)fail(`${item.exception_id} has unsupported resolved_status`);
+    if(item.source_transport_normalization!=='APPEND_SINGLE_LF')fail(`${item.exception_id} has unsupported source_transport_normalization`);
     if(!ELIGIBLE_RUNS.has(item.run_id)||ELIGIBLE_RUNS.get(item.run_id)!==item.report_drive_id)fail(`${item.exception_id} is not an approved one-run attestation`);
     if(!item.report_snapshot_path.startsWith('data/attestations/')||item.report_snapshot_path.includes('..')||item.report_snapshot_path.includes('\\'))fail(`${item.exception_id} has unsafe report_snapshot_path`);
     if(ids.has(item.exception_id)||runs.has(item.run_id))fail(`duplicate exception identity for ${item.run_id}`);
@@ -67,8 +74,12 @@ function ensureZeroDelta(patch,item){
 
 export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFileRaw,reportSnapshotRaw,registry}){
   validateMediaSweepExceptionRegistry(registry);
-  const explicit=patch?.qa?.multimedia_status||patch?.qa?.multimedia?.status||patch?.multimedia?.status||null;
-  if(explicit)return {status:explicit,basis:'PATCH_EXPLICIT',exception_id:null};
+  const explicitCandidates=[patch?.qa?.multimedia_status,patch?.qa?.multimedia?.status,patch?.multimedia?.status].filter(value=>value!==undefined&&value!==null);
+  if(explicitCandidates.length){
+    if(explicitCandidates.some(value=>typeof value!=='string'||!EXPLICIT_STATUSES.has(value)))fail('explicit multimedia status is not a supported enum value');
+    if(new Set(explicitCandidates).size!==1)fail('conflicting explicit multimedia status values');
+    return {status:explicitCandidates[0],basis:'PATCH_EXPLICIT',exception_id:null};
+  }
 
   const runId=patch?.state?.run_id,parentRunId=patch?.state?.parent_run_id;
   const matches=registry.exceptions.filter(item=>item.run_id===runId);
@@ -79,6 +90,7 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   if(manifestEntry.file_sha256!==item.repository_file_sha256)fail(`${item.exception_id} manifest file hash mismatch`);
   if(manifestEntry.canonical_sha256!==item.repository_canonical_sha256)fail(`${item.exception_id} canonical hash mismatch`);
   if(sha256(repositoryFileRaw)!==item.repository_file_sha256)fail(`${item.exception_id} repository file bytes mismatch`);
+  if(!repositoryFileRaw.endsWith('\n')||sha256(repositoryFileRaw.slice(0,-1))!==item.source_drive_raw_file_sha256)fail(`${item.exception_id} Drive-to-repository normalization mismatch`);
   let parsedRepositoryPatch;
   try{parsedRepositoryPatch=JSON.parse(repositoryFileRaw)}catch{fail(`${item.exception_id} repository file is not valid JSON`)}
   if(JSON.stringify(parsedRepositoryPatch)!==JSON.stringify(patch))fail(`${item.exception_id} patch object does not match the pinned repository bytes`);

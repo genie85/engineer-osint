@@ -23,10 +23,22 @@ test('an explicit multimedia status remains the standard path',()=>{
   assert.deepEqual(resolvePinnedMultimediaStatus(candidate),{status:'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',basis:'PATCH_EXPLICIT',exception_id:null});
 });
 
+test('explicit multimedia status rejects invalid types, unknown values and conflicts',()=>{
+  for(const status of [{},42,' ','UNKNOWN_STATUS']){
+    const candidate=input();candidate.patch.qa.multimedia_status=status;
+    assert.throws(()=>resolvePinnedMultimediaStatus(candidate),/explicit multimedia status is not a supported enum value/);
+  }
+  const conflict=input();
+  conflict.patch.qa.multimedia_status='COMPLETE_NO_CANONICAL_MEDIA_ADDITION';
+  conflict.patch.qa.multimedia={status:'COMPLETE_WITH_CANONICAL_MEDIA_ADDITION'};
+  assert.throws(()=>resolvePinnedMultimediaStatus(conflict),/conflicting explicit multimedia status values/);
+});
+
 test('pinned waiver fails closed on identity, byte, report and manifest changes',()=>{
   for(const mutate of [
     value=>{value.repositoryFileRaw+=' ';},
     value=>{value.reportSnapshotRaw+=' ';},
+    value=>{value.repositoryFileRaw=value.repositoryFileRaw.replace(/\n$/,'');},
     value=>{value.patch.state.parent_run_id='engineer-osint-20260825-B70';},
     value=>{value.manifestEntry.file_sha256='0'.repeat(64);},
     value=>{value.manifestEntry.canonical_sha256='0'.repeat(64);}
@@ -58,4 +70,7 @@ test('future runs and duplicate or broadened registry entries are rejected',()=>
 
   const broadened=structuredClone(registry);broadened.exceptions[0].run_id='engineer-osint-20260825-B73';
   assert.throws(()=>validateMediaSweepExceptionRegistry(broadened),/not an approved one-run attestation/);
+
+  const unknownRoot=structuredClone(registry);unknownRoot.default_allow=true;
+  assert.throws(()=>validateMediaSweepExceptionRegistry(unknownRoot),/registry contains unsupported field/);
 });

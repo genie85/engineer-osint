@@ -1,5 +1,6 @@
 import {lstatSync,readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {parseJsonStrict} from './lib/integrity.mjs';
 import {loadCanonicalRunStore} from './lib/run-store.mjs';
 import {resolvePinnedMultimediaStatus,validateMediaSweepExceptionRegistry} from './lib/media-sweep-exceptions.mjs';
 
@@ -7,8 +8,8 @@ const outDir='docs/engineer-osint-dist';
 const audit=JSON.parse(readFileSync(join(outDir,'media-history-audit.json'),'utf8'));
 const store=loadCanonicalRunStore({root:'docs/engineer-osint'});
 const currentPatch=store.patches.at(-1)||JSON.parse(readFileSync('docs/engineer-osint/b11-patch.json','utf8'));
-const manifest=JSON.parse(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
-const exceptionRegistry=validateMediaSweepExceptionRegistry(JSON.parse(readFileSync('docs/engineer-osint/media-sweep-status-exceptions.json','utf8')));
+const manifest=parseJsonStrict(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'),{source:'run-store manifest'});
+const exceptionRegistry=validateMediaSweepExceptionRegistry(parseJsonStrict(readFileSync('docs/engineer-osint/media-sweep-status-exceptions.json','utf8'),{source:'media-sweep exception registry'}));
 const runs=Array.isArray(audit.runs)?audit.runs:[];
 const canonical=Array.isArray(audit.canonical_media)?audit.canonical_media:[];
 const runtimeSources=Array.isArray(audit.runtime?.source_media)?audit.runtime.source_media:[];
