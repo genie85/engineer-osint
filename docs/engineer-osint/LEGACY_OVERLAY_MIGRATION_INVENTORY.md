@@ -1,8 +1,10 @@
 # ENGINEER OSINT — legacy factual overlay migration inventory
 
-Status: **EO-P2 inventory; no factual migration authorized by this document**  
-Version: **1.0**  
-Baseline: **`main` `feed6e394f8d897787d1e0c2d20be60ed643926a`, public run B70**  
+Status: **EO-P2 inventory; first slice prepared, awaiting Drive-backed canonical run**
+
+Version: **1.1**
+
+Baseline: **`main` `5a63a2ed86b03cbe11ec79f802e537c121c1d6fb`, public run B74**
 Generated: **2026-08-25**
 
 ## Purpose
@@ -136,6 +138,14 @@ Proposed first-slice decision:
 4. remove the module from runtime and its baseline entry after semantic
    before/after comparison;
 5. do not delete the archived module file without separate approval.
+
+Implementation status at B74: the positional-translation hazard has been
+removed and a semantic regression test added. The exact reviewed factual
+handoff is recorded in `LEAD_001_CANONICALIZATION_HANDOFF.md`. The runtime
+overlay remains active until the same claims exist in a full Drive-backed
+SUCCESS and can be retired atomically during its GitHub publication. A
+repository-only run is forbidden because it would place `PUBLISHED_TIP` ahead
+of `FACTUAL_SUCCESS_TIP` and collide with the next factual run ID.
 
 ## Module 4 — `rich-backfill-usa-rok.js`
 
