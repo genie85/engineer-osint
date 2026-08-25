@@ -1,20 +1,24 @@
 import {createHash} from 'node:crypto';
 
 const REGISTRY_SCHEMA='engineer-osint-media-sweep-exceptions-v1';
-const RESOLVED_STATUS='MISSING_WAIVED_PINNED_ZERO_DELTA';
+const RESOLVED_STATUSES={
+  ZERO_DELTA:'MISSING_WAIVED_PINNED_ZERO_DELTA',
+  NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION'
+};
 const EXPLICIT_STATUSES=new Set([
   'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',
   'COMPLETE_WITH_CANONICAL_MEDIA_ADDITION'
 ]);
 const ELIGIBLE_RUNS=new Map([
-  ['engineer-osint-20260825-B72','1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV']
+  ['engineer-osint-20260825-B72',{reportDriveId:'1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV',waiverScope:'ZERO_DELTA'}],
+  ['engineer-osint-20260825-B73',{reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
   'exception_id','run_id','parent_run_id','source_drive_raw_file_sha256',
   'source_transport_normalization',
   'repository_file_sha256','repository_canonical_sha256','report_drive_id','report_text_sha256',
-  'report_snapshot_path','omitted_field','resolved_status','rationale'
+  'report_snapshot_path','omitted_field','resolved_status','waiver_scope','rationale'
 ]);
 
 const fail=message=>{throw new Error(`Invalid media-sweep exception: ${message}`)};
@@ -36,9 +40,10 @@ export function validateMediaSweepExceptionRegistry(registry){
       if(!HASH.test(item[field]||''))fail(`${item.exception_id} has invalid ${field}`);
     }
     if(item.omitted_field!=='qa.multimedia_status')fail(`${item.exception_id} may only attest qa.multimedia_status`);
-    if(item.resolved_status!==RESOLVED_STATUS)fail(`${item.exception_id} has unsupported resolved_status`);
-    if(item.source_transport_normalization!=='APPEND_SINGLE_LF')fail(`${item.exception_id} has unsupported source_transport_normalization`);
-    if(!ELIGIBLE_RUNS.has(item.run_id)||ELIGIBLE_RUNS.get(item.run_id)!==item.report_drive_id)fail(`${item.exception_id} is not an approved one-run attestation`);
+    if(item.resolved_status!==RESOLVED_STATUSES[item.waiver_scope])fail(`${item.exception_id} has unsupported resolved_status`);
+    if(!['IDENTITY','APPEND_SINGLE_LF'].includes(item.source_transport_normalization))fail(`${item.exception_id} has unsupported source_transport_normalization`);
+    const eligibility=ELIGIBLE_RUNS.get(item.run_id);
+    if(!eligibility||eligibility.reportDriveId!==item.report_drive_id||eligibility.waiverScope!==item.waiver_scope)fail(`${item.exception_id} is not an approved one-run attestation`);
     if(!item.report_snapshot_path.startsWith('data/attestations/')||item.report_snapshot_path.includes('..')||item.report_snapshot_path.includes('\\'))fail(`${item.exception_id} has unsafe report_snapshot_path`);
     if(ids.has(item.exception_id)||runs.has(item.run_id))fail(`duplicate exception identity for ${item.run_id}`);
     ids.add(item.exception_id);runs.add(item.run_id);
@@ -51,7 +56,7 @@ function hasMediaPayload(patch){
     if(patch[field]!==undefined&&!Array.isArray(patch[field]))fail(`${field} must be an array when present`);
     if(asArray(patch[field]).length)return true;
   }
-  if(patch.multimedia!==undefined&&patch.multimedia!==null)fail('multimedia must be absent for the pinned zero-delta waiver');
+  if(patch.multimedia!==undefined&&patch.multimedia!==null)fail('multimedia must be absent for the pinned media-status waiver');
   return false;
 }
 
@@ -90,7 +95,8 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   if(manifestEntry.file_sha256!==item.repository_file_sha256)fail(`${item.exception_id} manifest file hash mismatch`);
   if(manifestEntry.canonical_sha256!==item.repository_canonical_sha256)fail(`${item.exception_id} canonical hash mismatch`);
   if(sha256(repositoryFileRaw)!==item.repository_file_sha256)fail(`${item.exception_id} repository file bytes mismatch`);
-  if(!repositoryFileRaw.endsWith('\n')||sha256(repositoryFileRaw.slice(0,-1))!==item.source_drive_raw_file_sha256)fail(`${item.exception_id} Drive-to-repository normalization mismatch`);
+  const sourceNormalized=item.source_transport_normalization==='IDENTITY'?repositoryFileRaw:repositoryFileRaw.endsWith('\n')?repositoryFileRaw.slice(0,-1):null;
+  if(sourceNormalized===null||sha256(sourceNormalized)!==item.source_drive_raw_file_sha256)fail(`${item.exception_id} Drive-to-repository normalization mismatch`);
   let parsedRepositoryPatch;
   try{parsedRepositoryPatch=JSON.parse(repositoryFileRaw)}catch{fail(`${item.exception_id} repository file is not valid JSON`)}
   if(JSON.stringify(parsedRepositoryPatch)!==JSON.stringify(patch))fail(`${item.exception_id} patch object does not match the pinned repository bytes`);
@@ -99,6 +105,11 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   if(hasMediaPayload(patch))fail(`${item.exception_id} cannot cover a media payload`);
   ensureOptionalEmptyArray(patch?.qa?.worth_watching,'qa.worth_watching');
   ensureOptionalEmptyArray(patch?.qa?.worth_listening,'qa.worth_listening');
-  ensureZeroDelta(patch,item);
+  if(item.waiver_scope==='ZERO_DELTA')ensureZeroDelta(patch,item);
+  else{
+    const operations=patch?.extensions?.operations_v1;
+    if(operations!==undefined&&!Array.isArray(operations))fail(`${item.exception_id} requires operations_v1 to be an array when present`);
+    if(asArray(operations).some(operation=>operation?.collection==='media'))fail(`${item.exception_id} cannot cover media correction operations`);
+  }
   return {status:item.resolved_status,basis:'HASH_PINNED_REPORT_ATTESTATION',exception_id:item.exception_id};
 }

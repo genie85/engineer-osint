@@ -1,0 +1,229 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260825-B73",
+    "parent_run_id": "engineer-osint-20260825-B72",
+    "status": "SUCCESS",
+    "window_from": "2026-08-25T22:28:35+02:00",
+    "window_to": "2026-08-25T23:22:04+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 0,
+      "UPDATE": 1,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 1,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260825-B72",
+    "factual_success_tip_before_run": "engineer-osint-20260825-B72",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B70",
+    "published_tip": "engineer-osint-20260825-B70",
+    "github_parent_canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-23T23:22:04+02:00",
+    "reconciliation_window_to": "2026-08-25T23:22:04+02:00",
+    "main_sha_at_start": "4ea0fdefe0c8ee14c8f16f93c87d6004ca376eeb",
+    "publication_lag_before_run": 2,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260825-B71",
+      "engineer-osint-20260825-B72"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260825-B71",
+      "engineer-osint-20260825-B72",
+      "engineer-osint-20260825-B73"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální kancelář prezidenta Ukrajiny 24. srpna 2026 navíc veřejně doložila ženijně relevantní rozsah úloh pozemních robotizovaných komplexů: průzkum, kladení a odstraňování min, logistiku, evakuaci, palebnou podporu a podporu útoku. Na prvním ukrajinském průvodu bezpilotních systémů bylo ve videu veřejně prezentováno 30 NŘK šesti typů — TerMIT, Rys, Simba, Ardal, Zmiy a Ratel. Tento podklad rozšiřuje B71 o doložené ženijní role, nikoli o nový počet misí.",
+      "summary_en": "On 24 August 2026, the Office of the President of Ukraine additionally documented an engineer-relevant UGV task portfolio: reconnaissance, mine laying and mine clearance, logistics, casualty evacuation, fire support, and support to assaults. The first Ukrainian unmanned-systems parade publicly presented 30 UGVs of six named types — TerMIT, Rys, Simba, Ardal, Zmiy, and Ratel. This evidence enriches the B71 signal with documented engineering roles rather than a new mission-count baseline.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Primární prezidentský zdroj nezávisle na článku ArmyInform potvrzuje, že Ukrajina veřejně přiřazuje NŘK také k minování a odminování. Současně uvádí starší souhrn přes 66 000 misí, zatímco pozdější ministerská linie zachycená v B71 uvádí přes 100 000 misí. Tyto hodnoty se proto nesmějí slučovat jako stejné časové řezy; B73 používá prezidentský zdroj pouze k potvrzení rolí a veřejně prezentovaných typů.",
+      "analysis_en": "The presidential primary source, independent of the ArmyInform article, confirms that Ukraine publicly assigns UGVs to mine laying and mine-clearance tasks as well. It also carries an older aggregate of more than 66,000 missions, whereas the later ministry-source lineage captured in B71 reports more than 100,000 missions. The figures must therefore not be treated as the same temporal snapshot; B73 uses the presidential source only to confirm roles and the publicly showcased platform types.",
+      "intelligence_gaps_cs": "Stále není veřejně doložen unikátní počet fyzických platforem v operačním použití, readiness, typové rozdělení misí ani podíl ženijních úkolů. Veřejné tvrzení o 30 systémech na průvodu neprokazuje zásoby, přidělení jednotkám ani to, že každý z šesti typů plní všechny uvedené role.",
+      "intelligence_gaps_en": "The unique number of operationally employed physical platforms, readiness, mission breakdown by type, and the share of engineering tasks remain publicly unresolved. The public display of 30 systems does not establish inventory, unit allocation, or that every one of the six named types performs every listed role.",
+      "what_it_does_not_prove_cs": "Neprokazuje aktuální taktické rozmístění, readiness, přesné trasy, inventární stavy, skutečný podíl minovacích/odminovacích misí ani nezávislou validaci agregovaných počtů misí.",
+      "what_it_does_not_prove_en": "It does not establish current tactical deployment, readiness, precise routes, inventory holdings, the actual share of mine-laying/mine-clearance missions, or independent validation of aggregate mission counts.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE",
+        "MINE_LAYING",
+        "MINE_CLEARANCE",
+        "COMBAT_ENGINEERING"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508",
+        "ENG-SRC-0511"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202",
+        "ENG-EVID-0204"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B73"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0511",
+      "title": "У 35-ту річницю відновлення незалежності України відбувся перший в історії країни парад дронів",
+      "title_cs": "Na 35. výročí obnovení nezávislosti Ukrajiny se konal první průvod bezpilotních systémů v historii země",
+      "title_en": "On the 35th Anniversary of the Restoration of Ukraine’s Independence, the First-Ever Drone Parade in the Country Took Place",
+      "publisher": "Office of the President of Ukraine",
+      "publication_date": "2026-08-24T19:20:00+03:00",
+      "accessed_at": "2026-08-25",
+      "url": "https://www.president.gov.ua/en/news/u-35-tu-richnicyu-vidnovlennya-nezalezhnosti-ukrayini-vidbuv-106037",
+      "language": "en/uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_PRESIDENTIAL_PUBLIC_RELEASE",
+      "role": "UGV_ENGINEERING_TASK_PORTFOLIO_AND_PUBLIC_PLATFORM_SHOWCASE",
+      "verification_status": "VERIFIED_DIRECT_PRIMARY_PUBLIC_PAGE",
+      "verification_status_cs": "OVĚŘENA PŘÍMÁ PRIMÁRNÍ VEŘEJNÁ STRÁNKA",
+      "verification_status_en": "VERIFIED DIRECT PRIMARY PUBLIC PAGE",
+      "temporal_note_cs": "Publikováno 24. 8. 2026 v 19:20 EEST; v B73 nalezeno v rámci 48hodinové reconciliation. Zdroj uvádí starší agregát přes 66 000 misí, který není používán k přepsání pozdějšího údaje přes 100 000 z B71.",
+      "temporal_note_en": "Published 24 August 2026 at 19:20 EEST and discovered in B73 during the 48-hour reconciliation. The source carries an older aggregate of more than 66,000 missions and is not used to overwrite the later 100,000-plus figure captured in B71.",
+      "first_seen_run": "engineer-osint-20260825-B73"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0204",
+      "evidence_id": "ENG-EVID-0204",
+      "evidence_type": "PRIMARY_OFFICIAL_UGV_ENGINEERING_ROLE_AND_PUBLIC_SHOWCASE_CONFIRMATION",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ TEXT",
+      "evidence_status_en": "DIRECT PRIMARY OFFICIAL TEXT VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0032"
+      ],
+      "source_ids": [
+        "ENG-SRC-0511"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "OFFICIAL_PRESIDENTIAL_TEXT_ONLY_NO_DIRECT_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "POUZE OFICIÁLNÍ PREZIDENTSKÝ TEXT; BEZ PŘÍMÉ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "OFFICIAL PRESIDENTIAL TEXT ONLY; NO DIRECT PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje veřejně deklarovaný rozsah úloh NŘK včetně kladení a odstraňování min a potvrzuje veřejné představení 30 NŘK šesti jmenovaných typů během průvodu bezpilotních systémů.",
+      "what_it_supports_en": "Supports the publicly stated UGV task portfolio including mine laying and mine clearance, and confirms the public presentation of 30 UGVs of six named types during the unmanned-systems parade.",
+      "what_it_does_not_prove_cs": "Neprokazuje inventární stav, přidělení k jednotkám, readiness, taktické rozmístění, skutečný počet ženijních misí ani to, že každý typ plní všechny popsané role.",
+      "what_it_does_not_prove_en": "Does not establish inventory, unit allocation, readiness, tactical deployment, actual engineer-mission counts, or that every named platform performs every described role.",
+      "confidence": "HIGH_FOR_PUBLIC_ROLE_STATEMENT_AND_SHOWCASE_LOW_FOR_OPERATIONAL_INVENTORY",
+      "first_seen_run": "engineer-osint-20260825-B73"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální kancelář prezidenta Ukrajiny 24. srpna 2026 navíc veřejně doložila ženijně relevantní rozsah úloh pozemních robotizovaných komplexů: průzkum, kladení a odstraňování min, logistiku, evakuaci, palebnou podporu a podporu útoku. Na prvním ukrajinském průvodu bezpilotních systémů bylo ve videu veřejně prezentováno 30 NŘK šesti typů — TerMIT, Rys, Simba, Ardal, Zmiy a Ratel. Tento podklad rozšiřuje B71 o doložené ženijní role, nikoli o nový počet misí.",
+      "summary_en": "On 24 August 2026, the Office of the President of Ukraine additionally documented an engineer-relevant UGV task portfolio: reconnaissance, mine laying and mine clearance, logistics, casualty evacuation, fire support, and support to assaults. The first Ukrainian unmanned-systems parade publicly presented 30 UGVs of six named types — TerMIT, Rys, Simba, Ardal, Zmiy, and Ratel. This evidence enriches the B71 signal with documented engineering roles rather than a new mission-count baseline.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Primární prezidentský zdroj nezávisle na článku ArmyInform potvrzuje, že Ukrajina veřejně přiřazuje NŘK také k minování a odminování. Současně uvádí starší souhrn přes 66 000 misí, zatímco pozdější ministerská linie zachycená v B71 uvádí přes 100 000 misí. Tyto hodnoty se proto nesmějí slučovat jako stejné časové řezy; B73 používá prezidentský zdroj pouze k potvrzení rolí a veřejně prezentovaných typů.",
+      "analysis_en": "The presidential primary source, independent of the ArmyInform article, confirms that Ukraine publicly assigns UGVs to mine laying and mine-clearance tasks as well. It also carries an older aggregate of more than 66,000 missions, whereas the later ministry-source lineage captured in B71 reports more than 100,000 missions. The figures must therefore not be treated as the same temporal snapshot; B73 uses the presidential source only to confirm roles and the publicly showcased platform types.",
+      "intelligence_gaps_cs": "Stále není veřejně doložen unikátní počet fyzických platforem v operačním použití, readiness, typové rozdělení misí ani podíl ženijních úkolů. Veřejné tvrzení o 30 systémech na průvodu neprokazuje zásoby, přidělení jednotkám ani to, že každý z šesti typů plní všechny uvedené role.",
+      "intelligence_gaps_en": "The unique number of operationally employed physical platforms, readiness, mission breakdown by type, and the share of engineering tasks remain publicly unresolved. The public display of 30 systems does not establish inventory, unit allocation, or that every one of the six named types performs every listed role.",
+      "what_it_does_not_prove_cs": "Neprokazuje aktuální taktické rozmístění, readiness, přesné trasy, inventární stavy, skutečný podíl minovacích/odminovacích misí ani nezávislou validaci agregovaných počtů misí.",
+      "what_it_does_not_prove_en": "It does not establish current tactical deployment, readiness, precise routes, inventory holdings, the actual share of mine-laying/mine-clearance missions, or independent validation of aggregate mission counts.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE",
+        "MINE_LAYING",
+        "MINE_CLEARANCE",
+        "COMBAT_ENGINEERING"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508",
+        "ENG-SRC-0511"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202",
+        "ENG-EVID-0204"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B73"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "research_sweep_status": "COMPLETE_ONE_LATE_DISCOVERED_ENTITY_ENRICHMENT",
+    "publication_safety": "PASS_PUBLIC_OK_AGGREGATED",
+    "bilingual_precheck": "PASS_CZ_EN_COMPLETE_FOR_MATERIALLY_CHANGED_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "NOT_RUN_FACTUAL_PRODUCER_HANDOFF_ONLY",
+    "schema_local_required_fields": "PASS",
+    "duplicate_lineage_check": "PASS_ENRICHES_EXISTING_ENG_SIG_0032",
+    "current_delta_status": "ZERO_QUALIFIED_PROMOTION",
+    "telegram_status": "PARTIAL_WEB_INDEX_DISCOVERY_ONLY_NOT_SUFFICIENT_FOR_NO_HIT",
+    "visual_osint": "NO_DIRECT_PIXEL_OR_FRAME_INSPECTION"
+  }
+}
