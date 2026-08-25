@@ -32,6 +32,19 @@ The helper refuses stale parents and existing run paths. It computes the parent 
 
 An agent that cannot execute the repository helper must not fabricate hashes or place an unregistered JSON file in `data/runs`. It should preserve the validated candidate patch in the Drive research handoff for Codex intake.
 
+## Research continuity versus publication continuity
+
+The Drive factual chain and the GitHub publication chain have separate tips:
+
+- `FACTUAL_SUCCESS_TIP` is the verified Drive continuation tip. It is the parent of the next research run.
+- `PUBLISHED_TIP` is the final manifest entry. It is the parent accepted by `append-run.mjs`.
+
+The published tip may be an ancestor of the factual tip. This normal `PUBLICATION_LAG` must not block a later research run. It also does not weaken publication ordering: the helper still refuses a patch whose parent is not the current manifest tip.
+
+The publication executor reconciles immutable Drive handoffs with the manifest and appends exactly the first missing run. With GitHub at B67 and Drive at B68, it appends B68. If factual research has meanwhile produced B69 with parent B68, B69 remains pending until B68 is merged and confirmed as the manifest tip. Attempting B69 first fails the existing stale-parent check.
+
+A Drive SUCCESS does not imply that repository data, build, deploy or public read-back succeeded. Missing immutable handoff artefacts or a lineage divergence block both continuation and publication; a presentation-only or infrastructure publication failure leaves the factual chain valid and the ordered backlog pending.
+
 ## Corrections and retractions
 
 Post-snapshot corrections use `extensions.operations_v1`. Supported operations are:
