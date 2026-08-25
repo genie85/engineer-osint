@@ -11,7 +11,8 @@ const EXPLICIT_STATUSES=new Set([
 ]);
 const ELIGIBLE_RUNS=new Map([
   ['engineer-osint-20260825-B72',{reportDriveId:'1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV',waiverScope:'ZERO_DELTA'}],
-  ['engineer-osint-20260825-B73',{reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}]
+  ['engineer-osint-20260825-B73',{reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260825-B74',{reportDriveId:'1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx',waiverScope:'NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([

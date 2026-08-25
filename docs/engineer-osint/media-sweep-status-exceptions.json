@@ -32,6 +32,22 @@
       "resolved_status": "MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION",
       "waiver_scope": "NO_MEDIA_ADDITION",
       "rationale": "Immutable B73 is a verified no-media SUCCESS. Its Drive report explicitly records that no new visual or media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
+    },
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B74",
+      "run_id": "engineer-osint-20260825-B74",
+      "parent_run_id": "engineer-osint-20260825-B73",
+      "source_drive_raw_file_sha256": "a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895",
+      "source_transport_normalization": "IDENTITY",
+      "repository_file_sha256": "a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895",
+      "repository_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+      "report_drive_id": "1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx",
+      "report_text_sha256": "f4d00d52ba3332ae62fabf028f2a8b50091cfeae63afdad20b80363c074cb1c4",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260825-B74-report.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION",
+      "waiver_scope": "NO_MEDIA_ADDITION",
+      "rationale": "Immutable B74 is a verified no-media SUCCESS. Its Drive report explicitly records that no visual or media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
     }
   ]
 }

@@ -15,6 +15,10 @@ const b73RunRaw=readFileSync(`${root}/data/runs/engineer-osint-20260825-B73.json
 const b73Patch=JSON.parse(b73RunRaw);
 const b73ManifestEntry=manifest.runs.find(item=>item.run_id===b73Patch.state.run_id);
 const b73ReportSnapshotRaw=readFileSync(`${root}/data/attestations/engineer-osint-20260825-B73-report.md`,'utf8');
+const b74RunRaw=readFileSync(`${root}/data/runs/engineer-osint-20260825-B74.json`,'utf8');
+const b74Patch=JSON.parse(b74RunRaw);
+const b74ManifestEntry=manifest.runs.find(item=>item.run_id===b74Patch.state.run_id);
+const b74ReportSnapshotRaw=readFileSync(`${root}/data/attestations/engineer-osint-20260825-B74-report.md`,'utf8');
 
 test('exact B72 zero-delta omission is accepted only as a transparent hash-pinned waiver',()=>{
   const result=resolvePinnedMultimediaStatus(input());
@@ -24,6 +28,11 @@ test('exact B72 zero-delta omission is accepted only as a transparent hash-pinne
 test('exact B73 factual enrichment is accepted only as a pinned no-media-addition waiver',()=>{
   const result=resolvePinnedMultimediaStatus({patch:b73Patch,manifestEntry:b73ManifestEntry,repositoryFileRaw:b73RunRaw,reportSnapshotRaw:b73ReportSnapshotRaw,registry});
   assert.deepEqual(result,{status:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',basis:'HASH_PINNED_REPORT_ATTESTATION',exception_id:'MEDIA-SWEEP-ATTEST-B73'});
+});
+
+test('exact B74 factual enrichment is accepted only as a pinned no-media-addition waiver',()=>{
+  const result=resolvePinnedMultimediaStatus({patch:b74Patch,manifestEntry:b74ManifestEntry,repositoryFileRaw:b74RunRaw,reportSnapshotRaw:b74ReportSnapshotRaw,registry});
+  assert.deepEqual(result,{status:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',basis:'HASH_PINNED_REPORT_ATTESTATION',exception_id:'MEDIA-SWEEP-ATTEST-B74'});
 });
 
 test('an explicit multimedia status remains the standard path',()=>{
