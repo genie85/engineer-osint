@@ -53,6 +53,10 @@ Every affected item should eventually be classified as:
 - `REJECTED`
 - `DEFERRED`
 
+The item-level baseline, source-alias map, migration severity and required QA
+are maintained in `LEGACY_OVERLAY_MIGRATION_INVENTORY.md`. That inventory is a
+migration plan, not authority to copy runtime values into canonical data.
+
 After canonicalization/rejection, the matching runtime factual mutation should be removed. A module that remains presentation-only may stay if it only renders or transforms already persistent data without changing factual meaning.
 
 ## Translation persistence
