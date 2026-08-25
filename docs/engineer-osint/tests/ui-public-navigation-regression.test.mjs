@@ -5,9 +5,11 @@ import {readFileSync} from 'node:fs';
 const nav=readFileSync('docs/engineer-osint/ui-phase8-navigation.js','utf8');
 const gallery=readFileSync('docs/engineer-osint/ui-phase3.js','utf8');
 
-test('global legacy filters are scoped to Overview',()=>{
+test('global legacy filters are shown only on views they actually filter',()=>{
   assert.match(nav,/globalFilterPanel/);
-  assert.match(nav,/isOverviewTitle/);
+  assert.match(nav,/globalFiltersApply/);
+  assert.match(nav,/route==='activity'/);
+  assert.match(nav,/route==='technology'/);
   assert.match(nav,/panel\.hidden=!show/);
   assert.match(nav,/MutationObserver\(syncGlobalFilterVisibility\)/);
 });
