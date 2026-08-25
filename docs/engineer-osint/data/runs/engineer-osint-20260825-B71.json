@@ -1,0 +1,408 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260825-B71",
+    "parent_run_id": "engineer-osint-20260825-B70",
+    "status": "SUCCESS",
+    "window_from": "2026-08-25T21:12:41+02:00",
+    "window_to": "2026-08-25T22:15:04+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 2,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 2,
+      "UPDATE": 0,
+      "CONFIRMATION": 4,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 2,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 4,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_PUBLISHED_TIP_CAUGHT_UP_AT_START",
+    "drive_parent_run_id": "engineer-osint-20260825-B70",
+    "factual_success_tip_before_run": "engineer-osint-20260825-B70",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B70",
+    "published_tip": "engineer-osint-20260825-B70",
+    "github_parent_canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-23T22:15:04+02:00",
+    "reconciliation_window_to": "2026-08-25T22:15:04+02:00",
+    "main_sha_at_start": "4301e9757eb6a0ac543622413a5da6d54e1d0983",
+    "publication_lag_before_run": 0,
+    "unpublished_success_chain_before_run": [],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260825-B71"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 2,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální ukrajinské vojenské médium ArmyInform 24. srpna 2026 s odkazem na Ministerstvo obrany uvedlo, že jednotky Obranných sil od začátku roku provedly pomocí pozemních robotizovaných komplexů více než 100 000 logistických a evakuačních misí. Zveřejněná měsíční řada ukazuje růst z 7 511 misí v lednu na 19 969 v červenci a 15 729 za prvních 20 dnů srpna. Jde o agregovaný signál rozsahu používání NŘK, nikoli o počet fyzických platforem ani o ženijně specifickou statistiku.",
+      "summary_en": "On 24 August 2026, official Ukrainian military outlet ArmyInform, citing the Ministry of Defence, reported that Defence Forces units had conducted more than 100,000 logistics and evacuation missions using ground robotic systems since the start of the year. The published monthly series rises from 7,511 missions in January to 19,969 in July, with 15,729 during the first 20 days of August. This is an aggregate signal of UGV employment scale, not a count of physical platforms or an engineer-specific statistic.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Ve spojení s dřívějším oficiálním údajem přes 50 000 misí k 9. červnu jde o silný veřejný trendový signál pokračujícího škálování používání pozemní robotiky. Zdrojová linie však vede ke stejnému ministerskému hlášení a v tomto běhu nebyla nezávisle ověřena surová data systému DELTA.",
+      "analysis_en": "Together with the earlier official figure of more than 50,000 missions by 9 June, this is a strong public trend signal of continued scaling in ground robotics employment. However, the source chain leads back to the same ministry reporting and the underlying DELTA data were not independently verified in this run.",
+      "intelligence_gaps_cs": "Není veřejně doložen unikátní počet fyzických platforem použitých pro tyto mise, jejich provozuschopnost, typové rozdělení ani podíl ženijních úkolů. Přímý hluboký odkaz na původní ministerskou stránku s údajem přes 100 000 misí se v tomto běhu nepodařilo spolehlivě otevřít.",
+      "intelligence_gaps_en": "The public material does not establish the unique number of physical platforms used for these missions, their serviceability, type mix, or the share of engineering tasks. A direct deep link to the underlying ministry page carrying the 100,000-plus figure could not be reliably opened in this run.",
+      "what_it_does_not_prove_cs": "Neprokazuje počet NŘK ve výzbroji, readiness, přesné rozmístění, konkrétní taktické trasy, ženijně specifické tempo činnosti ani nezávislou validaci všech záznamů DELTA.",
+      "what_it_does_not_prove_en": "It does not establish UGV inventory, readiness, precise deployment, specific tactical routes, engineer-specific activity rates, or independent validation of all DELTA records.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-SIG-0033",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina poprvé vyhlásila soutěžní nákup NŘK podle charakteristik stanovených Ministerstvem obrany",
+      "title_en": "Ukraine launched its first competitive UGV procurement under Ministry-defined characteristics",
+      "summary_cs": "ArmyInform 25. srpna 2026 s odkazem na Ministerstvo obrany uvedlo, že obranná nákupní agentura DOT poprvé zahájila soutěžní pořízení pozemních robotizovaných komplexů podle charakteristik stanovených ministerstvem. Veřejné oznámení rozlišuje logistické a úderné kategorie a zdůrazňuje konkurenční rozdělení zakázek mezi více dodavatelů. Záznam zachycuje změnu nákupního mechanismu a škálování kategorie, nikoli potvrzení dodávky konkrétního počtu systémů.",
+      "summary_en": "On 25 August 2026, ArmyInform, citing the Ministry of Defence, reported that defence procurement agency DOT had launched the first competitive procurement of ground robotic systems under ministry-defined characteristics. The public announcement distinguishes logistics and strike categories and emphasizes competitive allocation across multiple suppliers. This records a procurement-mechanism and scaling signal, not confirmation that any specific quantity has been delivered.",
+      "fact_cs": "Oficiální vojenské médium s odkazem na Ministerstvo obrany uvedlo, že DOT poprvé zahájil soutěžní nákup NŘK podle ministerstvem stanovených charakteristik, a to pro logistické a úderné kategorie.",
+      "fact_en": "Official military media, citing the Ministry of Defence, reported that DOT had for the first time launched competitive UGV procurement under ministry-defined characteristics for logistics and strike categories.",
+      "analysis_cs": "Přechod k soutěžnímu nákupu podle definovaných kategorií je signálem institucionalizace a škálování pozemní robotiky v akvizičním procesu. Veřejné oznámení samo neprokazuje výsledky soutěže, objem budoucích dodávek ani operační výkon jednotlivých platforem.",
+      "analysis_en": "Moving to competitive procurement under defined categories is a signal of institutionalization and scaling of ground robotics in the acquisition process. The public announcement by itself does not establish tender outcomes, future delivery volumes, or operational performance of individual platforms.",
+      "intelligence_gaps_cs": "Výsledek soutěže, konečné množství objednaných a dodaných systémů, harmonogram dodávek a skutečné jednotkové zavedení zůstávají z veřejného oznámení neznámé.",
+      "intelligence_gaps_en": "The tender outcome, final quantities ordered and delivered, delivery schedule, and actual unit-level fielding remain unknown from the public announcement.",
+      "what_it_does_not_prove_cs": "Neprokazuje uzavření kontraktů s konkrétními výrobci, skutečné dodání systémů, readiness ani kvalitu či bojovou účinnost jednotlivých platforem.",
+      "what_it_does_not_prove_en": "It does not establish contract awards to specific manufacturers, actual delivery of systems, readiness, or the quality or combat effectiveness of individual platforms.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "PROCUREMENT",
+        "LOGISTICS",
+        "STRIKE_SYSTEMS",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE"
+      ],
+      "publication_date": "2026-08-25T13:47:00+03:00",
+      "event_time": "2026-08-25",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_PROCUREMENT_ANNOUNCEMENT",
+      "confidence": "HIGH_FOR_PUBLIC_PROCUREMENT_ANNOUNCEMENT_LOW_FOR_FUTURE_DELIVERY_OUTCOMES",
+      "source_ids": [
+        "ENG-SRC-0509",
+        "ENG-SRC-0510"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0203"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B71"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0507",
+      "title": "З початку року НРК виконали понад 100 000 місій",
+      "title_cs": "Od začátku roku NŘK provedly přes 100 000 misí",
+      "title_en": "UGVs have carried out more than 100,000 missions since the start of the year",
+      "publisher": "АрміяInform / Ministry of Defence of Ukraine military media",
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "accessed_at": "2026-08-25",
+      "url": "https://armyinform.com.ua/2026/08/24/z-pochatku-roku-nrk-vykonaly-ponad-100-000-misij/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_UKRAINIAN_MILITARY_MEDIA_CITING_MOD",
+      "role": "UGV_2026_AGGREGATE_MISSION_SCALE",
+      "verification_status": "VERIFIED_SEARCH_INDEXED_FULL_ARTICLE_TEXT_CACHE_OPEN_MISS",
+      "verification_status_cs": "OVĚŘEN INDEXOVANÝ PLNÝ TEXT ČLÁNKU; PŘÍMÉ OTEVŘENÍ STRÁNKY VRÁTILO CACHE MISS",
+      "verification_status_en": "VERIFIED INDEXED FULL ARTICLE TEXT; DIRECT PAGE OPEN RETURNED CACHE MISS",
+      "temporal_note_cs": "Publikováno 24. 8. 2026 v 16:39 EEST; do B71 vstupuje jako později nalezená položka v 48hodinové reconciliation.",
+      "temporal_note_en": "Published 24 August 2026 at 16:39 EEST; enters B71 as a late-discovered item in the 48-hour reconciliation window.",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-SRC-0508",
+      "title": "Наземні роботизовані комплекси виконали понад 100 000 місій на передовій – Міноборони",
+      "title_cs": "Pozemní robotizované komplexy provedly přes 100 000 misí — Ministerstvo obrany",
+      "title_en": "Ground robotic systems carried out more than 100,000 frontline missions — Ministry of Defence",
+      "publisher": "Interfax-Ukraine",
+      "publication_date": "2026-08-24T15:59:00+03:00",
+      "accessed_at": "2026-08-25",
+      "url": "https://interfax.com.ua/news/general/1195663.html",
+      "language": "uk",
+      "source_tier": 2,
+      "source_class": "SECONDARY_NEWS_WIRE_CITING_UKRAINIAN_MOD",
+      "role": "CORROBORATION_UGV_2026_AGGREGATE_MISSION_SCALE",
+      "verification_status": "VERIFIED_DIRECT_SEARCH_RESULT_FULL_TEXT",
+      "verification_status_cs": "OVĚŘEN PLNÝ TEXT VE VÝSLEDKU VYHLEDÁVÁNÍ",
+      "verification_status_en": "VERIFIED FULL TEXT IN SEARCH RESULT",
+      "temporal_note_cs": "Nezávislý mediální výstup, ale faktická linie vede ke stejnému hlášení Ministerstva obrany; nejde o nezávislou validaci surových dat DELTA.",
+      "temporal_note_en": "Independent media publication, but the factual chain leads to the same Ministry of Defence reporting; it is not independent validation of raw DELTA data.",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-SRC-0509",
+      "title": "Міноборони вперше оголосило тендер на закупівлю НРК за визначеними характеристиками",
+      "title_cs": "Ministerstvo obrany poprvé oznámilo soutěžní nákup NŘK podle stanovených charakteristik",
+      "title_en": "Ministry of Defence announces first UGV tender under defined characteristics",
+      "publisher": "АрміяInform / Ministry of Defence of Ukraine military media",
+      "publication_date": "2026-08-25T13:47:00+03:00",
+      "accessed_at": "2026-08-25",
+      "url": "https://armyinform.com.ua/2026/08/25/minoborony-vpershe-ogolosylo-tender-na-zakupivlyu-nrk-za-vyznachenymy-harakterystykamy/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_UKRAINIAN_MILITARY_MEDIA_CITING_MOD_PROCUREMENT_ANNOUNCEMENT",
+      "role": "CURRENT_UGV_COMPETITIVE_PROCUREMENT_SIGNAL",
+      "verification_status": "VERIFIED_SEARCH_INDEXED_FULL_ARTICLE_TEXT_CACHE_OPEN_MISS",
+      "verification_status_cs": "OVĚŘEN INDEXOVANÝ PLNÝ TEXT ČLÁNKU; PŘÍMÉ OTEVŘENÍ STRÁNKY VRÁTILO CACHE MISS",
+      "verification_status_en": "VERIFIED INDEXED FULL ARTICLE TEXT; DIRECT PAGE OPEN RETURNED CACHE MISS",
+      "temporal_note_cs": "Publikováno 25. 8. 2026 v 13:47 EEST; do B71 vstupuje jako později nalezená položka v 48hodinové reconciliation.",
+      "temporal_note_en": "Published 25 August 2026 at 13:47 EEST; enters B71 as a late-discovered item in the 48-hour reconciliation window.",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-SRC-0510",
+      "title": "В Україні вперше оголошений тендер на закупівлю НРК",
+      "title_cs": "Na Ukrajině byl poprvé vyhlášen tendr na nákup NŘK",
+      "title_en": "Ukraine announces its first tender for UGV procurement",
+      "publisher": "Ukrinform",
+      "publication_date": "2026-08-25T15:25:00+03:00",
+      "accessed_at": "2026-08-25",
+      "url": "https://www.ukrinform.ua/rubric-economy/4157580-v-ukraini-vperse-ogolosenij-tender-na-zakupivlu-nrk.html",
+      "language": "uk",
+      "source_tier": 2,
+      "source_class": "STATE_NEWS_AGENCY_CITING_UKRAINIAN_MOD",
+      "role": "CORROBORATION_CURRENT_UGV_COMPETITIVE_PROCUREMENT_SIGNAL",
+      "verification_status": "VERIFIED_SEARCH_RESULT_FULL_TEXT",
+      "verification_status_cs": "OVĚŘEN PLNÝ TEXT VE VÝSLEDKU VYHLEDÁVÁNÍ",
+      "verification_status_en": "VERIFIED FULL TEXT IN SEARCH RESULT",
+      "temporal_note_cs": "Státní tisková agentura reprodukuje oznámení tiskové služby Ministerstva obrany; nejde o nezávislý důkaz výsledku soutěže.",
+      "temporal_note_en": "The state news agency reproduces the Ministry of Defence press-service announcement; it is not independent evidence of the tender outcome.",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0202",
+      "evidence_id": "ENG-EVID-0202",
+      "evidence_type": "OFFICIAL_REPORTED_UGV_AGGREGATE_EMPLOYMENT_SCALE_2026",
+      "evidence_status": "OFFICIAL_DEFENCE_MEDIA_REPORT_WITH_SOURCE_CHAIN_CORROBORATION",
+      "evidence_status_cs": "HLÁŠENÍ OFICIÁLNÍHO VOJENSKÉHO MÉDIA S KŘÍŽOVOU KONTROLOU ZDROJOVÉ LINIE",
+      "evidence_status_en": "OFFICIAL DEFENCE MEDIA REPORT WITH SOURCE-CHAIN CORROBORATION",
+      "related_ids": [
+        "ENG-SIG-0032"
+      ],
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508"
+      ],
+      "evidence_date": "2026-08-24",
+      "observation_basis": "INDEXED_OFFICIAL_DEFENCE_MEDIA_TEXT_PLUS_NEWSWIRE_REPRODUCTION_CITING_SAME_MOD_REPORT",
+      "observation_basis_cs": "INDEXOVANÝ TEXT OFICIÁLNÍHO VOJENSKÉHO MÉDIA + ZPRAVODAJSKÁ REPRODUKCE TÉHOŽ HLÁŠENÍ MO",
+      "observation_basis_en": "INDEXED OFFICIAL DEFENCE MEDIA TEXT PLUS NEWSWIRE REPRODUCTION OF THE SAME MOD REPORT",
+      "what_it_supports_cs": "Podporuje závěr, že Ministerstvo obrany Ukrajiny veřejně reportovalo více než 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a zveřejnilo měsíční souhrnnou řadu.",
+      "what_it_supports_en": "Supports the conclusion that Ukraine's Ministry of Defence publicly reported more than 100,000 UGV logistics and evacuation missions since the start of 2026 and published a monthly aggregate series.",
+      "what_it_does_not_prove_cs": "Neprokazuje unikátní počet platforem, readiness, přesné polohy, ženijní podíl ani nezávislou validaci surových záznamů DELTA.",
+      "what_it_does_not_prove_en": "Does not establish unique platform counts, readiness, precise locations, the engineer-specific share, or independent validation of raw DELTA records.",
+      "confidence": "HIGH_FOR_REPORTED_AGGREGATE_MEDIUM_HIGH_FOR_INDEPENDENT_SOURCE_CHAIN",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-EVID-0203",
+      "evidence_id": "ENG-EVID-0203",
+      "evidence_type": "CURRENT_UGV_COMPETITIVE_PROCUREMENT_ANNOUNCEMENT",
+      "evidence_status": "OFFICIAL_DEFENCE_MEDIA_REPORT_CORROBORATED_BY_STATE_NEWS_AGENCY",
+      "evidence_status_cs": "HLÁŠENÍ OFICIÁLNÍHO VOJENSKÉHO MÉDIA POTVRZENÉ STÁTNÍ TISKOVOU AGENTUROU",
+      "evidence_status_en": "OFFICIAL DEFENCE MEDIA REPORT CORROBORATED BY STATE NEWS AGENCY",
+      "related_ids": [
+        "ENG-SIG-0033"
+      ],
+      "source_ids": [
+        "ENG-SRC-0509",
+        "ENG-SRC-0510"
+      ],
+      "evidence_date": "2026-08-25",
+      "observation_basis": "OFFICIAL_DEFENCE_MEDIA_TEXT_CITING_MOD_PLUS_STATE_NEWS_AGENCY_REPRODUCTION",
+      "observation_basis_cs": "TEXT OFICIÁLNÍHO VOJENSKÉHO MÉDIA S ODKAZEM NA MO + REPRODUKCE STÁTNÍ TISKOVÉ AGENTURY",
+      "observation_basis_en": "OFFICIAL DEFENCE MEDIA TEXT CITING MOD PLUS STATE NEWS AGENCY REPRODUCTION",
+      "what_it_supports_cs": "Podporuje veřejné oznámení, že DOT poprvé zahájil soutěžní nákup logistických a úderných NŘK podle charakteristik stanovených Ministerstvem obrany.",
+      "what_it_supports_en": "Supports the public announcement that DOT had launched its first competitive procurement of logistics and strike UGVs under Ministry-defined characteristics.",
+      "what_it_does_not_prove_cs": "Neprokazuje výsledek soutěže, konkrétní přidělené kontrakty, dodané množství, readiness ani operační výkon jednotlivých platforem.",
+      "what_it_does_not_prove_en": "Does not establish tender outcomes, specific contract awards, delivered quantities, readiness, or operational performance of individual platforms.",
+      "confidence": "HIGH_FOR_PUBLIC_ANNOUNCEMENT_LOW_FOR_FUTURE_OUTCOMES",
+      "first_seen_run": "engineer-osint-20260825-B71"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální ukrajinské vojenské médium ArmyInform 24. srpna 2026 s odkazem na Ministerstvo obrany uvedlo, že jednotky Obranných sil od začátku roku provedly pomocí pozemních robotizovaných komplexů více než 100 000 logistických a evakuačních misí. Zveřejněná měsíční řada ukazuje růst z 7 511 misí v lednu na 19 969 v červenci a 15 729 za prvních 20 dnů srpna. Jde o agregovaný signál rozsahu používání NŘK, nikoli o počet fyzických platforem ani o ženijně specifickou statistiku.",
+      "summary_en": "On 24 August 2026, official Ukrainian military outlet ArmyInform, citing the Ministry of Defence, reported that Defence Forces units had conducted more than 100,000 logistics and evacuation missions using ground robotic systems since the start of the year. The published monthly series rises from 7,511 missions in January to 19,969 in July, with 15,729 during the first 20 days of August. This is an aggregate signal of UGV employment scale, not a count of physical platforms or an engineer-specific statistic.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Ve spojení s dřívějším oficiálním údajem přes 50 000 misí k 9. červnu jde o silný veřejný trendový signál pokračujícího škálování používání pozemní robotiky. Zdrojová linie však vede ke stejnému ministerskému hlášení a v tomto běhu nebyla nezávisle ověřena surová data systému DELTA.",
+      "analysis_en": "Together with the earlier official figure of more than 50,000 missions by 9 June, this is a strong public trend signal of continued scaling in ground robotics employment. However, the source chain leads back to the same ministry reporting and the underlying DELTA data were not independently verified in this run.",
+      "intelligence_gaps_cs": "Není veřejně doložen unikátní počet fyzických platforem použitých pro tyto mise, jejich provozuschopnost, typové rozdělení ani podíl ženijních úkolů. Přímý hluboký odkaz na původní ministerskou stránku s údajem přes 100 000 misí se v tomto běhu nepodařilo spolehlivě otevřít.",
+      "intelligence_gaps_en": "The public material does not establish the unique number of physical platforms used for these missions, their serviceability, type mix, or the share of engineering tasks. A direct deep link to the underlying ministry page carrying the 100,000-plus figure could not be reliably opened in this run.",
+      "what_it_does_not_prove_cs": "Neprokazuje počet NŘK ve výzbroji, readiness, přesné rozmístění, konkrétní taktické trasy, ženijně specifické tempo činnosti ani nezávislou validaci všech záznamů DELTA.",
+      "what_it_does_not_prove_en": "It does not establish UGV inventory, readiness, precise deployment, specific tactical routes, engineer-specific activity rates, or independent validation of all DELTA records.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B71"
+    },
+    {
+      "id": "ENG-SIG-0033",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina poprvé vyhlásila soutěžní nákup NŘK podle charakteristik stanovených Ministerstvem obrany",
+      "title_en": "Ukraine launched its first competitive UGV procurement under Ministry-defined characteristics",
+      "summary_cs": "ArmyInform 25. srpna 2026 s odkazem na Ministerstvo obrany uvedlo, že obranná nákupní agentura DOT poprvé zahájila soutěžní pořízení pozemních robotizovaných komplexů podle charakteristik stanovených ministerstvem. Veřejné oznámení rozlišuje logistické a úderné kategorie a zdůrazňuje konkurenční rozdělení zakázek mezi více dodavatelů. Záznam zachycuje změnu nákupního mechanismu a škálování kategorie, nikoli potvrzení dodávky konkrétního počtu systémů.",
+      "summary_en": "On 25 August 2026, ArmyInform, citing the Ministry of Defence, reported that defence procurement agency DOT had launched the first competitive procurement of ground robotic systems under ministry-defined characteristics. The public announcement distinguishes logistics and strike categories and emphasizes competitive allocation across multiple suppliers. This records a procurement-mechanism and scaling signal, not confirmation that any specific quantity has been delivered.",
+      "fact_cs": "Oficiální vojenské médium s odkazem na Ministerstvo obrany uvedlo, že DOT poprvé zahájil soutěžní nákup NŘK podle ministerstvem stanovených charakteristik, a to pro logistické a úderné kategorie.",
+      "fact_en": "Official military media, citing the Ministry of Defence, reported that DOT had for the first time launched competitive UGV procurement under ministry-defined characteristics for logistics and strike categories.",
+      "analysis_cs": "Přechod k soutěžnímu nákupu podle definovaných kategorií je signálem institucionalizace a škálování pozemní robotiky v akvizičním procesu. Veřejné oznámení samo neprokazuje výsledky soutěže, objem budoucích dodávek ani operační výkon jednotlivých platforem.",
+      "analysis_en": "Moving to competitive procurement under defined categories is a signal of institutionalization and scaling of ground robotics in the acquisition process. The public announcement by itself does not establish tender outcomes, future delivery volumes, or operational performance of individual platforms.",
+      "intelligence_gaps_cs": "Výsledek soutěže, konečné množství objednaných a dodaných systémů, harmonogram dodávek a skutečné jednotkové zavedení zůstávají z veřejného oznámení neznámé.",
+      "intelligence_gaps_en": "The tender outcome, final quantities ordered and delivered, delivery schedule, and actual unit-level fielding remain unknown from the public announcement.",
+      "what_it_does_not_prove_cs": "Neprokazuje uzavření kontraktů s konkrétními výrobci, skutečné dodání systémů, readiness ani kvalitu či bojovou účinnost jednotlivých platforem.",
+      "what_it_does_not_prove_en": "It does not establish contract awards to specific manufacturers, actual delivery of systems, readiness, or the quality or combat effectiveness of individual platforms.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "PROCUREMENT",
+        "LOGISTICS",
+        "STRIKE_SYSTEMS",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE"
+      ],
+      "publication_date": "2026-08-25T13:47:00+03:00",
+      "event_time": "2026-08-25",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_PROCUREMENT_ANNOUNCEMENT",
+      "confidence": "HIGH_FOR_PUBLIC_PROCUREMENT_ANNOUNCEMENT_LOW_FOR_FUTURE_DELIVERY_OUTCOMES",
+      "source_ids": [
+        "ENG-SRC-0509",
+        "ENG-SRC-0510"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0203"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B71"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "research_sweep_status": "COMPLETE_TWO_LATE_DISCOVERED_TECHNOLOGY_SIGNALS_PROMOTED",
+    "publication_safety": "PASS_PUBLIC_OK_AGGREGATED",
+    "bilingual_precheck": "LOCAL_CZ_EN_COMPLETE_FOR_NEW_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "NOT_RUN_DRIVE_FACTUAL_PHASE",
+    "schema_local_required_fields": "PASS",
+    "duplicate_lineage_check": "PASS_AGAINST_B70_CONTINUATION_STATE_AND_GITHUB_B70_MANIFEST_TIP",
+    "current_delta_status": "NO_QUALIFIED_ITEM_FOUND_IN_EXACT_CURRENT_WINDOW",
+    "reconciliation_status": "COMPLETE_TWO_LATE_DISCOVERED_PROMOTIONS",
+    "russia_ukraine_status": "TWO_LATE_DISCOVERED_UGV_TECHNOLOGY_SIGNALS_PROMOTED",
+    "czech_status": "COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "eod_cied_eoc_eor_status": "COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "doctrine_stanag_status": "COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "orbat_status": "LEAD_059_RECHECK_NO_FORMAL_TOE_DOCUMENT_NO_PROMOTION",
+    "lessons_learned_status": "COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "TWO_LATE_DISCOVERED_PROMOTIONS",
+    "source_family_status": "COMPLETE_PRIMARY_AND_AUTHORITATIVE_RECHECK",
+    "telegram_status": "PARTIAL_WEB_INDEX_DISCOVERY_ONLY_NOT_SUFFICIENT_FOR_NO_HIT",
+    "social_discovery_status": "PARTIAL_PUBLIC_WEB_DISCOVERY_NO_ADDITIONAL_CANONICAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_DIRECT_PIXEL_INSPECTION_NO_VISUAL_PROMOTION",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "source_chain_caveat_cs": "U obou nových položek vede více veřejných výstupů ke stejnému oznámení Ministerstva obrany. Jde o křížovou kontrolu publikace, nikoli o zcela nezávislé ověření primárních dat či výsledku soutěže.",
+    "source_chain_caveat_en": "For both new items, multiple public outputs trace back to the same Ministry of Defence announcement. This cross-checks publication, but does not provide fully independent verification of underlying data or tender outcomes."
+  }
+}
