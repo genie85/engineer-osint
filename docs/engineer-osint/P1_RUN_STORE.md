@@ -32,6 +32,8 @@ The helper refuses stale parents and existing run paths. It computes the parent 
 
 An agent that cannot execute the repository helper must not fabricate hashes or place an unregistered JSON file in `data/runs`. It should preserve the validated candidate patch in the Drive research handoff for Codex intake.
 
+An immutable SUCCESS handoff with a narrowly missing non-factual QA field is not edited in place. Any publication waiver must be fail-closed, restricted to one explicitly approved run, pinned to the run identity, parent, repository file and canonical hashes, and backed by a hash-verified local snapshot of the original Drive report. The validator must label the waiver explicitly; it must not present an omitted field as if it had existed in the patch. Future runs and factual/schema/reference failures remain ineligible.
+
 ## Research continuity versus publication continuity
 
 The Drive factual chain and the GitHub publication chain have separate tips:

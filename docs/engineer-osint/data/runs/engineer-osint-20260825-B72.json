@@ -1,0 +1,77 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260825-B72",
+    "parent_run_id": "engineer-osint-20260825-B71",
+    "status": "SUCCESS",
+    "window_from": "2026-08-25T22:15:04+02:00",
+    "window_to": "2026-08-25T22:28:35+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_ZERO_DELTA_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260825-B71",
+    "factual_success_tip_before_run": "engineer-osint-20260825-B71",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B70",
+    "published_tip": "engineer-osint-20260825-B70",
+    "github_parent_canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-23T22:28:35+02:00",
+    "reconciliation_window_to": "2026-08-25T22:28:35+02:00",
+    "main_sha_at_start": "4ea0fdefe0c8ee14c8f16f93c87d6004ca376eeb",
+    "publication_lag_before_run": 1,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260825-B71"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260825-B71",
+      "engineer-osint-20260825-B72"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "research_sweep_status": "COMPLETE_ZERO_PROMOTION",
+    "publication_safety": "PASS_NO_NEW_PUBLIC_RECORDS",
+    "bilingual_precheck": "NOT_APPLICABLE_ZERO_NEW_OR_MATERIALLY_CHANGED_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "NOT_RUN_NO_GITHUB_MATERIALIZATION_ZERO_DELTA",
+    "repository_native_validation": "NOT_RUN_FACTUAL_PRODUCER_HANDOFF_ONLY",
+    "schema_local_required_fields": "PASS",
+    "current_delta_status": "ZERO_QUALIFIED_PROMOTION",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_WEB_INDEX_ONLY"
+  }
+}

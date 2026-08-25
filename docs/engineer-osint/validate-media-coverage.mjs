@@ -1,11 +1,15 @@
-import {readFileSync,writeFileSync} from 'node:fs';
+import {lstatSync,readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
+import {parseJsonStrict} from './lib/integrity.mjs';
 import {loadCanonicalRunStore} from './lib/run-store.mjs';
+import {resolvePinnedMultimediaStatus,validateMediaSweepExceptionRegistry} from './lib/media-sweep-exceptions.mjs';
 
 const outDir='docs/engineer-osint-dist';
 const audit=JSON.parse(readFileSync(join(outDir,'media-history-audit.json'),'utf8'));
 const store=loadCanonicalRunStore({root:'docs/engineer-osint'});
 const currentPatch=store.patches.at(-1)||JSON.parse(readFileSync('docs/engineer-osint/b11-patch.json','utf8'));
+const manifest=parseJsonStrict(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'),{source:'run-store manifest'});
+const exceptionRegistry=validateMediaSweepExceptionRegistry(parseJsonStrict(readFileSync('docs/engineer-osint/media-sweep-status-exceptions.json','utf8'),{source:'media-sweep exception registry'}));
 const runs=Array.isArray(audit.runs)?audit.runs:[];
 const canonical=Array.isArray(audit.canonical_media)?audit.canonical_media:[];
 const runtimeSources=Array.isArray(audit.runtime?.source_media)?audit.runtime.source_media:[];
@@ -46,12 +50,25 @@ const missingSweepStatus=runs.filter(r=>!r.multimedia_status&&(r.declared_new_me
 const declaredWithoutArray=(audit.anomalies||[]).filter(x=>x.type==='DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY');
 const canonicalWithZeroDeclared=(audit.anomalies||[]).filter(x=>x.type==='MEDIA_ARRAY_PRESENT_WITH_ZERO_DECLARED_COUNT');
 const currentRunId=currentPatch?.state?.run_id||null;
-const currentMultimediaStatus=currentPatch?.qa?.multimedia_status||currentPatch?.qa?.multimedia?.status||currentPatch?.multimedia?.status||null;
+const currentManifestEntry=manifest.runs.find(entry=>entry.run_id===currentRunId)||null;
+const explicitMultimediaStatus=currentPatch?.qa?.multimedia_status||currentPatch?.qa?.multimedia?.status||currentPatch?.multimedia?.status||null;
+let currentRunRaw='',reportSnapshotRaw='';
+if(!explicitMultimediaStatus&&currentManifestEntry){
+  currentRunRaw=readFileSync(join('docs/engineer-osint',currentManifestEntry.path),'utf8');
+  const exception=exceptionRegistry.exceptions.find(item=>item.run_id===currentRunId);
+  if(exception){
+    const reportPath=join('docs/engineer-osint',exception.report_snapshot_path),stat=lstatSync(reportPath);
+    if(!stat.isFile()||stat.isSymbolicLink())throw new Error(`Invalid media-sweep exception: ${exception.exception_id} report snapshot must be a regular non-symlink file`);
+    reportSnapshotRaw=readFileSync(reportPath,'utf8');
+  }
+}
+const multimediaResolution=resolvePinnedMultimediaStatus({patch:currentPatch,manifestEntry:currentManifestEntry,repositoryFileRaw:currentRunRaw,reportSnapshotRaw,registry:exceptionRegistry});
+const currentMultimediaStatus=multimediaResolution.status;
 const currentDeclared=Number(currentPatch?.state?.counts?.NEW_MEDIA??currentPatch?.counts?.NEW_MEDIA??0)||0;
 const currentMediaItems=mediaArrays(currentPatch).length;
 const currentWorthWatching=asArray(currentPatch?.qa?.worth_watching||currentPatch?.multimedia?.worth_watching).length;
 const currentWorthListening=asArray(currentPatch?.qa?.worth_listening||currentPatch?.multimedia?.worth_listening).length;
-const currentExplicitZeroSweep=Boolean(currentRunId&&currentMultimediaStatus&&currentDeclared===0&&currentMediaItems===0);
+const currentExplicitZeroSweep=Boolean(currentRunId&&multimediaResolution.basis==='PATCH_EXPLICIT'&&currentMultimediaStatus&&currentDeclared===0&&currentMediaItems===0);
 
 const qaIssues=[];
 for(const x of missingSweepStatus)qaIssues.push({scope:'HISTORICAL',severity:'WARN',type:'MEDIA_SWEEP_STATUS_MISSING',run_id:x.run,message:'Historical run has media-related evidence but no explicit multimedia.status.'});
@@ -61,6 +78,7 @@ for(const s of sourceOnly)qaIssues.push({scope:'PERSISTENCE',severity:'INFO',typ
 for(const s of sourceCandidates.filter(x=>x.disposition==='ASSET_URL_UNLINKED_TO_ENTITY'))qaIssues.push({scope:'PERSISTENCE',severity:'INFO',type:'SOURCE_MEDIA_ASSET_UNLINKED',source_id:s.source_id,url:s.url,message:'Asset-level media URL is not linked to any canonical entity and is therefore excluded from source-derived public media cards.'});
 if(!currentRunId)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_RUN_ID_MISSING',message:'Current canonical run has no state.run_id.'});
 if(!currentMultimediaStatus)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_MEDIA_SWEEP_STATUS_MISSING',run_id:currentRunId,message:'Current run does not explicitly record multimedia.status.'});
+if(multimediaResolution.basis==='HASH_PINNED_REPORT_ATTESTATION')qaIssues.push({scope:'CURRENT',severity:'INFO',type:'CURRENT_MEDIA_SWEEP_STATUS_HASH_PINNED_WAIVER',run_id:currentRunId,message:`Immutable zero-delta run omitted qa.multimedia_status; accepted only through ${multimediaResolution.exception_id}. This waiver does not claim that the patch contained an explicit completed-sweep status.`});
 if(currentDeclared>0&&currentMediaItems===0)qaIssues.push({scope:'CURRENT',severity:'ERROR',type:'CURRENT_DECLARED_NEW_MEDIA_WITHOUT_MEDIA_ARRAY',run_id:currentRunId,message:'Current run declares NEW_MEDIA > 0 but has no materialized media item.'});
 if(currentMediaItems>0&&currentDeclared===0)qaIssues.push({scope:'CURRENT',severity:'WARN',type:'CURRENT_MEDIA_ARRAY_WITH_ZERO_DECLARED_COUNT',run_id:currentRunId,message:'Current run contains media items while NEW_MEDIA=0; verify update/backfill semantics.'});
 
@@ -72,14 +90,14 @@ const report={
   status:currentErrors.length?'FAIL_CURRENT_RUN':historicalErrors.length?'PASS_WITH_HISTORICAL_STRUCTURAL_BACKLOG':qaIssues.length?'PASS_WITH_BACKLOG':'PASS',
   publish_gate:{mode:'CURRENT_RUN_ONLY',pass:currentErrors.length===0,blocking_error_count:currentErrors.length,historical_structural_errors_block_deploy:false},
   interpretation:'Deployment is blocked only by current-run multimedia structural failures. Historical inconsistencies and source-only media remain backlog. Only entity-linked asset-level YouTube/podcast URLs are eligible for source-derived presentation materialization; channel/show/container URLs and unlinked assets are not rendered as individual media items.',
-  current_run:{run_id:currentRunId,multimedia_status:currentMultimediaStatus,declared_new_media:currentDeclared,materialized_media_items:currentMediaItems,worth_watching_items:currentWorthWatching,worth_listening_items:currentWorthListening,explicit_completed_zero_addition_sweep:currentExplicitZeroSweep},
+  current_run:{run_id:currentRunId,multimedia_status:currentMultimediaStatus,multimedia_status_basis:multimediaResolution.basis,multimedia_status_exception_id:multimediaResolution.exception_id,declared_new_media:currentDeclared,materialized_media_items:currentMediaItems,worth_watching_items:currentWorthWatching,worth_listening_items:currentWorthListening,explicit_completed_zero_addition_sweep:currentExplicitZeroSweep},
   source_media_candidates:{...sourceSummary,items:sourceCandidates},
-  summary:{runs_scanned:audit.unique_runs_scanned||0,canonical_media_records:audit.summary?.canonical_media_records||0,runtime_source_media_urls:audit.summary?.runtime_source_media_urls||0,runtime_source_media_linked:audit.summary?.runtime_source_media_linked||0,source_media_not_canonicalized:sourceOnly.length,media_sweep_status_missing:missingSweepStatus.length,declared_new_media_without_array:declaredWithoutArray.length,media_array_with_zero_declared:canonicalWithZeroDeclared.length,current_run_media_status_present:Boolean(currentMultimediaStatus),current_run_explicit_zero_sweep:currentExplicitZeroSweep,current_blocking_error_count:currentErrors.length,historical_structural_error_count:historicalErrors.length,warning_count:qaIssues.filter(x=>x.severity==='WARN').length,info_count:qaIssues.filter(x=>x.severity==='INFO').length},
+  summary:{runs_scanned:audit.unique_runs_scanned||0,canonical_media_records:audit.summary?.canonical_media_records||0,runtime_source_media_urls:audit.summary?.runtime_source_media_urls||0,runtime_source_media_linked:audit.summary?.runtime_source_media_linked||0,source_media_not_canonicalized:sourceOnly.length,media_sweep_status_missing:missingSweepStatus.length,declared_new_media_without_array:declaredWithoutArray.length,media_array_with_zero_declared:canonicalWithZeroDeclared.length,current_run_media_status_present:Boolean(explicitMultimediaStatus),current_run_media_status_accepted:Boolean(currentMultimediaStatus),current_run_explicit_zero_sweep:currentExplicitZeroSweep,current_blocking_error_count:currentErrors.length,historical_structural_error_count:historicalErrors.length,warning_count:qaIssues.filter(x=>x.severity==='WARN').length,info_count:qaIssues.filter(x=>x.severity==='INFO').length},
   issues:qaIssues
 };
 writeFileSync(join(outDir,'media-coverage-qa.json'),JSON.stringify(report,null,2));
 writeFileSync(join(outDir,'source-media-candidates.json'),JSON.stringify({generated_at:report.generated_at,summary:sourceSummary,items:sourceCandidates},null,2));
 writeFileSync(join(outDir,'source-media-candidates.md'),['# ENGINEER OSINT source media canonicalization candidates','',`Generated: ${report.generated_at}`,'',`- Candidate URLs: **${sourceSummary.total}**`,`- Asset-level URLs: **${sourceSummary.asset_level}**`,`- Container/channel URLs: **${sourceSummary.container_level}**`,`- Already canonical: **${sourceSummary.already_canonical}**`,`- Canonicalization review ready: **${sourceSummary.review_ready}**`,`- Asset URLs with incomplete metadata: **${sourceSummary.metadata_incomplete}**`,`- Asset URLs unlinked to an entity: **${sourceSummary.unlinked_assets}**`,'','## Candidates','',...(sourceCandidates.length?sourceCandidates.map(x=>`- ${x.disposition} · ${x.kind} · ${x.source_id||'NO_ID'} · ${x.url} · related=${x.related_ids.join(',')||'none'}`):['- None'])].join('\n'));
-writeFileSync(join(outDir,'media-coverage-qa.md'),['# ENGINEER OSINT media coverage QA','',`Status: **${report.status}**`,`Current-run publish gate: **${report.publish_gate.pass?'PASS':'FAIL'}**`,'',report.interpretation,'','## Current run','',`- RUN_ID: **${currentRunId||'MISSING'}**`,`- multimedia.status: **${currentMultimediaStatus||'MISSING'}**`,`- NEW_MEDIA: **${currentDeclared}**`,`- Materialized media items: **${currentMediaItems}**`,`- worth_watching: **${currentWorthWatching}**`,`- worth_listening: **${currentWorthListening}**`,`- Explicit completed zero-addition sweep: **${currentExplicitZeroSweep?'YES':'NO'}**`,'','## Source media candidates','',`- Asset-level: **${sourceSummary.asset_level}**`,`- Container/channel: **${sourceSummary.container_level}**`,`- Review ready: **${sourceSummary.review_ready}**`,`- Unlinked assets excluded from public cards: **${sourceSummary.unlinked_assets}**`,'','## Historical / persistence coverage','',`- Runs scanned: **${report.summary.runs_scanned}**`,`- Canonical media records: **${report.summary.canonical_media_records}**`,`- Runtime media source URLs: **${report.summary.runtime_source_media_urls}**`,`- Runtime media source URLs linked to entities: **${report.summary.runtime_source_media_linked}**`,`- Source media URLs not persisted: **${report.summary.source_media_not_canonicalized}**`,`- Historical structural errors (non-blocking): **${historicalErrors.length}**`,'','## Issues','',...(qaIssues.length?qaIssues.map(x=>`- ${x.scope} · ${x.severity} · ${x.type}${x.run_id?' · '+x.run_id:''}${x.source_id?' · '+x.source_id:''}${x.url?' · '+x.url:''}: ${x.message}`):['- None'])].join('\n'));
+writeFileSync(join(outDir,'media-coverage-qa.md'),['# ENGINEER OSINT media coverage QA','',`Status: **${report.status}**`,`Current-run publish gate: **${report.publish_gate.pass?'PASS':'FAIL'}**`,'',report.interpretation,'','## Current run','',`- RUN_ID: **${currentRunId||'MISSING'}**`,`- multimedia.status: **${currentMultimediaStatus||'MISSING'}**`,`- multimedia status basis: **${multimediaResolution.basis}**`,`- multimedia exception: **${multimediaResolution.exception_id||'NONE'}**`,`- NEW_MEDIA: **${currentDeclared}**`,`- Materialized media items: **${currentMediaItems}**`,`- worth_watching: **${currentWorthWatching}**`,`- worth_listening: **${currentWorthListening}**`,`- Explicit completed zero-addition sweep: **${currentExplicitZeroSweep?'YES':'NO'}**`,'','## Source media candidates','',`- Asset-level: **${sourceSummary.asset_level}**`,`- Container/channel: **${sourceSummary.container_level}**`,`- Review ready: **${sourceSummary.review_ready}**`,`- Unlinked assets excluded from public cards: **${sourceSummary.unlinked_assets}**`,'','## Historical / persistence coverage','',`- Runs scanned: **${report.summary.runs_scanned}**`,`- Canonical media records: **${report.summary.canonical_media_records}**`,`- Runtime media source URLs: **${report.summary.runtime_source_media_urls}**`,`- Runtime media source URLs linked to entities: **${report.summary.runtime_source_media_linked}**`,`- Source media URLs not persisted: **${report.summary.source_media_not_canonicalized}**`,`- Historical structural errors (non-blocking): **${historicalErrors.length}**`,'','## Issues','',...(qaIssues.length?qaIssues.map(x=>`- ${x.scope} · ${x.severity} · ${x.type}${x.run_id?' · '+x.run_id:''}${x.source_id?' · '+x.source_id:''}${x.url?' · '+x.url:''}: ${x.message}`):['- None'])].join('\n'));
 console.log(JSON.stringify({status:report.status,publish_gate:report.publish_gate,current_run:report.current_run,source_media_candidates:sourceSummary,summary:report.summary}));
 if(currentErrors.length)process.exitCode=2;

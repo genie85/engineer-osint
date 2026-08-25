@@ -1,0 +1,20 @@
+{
+  "schema_version": "engineer-osint-media-sweep-exceptions-v1",
+  "exceptions": [
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B72",
+      "run_id": "engineer-osint-20260825-B72",
+      "parent_run_id": "engineer-osint-20260825-B71",
+      "source_drive_raw_file_sha256": "a3e012d70b349e4451e72197f8555ef24720f4a01fecf636169fbed741b40f4b",
+      "source_transport_normalization": "APPEND_SINGLE_LF",
+      "repository_file_sha256": "6008de05b46b2059803cd4134d7699ba64b5c597db97c406408e25a54407ff06",
+      "repository_canonical_sha256": "17988bfc7018a129c7e8d8bdd84af135e899d4065d78d348e5a1312bc5558bbe",
+      "report_drive_id": "1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV",
+      "report_text_sha256": "fc2e8c908dcf69b35543fc9985a2f4e9fe0a13b794d64643e3ce48e5f277d8df",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260825-B72-report.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_ZERO_DELTA",
+      "rationale": "Immutable B72 is a verified zero-delta SUCCESS. Its Drive report explicitly records that no new media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
+    }
+  ]
+}
