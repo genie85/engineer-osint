@@ -1,7 +1,7 @@
 (function(){
   const D=window.__ENGINEER_DATA__; if(!D)return;
   const nav=document.querySelector('#sidebar nav'); if(!nav)return;
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||'cs';
   const records=()=>D.records?.records||[];
   const pick=(r,key)=>{const l=lang();return(l==='cs'?(r?.[key+'_cs']??r?.[key]??r?.[key+'_en']):(r?.[key+'_en']??r?.__orig?.[key]??r?.[key]??r?.[key+'_cs']))||''};
@@ -15,16 +15,17 @@
   const card=r=>'<article class="item" data-open="'+esc(r.id)+'" style="cursor:pointer"><div class="mono muted">'+esc(r.id)+' · '+esc(r.country||'')+'</div><strong>'+esc(title(r))+'</strong>'+(lang()==='cs'&&!r.title_cs&&!r.summary_cs?'<span class="translation-fallback-badge" style="font-size:8px;color:#e7ca84;margin-left:5px"> CHYBÍ ČEŠTINA · ZOBRAZENA ANGLIČTINA</span>':'')+(summary(r)?'<p>'+esc(summary(r))+'</p>':'')+'</article>';
   const wire=root=>root.querySelectorAll('[data-open]').forEach(e=>e.onclick=()=>open(e.dataset.open));
 
-  /* The legacy global filter panel belongs to Overview only. Custom pages render their
-     own scoped controls, so leaving the global panel visible there is misleading. */
-  const globalFilterPanel=()=>{
-    const input=document.getElementById('searchInput');
-    return input?.closest('.card')||input?.parentElement||null;
+  /* The legacy global filter bar only affects the original Activity Feed and Technology
+     renderers. Hide it everywhere else instead of presenting controls that do nothing. */
+  const globalFilterPanel=()=>document.querySelector('main>.filterbar')||document.getElementById('searchInput')?.parentElement||null;
+  const globalFiltersApply=()=>{
+    const route=(location.hash||'#overview').slice(1).split('?')[0];
+    const t=(document.getElementById('pageTitle')?.textContent||'').trim();
+    return(route==='activity'&&/^Activity Feed$/i.test(t))||(route==='technology'&&/^(Technology|Technologie)$/i.test(t));
   };
-  const isOverviewTitle=()=>/^\s*(Přehled|Overview)\s*$/i.test(document.getElementById('pageTitle')?.textContent||'');
   const syncGlobalFilterVisibility=()=>{
     const panel=globalFilterPanel(); if(!panel)return;
-    const show=isOverviewTitle();
+    const show=globalFiltersApply();
     panel.hidden=!show;
     panel.style.display=show?'':'none';
     panel.setAttribute('aria-hidden',show?'false':'true');
@@ -101,6 +102,7 @@
 
   const pageTitle=document.getElementById('pageTitle');
   if(pageTitle)new MutationObserver(syncGlobalFilterVisibility).observe(pageTitle,{childList:true,subtree:true,characterData:true});
+  window.addEventListener('hashchange',()=>setTimeout(syncGlobalFilterVisibility,0));
 
   labels();
   moveLateTopicButtons();
