@@ -1,0 +1,236 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260825-B74",
+    "parent_run_id": "engineer-osint-20260825-B73",
+    "status": "SUCCESS",
+    "window_from": "2026-08-25T23:22:04+02:00",
+    "window_to": "2026-08-25T23:39:48+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 0,
+      "UPDATE": 1,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 1,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260825-B73",
+    "factual_success_tip_before_run": "engineer-osint-20260825-B73",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B70",
+    "published_tip": "engineer-osint-20260825-B70",
+    "github_parent_canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-23T23:39:48+02:00",
+    "reconciliation_window_to": "2026-08-25T23:39:48+02:00",
+    "main_sha_at_start": "4ea0fdefe0c8ee14c8f16f93c87d6004ca376eeb",
+    "publication_lag_before_run": 3,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260825-B71",
+      "engineer-osint-20260825-B72",
+      "engineer-osint-20260825-B73"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260825-B71",
+      "engineer-osint-20260825-B72",
+      "engineer-osint-20260825-B73",
+      "engineer-osint-20260825-B74"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální ukrajinské zdroje nyní dokládají jak vysoký agregovaný rozsah používání pozemních robotizovaných komplexů, tak jejich ženijní institucionální zařazení. Kancelář prezidenta 24. srpna 2026 veřejně uvedla úlohy včetně kladení a odstraňování min; nedatovaný, ale 25. srpna 2026 přímo dostupný kodifikační portál Ministerstva obrany navíc klasifikuje ženijní NŘK pro minování/odminování, budování opevnění a překonávání překážek. Jde o potvrzení rozsahu rolí a kodifikačního rámce, nikoli o nové počty misí nebo inventář.",
+      "summary_en": "Official Ukrainian sources now document both the high aggregate scale of ground robotic-system employment and their institutional engineering classification. The Office of the President on 24 August 2026 publicly listed roles including mine laying and mine clearance; an undated but directly accessible Ministry of Defence codification portal checked on 25 August 2026 additionally classifies engineering UGVs for mining/demining, fortification construction, and obstacle crossing. This confirms the role portfolio and codification framework rather than adding a new mission count or inventory figure.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Kodifikační portál MO je primární institucionální zdroj, který nezávisle na prezidentské zprávě potvrzuje, že ženijní NŘK jsou v ukrajinském veřejném klasifikačním rámci samostatnou kategorií a výslovně zahrnují minování/odminování, budování opevnění a překonávání překážek. Stránka zároveň popisuje, že kodifikovaný vzorek je zaveden do katalogu zásobování a dostává NSN. Protože stránka neuvádí datum publikace, B74 ji používá jako aktuálně dostupný nedatovaný profil a nevyvozuje datum zavedení této klasifikace.",
+      "analysis_en": "The Ministry of Defence codification portal is a primary institutional source that independently confirms, beyond the presidential release, that engineering UGVs form an explicit category in Ukraine’s public classification framework and include mining/demining, fortification construction, and obstacle crossing. The page also states that a codified item is entered into the supply catalogue and receives an NSN. Because the page does not expose a publication date, B74 treats it as a currently accessible undated profile and does not infer when this classification was introduced.",
+      "intelligence_gaps_cs": "Není veřejně doloženo datum zavedení této klasifikace, unikátní počet fyzických platforem v operačním použití, readiness, typové rozdělení misí ani podíl ženijních úkolů. Kodifikační rámec neprokazuje, že každý kodifikovaný typ je nakoupen nebo operačně nasazen.",
+      "intelligence_gaps_en": "The introduction date of this classification, unique number of operational physical platforms, readiness, mission breakdown by type, and share of engineering tasks remain unresolved publicly. The codification framework does not prove that every codified type has been procured or operationally fielded.",
+      "what_it_does_not_prove_cs": "Neprokazuje aktuální taktické rozmístění, readiness, inventární stavy, přesné počty ženijních misí, datum zavedení klasifikace ani operační nasazení každého kodifikovaného typu.",
+      "what_it_does_not_prove_en": "It does not establish current tactical deployment, readiness, inventory holdings, exact engineering-mission counts, the date the classification was introduced, or operational fielding of every codified type.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE",
+        "MINE_LAYING",
+        "MINE_CLEARANCE",
+        "COMBAT_ENGINEERING"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508",
+        "ENG-SRC-0511",
+        "ENG-SRC-0512"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202",
+        "ENG-EVID-0204",
+        "ENG-EVID-0205"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B74"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0512",
+      "title": "Кодифікація наземних роботизованих комплексів",
+      "title_cs": "Kodifikace pozemních robotizovaných komplexů",
+      "title_en": "Codification of Ground Robotic Systems",
+      "publisher": "Ministry of Defence of Ukraine — Codification of Armaments and Military Equipment portal",
+      "publication_date": null,
+      "accessed_at": "2026-08-25T23:39:48+02:00",
+      "url": "https://mil-tech.mod.gov.ua/category/nrk",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_MOD_CODIFICATION_PORTAL",
+      "role": "UGV_ENGINEERING_CLASSIFICATION_AND_CODIFICATION_FRAMEWORK",
+      "verification_status": "VERIFIED_DIRECT_PRIMARY_PUBLIC_PAGE",
+      "verification_status_cs": "OVĚŘENA PŘÍMÁ PRIMÁRNÍ VEŘEJNÁ STRÁNKA",
+      "verification_status_en": "VERIFIED DIRECT PRIMARY PUBLIC PAGE",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_2026_UNDATED_PROFILE",
+      "temporal_note_cs": "Stránka byla přímo dostupná a ověřena 25. 8. 2026, ale neuvádí datum publikace; nelze z ní určit datum zavedení klasifikace.",
+      "temporal_note_en": "The page was directly accessible and verified on 25 August 2026 but exposes no publication date; it cannot establish when the classification was introduced.",
+      "first_seen_run": "engineer-osint-20260825-B74"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0205",
+      "evidence_id": "ENG-EVID-0205",
+      "evidence_type": "PRIMARY_OFFICIAL_UGV_ENGINEERING_CLASSIFICATION_CONFIRMATION",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED_UNDATED_PROFILE",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ TEXT; NEDATOVANÝ PROFIL",
+      "evidence_status_en": "DIRECT PRIMARY OFFICIAL TEXT VERIFIED; UNDATED PROFILE",
+      "related_ids": [
+        "ENG-SIG-0032"
+      ],
+      "source_ids": [
+        "ENG-SRC-0512"
+      ],
+      "evidence_date": "2026-08-25",
+      "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ TEXT OFICIÁLNÍ WEBOVÉ STRÁNKY; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "DIRECT OFFICIAL WEB-PAGE TEXT; NO PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje, že veřejný kodifikační rámec MO Ukrajiny klasifikuje ženijní NŘK pro minování/odminování, budování opevnění a překonávání překážek a že kodifikovaný vzorek je evidován v katalogu zásobování s NSN.",
+      "what_it_supports_en": "Supports that Ukraine’s public Ministry of Defence codification framework classifies engineering UGVs for mining/demining, fortification construction, and obstacle crossing, and that a codified item is entered in the supply catalogue with an NSN.",
+      "what_it_does_not_prove_cs": "Neprokazuje datum zavedení klasifikace, nákup, inventář, readiness, přidělení jednotkám ani operační nasazení konkrétních systémů.",
+      "what_it_does_not_prove_en": "Does not establish the classification introduction date, procurement, inventory, readiness, unit allocation, or operational fielding of specific systems.",
+      "confidence": "HIGH_FOR_PUBLIC_CLASSIFICATION_MEDIUM_FOR_TEMPORAL_CURRENTNESS_BEYOND_ACCESS_DATE",
+      "first_seen_run": "engineer-osint-20260825-B74"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0032",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "title_cs": "Ukrajina: NŘK překročily 100 000 logistických a evakuačních misí od začátku roku 2026",
+      "title_en": "Ukraine: UGVs exceeded 100,000 logistics and evacuation missions since the start of 2026",
+      "summary_cs": "Oficiální ukrajinské zdroje nyní dokládají jak vysoký agregovaný rozsah používání pozemních robotizovaných komplexů, tak jejich ženijní institucionální zařazení. Kancelář prezidenta 24. srpna 2026 veřejně uvedla úlohy včetně kladení a odstraňování min; nedatovaný, ale 25. srpna 2026 přímo dostupný kodifikační portál Ministerstva obrany navíc klasifikuje ženijní NŘK pro minování/odminování, budování opevnění a překonávání překážek. Jde o potvrzení rozsahu rolí a kodifikačního rámce, nikoli o nové počty misí nebo inventář.",
+      "summary_en": "Official Ukrainian sources now document both the high aggregate scale of ground robotic-system employment and their institutional engineering classification. The Office of the President on 24 August 2026 publicly listed roles including mine laying and mine clearance; an undated but directly accessible Ministry of Defence codification portal checked on 25 August 2026 additionally classifies engineering UGVs for mining/demining, fortification construction, and obstacle crossing. This confirms the role portfolio and codification framework rather than adding a new mission count or inventory figure.",
+      "fact_cs": "ArmyInform s odkazem na Ministerstvo obrany Ukrajiny zveřejnilo agregovaný údaj přes 100 000 logistických a evakuačních misí NŘK od začátku roku 2026 a měsíční řadu leden až 20. srpna.",
+      "fact_en": "ArmyInform, citing Ukraine's Ministry of Defence, published an aggregate figure of more than 100,000 UGV logistics and evacuation missions since the start of 2026 and a monthly series from January through 20 August.",
+      "analysis_cs": "Kodifikační portál MO je primární institucionální zdroj, který nezávisle na prezidentské zprávě potvrzuje, že ženijní NŘK jsou v ukrajinském veřejném klasifikačním rámci samostatnou kategorií a výslovně zahrnují minování/odminování, budování opevnění a překonávání překážek. Stránka zároveň popisuje, že kodifikovaný vzorek je zaveden do katalogu zásobování a dostává NSN. Protože stránka neuvádí datum publikace, B74 ji používá jako aktuálně dostupný nedatovaný profil a nevyvozuje datum zavedení této klasifikace.",
+      "analysis_en": "The Ministry of Defence codification portal is a primary institutional source that independently confirms, beyond the presidential release, that engineering UGVs form an explicit category in Ukraine’s public classification framework and include mining/demining, fortification construction, and obstacle crossing. The page also states that a codified item is entered into the supply catalogue and receives an NSN. Because the page does not expose a publication date, B74 treats it as a currently accessible undated profile and does not infer when this classification was introduced.",
+      "intelligence_gaps_cs": "Není veřejně doloženo datum zavedení této klasifikace, unikátní počet fyzických platforem v operačním použití, readiness, typové rozdělení misí ani podíl ženijních úkolů. Kodifikační rámec neprokazuje, že každý kodifikovaný typ je nakoupen nebo operačně nasazen.",
+      "intelligence_gaps_en": "The introduction date of this classification, unique number of operational physical platforms, readiness, mission breakdown by type, and share of engineering tasks remain unresolved publicly. The codification framework does not prove that every codified type has been procured or operationally fielded.",
+      "what_it_does_not_prove_cs": "Neprokazuje aktuální taktické rozmístění, readiness, inventární stavy, přesné počty ženijních misí, datum zavedení klasifikace ani operační nasazení každého kodifikovaného typu.",
+      "what_it_does_not_prove_en": "It does not establish current tactical deployment, readiness, inventory holdings, exact engineering-mission counts, the date the classification was introduced, or operational fielding of every codified type.",
+      "geography": [
+        "Ukraine"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "LOGISTICS",
+        "EVACUATION",
+        "UNMANNED_SYSTEMS",
+        "TECHNOLOGY_SIGNAL",
+        "RUSSIA_UKRAINE",
+        "MINE_LAYING",
+        "MINE_CLEARANCE",
+        "COMBAT_ENGINEERING"
+      ],
+      "publication_date": "2026-08-24T16:39:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-08-20",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_MULTI_OUTLET_CORROBORATION",
+      "confidence": "HIGH_FOR_REPORTED_MOD_AGGREGATE_METRICS_MEDIUM_HIGH_FOR_SOURCE_CHAIN_INDEPENDENCE",
+      "source_ids": [
+        "ENG-SRC-0507",
+        "ENG-SRC-0508",
+        "ENG-SRC-0511",
+        "ENG-SRC-0512"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0202",
+        "ENG-EVID-0204",
+        "ENG-EVID-0205"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260825-B71",
+      "last_updated_run": "engineer-osint-20260825-B74"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "research_sweep_status": "COMPLETE_ONE_ENTITY_ENRICHMENT",
+    "publication_safety": "PASS_PUBLIC_OK_INSTITUTIONAL_PROFILE",
+    "bilingual_precheck": "PASS_CZ_EN_COMPLETE_FOR_MATERIALLY_CHANGED_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "NOT_RUN_FACTUAL_PRODUCER_HANDOFF_ONLY",
+    "schema_local_required_fields": "PASS",
+    "duplicate_lineage_check": "PASS_ENRICHES_EXISTING_ENG_SIG_0032",
+    "current_delta_status": "ZERO_QUALIFIED_PROMOTION",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_WEB_INDEX_DISCOVERY_ONLY",
+    "visual_osint": "NO_DIRECT_PIXEL_OR_FRAME_INSPECTION"
+  }
+}
