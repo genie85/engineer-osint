@@ -28,22 +28,24 @@
     }
   },
   "continuity": {
-    "status": "COMPLETE_PUBLICATION_LAG_ANCESTOR_ONLY",
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260826-B75",
     "factual_success_tip_before_run": "engineer-osint-20260826-B75",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B74",
     "published_tip": "engineer-osint-20260825-B74",
-    "publication_lag_before_run": 1,
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
     "reconciliation_window_from": "2026-08-24T13:10:16+02:00",
     "reconciliation_window_to": "2026-08-26T13:10:16+02:00",
-    "main_sha_at_start": "6dfadf749053e5a5ef74800a214c325d3c5e61d9",
-    "main_sha_before_production_write": "6dfadf749053e5a5ef74800a214c325d3c5e61d9",
+    "main_sha_at_start": "afc1f2ebf51df0fe28a2367e8ce3af4d66f893d0",
+    "publication_lag_before_run": 1,
     "unpublished_success_chain_before_run": [
       "engineer-osint-20260826-B75"
     ],
     "unpublished_success_chain_after_run": [
       "engineer-osint-20260826-B75",
       "engineer-osint-20260826-B76"
-    ],
-    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848"
+    ]
   },
   "true_delta": {
     "CURRENT_DELTA": 0,
@@ -51,39 +53,83 @@
     "HISTORICAL_BACKFILL": 1,
     "ENTITY_ENRICHMENT": 0
   },
-  "new_records": [],
+  "new_records": [
+    {
+      "id": "ENG-SIG-0034",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "title_cs": "USACE/CRREL testovalo THeMIS a LiDARové plánování tras pro arktické ship-to-shore operace",
+      "title_en": "USACE/CRREL tested THeMIS and LiDAR-assisted path planning for Arctic ship-to-shore operations",
+      "summary_cs": "Oficiální ERDC/CRREL zpráva zveřejněná 24. srpna 2026 popisuje test v Grónsku z 17. srpna, při němž tým ověřoval pasivní měření tloušťky ledu, plánování a validaci tras UGV a arktickou kamufláž. Vysokorozlišovací LiDAR podporoval plánování trasy THeMIS a validaci stávajících zimních algoritmů. Jde o R&D/testovací signál, nikoli důkaz operačního zavedení.",
+      "summary_en": "An official ERDC/CRREL report published on 24 August 2026 describes a 17 August test in Greenland covering passive ice-thickness sensing, UGV path planning and validation, and Arctic camouflage. High-resolution LiDAR aided THeMIS path planning and validation of existing winter path-planning algorithms. This is an R&D/testing signal, not evidence of operational fielding.",
+      "fact_cs": "CRREL veřejně uvedlo, že při arktickém ship-to-shore testu použilo vysokorozlišovací LiDAR pro plánování trasy UGV THeMIS a validaci zimních algoritmů plánování tras.",
+      "fact_en": "CRREL publicly stated that during an Arctic ship-to-shore test it used high-resolution LiDAR to aid THeMIS UGV path planning and validate winter path-planning algorithms.",
+      "analysis_cs": "Nález ukazuje pokračující institucionální výzkum kombinace UAS/LiDAR, autonomní či asistované pozemní mobility a arktické logistiky. Je relevantní pro ženijní mobilitu a provoz v austere/cold-region prostředí, ale veřejný zdroj neprokazuje přechod do sériového zavedení.",
+      "analysis_en": "The finding shows continuing institutional research combining UAS/LiDAR, autonomous or assisted ground mobility, and Arctic logistics. It is relevant to engineer mobility in austere/cold-region environments, but the public source does not establish transition to serial fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy výsledné metriky přesnosti/úspěšnosti, následné akviziční rozhodnutí, rozsah dalšího testování ani operační jednotky, které by řešení zavedly.",
+      "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
+      "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
+      "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
+      "geography": ["Greenland","Arctic"],
+      "topics": ["UGV","THeMIS","LIDAR","ARCTIC","SHIP_TO_SHORE","MOBILITY","PATH_PLANNING","TECHNOLOGY_SIGNAL","USACE_ERDC"],
+      "publication_date": "2026-08-24T11:00:00",
+      "event_time": "2026-08-17",
+      "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
+      "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
+      "source_ids": ["ENG-SRC-0513"],
+      "evidence_ids": ["ENG-EVID-0206"],
+      "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260826-B76",
+      "last_updated_run": "engineer-osint-20260826-B76"
+    }
+  ],
   "updated_records": [],
   "sources": [
     {
-      "id": "ENG-SRC-0542",
-      "type": "source",
-      "title": "Engineer Research and Development Center tests new cold-weather technology",
-      "publisher": "U.S. Army Corps of Engineers",
-      "url": "https://www.erdc.usace.army.mil/Media/News-Stories/Article/4280983/engineer-research-and-development-center-tests-new-cold-weather-technology/",
-      "date_published": "2026-08-12",
-      "accessed_at": "2026-08-26T12:28:00+02:00",
-      "source_class": "PRIMARY_OFFICIAL",
+      "id": "ENG-SRC-0513",
+      "title": "CRREL team tests ship-to-shore methods and technologies in Greenland",
+      "title_cs": "CRREL testovalo technologie ship-to-shore v Grónsku",
+      "title_en": "CRREL team tests ship-to-shore methods and technologies in Greenland",
+      "publisher": "U.S. Army Engineer Research and Development Center / DVIDS",
+      "publication_date": "2026-08-24T11:00:00",
+      "event_date": "2026-08-17",
+      "accessed_at": "2026-08-26T13:10:16+02:00",
+      "url": "https://www.dvidshub.net/news/572586/crrel-team-tests-ship-shore-methods-and-technologies-greenland",
       "language": "en",
-      "reliability": "HIGH",
-      "notes": "Official ERDC/USACE article. Used for a bounded technology-signal record; it does not establish fielding, procurement, or operational readiness."
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_USACE_DVIDS",
+      "source_family": "USACE_ERDC_CRREL_DVIDS_SAME_LINEAGE",
+      "role": "ARCTIC_UGV_PATH_PLANNING_AND_SHIP_TO_SHORE_TECHNOLOGY_TEST",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_cs": "OVĚŘEN PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT",
+      "temporal_status": "RECENT_HISTORICAL_BACKFILL_PUBLICATION_DATE_KNOWN_EVENT_DATE_KNOWN",
+      "first_seen_run": "engineer-osint-20260826-B76"
     }
   ],
   "relations": [],
   "evidence": [
     {
-      "id": "ENG-EVID-0139",
-      "type": "evidence",
-      "claim": "ERDC/USACE publicly described Project Sandhills demonstrations of autonomous and remotely controlled engineer/construction capabilities in Alaska, including robotic cold-weather operations and autonomous breaching-related technology development.",
-      "claim_cs": "ERDC/USACE veřejně popsalo demonstrace Project Sandhills na Aljašce zaměřené na autonomní a dálkově řízené ženijní/stavební schopnosti, včetně robotického provozu v chladném prostředí a vývoje technologií souvisejících s autonomním průchodem překážkami.",
-      "classification": "FACT",
-      "source_ids": [
-        "ENG-SRC-0542"
-      ],
-      "related_ids": [
-        "ENG-SIG-0034"
-      ],
-      "confidence": "HIGH",
-      "limitations": "Official technology-development article; no claim of fielding, procurement award, operational readiness, force-wide adoption, or combat effectiveness."
+      "id": "ENG-EVID-0206",
+      "evidence_id": "ENG-EVID-0206",
+      "evidence_type": "PRIMARY_OFFICIAL_ARCTIC_UGV_TEST_REPORT",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ TEXT",
+      "evidence_status_en": "DIRECT PRIMARY OFFICIAL TEXT VERIFIED",
+      "related_ids": ["ENG-SIG-0034"],
+      "source_ids": ["ENG-SRC-0513"],
+      "evidence_date": "2026-08-17",
+      "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_AND_PUBLISHED_CAPTIONS_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ TEXT OFICIÁLNÍHO WEBU A PUBLIKOVANÉ POPISKY; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "DIRECT OFFICIAL WEB TEXT AND PUBLISHED CAPTIONS; NO PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje, že CRREL při arktickém ship-to-shore testu ověřovalo plánování a validaci tras UGV a použilo vysokorozlišovací LiDAR pro plánování pohybu THeMIS a validaci zimních algoritmů plánování tras.",
+      "what_it_supports_en": "Supports that CRREL tested UGV path planning and validation during an Arctic ship-to-shore event and used high-resolution LiDAR to aid THeMIS path planning and validate winter path-planning algorithms.",
+      "what_it_does_not_prove_cs": "Neprokazuje operační zavedení, bojovou účinnost, akviziční rozhodnutí ani standardizované nasazení THeMIS nebo těchto algoritmů v ozbrojených silách.",
+      "what_it_does_not_prove_en": "Does not establish operational fielding, combat effectiveness, procurement decisions, or standardized force-wide use of THeMIS or the tested algorithms.",
+      "confidence": "HIGH_FOR_TEST_OCCURRENCE_AND_REPORTED_OBJECTIVES_LOW_FOR_FUTURE_FIELDING",
+      "first_seen_run": "engineer-osint-20260826-B76"
     }
   ],
   "visuals": [],
@@ -91,33 +137,33 @@
   "technology_signals": [
     {
       "id": "ENG-SIG-0034",
-      "type": "technology_signal",
-      "title": "Project Sandhills: cold-weather autonomous engineer and construction technology demonstrations",
-      "title_en": "Project Sandhills: cold-weather autonomous engineer and construction technology demonstrations",
-      "title_cs": "Project Sandhills: demonstrace autonomních ženijních a stavebních technologií v chladném prostředí",
-      "summary": "U.S. Army ERDC/USACE reported August 2026 testing in Alaska under Project Sandhills involving autonomous and remotely controlled engineer/construction technology for cold-weather operations. The article describes robotics/autonomy experimentation and technology maturation, not fielding or procurement.",
-      "summary_en": "U.S. Army ERDC/USACE reported August 2026 testing in Alaska under Project Sandhills involving autonomous and remotely controlled engineer/construction technology for cold-weather operations. The article describes robotics/autonomy experimentation and technology maturation, not fielding or procurement.",
-      "summary_cs": "ERDC/USACE U.S. Army v srpnu 2026 informovalo o testování Project Sandhills na Aljašce s autonomními a dálkově řízenými ženijními/stavebními technologiemi pro chladné prostředí. Jde o experimentování a zrání technologií, nikoli o doložené zavedení nebo akvizici.",
-      "status": "TECHNOLOGY_DEVELOPMENT_TESTING",
-      "status_cs": "VÝVOJ_A_TESTOVÁNÍ_TECHNOLOGIE",
-      "observed_date": "2026-08-12",
-      "country": "United States",
-      "country_cs": "Spojené státy",
-      "organization": "U.S. Army Engineer Research and Development Center / U.S. Army Corps of Engineers",
-      "organization_cs": "U.S. Army Engineer Research and Development Center / U.S. Army Corps of Engineers",
-      "domain": "AUTONOMY_ROBOTICS_ENGINEER_CONSTRUCTION",
-      "domain_cs": "AUTONOMIE_ROBOTIKA_ŽENIJNÍ_STAVEBNÍ_TECHNIKA",
-      "source_ids": [
-        "ENG-SRC-0542"
-      ],
-      "evidence_ids": [
-        "ENG-EVID-0139"
-      ],
-      "confidence": "HIGH",
-      "translation_status": "ANALYST_TRANSLATION",
-      "translation_provenance": "ENGINEER_OSINT_FACTUAL_PRODUCER_B76",
-      "limitations_en": "The public source supports technology development/testing only. It does not prove fielding, procurement award, operational readiness, unit issue, exact production quantity, or combat effectiveness.",
-      "limitations_cs": "Veřejný zdroj dokládá pouze vývoj a testování technologie. Neprokazuje zavedení, uzavření akviziční smlouvy, operační připravenost, přidělení jednotkám, přesný počet výroby ani bojovou účinnost."
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "title_cs": "USACE/CRREL testovalo THeMIS a LiDARové plánování tras pro arktické ship-to-shore operace",
+      "title_en": "USACE/CRREL tested THeMIS and LiDAR-assisted path planning for Arctic ship-to-shore operations",
+      "summary_cs": "Oficiální ERDC/CRREL zpráva zveřejněná 24. srpna 2026 popisuje test v Grónsku z 17. srpna, při němž tým ověřoval pasivní měření tloušťky ledu, plánování a validaci tras UGV a arktickou kamufláž. Vysokorozlišovací LiDAR podporoval plánování trasy THeMIS a validaci stávajících zimních algoritmů. Jde o R&D/testovací signál, nikoli důkaz operačního zavedení.",
+      "summary_en": "An official ERDC/CRREL report published on 24 August 2026 describes a 17 August test in Greenland covering passive ice-thickness sensing, UGV path planning and validation, and Arctic camouflage. High-resolution LiDAR aided THeMIS path planning and validation of existing winter path-planning algorithms. This is an R&D/testing signal, not evidence of operational fielding.",
+      "fact_cs": "CRREL veřejně uvedlo, že při arktickém ship-to-shore testu použilo vysokorozlišovací LiDAR pro plánování trasy UGV THeMIS a validaci zimních algoritmů plánování tras.",
+      "fact_en": "CRREL publicly stated that during an Arctic ship-to-shore test it used high-resolution LiDAR to aid THeMIS UGV path planning and validate winter path-planning algorithms.",
+      "analysis_cs": "Nález ukazuje pokračující institucionální výzkum kombinace UAS/LiDAR, autonomní či asistované pozemní mobility a arktické logistiky. Je relevantní pro ženijní mobilitu a provoz v austere/cold-region prostředí, ale veřejný zdroj neprokazuje přechod do sériového zavedení.",
+      "analysis_en": "The finding shows continuing institutional research combining UAS/LiDAR, autonomous or assisted ground mobility, and Arctic logistics. It is relevant to engineer mobility in austere/cold-region environments, but the public source does not establish transition to serial fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy výsledné metriky přesnosti/úspěšnosti, následné akviziční rozhodnutí, rozsah dalšího testování ani operační jednotky, které by řešení zavedly.",
+      "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
+      "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
+      "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
+      "geography": ["Greenland","Arctic"],
+      "topics": ["UGV","THeMIS","LIDAR","ARCTIC","SHIP_TO_SHORE","MOBILITY","PATH_PLANNING","TECHNOLOGY_SIGNAL","USACE_ERDC"],
+      "publication_date": "2026-08-24T11:00:00",
+      "event_time": "2026-08-17",
+      "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
+      "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
+      "source_ids": ["ENG-SRC-0513"],
+      "evidence_ids": ["ENG-EVID-0206"],
+      "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260826-B76",
+      "last_updated_run": "engineer-osint-20260826-B76"
     }
   ],
   "lead_updates": [],
