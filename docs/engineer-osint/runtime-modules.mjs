@@ -3,7 +3,6 @@
 export const LEGACY_FACTUAL_OVERLAY_MODULES=[
   ['engineer-rich-backfill-module','rich-backfill.js'],
   ['engineer-rich-backfill-israel-turkiye-eod-module','rich-backfill-israel-turkiye-eod.js'],
-  ['engineer-rich-backfill-eod-lead-module','rich-backfill-eod-lead.js'],
   ['engineer-rich-backfill-usa-rok-module','rich-backfill-usa-rok.js'],
   ['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']
 ];
