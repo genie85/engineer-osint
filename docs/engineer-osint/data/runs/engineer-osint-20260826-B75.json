@@ -1,0 +1,135 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B75",
+    "parent_run_id": "engineer-osint-20260825-B74",
+    "status": "SUCCESS",
+    "window_from": "2026-08-25T23:39:48+02:00",
+    "window_to": "2026-08-26T01:12:06+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 1,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_GITHUB_AND_DRIVE_ALIGNED_AT_START",
+    "drive_parent_run_id": "engineer-osint-20260825-B74",
+    "factual_success_tip_before_run": "engineer-osint-20260825-B74",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B74",
+    "published_tip": "engineer-osint-20260825-B74",
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-24T01:12:06+02:00",
+    "reconciliation_window_to": "2026-08-26T01:12:06+02:00",
+    "main_sha_at_start": "afc1f2ebf51df0fe28a2367e8ce3af4d66f893d0",
+    "publication_lag_before_run": 0,
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260826-B75"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [
+    {
+      "id": "LEAD-001",
+      "priority": "P1",
+      "topic": "Exact NATO EOC annex parent standard and new study-draft identifier",
+      "status": "OPEN_RECHECKED_PUBLIC_PARENT_IDENTIFIER_STILL_UNRESOLVED",
+      "last_update": "2026-08-21T10:34:18+02:00",
+      "note": "B37 reverified 69th/70th EOD WG primary sources: EOC annex/new study-draft work is real, but public articles still do not disclose the parent NATO Standard or study-draft identifier. Remains OPEN.",
+      "title_en": "Exact NATO EOC annex parent standard and new study-draft identifier",
+      "title_cs": "Přesné označení parent standardu EOC annexu a nového study draftu NATO",
+      "translation_status": "ANALYST_TRANSLATION",
+      "translation_provenance": "CONTROLLED_BACKFILL_FROM_CANONICAL_B24",
+      "note_en": "B51 rechecked public 68th and 69th EOD WG material. It confirms EOC minimum-standards work with MILENG support and an EOC annex/study-draft proposal, but still does not publicly identify the exact parent standard or study-draft identifier.",
+      "note_cs": "B51 znovu ověřil veřejné materiály 68. a 69. EOD WG. Ty potvrzují redefinici minimálních standardů EOC s podporou MILENG a návrh EOC annexu/study draftu, ale přesný parent standard ani study-draft identifier veřejně neuvádějí.",
+      "next_action_cs": "Vyhledat autoritativní veřejný dokument nebo metadata s přesným označením nadřazeného standardu a study draftu; žádné číslo neodvozovat nepřímo.",
+      "source_ids": [
+        "ENG-SRC-0260",
+        "ENG-SRC-0261"
+      ],
+      "last_update_run": "engineer-osint-20260818-B54",
+      "last_update_note_cs": "69./70. EOD WG veřejně potvrzují pokračující práci na EOC terminologii/minimálních standardech a study drafts, ale přesné označení parent standardu EOC annexu ani konkrétního nového study draftu nebylo bezpečně doloženo.",
+      "lead_id": "LEAD-001",
+      "claims": [
+        {
+          "claim_id": "LEAD-001-CLAIM-EODCOE-ANALYSIS",
+          "text": "The same public record states that EOD COE presented analysis regarding EOC tasks in NATO operations.",
+          "text_en": "The same public record states that EOD COE presented analysis regarding EOC tasks in NATO operations.",
+          "text_cs": "Tentýž veřejný záznam uvádí, že EOD COE prezentovalo analýzu týkající se úkolů EOC v operacích NATO.",
+          "classification": "FACT",
+          "source_ids": [
+            "ENG-SRC-0261"
+          ]
+        }
+      ]
+    }
+  ],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK",
+    "bilingual_precheck": "PASS_LEAD_001_CLAIM_EXACT_CS_EN",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "PENDING_AFTER_DRIVE_SUCCESS",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE",
+    "social_discovery_status": "PUBLIC_WEB_DISCOVERY_NO_NEW_CANONICAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "russia_ukraine_status": "SWEEP_COMPLETE_NO_NEW_SAFE_QUALIFIED_CANONICAL_ITEM",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "lead_001_canonicalization": {
+      "status": "PASS_READY_FOR_DRIVE_FINALIZATION",
+      "handoff_file": "docs/engineer-osint/LEAD_001_CANONICALIZATION_HANDOFF.md",
+      "handoff_main_sha": "afc1f2ebf51df0fe28a2367e8ce3af4d66f893d0",
+      "canonical_parent_verified": "engineer-osint-20260825-B74",
+      "published_tip_verified": "engineer-osint-20260825-B74",
+      "preexisting_claims": 0,
+      "top_level_source_ids": [
+        "ENG-SRC-0260",
+        "ENG-SRC-0261"
+      ],
+      "added_claim_id": "LEAD-001-CLAIM-EODCOE-ANALYSIS",
+      "added_claim_source_ids": [
+        "ENG-SRC-0261"
+      ],
+      "overlay_removed_by_factual_producer": false,
+      "overlay_removal_owner": "CODEX_PUBLICATION_INTAKE"
+    },
+    "osint_safety_note_cs": "Nebyla přenesena přesná aktuální taktická poloha, zneužitelná zranitelnost ani praktický návod k nebezpečné manipulaci.",
+    "osint_safety_note_en": "No precise current tactical location, exploitable vulnerability, or actionable dangerous-handling instruction was transferred."
+  }
+}
