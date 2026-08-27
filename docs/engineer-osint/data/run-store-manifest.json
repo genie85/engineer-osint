@@ -13,144 +13,28 @@
     "source_count": 457
   },
   "runs": [
-    {
-      "run_id": "engineer-osint-20260823-B62",
-      "parent_run_id": "engineer-osint-20260823-B61",
-      "parent_canonical_sha256": "697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb",
-      "path": "data/runs/engineer-osint-20260823-B62.json",
-      "file_sha256": "0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674",
-      "canonical_sha256": "f5acd7ad1d7c86af5e1d744a7b6dacbfb9b4f0ef55b7ae8dc5b0ddf54c007742"
-    },
-    {
-      "run_id": "engineer-osint-20260823-B63",
-      "parent_run_id": "engineer-osint-20260823-B62",
-      "parent_canonical_sha256": "f5acd7ad1d7c86af5e1d744a7b6dacbfb9b4f0ef55b7ae8dc5b0ddf54c007742",
-      "path": "data/runs/engineer-osint-20260823-B63.json",
-      "file_sha256": "b0ab39f22af153e3703605aef6de660f1a1fc23bd18d2c387726f9b46099a9d6",
-      "canonical_sha256": "dd614187a0acc1597318ebbf08bf9d14aec96aac9cdc9dee80d6b8504f8dfe94"
-    },
-    {
-      "run_id": "engineer-osint-20260824-B64",
-      "parent_run_id": "engineer-osint-20260823-B63",
-      "parent_canonical_sha256": "dd614187a0acc1597318ebbf08bf9d14aec96aac9cdc9dee80d6b8504f8dfe94",
-      "path": "data/runs/engineer-osint-20260824-B64.json",
-      "file_sha256": "dade609224604225534fff419364c97d60efefdbc8bb5c21908a613b5377e87e",
-      "canonical_sha256": "f623cb0e371f17edc23f0170ac64278c5902f5479c615aabc0a70cc5a5be5edd"
-    },
-    {
-      "run_id": "engineer-osint-20260824-B65",
-      "parent_run_id": "engineer-osint-20260824-B64",
-      "parent_canonical_sha256": "f623cb0e371f17edc23f0170ac64278c5902f5479c615aabc0a70cc5a5be5edd",
-      "path": "data/runs/engineer-osint-20260824-B65.json",
-      "file_sha256": "92126af2a789eab46e11b64d3bb9d40e6357f350a8c37b5ec2e37f1dadc8505a",
-      "canonical_sha256": "fb8ce922c31e1671a2616404fdc6b4481fdb0040cdf8749d9e96147f71fd0c94"
-    },
-    {
-      "run_id": "engineer-osint-20260824-B66",
-      "parent_run_id": "engineer-osint-20260824-B65",
-      "parent_canonical_sha256": "fb8ce922c31e1671a2616404fdc6b4481fdb0040cdf8749d9e96147f71fd0c94",
-      "path": "data/runs/engineer-osint-20260824-B66.json",
-      "file_sha256": "d7e8c38f0fd03b8d7601eab25f28df9fc7a8445eb06cf3ee968edcc84d4f81ba",
-      "canonical_sha256": "84f6e2dcffedb646622a210c3afcbe3980b12b1ebaa147dd0b3ba6932e82b6dc"
-    },
-    {
-      "run_id": "engineer-osint-20260824-B67",
-      "parent_run_id": "engineer-osint-20260824-B66",
-      "parent_canonical_sha256": "84f6e2dcffedb646622a210c3afcbe3980b12b1ebaa147dd0b3ba6932e82b6dc",
-      "path": "data/runs/engineer-osint-20260824-B67.json",
-      "file_sha256": "9c9de3b0edd7ff38e0f8bd6648e9db2ed8afc3fe14fe47351ac0e46d1c6ad6b5",
-      "canonical_sha256": "864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0"
-    },
-    {
-      "run_id": "engineer-osint-20260824-B68",
-      "parent_run_id": "engineer-osint-20260824-B67",
-      "parent_canonical_sha256": "864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0",
-      "path": "data/runs/engineer-osint-20260824-B68.json",
-      "file_sha256": "7399476200bd5ff9761180247d6aa23b96e407dce0810e7a578bd7ee3d035d8b",
-      "canonical_sha256": "0e39ffc7a2c5fc23f4307785dc8dc6d860cdeba0dc085c9cb5dd12fa9eebd203"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B69",
-      "parent_run_id": "engineer-osint-20260824-B68",
-      "parent_canonical_sha256": "0e39ffc7a2c5fc23f4307785dc8dc6d860cdeba0dc085c9cb5dd12fa9eebd203",
-      "path": "data/runs/engineer-osint-20260825-B69.json",
-      "file_sha256": "8522a4905346f6277a523f4cd7836125086a1ded762f15c17c0feb4213f92f86",
-      "canonical_sha256": "9bf496e39bf45e9621798f79374cab9591f8664640b00da301735a3f0405c233"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B70",
-      "parent_run_id": "engineer-osint-20260825-B69",
-      "parent_canonical_sha256": "9bf496e39bf45e9621798f79374cab9591f8664640b00da301735a3f0405c233",
-      "path": "data/runs/engineer-osint-20260825-B70.json",
-      "file_sha256": "f4249529ff78ca59c3c4950beb11c765a9dffcde359fddfa1a96f248ca3b2477",
-      "canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B71",
-      "parent_run_id": "engineer-osint-20260825-B70",
-      "parent_canonical_sha256": "fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6",
-      "path": "data/runs/engineer-osint-20260825-B71.json",
-      "file_sha256": "6af5cb3ffe439eb8d7bcaae1bacb34e3ab42df4b0216a9131ec7f3487a2becdf",
-      "canonical_sha256": "82fcf7fac31766d3e66b4cc26317981e2475b806c678adfd62bb373a5338a991"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B72",
-      "parent_run_id": "engineer-osint-20260825-B71",
-      "parent_canonical_sha256": "82fcf7fac31766d3e66b4cc26317981e2475b806c678adfd62bb373a5338a991",
-      "path": "data/runs/engineer-osint-20260825-B72.json",
-      "file_sha256": "6008de05b46b2059803cd4134d7699ba64b5c597db97c406408e25a54407ff06",
-      "canonical_sha256": "17988bfc7018a129c7e8d8bdd84af135e899d4065d78d348e5a1312bc5558bbe"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B73",
-      "parent_run_id": "engineer-osint-20260825-B72",
-      "parent_canonical_sha256": "17988bfc7018a129c7e8d8bdd84af135e899d4065d78d348e5a1312bc5558bbe",
-      "path": "data/runs/engineer-osint-20260825-B73.json",
-      "file_sha256": "81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9",
-      "canonical_sha256": "51e4adcaad45a98fa93e30f43c964cb04ad60b53eec4992c39afb7133b5669b2"
-    },
-    {
-      "run_id": "engineer-osint-20260825-B74",
-      "parent_run_id": "engineer-osint-20260825-B73",
-      "parent_canonical_sha256": "51e4adcaad45a98fa93e30f43c964cb04ad60b53eec4992c39afb7133b5669b2",
-      "path": "data/runs/engineer-osint-20260825-B74.json",
-      "file_sha256": "a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895",
-      "canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848"
-    },
-    {
-      "run_id": "engineer-osint-20260826-B75",
-      "parent_run_id": "engineer-osint-20260825-B74",
-      "parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
-      "path": "data/runs/engineer-osint-20260826-B75.json",
-      "file_sha256": "47b925538bae7438c20f57383b7d2fe48eb619728b819e35fc2fb1cea69c9071",
-      "canonical_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
-    }
+    {"run_id":"engineer-osint-20260823-B62","parent_run_id":"engineer-osint-20260823-B61","parent_canonical_sha256":"697abdb4002825fbb8dc1f5c1a144daba8a7a11a1befc3f91acf2b2f459b55fb","path":"data/runs/engineer-osint-20260823-B62.json","file_sha256":"0bc9812b15cacc5b2df3170638e2a1f765897ecabba2d424d712c32d07daa674","canonical_sha256":"f5acd7ad1d7c86af5e1d744a7b6dacbfb9b4f0ef55b7ae8dc5b0ddf54c007742"},
+    {"run_id":"engineer-osint-20260823-B63","parent_run_id":"engineer-osint-20260823-B62","parent_canonical_sha256":"f5acd7ad1d7c86af5e1d744a7b6dacbfb9b4f0ef55b7ae8dc5b0ddf54c007742","path":"data/runs/engineer-osint-20260823-B63.json","file_sha256":"b0ab39f22af153e3703605aef6de660f1a1fc23bd18d2c387726f9b46099a9d6","canonical_sha256":"dd614187a0acc1597318ebbf08bf9d14aec96aac9cdc9dee80d6b8504f8dfe94"},
+    {"run_id":"engineer-osint-20260824-B64","parent_run_id":"engineer-osint-20260823-B63","parent_canonical_sha256":"dd614187a0acc1597318ebbf08bf9d14aec96aac9cdc9dee80d6b8504f8dfe94","path":"data/runs/engineer-osint-20260824-B64.json","file_sha256":"dade609224604225534fff419364c97d60efefdbc8bb5c21908a613b5377e87e","canonical_sha256":"f623cb0e371f17edc23f0170ac64278c5902f5479c615aabc0a70cc5a5be5edd"},
+    {"run_id":"engineer-osint-20260824-B65","parent_run_id":"engineer-osint-20260824-B64","parent_canonical_sha256":"f623cb0e371f17edc23f0170ac64278c5902f5479c615aabc0a70cc5a5be5edd","path":"data/runs/engineer-osint-20260824-B65.json","file_sha256":"92126af2a789eab46e11b64d3bb9d40e6357f350a8c37b5ec2e37f1dadc8505a","canonical_sha256":"fb8ce922c31e1671a2616404fdc6b4481fdb0040cdf8749d9e96147f71fd0c94"},
+    {"run_id":"engineer-osint-20260824-B66","parent_run_id":"engineer-osint-20260824-B65","parent_canonical_sha256":"fb8ce922c31e1671a2616404fdc6b4481fdb0040cdf8749d9e96147f71fd0c94","path":"data/runs/engineer-osint-20260824-B66.json","file_sha256":"d7e8c38f0fd03b8d7601eab25f28df9fc7a8445eb06cf3ee968edcc84d4f81ba","canonical_sha256":"84f6e2dcffedb646622a210c3afcbe3980b12b1ebaa147dd0b3ba6932e82b6dc"},
+    {"run_id":"engineer-osint-20260824-B67","parent_run_id":"engineer-osint-20260824-B66","parent_canonical_sha256":"84f6e2dcffedb646622a210c3afcbe3980b12b1ebaa147dd0b3ba6932e82b6dc","path":"data/runs/engineer-osint-20260824-B67.json","file_sha256":"9c9de3b0edd7ff38e0f8bd6648e9db2ed8afc3fe14fe47351ac0e46d1c6ad6b5","canonical_sha256":"864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0"},
+    {"run_id":"engineer-osint-20260824-B68","parent_run_id":"engineer-osint-20260824-B67","parent_canonical_sha256":"864383a050164a2fd3d4447b6c45a2cb1865cea6632283f1d65fb91035cddae0","path":"data/runs/engineer-osint-20260824-B68.json","file_sha256":"7399476200bd5ff9761180247d6aa23b96e407dce0810e7a578bd7ee3d035d8b","canonical_sha256":"0e39ffc7a2c5fc23f4307785dc8dc6d860cdeba0dc085c9cb5dd12fa9eebd203"},
+    {"run_id":"engineer-osint-20260825-B69","parent_run_id":"engineer-osint-20260824-B68","parent_canonical_sha256":"0e39ffc7a2c5fc23f4307785dc8dc6d860cdeba0dc085c9cb5dd12fa9eebd203","path":"data/runs/engineer-osint-20260825-B69.json","file_sha256":"8522a4905346f6277a523f4cd7836125086a1ded762f15c17c0feb4213f92f86","canonical_sha256":"9bf496e39bf45e9621798f79374cab9591f8664640b00da301735a3f0405c233"},
+    {"run_id":"engineer-osint-20260825-B70","parent_run_id":"engineer-osint-20260825-B69","parent_canonical_sha256":"9bf496e39bf45e9621798f79374cab9591f8664640b00da301735a3f0405c233","path":"data/runs/engineer-osint-20260825-B70.json","file_sha256":"f4249529ff78ca59c3c4950beb11c765a9dffcde359fddfa1a96f248ca3b2477","canonical_sha256":"fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6"},
+    {"run_id":"engineer-osint-20260825-B71","parent_run_id":"engineer-osint-20260825-B70","parent_canonical_sha256":"fda917196edd1671650f45c3ef7edc7ffe8e70197aba189fd10ff0efcc8fa3d6","path":"data/runs/engineer-osint-20260825-B71.json","file_sha256":"6af5cb3ffe439eb8d7bcaae1bacb34e3ab42df4b0216a9131ec7f3487a2becdf","canonical_sha256":"82fcf7fac31766d3e66b4cc26317981e2475b806c678adfd62bb373a5338a991"},
+    {"run_id":"engineer-osint-20260825-B72","parent_run_id":"engineer-osint-20260825-B71","parent_canonical_sha256":"82fcf7fac31766d3e66b4cc26317981e2475b806c678adfd62bb373a5338a991","path":"data/runs/engineer-osint-20260825-B72.json","file_sha256":"6008de05b46b2059803cd4134d7699ba64b5c597db97c406408e25a54407ff06","canonical_sha256":"17988bfc7018a129c7e8d8bdd84af135e899d4065d78d348e5a1312bc5558bbe"},
+    {"run_id":"engineer-osint-20260825-B73","parent_run_id":"engineer-osint-20260825-B72","parent_canonical_sha256":"17988bfc7018a129c7e8d8bdd84af135e899d4065d78d348e5a1312bc5558bbe","path":"data/runs/engineer-osint-20260825-B73.json","file_sha256":"81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9","canonical_sha256":"51e4adcaad45a98fa93e30f43c964cb04ad60b53eec4992c39afb7133b5669b2"},
+    {"run_id":"engineer-osint-20260825-B74","parent_run_id":"engineer-osint-20260825-B73","parent_canonical_sha256":"51e4adcaad45a98fa93e30f43c964cb04ad60b53eec4992c39afb7133b5669b2","path":"data/runs/engineer-osint-20260825-B74.json","file_sha256":"a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895","canonical_sha256":"63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848"},
+    {"run_id":"engineer-osint-20260826-B75","parent_run_id":"engineer-osint-20260825-B74","parent_canonical_sha256":"63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848","path":"data/runs/engineer-osint-20260826-B75.json","file_sha256":"47b925538bae7438c20f57383b7d2fe48eb619728b819e35fc2fb1cea69c9071","canonical_sha256":"0b717fff07b9b8337852365f845a7476f5a635c9b9ca493fa3052e4f0ce4fd27"}
   ],
   "legacy_history": {
     "status": "DEGRADED_LEGACY_ACKNOWLEDGED",
-    "malformed_patch_shas": [
-      "eb41315701c0703e720d535cd4bb4985c6158b07",
-      "b8dbb377d4edc0b9dab8bba015cde742ef279278",
-      "29262075888dc0e5dd534823c5b51c2c3768185b"
-    ],
-    "duplicate_run_ids": [
-      "engineer-osint-20260817-B27",
-      "engineer-osint-20260818-B47",
-      "engineer-osint-20260818-B53",
-      "engineer-osint-20260819-B09",
-      "engineer-osint-20260823-B61"
-    ],
+    "malformed_patch_shas": ["eb41315701c0703e720d535cd4bb4985c6158b07","b8dbb377d4edc0b9dab8bba015cde742ef279278","29262075888dc0e5dd534823c5b51c2c3768185b"],
+    "duplicate_run_ids": ["engineer-osint-20260817-B27","engineer-osint-20260818-B47","engineer-osint-20260818-B53","engineer-osint-20260819-B09","engineer-osint-20260823-B61"],
     "parent_discontinuities": [
-      {
-        "previous_run_id": "engineer-osint-20260817-B13",
-        "run_id": "engineer-osint-20260817-B18",
-        "parent_run_id": "engineer-osint-20260817-B17"
-      },
-      {
-        "previous_run_id": "engineer-osint-20260818-B34",
-        "run_id": "engineer-osint-20260818-B36",
-        "parent_run_id": "engineer-osint-20260818-B35"
-      }
+      {"previous_run_id":"engineer-osint-20260817-B13","run_id":"engineer-osint-20260817-B18","parent_run_id":"engineer-osint-20260817-B17"},
+      {"previous_run_id":"engineer-osint-20260818-B34","run_id":"engineer-osint-20260818-B36","parent_run_id":"engineer-osint-20260818-B35"}
     ],
     "external_checkpoint_parent": "engineer-osint-20260816-B12",
     "enforcement_cutoff": "engineer-osint-20260823-B61"
