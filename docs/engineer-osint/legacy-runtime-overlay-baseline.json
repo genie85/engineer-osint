@@ -15,12 +15,6 @@
       "mutation_count": 88,
       "mutation_fingerprint": "627ed7fdae2b7d06d2bc8274132c467c69dbf92d3f77992ee6e68395fab8a87c"
     },
-    "rich-backfill-eod-lead.js": {
-      "file_sha256": "66b7c68dcdbfc9d96d89b8b07557fc308e6c09ae3ad69fadf32928530092bc3b",
-      "allowed_target_ids": ["LEAD-001"],
-      "mutation_count": 5,
-      "mutation_fingerprint": "aba9c2e2a6c44f99a3632dcf1572a0cf86b52eda0b653d6c6251445667ab5eb3"
-    },
     "rich-backfill-usa-rok.js": {
       "file_sha256": "6b3542e58469e0eba6c12152c3ae815e676254b279d55b4691e91bce3688d877",
       "allowed_target_ids": ["ENG-SIG-0006", "ENG-VIS-0009", "RICH-SRC-014", "RICH-SRC-015"],

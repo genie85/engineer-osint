@@ -3,7 +3,6 @@
 export const LEGACY_FACTUAL_OVERLAY_MODULES=[
   ['engineer-rich-backfill-module','rich-backfill.js'],
   ['engineer-rich-backfill-israel-turkiye-eod-module','rich-backfill-israel-turkiye-eod.js'],
-  ['engineer-rich-backfill-eod-lead-module','rich-backfill-eod-lead.js'],
   ['engineer-rich-backfill-usa-rok-module','rich-backfill-usa-rok.js'],
   ['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']
 ];
@@ -28,6 +27,7 @@ export const LOCALIZATION_DATA_MODULES=[
   ['engineer-i18n-content-cs-public-cz-b54-module','i18n-content-cs-public-cz-b54.js'],
   ['engineer-i18n-content-cs-public-cz-b61-module','i18n-content-cs-public-cz-b61.js'],
   ['engineer-i18n-content-cs-public-cz-b62-module','i18n-content-cs-public-cz-b62.js'],
+  ['engineer-i18n-content-cs-public-cz-b75-module','i18n-content-cs-public-cz-b75.js'],
   ['engineer-i18n-content-cs-public-cz-backlog-module','i18n-content-cs-public-cz-backlog.js'],
   ['engineer-i18n-enum-cs-safe-core-module','i18n-enum-cs-safe-core.js'],
   ['engineer-i18n-enum-cs-safe-registry-module','i18n-enum-cs-safe-registry.js'],
