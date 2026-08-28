@@ -53,6 +53,20 @@ Candidate routes are advisory and never authorize a write:
 
 A source hint copied from a resolved target is not proof of provenance. Every canonical migration must independently verify that the cited source supports the exact value being persisted. A candidate marked `SOURCE_BINDING_REQUIRED` cannot become an operation until that evidence binding is supplied.
 
+## v4.5.2 strict in-memory equivalence dry-run
+
+`audit-overlay-migration-dry-run.mjs` consumes the v4.5.1 map and constructs **synthetic, in-memory-only** strict patches in the same order as the four runtime overlays. It uses the production `applyStrictPatchToCanonicalData` path so schema validation, collection counts, operation constraints, source references, canonical identity checks, mirror synchronization and reference validation are exercised exactly as they would be for a strict canonical patch.
+
+The dry-run deliberately uses synthetic 2099 run IDs and never calls `append-run.mjs`, writes `data/runs`, or updates `data/run-store-manifest.json`. Its output is diagnostic only:
+
+- `overlay-migration-dry-run.json`
+- `overlay-migration-dry-run.md`
+- health markers `overlay_migration_dry_run_*`.
+
+After each synthetic strict patch, the corresponding legacy overlay is executed again against a clone of the simulated canonical state. Any remaining factual mutation must map to a candidate already classified for manual migration review. An unexpected residual is a CI failure. A module with no factual residual is classified `STRUCTURALLY_EQUIVALENT_PENDING_PROVENANCE_REVIEW`; this means only that the current strict contract can reproduce its runtime effect, **not** that the migration is authorized or that the cited sources have been verified for every field.
+
+The dry-run is therefore a structural gate between mapping and a real append-only migration. A real run may be prepared only after each candidate's provenance is independently checked against its supporting sources. Synthetic run IDs, synthetic operation IDs and dry-run QA metadata must never be copied into production run-store data.
+
 ## Safety rule
 
-This audit and migration map are read-only with respect to canonical data. They must never create a run, alter `data/run-store-manifest.json`, fabricate a hash, change a source/evidence/claim, or turn runtime-only factual content into canonical truth. Actual migration must use the normal strict append-only run path and must be followed by a fresh retirement audit before any overlay is removed.
+The retirement audit, migration map and strict dry-run are read-only with respect to canonical persistence. They must never create a real run, alter `data/run-store-manifest.json`, fabricate a production hash, change a source/evidence/claim in persistent state, or turn runtime-only factual content into canonical truth. Actual migration must use the normal strict append-only run path and must be followed by a fresh retirement audit before any overlay is removed.
