@@ -1,0 +1,199 @@
+{
+  "schema_version": "engineer-osint-overlay-provenance-review-v1",
+  "reviewed_at": "2026-08-29",
+  "scope_modules": [
+    "rich-backfill.js",
+    "rich-backfill-israel-turkiye-eod.js",
+    "rich-backfill-usa-rok.js"
+  ],
+  "policy": "CURATED_PRIMARY_SOURCE_REVIEW_DOES_NOT_AUTHORIZE_CANONICAL_APPEND",
+  "source_reviews": {
+    "RICH-SRC-001": {
+      "expected_url": "https://www.terremag.defense.gouv.fr/enquetes/zoom-sur/le-sdz-nouveau-systeme-de-depollution-de-zone",
+      "authority": "French Army / Ministry of Armed Forces",
+      "status": "VERIFIED_PRIMARY_CONTENT_WITH_PRECISION_NOTE",
+      "review_note": "Primary TerreMag material supports CEFA development, MADEM replacement, tele-operation, two robots, area-clearance role and six systems in service. Its technical sheet states 10.7 t vehicle weight while narrative text rounds the vehicle to about 10 t; the migration value therefore needs precision review rather than automatic canonicalization."
+    },
+    "RICH-SRC-002": {
+      "expected_url": "https://www.defense.gouv.fr/dga/actualites/dga-commande-systeme-franchissement-syfrall",
+      "authority": "French DGA",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "Primary DGA release supports the 30 Dec 2025 order, CNIM SI/CEFA/SOFRAME consortium, eight systems, about 300 linear metres, modular truck-transported ferries/bridges and intended Army engineer-regiment delivery."
+    },
+    "RICH-SRC-003": {
+      "expected_url": "https://drdo.gov.in/drdo/en/offerings/products/bridge-layer-tank-blt-arjun",
+      "authority": "DRDO / Government of India",
+      "status": "VERIFIED_PRIMARY_CONTENT_WITH_ABSENCE_NOTE",
+      "review_note": "DRDO product page supports Arjun chassis, MLC-70, two-person crew, independent power unit, 24 m steel / 26 m aluminium bridge and 10-minute launch/retrieval time. The page does not publish vehicle weight; absence statements must remain explicitly scoped to this page."
+    },
+    "RICH-SRC-004": {
+      "expected_url": "https://drdo.gov.in/drdo/en/offerings/products/short-span-bridge-10m",
+      "authority": "DRDO / Government of India",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "DRDO product page supports mechanically launched MLC-70 bridge for gaps/canals up to 10 m, high-mobility launcher, double-A trestle, minimum-crew concept and beta light for night deployment."
+    },
+    "RICH-SRC-005": {
+      "expected_url": "https://drdo.gov.in/drdo/en/offerings/technology-foresight/autonomous-systems-and-robotics",
+      "authority": "DRDO / Government of India",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "DRDO Technology Foresight lists autonomous navigation, combat-engineering perception, human-robot teaming, collaborative manipulation and autonomous combat-engineering support development tasks. It is R&D portfolio evidence, not procurement or fielding evidence."
+    },
+    "RICH-SRC-006": {
+      "expected_url": "https://drdo.gov.in/drdo/en/offerings/technology-foresight/ugv",
+      "authority": "DRDO / Government of India",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "DRDO UGV foresight lists autonomous driving, SLAM, collaborative UGVs, swarm UGVs and unmanned ground combat vehicle technologies. It does not establish Army procurement or operational fielding."
+    },
+    "RICH-SRC-007": {
+      "expected_url": "https://www.idf.il/en/mini-sites/our-units/combat-engineering-corps/combat-engineering-corps/",
+      "authority": "Israel Defense Forces",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "IDF unit page lists dismantling minefields, building bridges, fortifications and identifies Yahalom as the elite unit of the Combat Engineering Corps."
+    },
+    "RICH-SRC-008": {
+      "expected_url": "https://www.idf.il/en/articles/2022/get-to-know-the-yahalom-unit/",
+      "authority": "Israel Defense Forces",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "IDF article supports Yahalom special-engineering, dangerous-ammunition, complex-minefield, underground, ground/water-obstacle tasks and use of robots/remote-controlled devices."
+    },
+    "RICH-SRC-009": {
+      "expected_url": "https://m.www.idf.il/en/mini-sites/our-units/yahalom-unit/yahalom-unit/",
+      "authority": "Israel Defense Forces",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "IDF Yahalom unit page supports mission scope, robots/remote-controlled devices and that the unit is headed by an officer with the rank of colonel."
+    },
+    "RICH-SRC-010": {
+      "expected_url": "https://mod.gov.il/en/departments/merkava-and-armored-vehicles-directorate",
+      "authority": "Israel Ministry of Defense",
+      "status": "VERIFIED_PRIMARY_CONTENT_WITH_SCOPE_LIMITATION",
+      "review_note": "Current English directorate page supports Namer as an advanced APC associated with the Merkava/armored-vehicle program, but does not itself substantiate every detailed descriptor in the legacy Namer Engineering summary. Detailed engineering-variant language needs an additional authoritative source before canonicalization."
+    },
+    "RICH-SRC-011": {
+      "expected_url": "https://mod.gov.il/en/press-releases/press-room/israel-defense-prize-2024-awarded-for-groundbreaking-defense-technologies-that-proved-critical-during-the-swords-of-iron-war",
+      "authority": "Israel Ministry of Defense",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "Israel MoD release identifies the Namer APC as an Israeli-developed joint project and states that it proved crucial during the Swords of Iron war while protecting soldiers and commanders. This is Namer-family operational evidence, not engineering-variant evidence."
+    },
+    "RICH-SRC-012": {
+      "expected_url": "https://www.msb.gov.tr/SlaytHaber/cbf794296d9646ba86ad48cde9c729a9",
+      "authority": "Republic of Türkiye Ministry of National Defence",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "MSB briefing dated 9 Jul 2026 directly attributes completion of a 240 m floating bridge over the Euphrates at Deir ez-Zor to 2nd Army Engineer Brigade and states planned opening after control crossings on 10 Jul. It does not identify bridge model, MLC, module count or construction time."
+    },
+    "RICH-SRC-013": {
+      "expected_url": "https://www.eodcoe.org/en/news/the-68th-eod-wg-meeting.html",
+      "authority": "NATO EOD Centre of Excellence",
+      "status": "VERIFIED_ORGANIZATIONAL_PRIMARY_NOT_NATO_POLICY",
+      "review_note": "EOD COE meeting report states that EOC minimum standards of proficiency will be re-defined with MILENG support and reports analysis of EOC tasks in NATO operations. The site explicitly disclaims that its views necessarily represent official NATO policy, so migration wording must retain that distinction."
+    },
+    "RICH-SRC-014": {
+      "expected_url": "https://www.army.mil/article/293513/oregon_engineers_test_drone_delivered_breach_capability",
+      "authority": "U.S. Army / Oregon National Guard Public Affairs",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "U.S. Army article supports the 22 Jun 2026 proof-of-concept by Bravo Company, 741st BEB, Mule 28 delivery of an M1A3 Bangalore against concertina wire, lane opening, Ukraine inspiration, safety progression and planned battalion white paper. It is unit-level experimentation, not Army-wide fielding."
+    },
+    "RICH-SRC-015": {
+      "expected_url": "https://www.europeafrica.army.mil/Innovation/videoid/1012370/dvpmoduleid/104815/dvpTag/drones/",
+      "authority": "U.S. Army / Oregon National Guard Public Affairs",
+      "status": "VERIFIED_PRIMARY_CONTENT",
+      "review_note": "Official Army Europe/Africa-hosted DVIDS video metadata supports Bravo Company, 741st BEB, the 22 Jun 2026 proof-of-concept, heavy-lift drone delivery and detonation of a live Bangalore during annual training at Orchard Combat Training Center."
+    }
+  },
+  "global_field_policy": {
+    "administrative_metadata": [
+      "last_verified_date",
+      "source_ids",
+      "provenance_granularity",
+      "rich_backfill_status",
+      "verification_note"
+    ],
+    "analytical_route_required": [
+      "intelligence_gaps",
+      "what_it_does_not_prove",
+      "why_it_matters",
+      "staff_relevance",
+      "training_relevance"
+    ],
+    "source_locator_fields": [
+      "source_url"
+    ]
+  },
+  "target_reviews": {
+    "ENG-TECH-0011": {
+      "source_ids": ["RICH-SRC-001"],
+      "reviewed_source_backed_fields": ["summary_cs", "manufacturer", "country", "remote_control", "engineering_equipment", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": ["weight"],
+      "absence_review_fields": []
+    },
+    "ENG-TECH-0012": {
+      "source_ids": ["RICH-SRC-002"],
+      "reviewed_source_backed_fields": ["summary_cs", "manufacturer", "country", "technical_profile", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-TECH-0014": {
+      "source_ids": ["RICH-SRC-003"],
+      "reviewed_source_backed_fields": ["summary_cs", "manufacturer", "country", "crew", "engineering_equipment", "technical_profile", "operational_evidence", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": ["weight"]
+    },
+    "ENG-TECH-0015": {
+      "source_ids": ["RICH-SRC-004"],
+      "reviewed_source_backed_fields": ["summary_cs", "manufacturer", "country", "technical_profile", "operational_evidence", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-SIG-0007": {
+      "source_ids": ["RICH-SRC-005", "RICH-SRC-006"],
+      "reviewed_source_backed_fields": ["summary_cs", "country", "stage", "maturity", "technical_profile", "operational_evidence", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-UNIT-0012": {
+      "source_ids": ["RICH-SRC-007", "RICH-SRC-008", "RICH-SRC-009"],
+      "reviewed_source_backed_fields": ["summary_cs", "country", "mission", "organization_profile", "equipment", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-TECH-0013": {
+      "source_ids": ["RICH-SRC-010", "RICH-SRC-011"],
+      "reviewed_source_backed_fields": ["manufacturer", "country", "operational_evidence", "last_evidence_date", "claims"],
+      "expanded_source_review_fields": ["summary_cs", "technical_profile"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-EVT-0021": {
+      "source_ids": ["RICH-SRC-012"],
+      "reviewed_source_backed_fields": ["summary_cs", "country", "location", "event_date", "participants", "capability_demonstrated", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-UNIT-0013": {
+      "source_ids": ["RICH-SRC-012"],
+      "reviewed_source_backed_fields": ["summary_cs", "country", "mission", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-SIG-0006": {
+      "source_ids": ["RICH-SRC-014", "RICH-SRC-015"],
+      "reviewed_source_backed_fields": ["summary_en", "country", "stage", "maturity", "mine_action_context", "technical_profile", "testing_evidence", "operational_evidence", "last_evidence_date", "claims"],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    },
+    "ENG-VIS-0009": {
+      "source_ids": ["RICH-SRC-014", "RICH-SRC-015"],
+      "reviewed_source_backed_fields": [],
+      "precision_review_fields": [],
+      "absence_review_fields": []
+    }
+  },
+  "special_rules": [
+    {
+      "rule_id": "EOC-WG-68",
+      "source_ids": ["RICH-SRC-013"],
+      "field": "eoc_standardization_evidence",
+      "status": "REVIEWED_SOURCE_BACKED",
+      "note": "Permitted only when wording remains attributed to the EOD COE report / EOD WG meeting and is not represented as binding NATO policy."
+    }
+  ]
+}
