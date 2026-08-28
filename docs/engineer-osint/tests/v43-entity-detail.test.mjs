@@ -28,9 +28,10 @@ test('detail uses canonical records and explicit linked collections',()=>{
   assert.match(ui,/D\.claims\?\.claims/);
 });
 
-test('entity detail exposes the v4.3 evidence-first sections conditionally',()=>{
-  for(const label of ['Aktuální hodnocení','Fakta','Analytická interpretace','Co to neprokazuje','Časová osa','Důkazy','Tvrzení','Informační mezery','Rozpory','Vztahy','Operační / výcviková / štábní relevance'])assert.match(ui,new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+test('entity detail exposes the v4.3 evidence-first structure conditionally',()=>{
+  for(const label of ['EXEKUTIVNÍ SOUHRN','Aktuální hodnocení','Fakta','Analytická interpretace','Co to neprokazuje','Časová osa','Důkazy','Tvrzení','Informační mezery','Rozpory','Vztahy','Operační / výcviková / štábní relevance'])assert.ok(ui.includes(label),`missing ${label}`);
   assert.match(ui,/if\(!text\)return''/);
+  assert.match(ui,/if\(!aa\.length\)return''/);
 });
 
 test('analytical interpretation is explicitly distinguished from fact',()=>{
@@ -38,11 +39,14 @@ test('analytical interpretation is explicitly distinguished from fact',()=>{
   assert.match(ui,/ANALYTICAL, NOT A FACTUAL CLAIM/);
 });
 
-test('evidence preserves support and limitation semantics',()=>{
+test('evidence preserves support, limitation, source and media semantics',()=>{
   assert.match(ui,/what_it_supports/);
   assert.match(ui,/what_it_does_not_prove/);
-  assert.match(ui,/Podporuje/);
-  assert.match(ui,/Neprokazuje/);
+  assert.match(ui,/Navázané zdroje/);
+  assert.match(ui,/Otevřít podklad/);
+  assert.match(ui,/operational_evidence/);
+  assert.match(ui,/training_evidence/);
+  assert.match(ui,/testing_evidence/);
 });
 
 test('legacy gaps and contradictions remain visibly marked compatibility views',()=>{
@@ -50,8 +54,8 @@ test('legacy gaps and contradictions remain visibly marked compatibility views',
   assert.match(ui,/LEGACY COMPATIBILITY/);
 });
 
-test('v4.3 suppresses duplicate v4.1 detail enrichment',()=>{
-  assert.match(ui,/v41-detail-intelligence/);
+test('v4.3 suppresses duplicate legacy detail decorators',()=>{
+  for(const marker of ['v41-detail-intelligence','engineer-timeline','relevance-box','claim-source-map','rich-card','media-rich-layer'])assert.ok(ui.includes(marker),`missing legacy suppression marker ${marker}`);
   assert.match(ui,/hidden aria-hidden="true"/);
 });
 
