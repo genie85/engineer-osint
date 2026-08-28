@@ -4,7 +4,8 @@
   let scheduled=false;
 
   const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
-  const probe=node=>clean([node?.textContent,node?.dataset?.labelCs,node?.dataset?.labelEn].filter(Boolean).join(' | '));
+  const fields=node=>[clean(node?.textContent),clean(node?.dataset?.labelCs),clean(node?.dataset?.labelEn)].filter(Boolean);
+  const matches=(node,re)=>fields(node).some(value=>re.test(value));
   const setLabel=(node,labelCs,labelEn)=>{
     if(!node)return;
     if(node.dataset){
@@ -41,9 +42,8 @@
       [/^(?:Intelligence Gaps|INFORMAČNÍ MEZERY|Informační mezery)$/i,'Informační mezery','Intelligence Gaps']
     ];
     for(const b of analysis.querySelectorAll('button')){
-      const p=probe(b);
       for(const [re,labelCs,labelEn] of labelRules){
-        if(!re.test(p))continue;
+        if(!matches(b,re))continue;
         setLabel(b,labelCs,labelEn);
         break;
       }
@@ -51,8 +51,7 @@
 
     for(const node of [...analysis.children]){
       if(node.id==='engineerAnalysisToolsGroup')continue;
-      const p=probe(node);
-      if(/^(?:Země|Countries)(?:\s*\||$)/i.test(p)||/Téma:\s*Austrálie\s*\/\s*EOD|Topic:\s*Australia\s*\/\s*EOD/i.test(p)){
+      if(matches(node,/^(?:Země|Countries)$/i)||matches(node,/^(?:Téma:\s*Austrálie\s*\/\s*EOD|Topic:\s*Australia\s*\/\s*EOD)$/i)){
         node.dataset.v423LegacyAnalysis='1';
         hidden.appendChild(node);
       }
@@ -66,36 +65,21 @@
       analysis.appendChild(tools);
     }
     const summary=tools.querySelector('summary');
-    if(summary)summary.textContent=cs('Sledování a nástroje','Monitoring & tools');
+    const summaryLabel=cs('Sledování a nástroje','Monitoring & tools');
+    if(summary&&clean(summary.textContent)!==summaryLabel)summary.textContent=summaryLabel;
     const box=tools.querySelector('.v423-subnav');
-    const secondary=/Analytické nástroje|Intelligence tools|Vyspělost technologií|Technology maturity|Matice pokrytí|Coverage matrix|Activity Feed|Aktivity|Leads\s*\/\s*Watchlist|Leady\s*\/\s*sledované položky/i;
+    const secondary=/^(?:Analytické nástroje|Intelligence tools|Vyspělost technologií|Technology maturity|Matice pokrytí|Coverage matrix|Activity Feed|Aktivity|Leads\s*\/\s*Watchlist|Leady\s*\/\s*sledované položky)$/i;
     for(const node of [...analysis.children]){
       if(node===tools)continue;
-      if(secondary.test(probe(node)))box.appendChild(node);
+      if(matches(node,secondary))box.appendChild(node);
     }
     for(const node of [...box.children]){
-      const p=probe(node);
       for(const [re,labelCs,labelEn] of labelRules){
-        if(!re.test(p))continue;
+        if(!matches(node,re))continue;
         setLabel(node,labelCs,labelEn);
         break;
       }
     }
-
-    const preferred=[
-      /Časová osa|Timeline/i,
-      /Schopnosti|Capabilities/i,
-      /Sledování trendů|Trend Watch/i,
-      /Téma:\s*EOD\s*\/\s*C-IED\s*\/\s*EOC\s*\/\s*EOR|EOD\s*\/\s*C-IED/i,
-      /Klíčová hodnocení|Key Assessments/i,
-      /Informační mezery|Intelligence Gaps/i,
-      /^Rozpory$|^Contradictions$/i
-    ];
-    for(const re of preferred){
-      const node=[...analysis.children].find(x=>x!==tools&&re.test(probe(x)));
-      if(node)analysis.insertBefore(node,tools);
-    }
-    analysis.appendChild(tools);
   }
 
   function dedupeSources(){
@@ -104,7 +88,8 @@
     const hidden=root?.querySelector('#engineerLegacyHidden');
     if(!evidence||!hidden)return;
     const canonical=document.getElementById('engineerV4Sources');
-    const candidates=[...evidence.children].filter(node=>/^(?:Zdroje|Sources)(?:\s*\||$)/i.test(probe(node)));
+    if(canonical&&canonical.parentElement!==evidence)evidence.appendChild(canonical);
+    const candidates=[...evidence.children].filter(node=>matches(node,/^(?:Zdroje|Sources)$/i));
     const keep=canonical&&evidence.contains(canonical)?canonical:candidates[0];
     for(const node of candidates){
       if(node===keep)continue;
