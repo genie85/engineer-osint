@@ -260,6 +260,30 @@
       "path": "data/runs/engineer-osint-20260826-B92.json",
       "file_sha256": "10c3031cd7575b06ed028d30de094e5c6ebb7d5af4116d4b5867e157bb84cc1b",
       "canonical_sha256": "2550b33e40786a009de7f6d84adeeac2b5a64bfabf4ae08db087cbba0d7c3725"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B93",
+      "parent_run_id": "engineer-osint-20260826-B92",
+      "parent_canonical_sha256": "2550b33e40786a009de7f6d84adeeac2b5a64bfabf4ae08db087cbba0d7c3725",
+      "path": "data/runs/engineer-osint-20260826-B93.json",
+      "file_sha256": "1ad989b353e839e9f84176c7d573282dc690696cd1ff593b74680d61f1b8d470",
+      "canonical_sha256": "cb0f944121ccbcc8e94651e4d9cb363ebb9c63ac2e36a8a33b9b8d556643dfe3"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B94",
+      "parent_run_id": "engineer-osint-20260826-B93",
+      "parent_canonical_sha256": "cb0f944121ccbcc8e94651e4d9cb363ebb9c63ac2e36a8a33b9b8d556643dfe3",
+      "path": "data/runs/engineer-osint-20260826-B94.json",
+      "file_sha256": "d6e0a00ddb88ab68f3c80b13ea54747f2be4aeed893ae506afeed2c4cebf088d",
+      "canonical_sha256": "0e910e87e1a9b59ebc0c5ee28bb12217a0aed11fe85fe7beb6658fffcf303794"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B95",
+      "parent_run_id": "engineer-osint-20260826-B94",
+      "parent_canonical_sha256": "0e910e87e1a9b59ebc0c5ee28bb12217a0aed11fe85fe7beb6658fffcf303794",
+      "path": "data/runs/engineer-osint-20260826-B95.json",
+      "file_sha256": "de5db9596c505a539e62f5043703bec55487737f63aa24067741cdd12f3d57d0",
+      "canonical_sha256": "dc0dae682004554a8f9a0dafbbd31187b9baebd2c325e9e37e503d6aa8bcabae"
     }
   ],
   "legacy_history": {
