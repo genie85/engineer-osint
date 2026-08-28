@@ -1,0 +1,266 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B85",
+    "parent_run_id": "engineer-osint-20260826-B84",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T17:13:42+02:00",
+    "window_to": "2026-08-26T18:07:13+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_PUBLICATION_LAG_CONTIGUOUS",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B84",
+    "published_tip": "engineer-osint-20260825-B74",
+    "publication_lag_before_run": 10,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77",
+      "engineer-osint-20260826-B78",
+      "engineer-osint-20260826-B79",
+      "engineer-osint-20260826-B80",
+      "engineer-osint-20260826-B81",
+      "engineer-osint-20260826-B82",
+      "engineer-osint-20260826-B83",
+      "engineer-osint-20260826-B84"
+    ],
+    "main_sha_at_start": "6dfadf749053e5a5ef74800a214c325d3c5e61d9",
+    "main_sha_before_production_write": "6dfadf749053e5a5ef74800a214c325d3c5e61d9",
+    "reconciliation_window_from": "2026-08-24T18:07:13+02:00",
+    "reconciliation_window_to": "2026-08-26T18:07:13+02:00",
+    "mandatory_unpublished_artifacts_reverified": "PASS_B75_B84_IDS_AND_B84_RAW_FINAL_STATE",
+    "lead_001_canonicalization_gate": "REVIEW_REQUIRED_NOT_REAPPLIED_DRIVE_ALREADY_HAS_CANONICAL_CLAIM_GITHUB_HANDOFF_PREPARED_AGAINST_B74"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0035",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "NATO/Ukraine",
+      "title_cs": "JATEC přeneslo ukrajinské zkušenosti do integračního experimentu NATO LCI-X 3-26",
+      "title_en": "JATEC fed Ukrainian experience into NATO LCI-X 3-26 integration experimentation",
+      "summary_cs": "ArmyInform 26. 8. 2026 uvedlo s odkazem na Ministerstvo obrany Ukrajiny, že specialisté JATEC při LCI-X 3-26 v Lotyšsku přispěli návrhy scénářů a úpravou parametrů/profilů hrozeb podle ukrajinských bojových zkušeností. NATO ACT již 13. 8. 2026 nezávisle popsalo Crucible 3-26 jako integrační fázi propojující více protidronových schopností napříč taktickými formacemi a NATO C2. Jde o signál institucionálního přenosu lessons learned do experimentace a integrace, nikoli o důkaz standardizace nebo plošného zavedení.",
+      "summary_en": "ArmyInform reported on 26 August 2026, citing Ukraine's Ministry of Defence, that JATEC specialists contributed scenario proposals and adjustments to parameters/threat profiles during LCI-X 3-26 in Latvia based on Ukrainian combat experience. NATO ACT had independently described Crucible 3-26 on 13 August as the integration phase connecting multiple counter-UAS capabilities across tactical formations and NATO C2. This is a signal of institutional lessons transfer into experimentation and integration, not evidence of standardization or force-wide fielding.",
+      "fact_cs": "Veřejný ukrajinský obranný záznam uvádí, že JATEC vložilo ukrajinské bojové zkušenosti do scénářů a parametrizace experimentu LCI-X 3-26; NATO ACT nezávisle potvrzuje integrační charakter této fáze LCI-X.",
+      "fact_en": "A public Ukrainian defence record states that JATEC fed Ukrainian combat experience into the scenarios and parametrization of LCI-X 3-26; NATO ACT independently confirms the integration character of this LCI-X phase.",
+      "analysis_cs": "Nález ukazuje konkrétní mechanismus, jímž jsou zkušenosti z války na Ukrajině přenášeny do alianční protidronové experimentace a C2 integrace. Je relevantní pro force protection, survivability a podpůrné schopnosti, ale sám o sobě není ženijním doktrinálním standardem ani dokladem zavedení konkrétní techniky.",
+      "analysis_en": "The finding shows a concrete mechanism by which lessons from the war in Ukraine are being inserted into Alliance counter-UAS experimentation and C2 integration. It is relevant to force protection, survivability and supporting capabilities, but is not itself an engineer doctrinal standard or evidence of fielding specific equipment.",
+      "intelligence_gaps_cs": "Přímá webová stránka MO Ukrajiny s původním sdělením nebyla v tomto běhu dohledána. Neověřeny zůstávají přesné výstupy JATEC, případné formální doktrinální změny, akviziční rozhodnutí a měřitelné výsledky experimentu.",
+      "intelligence_gaps_en": "A direct Ukraine Ministry of Defence web page carrying the originating statement was not located in this run. Exact JATEC outputs, any formal doctrinal changes, procurement decisions and measurable experiment outcomes remain unverified.",
+      "what_it_does_not_prove_cs": "Neprokazuje standardizaci NATO, schválení doktríny, plošné fielding, bojovou účinnost ani operační připravenost konkrétního C-UAS řešení.",
+      "what_it_does_not_prove_en": "Does not establish NATO standardization, doctrine approval, force-wide fielding, combat effectiveness or operational readiness of a specific C-UAS solution.",
+      "geography": [
+        "Latvia",
+        "NATO eastern flank"
+      ],
+      "topics": [
+        "JATEC",
+        "LCI-X",
+        "C-UAS",
+        "NATO",
+        "LESSONS_LEARNED",
+        "C2",
+        "UAS",
+        "TECHNOLOGY_SIGNAL",
+        "FORCE_PROTECTION",
+        "SURVIVABILITY"
+      ],
+      "publication_date": "2026-08-26",
+      "displayed_publication_time": "17:50",
+      "publication_timezone": "UNVERIFIED_ON_PUBLIC_PAGE",
+      "event_time": "2026-08",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H_CURRENT_PUBLICATION_HISTORICAL_EVENT_TIME_DISPLAYED_TIME_TIMEZONE_UNVERIFIED",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_INDEPENDENT_NATO_ACT_CONTEXT_CORROBORATION",
+      "confidence": "HIGH_FOR_LCI_X_INTEGRATION_MEDIUM_HIGH_FOR_REPORTED_JATEC_CONTRIBUTION_LOW_FOR_FORMAL_ADOPTION",
+      "source_ids": [
+        "ENG-SRC-0515",
+        "ENG-SRC-0516"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0208"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED_EXERCISE_LEVEL_NO_TACTICAL_LOCATIONS_OR_EXPLOITABLE_PARAMETERS",
+      "first_seen_run": "engineer-osint-20260826-B85",
+      "last_updated_run": "engineer-osint-20260826-B85"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0515",
+      "title": "НАТО тестує антидронову оборону з українським досвідом: що відпрацьовували в Латвії",
+      "title_cs": "NATO testovalo protidronovou obranu s využitím ukrajinských zkušeností: co se procvičovalo v Lotyšsku",
+      "title_en": "NATO tested counter-drone defence using Ukrainian experience: what was exercised in Latvia",
+      "publisher": "ArmyInform, official Ukrainian defence media",
+      "publication_date": "2026-08-26",
+      "displayed_publication_time": "17:50",
+      "publication_timezone": "UNVERIFIED_ON_PUBLIC_PAGE",
+      "accessed_at": "2026-08-26T18:07:13+02:00",
+      "url": "https://armyinform.com.ua/2026/08/26/nato-testuye-antydronovu-oboronu-z-ukrayinskym-dosvidom-shho-vidpraczovuvaly-v-latviyi/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MINISTRY_OF_DEFENCE",
+      "source_family": "UKRAINE_MOD_ARMYINFORM_SAME_LINEAGE_FOR_JATEC_CLAIM",
+      "role": "JATEC_CONTRIBUTION_TO_NATO_LCI_X_3_26",
+      "verification_status": "VERIFIED_OFFICIAL_PUBLIC_TEXT_CITING_UKRAINE_MOD",
+      "verification_status_cs": "OVĚŘEN VEŘEJNÝ TEXT OFICIÁLNÍHO UKRAJINSKÉHO OBRANNÉHO MÉDIA S ODKAZEM NA MO UKRAJINY",
+      "verification_status_en": "VERIFIED OFFICIAL UKRAINIAN DEFENCE MEDIA TEXT CITING UKRAINE MOD",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H_DISPLAYED_TIME_TIMEZONE_UNVERIFIED",
+      "first_seen_run": "engineer-osint-20260826-B85"
+    },
+    {
+      "id": "ENG-SRC-0516",
+      "title": "Military and Industry Unite to Advance NATO Counter Drone Capability through LCI-X 3-26",
+      "title_cs": "Vojenské složky a průmysl společně rozvíjejí schopnost NATO proti dronům v LCI-X 3-26",
+      "title_en": "Military and Industry Unite to Advance NATO Counter Drone Capability through LCI-X 3-26",
+      "publisher": "NATO Allied Command Transformation",
+      "publication_date": "2026-08-13",
+      "accessed_at": "2026-08-26T18:07:13+02:00",
+      "url": "https://www.act.nato.int/article/lcix-3-26/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_NATO_ACT",
+      "source_family": "NATO_ACT_LCI_X_PRIMARY",
+      "role": "INDEPENDENT_CORROBORATION_OF_LCI_X_3_26_EXERCISE_STRUCTURE_AND_INTEGRATION",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_cs": "OVĚŘEN PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT NATO ACT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL NATO ACT PUBLIC TEXT",
+      "temporal_status": "RECENT_HISTORICAL_CONTEXT_INDEPENDENT_CORROBORATION",
+      "first_seen_run": "engineer-osint-20260826-B85"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0208",
+      "evidence_id": "ENG-EVID-0208",
+      "evidence_type": "OFFICIAL_TEXT_CROSS_SOURCE_LCI_X_JATEC_LESSONS_TRANSFER",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED_TWO_INSTITUTIONAL_SOURCES",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ VEŘEJNÝ TEXT DVOU INSTITUCIONÁLNÍCH ZDROJŮ",
+      "evidence_status_en": "DIRECT PUBLIC TEXT VERIFIED FROM TWO INSTITUTIONAL SOURCES",
+      "related_ids": [
+        "ENG-SIG-0035"
+      ],
+      "source_ids": [
+        "ENG-SRC-0515",
+        "ENG-SRC-0516"
+      ],
+      "evidence_date": "2026-08",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ VEŘEJNÝ WEBOVÝ TEXT; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "DIRECT PUBLIC WEB TEXT; NO PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje, že LCI-X 3-26 v Lotyšsku byl integrační experiment propojující protidronové prvky s taktickými formacemi a NATO C2; ArmyInform s odkazem na MO Ukrajiny navíc uvádí, že JATEC přispělo návrhy scénářů a úpravou parametrů/profilů hrozeb podle ukrajinských bojových zkušeností.",
+      "what_it_supports_en": "Supports that LCI-X 3-26 in Latvia was an integration experiment connecting counter-UAS elements with tactical formations and NATO C2; ArmyInform citing Ukraine's Ministry of Defence additionally states that JATEC contributed scenario proposals and adjustments to parameters/threat profiles based on Ukrainian combat experience.",
+      "what_it_does_not_prove_cs": "Neprokazuje promulgaci standardu NATO, plošné zavedení konkrétních systémů, operační readiness, výkonnostní metriky ani to, že NATO ACT nezávisle potvrdilo konkrétní roli JATEC.",
+      "what_it_does_not_prove_en": "Does not establish promulgation of a NATO standard, force-wide fielding of specific systems, operational readiness, performance metrics, or independent NATO ACT confirmation of JATEC's specific role.",
+      "confidence": "HIGH_FOR_LCI_X_EXERCISE_STRUCTURE_MEDIUM_HIGH_FOR_JATEC_REPORTED_CONTRIBUTION_LOW_FOR_FORMAL_ADOPTION",
+      "first_seen_run": "engineer-osint-20260826-B85"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0035",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "NATO/Ukraine",
+      "title_cs": "JATEC přeneslo ukrajinské zkušenosti do integračního experimentu NATO LCI-X 3-26",
+      "title_en": "JATEC fed Ukrainian experience into NATO LCI-X 3-26 integration experimentation",
+      "summary_cs": "ArmyInform 26. 8. 2026 uvedlo s odkazem na Ministerstvo obrany Ukrajiny, že specialisté JATEC při LCI-X 3-26 v Lotyšsku přispěli návrhy scénářů a úpravou parametrů/profilů hrozeb podle ukrajinských bojových zkušeností. NATO ACT již 13. 8. 2026 nezávisle popsalo Crucible 3-26 jako integrační fázi propojující více protidronových schopností napříč taktickými formacemi a NATO C2. Jde o signál institucionálního přenosu lessons learned do experimentace a integrace, nikoli o důkaz standardizace nebo plošného zavedení.",
+      "summary_en": "ArmyInform reported on 26 August 2026, citing Ukraine's Ministry of Defence, that JATEC specialists contributed scenario proposals and adjustments to parameters/threat profiles during LCI-X 3-26 in Latvia based on Ukrainian combat experience. NATO ACT had independently described Crucible 3-26 on 13 August as the integration phase connecting multiple counter-UAS capabilities across tactical formations and NATO C2. This is a signal of institutional lessons transfer into experimentation and integration, not evidence of standardization or force-wide fielding.",
+      "fact_cs": "Veřejný ukrajinský obranný záznam uvádí, že JATEC vložilo ukrajinské bojové zkušenosti do scénářů a parametrizace experimentu LCI-X 3-26; NATO ACT nezávisle potvrzuje integrační charakter této fáze LCI-X.",
+      "fact_en": "A public Ukrainian defence record states that JATEC fed Ukrainian combat experience into the scenarios and parametrization of LCI-X 3-26; NATO ACT independently confirms the integration character of this LCI-X phase.",
+      "analysis_cs": "Nález ukazuje konkrétní mechanismus, jímž jsou zkušenosti z války na Ukrajině přenášeny do alianční protidronové experimentace a C2 integrace. Je relevantní pro force protection, survivability a podpůrné schopnosti, ale sám o sobě není ženijním doktrinálním standardem ani dokladem zavedení konkrétní techniky.",
+      "analysis_en": "The finding shows a concrete mechanism by which lessons from the war in Ukraine are being inserted into Alliance counter-UAS experimentation and C2 integration. It is relevant to force protection, survivability and supporting capabilities, but is not itself an engineer doctrinal standard or evidence of fielding specific equipment.",
+      "intelligence_gaps_cs": "Přímá webová stránka MO Ukrajiny s původním sdělením nebyla v tomto běhu dohledána. Neověřeny zůstávají přesné výstupy JATEC, případné formální doktrinální změny, akviziční rozhodnutí a měřitelné výsledky experimentu.",
+      "intelligence_gaps_en": "A direct Ukraine Ministry of Defence web page carrying the originating statement was not located in this run. Exact JATEC outputs, any formal doctrinal changes, procurement decisions and measurable experiment outcomes remain unverified.",
+      "what_it_does_not_prove_cs": "Neprokazuje standardizaci NATO, schválení doktríny, plošné fielding, bojovou účinnost ani operační připravenost konkrétního C-UAS řešení.",
+      "what_it_does_not_prove_en": "Does not establish NATO standardization, doctrine approval, force-wide fielding, combat effectiveness or operational readiness of a specific C-UAS solution.",
+      "geography": [
+        "Latvia",
+        "NATO eastern flank"
+      ],
+      "topics": [
+        "JATEC",
+        "LCI-X",
+        "C-UAS",
+        "NATO",
+        "LESSONS_LEARNED",
+        "C2",
+        "UAS",
+        "TECHNOLOGY_SIGNAL",
+        "FORCE_PROTECTION",
+        "SURVIVABILITY"
+      ],
+      "publication_date": "2026-08-26",
+      "displayed_publication_time": "17:50",
+      "publication_timezone": "UNVERIFIED_ON_PUBLIC_PAGE",
+      "event_time": "2026-08",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H_CURRENT_PUBLICATION_HISTORICAL_EVENT_TIME_DISPLAYED_TIME_TIMEZONE_UNVERIFIED",
+      "classification": "FACT_FROM_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_CITING_MOD_WITH_INDEPENDENT_NATO_ACT_CONTEXT_CORROBORATION",
+      "confidence": "HIGH_FOR_LCI_X_INTEGRATION_MEDIUM_HIGH_FOR_REPORTED_JATEC_CONTRIBUTION_LOW_FOR_FORMAL_ADOPTION",
+      "source_ids": [
+        "ENG-SRC-0515",
+        "ENG-SRC-0516"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0208"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED_EXERCISE_LEVEL_NO_TACTICAL_LOCATIONS_OR_EXPLOITABLE_PARAMETERS",
+      "first_seen_run": "engineer-osint-20260826-B85",
+      "last_updated_run": "engineer-osint-20260826-B85"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK",
+    "bilingual_precheck": "PASS_NEW_PUBLIC_FREE_TEXT_HAS_CS_EN_COUNTERPARTS",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "NOT_RUN_NOT_MATERIALIZED",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_PUBLIC_WEB_INDEX_DISCOVERY_ONLY",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "russia_ukraine_status": "SWEEP_COMPLETE_ONE_SAFE_NATO_UKRAINE_LESSONS_TRANSFER_SIGNAL_PROMOTED",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_ONE_LCI_X_JATEC_SIGNAL_PROMOTED",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "ONE_NEW_SIGNAL_ENG_SIG_0035",
+    "source_discovery_status": "COMPLETE_DIVERSIFIED_PRIMARY_AND_SECONDARY_DISCOVERY",
+    "temporal_note": "ArmyInform displays 26 Aug 2026 17:50 but the public page does not explicitly state the timezone. Because that displayed time cannot safely be compared with the B84 Prague cutoff, the item is conservatively classified LATE_DISCOVERED_CURRENT within 48h rather than CURRENT_DELTA.",
+    "source_independence_note": "NATO ACT independently corroborates LCI-X 3-26 structure and integration, but does not independently corroborate JATEC's specific contribution; the JATEC-specific claim remains one Ukrainian official-media/MoD lineage.",
+    "osint_safety": "PASS_AGGREGATED_EXERCISE_LEVEL_NO_CURRENT_TACTICAL_ROUTE_OR_THREAT_PARAMETERS_PUBLISHED"
+  },
+  "presentation_fact_overlay_gap": "OPEN_UNCHANGED_LEGACY_OVERLAYS",
+  "extensions": {}
+}
