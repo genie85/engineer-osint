@@ -1,0 +1,165 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B77",
+    "parent_run_id": "engineer-osint-20260826-B76",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T13:10:16+02:00",
+    "window_to": "2026-08-26T13:59:30+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 1,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 1,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260826-B76",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B76",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B74",
+    "published_tip": "engineer-osint-20260825-B74",
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-24T13:59:30+02:00",
+    "reconciliation_window_to": "2026-08-26T13:59:30+02:00",
+    "main_sha_at_start": "6dfadf749053e5a5ef74800a214c325d3c5e61d9",
+    "publication_lag_before_run": 2,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-DOC-0036",
+      "record_role": "CURRENT_UPDATE_TO_HISTORICAL_FRAMEWORK",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_IMPLEMENTATION_STEP_TIMEZONE_UNVERIFIED_COMPLETION_STILL_UNPROVEN",
+      "summary_en": "Ukraine’s December 2025 underwater-demining framework remains the baseline. On 26 Aug 2026, official defence media reported that a Ministry of Defence delegation held consultations with German and Dutch specialists with GICHD organizational support, covering underwater EO risk management, survey/clearance approaches, standards and quality control. The delegation stated that the outputs would be used for specialist training, regulatory development and practical approaches. This is evidence of implementation activity, not proof that the 2026 priorities are complete.",
+      "summary_cs": "Rámec podvodního odminování zveřejněný Ukrajinou v prosinci 2025 zůstává výchozím bodem. Dne 26. 8. 2026 oficiální obranné médium uvedlo, že delegace Ministerstva obrany jednala s německými a nizozemskými specialisty za organizační podpory GICHD o řízení rizik podvodní munice, průzkumu a čištění, standardech a kontrole kvality. Delegace uvedla, že výstupy budou využity pro přípravu specialistů, normativní rámec a praktické postupy. Jde o důkaz implementační aktivity, nikoli o důkaz splnění priorit pro rok 2026.",
+      "analysis_en": "The update narrows the earlier completion-status gap by showing active international capability-development work and linkage between training, standards and operational methodology. It does not establish fielded capability, unit readiness, procurement outcomes or completion of the national standard. The public page displays 26 Aug 2026, 13:11 but does not expose a timezone in the readable page; therefore this run does not use that clock value as proof that publication occurred after the B76 cutoff and classifies the item conservatively as LATE_DISCOVERED_CURRENT within 48 hours.",
+      "analysis_cs": "Aktualizace zužuje dřívější mezeru ve znalosti stavu plnění tím, že dokládá aktivní mezinárodní rozvoj schopností a propojení výcviku, standardů a operační metodiky. Neprokazuje zavedenou schopnost, připravenost jednotky, akviziční výsledek ani dokončení národního standardu. Veřejná stránka zobrazuje 26. 8. 2026, 13:11, ale v čitelném obsahu neuvádí časové pásmo; tento běh proto nepoužívá tento čas jako důkaz publikace po cutoffu B76 a položku konzervativně klasifikuje jako LATE_DISCOVERED_CURRENT v rámci 48 hodin.",
+      "source_ids": [
+        "ENG-SRC-0514"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0102",
+        "ENG-EVID-0207"
+      ],
+      "classification": "FACT_ABOUT_REPORTED_IMPLEMENTATION_ACTIVITY",
+      "confidence": "HIGH_FOR_REPORTED_OFFICIAL_ACTIVITY_MODERATE_FOR_PROGRAMME_PROGRESS",
+      "translation_status": "ANALYST_TRANSLATION"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0514",
+      "title": "Україна посилює спроможності підводного розмінування: делегація Міноборони провела переговори з міжнародними партнерами",
+      "title_en": "Ukraine strengthens underwater demining capabilities: Ministry of Defence delegation held talks with international partners",
+      "title_cs": "Ukrajina posiluje schopnosti podvodního odminování: delegace ministerstva obrany jednala s mezinárodními partnery",
+      "publisher": "ArmyInform / Ministry of Defence of Ukraine",
+      "publication_date": "2026-08-26",
+      "accessed_at": "2026-08-26T13:59:30+02:00",
+      "url": "https://armyinform.com.ua/2026/08/26/ukrayina-posylyuye-spromozhnosti-pidvodnogo-rozminuvannya-delegacziya-minoborony-provela-peregovory-z-mizhnarodnymy-partneramy/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_DEFENCE_MEDIA_REPORTING_MOD_DELEGATION",
+      "source_family": "UKRAINE_MOD_ARMYINFORM_SAME_INSTITUTIONAL_LINEAGE",
+      "role": "CURRENT_UNDERWATER_DEMINING_CAPABILITY_DEVELOPMENT_UPDATE",
+      "verification_status": "VERIFIED_OFFICIAL_DEFENCE_MEDIA_PUBLIC_TEXT",
+      "verification_status_en": "VERIFIED OFFICIAL DEFENCE MEDIA PUBLIC TEXT",
+      "verification_status_cs": "OVĚŘEN VEŘEJNÝ TEXT OFICIÁLNÍHO OBRANNÉHO MÉDIA",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_WITHIN_48H_DISPLAYED_TIME_TIMEZONE_UNVERIFIED",
+      "displayed_publication_time": "13:11",
+      "publication_timezone": "UNVERIFIED_ON_PUBLIC_PAGE"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0207",
+      "evidence_id": "ENG-EVID-0207",
+      "evidence_type": "PRIMARY_OFFICIAL_UNDERWATER_DEMINING_CAPABILITY_UPDATE",
+      "evidence_status": "DIRECT_OFFICIAL_DEFENCE_MEDIA_TEXT_VERIFIED",
+      "evidence_status_en": "DIRECT OFFICIAL DEFENCE MEDIA TEXT VERIFIED",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ TEXT OFICIÁLNÍHO OBRANNÉHO MÉDIA",
+      "related_ids": [
+        "ENG-DOC-0036"
+      ],
+      "source_ids": [
+        "ENG-SRC-0514"
+      ],
+      "evidence_date": "2026-08-26",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_en": "DIRECT PUBLIC WEB TEXT; NO PIXEL OR FRAME INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ VEŘEJNÝ WEBOVÝ TEXT; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "what_it_supports_en": "Supports that a Ukrainian Ministry of Defence delegation held partner consultations in Germany and the Netherlands, with GICHD organizational support, on underwater explosive-ordnance clearance capability development, and stated that the outputs would inform specialist training, regulation and practical approaches.",
+      "what_it_supports_cs": "Podporuje, že delegace Ministerstva obrany Ukrajiny jednala v Německu a Nizozemsku za organizační podpory GICHD o rozvoji schopností podvodního odminování a uvedla, že výsledky budou využity pro přípravu specialistů, normativní rámec a praktické postupy.",
+      "what_it_does_not_prove_en": "Does not prove completion of the 2026 underwater-demining priorities, operational readiness of a new unit, procurement or fielding of a specific underwater robot, or independent validation of the reported talks.",
+      "what_it_does_not_prove_cs": "Neprokazuje splnění priorit podvodního odminování pro rok 2026, operační připravenost nové jednotky, pořízení či zavedení konkrétního podvodního robotu ani nezávislé potvrzení popsaných jednání.",
+      "confidence": "HIGH_FOR_OFFICIAL_REPORTED_TALKS_AND_DECLARED_FOLLOW_ON_USE_MODERATE_FOR_IMPLEMENTATION_PROGRESS"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PUBLIC_OK",
+    "bilingual_precheck": "PASS_NEW_AND_CHANGED_PUBLIC_TEXT_HAS_CS_EN",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "PENDING_AFTER_DRIVE_SUCCESS",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE",
+    "social_discovery_status": "PUBLIC_WEB_DISCOVERY_COMPLETE_NO_OTHER_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM_AFTER_B76_CUTOFF",
+    "russia_ukraine_status": "CURRENT_UNDERWATER_DEMINING_UPDATE_PROMOTED",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "source_independence_note_en": "The current event is supported by one Ukrainian official institutional lineage. GICHD public material corroborates the broader underwater-EO domain but did not independently confirm this specific meeting in the run window.",
+    "source_independence_note_cs": "Aktuální událost je doložena jednou ukrajinskou oficiální institucionální linií. Veřejné materiály GICHD potvrzují širší oblast podvodní výbušné munice, ale v okně běhu nezávisle nepotvrdily konkrétní jednání.",
+    "lead_001_one_time_status": "ALREADY_CANONICAL_IN_B75_NOT_REAPPLIED",
+    "temporal_discipline": {
+      "status": "PASS_CONSERVATIVE_TIMEZONE_HANDLING",
+      "displayed_publication_datetime": "2026-08-26 13:11",
+      "displayed_timezone": "UNVERIFIED",
+      "classification": "LATE_DISCOVERED_CURRENT_WITHIN_48H",
+      "note_en": "B76 treated the displayed 13:11 as later than its 13:10:16 Europe/Prague cutoff. The public ArmyInform page does not expose a timezone in readable content, so B77 does not carry that assumption forward.",
+      "note_cs": "B76 považoval zobrazených 13:11 za čas po cutoffu 13:10:16 Europe/Prague. Veřejná stránka ArmyInform však v čitelném obsahu časové pásmo neuvádí, proto B77 tento předpoklad nepřebírá."
+    }
+  },
+  "presentation_fact_overlay_gap": "OPEN",
+  "extensions": {}
+}
