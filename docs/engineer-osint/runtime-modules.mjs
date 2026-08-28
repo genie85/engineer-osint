@@ -57,6 +57,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-i18n-runtime-switch-fix-module','i18n-runtime-switch-fix.js'],
   ['engineer-i18n-en-postrender-cleanup-module','i18n-en-postrender-cleanup.js'],
   ['engineer-ui-v423-nav-cleanup-module','ui-v423-nav-cleanup.js'],
+  ['engineer-ui-v43-entity-detail-module','ui-v43-entity-detail.js'],
   ['engineer-public-cz-ui-canary-module','public-cz-ui-canary.js']
 ];
 
