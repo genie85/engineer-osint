@@ -1,0 +1,290 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B90",
+    "parent_run_id": "engineer-osint-20260826-B89",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T20:00:20+02:00",
+    "window_to": "2026-08-26T20:14:05+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_PUBLICATION_LAG_PROVABLE_ANCESTOR",
+    "drive_parent_run_id": "engineer-osint-20260826-B89",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B89",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B74",
+    "published_tip": "engineer-osint-20260825-B74",
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-24T20:14:05+02:00",
+    "reconciliation_window_to": "2026-08-26T20:14:05+02:00",
+    "main_sha_at_start": "03ab306fb7659b100b2eef8d0a65944b1b9d8ebc",
+    "publication_lag_before_run": 15,
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77",
+      "engineer-osint-20260826-B78",
+      "engineer-osint-20260826-B79",
+      "engineer-osint-20260826-B80",
+      "engineer-osint-20260826-B81",
+      "engineer-osint-20260826-B82",
+      "engineer-osint-20260826-B83",
+      "engineer-osint-20260826-B84",
+      "engineer-osint-20260826-B85",
+      "engineer-osint-20260826-B86",
+      "engineer-osint-20260826-B87",
+      "engineer-osint-20260826-B88",
+      "engineer-osint-20260826-B89",
+      "engineer-osint-20260826-B90"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0036",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "POL",
+      "title_cs": "Polsko vyvíjí SHIBA II: automatizaci systému pro odminování komunikací s prvky AI a dálkovým řízením",
+      "title_en": "Poland is developing SHIBA II: AI-assisted automation and remote control for a road-demining system",
+      "summary_cs": "Oficiální stránky vedoucího projektu WITI a partnera PIAP popisují projekt SHIBA II na období 1. 1. 2026 až 1. 1. 2028, financovaný v programu PERUN. Cílem je vyvinout a integrovat prvky autonomie a dálkového řízení do systému pro odminování komunikací; PIAP veřejně uvádí podporu operátora při udržování jízdní stopy, řízení rychlosti, reakci na mimořádné situace a využití autonomních funkcí při identifikaci min a IED zjištěných ženijně-sapérským systémem vozidla. Jde o výzkumně-vývojový projekt a plánovaný výsledek, nikoli důkaz zavedení do výzbroje nebo operačního nasazení.",
+      "summary_en": "Official pages from project lead WITI and consortium partner PIAP describe SHIBA II as a 1 January 2026 to 1 January 2028 PERUN-funded project. Its objective is to develop and integrate autonomy and remote-control functions into a road-demining system; PIAP publicly describes operator assistance for lane keeping, speed control and emergency reactions, plus use of autonomous functions to help identify mines and IEDs detected by the vehicle’s engineer-sapper system. This is an R&D project and planned capability, not evidence of fielding or operational employment.",
+      "fact_cs": "Veřejné institucionální podklady potvrzují existenci projektu SHIBA II, číslo DOB-PERUN-1-A-062-2023, období realizace 2026–2028 a cíl automatizovat systém pro odminování komunikací s využitím prvků AI a dálkového řízení.",
+      "fact_en": "Public institutional sources confirm the SHIBA II project, identifier DOB-PERUN-1-A-062-2023, its 2026–2028 implementation period, and the objective of automating a road-demining system using AI-assisted functions and remote control.",
+      "analysis_cs": "Signál zapadá do širšího trendu přesunu rizikových ženijních úloh od osádky k dálkově řízeným a částečně autonomním systémům. Veřejné podklady ale popisují projektové cíle; nelze z nich vyvozovat dokončenou technologickou vyspělost, vojskové zkoušky, sériovou akvizici ani zavedení.",
+      "analysis_en": "The signal fits the broader trend of shifting hazardous engineering tasks away from crews toward remotely controlled and partially autonomous systems. However, the public material describes project objectives; it does not establish completed technology maturity, troop trials, serial procurement, or fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy dosažené zkušební výsledky v roce 2026, skutečný stav integrace, termín vojskových zkoušek, akviziční rozhodnutí, počet prototypů ani budoucí jednotkové zavedení.",
+      "intelligence_gaps_en": "Public sources do not establish achieved 2026 test results, the actual integration state, timing of troop trials, procurement decisions, prototype quantity, or future unit-level fielding.",
+      "what_it_does_not_prove_cs": "Neprokazuje operační nasazení, readiness, sériovou výrobu, přijetí do výzbroje ani účinnost autonomního rozpoznávání min nebo IED v reálných podmínkách.",
+      "what_it_does_not_prove_en": "It does not establish operational employment, readiness, serial production, acceptance into service, or real-world effectiveness of autonomous mine or IED recognition.",
+      "geography": [
+        "Poland"
+      ],
+      "topics": [
+        "COMBAT_ENGINEERING",
+        "DEMINING",
+        "ROAD_CLEARANCE",
+        "AI",
+        "AUTONOMY",
+        "REMOTE_CONTROL",
+        "UGV",
+        "IED",
+        "R&D",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": null,
+      "event_time": "PROJECT_PERIOD_2026-01-01_TO_2028-01-01_CONTRACT_2025-12-18",
+      "temporal_status": "HISTORICAL_BACKFILL_CURRENTLY_ACCESSIBLE_PRIMARY_PROJECT_PAGES_PUBLICATION_DATE_UNSTATED",
+      "classification": "FACT_FROM_PRIMARY_PROJECT_INSTITUTIONS_WITH_OFFICIAL_FUNDING_DOCUMENT_CONFIRMATION",
+      "confidence": "HIGH_FOR_PROJECT_EXISTENCE_SCOPE_SCHEDULE_AND_CONSORTIUM_LOW_FOR_FIELDING_OR_ACHIEVED_MATURITY",
+      "source_ids": [
+        "ENG-SRC-0523",
+        "ENG-SRC-0524",
+        "ENG-SRC-0525"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0211"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_R_AND_D_NO_EXPLOITABLE_PROCEDURES",
+      "first_seen_run": "engineer-osint-20260826-B90",
+      "last_updated_run": "engineer-osint-20260826-B90"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0523",
+      "title": "Projekt SHIBA II",
+      "title_cs": "Projekt SHIBA II",
+      "title_en": "SHIBA II Project",
+      "publisher": "Wojskowy Instytut Techniki Inżynieryjnej im. profesora Józefa Kosackiego (WITI)",
+      "publication_date": null,
+      "accessed_at": "2026-08-26T20:14:05+02:00",
+      "url": "https://witi.wroc.pl/projekt-shiba-ii/",
+      "language": "pl",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_PROJECT_LEAD_INSTITUTE",
+      "source_family": "SHIBA_II_PROJECT_CONSORTIUM",
+      "role": "PRIMARY_PROJECT_SCOPE_SCHEDULE_FUNDING_AND_LEADER",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT",
+      "verification_status_cs": "OVĚŘEN PŘÍMÝ VEŘEJNÝ TEXT INSTITUCE VEDOUCÍ PROJEKT",
+      "verification_status_en": "VERIFIED DIRECT PUBLIC TEXT FROM THE PROJECT LEAD INSTITUTE",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_UNDATED_PAGE_PROJECT_PERIOD_2026_2028",
+      "first_seen_run": "engineer-osint-20260826-B90"
+    },
+    {
+      "id": "ENG-SRC-0524",
+      "title": "Projekt SHIBAII — Automatyzacja systemu dla pojazdu SHIBAII",
+      "title_cs": "Projekt SHIBA II — automatizace systému pro vozidlo SHIBA II",
+      "title_en": "SHIBA II Project — automation of the SHIBA II vehicle system",
+      "publisher": "Sieć Badawcza Łukasiewicz – Przemysłowy Instytut Automatyki i Pomiarów PIAP",
+      "publication_date": null,
+      "accessed_at": "2026-08-26T20:14:05+02:00",
+      "url": "https://piap.lukasiewicz.gov.pl/badanie/projekt-shibaii/",
+      "language": "pl",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_PROJECT_CONSORTIUM_INSTITUTE",
+      "source_family": "SHIBA_II_PROJECT_CONSORTIUM",
+      "role": "PRIMARY_PROJECT_AUTONOMY_AND_REMOTE_CONTROL_SCOPE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT",
+      "verification_status_cs": "OVĚŘEN PŘÍMÝ VEŘEJNÝ TEXT INSTITUCE KONSORCIA",
+      "verification_status_en": "VERIFIED DIRECT PUBLIC TEXT FROM A PROJECT CONSORTIUM INSTITUTE",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_PROJECT_PAGE_PROJECT_PERIOD_2026_2028",
+      "first_seen_run": "engineer-osint-20260826-B90"
+    },
+    {
+      "id": "ENG-SRC-0525",
+      "title": "Lista rankingowa pozytywnie zaopiniowanych wniosków — PERUN 1/PERUN/2023",
+      "title_cs": "Pořadník kladně hodnocených žádostí — PERUN 1/PERUN/2023",
+      "title_en": "Ranking list of positively assessed applications — PERUN 1/PERUN/2023",
+      "publisher": "Narodowe Centrum Badań i Rozwoju / gov.pl",
+      "publication_date": null,
+      "accessed_at": "2026-08-26T20:14:05+02:00",
+      "url": "https://www.gov.pl/attachment/59792a89-975f-4e1c-9032-fabfd990da6d",
+      "language": "pl",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_FUNDING_RANKING_LIST",
+      "source_family": "NCBR_PERUN_FUNDING_AUTHORITY",
+      "role": "INDEPENDENT_ADMINISTRATIVE_CONFIRMATION_OF_SHIBA_II_PROJECT_TITLE_AND_CONSORTIUM",
+      "verification_status": "VERIFIED_OFFICIAL_PUBLIC_DOCUMENT_TEXT",
+      "verification_status_cs": "OVĚŘEN VEŘEJNÝ TEXT OFICIÁLNÍHO DOKUMENTU",
+      "verification_status_en": "VERIFIED OFFICIAL PUBLIC DOCUMENT TEXT",
+      "temporal_status": "HISTORICAL_PROGRAMME_DOCUMENT_CURRENTLY_ACCESSIBLE",
+      "first_seen_run": "engineer-osint-20260826-B90"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0211",
+      "evidence_id": "ENG-EVID-0211",
+      "evidence_type": "OFFICIAL_TEXT_CROSS_INSTITUTIONAL_SHIBA_II_PROJECT_CONFIRMATION",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED_PROJECT_LEAD_PARTNER_AND_FUNDING_DOCUMENT",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ VEŘEJNÝ TEXT VEDOUCÍ INSTITUCE, PARTNERA A FINANCUJÍCÍHO DOKUMENTU",
+      "evidence_status_en": "DIRECT PUBLIC TEXT VERIFIED FROM PROJECT LEAD, PARTNER AND FUNDING DOCUMENT",
+      "related_ids": [
+        "ENG-SIG-0036"
+      ],
+      "source_ids": [
+        "ENG-SRC-0523",
+        "ENG-SRC-0524",
+        "ENG-SRC-0525"
+      ],
+      "evidence_date": "2025-12_TO_2026_CURRENT_ACCESS",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ VEŘEJNÝ WEBOVÝ TEXT; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "DIRECT PUBLIC WEB TEXT; NO PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje existenci a administrativní rámec projektu SHIBA II, vedení WITI, konsorcium, období 2026–2028 a veřejně deklarovaný cíl automatizace systému pro odminování komunikací pomocí AI-asistovaných funkcí a dálkového řízení.",
+      "what_it_supports_en": "Supports the existence and administrative framework of SHIBA II, WITI leadership, the consortium, the 2026–2028 period, and the publicly stated objective of automating a road-demining system with AI-assisted functions and remote control.",
+      "what_it_does_not_prove_cs": "Neprokazuje dokončený prototyp, dosaženou úroveň technologické připravenosti, úspěšné vojskové zkoušky, akvizici ani operační zavedení.",
+      "what_it_does_not_prove_en": "Does not establish a completed prototype, achieved technology-readiness level, successful troop trials, procurement, or operational fielding.",
+      "confidence": "HIGH_FOR_ADMINISTRATIVE_PROJECT_FACTS_LOW_FOR_OPERATIONAL_MATURITY",
+      "first_seen_run": "engineer-osint-20260826-B90"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0036",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "POL",
+      "title_cs": "Polsko vyvíjí SHIBA II: automatizaci systému pro odminování komunikací s prvky AI a dálkovým řízením",
+      "title_en": "Poland is developing SHIBA II: AI-assisted automation and remote control for a road-demining system",
+      "summary_cs": "Oficiální stránky vedoucího projektu WITI a partnera PIAP popisují projekt SHIBA II na období 1. 1. 2026 až 1. 1. 2028, financovaný v programu PERUN. Cílem je vyvinout a integrovat prvky autonomie a dálkového řízení do systému pro odminování komunikací; PIAP veřejně uvádí podporu operátora při udržování jízdní stopy, řízení rychlosti, reakci na mimořádné situace a využití autonomních funkcí při identifikaci min a IED zjištěných ženijně-sapérským systémem vozidla. Jde o výzkumně-vývojový projekt a plánovaný výsledek, nikoli důkaz zavedení do výzbroje nebo operačního nasazení.",
+      "summary_en": "Official pages from project lead WITI and consortium partner PIAP describe SHIBA II as a 1 January 2026 to 1 January 2028 PERUN-funded project. Its objective is to develop and integrate autonomy and remote-control functions into a road-demining system; PIAP publicly describes operator assistance for lane keeping, speed control and emergency reactions, plus use of autonomous functions to help identify mines and IEDs detected by the vehicle’s engineer-sapper system. This is an R&D project and planned capability, not evidence of fielding or operational employment.",
+      "fact_cs": "Veřejné institucionální podklady potvrzují existenci projektu SHIBA II, číslo DOB-PERUN-1-A-062-2023, období realizace 2026–2028 a cíl automatizovat systém pro odminování komunikací s využitím prvků AI a dálkového řízení.",
+      "fact_en": "Public institutional sources confirm the SHIBA II project, identifier DOB-PERUN-1-A-062-2023, its 2026–2028 implementation period, and the objective of automating a road-demining system using AI-assisted functions and remote control.",
+      "analysis_cs": "Signál zapadá do širšího trendu přesunu rizikových ženijních úloh od osádky k dálkově řízeným a částečně autonomním systémům. Veřejné podklady ale popisují projektové cíle; nelze z nich vyvozovat dokončenou technologickou vyspělost, vojskové zkoušky, sériovou akvizici ani zavedení.",
+      "analysis_en": "The signal fits the broader trend of shifting hazardous engineering tasks away from crews toward remotely controlled and partially autonomous systems. However, the public material describes project objectives; it does not establish completed technology maturity, troop trials, serial procurement, or fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy dosažené zkušební výsledky v roce 2026, skutečný stav integrace, termín vojskových zkoušek, akviziční rozhodnutí, počet prototypů ani budoucí jednotkové zavedení.",
+      "intelligence_gaps_en": "Public sources do not establish achieved 2026 test results, the actual integration state, timing of troop trials, procurement decisions, prototype quantity, or future unit-level fielding.",
+      "what_it_does_not_prove_cs": "Neprokazuje operační nasazení, readiness, sériovou výrobu, přijetí do výzbroje ani účinnost autonomního rozpoznávání min nebo IED v reálných podmínkách.",
+      "what_it_does_not_prove_en": "It does not establish operational employment, readiness, serial production, acceptance into service, or real-world effectiveness of autonomous mine or IED recognition.",
+      "geography": [
+        "Poland"
+      ],
+      "topics": [
+        "COMBAT_ENGINEERING",
+        "DEMINING",
+        "ROAD_CLEARANCE",
+        "AI",
+        "AUTONOMY",
+        "REMOTE_CONTROL",
+        "UGV",
+        "IED",
+        "R&D",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": null,
+      "event_time": "PROJECT_PERIOD_2026-01-01_TO_2028-01-01_CONTRACT_2025-12-18",
+      "temporal_status": "HISTORICAL_BACKFILL_CURRENTLY_ACCESSIBLE_PRIMARY_PROJECT_PAGES_PUBLICATION_DATE_UNSTATED",
+      "classification": "FACT_FROM_PRIMARY_PROJECT_INSTITUTIONS_WITH_OFFICIAL_FUNDING_DOCUMENT_CONFIRMATION",
+      "confidence": "HIGH_FOR_PROJECT_EXISTENCE_SCOPE_SCHEDULE_AND_CONSORTIUM_LOW_FOR_FIELDING_OR_ACHIEVED_MATURITY",
+      "source_ids": [
+        "ENG-SRC-0523",
+        "ENG-SRC-0524",
+        "ENG-SRC-0525"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0211"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_R_AND_D_NO_EXPLOITABLE_PROCEDURES",
+      "first_seen_run": "engineer-osint-20260826-B90",
+      "last_updated_run": "engineer-osint-20260826-B90"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK_HIGH_LEVEL_R_AND_D",
+    "bilingual_precheck": "PASS_NEW_PUBLIC_FREE_TEXT_HAS_CS_EN_COUNTERPARTS",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "PENDING_AFTER_DRIVE_SUCCESS_NOT_MATERIALIZED",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_PUBLIC_WEB_INDEX_DISCOVERY_ONLY",
+    "social_discovery_status": "PUBLIC_WEB_DISCOVERY_COMPLETE_NO_ADDITIONAL_CANONICAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "IMAGE_DISCOVERY_PERFORMED_NO_NEW_CANONICAL_VISUAL_PROMOTION_NO_DIRECT_PIXEL_INSPECTION",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "NEW_HISTORICAL_BACKFILL_SHIBA_II",
+    "russia_ukraine_status": "SWEEP_COMPLETE_NO_NEW_POST_B89_SAFE_QUALIFIED_CANONICAL_ITEM",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM_BEYOND_POLAND_HISTORICAL_TECH_SIGNAL",
+    "source_discovery_status": "DEEP_SOURCE_DISCOVERY_COMPLETED_B90",
+    "lead_001_canonicalization": {
+      "status": "REVIEW_REQUIRED_ALREADY_CANONICAL_CLAIM_PRESENT_HANDOFF_PREPARED_AGAINST_B74_NOT_REAPPLIED",
+      "live_claim_present": "LEAD-001-CLAIM-EODCOE-ANALYSIS",
+      "handoff_status": "PENDING_NEXT_DRIVE_BACKED_SUCCESS_PREPARED_AGAINST_B74",
+      "action": "NO_CHANGE_RUNTIME_OVERLAY_OR_BASELINE"
+    }
+  }
+}

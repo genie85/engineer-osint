@@ -1,0 +1,232 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B89",
+    "parent_run_id": "engineer-osint-20260826-B88",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T19:14:57+02:00",
+    "window_to": "2026-08-26T20:00:20+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 1,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_PUBLICATION_LAG_ANCESTOR_ONLY",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B88",
+    "published_tip": "engineer-osint-20260825-B74",
+    "publication_lag_before_run": 14,
+    "main_sha_at_start": "03ab306fb7659b100b2eef8d0a65944b1b9d8ebc",
+    "main_sha_before_production_write": "03ab306fb7659b100b2eef8d0a65944b1b9d8ebc",
+    "reconciliation_window_from": "2026-08-24T20:00:20+02:00",
+    "reconciliation_window_to": "2026-08-26T20:00:20+02:00",
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77",
+      "engineer-osint-20260826-B78",
+      "engineer-osint-20260826-B79",
+      "engineer-osint-20260826-B80",
+      "engineer-osint-20260826-B81",
+      "engineer-osint-20260826-B82",
+      "engineer-osint-20260826-B83",
+      "engineer-osint-20260826-B84",
+      "engineer-osint-20260826-B85",
+      "engineer-osint-20260826-B86",
+      "engineer-osint-20260826-B87",
+      "engineer-osint-20260826-B88"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77",
+      "engineer-osint-20260826-B78",
+      "engineer-osint-20260826-B79",
+      "engineer-osint-20260826-B80",
+      "engineer-osint-20260826-B81",
+      "engineer-osint-20260826-B82",
+      "engineer-osint-20260826-B83",
+      "engineer-osint-20260826-B84",
+      "engineer-osint-20260826-B85",
+      "engineer-osint-20260826-B86",
+      "engineer-osint-20260826-B87",
+      "engineer-osint-20260826-B88",
+      "engineer-osint-20260826-B89"
+    ],
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0521",
+      "title": "Вакансія: Зовнішній пілот/оператор БПЛА",
+      "title_en": "Vacancy: External UAV pilot/operator",
+      "title_cs": "Volná pozice: externí pilot/operátor BPL",
+      "publisher": "1st Recruiting Center of the Ukrainian Land Forces",
+      "publication_date": null,
+      "accessed_at": "2026-08-26T20:00:20+02:00",
+      "url": "https://lfrecruiting.mil.gov.ua/vacancy?id=113",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_LAND_FORCES_RECRUITING",
+      "source_family": "UKRAINIAN_LAND_FORCES_RECRUITING_PORTAL",
+      "role": "CURRENT_PUBLIC_UNIT_LEVEL_RECRUITING_EVIDENCE_UAS_REMOTE_MINING",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT",
+      "verification_status_cs": "OVĚŘENÝ PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_2026_UNDATED_RECRUITING_PROFILE",
+      "first_seen_run": "engineer-osint-20260826-B89"
+    },
+    {
+      "id": "ENG-SRC-0522",
+      "title": "Вакансія: Помічник/другий пілот БПЛА типу «Баба Яга»",
+      "title_en": "Vacancy: Assistant/second pilot of a “Baba Yaga” type UAV",
+      "title_cs": "Volná pozice: pomocník/druhý pilot BPL typu „Baba Jaga“",
+      "publisher": "1st Recruiting Center of the Ukrainian Land Forces",
+      "publication_date": null,
+      "accessed_at": "2026-08-26T20:00:20+02:00",
+      "url": "https://lfrecruiting.mil.gov.ua/vacancy?id=79",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_LAND_FORCES_RECRUITING",
+      "source_family": "UKRAINIAN_LAND_FORCES_RECRUITING_PORTAL",
+      "role": "CURRENT_PUBLIC_UNIT_LEVEL_RECRUITING_EVIDENCE_UAS_REMOTE_MINING_REGIMENT",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT",
+      "verification_status_cs": "OVĚŘENÝ PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_2026_UNDATED_RECRUITING_PROFILE",
+      "first_seen_run": "engineer-osint-20260826-B89"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0210",
+      "evidence_id": "ENG-EVID-0210",
+      "evidence_type": "OFFICIAL_RECRUITING_TEXT_UAS_REMOTE_MINING_DIFFUSION",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED_SINGLE_OFFICIAL_SOURCE_FAMILY_TWO_FORMATIONS",
+      "evidence_status_en": "DIRECT PUBLIC TEXT VERIFIED IN ONE OFFICIAL SOURCE FAMILY ACROSS TWO DISTINCT FORMATIONS",
+      "evidence_status_cs": "PŘÍMÝ VEŘEJNÝ TEXT OVĚŘENÝ V JEDNÉ OFICIÁLNÍ ZDROJOVÉ RODINĚ U DVOU ODLIŠNÝCH FORMACÍ",
+      "related_ids": [
+        "LEAD-003"
+      ],
+      "source_ids": [
+        "ENG-SRC-0521",
+        "ENG-SRC-0522"
+      ],
+      "evidence_date": "2026-08-26",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_en": "DIRECT PUBLIC WEB TEXT; NO PIXEL OR FRAME INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ VEŘEJNÝ WEBOVÝ TEXT; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "what_it_supports_en": "Supports that the official Ukrainian Land Forces recruiting portal currently describes UAV-enabled remote-mining tasks in the Bulava UAV battalion of the 72nd Separate Mechanized Brigade and in the 427th Separate Unmanned Systems Regiment RAROG.",
+      "what_it_supports_cs": "Podporuje závěr, že oficiální náborový portál Pozemních sil Ukrajiny aktuálně popisuje úkoly dálkového minování pomocí BPL u praporu BPL „Bulava“ 72. samostatné mechanizované brigády a u 427. samostatného pluku bezpilotních systémů RAROG.",
+      "what_it_does_not_prove_en": "Does not prove filled wartime TO&E positions, a standardized force-wide organizational model, exact equipment holdings, mine types or technical employment procedures, current tactical deployment, or independent corroboration outside this official recruiting source family.",
+      "what_it_does_not_prove_cs": "Neprokazuje obsazená tabulková místa za války, standardizovaný plošný organizační model, přesné stavy techniky, typy min ani technické postupy použití, současné taktické nasazení či nezávislé potvrzení mimo tuto oficiální náborovou zdrojovou rodinu.",
+      "confidence": "HIGH_FOR_CURRENT_PUBLIC_RECRUITING_TEXT_MEDIUM_FOR_ORGANIZATIONAL_DIFFUSION_LOW_FOR_FORCE_WIDE_STANDARDIZATION",
+      "first_seen_run": "engineer-osint-20260826-B89"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [
+    {
+      "id": "LEAD-003",
+      "topic": "Ukraine remote-mining company model — local vs force-wide",
+      "priority": "P1",
+      "next_action": "Seek formal TO&E/organizational orders, brigade-level structural descriptions or multiple independently sourced unit examples that can distinguish local recruiting constructs from a standardized force-wide engineer UGV/remote-mining company model.",
+      "last_update": "2026-08-26T20:00:20+02:00",
+      "note": "B89 adds two more currently accessible official Ukrainian Land Forces recruiting descriptions: the Bulava UAV battalion of the 72nd Separate Mechanized Brigade lists remote mining among UAV operator duties, while the 427th Separate Unmanned Systems Regiment RAROG states that its large multirotor UAVs perform remote-mining tasks. This broadens evidence that remote mining is diffusing across both brigade UAV elements and a dedicated unmanned-systems regiment, but still does not prove filled TO&E positions or a standardized force-wide company/battalion model.",
+      "title_en": "Ukraine remote-mining company model — local vs force-wide",
+      "title_cs": "Ukrajinský model roty dálkového minování — lokální, nebo plošný",
+      "status": "OPEN_PARTIALLY_RESOLVED_DIFFUSION_STRONGER_THAN_STANDARDIZATION",
+      "note_en": "B89 adds two more currently accessible official Ukrainian Land Forces recruiting descriptions: the Bulava UAV battalion of the 72nd Separate Mechanized Brigade lists remote mining among UAV operator duties, while the 427th Separate Unmanned Systems Regiment RAROG states that its large multirotor UAVs perform remote-mining tasks. This broadens evidence that remote mining is diffusing across both brigade UAV elements and a dedicated unmanned-systems regiment, but still does not prove filled TO&E positions or a standardized force-wide company/battalion model.",
+      "note_cs": "B89 přidává další dva aktuálně dostupné oficiální náborové popisy Pozemních sil Ukrajiny: prapor BPL „Bulava“ 72. samostatné mechanizované brigády uvádí dálkové minování mezi úkoly operátora BPL a 427. samostatný pluk bezpilotních systémů RAROG uvádí, že jeho velké multirotorové BPL plní úkoly dálkového minování. Podklady rozšiřují důkaz, že se dálkové minování šíří jak do brigádních prvků BPL, tak do specializovaného pluku bezpilotních systémů; stále však neprokazují obsazená tabulková místa ani standardizovaný plošný model roty či praporu.",
+      "source_ids": [
+        "ENG-SRC-0329",
+        "ENG-SRC-0517",
+        "ENG-SRC-0518",
+        "ENG-SRC-0519",
+        "ENG-SRC-0520",
+        "ENG-SRC-0521",
+        "ENG-SRC-0522"
+      ],
+      "lead_id": "LEAD-003",
+      "last_update_run": "engineer-osint-20260826-B89",
+      "topic_cs": "Ukrajinský model roty dálkového minování — lokální, nebo plošný"
+    }
+  ],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK_BOUNDED_ORGANIZATIONAL_ENRICHMENT",
+    "bilingual_precheck": "PASS_NEW_AND_CHANGED_PUBLIC_TEXT_CS_EN_PRESENT",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "NOT_RUN_NOT_MATERIALIZED",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_PUBLIC_WEB_INDEX_DISCOVERY_ONLY",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "russia_ukraine_status": "ENTITY_ENRICHMENT_REMOTE_MINING_DIFFUSION_ONLY",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "source_discovery_status": "STANDARD_PASS_COMPLETE_DEEP_PASS_NOT_DUE",
+    "temporal_discipline": "Both promoted recruiting pages are undated. They are classified as CURRENTLY_ACCESSIBLE_2026_UNDATED_RECRUITING_PROFILE and therefore ENTITY_ENRICHMENT, not CURRENT_DELTA.",
+    "osint_safety": "No precise current tactical location, exact mine type, exploitable vulnerability, or actionable mining procedure was added.",
+    "independence_caveat": "Both new pages belong to the same official Ukrainian Land Forces recruiting source family; they are not counted as independent source-family corroboration."
+  },
+  "presentation_fact_overlay_gap": "UNCHANGED_LEGACY_GAP_NO_NEW_FACTUAL_OVERLAY",
+  "extensions": {
+    "intake_normalization_v1": {
+      "rule_id": "B89_STRICT_INTAKE_NORMALIZATION",
+      "source_drive_file_id": "12YbsRY1x7ANGZJAa9ufjscIeF3Zwcgad",
+      "source_file_sha256": "f04d7245cdc6fdf3e2c40ff24b69973cc749ddead2c22d5345ca533c16cce148",
+      "original_update_count": 1,
+      "normalized_update_count": 0,
+      "lead_count_unchanged": 1,
+      "removed_orphan_source_ids": [
+        "ENG-SRC-0219",
+        "ENG-SRC-0220"
+      ],
+      "retained_lead_source_ids": [
+        "ENG-SRC-0329",
+        "ENG-SRC-0517",
+        "ENG-SRC-0518",
+        "ENG-SRC-0519",
+        "ENG-SRC-0520",
+        "ENG-SRC-0521",
+        "ENG-SRC-0522"
+      ],
+      "added_localization_fields": [
+        "LEAD-003.topic_cs"
+      ],
+      "reason": "The sole changed entity is LEAD-003 in lead_updates. Patch v1 defines UPDATE exclusively as updated_records.length. Two source IDs absent from both canonical source registries are removed; all registered prior and new evidence sources are retained. The Czech topic mirrors the source-provided Czech title to satisfy the PUBLIC-CZ publication gate."
+    }
+  }
+}
