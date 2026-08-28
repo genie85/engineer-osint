@@ -34,9 +34,9 @@ An agent that cannot execute the repository helper must not fabricate hashes or 
 
 An immutable SUCCESS handoff with a narrowly missing non-factual QA field is not edited in place. Any publication waiver must be fail-closed, restricted to one explicitly approved run, pinned to the run identity, parent, repository file and canonical hashes, and backed by a hash-verified local snapshot of the original Drive report. The validator must label the waiver explicitly; it must not present an omitted field as if it had existed in the patch. Future runs and factual/schema/reference failures remain ineligible.
 
-### B88 one-run migration
+### B88-B89 exact migrations
 
-Run `engineer-osint-20260826-B88` is the sole approved exception to the preceding eligibility rule. Its immutable source mixed a lead update into the record `UPDATE` count, carried two source identifiers absent from both canonical source registries, and omitted the Czech `topic_cs` counterpart already available verbatim as `title_cs`. The published representation normalizes only those strict-intake and localization defects, exposes the original Drive file ID and SHA-256 under `extensions.intake_normalization_v1`, and is covered by a dedicated regression test and attestation. This migration does not create a reusable waiver mechanism; later schema, count, reference or PUBLIC-CZ failures remain ineligible.
+Runs `engineer-osint-20260826-B88` and `engineer-osint-20260826-B89` are the complete approved exception set to the preceding eligibility rule. Their immutable sources mixed a lead update into the record `UPDATE` count, carried two source identifiers absent from both canonical source registries, and omitted the Czech `topic_cs` counterpart already available verbatim as `title_cs`. Each published representation normalizes only those strict-intake and localization defects, exposes its original Drive file ID and SHA-256 under `extensions.intake_normalization_v1`, and is covered by a dedicated regression test and attestation. These migrations do not create a reusable waiver mechanism; later schema, count, reference or PUBLIC-CZ failures remain ineligible.
 
 ## Research continuity versus publication continuity
 
@@ -46,6 +46,10 @@ The Drive factual chain and the GitHub publication chain have separate tips:
 - `PUBLISHED_TIP` is the final manifest entry. It is the parent accepted by `append-run.mjs`.
 
 The published tip may be an ancestor of the factual tip. This normal `PUBLICATION_LAG` must not block a later research run. It also does not weaken publication ordering: the helper still refuses a patch whose parent is not the current manifest tip.
+
+### Bounded contiguous publication batches
+
+A publication PR may contain at most four consecutive missing runs when all are already finalized immutable factual SUCCESS artifacts. The executor must start from the current `main` manifest tip, invoke `append-run.mjs --write` separately in parent order, and stop at the first validation failure or non-final candidate. Only the successfully validated contiguous prefix may remain in the PR; skipping and parallel parent branches are forbidden. Full repository QA, PR CI, merge read-back and public deployment still apply once to the resulting batch. The next batch must start only after the merged manifest tip is confirmed.
 
 The publication executor reconciles immutable Drive handoffs with the manifest and appends exactly the first missing run. With GitHub at B67 and Drive at B68, it appends B68. If factual research has meanwhile produced B69 with parent B68, B69 remains pending until B68 is merged and confirmed as the manifest tip. Attempting B69 first fails the existing stale-parent check.
 
