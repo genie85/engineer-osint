@@ -99,8 +99,11 @@ jobs:
           test -s docs/engineer-osint-dist/public-cz-ui-audit.md
           test -s docs/engineer-osint-dist/overlay-retirement-audit.json
           test -s docs/engineer-osint-dist/overlay-retirement-audit.md
+          test -s docs/engineer-osint-dist/overlay-migration-map.json
+          test -s docs/engineer-osint-dist/overlay-migration-map.md
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/overlay-retirement-audit.md
+          sed -n '1,140p' docs/engineer-osint-dist/overlay-migration-map.md
           cat docs/engineer-osint-dist/media-history-audit.md
           cat docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
@@ -115,6 +118,7 @@ jobs:
           grep -q 'legacy_factual_overlays=pinned-migration-debt' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_retirement_audit=pass' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_retirement_policy=zero-current-mutations' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_migration_map=pass' docs/engineer-osint-dist/health.txt
           grep -q 'localization_mutation_violations=0' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_export_snapshot=legacy-overlay-resolved' docs/engineer-osint-dist/health.txt
           grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
@@ -131,6 +135,7 @@ jobs:
           grep -q "default_language:'cs'" docs/engineer-osint-dist/index.html
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/media-coverage-qa.json','utf8')); if(q.publish_gate?.pass!==true) throw new Error('current-run media publish gate failed'); console.log('Current-run media gate PASS',q.current_run?.run_id);"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-retirement-audit.json','utf8')); if(q.status!=='PASS'||q.policy!=='ZERO_CURRENT_MUTATIONS_REQUIRED_BEFORE_RUNTIME_RETIREMENT') throw new Error('overlay retirement audit invalid'); if(q.module_count!==q.ready_count+q.blocked_count) throw new Error('overlay retirement audit count mismatch'); console.log('Overlay retirement gate',q.ready_count,'ready,',q.blocked_count,'blocked');"
+          node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-migration-map.json','utf8')); const r=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-retirement-audit.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-migration-map-v1') throw new Error('overlay migration map invalid'); if(q.total_overlay_leaf_mutations!==r.total_current_mutations) throw new Error('overlay migration leaf count mismatch'); if(q.canonical_leaf_mutations+q.overlay_meta_mutations!==q.total_overlay_leaf_mutations) throw new Error('overlay migration decomposition mismatch'); console.log('Overlay migration map',q.migration_candidate_count,'candidates,',q.manual_review_candidates,'manual review');"
           node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const run=m.runs.at(-1)?.run_id||m.snapshot.run_id; const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+run)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',run);"
 
       - name: Configure GitHub Pages

@@ -33,6 +33,26 @@ Each module is classified as either:
 
 The B61 mutation fingerprint remains an integrity guard for the original pinned baseline. The v4.5 current-run audit is the retirement-readiness decision signal; historical B61/B70 mutation counts are not treated as proof that a module is still needed or safe to remove today.
 
+## v4.5.1 field-level migration map
+
+The same read-only pass also publishes:
+
+- `overlay-migration-map.json` — exact before/after value envelopes for every current leaf mutation;
+- `overlay-migration-map.md` — compact path-level and consolidated candidate view;
+- health markers `overlay_migration_*`.
+
+The migration map preserves runtime order and separates overlay-only metadata from canonical migration candidates. Multiple nested leaf changes under one target top-level field are consolidated into one candidate because `extensions.operations_v1.REPLACE_FIELD` operates on a top-level field.
+
+Candidate routes are advisory and never authorize a write:
+
+- `OPERATIONS_V1_REPLACE_FIELD` / `OPERATIONS_V1_RETRACT` — structurally expressible by the strict correction contract, but still require supporting source IDs and a reviewed append-only run;
+- `STRICT_COLLECTION_APPEND` — a new item must be introduced through the corresponding strict patch collection and validated counts;
+- `PROTECTED_FIELD_MANUAL_MIGRATION_REVIEW` — stable identity or other protected fields cannot be changed through `REPLACE_FIELD`;
+- `FIELD_REMOVAL_MANUAL_MIGRATION_REVIEW` and other `MANUAL_*` routes — the current strict contract cannot reproduce the overlay result directly and requires an explicit reviewed migration design;
+- `NO_CANONICAL_MIGRATION_OVERLAY_META` — runtime bookkeeping only, not factual canonical content.
+
+A source hint copied from a resolved target is not proof of provenance. Every canonical migration must independently verify that the cited source supports the exact value being persisted. A candidate marked `SOURCE_BINDING_REQUIRED` cannot become an operation until that evidence binding is supplied.
+
 ## Safety rule
 
-This audit is read-only with respect to canonical data. It must never create a run, alter `data/run-store-manifest.json`, fabricate a hash, change a source/evidence/claim, or turn runtime-only factual content into canonical truth.
+This audit and migration map are read-only with respect to canonical data. They must never create a run, alter `data/run-store-manifest.json`, fabricate a hash, change a source/evidence/claim, or turn runtime-only factual content into canonical truth. Actual migration must use the normal strict append-only run path and must be followed by a fresh retirement audit before any overlay is removed.
