@@ -164,6 +164,38 @@
       "path": "data/runs/engineer-osint-20260826-B80.json",
       "file_sha256": "61d00df149a9bb8a0a68fd3184fe3d9e6e4d69eccb789689dceccd3e6c9dca16",
       "canonical_sha256": "e88e8d0858f8d6dc21abec133bf1507fe86e0ea241d65220cea15234da85b294"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B81",
+      "parent_run_id": "engineer-osint-20260826-B80",
+      "parent_canonical_sha256": "e88e8d0858f8d6dc21abec133bf1507fe86e0ea241d65220cea15234da85b294",
+      "path": "data/runs/engineer-osint-20260826-B81.json",
+      "file_sha256": "114b19df6be17c24e54e0ba77c71c891b2f2752c0ae17aa3d99f8abc0ab34f4b",
+      "canonical_sha256": "d85fb7db030443e997d53288f409e298b13b4be9dc10cf6ec10b62d4b3b0b291"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B82",
+      "parent_run_id": "engineer-osint-20260826-B81",
+      "parent_canonical_sha256": "d85fb7db030443e997d53288f409e298b13b4be9dc10cf6ec10b62d4b3b0b291",
+      "path": "data/runs/engineer-osint-20260826-B82.json",
+      "file_sha256": "e47e0aa5596f6baf57152b6f7c8d2bf21f58fecf5b2d5e48021dd2be6dc53904",
+      "canonical_sha256": "25700d7fece483f89f72396646d78b18e9994974121202e3b33417170bd940d4"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B83",
+      "parent_run_id": "engineer-osint-20260826-B82",
+      "parent_canonical_sha256": "25700d7fece483f89f72396646d78b18e9994974121202e3b33417170bd940d4",
+      "path": "data/runs/engineer-osint-20260826-B83.json",
+      "file_sha256": "ff3f5157b05087eec896d485aa6d2a8f398facf71c44bf6394a6bc607037345d",
+      "canonical_sha256": "a50716472dfc929b0be6bc6b9f9acb30f22a75f57b86581e41798071d936ada8"
+    },
+    {
+      "run_id": "engineer-osint-20260826-B84",
+      "parent_run_id": "engineer-osint-20260826-B83",
+      "parent_canonical_sha256": "a50716472dfc929b0be6bc6b9f9acb30f22a75f57b86581e41798071d936ada8",
+      "path": "data/runs/engineer-osint-20260826-B84.json",
+      "file_sha256": "ded7952e702789f4535bfaf1182bd3196bd77ef77274cf5c59b4d1ae16d9135e",
+      "canonical_sha256": "b8af5692ea3539552438b213cfedc3f11dfc60492e0f87f90f2ee2d7deb181ad"
     }
   ],
   "legacy_history": {
