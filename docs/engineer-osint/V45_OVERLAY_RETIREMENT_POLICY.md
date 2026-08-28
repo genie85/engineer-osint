@@ -69,4 +69,4 @@ The dry-run is therefore a structural gate between mapping and a real append-onl
 
 ## Safety rule
 
-The retirement audit, migration map and strict dry-run are read-only with respect to canonical persistence. They must never create a real run, alter `data/run-store-manifest.json`, fabricate a production hash, change a source/evidence/claim in persistent state, or turn runtime-only factual content into canonical truth. Actual migration must use the normal strict append-only run path and must be followed by a fresh retirement audit before any overlay is removed.
+The retirement audit, migration map and strict dry-run are read-only with respect to canonical data and persistence. They must never create a real run, alter `data/run-store-manifest.json`, fabricate a production hash, change a source/evidence/claim in persistent state, or turn runtime-only factual content into canonical truth. Actual migration must use the normal strict append-only run path and must be followed by a fresh retirement audit before any overlay is removed.
