@@ -50,6 +50,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-overview-intro-stats-module','ui-overview-intro-stats.js'],
   ['engineer-overview-delta-cleanup-module','ui-overview-delta-cleanup.js'],
   ['engineer-ui-v4-public-module','ui-v4-public.js'],
+  ['engineer-ui-v41-intelligence-module','ui-v41-intelligence.js'],
   ['engineer-i18n-runtime-switch-fix-module','i18n-runtime-switch-fix.js'],
   ['engineer-i18n-en-postrender-cleanup-module','i18n-en-postrender-cleanup.js'],
   ['engineer-public-cz-ui-canary-module','public-cz-ui-canary.js']
