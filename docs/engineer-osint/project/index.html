@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ENGINEER OSINT — veřejná prezentace projektu a vstup do živého analytického dashboardu.">
+  <title>ENGINEER OSINT</title>
+  <style>
+    :root{color-scheme:dark;--bg:#081018;--panel:#0f1b27;--panel2:#132333;--text:#e8f0f7;--muted:#95a9bb;--line:#26394a;--accent:#69d3b2;--accent2:#7fb6ff;--warn:#f4c86a;--max:1180px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 20% 0%,#10273a 0,#081018 42%,#060c12 100%);color:var(--text);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit} .wrap{width:min(var(--max),calc(100% - 36px));margin:auto}.nav{position:sticky;top:0;z-index:10;background:rgba(8,16,24,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.navin{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:68px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.08em}.mark{width:34px;height:34px;border:1px solid #3c5d72;border-radius:9px;display:grid;place-items:center;background:linear-gradient(145deg,#142a3b,#0d1822);color:var(--accent)}.links{display:flex;gap:18px;flex-wrap:wrap}.links a{text-decoration:none;color:var(--muted);font-size:.94rem}.links a:hover{color:var(--text)}
+    .hero{padding:92px 0 56px}.eyebrow{display:inline-flex;gap:9px;align-items:center;padding:7px 11px;border:1px solid #315066;border-radius:999px;background:rgba(19,35,51,.68);color:#b8c8d5;font-size:.88rem}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px rgba(105,211,178,.8)}h1{font-size:clamp(2.7rem,7vw,6.3rem);line-height:.98;letter-spacing:-.055em;margin:22px 0 24px;max-width:950px}.lead{max-width:780px;color:#b7c7d4;font-size:clamp(1.08rem,2vw,1.35rem)}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 17px;border-radius:11px;text-decoration:none;font-weight:700;border:1px solid var(--line)}.primary{background:var(--accent);color:#04120e;border-color:transparent}.secondary{background:#0f1b27;color:var(--text)}
+    .statusbar{margin-top:34px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(15,27,39,.76)}.stat b{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);margin-bottom:5px}.stat span{font-weight:750;word-break:break-word}.ok{color:var(--accent)}
+    section{padding:54px 0}h2{font-size:clamp(1.8rem,4vw,3.2rem);letter-spacing:-.035em;margin:0 0 16px}.sectionlead{color:var(--muted);max-width:780px;margin:0 0 28px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(19,35,51,.94),rgba(13,24,34,.94));border-radius:16px;padding:22px}.card h3{margin:0 0 8px;font-size:1.08rem}.card p{margin:0;color:#aebdca}.tag{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2);margin-bottom:9px}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}.step{position:relative;padding:18px 16px;border:1px solid var(--line);border-radius:14px;background:#0e1923;min-height:126px}.step small{color:var(--accent2);font-weight:800}.step strong{display:block;margin:7px 0 5px}.step p{margin:0;color:var(--muted);font-size:.9rem}.step:not(:last-child):after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:#4f6d82;background:var(--bg);padding:0 3px;z-index:2}
+    .split{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.panel{border:1px solid var(--line);border-radius:16px;background:rgba(11,21,30,.9);padding:22px}.panel ul{margin:12px 0 0;padding-left:20px}.panel li{margin:7px 0;color:#b2c0cb}.priority{display:grid;gap:10px}.priority div{display:flex;gap:14px;align-items:center;padding:15px;border:1px solid var(--line);border-radius:12px;background:#0e1923}.priority b{min-width:72px;color:var(--accent)}
+    .notice{border:1px solid #5a4b2c;background:rgba(62,48,20,.4);border-radius:14px;padding:16px;color:#d8cba9}.notice strong{color:var(--warn)}footer{border-top:1px solid var(--line);padding:28px 0 42px;color:var(--muted);font-size:.92rem}
+    @media(max-width:860px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.step:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-19px;transform:translateX(-50%)}.statusbar{grid-template-columns:1fr 1fr}.links{display:none}.hero{padding-top:64px}}
+    @media(max-width:520px){.statusbar{grid-template-columns:1fr}.wrap{width:min(100% - 24px,var(--max))}h1{font-size:2.65rem}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap navin">
+      <div class="brand"><span class="mark">EO</span> ENGINEER OSINT</div>
+      <div class="links"><a href="#projekt">Projekt</a><a href="#architektura">Architektura</a><a href="#priority">Priority</a><a href="#qa">QA</a><a href="../">Dashboard</a></div>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow"><span class="dot"></span> OSINT · evidence-first · temporal intelligence</div>
+        <h1>ENGINEER<br>OSINT</h1>
+        <p class="lead">Veřejná prezentační vrstva projektu pro strukturovaný sběr, ověřování, historizaci a publikaci otevřených informací se zaměřením na ženijní, bezpečnostní a geopolitické dění.</p>
+        <div class="actions">
+          <a class="btn primary" href="../">Otevřít živý dashboard</a>
+          <a class="btn secondary" href="https://github.com/genie85/engineer-osint">GitHub repozitář</a>
+        </div>
+        <div class="statusbar" aria-label="Stav publikace">
+          <div class="stat"><b>Publikace</b><span id="status" class="ok">načítám…</span></div>
+          <div class="stat"><b>Aktuální run</b><span id="run">—</span></div>
+          <div class="stat"><b>Datový model</b><span>append-only</span></div>
+          <div class="stat"><b>Publikace</b><span>GitHub Pages</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section id="projekt">
+      <div class="wrap">
+        <h2>Co projekt dělá</h2>
+        <p class="sectionlead">ENGINEER OSINT odděluje výzkumnou vrstvu, kanonická data, prezentační transformace a veřejné UI. Cílem je dohledatelná práce se zdroji, časem a změnami bez tichého přepisování historie.</p>
+        <div class="grid">
+          <article class="card"><span class="tag">Collection</span><h3>Sběr a normalizace</h3><p>Průběžné získávání otevřených zdrojů, jejich třídění, deduplikace a převod do jednotného datového rámce.</p></article>
+          <article class="card"><span class="tag">Evidence</span><h3>Důkazní vazby</h3><p>Oddělení tvrzení, zdrojů, entit a časových pozorování tak, aby bylo možné zpětně dohledat, z čeho závěr vznikl.</p></article>
+          <article class="card"><span class="tag">Temporal</span><h3>Historický kontext</h3><p>Model kombinuje aktuální změny, historické doplnění a obohacování entit; starší informace nemají být prezentovány jako aktuální bez nového potvrzení.</p></article>
+          <article class="card"><span class="tag">Integrity</span><h3>Append-only historie</h3><p>Nové běhy se přidávají jako neměnné záznamy. Opravy a odvolání mají být verzované a dohledatelné, nikoli provedené tichou změnou.</p></article>
+          <article class="card"><span class="tag">Presentation</span><h3>Veřejný dashboard</h3><p>Renderer smí data filtrovat, řadit, lokalizovat a vizualizovat, ale nemá vytvářet nové faktické hodnoty mimo perzistentní datovou vrstvu.</p></article>
+          <article class="card"><span class="tag">QA</span><h3>Vícevrstvé kontroly</h3><p>Samostatně se sleduje výzkumný běh, build, statické kontroly, browser regresní testy, deploy a veřejný read-back.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architektura">
+      <div class="wrap">
+        <h2>Publikační architektura</h2>
+        <p class="sectionlead">Veřejná stránka není zdrojem pravdy. Zobrazuje stav vytvořený z kanonického řetězce dat.</p>
+        <div class="flow">
+          <div class="step"><small>01</small><strong>Kanonický stav</strong><p>Registry a autoritativní výzkumné podklady.</p></div>
+          <div class="step"><small>02</small><strong>Run store</strong><p>Append-only běhy a hashově svázaný manifest.</p></div>
+          <div class="step"><small>03</small><strong>Materializace</strong><p>Sestavení aktuálního kanonického snapshotu.</p></div>
+          <div class="step"><small>04</small><strong>Build + QA</strong><p>Validace integrity, UI, médií a lokalizace.</p></div>
+          <div class="step"><small>05</small><strong>GitHub Pages</strong><p>Veřejný dashboard a tato prezentační stránka.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="priority">
+      <div class="wrap split">
+        <div class="panel">
+          <h2>Geografické priority</h2>
+          <p class="sectionlead">Reportovací pořadí je explicitně odděleno od dalších prioritních namespace.</p>
+          <div class="priority">
+            <div><b>GEO-P1</b><span>Rusko–ukrajinský konflikt</span></div>
+            <div><b>GEO-P2</b><span>Česká republika</span></div>
+            <div><b>GEO-P3</b><span>Zbytek světa</span></div>
+          </div>
+        </div>
+        <div class="panel" id="qa">
+          <h2>Kontrolní principy</h2>
+          <ul>
+            <li>Zdrojová atribuce a časová disciplína.</li>
+            <li>Oddělení faktů, odvozenin a prezentačních transformací.</li>
+            <li>Kontrola konzistence kanonického snapshotu a navazujících runů.</li>
+            <li>Samostatné sledování lokalizace CZ/EN a veřejného UI.</li>
+            <li>Explicitní evidence známého migračního a legacy dluhu.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="notice"><strong>Poznámka k interpretaci:</strong> tato stránka je prezentační rozcestník. Aktuální fakta, entity, časové osy a zdroje je nutné číst v živém dashboardu a v kanonických datech projektu.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">ENGINEER OSINT · veřejná projektová prezentace · stav načítán z aktuálního GitHub Pages buildu</div></footer>
+
+  <script>
+    (async()=>{
+      try{
+        const r=await fetch('../health.txt',{cache:'no-store'});
+        if(!r.ok)throw new Error('health unavailable');
+        const t=await r.text();
+        const m=Object.fromEntries(t.split(/\r?\n/).filter(Boolean).map(x=>{const i=x.indexOf('=');return i>0?[x.slice(0,i),x.slice(i+1)]:[x,'']}));
+        document.getElementById('status').textContent=m.status||'UNKNOWN';
+        document.getElementById('status').className=m.status==='SUCCESS'?'ok':'';
+        document.getElementById('run').textContent=m.run||'—';
+      }catch(e){document.getElementById('status').textContent='stav není dostupný';document.getElementById('run').textContent='—'}
+    })();
+  </script>
+</body>
+</html>

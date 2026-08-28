@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,cpSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -67,6 +67,7 @@ presentation_bootstrap_pb_overlay=retired
 mobile_menu_fix=enabled
 bytes=${Buffer.byteLength(html)}
 `,'utf8');
+cpSync(join(source,'project'),join(output,'project'),{recursive:true});
 writeFileSync(join(output,'.nojekyll'),'','utf8');
 execFileSync(process.execPath,[join(source,'postprocess-ui.mjs')],{stdio:'inherit'});
 const healthPath=join(output,'health.txt');
