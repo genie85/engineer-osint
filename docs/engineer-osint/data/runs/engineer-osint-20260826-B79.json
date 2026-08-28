@@ -1,0 +1,103 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B79",
+    "parent_run_id": "engineer-osint-20260826-B78",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T14:10:25+02:00",
+    "window_to": "2026-08-26T15:01:14+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "PASS_PUBLICATION_LAG_ANCESTOR_CHAIN_VERIFIED",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B78",
+    "published_tip": "engineer-osint-20260825-B74",
+    "publication_lag_before_run": 4,
+    "parent_chain": [
+      "engineer-osint-20260825-B74",
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76",
+      "engineer-osint-20260826-B77",
+      "engineer-osint-20260826-B78"
+    ],
+    "unpublished_artifacts_verified": [
+      "B75",
+      "B76",
+      "B77",
+      "B78"
+    ],
+    "reconciliation_window_from": "2026-08-24T15:01:14+02:00",
+    "reconciliation_window_to": "2026-08-26T15:01:14+02:00",
+    "main_sha_at_start": "6dfadf749053e5a5ef74800a214c325d3c5e61d9"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "research_scope": "COMPLETE_REGULAR_FACTUAL_SWEEP",
+    "publication_safety": "PASS_NO_NEW_CANONICAL_PUBLIC_ITEM",
+    "bilingual_precheck": "NOT_APPLICABLE_NO_NEW_OR_MATERIALLY_CHANGED_PUBLIC_FREE_TEXT",
+    "public_cz_ratchet_status": "NOT_APPLICABLE_UNTIL_REPOSITORY_MATERIALIZATION_NO_PUBLIC_DELTA",
+    "repository_native_validation": "NOT_RUN_B79_NOT_MATERIALIZED",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE",
+    "social_discovery_status": "PUBLIC_WEB_DISCOVERY_COMPLETE_NO_CANONICAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "NO_NEW_CANONICAL_VISUALS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "russia_ukraine_status": "SWEEP_COMPLETE_NO_NEW_SAFE_QUALIFIED_CANONICAL_ITEM",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "eod_cied_eoc_eor_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "orbat_lessons_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "technology_signal_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "safety_screened_out": [
+      {
+        "type": "CURRENT_TACTICAL_REPORT",
+        "status": "DO_NOT_PUBLISH",
+        "reason": "Current operational/tactical detail with no necessary canonical engineer-intelligence gain."
+      }
+    ],
+    "source_discovery_notes": [
+      "Rechecked Ukrainian MoD/ArmyInform current engineering and demining reporting.",
+      "Rechecked Czech defence, NATO/EOD COE/C-IED, U.S. Army/NAMC, Bundeswehr and Polish public-source families.",
+      "Rechecked open doctrine/STANAG leads and EABC status; no qualifying status change found."
+    ]
+  },
+  "presentation_fact_overlay_gap": "UNCHANGED",
+  "extensions": {}
+}
