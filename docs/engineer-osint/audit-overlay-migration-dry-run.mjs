@@ -21,16 +21,33 @@ const rawToLogical={
   visuals:'visuals',new_visuals:'visuals',media:'media',new_media:'media',technology_signals:'technology_signals',
   external_leads:'leads',updated_external_leads:'leads',lead_updates:'leads',leads:'leads',
   observed_minimum:'observed_minimum',observed_minimum_updates:'observed_minimum',
-  lessons:'lessons_learned',lessons_learned:'lessons_learned',lessons_learned_changes:'lessons_learned'
+  lessons:'lessons_learned',lessons_learned:'lessons_learned',lessons_learned_changes:'lessons_learned',
+  assessments:'assessments',gaps:'gaps',contradictions:'contradictions'
 };
+const canonicalLocations=new Set([
+  'records.records','sources.sources','relations.relations','evidence.evidence','visual_registry.visuals','media_registry.media',
+  'dashboard_patch_extras.technology_signals','leads.leads','dashboard_patch_extras.observed_minimum_updates','lessons_learned.lessons',
+  'assessments.assessments','intelligence_gaps.gaps','contradictions.contradictions'
+]);
 const objectAt=(root,top,collection,index)=>root?.[top]?.[collection]?.[index];
-const itemId=item=>item?.id||item?.source_id||item?.lead_id||item?.asset_id||item?.media_id||item?.evidence_id||item?.relation_id||item?.lesson_id;
+const itemId=item=>item?.id||item?.source_id||item?.lead_id||item?.asset_id||item?.media_id||item?.evidence_id||item?.relation_id||item?.lesson_id||item?.assessment_id||item?.gap_id||item?.contradiction_id;
 const isMetaPath=path=>path==='rich_backfill_meta'||path.startsWith('rich_backfill_meta.');
 const candidateSignature=item=>`${item.logical_collection||item.raw_collection||'UNKNOWN'}|${item.target_id||'UNKNOWN'}|${item.field||item.action||'WHOLE_ITEM'}`;
+const parseResidualPath=path=>{
+  const match=path.match(/^([^.]+)\.([^[]+)\[(\d+)\](?:\.(.+))?$/);
+  if(!match)return null;
+  return {top:match[1],raw:match[2],index:Number(match[3]),relative:match[4]||'',location:`${match[1]}.${match[2]}`};
+};
+const residualClass=change=>{
+  if(isMetaPath(change.path))return 'OVERLAY_META';
+  const parsed=parseResidualPath(change.path);
+  if(!parsed)return 'UNSCOPED';
+  return canonicalLocations.has(parsed.location)?'CANONICAL':'LEGACY_OR_DERIVED_MIRROR';
+};
 const residualSignature=(change,before,after)=>{
-  const match=change.path.match(/^([^.]+)\.([^[]+)\[(\d+)\](?:\.(.+))?$/);
-  if(!match)return `UNSCOPED|${change.path}`;
-  const top=match[1],raw=match[2],index=Number(match[3]),relative=match[4]||'';
+  const parsed=parseResidualPath(change.path);
+  if(!parsed)return `UNSCOPED|${change.path}`;
+  const {top,raw,index,relative}=parsed;
   const beforeItem=objectAt(before,top,raw,index),afterItem=objectAt(after,top,raw,index);
   const id=itemId(afterItem)||itemId(beforeItem)||'UNKNOWN';
   const field=relative.match(/^([^.[]+)/)?.[1]||(beforeItem===undefined?'APPEND_ITEM':afterItem===undefined?'RETRACT_ITEM':'WHOLE_ITEM');
@@ -113,22 +130,34 @@ for(const [moduleIndex,[,file]] of LEGACY_FACTUAL_OVERLAY_MODULES.entries()){
     const code=readFileSync(join(src,file),'utf8');
     vm.runInNewContext(code,{window:{__ENGINEER_DATA__:afterProbe},console},{filename:file,timeout:3000});
     const residual=deepDiff(beforeProbe,afterProbe);
-    const meta=residual.filter(item=>isMetaPath(item.path));
-    const factual=residual.filter(item=>!isMetaPath(item.path));
-    const signatures=[...new Set(factual.map(item=>residualSignature(item,beforeProbe,afterProbe)))].sort();
-    const unexpected=signatures.filter(signature=>!expectedManual.has(signature));
-    const expectedStillResidual=[...expectedManual].filter(signature=>signatures.includes(signature)).sort();
-    const expectedAlreadySatisfied=[...expectedManual].filter(signature=>!signatures.includes(signature)).sort();
+    const meta=residual.filter(item=>residualClass(item)==='OVERLAY_META');
+    const canonicalResidual=residual.filter(item=>residualClass(item)==='CANONICAL');
+    const mirrorResidual=residual.filter(item=>residualClass(item)==='LEGACY_OR_DERIVED_MIRROR');
+    const unscopedResidual=residual.filter(item=>residualClass(item)==='UNSCOPED');
+    const canonicalSignatures=[...new Set(canonicalResidual.map(item=>residualSignature(item,beforeProbe,afterProbe)))].sort();
+    const mirrorSignatures=[...new Set(mirrorResidual.map(item=>residualSignature(item,beforeProbe,afterProbe)))].sort();
+    const unscopedSignatures=[...new Set(unscopedResidual.map(item=>residualSignature(item,beforeProbe,afterProbe)))].sort();
+    const unexpectedCanonical=canonicalSignatures.filter(signature=>!expectedManual.has(signature));
+    const expectedStillResidual=[...expectedManual].filter(signature=>canonicalSignatures.includes(signature)).sort();
+    const expectedAlreadySatisfied=[...expectedManual].filter(signature=>!canonicalSignatures.includes(signature)).sort();
     report.residual_leaf_mutations=residual.length;
-    report.residual_factual_leaf_mutations=factual.length;
+    report.residual_canonical_leaf_mutations=canonicalResidual.length;
+    report.residual_legacy_mirror_leaf_mutations=mirrorResidual.length;
     report.residual_meta_mutations=meta.length;
-    report.residual_signatures=signatures;
-    report.unexpected_residual_signatures=unexpected;
+    report.residual_unscoped_leaf_mutations=unscopedResidual.length;
+    report.canonical_residual_signatures=canonicalSignatures;
+    report.legacy_mirror_residual_signatures=mirrorSignatures;
+    report.unscoped_residual_signatures=unscopedSignatures;
+    report.unexpected_residual_signatures=[...unexpectedCanonical,...unscopedSignatures];
     report.expected_manual_still_residual=expectedStillResidual;
     report.expected_manual_already_satisfied=expectedAlreadySatisfied;
-    report.residual_paths=factual.map(item=>item.path).sort();
-    if(unexpected.length)report.result='STRUCTURAL_EQUIVALENCE_FAILED_UNEXPECTED_RESIDUAL';
-    else if(factual.length===0&&manualCandidates.length===0)report.result='STRUCTURALLY_EQUIVALENT_PENDING_PROVENANCE_REVIEW';
+    report.canonical_residual_paths=canonicalResidual.map(item=>item.path).sort();
+    report.legacy_mirror_residual_paths=mirrorResidual.map(item=>item.path).sort();
+    report.unscoped_residual_paths=unscopedResidual.map(item=>item.path).sort();
+    if(report.unexpected_residual_signatures.length)report.result='STRUCTURAL_EQUIVALENCE_FAILED_UNEXPECTED_CANONICAL_RESIDUAL';
+    else if(canonicalResidual.length===0&&manualCandidates.length===0&&mirrorResidual.length===0)report.result='STRUCTURALLY_EQUIVALENT_PENDING_PROVENANCE_REVIEW';
+    else if(canonicalResidual.length===0&&manualCandidates.length===0&&mirrorResidual.length>0)report.result='CANONICALLY_EQUIVALENT_WITH_LEGACY_MIRROR_DEBT';
+    else if(mirrorResidual.length>0)report.result='STRUCTURALLY_EQUIVALENT_EXCEPT_MANUAL_FIELDS_WITH_MIRROR_DEBT';
     else report.result='STRUCTURALLY_EQUIVALENT_EXCEPT_MANUAL_FIELDS';
   }catch(error){
     report.strict_patch_status='FAIL';report.result='STRICT_PATCH_DRY_RUN_FAILED';report.error=error.message;
@@ -138,8 +167,12 @@ for(const [moduleIndex,[,file]] of LEGACY_FACTUAL_OVERLAY_MODULES.entries()){
 }
 
 const unexpectedResiduals=moduleReports.reduce((n,item)=>n+(item.unexpected_residual_signatures?.length||0),0);
+const mirrorResidualSignatures=moduleReports.reduce((n,item)=>n+(item.legacy_mirror_residual_signatures?.length||0),0);
+const mirrorResidualLeafs=moduleReports.reduce((n,item)=>n+(item.residual_legacy_mirror_leaf_mutations||0),0);
 const exactModules=moduleReports.filter(item=>item.result==='STRUCTURALLY_EQUIVALENT_PENDING_PROVENANCE_REVIEW').length;
-const partialModules=moduleReports.filter(item=>item.result==='STRUCTURALLY_EQUIVALENT_EXCEPT_MANUAL_FIELDS').length;
+const canonicalEquivalentWithMirrorDebt=moduleReports.filter(item=>item.result==='CANONICALLY_EQUIVALENT_WITH_LEGACY_MIRROR_DEBT').length;
+const partialModules=moduleReports.filter(item=>item.result==='STRUCTURALLY_EQUIVALENT_EXCEPT_MANUAL_FIELDS'||item.result==='STRUCTURALLY_EQUIVALENT_EXCEPT_MANUAL_FIELDS_WITH_MIRROR_DEBT').length;
+const mirrorDebtModules=moduleReports.filter(item=>(item.residual_legacy_mirror_leaf_mutations||0)>0).length;
 const failedModules=moduleReports.filter(item=>item.result?.includes('FAILED')).length;
 const operationCount=moduleReports.reduce((n,item)=>n+(item.operation_count||0),0);
 const sourceAppendCount=moduleReports.reduce((n,item)=>n+(item.strict_source_append_count||0),0);
@@ -150,11 +183,15 @@ const output={
   generated_at:new Date().toISOString(),status:pass?'PASS':'FAIL',schema_version:'engineer-osint-overlay-migration-dry-run-v1',
   current_run_id:map.current_run_id,canonical_sha256:map.canonical_sha256,
   policy:'IN_MEMORY_STRICT_PATCH_EQUIVALENCE_NO_CANONICAL_WRITE',
-  canonical_write_performed:false,append_run_invoked:false,safe_to_append:false,
+  residual_policy:'CANONICAL_RESIDUALS_BLOCK_MIGRATION_MIRROR_RESIDUALS_REMAIN_SEPARATE_DEBT',
+  canonical_write_performed:false,append_run_invoked:false,safe_to_append:false,safe_to_retire_overlays:false,
   provenance_note:'Structural equivalence does not prove that source hints support each migrated value. Every operation and source append still requires independent provenance review before a real canonical run.',
-  module_count:moduleReports.length,exact_equivalence_modules:exactModules,partial_manual_modules:partialModules,failed_modules:failedModules,
+  mirror_note:'Residual mutations outside the authoritative canonical collection locations are reported as legacy/derived mirror debt. They do not prove a canonical-value mismatch, but they must still be resolved or proven presentation-irrelevant before overlay retirement.',
+  module_count:moduleReports.length,exact_equivalence_modules:exactModules,canonical_equivalent_with_mirror_debt_modules:canonicalEquivalentWithMirrorDebt,
+  partial_manual_modules:partialModules,legacy_mirror_debt_modules:mirrorDebtModules,failed_modules:failedModules,
   operation_candidates_exercised:operationCount,strict_source_appends_exercised:sourceAppendCount,manual_candidates:manualCount,
-  unexpected_residual_signatures:unexpectedResiduals,modules:moduleReports
+  unexpected_residual_signatures:unexpectedResiduals,legacy_mirror_residual_signatures:mirrorResidualSignatures,
+  legacy_mirror_residual_leaf_mutations:mirrorResidualLeafs,modules:moduleReports
 };
 writeFileSync(join(dist,'overlay-migration-dry-run.json'),JSON.stringify(output,null,2)+'\n','utf8');
 const md=[
@@ -164,23 +201,33 @@ const md=[
   `Status: **${output.status}**`,'',
   'This is an in-memory structural equivalence test. It does not create or append a canonical run, alter the manifest, write source data, or authorize retirement.','',
   `- Exact structural equivalence modules: **${exactModules}**`,
-  `- Partial modules with only mapped manual residuals: **${partialModules}**`,
+  `- Canonically equivalent modules with legacy mirror debt: **${canonicalEquivalentWithMirrorDebt}**`,
+  `- Partial modules with mapped manual residuals: **${partialModules}**`,
+  `- Modules with legacy/derived mirror debt: **${mirrorDebtModules}**`,
   `- Failed modules: **${failedModules}**`,
   `- operations_v1 candidates exercised: **${operationCount}**`,
   `- strict source appends exercised: **${sourceAppendCount}**`,
   `- manual candidates: **${manualCount}**`,
-  `- unexpected residual signatures: **${unexpectedResiduals}**`,'',
-  '| Module | Ops | Source appends | Manual | Residual factual leafs | Unexpected residuals | Result |','|---|---:|---:|---:|---:|---:|---|',
-  ...moduleReports.map(item=>`| \`${item.module}\` | ${item.operation_count||0} | ${item.strict_source_append_count||0} | ${item.manual_candidate_count} | ${item.residual_factual_leaf_mutations??'—'} | ${item.unexpected_residual_signatures?.length??'—'} | \`${item.result}\` |`),'',
-  '## Manual residuals','',
+  `- unexpected canonical/unscoped residual signatures: **${unexpectedResiduals}**`,
+  `- legacy mirror residual signatures: **${mirrorResidualSignatures}**`,
+  `- legacy mirror residual leaf mutations: **${mirrorResidualLeafs}**`,'',
+  '| Module | Ops | Sources | Manual | Canonical residual leafs | Mirror residual leafs | Unexpected | Result |','|---|---:|---:|---:|---:|---:|---:|---|',
+  ...moduleReports.map(item=>`| \`${item.module}\` | ${item.operation_count||0} | ${item.strict_source_append_count||0} | ${item.manual_candidate_count} | ${item.residual_canonical_leaf_mutations??'—'} | ${item.residual_legacy_mirror_leaf_mutations??'—'} | ${item.unexpected_residual_signatures?.length??'—'} | \`${item.result}\` |`),'',
+  '## Manual canonical residuals','',
   ...moduleReports.filter(item=>item.manual_candidate_count).flatMap(item=>[
     `### ${item.module}`,'',
-    ...(item.expected_manual_still_residual?.length?item.expected_manual_still_residual.map(value=>`- residual: \`${value}\``):['- No mapped manual candidate remained after strict-patch materialization.']),
-    ...(item.expected_manual_already_satisfied?.length?item.expected_manual_already_satisfied.map(value=>`- already satisfied by strict materialization side-effect: \`${value}\``):[]),'']),
+    ...(item.expected_manual_still_residual?.length?item.expected_manual_still_residual.map(value=>`- residual: \`${value}\``):['- No mapped manual candidate remained in an authoritative canonical collection after strict-patch materialization.']),
+    ...(item.expected_manual_already_satisfied?.length?item.expected_manual_already_satisfied.map(value=>`- already satisfied in authoritative canonical collections: \`${value}\``):[]),'']),
+  '## Legacy / derived mirror debt','',
+  ...moduleReports.filter(item=>(item.residual_legacy_mirror_leaf_mutations||0)>0).flatMap(item=>[
+    `### ${item.module}`,'',
+    ...item.legacy_mirror_residual_signatures.map(value=>`- signature: \`${value}\``),'',
+    ...item.legacy_mirror_residual_paths.map(value=>`  - path: \`${value}\``),'']),
+  'Mirror residuals are not ignored: they are separated from canonical equivalence because some legacy collections are historical/derived rather than authoritative. They remain a retirement blocker until public-output comparison or explicit mirror cleanup proves them safe.','',
   '## Provenance gate','',
   output.provenance_note
 ].join('\n');
 writeFileSync(join(dist,'overlay-migration-dry-run.md'),md+'\n','utf8');
-appendFileSync(join(dist,'health.txt'),`overlay_migration_dry_run=${pass?'pass':'fail'}\noverlay_migration_dry_run_exact_modules=${exactModules}\noverlay_migration_dry_run_partial_modules=${partialModules}\noverlay_migration_dry_run_failed_modules=${failedModules}\noverlay_migration_dry_run_operations=${operationCount}\noverlay_migration_dry_run_source_appends=${sourceAppendCount}\noverlay_migration_dry_run_manual=${manualCount}\noverlay_migration_dry_run_unexpected_residuals=${unexpectedResiduals}\noverlay_migration_dry_run_canonical_writes=0\n`,'utf8');
-console.log(`Overlay migration dry-run ${output.status}: exact=${exactModules}; partial=${partialModules}; failed=${failedModules}; ops=${operationCount}; sources=${sourceAppendCount}; manual=${manualCount}; unexpected=${unexpectedResiduals}`);
+appendFileSync(join(dist,'health.txt'),`overlay_migration_dry_run=${pass?'pass':'fail'}\noverlay_migration_dry_run_exact_modules=${exactModules}\noverlay_migration_dry_run_canonical_equivalent_mirror_debt=${canonicalEquivalentWithMirrorDebt}\noverlay_migration_dry_run_partial_modules=${partialModules}\noverlay_migration_dry_run_mirror_debt_modules=${mirrorDebtModules}\noverlay_migration_dry_run_failed_modules=${failedModules}\noverlay_migration_dry_run_operations=${operationCount}\noverlay_migration_dry_run_source_appends=${sourceAppendCount}\noverlay_migration_dry_run_manual=${manualCount}\noverlay_migration_dry_run_unexpected_residuals=${unexpectedResiduals}\noverlay_migration_dry_run_mirror_residual_signatures=${mirrorResidualSignatures}\noverlay_migration_dry_run_mirror_residual_leafs=${mirrorResidualLeafs}\noverlay_migration_dry_run_canonical_writes=0\noverlay_migration_dry_run_safe_to_retire=0\n`,'utf8');
+console.log(`Overlay migration dry-run ${output.status}: exact=${exactModules}; canonical+mirror=${canonicalEquivalentWithMirrorDebt}; partial=${partialModules}; mirror-debt=${mirrorDebtModules}; failed=${failedModules}; ops=${operationCount}; sources=${sourceAppendCount}; manual=${manualCount}; unexpected-canonical=${unexpectedResiduals}; mirror-signatures=${mirrorResidualSignatures}; mirror-leafs=${mirrorResidualLeafs}`);
 if(!pass)throw new Error(`OVERLAY_MIGRATION_DRY_RUN failed${fatal?`: ${fatal.message}`:''}`);
