@@ -71,15 +71,32 @@
       "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
       "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
       "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
-      "geography": ["Greenland","Arctic"],
-      "topics": ["UGV","THeMIS","LIDAR","ARCTIC","SHIP_TO_SHORE","MOBILITY","PATH_PLANNING","TECHNOLOGY_SIGNAL","USACE_ERDC"],
+      "geography": [
+        "Greenland",
+        "Arctic"
+      ],
+      "topics": [
+        "UGV",
+        "THeMIS",
+        "LIDAR",
+        "ARCTIC",
+        "SHIP_TO_SHORE",
+        "MOBILITY",
+        "PATH_PLANNING",
+        "TECHNOLOGY_SIGNAL",
+        "USACE_ERDC"
+      ],
       "publication_date": "2026-08-24T11:00:00",
       "event_time": "2026-08-17",
       "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
       "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
       "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
-      "source_ids": ["ENG-SRC-0513"],
-      "evidence_ids": ["ENG-EVID-0206"],
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0206"
+      ],
       "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
       "first_seen_run": "engineer-osint-20260826-B76",
       "last_updated_run": "engineer-osint-20260826-B76"
@@ -118,8 +135,12 @@
       "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED",
       "evidence_status_cs": "OVĚŘEN PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ TEXT",
       "evidence_status_en": "DIRECT PRIMARY OFFICIAL TEXT VERIFIED",
-      "related_ids": ["ENG-SIG-0034"],
-      "source_ids": ["ENG-SRC-0513"],
+      "related_ids": [
+        "ENG-SIG-0034"
+      ],
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
       "evidence_date": "2026-08-17",
       "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_AND_PUBLISHED_CAPTIONS_NO_PIXEL_OR_FRAME_INSPECTION",
       "observation_basis_cs": "PŘÍMÝ TEXT OFICIÁLNÍHO WEBU A PUBLIKOVANÉ POPISKY; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
@@ -152,15 +173,32 @@
       "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
       "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
       "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
-      "geography": ["Greenland","Arctic"],
-      "topics": ["UGV","THeMIS","LIDAR","ARCTIC","SHIP_TO_SHORE","MOBILITY","PATH_PLANNING","TECHNOLOGY_SIGNAL","USACE_ERDC"],
+      "geography": [
+        "Greenland",
+        "Arctic"
+      ],
+      "topics": [
+        "UGV",
+        "THeMIS",
+        "LIDAR",
+        "ARCTIC",
+        "SHIP_TO_SHORE",
+        "MOBILITY",
+        "PATH_PLANNING",
+        "TECHNOLOGY_SIGNAL",
+        "USACE_ERDC"
+      ],
       "publication_date": "2026-08-24T11:00:00",
       "event_time": "2026-08-17",
       "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
       "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
       "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
-      "source_ids": ["ENG-SRC-0513"],
-      "evidence_ids": ["ENG-EVID-0206"],
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0206"
+      ],
       "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
       "first_seen_run": "engineer-osint-20260826-B76",
       "last_updated_run": "engineer-osint-20260826-B76"
