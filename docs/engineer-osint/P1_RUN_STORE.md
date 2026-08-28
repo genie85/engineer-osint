@@ -34,6 +34,10 @@ An agent that cannot execute the repository helper must not fabricate hashes or 
 
 An immutable SUCCESS handoff with a narrowly missing non-factual QA field is not edited in place. Any publication waiver must be fail-closed, restricted to one explicitly approved run, pinned to the run identity, parent, repository file and canonical hashes, and backed by a hash-verified local snapshot of the original Drive report. The validator must label the waiver explicitly; it must not present an omitted field as if it had existed in the patch. Future runs and factual/schema/reference failures remain ineligible.
 
+### B88 one-run migration
+
+Run `engineer-osint-20260826-B88` is the sole approved exception to the preceding eligibility rule. Its immutable source mixed a lead update into the record `UPDATE` count, carried two source identifiers absent from both canonical source registries, and omitted the Czech `topic_cs` counterpart already available verbatim as `title_cs`. The published representation normalizes only those strict-intake and localization defects, exposes the original Drive file ID and SHA-256 under `extensions.intake_normalization_v1`, and is covered by a dedicated regression test and attestation. This migration does not create a reusable waiver mechanism; later schema, count, reference or PUBLIC-CZ failures remain ineligible.
+
 ## Research continuity versus publication continuity
 
 The Drive factual chain and the GitHub publication chain have separate tips:
