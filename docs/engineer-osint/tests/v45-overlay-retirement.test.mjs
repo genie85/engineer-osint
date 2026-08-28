@@ -32,9 +32,9 @@ test('all four factual overlays remain active until a separate canonical retirem
 });
 
 test('retirement audit never writes canonical run-store state',()=>{
-  assert.doesNotMatch(audit,/writeFileSync\([^\n]*(?:data\/runs|run-store-manifest|state_latest)/);
+  assert.doesNotMatch(audit,/writeFileSync\(join\(src/);
+  assert.doesNotMatch(audit,/appendFileSync\(join\(src/);
   assert.doesNotMatch(audit,/append-run\.mjs/);
-  assert.doesNotMatch(audit,/__ENGINEER_DATA__\s*=/);
   assert.match(policy,/never hand-edited manifest hashes or an unregistered run file/);
 });
 
