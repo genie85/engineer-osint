@@ -63,7 +63,15 @@ The dry-run deliberately uses synthetic 2099 run IDs and never calls `append-run
 - `overlay-migration-dry-run.md`
 - health markers `overlay_migration_dry_run_*`.
 
-After each synthetic strict patch, the corresponding legacy overlay is executed again against a clone of the simulated canonical state. Any remaining factual mutation must map to a candidate already classified for manual migration review. An unexpected residual is a CI failure. A module with no factual residual is classified `STRUCTURALLY_EQUIVALENT_PENDING_PROVENANCE_REVIEW`; this means only that the current strict contract can reproduce its runtime effect, **not** that the migration is authorized or that the cited sources have been verified for every field.
+After each synthetic strict patch, the corresponding legacy overlay is executed again against a clone of the simulated canonical state. Residuals are classified by storage role rather than being conflated:
+
+- **authoritative canonical residuals** are changes under the canonical collection locations used by the strict run-store contract. Every such residual must already be an explicitly mapped manual migration candidate; any unexpected canonical or unscoped residual is a CI failure;
+- **legacy/derived mirror residuals** are changes in compatibility or historical presentation collections outside those authoritative locations. They do not demonstrate that the strict canonical value is wrong, so they are reported separately instead of being misclassified as a canonical-equivalence failure;
+- **overlay metadata residuals** remain non-canonical bookkeeping.
+
+This separation does **not** weaken retirement safety. Legacy/derived mirror residuals remain explicit migration debt and continue to block overlay retirement until public-output comparison or an explicit mirror-cleanup slice proves that their removal cannot change intended public factual content. `safe_to_append` and `safe_to_retire_overlays` therefore remain false in the dry-run artifact.
+
+A module with no unexpected canonical residual can pass the structural canonical-equivalence gate even while manual-field or mirror debt remains. This means only that the current strict contract reproduces the mapped authoritative canonical values; it does **not** authorize migration, prove source provenance, or authorize removal of the overlay.
 
 The dry-run is therefore a structural gate between mapping and a real append-only migration. A real run may be prepared only after each candidate's provenance is independently checked against its supporting sources. Synthetic run IDs, synthetic operation IDs and dry-run QA metadata must never be copied into production run-store data.
 
