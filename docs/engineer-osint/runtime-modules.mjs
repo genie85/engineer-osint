@@ -53,6 +53,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-ui-v41-intelligence-module','ui-v41-intelligence.js'],
   ['engineer-ui-v42-situation-hubs-module','ui-v42-situation-hubs.js'],
   ['engineer-ui-v421-cleanup-module','ui-v421-cleanup.js'],
+  ['engineer-ui-v422-visual-polish-module','ui-v422-visual-polish.js'],
   ['engineer-i18n-runtime-switch-fix-module','i18n-runtime-switch-fix.js'],
   ['engineer-i18n-en-postrender-cleanup-module','i18n-en-postrender-cleanup.js'],
   ['engineer-public-cz-ui-canary-module','public-cz-ui-canary.js']
