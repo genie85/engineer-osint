@@ -58,6 +58,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-i18n-en-postrender-cleanup-module','i18n-en-postrender-cleanup.js'],
   ['engineer-ui-v423-nav-cleanup-module','ui-v423-nav-cleanup.js'],
   ['engineer-ui-v43-entity-detail-module','ui-v43-entity-detail.js'],
+  ['engineer-ui-v44-evidence-explorer-module','ui-v44-evidence-explorer.js'],
   ['engineer-public-cz-ui-canary-module','public-cz-ui-canary.js']
 ];
 
