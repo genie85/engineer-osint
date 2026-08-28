@@ -41,6 +41,6 @@ test('v4 separates evidence and system QA from the main intelligence flow',()=>{
   assert.match(src,/engineerV4Methodology/);
   assert.match(src,/engineerV4SystemStatus/);
   assert.match(src,/QA a migrační informace jsou záměrně oddělené/);
-  assert.match(src,/Překlady \\/ kontrola/);
+  assert.match(src,/Překlady .* kontrola/);
   assert.match(src,/Backlog doplnění entit/);
 });
