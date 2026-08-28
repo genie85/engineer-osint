@@ -47,13 +47,14 @@ test('v4.2 prefers canonical intelligence v1 and labels legacy fallback explicit
   assert.match(ui,/KOMPATIBILNÍ POHLED ZE STARŠÍCH POLÍ/);
 });
 
-test('v4.2 evidence is selected by explicit canonical relationships',()=>{
+test('v4.2 evidence is selected only by explicit canonical relationships to the geo record set',()=>{
   assert.match(ui,/related_ids/);
   assert.match(ui,/related_record_ids/);
   assert.match(ui,/record_id/);
   assert.match(ui,/related_record_id/);
   assert.match(ui,/target_id/);
-  assert.match(ui,/intersects\(relatedIds\(x\),ids\)/);
+  assert.match(ui,/evidence\(\)\.filter\(e=>intersects\(relatedIds\(e\),ids\)\)/);
+  assert.doesNotMatch(ui,/evidence\(\)\.filter\(e=>geoObject\(e,key,ids\)\)/);
 });
 
 test('v4.2 replaces the legacy geo renderer without mutating canonical data',()=>{
