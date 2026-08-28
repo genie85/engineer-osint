@@ -1,0 +1,156 @@
+(function(){
+  const lang=()=>window.ENGINEER_I18N?.getLanguage?.()||localStorage.getItem('engineer_osint_language')||'cs';
+  const cs=(a,b)=>lang()==='cs'?a:b;
+  let scheduled=false;
+
+  const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
+  const probe=node=>clean([node?.textContent,node?.dataset?.labelCs,node?.dataset?.labelEn].filter(Boolean).join(' | '));
+  const setLabel=(node,labelCs,labelEn)=>{
+    if(!node)return;
+    if(node.dataset){
+      if(node.dataset.labelCs!==labelCs)node.dataset.labelCs=labelCs;
+      if(node.dataset.labelEn!==labelEn)node.dataset.labelEn=labelEn;
+    }
+    const next=cs(labelCs,labelEn);
+    if(clean(node.textContent)!==next)node.textContent=next;
+  };
+
+  function injectStyle(){
+    if(document.getElementById('engineer-v423-nav-cleanup-style'))return;
+    const s=document.createElement('style');
+    s.id='engineer-v423-nav-cleanup-style';
+    s.textContent=`
+#engineerAnalysisToolsGroup{margin-top:4px!important;border-top:1px solid rgba(120,160,200,.12)!important;padding-top:4px!important}
+#engineerAnalysisToolsGroup>summary{font-size:.82rem!important;font-weight:600!important;color:#9fb2c5!important;padding-top:7px!important;padding-bottom:7px!important}
+#engineerAnalysisToolsGroup .v423-subnav{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:2px!important;padding:2px 0 2px 10px!important}
+#engineerAnalysisToolsGroup .v423-subnav>*{width:100%!important;margin:0!important;box-sizing:border-box!important}
+#engineerAnalysisToolsGroup .v423-subnav button{font-size:.91em!important;color:#b8c8d8!important}
+`;
+    document.head.appendChild(s);
+  }
+
+  function normalizeAnalysis(){
+    const root=document.getElementById('engineerCompactNav');
+    const analysis=root?.querySelector('#engineerAnalysisGroup .compact-subnav');
+    const hidden=root?.querySelector('#engineerLegacyHidden');
+    if(!root||!analysis||!hidden)return;
+
+    const labelRules=[
+      [/^Activity Feed$/i,'Aktivity','Activity Feed'],
+      [/^(?:Leads\s*\/\s*Watchlist|Watchlist\s*\/\s*Leads|Leady\s*\/\s*sledované položky)$/i,'Leady / sledované položky','Leads / Watchlist'],
+      [/^(?:Intelligence Gaps|INFORMAČNÍ MEZERY|Informační mezery)$/i,'Informační mezery','Intelligence Gaps']
+    ];
+    for(const b of analysis.querySelectorAll('button')){
+      const p=probe(b);
+      for(const [re,labelCs,labelEn] of labelRules){
+        if(!re.test(p))continue;
+        setLabel(b,labelCs,labelEn);
+        break;
+      }
+    }
+
+    for(const node of [...analysis.children]){
+      if(node.id==='engineerAnalysisToolsGroup')continue;
+      const p=probe(node);
+      if(/^(?:Země|Countries)(?:\s*\||$)/i.test(p)||/Téma:\s*Austrálie\s*\/\s*EOD|Topic:\s*Australia\s*\/\s*EOD/i.test(p)){
+        node.dataset.v423LegacyAnalysis='1';
+        hidden.appendChild(node);
+      }
+    }
+
+    let tools=document.getElementById('engineerAnalysisToolsGroup');
+    if(!tools){
+      tools=document.createElement('details');
+      tools.id='engineerAnalysisToolsGroup';
+      tools.innerHTML='<summary></summary><div class="v423-subnav"></div>';
+      analysis.appendChild(tools);
+    }
+    const summary=tools.querySelector('summary');
+    if(summary)summary.textContent=cs('Sledování a nástroje','Monitoring & tools');
+    const box=tools.querySelector('.v423-subnav');
+    const secondary=/Analytické nástroje|Intelligence tools|Vyspělost technologií|Technology maturity|Matice pokrytí|Coverage matrix|Activity Feed|Aktivity|Leads\s*\/\s*Watchlist|Leady\s*\/\s*sledované položky/i;
+    for(const node of [...analysis.children]){
+      if(node===tools)continue;
+      if(secondary.test(probe(node)))box.appendChild(node);
+    }
+    for(const node of [...box.children]){
+      const p=probe(node);
+      for(const [re,labelCs,labelEn] of labelRules){
+        if(!re.test(p))continue;
+        setLabel(node,labelCs,labelEn);
+        break;
+      }
+    }
+
+    const preferred=[
+      /Časová osa|Timeline/i,
+      /Schopnosti|Capabilities/i,
+      /Sledování trendů|Trend Watch/i,
+      /Téma:\s*EOD\s*\/\s*C-IED\s*\/\s*EOC\s*\/\s*EOR|EOD\s*\/\s*C-IED/i,
+      /Klíčová hodnocení|Key Assessments/i,
+      /Informační mezery|Intelligence Gaps/i,
+      /^Rozpory$|^Contradictions$/i
+    ];
+    for(const re of preferred){
+      const node=[...analysis.children].find(x=>x!==tools&&re.test(probe(x)));
+      if(node)analysis.insertBefore(node,tools);
+    }
+    analysis.appendChild(tools);
+  }
+
+  function dedupeSources(){
+    const root=document.getElementById('engineerCompactNav');
+    const evidence=root?.querySelector('#engineerMediaGroup .compact-subnav');
+    const hidden=root?.querySelector('#engineerLegacyHidden');
+    if(!evidence||!hidden)return;
+    const canonical=document.getElementById('engineerV4Sources');
+    const candidates=[...evidence.children].filter(node=>/^(?:Zdroje|Sources)(?:\s*\||$)/i.test(probe(node)));
+    const keep=canonical&&evidence.contains(canonical)?canonical:candidates[0];
+    for(const node of candidates){
+      if(node===keep)continue;
+      node.dataset.v423DuplicateSource='1';
+      hidden.appendChild(node);
+    }
+    if(keep)setLabel(keep,'Zdroje','Sources');
+  }
+
+  function normalizeFooter(){
+    const sidebar=document.getElementById('sidebar');
+    if(!sidebar)return;
+    for(const el of sidebar.querySelectorAll('*')){
+      if(el.children.length)continue;
+      const t=clean(el.textContent);
+      if(t==='Canonical source'||t==='Kanonický zdroj'){
+        const next=cs('Kanonický zdroj','Canonical source');
+        if(t!==next)el.textContent=next;
+      }
+    }
+  }
+
+  function apply(){
+    scheduled=false;
+    injectStyle();
+    normalizeAnalysis();
+    dedupeSources();
+    normalizeFooter();
+  }
+
+  function schedule(){
+    if(scheduled)return;
+    scheduled=true;
+    setTimeout(apply,0);
+  }
+
+  function install(){
+    apply();
+    const nav=document.getElementById('engineerCompactNav');
+    const sidebar=document.getElementById('sidebar');
+    if(nav)new MutationObserver(schedule).observe(nav,{childList:true,subtree:true,characterData:true});
+    if(sidebar)new MutationObserver(schedule).observe(sidebar,{childList:true,subtree:true,characterData:true});
+  }
+
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',install,{once:true}):install();
+  document.addEventListener('engineer-language-changed',schedule);
+  window.addEventListener('hashchange',schedule);
+  window.ENGINEER_V423_NAV_CLEANUP={install,apply,normalizeAnalysis,dedupeSources};
+})();
