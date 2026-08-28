@@ -1,0 +1,235 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260826-B76",
+    "parent_run_id": "engineer-osint-20260826-B75",
+    "status": "SUCCESS",
+    "window_from": "2026-08-26T01:12:06+02:00",
+    "window_to": "2026-08-26T13:10:16+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 1,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "COMPLETE_WITH_NORMAL_PUBLICATION_LAG",
+    "drive_parent_run_id": "engineer-osint-20260826-B75",
+    "factual_success_tip_before_run": "engineer-osint-20260826-B75",
+    "github_run_store_parent_run_id": "engineer-osint-20260825-B74",
+    "published_tip": "engineer-osint-20260825-B74",
+    "github_parent_canonical_sha256": "63d087b707905e6eb8fbb654863cff9ac74849dd3cbe8003914facc136ba8848",
+    "source_state": "ENGINEER_OSINT/_state/engineer_osint_state_latest.json",
+    "reconciliation_window_from": "2026-08-24T13:10:16+02:00",
+    "reconciliation_window_to": "2026-08-26T13:10:16+02:00",
+    "main_sha_at_start": "afc1f2ebf51df0fe28a2367e8ce3af4d66f893d0",
+    "publication_lag_before_run": 1,
+    "unpublished_success_chain_before_run": [
+      "engineer-osint-20260826-B75"
+    ],
+    "unpublished_success_chain_after_run": [
+      "engineer-osint-20260826-B75",
+      "engineer-osint-20260826-B76"
+    ]
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0034",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "title_cs": "USACE/CRREL testovalo THeMIS a LiDARové plánování tras pro arktické ship-to-shore operace",
+      "title_en": "USACE/CRREL tested THeMIS and LiDAR-assisted path planning for Arctic ship-to-shore operations",
+      "summary_cs": "Oficiální ERDC/CRREL zpráva zveřejněná 24. srpna 2026 popisuje test v Grónsku z 17. srpna, při němž tým ověřoval pasivní měření tloušťky ledu, plánování a validaci tras UGV a arktickou kamufláž. Vysokorozlišovací LiDAR podporoval plánování trasy THeMIS a validaci stávajících zimních algoritmů. Jde o R&D/testovací signál, nikoli důkaz operačního zavedení.",
+      "summary_en": "An official ERDC/CRREL report published on 24 August 2026 describes a 17 August test in Greenland covering passive ice-thickness sensing, UGV path planning and validation, and Arctic camouflage. High-resolution LiDAR aided THeMIS path planning and validation of existing winter path-planning algorithms. This is an R&D/testing signal, not evidence of operational fielding.",
+      "fact_cs": "CRREL veřejně uvedlo, že při arktickém ship-to-shore testu použilo vysokorozlišovací LiDAR pro plánování trasy UGV THeMIS a validaci zimních algoritmů plánování tras.",
+      "fact_en": "CRREL publicly stated that during an Arctic ship-to-shore test it used high-resolution LiDAR to aid THeMIS UGV path planning and validate winter path-planning algorithms.",
+      "analysis_cs": "Nález ukazuje pokračující institucionální výzkum kombinace UAS/LiDAR, autonomní či asistované pozemní mobility a arktické logistiky. Je relevantní pro ženijní mobilitu a provoz v austere/cold-region prostředí, ale veřejný zdroj neprokazuje přechod do sériového zavedení.",
+      "analysis_en": "The finding shows continuing institutional research combining UAS/LiDAR, autonomous or assisted ground mobility, and Arctic logistics. It is relevant to engineer mobility in austere/cold-region environments, but the public source does not establish transition to serial fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy výsledné metriky přesnosti/úspěšnosti, následné akviziční rozhodnutí, rozsah dalšího testování ani operační jednotky, které by řešení zavedly.",
+      "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
+      "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
+      "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
+      "geography": [
+        "Greenland",
+        "Arctic"
+      ],
+      "topics": [
+        "UGV",
+        "THeMIS",
+        "LIDAR",
+        "ARCTIC",
+        "SHIP_TO_SHORE",
+        "MOBILITY",
+        "PATH_PLANNING",
+        "TECHNOLOGY_SIGNAL",
+        "USACE_ERDC"
+      ],
+      "publication_date": "2026-08-24T11:00:00",
+      "event_time": "2026-08-17",
+      "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
+      "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0206"
+      ],
+      "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260826-B76",
+      "last_updated_run": "engineer-osint-20260826-B76"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0513",
+      "title": "CRREL team tests ship-to-shore methods and technologies in Greenland",
+      "title_cs": "CRREL testovalo technologie ship-to-shore v Grónsku",
+      "title_en": "CRREL team tests ship-to-shore methods and technologies in Greenland",
+      "publisher": "U.S. Army Engineer Research and Development Center / DVIDS",
+      "publication_date": "2026-08-24T11:00:00",
+      "event_date": "2026-08-17",
+      "accessed_at": "2026-08-26T13:10:16+02:00",
+      "url": "https://www.dvidshub.net/news/572586/crrel-team-tests-ship-shore-methods-and-technologies-greenland",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_USACE_DVIDS",
+      "source_family": "USACE_ERDC_CRREL_DVIDS_SAME_LINEAGE",
+      "role": "ARCTIC_UGV_PATH_PLANNING_AND_SHIP_TO_SHORE_TECHNOLOGY_TEST",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_cs": "OVĚŘEN PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT",
+      "temporal_status": "RECENT_HISTORICAL_BACKFILL_PUBLICATION_DATE_KNOWN_EVENT_DATE_KNOWN",
+      "first_seen_run": "engineer-osint-20260826-B76"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0206",
+      "evidence_id": "ENG-EVID-0206",
+      "evidence_type": "PRIMARY_OFFICIAL_ARCTIC_UGV_TEST_REPORT",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED",
+      "evidence_status_cs": "OVĚŘEN PŘÍMÝ PRIMÁRNÍ OFICIÁLNÍ TEXT",
+      "evidence_status_en": "DIRECT PRIMARY OFFICIAL TEXT VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0034"
+      ],
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
+      "evidence_date": "2026-08-17",
+      "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_AND_PUBLISHED_CAPTIONS_NO_PIXEL_OR_FRAME_INSPECTION",
+      "observation_basis_cs": "PŘÍMÝ TEXT OFICIÁLNÍHO WEBU A PUBLIKOVANÉ POPISKY; BEZ PIXELOVÉ NEBO SNÍMKOVÉ INSPEKCE",
+      "observation_basis_en": "DIRECT OFFICIAL WEB TEXT AND PUBLISHED CAPTIONS; NO PIXEL OR FRAME INSPECTION",
+      "what_it_supports_cs": "Podporuje, že CRREL při arktickém ship-to-shore testu ověřovalo plánování a validaci tras UGV a použilo vysokorozlišovací LiDAR pro plánování pohybu THeMIS a validaci zimních algoritmů plánování tras.",
+      "what_it_supports_en": "Supports that CRREL tested UGV path planning and validation during an Arctic ship-to-shore event and used high-resolution LiDAR to aid THeMIS path planning and validate winter path-planning algorithms.",
+      "what_it_does_not_prove_cs": "Neprokazuje operační zavedení, bojovou účinnost, akviziční rozhodnutí ani standardizované nasazení THeMIS nebo těchto algoritmů v ozbrojených silách.",
+      "what_it_does_not_prove_en": "Does not establish operational fielding, combat effectiveness, procurement decisions, or standardized force-wide use of THeMIS or the tested algorithms.",
+      "confidence": "HIGH_FOR_TEST_OCCURRENCE_AND_REPORTED_OBJECTIVES_LOW_FOR_FUTURE_FIELDING",
+      "first_seen_run": "engineer-osint-20260826-B76"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [
+    {
+      "id": "ENG-SIG-0034",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "title_cs": "USACE/CRREL testovalo THeMIS a LiDARové plánování tras pro arktické ship-to-shore operace",
+      "title_en": "USACE/CRREL tested THeMIS and LiDAR-assisted path planning for Arctic ship-to-shore operations",
+      "summary_cs": "Oficiální ERDC/CRREL zpráva zveřejněná 24. srpna 2026 popisuje test v Grónsku z 17. srpna, při němž tým ověřoval pasivní měření tloušťky ledu, plánování a validaci tras UGV a arktickou kamufláž. Vysokorozlišovací LiDAR podporoval plánování trasy THeMIS a validaci stávajících zimních algoritmů. Jde o R&D/testovací signál, nikoli důkaz operačního zavedení.",
+      "summary_en": "An official ERDC/CRREL report published on 24 August 2026 describes a 17 August test in Greenland covering passive ice-thickness sensing, UGV path planning and validation, and Arctic camouflage. High-resolution LiDAR aided THeMIS path planning and validation of existing winter path-planning algorithms. This is an R&D/testing signal, not evidence of operational fielding.",
+      "fact_cs": "CRREL veřejně uvedlo, že při arktickém ship-to-shore testu použilo vysokorozlišovací LiDAR pro plánování trasy UGV THeMIS a validaci zimních algoritmů plánování tras.",
+      "fact_en": "CRREL publicly stated that during an Arctic ship-to-shore test it used high-resolution LiDAR to aid THeMIS UGV path planning and validate winter path-planning algorithms.",
+      "analysis_cs": "Nález ukazuje pokračující institucionální výzkum kombinace UAS/LiDAR, autonomní či asistované pozemní mobility a arktické logistiky. Je relevantní pro ženijní mobilitu a provoz v austere/cold-region prostředí, ale veřejný zdroj neprokazuje přechod do sériového zavedení.",
+      "analysis_en": "The finding shows continuing institutional research combining UAS/LiDAR, autonomous or assisted ground mobility, and Arctic logistics. It is relevant to engineer mobility in austere/cold-region environments, but the public source does not establish transition to serial fielding.",
+      "intelligence_gaps_cs": "Nejsou veřejně doloženy výsledné metriky přesnosti/úspěšnosti, následné akviziční rozhodnutí, rozsah dalšího testování ani operační jednotky, které by řešení zavedly.",
+      "intelligence_gaps_en": "Public sources do not provide resulting accuracy/success metrics, follow-on procurement decisions, the scale of further testing, or operational units fielding the solution.",
+      "what_it_does_not_prove_cs": "Neprokazuje bojové použití, readiness, standardizaci ani plošné zavedení.",
+      "what_it_does_not_prove_en": "It does not establish combat use, readiness, standardization, or force-wide fielding.",
+      "geography": [
+        "Greenland",
+        "Arctic"
+      ],
+      "topics": [
+        "UGV",
+        "THeMIS",
+        "LIDAR",
+        "ARCTIC",
+        "SHIP_TO_SHORE",
+        "MOBILITY",
+        "PATH_PLANNING",
+        "TECHNOLOGY_SIGNAL",
+        "USACE_ERDC"
+      ],
+      "publication_date": "2026-08-24T11:00:00",
+      "event_time": "2026-08-17",
+      "temporal_status": "HISTORICAL_BACKFILL_RECENT_DISCOVERY_EVENT_DATE_SEPARATE_FROM_PUBLICATION_DATE",
+      "classification": "FACT_FROM_PRIMARY_OFFICIAL_USACE_ERDC_REPORT",
+      "confidence": "HIGH_FOR_REPORTED_TEST_MEDIUM_FOR_TECHNOLOGY_MATURITY_LOW_FOR_OPERATIONAL_FIELDING",
+      "source_ids": [
+        "ENG-SRC-0513"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0206"
+      ],
+      "publication_safety": "PUBLIC_OK_HISTORICAL_AGGREGATED",
+      "first_seen_run": "engineer-osint-20260826-B76",
+      "last_updated_run": "engineer-osint-20260826-B76"
+    }
+  ],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "publication_safety": "PASS_PUBLIC_OK",
+    "bilingual_precheck": "PASS_NEW_PUBLIC_TEXT_CS_EN_COMPLETE",
+    "public_cz_ratchet_status": "PRECHECK_PASS_REPOSITORY_RATCHET_PENDING_MATERIALIZATION",
+    "repository_native_validation": "PENDING_GITHUB_PUBLICATION_OF_OLDER_B75_FIRST",
+    "telegram_status": "TELEGRAM_SWEEP_NOT_ACCESSIBLE_WEB_INDEX_DISCOVERY_ONLY",
+    "social_discovery_status": "WEB_INDEX_DISCOVERY_COMPLETE_NO_CANONICAL_SOCIAL_PROMOTION",
+    "direct_image_inspection": 0,
+    "direct_video_frame_inspection": 0,
+    "visual_status": "OFFICIAL_CAPTIONS_DISCOVERED_NO_DIRECT_PIXEL_INSPECTION_NO_VISUAL_PROMOTION",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "doctrine_stanag_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "russia_ukraine_status": "SWEEP_COMPLETE_NO_NEW_SAFE_QUALIFIED_ITEM_BEFORE_RUN_CUTOFF",
+    "czech_status": "SWEEP_COMPLETE_NO_NEW_CANONICAL_ITEM",
+    "nato_other_status": "SWEEP_COMPLETE_ONE_US_ARCTIC_ENGINEER_TECH_SIGNAL",
+    "lead_001_canonicalization": {
+      "status": "STOPPED_ALREADY_CANONICALIZED_IN_B75_REVIEW_REQUIRED_FOR_ANY_FURTHER_ACTION",
+      "reason": "Live Drive LEAD-001 already contains the reviewed claim and FACTUAL_SUCCESS_TIP advanced from B74 to B75; the GitHub handoff still declares PENDING against B74.",
+      "claim_present": "LEAD-001-CLAIM-EODCOE-ANALYSIS",
+      "action_taken": "NO_REAPPLICATION_NO_OVERLAY_REMOVAL"
+    },
+    "clock_discipline_note": "ArmyInform underwater-demining item stamped 2026-08-26 13:11 was observed by search before the run cutoff and is later than this run's local cutoff; it was excluded from B76 and left for a subsequent run.",
+    "osint_safety_note_cs": "Nebyla publikována přesná aktuální taktická poloha/pohyb, zneužitelná zranitelnost ani praktický nebezpečný návod.",
+    "osint_safety_note_en": "No precise current tactical location/movement, exploitable vulnerability, or actionable dangerous instruction was published."
+  }
+}
