@@ -40,6 +40,10 @@ data.dashboard_materialization={
 validatePublicUrls(data);
 html=html.slice(0,start+marker.length)+safeInlineJson(data)+html.slice(end);
 
+const intelligenceStatus=data.intelligence_materialization?.status==='ACTIVE'?'active':'ready-not-materialized';
+const assessmentCount=Array.isArray(data.assessments?.assessments)?data.assessments.assessments.length:0;
+const gapCount=Array.isArray(data.intelligence_gaps?.gaps)?data.intelligence_gaps.gaps.length:0;
+const contradictionCount=Array.isArray(data.contradictions?.contradictions)?data.contradictions.contradictions.length:0;
 const mobile=`<script>(function(){function i(){const s=document.getElementById('sidebar');if(!s)return;let c=document.getElementById('engineerMenuClose');if(!c){c=document.createElement('button');c.id='engineerMenuClose';c.textContent='×';c.style.cssText='position:absolute;top:12px;right:12px;width:40px;height:40px;z-index:9999;font-size:26px';s.appendChild(c)}const shut=()=>s.classList.remove('open');c.onclick=shut;s.querySelectorAll('nav a,nav button').forEach(x=>x.addEventListener('click',shut));document.addEventListener('keydown',e=>e.key==='Escape'&&shut())}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',i):i()})();</script>`;
 html=html.replace('</body>',mobile+'</body>');
 writeFileSync(join(output,'index.html'),html,'utf8');
@@ -62,6 +66,11 @@ legacy_history_status=${report.legacy_status}
 legacy_malformed_revisions=${report.malformed_patch_shas.length}
 legacy_duplicate_runs=${report.duplicate_run_ids.length}
 legacy_parent_gaps=${report.parent_discontinuities.length+(report.external_checkpoint_parent?1:0)}
+intelligence_v1_contract=ready
+intelligence_v1_status=${intelligenceStatus}
+canonical_assessments=${assessmentCount}
+canonical_intelligence_gaps=${gapCount}
+canonical_contradictions=${contradictionCount}
 presentation_fact_overlay_gap=open
 presentation_bootstrap_pb_overlay=retired
 mobile_menu_fix=enabled

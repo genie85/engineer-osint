@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genie85.github.io/engineer-osint/schemas/intelligence-v1.schema.json",
+  "title": "ENGINEER OSINT intelligence extension v1",
+  "type": "object",
+  "required": ["assessments", "gaps", "contradictions"],
+  "properties": {
+    "assessments": {"type": "array", "items": {"$ref": "#/$defs/assessment"}},
+    "gaps": {"type": "array", "items": {"$ref": "#/$defs/gap"}},
+    "contradictions": {"type": "array", "items": {"$ref": "#/$defs/contradiction"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stringArray": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "assessment": {
+      "type": "object",
+      "required": ["assessment_id", "confidence", "supporting_evidence_ids", "source_ids", "last_reviewed"],
+      "properties": {
+        "assessment_id": {"type": "string", "pattern": "^ENG-ASMT-[A-Za-z0-9._-]+$"},
+        "assessment": {"type": "string", "minLength": 1},
+        "assessment_cs": {"type": "string", "minLength": 1},
+        "assessment_en": {"type": "string", "minLength": 1},
+        "title_cs": {"type": "string"},
+        "title_en": {"type": "string"},
+        "confidence": {"type": "string", "minLength": 1},
+        "supporting_evidence_ids": {"$ref": "#/$defs/stringArray"},
+        "source_ids": {"$ref": "#/$defs/stringArray"},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "what_could_change_assessment_cs": {"type": "string"},
+        "what_could_change_assessment_en": {"type": "string"},
+        "limitations_cs": {"type": "string"},
+        "limitations_en": {"type": "string"},
+        "geography": {"$ref": "#/$defs/stringArray"},
+        "topics": {"$ref": "#/$defs/stringArray"},
+        "valid_from": {"type": "string"},
+        "valid_to": {"type": "string"},
+        "last_reviewed": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "gap": {
+      "type": "object",
+      "required": ["gap_id", "priority", "status", "related_ids", "sources_checked", "first_opened", "last_checked"],
+      "properties": {
+        "gap_id": {"type": "string", "pattern": "^ENG-GAP-[A-Za-z0-9._-]+$"},
+        "question": {"type": "string", "minLength": 1},
+        "question_cs": {"type": "string", "minLength": 1},
+        "question_en": {"type": "string", "minLength": 1},
+        "priority": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "sources_checked": {"$ref": "#/$defs/stringArray"},
+        "required_evidence_cs": {"type": "string"},
+        "required_evidence_en": {"type": "string"},
+        "next_action_cs": {"type": "string"},
+        "next_action_en": {"type": "string"},
+        "geography": {"$ref": "#/$defs/stringArray"},
+        "topics": {"$ref": "#/$defs/stringArray"},
+        "first_opened": {"type": "string", "minLength": 1},
+        "last_checked": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "contradiction": {
+      "type": "object",
+      "required": ["contradiction_id", "source_a_ids", "source_b_ids", "status", "date_identified", "confidence"],
+      "properties": {
+        "contradiction_id": {"type": "string", "pattern": "^ENG-CONTRA-[A-Za-z0-9._-]+$"},
+        "topic": {"type": "string", "minLength": 1},
+        "topic_cs": {"type": "string", "minLength": 1},
+        "topic_en": {"type": "string", "minLength": 1},
+        "claim_a": {"type": "string", "minLength": 1},
+        "claim_a_cs": {"type": "string", "minLength": 1},
+        "claim_a_en": {"type": "string", "minLength": 1},
+        "claim_b": {"type": "string", "minLength": 1},
+        "claim_b_cs": {"type": "string", "minLength": 1},
+        "claim_b_en": {"type": "string", "minLength": 1},
+        "source_a_ids": {"$ref": "#/$defs/stringArray"},
+        "source_b_ids": {"$ref": "#/$defs/stringArray"},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "status": {"type": "string", "minLength": 1},
+        "date_identified": {"type": "string", "minLength": 1},
+        "possible_explanations_cs": {"type": "string"},
+        "possible_explanations_en": {"type": "string"},
+        "resolution_cs": {"type": "string"},
+        "resolution_en": {"type": "string"},
+        "confidence": {"type": "string", "minLength": 1},
+        "geography": {"$ref": "#/$defs/stringArray"},
+        "topics": {"$ref": "#/$defs/stringArray"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

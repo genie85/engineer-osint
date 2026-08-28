@@ -73,6 +73,16 @@
         "operations_v1": {
           "type": "array",
           "items": {"$ref": "#/$defs/operationV1"}
+        },
+        "intelligence_v1": {
+          "type": "object",
+          "required": ["assessments", "gaps", "contradictions"],
+          "properties": {
+            "assessments": {"type": "array", "items": {"$ref": "#/$defs/assessmentV1"}},
+            "gaps": {"type": "array", "items": {"$ref": "#/$defs/gapV1"}},
+            "contradictions": {"type": "array", "items": {"$ref": "#/$defs/contradictionV1"}}
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": true
@@ -80,19 +90,76 @@
   },
   "$defs": {
     "nonNegativeInteger": {"type": "integer", "minimum": 0},
+    "stringArray": {"type": "array", "items": {"type": "string", "minLength": 1}},
     "idItem": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "relationItem": {"type": "object", "required": ["relation_id"], "properties": {"relation_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "evidenceItem": {"type": "object", "required": ["evidence_id"], "properties": {"evidence_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "visualItem": {"type": "object", "required": ["asset_id"], "properties": {"asset_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "mediaItem": {"type": "object", "required": ["media_id"], "properties": {"media_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
     "leadItem": {"type": "object", "required": ["lead_id"], "properties": {"lead_id": {"type": "string", "minLength": 1}}, "additionalProperties": true},
+    "assessmentV1": {
+      "type": "object",
+      "required": ["assessment_id", "confidence", "supporting_evidence_ids", "source_ids", "last_reviewed"],
+      "properties": {
+        "assessment_id": {"type": "string", "pattern": "^ENG-ASMT-[A-Za-z0-9._-]+$"},
+        "assessment": {"type": "string", "minLength": 1},
+        "assessment_cs": {"type": "string", "minLength": 1},
+        "assessment_en": {"type": "string", "minLength": 1},
+        "confidence": {"type": "string", "minLength": 1},
+        "supporting_evidence_ids": {"$ref": "#/$defs/stringArray"},
+        "source_ids": {"$ref": "#/$defs/stringArray"},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "last_reviewed": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "gapV1": {
+      "type": "object",
+      "required": ["gap_id", "priority", "status", "related_ids", "sources_checked", "first_opened", "last_checked"],
+      "properties": {
+        "gap_id": {"type": "string", "pattern": "^ENG-GAP-[A-Za-z0-9._-]+$"},
+        "question": {"type": "string", "minLength": 1},
+        "question_cs": {"type": "string", "minLength": 1},
+        "question_en": {"type": "string", "minLength": 1},
+        "priority": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "sources_checked": {"$ref": "#/$defs/stringArray"},
+        "first_opened": {"type": "string", "minLength": 1},
+        "last_checked": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "contradictionV1": {
+      "type": "object",
+      "required": ["contradiction_id", "source_a_ids", "source_b_ids", "status", "date_identified", "confidence"],
+      "properties": {
+        "contradiction_id": {"type": "string", "pattern": "^ENG-CONTRA-[A-Za-z0-9._-]+$"},
+        "topic": {"type": "string", "minLength": 1},
+        "topic_cs": {"type": "string", "minLength": 1},
+        "topic_en": {"type": "string", "minLength": 1},
+        "claim_a": {"type": "string", "minLength": 1},
+        "claim_a_cs": {"type": "string", "minLength": 1},
+        "claim_a_en": {"type": "string", "minLength": 1},
+        "claim_b": {"type": "string", "minLength": 1},
+        "claim_b_cs": {"type": "string", "minLength": 1},
+        "claim_b_en": {"type": "string", "minLength": 1},
+        "source_a_ids": {"$ref": "#/$defs/stringArray"},
+        "source_b_ids": {"$ref": "#/$defs/stringArray"},
+        "related_ids": {"$ref": "#/$defs/stringArray"},
+        "status": {"type": "string", "minLength": 1},
+        "date_identified": {"type": "string", "minLength": 1},
+        "confidence": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
     "operationV1": {
       "type": "object",
       "required": ["operation_id", "op", "collection", "target_id", "reason", "source_ids"],
       "properties": {
         "operation_id": {"type": "string", "pattern": "^ENG-OP-[A-Za-z0-9._-]+$"},
         "op": {"enum": ["REPLACE_FIELD", "REMOVE_REFERENCE", "RETRACT"]},
-        "collection": {"enum": ["records", "sources", "relations", "evidence", "visuals", "media", "technology_signals", "leads", "observed_minimum", "lessons_learned"]},
+        "collection": {"enum": ["records", "sources", "relations", "evidence", "visuals", "media", "technology_signals", "leads", "observed_minimum", "lessons_learned", "assessments", "gaps", "contradictions"]},
         "target_id": {"type": "string", "minLength": 1},
         "field": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"},
         "value": {},
@@ -103,5 +170,5 @@
     }
   },
   "additionalProperties": false,
-  "$comment": "The stdlib validator additionally enforces stable identifiers, counts, RFC 3339 windows and safe URL protocols. Versioned additions belong under extensions."
+  "$comment": "The stdlib validator additionally enforces stable identifiers, counts, RFC 3339 windows and safe URL protocols. Versioned additions belong under extensions. intelligence_v1 is hash-preserving for historical runs because it materializes only when present."
 }
