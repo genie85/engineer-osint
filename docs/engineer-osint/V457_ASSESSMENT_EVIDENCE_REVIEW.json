@@ -1,0 +1,94 @@
+{
+  "schema_version": "engineer-osint-assessment-evidence-review-v1",
+  "policy": "EVIDENCE_MUST_PRECEDE_ASSESSMENT_AND_REMAIN_SOURCE_SCOPED",
+  "reviewed_at": "2026-08-30",
+  "candidate_run_id": "engineer-osint-20260830-B98",
+  "expected_parent_run_id": "engineer-osint-20260830-B97",
+  "persistent_tip_required": "engineer-osint-20260826-B95",
+  "evidence_candidates": [
+    {
+      "key": "TURKIYE_EUPHRATES_SOURCE_SCOPE",
+      "related_id": "ENG-EVT-0021",
+      "source_ids": ["RICH-SRC-012"],
+      "evidence_date": "2026-07-09",
+      "evidence_type": "PRIMARY_OFFICIAL_FLOATING_BRIDGE_EVENT_SOURCE_SCOPE",
+      "evidence_status": "CURATED_DIRECT_PRIMARY_SOURCE_SCOPE_REVIEWED",
+      "observation_basis": "CURATED_PRIMARY_OFFICIAL_WEB_TEXT_REVIEW_V453_NO_PIXEL_INSPECTION",
+      "what_it_supports_cs": "Podporuje, že turecké ministerstvo obrany veřejně připsalo 2. armádní ženijní brigádě dokončení 240m plovoucího mostu přes Eufrat v Dajr az-Zauru a uvedlo plánované otevření po kontrolních přejezdech.",
+      "what_it_supports_en": "Supports that the Turkish Ministry of National Defence publicly attributed completion of a 240 m floating bridge over the Euphrates in Deir ez-Zor to the 2nd Army Engineer Brigade and stated planned opening after control crossings.",
+      "what_it_does_not_prove_cs": "Ve zrevidovaném veřejném sdělení nejsou identifikovány model mostního systému, počet modulů, MLC, doba výstavby, dopravní kapacita, trajektová konfigurace ani zamýšlená délka provozu. Jde o limit rozsahu tohoto zdroje, nikoli důkaz, že tyto údaje neexistovaly nebo nebyly známy jinak.",
+      "what_it_does_not_prove_en": "The reviewed public statement does not identify the bridge-system model, module count, MLC, construction time, traffic capacity, ferry configuration, or intended duration. This is a limitation of this source's public scope, not evidence that those attributes did not exist or were unknown elsewhere.",
+      "confidence": "HIGH_FOR_REVIEWED_PUBLIC_SOURCE_SCOPE"
+    },
+    {
+      "key": "USA_DRONE_BANGALORE_OFFICIAL_DEMONSTRATION",
+      "related_id": "ENG-SIG-0006",
+      "source_ids": ["RICH-SRC-015"],
+      "evidence_date": "2026-06-25",
+      "evidence_type": "PRIMARY_OFFICIAL_DRONE_DELIVERED_BANGALORE_PROOF_OF_CONCEPT",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_REVIEWED",
+      "observation_basis": "DIRECT_OFFICIAL_ARMY_EUROPE_AFRICA_DVIDS_METADATA_TEXT_NO_FRAME_INSPECTION",
+      "what_it_supports_cs": "Podporuje, že Bravo Company, 741st Brigade Engineer Battalion při výročním výcviku 22. června 2026 demonstrovala proof-of-concept s těžkým dronem pro dálkové dopravení a odpálení ostrého Bangalore torpéda; oficiální popis uvádí snížení rizika pro vojáky při překonávání drátěných překážek a zkoumání budoucích TTP.",
+      "what_it_supports_en": "Supports that Bravo Company, 741st Brigade Engineer Battalion demonstrated during annual training on 22 June 2026 a proof-of-concept using a heavy-lift drone to remotely deliver and detonate a live Bangalore torpedo; the official description states risk reduction for Soldiers during wire-obstacle breaches and exploration of future TTP.",
+      "what_it_does_not_prove_cs": "Neprokazuje plošné zavedení v U.S. Army, program of record, schválenou doktrínu nebo TTP, odolnost proti elektronickému boji, výkon v contested electromagnetic prostředí ani schválení jako náhrady standardních demoličních nebo UAS postupů.",
+      "what_it_does_not_prove_en": "Does not establish Army-wide fielding, program-of-record status, approved doctrine or TTP, electronic-warfare resilience, performance in a contested electromagnetic environment, or approval as a replacement for standard demolition or UAS procedures.",
+      "confidence": "HIGH_FOR_OFFICIAL_DEMONSTRATION_AND_STATED_PURPOSE_LOW_FOR_BROADER_ADOPTION"
+    }
+  ],
+  "assessment_candidates": [
+    {
+      "key": "EVT0021_SOURCE_SCOPE_LIMITATION",
+      "related_ids": ["ENG-EVT-0021"],
+      "evidence_key": "TURKIYE_EUPHRATES_SOURCE_SCOPE",
+      "source_ids": ["RICH-SRC-012"],
+      "legacy_field": "what_it_does_not_prove",
+      "assessment": "The July 2026 Turkish MoD item establishes the 240 m floating-bridge event and responsible engineer brigade, but the reviewed public statement is insufficient to infer the bridge-system model, module count, MLC, construction time, traffic capacity, ferry configuration, or intended duration.",
+      "assessment_cs": "Červencové sdělení tureckého ministerstva obrany z roku 2026 dokládá událost s 240m plovoucím mostem a odpovědnou ženijní brigádu, ale rozsah zrevidovaného veřejného sdělení nestačí k odvození modelu mostního systému, počtu modulů, MLC, doby výstavby, dopravní kapacity, trajektové konfigurace ani zamýšlené délky provozu.",
+      "confidence": "HIGH_FOR_SOURCE_SCOPE_LIMITATION",
+      "limitations": "This assessment is about what the reviewed public source establishes; it is not a claim that the undisclosed attributes were absent in reality."
+    },
+    {
+      "key": "SIG0006_WHY_IT_MATTERS_NARROWED",
+      "related_ids": ["ENG-SIG-0006"],
+      "evidence_key": "USA_DRONE_BANGALORE_OFFICIAL_DEMONSTRATION",
+      "source_ids": ["RICH-SRC-015"],
+      "legacy_field": "why_it_matters",
+      "assessment": "The proof-of-concept is analytically relevant because the official material explicitly frames remote drone delivery of a live Bangalore as a way to reduce Soldier exposure during wire-obstacle breaching and as experimentation with future tactics, techniques, and procedures.",
+      "assessment_cs": "Proof-of-concept je analyticky relevantní, protože oficiální materiál výslovně rámuje dálkové dopravení ostrého Bangalore dronem jako způsob snížení expozice vojáků při překonávání drátěných překážek a jako experimentování s budoucími taktikami, technikami a postupy.",
+      "confidence": "HIGH_FOR_STATED_RISK_REDUCTION_AND_EXPERIMENTATION_PURPOSE",
+      "limitations": "This does not establish Army-wide adoption, operational fielding, or doctrinal approval."
+    },
+    {
+      "key": "SIG0006_STAFF_RELEVANCE_NARROWED",
+      "related_ids": ["ENG-SIG-0006"],
+      "evidence_key": "USA_DRONE_BANGALORE_OFFICIAL_DEMONSTRATION",
+      "source_ids": ["RICH-SRC-015"],
+      "legacy_field": "staff_relevance",
+      "assessment": "For engineer staff analysis, the event is a unit-level risk-reduction and experimentation data point for remote delivery of a breaching effect. It should not be treated as an approved Army-wide capability, doctrine, or fielded standard.",
+      "assessment_cs": "Pro ženijní štábní analýzu je událost jednotkovým datovým bodem k redukci rizika a experimentování s dálkovým dopravením průrazného účinku. Nemá být interpretována jako schválená celoarmádní schopnost, doktrína nebo zavedený standard.",
+      "confidence": "MODERATE_HIGH",
+      "limitations": "The reviewed source does not establish electronic-warfare resilience or performance in a contested electromagnetic environment; those legacy implications are deliberately excluded."
+    },
+    {
+      "key": "SIG0006_TRAINING_RELEVANCE_NARROWED",
+      "related_ids": ["ENG-SIG-0006"],
+      "evidence_key": "USA_DRONE_BANGALORE_OFFICIAL_DEMONSTRATION",
+      "source_ids": ["RICH-SRC-015"],
+      "legacy_field": "training_relevance",
+      "assessment": "For training analysis, the event is a documented annual-training case of integrating a heavy-lift UAS with a live engineer breaching charge while exploring future TTP. It can inform experimentation design but does not replace approved demolition or UAS procedures.",
+      "assessment_cs": "Pro analýzu výcviku je událost zdokumentovaným případem integrace těžkého UAS s ostrou ženijní průraznou náloží během výročního výcviku při zkoumání budoucích TTP. Může sloužit jako podklad pro návrh experimentů, ale nenahrazuje schválené demoliční ani UAS postupy.",
+      "confidence": "MODERATE_HIGH",
+      "limitations": "No claim is made here about contested-electromagnetic performance, approved procedures, or broader Army adoption."
+    }
+  ],
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_invoked": false,
+    "persistent_evidence_created": false,
+    "persistent_assessments_created": false,
+    "safe_to_append_stage_a": false,
+    "safe_to_append_stage_b": false,
+    "safe_to_append_stage_c": false,
+    "safe_to_retire_overlays": false
+  }
+}
