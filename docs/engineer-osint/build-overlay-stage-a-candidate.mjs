@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync} from 'node:fs';
+import {appendFileSync,readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
@@ -85,4 +85,5 @@ const meta={
   production_operation_ids_generated:true,production_run_id_proposed:true,safe_to_append:false,safe_to_retire_overlays:false
 };
 writeFileSync(join(dist,'overlay-stage-a-patch-candidate-meta.json'),JSON.stringify(meta,null,2)+'\n','utf8');
+appendFileSync(join(dist,'health.txt'),`overlay_stage_a_candidate=pass\noverlay_stage_a_candidate_run=${meta.candidate_run_id}\noverlay_stage_a_candidate_parent=${meta.parent_run_id}\noverlay_stage_a_candidate_ops=${meta.operation_count}\noverlay_stage_a_candidate_sources=${meta.source_append_count}\noverlay_stage_a_candidate_stage_b_pending=${meta.stage_b_intelligence_candidates}\noverlay_stage_a_candidate_no_write=${meta.explicit_no_write_candidates}\noverlay_stage_a_candidate_safe_to_append=0\noverlay_stage_a_candidate_safe_to_retire=0\noverlay_stage_a_candidate_canonical_writes=0\n`,'utf8');
 console.log(`Stage A patch candidate PASS: run=${meta.candidate_run_id}; parent=${meta.parent_run_id}; ops=${meta.operation_count}; sources=${meta.source_append_count}; file_sha256=${meta.candidate_file_sha256}; safe-to-append=NO`);
