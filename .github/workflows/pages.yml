@@ -83,6 +83,9 @@ jobs:
       - name: Strict dry-run overlay canonical migration
         run: node docs/engineer-osint/audit-overlay-migration-dry-run.mjs
 
+      - name: Audit overlay provenance readiness
+        run: node docs/engineer-osint/audit-overlay-provenance.mjs
+
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
 
@@ -106,10 +109,13 @@ jobs:
           test -s docs/engineer-osint-dist/overlay-migration-map.md
           test -s docs/engineer-osint-dist/overlay-migration-dry-run.json
           test -s docs/engineer-osint-dist/overlay-migration-dry-run.md
+          test -s docs/engineer-osint-dist/overlay-provenance-audit.json
+          test -s docs/engineer-osint-dist/overlay-provenance-audit.md
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/overlay-retirement-audit.md
           sed -n '1,140p' docs/engineer-osint-dist/overlay-migration-map.md
           cat docs/engineer-osint-dist/overlay-migration-dry-run.md
+          cat docs/engineer-osint-dist/overlay-provenance-audit.md
           cat docs/engineer-osint-dist/media-history-audit.md
           cat docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
@@ -128,6 +134,11 @@ jobs:
           grep -q 'overlay_migration_dry_run=pass' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_migration_dry_run_canonical_writes=0' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_migration_dry_run_safe_to_retire=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_provenance_audit=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_provenance_unclassified=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_provenance_integrity_errors=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_provenance_safe_to_append=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_provenance_canonical_writes=0' docs/engineer-osint-dist/health.txt
           grep -q 'localization_mutation_violations=0' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_export_snapshot=legacy-overlay-resolved' docs/engineer-osint-dist/health.txt
           grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
@@ -146,6 +157,7 @@ jobs:
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-retirement-audit.json','utf8')); if(q.status!=='PASS'||q.policy!=='ZERO_CURRENT_MUTATIONS_REQUIRED_BEFORE_RUNTIME_RETIREMENT') throw new Error('overlay retirement audit invalid'); if(q.module_count!==q.ready_count+q.blocked_count) throw new Error('overlay retirement audit count mismatch'); console.log('Overlay retirement gate',q.ready_count,'ready,',q.blocked_count,'blocked');"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-migration-map.json','utf8')); const r=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-retirement-audit.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-migration-map-v1') throw new Error('overlay migration map invalid'); if(q.total_overlay_leaf_mutations!==r.total_current_mutations) throw new Error('overlay migration leaf count mismatch'); if(q.canonical_leaf_mutations+q.overlay_meta_mutations!==q.total_overlay_leaf_mutations) throw new Error('overlay migration decomposition mismatch'); console.log('Overlay migration map',q.migration_candidate_count,'candidates,',q.manual_review_candidates,'manual review');"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-migration-dry-run.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-migration-dry-run-v1') throw new Error('overlay migration dry-run invalid'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('dry-run safety contract violated'); if(q.unexpected_residual_signatures!==0) throw new Error('unexpected canonical dry-run residuals'); console.log('Overlay migration dry-run',q.exact_equivalence_modules,'exact,',q.canonical_equivalent_with_mirror_debt_modules,'canonical+mirror-debt,',q.partial_manual_modules,'partial,',q.legacy_mirror_debt_modules,'mirror-debt modules,',q.manual_candidates,'manual');"
+          node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-provenance-audit.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-provenance-audit-v1') throw new Error('overlay provenance audit invalid'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('provenance safety contract violated'); if(q.unclassified_candidates!==0||q.source_scope_mismatches!==0||q.source_locator_review_required!==0||q.integrity_error_count!==0) throw new Error('provenance review has unresolved classification/integrity errors'); console.log('Overlay provenance gate',q.candidate_count,'classified candidates,',q.reviewed_source_backed_candidates,'source-backed,',q.further_review_candidates,'further-review');"
           node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const run=m.runs.at(-1)?.run_id||m.snapshot.run_id; const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+run)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',run);"
 
       - name: Configure GitHub Pages
