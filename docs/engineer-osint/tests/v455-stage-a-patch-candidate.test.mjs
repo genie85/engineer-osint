@@ -21,9 +21,10 @@ test('v4.5.5 emits exactly 104 correction operations and 15 reviewed source appe
   assert.equal(policy.expected.source_append_count,15);
   assert.equal(policy.expected.stage_b_intelligence_candidates,19);
   assert.equal(policy.expected.explicit_no_write_candidates,18);
+  assert.equal(policy.operation_id_prefix,'ENG-OP-B96-OVL-MIG-');
   assert.match(builder,/CORRECTION:operations\.length/);
   assert.match(builder,/NEW_SOURCES:sources\.length/);
-  assert.match(builder,/ENG-OP-B96-OVL-MIG-/);
+  assert.match(builder,/policy\.operation_id_prefix/);
 });
 
 test('candidate generation uses real candidate date for runtime verification fields and preserves reviewed fixed values',()=>{
@@ -61,8 +62,9 @@ test('v4.5.5 safety policy prohibits persistent append and retirement',()=>{
 test('Pages uses append-run dry-run and proves persistent data stayed byte/count clean',()=>{
   assert.match(workflow,/Build exact Stage A migration candidate/);
   assert.match(workflow,/Validate Stage A candidate through append-run dry-run/);
-  assert.match(workflow,/append-run\.mjs docs\/engineer-osint-dist\/overlay-stage-a-patch-candidate\.json/);
-  assert.doesNotMatch(workflow,/append-run\.mjs docs\/engineer-osint-dist\/overlay-stage-a-patch-candidate\.json --write/);
+  assert.match(workflow,/candidate='docs\/engineer-osint-dist\/overlay-stage-a-patch-candidate\.json'/);
+  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
+  assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
   assert.match(workflow,/manifest_before/);
   assert.match(workflow,/runs_before/);
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
