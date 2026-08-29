@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const audit=fs.readFileSync(new URL('../audit-overlay-stage-b-intelligence.mjs',import.meta.url),'utf8');
+const stageAImpact=fs.readFileSync(new URL('../audit-overlay-stage-a-impact.mjs',import.meta.url),'utf8');
 const policy=JSON.parse(fs.readFileSync(new URL('../V456_STAGE_B_POLICY.json',import.meta.url),'utf8'));
 const doc=fs.readFileSync(new URL('../V456_STAGE_B_INTELLIGENCE.md',import.meta.url),'utf8');
 const contract=fs.readFileSync(new URL('../INTELLIGENCE_V1_CONTRACT.md',import.meta.url),'utf8');
@@ -23,7 +24,8 @@ test('v4.5.6 materializes all 15 gaps without inventing priority',()=>{
   assert.equal(policy.expected.assessment_candidates,4);
   assert.equal(policy.gap_priority,'UNASSESSED');
   assert.equal(policy.gap_status,'OPEN');
-  assert.match(audit,/ENG-GAP-B97-OVL-/);
+  assert.equal(policy.id_prefixes.gap,'ENG-GAP-B97-OVL-');
+  assert.match(audit,/policy\.id_prefixes\.gap/);
   assert.match(audit,/sources_checked:unique\(candidate\.source_ids/);
   assert.match(audit,/extensions:\{intelligence_v1:\{assessments:\[\],gaps,contradictions:\[\]\}\}/);
   assert.match(contract,/An empty `sources_checked` array is valid/);
@@ -51,6 +53,11 @@ test('post Stage A+B overlay residuals cannot expand beyond reviewed Stage-A deb
   assert.match(audit,/added=signatures\.filter\(signature=>!prior\.has\(signature\)\)/);
   assert.match(audit,/unexpected\.length===0\?'PASS':'FAIL'/);
   assert.match(doc,/may not expand beyond the reviewed Stage-A residual set/i);
+});
+
+test('existing Pages Stage-A impact step executes the v4.5.6 audit after passing its own gate',()=>{
+  assert.match(stageAImpact,/if\(!pass\)throw new Error/);
+  assert.match(stageAImpact,/await import\('\.\/audit-overlay-stage-b-intelligence\.mjs'\)/);
 });
 
 test('v4.5.6 remains fully read-only and blocks append and retirement',()=>{
