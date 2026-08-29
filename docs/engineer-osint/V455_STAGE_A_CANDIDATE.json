@@ -1,0 +1,31 @@
+{
+  "schema_version": "engineer-osint-stage-a-candidate-policy-v1",
+  "policy": "EXACT_APPEND_RUN_DRY_RUN_CANDIDATE_NO_WRITE",
+  "candidate_run_id": "engineer-osint-20260829-B96",
+  "expected_parent_run_id": "engineer-osint-20260826-B95",
+  "candidate_run_date": "2026-08-29",
+  "window_from": "2026-08-29T10:35:00+02:00",
+  "window_to": "2026-08-29T10:35:01+02:00",
+  "scope_modules": [
+    "rich-backfill.js",
+    "rich-backfill-israel-turkiye-eod.js",
+    "rich-backfill-usa-rok.js"
+  ],
+  "operation_id_prefix": "ENG-OP-B96-OVL-MIG-",
+  "expected": {
+    "operation_count": 104,
+    "source_append_count": 15,
+    "stage_b_intelligence_candidates": 19,
+    "explicit_no_write_candidates": 18
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_write_flag_allowed": false,
+    "run_file_write_allowed": false,
+    "manifest_write_allowed": false,
+    "safe_to_append": false,
+    "safe_to_retire_overlays": false,
+    "identity_fix_overlay_in_scope": false
+  },
+  "staleness_policy": "FAIL_IF_CANONICAL_TIP_IS_NOT_EXPECTED_PARENT"
+}
