@@ -89,6 +89,42 @@ jobs:
       - name: Preview resolved overlay production migration
         run: node docs/engineer-osint/audit-overlay-production-preview.mjs
 
+      - name: Build exact Stage A migration candidate
+        run: node docs/engineer-osint/build-overlay-stage-a-candidate.mjs
+
+      - name: Validate Stage A candidate through append-run dry-run
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          candidate='docs/engineer-osint-dist/overlay-stage-a-patch-candidate.json'
+          plan='docs/engineer-osint-dist/overlay-stage-a-append-plan.json'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const meta=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-patch-candidate-meta.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-append-plan.json','utf8'));
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error('append-run did not remain a dry-run');
+          if(plan.entry?.run_id!=='engineer-osint-20260829-B96'||plan.entry?.parent_run_id!=='engineer-osint-20260826-B95')throw new Error('append-plan identity mismatch');
+          if(plan.entry?.path!=='data/runs/engineer-osint-20260829-B96.json')throw new Error('append-plan path mismatch');
+          if(plan.entry?.file_sha256!==meta.candidate_file_sha256)throw new Error('append-plan file hash differs from candidate meta');
+          if(plan.entry?.parent_canonical_sha256!==meta.parent_canonical_sha256)throw new Error('append-plan parent canonical hash mismatch');
+          if(!/^[a-f0-9]{64}$/.test(plan.entry?.canonical_sha256||''))throw new Error('append-plan canonical hash invalid');
+          if(plan.entry.canonical_sha256===plan.entry.parent_canonical_sha256)throw new Error('Stage A candidate unexpectedly produces no canonical change');
+          fs.appendFileSync('docs/engineer-osint-dist/health.txt',`overlay_stage_a_append_plan=pass\noverlay_stage_a_append_plan_status=validated-dry-run\noverlay_stage_a_append_plan_run=${plan.entry.run_id}\noverlay_stage_a_append_plan_parent_sha=${plan.entry.parent_canonical_sha256}\noverlay_stage_a_append_plan_candidate_file_sha=${plan.entry.file_sha256}\noverlay_stage_a_append_plan_result_sha=${plan.entry.canonical_sha256}\noverlay_stage_a_append_plan_persistent_writes=0\n`);
+          console.log('Stage A append-run dry-run PASS',plan.entry);
+          NODE
+
+      - name: Audit residual overlay impact after Stage A candidate
+        run: node docs/engineer-osint/audit-overlay-stage-a-impact.mjs
+
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
 
@@ -116,12 +152,20 @@ jobs:
           test -s docs/engineer-osint-dist/overlay-provenance-audit.md
           test -s docs/engineer-osint-dist/overlay-production-migration-preview.json
           test -s docs/engineer-osint-dist/overlay-production-migration-preview.md
+          test -s docs/engineer-osint-dist/overlay-stage-a-patch-candidate.json
+          test -s docs/engineer-osint-dist/overlay-stage-a-patch-candidate-meta.json
+          test -s docs/engineer-osint-dist/overlay-stage-a-append-plan.json
+          test -s docs/engineer-osint-dist/overlay-stage-a-impact-preview.json
+          test -s docs/engineer-osint-dist/overlay-stage-a-impact-preview.md
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/overlay-retirement-audit.md
           sed -n '1,140p' docs/engineer-osint-dist/overlay-migration-map.md
           cat docs/engineer-osint-dist/overlay-migration-dry-run.md
           cat docs/engineer-osint-dist/overlay-provenance-audit.md
           cat docs/engineer-osint-dist/overlay-production-migration-preview.md
+          cat docs/engineer-osint-dist/overlay-stage-a-patch-candidate-meta.json
+          cat docs/engineer-osint-dist/overlay-stage-a-append-plan.json
+          cat docs/engineer-osint-dist/overlay-stage-a-impact-preview.md
           cat docs/engineer-osint-dist/media-history-audit.md
           cat docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
@@ -155,6 +199,21 @@ jobs:
           grep -q 'overlay_production_preview_safe_to_append=0' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_production_preview_safe_to_retire=0' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_production_preview_canonical_writes=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_run=engineer-osint-20260829-B96' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_parent=engineer-osint-20260826-B95' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_ops=104' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_sources=15' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_safe_to_append=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_candidate_canonical_writes=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_append_plan=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_append_plan_status=validated-dry-run' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_append_plan_persistent_writes=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_impact=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_impact_unexpected=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_impact_stage_b_pending=19' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_impact_retirement_ready=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_stage_a_impact_canonical_writes=0' docs/engineer-osint-dist/health.txt
           grep -q 'localization_mutation_violations=0' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_export_snapshot=legacy-overlay-resolved' docs/engineer-osint-dist/health.txt
           grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
@@ -175,6 +234,8 @@ jobs:
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-migration-dry-run.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-migration-dry-run-v1') throw new Error('overlay migration dry-run invalid'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('dry-run safety contract violated'); if(q.unexpected_residual_signatures!==0) throw new Error('unexpected canonical dry-run residuals'); console.log('Overlay migration dry-run',q.exact_equivalence_modules,'exact,',q.canonical_equivalent_with_mirror_debt_modules,'canonical+mirror-debt,',q.partial_manual_modules,'partial,',q.legacy_mirror_debt_modules,'mirror-debt modules,',q.manual_candidates,'manual');"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-provenance-audit.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-provenance-audit-v1') throw new Error('overlay provenance audit invalid'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('provenance safety contract violated'); if(q.unclassified_candidates!==0||q.source_scope_mismatches!==0||q.source_locator_review_required!==0||q.integrity_error_count!==0) throw new Error('provenance review has unresolved classification/integrity errors'); console.log('Overlay provenance gate',q.candidate_count,'classified candidates,',q.reviewed_source_backed_candidates,'source-backed,',q.further_review_candidates,'further-review');"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-production-migration-preview.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-overlay-production-preview-v1') throw new Error('overlay production preview invalid'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.production_operation_ids_generated!==false||q.production_run_id_generated!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('production preview safety contract violated'); if(q.stage_a?.strict_preview_status!=='PASS'||q.unresolved_error_count!==0) throw new Error('production preview has unresolved structural errors'); console.log('Overlay production preview',q.stage_a.operation_templates,'Stage A ops,',q.stage_a.source_appends,'sources,',q.stage_b.candidate_count,'Intelligence v1 candidates,',q.no_write.candidate_count,'no-write');"
+          node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-patch-candidate-meta.json','utf8')); const p=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-append-plan.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-stage-a-patch-candidate-meta-v1') throw new Error('Stage A candidate meta invalid'); if(p.status!=='VALIDATED_DRY_RUN'||p.entry.file_sha256!==q.candidate_file_sha256||p.entry.parent_canonical_sha256!==q.parent_canonical_sha256) throw new Error('Stage A append plan mismatch'); if(q.safe_to_append!==false||q.safe_to_retire_overlays!==false||q.canonical_write_performed!==false) throw new Error('Stage A candidate safety contract violated'); console.log('Stage A candidate exact append plan',p.entry);"
+          node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-impact-preview.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-stage-a-impact-audit-v1') throw new Error('Stage A impact invalid'); if(q.unexpected_signature_count!==0||q.retirement_ready_after_stage_a!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('Stage A residual/retirement contract violated'); console.log('Stage A impact',q.residual_signature_count,'residual signatures,',q.residual_factual_leaf_mutations,'factual leafs,',q.stage_b_intelligence_candidates,'Stage B pending');"
           node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const run=m.runs.at(-1)?.run_id||m.snapshot.run_id; const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+run)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',run);"
 
       - name: Configure GitHub Pages
