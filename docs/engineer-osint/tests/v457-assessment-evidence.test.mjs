@@ -26,7 +26,7 @@ test('U.S. assessment evidence is limited to the directly reviewed official demo
   const item=review.evidence_candidates.find(x=>x.key==='USA_DRONE_BANGALORE_OFFICIAL_DEMONSTRATION');
   assert.deepEqual(item.source_ids,['RICH-SRC-015']);
   assert.equal(item.related_id,'ENG-SIG-0006');
-  assert.match(item.what_it_supports_en,/reduce risk to Soldiers/i);
+  assert.match(item.what_it_supports_en,/risk reduction for Soldiers/i);
   assert.match(item.what_it_supports_en,/future TTP/i);
   assert.match(item.what_it_does_not_prove_en,/electronic-warfare resilience/i);
   assert.match(item.what_it_does_not_prove_en,/contested electromagnetic/i);
