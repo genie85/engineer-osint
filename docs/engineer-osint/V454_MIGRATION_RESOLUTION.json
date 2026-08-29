@@ -1,0 +1,62 @@
+{
+  "schema_version": "engineer-osint-overlay-migration-resolution-v1",
+  "policy": "READ_ONLY_PRODUCTION_PREVIEW_NO_CANONICAL_APPEND",
+  "scope_modules": [
+    "rich-backfill.js",
+    "rich-backfill-israel-turkiye-eod.js",
+    "rich-backfill-usa-rok.js"
+  ],
+  "special_resolutions": {
+    "records:ENG-TECH-0011:weight": {
+      "provenance_category": "PRECISION_REVIEW_REQUIRED",
+      "resolution": "REPLACE_WITH_PRIMARY_SOURCE_PRECISION",
+      "final_value": "10.7 t (machine only)",
+      "source_ids": ["RICH-SRC-001"],
+      "note": "TerreMag narrative rounds the machine to 10 tonnes, while its technical sheet states Poids engin seul: 10,7 t. Production preview uses the technical-sheet precision and explicitly scopes the value to the machine alone."
+    },
+    "records:ENG-TECH-0014:weight": {
+      "provenance_category": "ABSENCE_REVIEW_REQUIRED",
+      "resolution": "OMIT_NO_CANONICAL_FACTUAL_WRITE",
+      "source_ids": ["RICH-SRC-003"],
+      "note": "The reviewed DRDO product page does not publish a vehicle weight. The legacy PUBLIC_DATA_NOT_FOUND sentinel is not a factual value and must not be persisted as weight."
+    },
+    "records:ENG-TECH-0013:summary_cs": {
+      "provenance_category": "EXPANDED_SOURCE_REVIEW_REQUIRED",
+      "resolution": "NARROW_TO_CURRENT_REVIEWED_SOURCE_SCOPE",
+      "final_value": "Namer je izraelský obrněný transportér (APC) v programu Merkava/Namer. Izraelské ministerstvo obrany uvádí Namer mezi pokročilými obrněnými platformami a samostatně doložilo jeho operační význam během války Swords of Iron. Tyto citované zdroje samy o sobě nedokládají konkrétní ženijní konfiguraci Nameru.",
+      "source_ids": ["RICH-SRC-010", "RICH-SRC-011"],
+      "note": "Narrowed to the facts actually established by the reviewed IMOD directorate and 2024 defense-prize sources; engineering-variant details are deliberately excluded."
+    },
+    "records:ENG-TECH-0013:technical_profile": {
+      "provenance_category": "EXPANDED_SOURCE_REVIEW_REQUIRED",
+      "resolution": "NARROW_TO_CURRENT_REVIEWED_SOURCE_SCOPE",
+      "final_value": "Namer armored personnel carrier (APC) within the Israeli Merkava/Namer armored-vehicle program. The reviewed IMOD sources support the Namer platform and its operational use, but do not establish the detailed configuration of a dedicated engineering variant.",
+      "source_ids": ["RICH-SRC-010", "RICH-SRC-011"],
+      "note": "Removes unsupported heavy/tracked/engineering-configuration wording from this migration slice while preserving the supported platform-level baseline."
+    }
+  },
+  "analytical_routes": {
+    "intelligence_gaps": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED",
+    "what_it_does_not_prove": "INTELLIGENCE_V1_ASSESSMENT_LIMITATION_OBJECTIZATION_REQUIRED",
+    "what_it_does_not_prove_cs": "INTELLIGENCE_V1_ASSESSMENT_LIMITATION_OBJECTIZATION_REQUIRED",
+    "why_it_matters": "INTELLIGENCE_V1_ASSESSMENT_OBJECTIZATION_REQUIRED",
+    "staff_relevance": "INTELLIGENCE_V1_ASSESSMENT_OBJECTIZATION_REQUIRED",
+    "training_relevance": "INTELLIGENCE_V1_ASSESSMENT_OBJECTIZATION_REQUIRED"
+  },
+  "administrative_routes": {
+    "source_ids": "UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+    "last_verified_date": "GENERATE_AT_REAL_APPEND_RUN_DATE",
+    "provenance_granularity": "PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+    "rich_backfill_status": "DROP_LEGACY_PRESENTATION_STATUS_NO_WRITE",
+    "verification_note": "DROP_LEGACY_MIGRATION_NOTE_NO_WRITE"
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_invoked": false,
+    "production_operation_ids_generated": false,
+    "production_run_id_generated": false,
+    "safe_to_append": false,
+    "safe_to_retire_overlays": false,
+    "identity_fix_overlay_in_scope": false
+  }
+}
