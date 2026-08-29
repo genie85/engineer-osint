@@ -1,0 +1,34 @@
+{
+  "schema_version": "engineer-osint-stage-b-intelligence-policy-v1",
+  "policy": "MATERIALIZE_GAPS_BIND_ASSESSMENTS_ONLY_WITH_EXPLICIT_EVIDENCE",
+  "candidate_run_id": "engineer-osint-20260830-B97",
+  "expected_parent_run_id": "engineer-osint-20260829-B96",
+  "persistent_tip_required": "engineer-osint-20260826-B95",
+  "candidate_run_date": "2026-08-30",
+  "window_from": "2026-08-30T01:01:00+02:00",
+  "window_to": "2026-08-30T01:01:01+02:00",
+  "expected_stage_a_file_sha256": "3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1",
+  "expected_stage_a_result_canonical_sha256": "4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5",
+  "expected": {
+    "analytical_candidates": 19,
+    "gap_candidates": 15,
+    "assessment_candidates": 4
+  },
+  "id_prefixes": {
+    "gap": "ENG-GAP-B97-OVL-",
+    "assessment": "ENG-ASMT-B97-OVL-"
+  },
+  "assessment_binding_rule": "EXPLICIT_TARGET_LINK_AND_REVIEWED_SOURCE_INTERSECTION_PLUS_CURATOR_APPROVAL",
+  "gap_priority": "UNASSESSED",
+  "gap_status": "OPEN",
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_invoked": false,
+    "production_assessment_ids_generated": false,
+    "assessment_auto_materialization_allowed": false,
+    "safe_to_append_stage_a": false,
+    "safe_to_append_stage_b": false,
+    "safe_to_retire_overlays": false,
+    "identity_fix_overlay_in_scope": false
+  }
+}
