@@ -18,6 +18,15 @@ test('v4.5.6 chains B97 only after the exact reviewed B96 candidate',()=>{
   assert.match(audit,/Stage A result canonical SHA drift/);
 });
 
+test('v4.5.6 pins Stage B residual scope to the same three reviewed factual overlays',()=>{
+  assert.deepEqual(policy.scope_modules,[
+    'rich-backfill.js',
+    'rich-backfill-israel-turkiye-eod.js',
+    'rich-backfill-usa-rok.js'
+  ]);
+  assert.doesNotMatch(JSON.stringify(policy.scope_modules),/data-integrity-identity-fixes\.js/);
+});
+
 test('v4.5.6 materializes all 15 gaps without inventing priority',()=>{
   assert.equal(policy.expected.analytical_candidates,19);
   assert.equal(policy.expected.gap_candidates,15);
