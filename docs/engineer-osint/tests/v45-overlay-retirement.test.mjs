@@ -5,6 +5,7 @@ import fs from 'node:fs';
 const audit=fs.readFileSync(new URL('../audit-overlay-retirement.mjs',import.meta.url),'utf8');
 const manifest=fs.readFileSync(new URL('../runtime-modules.mjs',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 
 test('v4.5 retirement audit is current-materialization based and fail-closed on pinned scope',()=>{
@@ -59,16 +60,17 @@ test('retirement audit and migration map never write canonical run-store state',
   assert.match(policy,/read-only with respect to canonical data/i);
 });
 
-test('Pages pipeline publishes and gates the retirement and migration-map artifacts',()=>{
+test('Pages pipeline publishes and gates the retirement and migration-map artifacts through the final verifier',()=>{
   assert.match(workflow,/Audit overlay retirement readiness/);
   assert.match(workflow,/audit-overlay-retirement\.mjs/);
-  assert.match(workflow,/overlay-retirement-audit\.json/);
-  assert.match(workflow,/overlay-retirement-audit\.md/);
-  assert.match(workflow,/overlay-migration-map\.json/);
-  assert.match(workflow,/overlay-migration-map\.md/);
-  assert.match(workflow,/overlay_retirement_audit=pass/);
-  assert.match(workflow,/overlay_retirement_policy=zero-current-mutations/);
-  assert.match(workflow,/overlay_migration_map=pass/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay-retirement-audit\.json/);
+  assert.match(pagesVerifier,/overlay-retirement-audit\.md/);
+  assert.match(pagesVerifier,/overlay-migration-map\.json/);
+  assert.match(pagesVerifier,/overlay-migration-map\.md/);
+  assert.match(pagesVerifier,/overlay_retirement_audit=pass/);
+  assert.match(pagesVerifier,/overlay_retirement_policy=zero-current-mutations/);
+  assert.match(pagesVerifier,/overlay_migration_map=pass/);
 });
 
 test('health exposes retirement readiness and migration-map decomposition',()=>{
