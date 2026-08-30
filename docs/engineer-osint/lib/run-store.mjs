@@ -189,7 +189,7 @@ export function validatePatchOperations(patch){
     for(const key of Object.keys(operation))ensure(allowed.has(key),`${at}.${key} is not allowed`);
     ensure(/^ENG-OP-[A-Za-z0-9._-]+$/.test(operation.operation_id||''),`${at}.operation_id is invalid`);
     ensure(!seen.has(operation.operation_id),`Duplicate operation_id ${operation.operation_id}`);seen.add(operation.operation_id);
-    ensure(['REPLACE_FIELD','REMOVE_REFERENCE','RETRACT'].includes(operation.op),`${at}.op is unsupported`);
+    ensure(['REPLACE_FIELD','REMOVE_REFERENCE','REMOVE_FIELD','RETRACT'].includes(operation.op),`${at}.op is unsupported`);
     ensure(Object.hasOwn(allIdRules,operation.collection),`${at}.collection is unsupported`);
     ensure(typeof operation.target_id==='string'&&operation.target_id,`${at}.target_id is required`);
     ensure(typeof operation.reason==='string'&&operation.reason.trim().length>=12,`${at}.reason must be specific`);
@@ -200,6 +200,7 @@ export function validatePatchOperations(patch){
     if(operation.op!=='RETRACT')ensure(/^[A-Za-z][A-Za-z0-9_]*$/.test(operation.field||''),`${at}.field must be a top-level field name`);
     if(operation.op==='REMOVE_REFERENCE')ensure(typeof operation.value==='string'&&operation.value,`${at}.value must identify the removed reference`);
     if(operation.op==='REPLACE_FIELD')ensure(Object.hasOwn(operation,'value'),`${at}.value is required`);
+    if(operation.op==='REMOVE_FIELD')ensure(!Object.hasOwn(operation,'value'),`${at}.value is forbidden for REMOVE_FIELD`);
   }
   ensure(patch.state?.counts?.CORRECTION===operations.length,'Declared CORRECTION must match extensions.operations_v1.length',{
     declared:patch.state?.counts?.CORRECTION,actual:operations.length
@@ -227,6 +228,10 @@ function applyOperations(data,patch){
       ensure(Array.isArray(target[operation.field]),`Operation ${operation.operation_id} target field is not an array`);
       ensure(target[operation.field].includes(operation.value),`Operation ${operation.operation_id} reference ${operation.value} is absent`);
       target[operation.field]=target[operation.field].filter(value=>value!==operation.value);
+    }else if(operation.op==='REMOVE_FIELD'){
+      ensure(!protectedFields.has(operation.field),`Operation ${operation.operation_id} cannot remove protected field ${operation.field}`);
+      ensure(Object.hasOwn(target,operation.field),`Operation ${operation.operation_id} target field ${operation.field} does not exist`);
+      delete target[operation.field];
     }else if(operation.op==='RETRACT')items.splice(index,1);
     log.operations.push({...structuredClone(operation),run_id:patch.state.run_id,applied_at_window_to:patch.state.window_to});
     logged.add(operation.operation_id);

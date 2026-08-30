@@ -32,6 +32,21 @@ test('correction operations replace fields, remove references and retract safely
   assert.equal(applyStrictPatchToCanonicalData(canonical(),retract).records.records.some(item=>item.id==='ENG-EVT-TEST2'),false);
 });
 
+test('REMOVE_FIELD deletes an existing top-level field and fails closed on unsafe requests',()=>{
+  const remove=patch();remove.state.counts.CORRECTION=1;remove.extensions.operations_v1=[operation('REMOVE_FIELD',{field:'title'})];
+  const removed=applyStrictPatchToCanonicalData(canonical(),remove);
+  assert.equal(Object.hasOwn(removed.records.records[0],'title'),false);
+
+  const protectedId=patch();protectedId.state.counts.CORRECTION=1;protectedId.extensions.operations_v1=[operation('REMOVE_FIELD',{field:'id'})];
+  assert.throws(()=>applyStrictPatchToCanonicalData(canonical(),protectedId),IntegrityError);
+
+  const missing=patch();missing.state.counts.CORRECTION=1;missing.extensions.operations_v1=[operation('REMOVE_FIELD',{field:'summary'})];
+  assert.throws(()=>applyStrictPatchToCanonicalData(canonical(),missing),IntegrityError);
+
+  const withValue=patch();withValue.state.counts.CORRECTION=1;withValue.extensions.operations_v1=[operation('REMOVE_FIELD',{field:'title',value:null})];
+  assert.throws(()=>validatePatchOperations(withValue),IntegrityError);
+});
+
 test('strict append materializes a new source and record with provenance',()=>{
   const next=patch();
   next.sources=[{id:'ENG-SRC-TEST2',title:'New source',url:'https://example.test/new'}];
@@ -112,7 +127,7 @@ test('repository snapshot is canonical and no Git history is needed to load it',
 test('patch schema publishes the versioned correction operation contract',()=>{
   const schema=JSON.parse(readFileSync('docs/engineer-osint/schemas/patch-v1.schema.json','utf8'));
   assert.equal(schema.properties.extensions.properties.operations_v1.items.$ref,'#/$defs/operationV1');
-  assert.deepEqual(new Set(schema.$defs.operationV1.properties.op.enum),new Set(['REPLACE_FIELD','REMOVE_REFERENCE','RETRACT']));
+  assert.deepEqual(new Set(schema.$defs.operationV1.properties.op.enum),new Set(['REPLACE_FIELD','REMOVE_REFERENCE','REMOVE_FIELD','RETRACT']));
   assert.equal(schema.$defs.operationV1.additionalProperties,false);
 });
 

@@ -158,7 +158,7 @@
       "required": ["operation_id", "op", "collection", "target_id", "reason", "source_ids"],
       "properties": {
         "operation_id": {"type": "string", "pattern": "^ENG-OP-[A-Za-z0-9._-]+$"},
-        "op": {"enum": ["REPLACE_FIELD", "REMOVE_REFERENCE", "RETRACT"]},
+        "op": {"enum": ["REPLACE_FIELD", "REMOVE_REFERENCE", "REMOVE_FIELD", "RETRACT"]},
         "collection": {"enum": ["records", "sources", "relations", "evidence", "visuals", "media", "technology_signals", "leads", "observed_minimum", "lessons_learned", "assessments", "gaps", "contradictions"]},
         "target_id": {"type": "string", "minLength": 1},
         "field": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"},
