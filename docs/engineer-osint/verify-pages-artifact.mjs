@@ -19,8 +19,8 @@ commonFiles.forEach(requireFile);
 const health=readFileSync(join(dist,'health.txt'),'utf8'),index=readFileSync(join(dist,'index.html'),'utf8');
 const manifest=readJson(join(src,'data/run-store-manifest.json'));
 const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
-const b95='engineer-osint-20260826-B95',b96='engineer-osint-20260829-B96';
-const phase=currentRun===b95?'PRE_B96':currentRun===b96?'POST_B96':null;
+const b95='engineer-osint-20260826-B95',b96='engineer-osint-20260829-B96',b97='engineer-osint-20260830-B97';
+const phase=currentRun===b95?'PRE_B96':currentRun===b96?'POST_B96':currentRun===b97?'POST_B97':null;
 if(!phase)throw new Error(`PAGES_VERIFY: unsupported canonical migration phase at ${currentRun}`);
 
 [
@@ -97,18 +97,38 @@ if(phase==='PRE_B96'){
   if(transition.status!=='PASS'||transition.schema_version!=='engineer-osint-compat-transition-preview-v1'||transition.exact_guard?.short_circuit_allowed!==true||transition.persistent_guard?.short_circuit_allowed!==false||transition.negative_guard_cases_passed!==6||transition.guarded_transition?.total_mutations!==0||transition.guarded_transition?.zero_mutation_modules!==3||transition.native_semantics?.analytical_total!==19||transition.native_semantics?.gap_exact_mappings!==15||transition.native_semantics?.assessment_reviewed_replacements!==4||transition.native_semantics?.evidence_count!==2||transition.native_semantics?.no_write_semantics_preserved!==18||transition.canonical_write_performed!==false||transition.append_run_invoked!==false||transition.runtime_overlay_changed!==false||transition.short_circuit_enabled_in_production!==false||transition.safe_to_append!==false||transition.safe_to_retire_overlays!==false)throw new Error('PAGES_VERIFY: compatibility transition artifact invalid');
   const post=readJson(join(dist,'persistent-b96-audit.json'));
   if(post.status!=='PASS'||post.schema_version!=='engineer-osint-persistent-b96-audit-v1'||post.mode!=='SIMULATED_PRE_APPEND_READINESS'||post.residual_signature_count!==61||post.residual_factual_leaf_mutations!==81||post.guard_short_circuit_count!==0||post.post_b96_pages_validation_ready!==true)throw new Error('PAGES_VERIFY: simulated post-B96 readiness invalid');
-}else{
-  ['persistent-b96-audit.json','persistent-b96-audit.md'].forEach(requireFile);
+}else if(phase==='POST_B96'){
+  ['persistent-b96-audit.json','persistent-b96-audit.md','persistent-b97-audit.json','persistent-b97-audit.md'].forEach(requireFile);
   [
     'persistent_b96_audit=pass','persistent_b96_mode=persistent','persistent_b96_candidate_run=engineer-osint-20260829-B96',
     'persistent_b96_ops=104','persistent_b96_sources=15','persistent_b96_residual_signatures=61','persistent_b96_residual_factual_leafs=81',
     'persistent_b96_unexpected_residual_modules=0','persistent_b96_guard_short_circuits=0','persistent_b96_b97_b98_materialized=0',
-    'persistent_b96_overlays_must_remain_active=1','persistent_b96_pages_validation_ready=1','persistent_b96_canonical_writes=0'
+    'persistent_b96_overlays_must_remain_active=1','persistent_b96_pages_validation_ready=1','persistent_b96_canonical_writes=0',
+    'persistent_b97_audit=pass','persistent_b97_mode=simulated-pre-append','persistent_b97_candidate_run=engineer-osint-20260830-B97',
+    'persistent_b97_parent_run=engineer-osint-20260829-B96','persistent_b97_native_gaps=15','persistent_b97_b98_assessments=0',
+    'persistent_b97_residual_signatures=61','persistent_b97_residual_factual_leafs=81','persistent_b97_unexpected_residual_modules=0',
+    'persistent_b97_guard_short_circuits=0','persistent_b97_media_status=MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION',
+    'persistent_b97_b98_materialized=0','persistent_b97_overlays_must_remain_active=1','persistent_b97_pages_validation_ready=1','persistent_b97_canonical_writes=0'
   ].forEach(marker=>requireHealth(health,marker));
   const post=readJson(join(dist,'persistent-b96-audit.json'));
   if(post.status!=='PASS'||post.schema_version!=='engineer-osint-persistent-b96-audit-v1'||post.mode!=='PERSISTENT_POST_APPEND'||post.persistent_tip!==b96||post.candidate_file_sha256!=='3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1'||post.resulting_canonical_sha256!=='4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5'||post.residual_signature_count!==61||post.residual_factual_leaf_mutations!==81||post.unexpected_residual_modules?.length!==0||post.guard_short_circuit_count!==0||post.b97_b98_materialized!==false||post.overlays_must_remain_active!==true||post.post_b96_pages_validation_ready!==true)throw new Error('PAGES_VERIFY: persistent B96 audit invalid');
-  const authorization=readJson(join(src,'V4511_B96_APPEND_AUTHORIZATION.json'));
-  if(authorization.status!=='READY_FOR_APPEND'||authorization.required_preconditions?.post_b96_ci_pipeline_ready!==true)throw new Error('PAGES_VERIFY: persisted B96 lacks the reviewed active authorization that permitted the write');
+  const b97Preview=readJson(join(dist,'persistent-b97-audit.json'));
+  if(b97Preview.status!=='PASS'||b97Preview.schema_version!=='engineer-osint-persistent-b97-audit-v1'||b97Preview.mode!=='SIMULATED_PRE_APPEND_READINESS'||b97Preview.candidate_run_id!==b97||b97Preview.parent_run_id!==b96||b97Preview.candidate_file_sha256!=='b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad'||b97Preview.resulting_canonical_sha256!=='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4'||b97Preview.native_gap_count!==15||b97Preview.b98_assessment_count!==0||b97Preview.residual_signature_count!==61||b97Preview.residual_factual_leaf_mutations!==81||b97Preview.unexpected_residual_modules?.length!==0||b97Preview.guard_short_circuit_count!==0||b97Preview.multimedia_status!=='MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'||b97Preview.b98_materialized!==false||b97Preview.overlays_must_remain_active!==true||b97Preview.post_b97_pages_validation_ready!==true||b97Preview.canonical_write_performed!==false)throw new Error('PAGES_VERIFY: simulated post-B97 readiness invalid');
+  const authorization=readJson(join(src,'V4518_B97_APPEND_AUTHORIZATION.json'));
+  if(authorization.status!=='BLOCKED_PENDING_POST_B97_CI_READINESS'||authorization.required_preconditions?.post_b97_ci_pipeline_ready!==false||authorization.authorization?.append_exact_candidate_only!==false)throw new Error('PAGES_VERIFY: B97 must remain blocked during readiness slice');
+}else{
+  ['persistent-b97-audit.json','persistent-b97-audit.md'].forEach(requireFile);
+  [
+    'persistent_b97_audit=pass','persistent_b97_mode=persistent','persistent_b97_candidate_run=engineer-osint-20260830-B97',
+    'persistent_b97_parent_run=engineer-osint-20260829-B96','persistent_b97_native_gaps=15','persistent_b97_b98_assessments=0',
+    'persistent_b97_residual_signatures=61','persistent_b97_residual_factual_leafs=81','persistent_b97_unexpected_residual_modules=0',
+    'persistent_b97_guard_short_circuits=0','persistent_b97_media_status=MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION',
+    'persistent_b97_b98_materialized=0','persistent_b97_overlays_must_remain_active=1','persistent_b97_pages_validation_ready=1','persistent_b97_canonical_writes=0'
+  ].forEach(marker=>requireHealth(health,marker));
+  const post=readJson(join(dist,'persistent-b97-audit.json'));
+  if(post.status!=='PASS'||post.schema_version!=='engineer-osint-persistent-b97-audit-v1'||post.mode!=='PERSISTENT_POST_APPEND'||post.persistent_tip!==b97||post.candidate_run_id!==b97||post.parent_run_id!==b96||post.candidate_file_sha256!=='b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad'||post.resulting_canonical_sha256!=='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4'||post.native_gap_count!==15||post.b98_assessment_count!==0||post.residual_signature_count!==61||post.residual_factual_leaf_mutations!==81||post.unexpected_residual_modules?.length!==0||post.guard_short_circuit_count!==0||post.multimedia_status!=='MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'||post.b98_materialized!==false||post.overlays_must_remain_active!==true||post.post_b97_pages_validation_ready!==true||post.canonical_write_performed!==false)throw new Error('PAGES_VERIFY: persistent B97 audit invalid');
+  const authorization=readJson(join(src,'V4518_B97_APPEND_AUTHORIZATION.json'));
+  if(authorization.status!=='READY_FOR_APPEND'||authorization.required_preconditions?.post_b97_ci_pipeline_ready!==true||authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.allow_b98_same_slice!==false||authorization.authorization?.allow_overlay_retirement!==false||authorization.authorization?.allow_identity_fix_migration!==false)throw new Error('PAGES_VERIFY: persisted B97 lacks reviewed active authorization');
 }
 
 console.log(`Pages artifact verification PASS: phase=${phase}; run=${currentRun}; overlay-ready=${retirement.ready_count}; overlay-blocked=${retirement.blocked_count}`);
