@@ -1,0 +1,128 @@
+name: ENGINEER OSINT B98 post-CI readiness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b98-readiness.yml'
+      - '.github/workflows/b98-post-ci-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b98-readiness.yml'
+      - '.github/workflows/b98-post-ci-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineer-osint-b98-post-ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  post-b98-readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout persistent B97 canonical state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test P0/P1 and POST_B98 contracts
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate exact persistent B97 chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build persistent B97 dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Re-audit persistent B97 baseline
+        run: node docs/engineer-osint/audit-persistent-b97.mjs
+
+      - name: Regenerate exact B98 candidate without writes
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/build-b98-readiness.mjs
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+
+      - name: Dry-run exact B98 and pin resulting canonical hash
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
+          plan='docs/engineer-osint-dist/b98-post-ci-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4525_B98_POST_CI_READINESS.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-post-ci-append-plan.json','utf8'));
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error(`B98 standard append helper did not remain dry-run: ${plan.status}`);
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('B98 plan identity mismatch');
+          if(plan.entry?.parent_canonical_sha256!==policy.expected_parent_canonical_sha256)throw new Error('B98 plan parent canonical hash mismatch');
+          if(plan.entry?.file_sha256!==policy.exact_candidate_file_sha256)throw new Error(`B98 exact candidate hash mismatch: ${plan.entry?.file_sha256}`);
+          if(plan.entry?.canonical_sha256!==policy.expected_resulting_canonical_sha256)throw new Error(`B98 exact resulting canonical hash mismatch: ${plan.entry?.canonical_sha256}`);
+          console.log(`POST_B98_EXACT_CANDIDATE_SHA=${plan.entry.file_sha256}`);
+          console.log(`POST_B98_EXACT_RESULT_SHA=${plan.entry.canonical_sha256}`);
+          NODE
+
+      - name: Simulate persistent POST_B98 runtime and media gates
+        run: node docs/engineer-osint/audit-persistent-b98.mjs --simulate-from-generated
+
+      - name: Verify simulated POST_B98 evidence
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4525_B98_POST_CI_READINESS.json','utf8'));
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b98-audit.json','utf8'));
+          if(audit.status!=='PASS'||audit.mode!=='SIMULATED_PRE_APPEND_READINESS')throw new Error('simulated POST_B98 audit did not PASS');
+          if(audit.candidate_file_sha256!==policy.exact_candidate_file_sha256||audit.resulting_canonical_sha256!==policy.expected_resulting_canonical_sha256)throw new Error('simulated POST_B98 hash contract mismatch');
+          if(audit.persistent_gap_count!==15||audit.native_evidence_count!==2||audit.native_assessment_count!==4)throw new Error('simulated POST_B98 native Intelligence scope mismatch');
+          if(audit.residual_signature_count!==61||audit.residual_factual_leaf_mutations!==81||audit.unexpected_residual_modules?.length!==0)throw new Error('simulated POST_B98 unguarded legacy baseline drift');
+          if(audit.guard_short_circuit_count!==3||audit.guarded_factual_mutation_count!==0)throw new Error('simulated POST_B98 runtime guard transition failed');
+          if(audit.multimedia_status!=='MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION')throw new Error('simulated POST_B98 media gate failed');
+          if(audit.overlay_retirement_authorized!==false||audit.identity_fix_migration_authorized!==false||audit.canonical_write_performed!==false)throw new Error('simulated POST_B98 safety boundary broadened');
+          console.log('POST_B98_CI_READINESS=PASS_NO_WRITE');
+          NODE
+
+      - name: Reconfirm persistent store stayed B97
+        run: |
+          node docs/engineer-osint/validate-patch.mjs | tee /tmp/post-b98-store.json
+          grep -q '"current_run_id": "engineer-osint-20260830-B97"' /tmp/post-b98-store.json
+          git diff --exit-code -- docs/engineer-osint/data
+
+      - name: Upload POST_B98 readiness evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: b98-post-ci-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/b98-patch-candidate.json
+            docs/engineer-osint-dist/b98-readiness-audit.json
+            docs/engineer-osint-dist/b98-post-ci-append-plan.json
+            docs/engineer-osint-dist/persistent-b98-audit.json
+            docs/engineer-osint-dist/persistent-b98-audit.md
+            docs/engineer-osint-dist/health.txt

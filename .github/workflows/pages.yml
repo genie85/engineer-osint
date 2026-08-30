@@ -96,6 +96,7 @@ jobs:
           if(run==='engineer-osint-20260826-B95')phase='PRE_B96';
           else if(run==='engineer-osint-20260829-B96')phase='POST_B96';
           else if(run==='engineer-osint-20260830-B97')phase='POST_B97';
+          else if(run==='engineer-osint-20260830-B98')phase='POST_B98';
           else throw new Error(`Unsupported canonical migration phase at ${run}`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT,`phase=${phase}\nrun=${run}\n`);
           console.log(`Canonical migration phase ${phase}: ${run}`);
@@ -175,6 +176,58 @@ jobs:
       - name: Audit persistent B97 post-append state
         if: steps.migration-phase.outputs.phase == 'POST_B97'
         run: node docs/engineer-osint/audit-persistent-b97.mjs
+
+      - name: Build exact B98 candidate for post-B98 Pages simulation
+        if: steps.migration-phase.outputs.phase == 'POST_B97'
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/build-b98-readiness.mjs
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+
+      - name: Dry-run exact B98 for Pages simulation
+        if: steps.migration-phase.outputs.phase == 'POST_B97'
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
+          plan='docs/engineer-osint-dist/b98-pages-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4525_B98_POST_CI_READINESS.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-pages-append-plan.json','utf8'));
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error('B98 Pages append helper did not remain dry-run');
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('B98 Pages plan identity mismatch');
+          if(plan.entry?.parent_canonical_sha256!==policy.expected_parent_canonical_sha256||plan.entry?.file_sha256!==policy.exact_candidate_file_sha256||plan.entry?.canonical_sha256!==policy.expected_resulting_canonical_sha256)throw new Error('B98 Pages exact hash contract mismatch');
+          console.log('B98 Pages dry-run exact hash contract PASS');
+          NODE
+
+      - name: Simulate post-B98 Pages validation before append
+        if: steps.migration-phase.outputs.phase == 'POST_B97'
+        run: node docs/engineer-osint/audit-persistent-b98.mjs --simulate-from-generated
+
+      - name: Audit persistent B98 post-append state
+        if: steps.migration-phase.outputs.phase == 'POST_B98'
+        run: node docs/engineer-osint/audit-persistent-b98.mjs
+
+      - name: Gate POST_B98 Pages readiness
+        run: node docs/engineer-osint/verify-post-b98-pages-readiness.mjs
 
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
