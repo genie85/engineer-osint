@@ -24,7 +24,7 @@ jobs:
   readiness:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout persistent B97 canonical state
+      - name: Checkout canonical lifecycle state
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -34,19 +34,33 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Detect B98 lifecycle phase
+        id: lifecycle
+        run: |
+          node - <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs=require('fs');
+          const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const run=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          if(run==='engineer-osint-20260830-B97')console.log('phase=PRE_B98');
+          else if(run==='engineer-osint-20260830-B98')console.log('phase=POST_B98');
+          else throw new Error(`unsupported B98 lifecycle tip ${run}`);
+          NODE
+
       - name: Test P0/P1 and B98 readiness contracts
         run: node --test docs/engineer-osint/tests/*.test.mjs
 
-      - name: Validate persistent B97 chain
+      - name: Validate current canonical chain
         run: node docs/engineer-osint/validate-patch.mjs
 
-      - name: Build persistent B97 dashboard
+      - name: Build current canonical dashboard
         run: node docs/engineer-osint/build-pages.mjs
 
       - name: Re-audit persistent B97 before B98 simulation
+        if: steps.lifecycle.outputs.phase == 'PRE_B98'
         run: node docs/engineer-osint/audit-persistent-b97.mjs
 
       - name: Build read-only B98 candidate and transition proof
+        if: steps.lifecycle.outputs.phase == 'PRE_B98'
         run: |
           set -euo pipefail
           manifest='docs/engineer-osint/data/run-store-manifest.json'
@@ -61,6 +75,7 @@ jobs:
           git diff --exit-code -- docs/engineer-osint/data
 
       - name: Dry-run exact generated B98 through standard append helper
+        if: steps.lifecycle.outputs.phase == 'PRE_B98'
         run: |
           set -euo pipefail
           candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
@@ -94,7 +109,29 @@ jobs:
           console.log(`B98_DRY_RUN_RESULT_SHA=${plan.entry.canonical_sha256}`);
           NODE
 
-      - name: Upload B98 readiness evidence
+      - name: Audit persistent B98 lifecycle state
+        if: steps.lifecycle.outputs.phase == 'POST_B98'
+        run: node docs/engineer-osint/audit-persistent-b98.mjs
+
+      - name: Verify persistent B98 readiness state
+        if: steps.lifecycle.outputs.phase == 'POST_B98'
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const auth=JSON.parse(fs.readFileSync('docs/engineer-osint/V4526_B98_APPEND_AUTHORIZATION.json','utf8'));
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b98-audit.json','utf8'));
+          if(audit.status!=='PASS'||audit.mode!=='PERSISTENT_POST_APPEND')throw new Error('persistent B98 audit did not PASS');
+          if(audit.persistent_tip!==auth.candidate_run_id||audit.candidate_file_sha256!==auth.exact_candidate_file_sha256||audit.resulting_canonical_sha256!==auth.expected_resulting_canonical_sha256)throw new Error('persistent B98 exact hash contract mismatch');
+          if(audit.persistent_gap_count!==15||audit.native_evidence_count!==2||audit.native_assessment_count!==4)throw new Error('persistent B98 native Intelligence scope mismatch');
+          if(audit.residual_signature_count!==61||audit.residual_factual_leaf_mutations!==81||audit.unexpected_residual_modules?.length!==0)throw new Error('persistent B98 residual baseline drift');
+          if(audit.guard_short_circuit_count!==3||audit.guarded_factual_mutation_count!==0)throw new Error('persistent B98 runtime guard transition failed');
+          if(audit.multimedia_status!=='MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION')throw new Error('persistent B98 media gate failed');
+          if(audit.overlays_must_remain_active!==true||audit.overlay_retirement_authorized!==false||audit.identity_fix_migration_authorized!==false||audit.post_b98_pages_validation_ready!==true||audit.canonical_write_performed!==false)throw new Error('persistent B98 safety boundary broadened');
+          console.log('B98_LIFECYCLE=POST_B98_PERSISTENT_PASS');
+          NODE
+
+      - name: Upload pre-B98 readiness evidence
+        if: steps.lifecycle.outputs.phase == 'PRE_B98'
         uses: actions/upload-artifact@v4
         with:
           name: b98-readiness-${{ github.run_id }}-${{ github.run_attempt }}
@@ -103,4 +140,14 @@ jobs:
             docs/engineer-osint-dist/b98-readiness-audit.json
             docs/engineer-osint-dist/b98-readiness-audit.md
             docs/engineer-osint-dist/b98-append-plan.json
+            docs/engineer-osint-dist/health.txt
+
+      - name: Upload persistent B98 readiness evidence
+        if: steps.lifecycle.outputs.phase == 'POST_B98'
+        uses: actions/upload-artifact@v4
+        with:
+          name: b98-persistent-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/persistent-b98-audit.json
+            docs/engineer-osint-dist/persistent-b98-audit.md
             docs/engineer-osint-dist/health.txt

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
@@ -7,6 +8,18 @@ const authorization=JSON.parse(readFileSync(`${root}/V4526_B98_APPEND_AUTHORIZAT
 const appendRun=readFileSync(`${root}/append-run.mjs`,'utf8');
 const oneShot=readFileSync('.github/workflows/b98-one-shot-publish.yml','utf8');
 const pagesGate=readFileSync(`${root}/verify-post-b98-pages-readiness.mjs`,'utf8');
+const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
+const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+const b98Path=`${root}/data/runs/engineer-osint-20260830-B98.json`;
+const sha256=text=>createHash('sha256').update(text).digest('hex');
+
+const assertAuthorizedLifecyclePresence=()=>{
+  if(currentRun==='engineer-osint-20260830-B97')assert.equal(existsSync(b98Path),false);
+  else if(currentRun==='engineer-osint-20260830-B98'){
+    assert.equal(existsSync(b98Path),true);
+    assert.equal(sha256(readFileSync(b98Path,'utf8')),authorization.exact_candidate_file_sha256);
+  }else assert.fail(`unexpected B98 lifecycle tip ${currentRun}`);
+};
 
 test('v4.5.26 activates only the exact reviewed B98 candidate',()=>{
   assert.equal(authorization.schema_version,'engineer-osint-b98-append-authorization-v1');
@@ -32,7 +45,7 @@ test('v4.5.26 activates only the exact reviewed B98 candidate',()=>{
   assert.equal(authorization.authorization.allow_future_run_same_slice,false);
   assert.equal(authorization.authorization.allow_overlay_retirement,false);
   assert.equal(authorization.authorization.allow_identity_fix_migration,false);
-  assert.equal(existsSync(`${root}/data/runs/engineer-osint-20260830-B98.json`),false);
+  assertAuthorizedLifecyclePresence();
 });
 
 test('B98 authorization is based on reviewed green PR and main POST_B98 evidence',()=>{

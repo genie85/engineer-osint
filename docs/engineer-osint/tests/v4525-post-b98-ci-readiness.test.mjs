@@ -13,9 +13,20 @@ const workflow=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8'
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
 const pagesGate=readFileSync(`${root}/verify-post-b98-pages-readiness.mjs`,'utf8');
 const attestation=readFileSync(`${root}/data/attestations/engineer-osint-20260830-B98-media-omission.md`,'utf8');
+const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
+const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+const b98Path=`${root}/data/runs/engineer-osint-20260830-B98.json`;
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 
-test('v4.5.25 pins exact B98 hashes but keeps append blocked',()=>{
+const assertLifecyclePresence=()=>{
+  if(currentRun==='engineer-osint-20260830-B97')assert.equal(existsSync(b98Path),false);
+  else if(currentRun==='engineer-osint-20260830-B98'){
+    assert.equal(existsSync(b98Path),true);
+    assert.equal(sha256(readFileSync(b98Path,'utf8')),policy.exact_candidate_file_sha256);
+  }else assert.fail(`unexpected B98 lifecycle tip ${currentRun}`);
+};
+
+test('v4.5.25 pins exact historical B98 no-write hashes and scope',()=>{
   assert.equal(policy.schema_version,'engineer-osint-b98-post-ci-readiness-v1');
   assert.equal(policy.status,'BLOCKED_PENDING_POST_B98_CI_READINESS');
   assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B98');
@@ -29,7 +40,7 @@ test('v4.5.25 pins exact B98 hashes but keeps append blocked',()=>{
   assert.equal(policy.authorization.standard_append_run_write_allowed,false);
   assert.equal(policy.authorization.allow_overlay_retirement,false);
   assert.equal(policy.authorization.allow_identity_fix_migration,false);
-  assert.equal(existsSync(`${root}/data/runs/engineer-osint-20260830-B98.json`),false);
+  assertLifecyclePresence();
 });
 
 test('B98 media attestation is exact, one-run and assessment-migration-only',()=>{
@@ -65,13 +76,20 @@ test('persistent B98 audit has symmetric simulated and persistent exact-hash mod
   assert.match(audit,/identity_fix_migration_authorized:false/);
 });
 
-test('POST_B98 readiness workflow regenerates and dry-runs exact B98 without writes',()=>{
+test('POST_B98 readiness workflow is lifecycle-aware and never writes canonical data',()=>{
+  assert.match(workflow,/Detect B98 lifecycle phase/);
+  assert.match(workflow,/phase=PRE_B98/);
+  assert.match(workflow,/phase=POST_B98/);
   assert.match(workflow,/build-b98-readiness\.mjs/);
   assert.match(workflow,/append-run\.mjs "\$candidate" > "\$plan"/);
   assert.match(workflow,/audit-persistent-b98\.mjs --simulate-from-generated/);
+  assert.match(workflow,/audit-persistent-b98\.mjs/);
+  assert.match(workflow,/PERSISTENT_POST_APPEND/);
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
   assert.match(workflow,/exact_candidate_file_sha256/);
   assert.match(workflow,/expected_resulting_canonical_sha256/);
+  assert.match(workflow,/steps\.lifecycle\.outputs\.phase == 'PRE_B98'/);
+  assert.match(workflow,/steps\.lifecycle\.outputs\.phase == 'POST_B98'/);
   assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
 });
 

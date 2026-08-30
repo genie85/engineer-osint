@@ -6,7 +6,7 @@ const audit=fs.readFileSync(new URL('../audit-overlay-provenance.mjs',import.met
 const review=JSON.parse(fs.readFileSync(new URL('../V453_PROVENANCE_REVIEW.json',import.meta.url),'utf8'));
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
-const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 
 test('v4.5.3 scopes provenance review to the three structurally equivalent rich overlays',()=>{
   assert.deepEqual(review.scope_modules,[
