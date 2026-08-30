@@ -28,48 +28,74 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
       - name: Test complete P0/P1 contract
         run: node --test docs/engineer-osint/tests/*.test.mjs
-
       - name: Validate append-only canonical chain
         run: node docs/engineer-osint/validate-patch.mjs
-
       - name: Build current canonical dashboard
         run: node docs/engineer-osint/build-pages.mjs
-
       - name: Materialize canonical media from snapshot and append-only runs
         run: node docs/engineer-osint/materialize-canonical-media-history.mjs
-
+      - name: Detect B99 lifecycle phase
+        id: lifecycle
+        shell: bash
+        run: |
+          node - <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const runs=m.runs||[], b98='engineer-osint-20260830-B98', b99='engineer-osint-20260830-B99';
+          const current=runs.at(-1)?.run_id||m.snapshot?.run_id;
+          const i99=runs.findIndex(x=>x.run_id===b99);
+          if(current===b98&&i99<0) console.log('phase=PRE_B99');
+          else if(current===b99&&i99===runs.length-1) console.log('phase=POST_B99');
+          else if(i99>=0&&runs.length-1>i99) console.log('phase=POST_B99_STEADY');
+          else throw new Error(`unexpected B99 lifecycle tip ${current}`);
+          NODE
       - name: Audit exact identity-fix migration readiness
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         run: node docs/engineer-osint/audit-identity-fix-migration-readiness.mjs
-
-      - name: Verify no persistent canonical writes
+      - name: Verify PRE_B99 no-write readiness
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         run: |
           set -euo pipefail
           git diff --exit-code -- docs/engineer-osint/data
           node - <<'NODE'
           const fs=require('fs');
           const report=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-migration-readiness.json','utf8'));
-          if(report.status!=='PASS')throw new Error('identity-fix readiness audit did not PASS');
-          if(report.current_run_id!=='engineer-osint-20260830-B98')throw new Error('unexpected persistent tip');
-          if(report.current_mutation_count!==70||report.migration_candidate_count!==36||report.operations_v1_candidates!==27||report.manual_review_candidates!==9)throw new Error('identity-fix readiness counts drift');
-          if(report.canonical_write_performed!==false||report.append_run_invoked!==false||report.safe_to_append_identity_migration!==false||report.safe_to_retire_identity_fix_overlay!==false||report.identity_fix_runtime_removal_authorized!==false)throw new Error('identity-fix safety boundary broadened');
+          if(report.status!=='PASS'||report.current_run_id!=='engineer-osint-20260830-B98')throw new Error('PRE_B99 identity readiness mismatch');
+          if(report.current_mutation_count!==70||report.migration_candidate_count!==36||report.operations_v1_candidates!==27||report.manual_review_candidates!==9)throw new Error('PRE_B99 identity readiness counts drift');
+          if(report.canonical_write_performed!==false||report.append_run_invoked!==false||report.safe_to_append_identity_migration!==false||report.safe_to_retire_identity_fix_overlay!==false||report.identity_fix_runtime_removal_authorized!==false)throw new Error('PRE_B99 identity safety boundary broadened');
           console.log('IDENTITY_FIX_READINESS_CI=PASS_NO_WRITE');
           NODE
-
+      - name: Audit persistent B99 identity state
+        if: steps.lifecycle.outputs.phase == 'POST_B99' || steps.lifecycle.outputs.phase == 'POST_B99_STEADY'
+        run: node docs/engineer-osint/audit-persistent-b99-identity.mjs
+      - name: Verify POST_B99 identity lifecycle
+        if: steps.lifecycle.outputs.phase == 'POST_B99' || steps.lifecycle.outputs.phase == 'POST_B99_STEADY'
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const report=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
+          if(report.status!=='PASS'||report.identity_overlay_residual_mutations!==0||report.identity_fix_runtime_active!==true)throw new Error('POST_B99 identity audit mismatch');
+          if(report.b99_append_authorized!==false||report.identity_fix_runtime_removal_authorized!==false||report.identity_overlay_retirement_authorized!==false||report.canonical_write_performed!==false)throw new Error('POST_B99 identity safety boundary broadened');
+          console.log(`IDENTITY_FIX_POST_B99_CI=PASS mode=${report.mode}`);
+          NODE
       - name: Upload identity-fix readiness evidence
         uses: actions/upload-artifact@v4
         with:
           name: identity-fix-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
           path: |
             docs/engineer-osint-dist/identity-fix-migration-readiness.json
             docs/engineer-osint-dist/identity-fix-migration-readiness.md
             docs/engineer-osint-dist/overlay-retirement-audit.json
             docs/engineer-osint-dist/overlay-migration-map.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.md
             docs/engineer-osint-dist/health.txt
