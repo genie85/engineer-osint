@@ -5,10 +5,10 @@ import {readFileSync} from 'node:fs';
 const workflow=readFileSync('.github/workflows/b97-one-shot-publish.yml','utf8');
 const contract=readFileSync('docs/engineer-osint/V4520_B97_ONE_SHOT_PUBLICATION.md','utf8');
 
-test('v4.5.20 B97 one-shot is main-triggered but writes only an isolated review branch',()=>{
+test('v4.5.23 B97 one-shot regeneration is main-triggered but writes only the fresh isolated review branch',()=>{
   assert.match(workflow,/push:\n    branches: \[main\]/);
   assert.match(workflow,/paths:\n      - '\.github\/workflows\/b97-one-shot-publish\.yml'/);
-  assert.match(workflow,/B97_RESULT_BRANCH: automation\/b97-append-result/);
+  assert.match(workflow,/B97_RESULT_BRANCH: automation\/b97-append-result-v2/);
   assert.match(workflow,/git ls-remote --exit-code --heads origin/);
   assert.match(workflow,/git switch -c "\$B97_RESULT_BRANCH"/);
   assert.match(workflow,/git push --set-upstream origin "\$B97_RESULT_BRANCH"/);
