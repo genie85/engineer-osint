@@ -1,0 +1,40 @@
+{
+  "schema_version": "engineer-osint-compat-transition-policy-v1",
+  "policy": "FULL_NATIVE_MATERIALIZATION_REQUIRED_BEFORE_LEGACY_OVERLAY_SHORT_CIRCUIT",
+  "persistent_tip_required": "engineer-osint-20260826-B95",
+  "stage_a_run_id": "engineer-osint-20260829-B96",
+  "stage_b_run_id": "engineer-osint-20260830-B97",
+  "stage_c_run_id": "engineer-osint-20260830-B98",
+  "scope_modules": [
+    "rich-backfill.js",
+    "rich-backfill-israel-turkiye-eod.js",
+    "rich-backfill-usa-rok.js"
+  ],
+  "expected": {
+    "stage_a_operations": 104,
+    "stage_a_sources": 15,
+    "native_gaps": 15,
+    "native_assessments": 4,
+    "native_evidence": 2,
+    "native_analytical_total": 19,
+    "guard_negative_cases": 6,
+    "zero_mutation_modules_when_guarded": 3
+  },
+  "presentation_contract": {
+    "native_gap_content": "EXACT_LEGACY_QUESTION_PRESERVATION",
+    "native_assessment_content": "CURATED_REVIEWED_REPLACEMENT_NOT_BYTE_EQUIVALENCE",
+    "entity_detail_native_assessments_required": true,
+    "entity_detail_native_gaps_required": true,
+    "situation_hub_native_intelligence_required": true,
+    "legacy_section_layout_equivalence_required": false
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_invoked": false,
+    "runtime_overlay_changed": false,
+    "short_circuit_enabled_in_production": false,
+    "safe_to_append": false,
+    "safe_to_retire_overlays": false,
+    "identity_fix_overlay_in_scope": false
+  }
+}

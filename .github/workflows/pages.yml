@@ -128,6 +128,9 @@ jobs:
       - name: Explicitly gate Stage B/C migration artifacts
         run: node docs/engineer-osint/verify-stage-bc-pages-gate.mjs
 
+      - name: Preview fail-closed legacy overlay compatibility transition
+        run: node docs/engineer-osint/audit-overlay-compat-transition.mjs
+
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
 
@@ -166,6 +169,9 @@ jobs:
           test -s docs/engineer-osint-dist/overlay-assessment-evidence-audit.json
           test -s docs/engineer-osint-dist/overlay-assessment-evidence-audit.md
           test -s docs/engineer-osint-dist/overlay-stage-c-assessment-evidence-candidate.json
+          test -s docs/engineer-osint-dist/overlay-compat-transition-preview.json
+          test -s docs/engineer-osint-dist/overlay-compat-transition-preview.md
+          test -s docs/engineer-osint-dist/overlay-compat-transition-guard-spec.json
           cat docs/engineer-osint-dist/health.txt
           cat docs/engineer-osint-dist/overlay-retirement-audit.md
           sed -n '1,140p' docs/engineer-osint-dist/overlay-migration-map.md
@@ -177,6 +183,7 @@ jobs:
           cat docs/engineer-osint-dist/overlay-stage-a-impact-preview.md
           cat docs/engineer-osint-dist/overlay-stage-b-intelligence-audit.md
           cat docs/engineer-osint-dist/overlay-assessment-evidence-audit.md
+          cat docs/engineer-osint-dist/overlay-compat-transition-preview.md
           cat docs/engineer-osint-dist/media-history-audit.md
           cat docs/engineer-osint-dist/media-coverage-qa.md
           cat docs/engineer-osint-dist/public-cz-ui-audit.md
@@ -249,6 +256,22 @@ jobs:
           grep -q 'overlay_stage_bc_pages_gate_native_analytical=19' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_stage_bc_pages_gate_unexpected_residuals=0' docs/engineer-osint-dist/health.txt
           grep -q 'overlay_stage_bc_pages_gate_canonical_writes=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_guard=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_negative_cases=6' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_persistent_guard=blocked' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_first3_zero_mutations=1' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_zero_mutation_modules=3' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_native_gaps=15' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_native_assessments=4' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_native_evidence=2' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_native_analytical=19' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_no_write_preserved=18' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_ui_native=pass' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_production_short_circuit=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_safe_to_append=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_safe_to_retire=0' docs/engineer-osint-dist/health.txt
+          grep -q 'overlay_compat_transition_canonical_writes=0' docs/engineer-osint-dist/health.txt
           grep -q 'localization_mutation_violations=0' docs/engineer-osint-dist/health.txt
           grep -q 'canonical_export_snapshot=legacy-overlay-resolved' docs/engineer-osint-dist/health.txt
           grep -q 'runtime_audit=pass' docs/engineer-osint-dist/health.txt
@@ -272,6 +295,7 @@ jobs:
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-patch-candidate-meta.json','utf8')); const p=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-append-plan.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-stage-a-patch-candidate-meta-v1') throw new Error('Stage A candidate meta invalid'); if(p.status!=='VALIDATED_DRY_RUN'||p.entry.file_sha256!==q.candidate_file_sha256||p.entry.parent_canonical_sha256!==q.parent_canonical_sha256) throw new Error('Stage A append plan mismatch'); if(q.safe_to_append!==false||q.safe_to_retire_overlays!==false||q.canonical_write_performed!==false) throw new Error('Stage A candidate safety contract violated'); console.log('Stage A candidate exact append plan',p.entry);"
           node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-a-impact-preview.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-stage-a-impact-audit-v1') throw new Error('Stage A impact invalid'); if(q.unexpected_signature_count!==0||q.retirement_ready_after_stage_a!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('Stage A residual/retirement contract violated'); console.log('Stage A impact',q.residual_signature_count,'residual signatures,',q.residual_factual_leaf_mutations,'factual leafs,',q.stage_b_intelligence_candidates,'Stage B pending');"
           node -e "const fs=require('fs'); const b=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-stage-b-intelligence-audit.json','utf8')); const c=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-assessment-evidence-audit.json','utf8')); if(b.status!=='PASS'||b.schema_version!=='engineer-osint-stage-b-intelligence-audit-v1'||b.native_gap_candidate_count!==15||b.assessment_candidate_count!==4||b.unexpected_residual_signatures?.length!==0) throw new Error('Stage B final artifact verification failed'); if(c.status!=='PASS'||c.schema_version!=='engineer-osint-assessment-evidence-audit-v1'||c.evidence_candidate_count!==2||c.assessment_candidate_count!==4||c.native_analytical_candidates_preserved!==19||c.unexpected_residual_signatures?.length!==0) throw new Error('Stage C final artifact verification failed'); console.log('Stage B/C final artifact gate PASS');"
+          node -e "const fs=require('fs'); const q=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/overlay-compat-transition-preview.json','utf8')); if(q.status!=='PASS'||q.schema_version!=='engineer-osint-compat-transition-preview-v1') throw new Error('compatibility transition preview invalid'); if(q.exact_guard?.short_circuit_allowed!==true||q.persistent_guard?.short_circuit_allowed!==false||q.negative_guard_cases_passed!==6) throw new Error('compatibility transition guard contract failed'); if(q.guarded_transition?.total_mutations!==0||q.guarded_transition?.zero_mutation_modules!==3) throw new Error('first-three guarded overlay zero-mutation contract failed'); if(q.native_semantics?.analytical_total!==19||q.native_semantics?.gap_exact_mappings!==15||q.native_semantics?.assessment_reviewed_replacements!==4||q.native_semantics?.evidence_count!==2||q.native_semantics?.no_write_semantics_preserved!==18) throw new Error('native semantic preservation failed'); if(q.canonical_write_performed!==false||q.append_run_invoked!==false||q.runtime_overlay_changed!==false||q.short_circuit_enabled_in_production!==false||q.safe_to_append!==false||q.safe_to_retire_overlays!==false) throw new Error('compatibility transition safety contract violated'); console.log('Compatibility transition final gate PASS',q.exact_guard.check_count,'guard checks,',q.native_semantics.analytical_total,'native analytical');"
           node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8')); const run=m.runs.at(-1)?.run_id||m.snapshot.run_id; const h=fs.readFileSync('docs/engineer-osint-dist/health.txt','utf8'); if(!h.includes('run='+run)) throw new Error('health RUN_ID mismatch: artifact is stale'); console.log('Deploying current run',run);"
 
       - name: Configure GitHub Pages
