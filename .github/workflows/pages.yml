@@ -91,12 +91,15 @@ jobs:
           node - <<'NODE'
           const fs=require('fs');
           const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
-          const run=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const runs=manifest.runs||[];
+          const run=runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const b98Index=runs.findIndex(item=>item.run_id==='engineer-osint-20260830-B98');
           let phase;
           if(run==='engineer-osint-20260826-B95')phase='PRE_B96';
           else if(run==='engineer-osint-20260829-B96')phase='POST_B96';
           else if(run==='engineer-osint-20260830-B97')phase='POST_B97';
           else if(run==='engineer-osint-20260830-B98')phase='POST_B98';
+          else if(b98Index>=0&&runs.length-1>b98Index)phase='POST_B98_STEADY';
           else throw new Error(`Unsupported canonical migration phase at ${run}`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT,`phase=${phase}\nrun=${run}\n`);
           console.log(`Canonical migration phase ${phase}: ${run}`);
@@ -225,6 +228,10 @@ jobs:
       - name: Audit persistent B98 post-append state
         if: steps.migration-phase.outputs.phase == 'POST_B98'
         run: node docs/engineer-osint/audit-persistent-b98.mjs
+
+      - name: Audit post-B98 steady state and first-three semantic parity
+        if: steps.migration-phase.outputs.phase == 'POST_B98' || steps.migration-phase.outputs.phase == 'POST_B98_STEADY'
+        run: node docs/engineer-osint/audit-post-b98-steady-state.mjs
 
       - name: Gate POST_B98 Pages readiness
         run: node docs/engineer-osint/verify-post-b98-pages-readiness.mjs
