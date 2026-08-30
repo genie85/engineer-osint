@@ -67,19 +67,17 @@ jobs:
           node --test docs/engineer-osint/tests/*.test.mjs
           node docs/engineer-osint/validate-patch.mjs
 
-      - name: Build persistent B96 and verify current migration baseline
+      - name: Build persistent B96 and verify current canonical baseline
         run: |
           set -euo pipefail
           node docs/engineer-osint/build-pages.mjs
           node docs/engineer-osint/audit-persistent-b96.mjs
-          node docs/engineer-osint/audit-b97-readiness.mjs
-          node docs/engineer-osint/audit-persistent-b97.mjs --simulate-from-candidate
 
       - name: Dry-run exact reviewed B97 through standard append helper
         run: |
           set -euo pipefail
           candidate='docs/engineer-osint/V4517_B97_PATCH_CANDIDATE.json'
-          plan='docs/engineer-osint-dist/b97-one-shot-dry-run-plan.json'
+          plan='docs/engineer-osint-dist/b97-append-plan.json'
           manifest='docs/engineer-osint/data/run-store-manifest.json'
           manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
           runs_before=$(find docs/engineer-osint/data/runs -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
@@ -95,7 +93,7 @@ jobs:
           const fs=require('fs');
           const authorization=JSON.parse(fs.readFileSync('docs/engineer-osint/V4518_B97_APPEND_AUTHORIZATION.json','utf8'));
           const candidate=JSON.parse(fs.readFileSync('docs/engineer-osint/V4517_B97_PATCH_CANDIDATE.json','utf8'));
-          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b97-one-shot-dry-run-plan.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b97-append-plan.json','utf8'));
           if(plan.status!=='VALIDATED_DRY_RUN')throw new Error('B97 append helper did not remain dry-run');
           if(plan.entry?.run_id!==process.env.B97_RUN||plan.entry?.parent_run_id!==process.env.B96_RUN)throw new Error('B97 dry-run identity mismatch');
           if(plan.entry?.file_sha256!==process.env.B97_CANDIDATE_SHA256)throw new Error('B97 dry-run file SHA drift');
@@ -105,6 +103,12 @@ jobs:
           if(!intel||intel.gaps?.length!==15||intel.assessments?.length!==0||intel.contradictions?.length!==0)throw new Error('B97 candidate Intelligence scope drift');
           if(candidate.extensions?.operations_v1!==undefined)throw new Error('B97 candidate unexpectedly contains factual correction operations');
           NODE
+
+      - name: Re-audit exact B97 readiness and simulated POST_B97 state
+        run: |
+          set -euo pipefail
+          node docs/engineer-osint/audit-b97-readiness.mjs
+          node docs/engineer-osint/audit-persistent-b97.mjs --simulate-from-candidate
 
       - name: Execute guarded standard B97 append locally
         run: |
