@@ -18,8 +18,8 @@ if(activeFirstThree){
 }
 
 // After v4.5.30 retirement, preserve the v4.5.29 artifact as historical compatibility evidence.
-// The actual current-state retirement proof is produced by audit-first-three-overlay-retirement.mjs.
-execFileSync(process.execPath,[join(src,'audit-first-three-overlay-retirement.mjs')],{stdio:'inherit'});
+// The actual current-state retirement proof is produced by the normalized v4.5.30 audit wrapper.
+execFileSync(process.execPath,[join(src,'audit-first-three-overlay-retirement-normalized.mjs')],{stdio:'inherit'});
 const retirement=JSON.parse(readFileSync(join(dist,'first-three-overlay-retirement-audit.json'),'utf8'));
 if(retirement.status!=='PASS'||retirement.retirement_validated!==true||retirement.retired_runtime_module_count!==3||retirement.identity_fix_active!==true||retirement.identity_fix_in_scope!==false||retirement.canonical_write_performed!==false)throw new Error('POST_B98_STEADY_STATE: v4.5.30 retirement audit did not pass compatibility requirements');
 const store=loadCanonicalRunStore({root:src});
