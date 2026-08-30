@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const dispatcher=readFileSync(`${root}/audit-post-b98-steady-state.mjs`,'utf8');
 const activeAudit=readFileSync(`${root}/audit-post-b98-steady-state-active.mjs`,'utf8');
+const normalizedRetirement=readFileSync(`${root}/audit-first-three-overlay-retirement-normalized.mjs`,'utf8');
 const audit=dispatcher+'\n'+activeAudit;
 const policy=readFileSync(`${root}/V4529_POST_B98_STEADY_STATE.md`,'utf8');
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
@@ -42,14 +43,16 @@ test('v4.5.29 historical proof requires 3\/3 guard and zero guarded-vs-retired s
   assert.match(activeAudit,/public_data_semantic_parity:true/);
 });
 
-test('v4.5.29 audit remains review-only while dispatcher delegates retired current state to v4.5.30',()=>{
+test('v4.5.29 audit remains review-only while dispatcher delegates retired current state to normalized v4.5.30 audit',()=>{
   for(const marker of [
     'retirement_authorized:false','runtime_module_removal_performed:false','baseline_manifest_cleanup_performed:false',
     'full_browser_retirement_regression_passed:false','full_browser_retirement_regression_required:true',
     'identity_fix_migration_authorized:false','canonical_write_performed:false'
   ])assert.match(audit,new RegExp(marker));
   assert.match(audit,/READY_FOR_SEPARATE_RETIREMENT_SLICE_REVIEW/);
-  assert.match(dispatcher,/audit-first-three-overlay-retirement\.mjs/);
+  assert.match(dispatcher,/audit-first-three-overlay-retirement-normalized\.mjs/);
+  assert.match(normalizedRetirement,/structuredClone/);
+  assert.match(normalizedRetirement,/audit-first-three-overlay-retirement\.mjs/);
   assert.match(dispatcher,/POST_RETIREMENT_COMPATIBILITY/);
   assert.match(policy,/READ-ONLY REVIEW GATE — NO RETIREMENT AUTHORIZATION/);
   assert.match(policy,/full P0\/P1/);
