@@ -5,7 +5,8 @@ const RESOLVED_STATUSES={
   ZERO_DELTA:'MISSING_WAIVED_PINNED_ZERO_DELTA',
   NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',
   MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_MIGRATION_NO_MEDIA_ADDITION',
-  INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'
+  INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION',
+  INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'
 };
 const EXPLICIT_STATUSES=new Set([
   'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',
@@ -16,7 +17,8 @@ const ELIGIBLE_RUNS=new Map([
   ['engineer-osint-20260825-B73',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260825-B74',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx',waiverScope:'NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260829-B96',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4511_B96_APPEND_AUTHORIZATION+V4513_B96_PUBLICATION',waiverScope:'MIGRATION_NO_MEDIA_ADDITION'}],
-  ['engineer-osint-20260830-B97',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4517_B97_READINESS',waiverScope:'INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'}]
+  ['engineer-osint-20260830-B97',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4517_B97_READINESS',waiverScope:'INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260830-B98',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4524_B98_READINESS+V4525_B98_POST_CI_READINESS',waiverScope:'INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
@@ -135,6 +137,26 @@ function ensureIntelligenceMigrationNoMediaAddition(patch,item){
   if(patch?.extensions?.operations_v1!==undefined)fail(`${item.exception_id} cannot cover correction operations`);
 }
 
+function ensureIntelligenceAssessmentMigrationNoMediaAddition(patch,item){
+  const counts=patch?.state?.counts;
+  if(!counts||counts.NEW_EVIDENCE!==2||counts.NEW_MEDIA!==0||counts.NEW_VISUALS!==0)fail(`${item.exception_id} reviewed Stage C counts mismatch`);
+  const zeroCountKeys=['CURRENT_DELTA','LATE_DISCOVERED_CURRENT','HISTORICAL_BACKFILL','ENTITY_ENRICHMENT','NEW','UPDATE','CONFIRMATION','CORRECTION','CONTRADICTION','LEAD','NEW_RELATIONS','UPDATED_RELATIONS','UPDATED_EVIDENCE','NEW_SOURCES','UPDATED_SOURCES'];
+  if(zeroCountKeys.some(key=>counts[key]!==0))fail(`${item.exception_id} requires zero non-evidence Stage C counts`);
+  const trueDelta=patch?.true_delta;
+  const keys=['CURRENT_DELTA','LATE_DISCOVERED_CURRENT','HISTORICAL_BACKFILL','ENTITY_ENRICHMENT'];
+  if(!trueDelta||Object.keys(trueDelta).length!==keys.length||keys.some(key=>trueDelta[key]!==0))fail(`${item.exception_id} requires exact zero true_delta`);
+  if(patch?.continuity?.status!=='ASSESSMENT_EVIDENCE_CANDIDATE_AFTER_PERSISTENT_B97')fail(`${item.exception_id} continuity status mismatch`);
+  if(patch?.continuity?.source_stage_b_run_id!=='engineer-osint-20260830-B97'||patch?.continuity?.assessment_scope!=='FOUR_LEGACY_ANALYTICAL_FIELDS_ONLY'||patch?.continuity?.legacy_unsupported_implications_removed!==true||patch?.continuity?.overlay_retirement_authorized!==false)fail(`${item.exception_id} Stage C lifecycle flags mismatch`);
+  if(!Array.isArray(patch.evidence)||patch.evidence.length!==2)fail(`${item.exception_id} requires exactly two reviewed evidence objects`);
+  for(const field of ['new_records','updated_records','sources','relations','visuals','media','technology_signals','lead_updates','observed_minimum_updates','lessons_learned'])if(!Array.isArray(patch[field])||patch[field].length)fail(`${item.exception_id} requires empty ${field}`);
+  const intel=patch?.extensions?.intelligence_v1;
+  if(!intel||!Array.isArray(intel.gaps)||!Array.isArray(intel.assessments)||!Array.isArray(intel.contradictions))fail(`${item.exception_id} requires native Intelligence v1 payload`);
+  if(intel.gaps.length!==0||intel.assessments.length!==4||intel.contradictions.length!==0)fail(`${item.exception_id} requires exactly four assessments and no new gaps/contradictions`);
+  const expectedIds=Array.from({length:4},(_,index)=>`ENG-ASMT-B98-OVL-${String(index+1).padStart(3,'0')}`);
+  if(JSON.stringify(intel.assessments.map(item=>item?.assessment_id))!==JSON.stringify(expectedIds))fail(`${item.exception_id} native assessment identity drift`);
+  if(patch.extensions.operations_v1!==undefined)fail(`${item.exception_id} cannot cover correction operations`);
+}
+
 export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFileRaw,reportSnapshotRaw,registry}){
   validateMediaSweepExceptionRegistry(registry);
   const explicitCandidates=[patch?.qa?.multimedia_status,patch?.qa?.multimedia?.status,patch?.multimedia?.status].filter(value=>value!==undefined&&value!==null);
@@ -168,6 +190,7 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   if(item.waiver_scope==='ZERO_DELTA')ensureZeroDelta(patch,item);
   else if(item.waiver_scope==='MIGRATION_NO_MEDIA_ADDITION')ensureMigrationNoMediaAddition(patch,item);
   else if(item.waiver_scope==='INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION')ensureIntelligenceMigrationNoMediaAddition(patch,item);
+  else if(item.waiver_scope==='INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION')ensureIntelligenceAssessmentMigrationNoMediaAddition(patch,item);
   else{
     const operations=patch?.extensions?.operations_v1;
     if(operations!==undefined&&!Array.isArray(operations))fail(`${item.exception_id} requires operations_v1 to be an array when present`);
