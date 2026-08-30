@@ -10,6 +10,7 @@ const workflow=readFileSync('.github/workflows/identity-fix-b99-mirror-sync-read
 const expectedFields=['record_role','title_cs','title_en','temporal_status','summary_cs','summary_en','source_ids','evidence_ids','timeline_events','confidence','event_date','date_precision','fact_cs','analysis_cs','mine_action_context','secondary_contexts','classification','translation_status'];
 
 test('v4.5.36 pins exactly one reviewed ENG-TECH-0036 mirror sync request',()=>{
+  assert.equal(policy.status,'EXACT_MIRROR_SYNC_CANDIDATE_PINNED_NO_WRITE');
   assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B99');
   assert.equal(policy.expected_parent_run_id,'engineer-osint-20260830-B98');
   assert.equal(policy.legacy_mirror_sync_request_count,1);
@@ -27,6 +28,13 @@ test('v4.5.36 preserves the reviewed 36-operation identity scope and adds only e
   assert.match(builder,/build-identity-fix-b99-candidate\.mjs/);
   assert.match(builder,/legacy_mirror_sync_v1:\{updated_records:\[\{target_id:policy\.legacy_mirror_sync_target_id,fields\}\]\}/);
   assert.match(builder,/historical candidate unexpectedly contains mirror sync/);
+});
+
+test('v4.5.36 pins exact candidate and resulting canonical hashes discovered by standard dry-run',()=>{
+  assert.equal(policy.exact_candidate_file_sha256,'3287950fb5ca93f542ca9aa4fa4c1de6e3a893c4f7e631e397730be3ea8da138');
+  assert.equal(policy.expected_resulting_canonical_sha256,'f7741ab3cb8a3cbcec16ac2a476696f65313fa21af0d0f1c23f79410d426bd4a');
+  assert.match(builder,/pinned v4\.5\.36 candidate file SHA drift/);
+  assert.match(builder,/pinned v4\.5\.36 resulting canonical SHA drift/);
 });
 
 test('v4.5.36 requires identity overlay residuals to reach exact zero after candidate plus mirror sync',()=>{
@@ -50,7 +58,7 @@ test('v4.5.36 remains review-only and does not authorize B99 append or identity 
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
 });
 
-test('v4.5.36 discovery workflow pins hashes only after a real standard dry-run',()=>{
+test('v4.5.36 workflow validates exact hashes only through a real standard dry-run',()=>{
   assert.match(workflow,/build-identity-fix-b99-mirror-sync-candidate\.mjs/);
   assert.match(workflow,/append-run\.mjs "\$candidate" > "\$plan"/);
   assert.match(workflow,/plan\.status!=='VALIDATED_DRY_RUN'/);
