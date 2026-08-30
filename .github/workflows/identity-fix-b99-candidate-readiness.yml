@@ -1,0 +1,82 @@
+name: ENGINEER OSINT identity-fix B99 candidate readiness
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4533-identity-fix-candidate
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-b99-candidate-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical lifecycle state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+      - name: Validate persistent canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+      - name: Build current canonical dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+      - name: Materialize canonical media
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+      - name: Build exact read-only identity-fix B99 candidate
+        run: node docs/engineer-osint/build-identity-fix-b99-candidate.mjs
+      - name: Validate candidate through standard append helper dry-run
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/identity-fix-b99-candidate.json'
+          plan='docs/engineer-osint-dist/identity-fix-b99-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4533_IDENTITY_FIX_CANDIDATE_READINESS.json','utf8'));
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-candidate-audit.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-append-plan.json','utf8'));
+          if(audit.status!=='PASS'||audit.operation_count!==36||audit.replace_field_count!==27||audit.remove_field_count!==9)throw new Error('identity B99 candidate scope mismatch');
+          if(audit.overlay_mutations_before!==70||audit.overlay_mutations_after!==0)throw new Error('identity overlay zero-mutation proof failed');
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error(`append helper escaped dry-run: ${plan.status}`);
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('identity B99 append identity mismatch');
+          if(plan.entry?.file_sha256!==audit.candidate_file_sha256)throw new Error('identity B99 candidate file SHA mismatch');
+          if(plan.entry?.canonical_sha256!==audit.resulting_canonical_sha256)throw new Error('identity B99 resulting canonical SHA mismatch');
+          if(policy.exact_candidate_file_sha256!==null&&policy.exact_candidate_file_sha256!==audit.candidate_file_sha256)throw new Error('pinned identity candidate file SHA drift');
+          if(policy.expected_resulting_canonical_sha256!==null&&policy.expected_resulting_canonical_sha256!==audit.resulting_canonical_sha256)throw new Error('pinned identity resulting canonical SHA drift');
+          if(audit.canonical_write_performed!==false||audit.append_run_write_invoked!==false||audit.identity_fix_runtime_removal_authorized!==false||audit.safe_to_append!==false||audit.safe_to_retire_identity_fix_overlay!==false)throw new Error('identity B99 safety boundary broadened');
+          console.log(`IDENTITY_B99_CANDIDATE_SHA=${audit.candidate_file_sha256}`);
+          console.log(`IDENTITY_B99_RESULT_SHA=${audit.resulting_canonical_sha256}`);
+          NODE
+      - name: Upload identity candidate review evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-b99-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/identity-fix-b99-candidate.json
+            docs/engineer-osint-dist/identity-fix-b99-candidate-audit.json
+            docs/engineer-osint-dist/identity-fix-b99-candidate-audit.md
+            docs/engineer-osint-dist/identity-fix-b99-append-plan.json
+            docs/engineer-osint-dist/identity-fix-migration-readiness.json
+            docs/engineer-osint-dist/overlay-migration-map.json
+            docs/engineer-osint-dist/health.txt
