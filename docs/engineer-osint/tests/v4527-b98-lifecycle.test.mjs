@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const pre=readFileSync(`${root}/verify-pages-artifact-pre-b98.mjs`,'utf8');
 const wrapper=readFileSync(`${root}/verify-pages-artifact.mjs`,'utf8');
+const persistentB98=readFileSync(`${root}/audit-persistent-b98.mjs`,'utf8');
 const b97Readiness=readFileSync('.github/workflows/b97-readiness.yml','utf8');
 const readiness=readFileSync('.github/workflows/b98-readiness.yml','utf8');
 const postCi=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8');
@@ -40,6 +41,15 @@ test('v4.5.27 final Pages wrapper delegates all non-B98 states and pins exact pe
   assert.match(wrapper,/identity_fix_migration_authorized!==false/);
   assert.match(wrapper,/allow_future_run_same_slice!==false/);
   assert.match(wrapper,/PAGES_VERIFY PASS: phase=POST_B98/);
+});
+
+test('v4.5.28 final Pages health markers exactly match the persistent B98 audit emitter',()=>{
+  for(const marker of ['persistent_b98_candidate_file_sha','persistent_b98_persistent_gaps']){
+    assert.match(persistentB98,new RegExp(marker));
+    assert.match(wrapper,new RegExp(marker));
+  }
+  assert.doesNotMatch(wrapper,/persistent_b98_candidate_sha=/);
+  assert.doesNotMatch(wrapper,/persistent_b98_native_gaps=/);
 });
 
 test('v4.5.27 keeps the required B97 readiness workflow green after exact B98 publication',()=>{
