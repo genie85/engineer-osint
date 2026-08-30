@@ -1,0 +1,77 @@
+name: ENGINEER OSINT identity-fix B99 mirror-sync readiness
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4536-b99-mirror-sync-readiness
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-b99-mirror-sync-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical lifecycle state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+      - name: Validate persistent canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+      - name: Build current canonical dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+      - name: Build exact read-only B99 candidate with reviewed mirror sync
+        run: node docs/engineer-osint/build-identity-fix-b99-mirror-sync-candidate.mjs
+      - name: Validate candidate through standard append helper dry-run
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate.json'
+          plan='docs/engineer-osint-dist/identity-fix-b99-mirror-sync-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4536_IDENTITY_FIX_B99_MIRROR_SYNC_READINESS.json','utf8'));
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate-audit.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-mirror-sync-append-plan.json','utf8'));
+          if(audit.status!=='PASS'||audit.operation_count!==36||audit.replace_field_count!==27||audit.remove_field_count!==9)throw new Error('v4.5.36 identity operation scope mismatch');
+          if(audit.legacy_mirror_sync_request_count!==1||audit.legacy_mirror_sync_target_id!=='ENG-TECH-0036'||audit.legacy_mirror_sync_field_count!==18)throw new Error('v4.5.36 mirror-sync scope mismatch');
+          if(audit.overlay_mutations_before!==70||audit.overlay_mutations_after!==0||audit.canonical_overlay_mutations_after!==0||audit.legacy_mirror_mutations_after!==0)throw new Error('v4.5.36 residual identity debt remains');
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error(`append helper escaped dry-run: ${plan.status}`);
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('v4.5.36 append identity mismatch');
+          if(plan.entry?.file_sha256!==audit.candidate_file_sha256||plan.entry?.canonical_sha256!==audit.resulting_canonical_sha256)throw new Error('v4.5.36 append hash mismatch');
+          if(policy.exact_candidate_file_sha256!==null&&policy.exact_candidate_file_sha256!==audit.candidate_file_sha256)throw new Error('pinned v4.5.36 candidate SHA drift');
+          if(policy.expected_resulting_canonical_sha256!==null&&policy.expected_resulting_canonical_sha256!==audit.resulting_canonical_sha256)throw new Error('pinned v4.5.36 canonical SHA drift');
+          if(audit.canonical_write_performed!==false||audit.append_run_write_invoked!==false||audit.identity_fix_runtime_removal_authorized!==false||audit.safe_to_append!==false||audit.safe_to_retire_identity_fix_overlay!==false)throw new Error('v4.5.36 safety boundary broadened');
+          console.log(`IDENTITY_B99_MIRROR_SYNC_CANDIDATE_SHA=${audit.candidate_file_sha256}`);
+          console.log(`IDENTITY_B99_MIRROR_SYNC_RESULT_SHA=${audit.resulting_canonical_sha256}`);
+          NODE
+      - name: Upload v4.5.36 review evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-b99-mirror-sync-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate.json
+            docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate-audit.json
+            docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate-audit.md
+            docs/engineer-osint-dist/identity-fix-b99-mirror-sync-append-plan.json
