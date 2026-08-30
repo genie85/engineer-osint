@@ -1,0 +1,192 @@
+name: ENGINEER OSINT one-shot B98 publication branch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/b98-one-shot-publish.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: engineer-osint-b98-one-shot-publication
+  cancel-in-progress: false
+
+env:
+  B97_RUN: engineer-osint-20260830-B97
+  B98_RUN: engineer-osint-20260830-B98
+  B98_RESULT_BRANCH: automation/b98-append-result
+  B98_CANDIDATE_SHA256: ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79
+  B98_RESULT_SHA256: 4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201
+
+jobs:
+  generate-b98-publication-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout activated green main state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fail closed unless exact reviewed B97-to-B98 publication is still pending
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('fs');
+          const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const authorization=JSON.parse(fs.readFileSync('docs/engineer-osint/V4526_B98_APPEND_AUTHORIZATION.json','utf8'));
+          const current=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          if(current!==process.env.B97_RUN)throw new Error(`one-shot B98 publication requires ${process.env.B97_RUN}, got ${current}`);
+          if(fs.existsSync(`docs/engineer-osint/data/runs/${process.env.B98_RUN}.json`))throw new Error('B98 run file already exists');
+          if(authorization.status!=='READY_FOR_APPEND')throw new Error(`B98 authorization is ${authorization.status}`);
+          if(authorization.required_preconditions?.v4525_post_b98_ci_pipeline_ready!==true||authorization.required_preconditions?.pages_post_b98_phase_ready!==true)throw new Error('POST_B98 CI/Pages pipeline is not authorized');
+          if(authorization.candidate_run_id!==process.env.B98_RUN||authorization.expected_parent_run_id!==process.env.B97_RUN)throw new Error('B98 authorization identity drift');
+          if(authorization.exact_candidate_file_sha256!==process.env.B98_CANDIDATE_SHA256)throw new Error('authorized B98 candidate SHA drift');
+          if(authorization.expected_resulting_canonical_sha256!==process.env.B98_RESULT_SHA256)throw new Error('authorized B98 result SHA drift');
+          if(authorization.expected_candidate_evidence_count!==2||authorization.expected_candidate_assessment_count!==4||authorization.expected_candidate_gap_count!==0||authorization.expected_candidate_contradiction_count!==0||authorization.expected_persistent_gap_count!==15)throw new Error('B98 authorization Intelligence scope drift');
+          if(authorization.required_preconditions?.expected_guard_short_circuits!==3||authorization.required_preconditions?.expected_guarded_factual_mutations!==0)throw new Error('B98 runtime transition authorization drift');
+          if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true)throw new Error('B98 authorization is incomplete');
+          if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_overlay_retirement!==false||authorization.authorization?.allow_identity_fix_migration!==false)throw new Error('B98 authorization scope is unsafe');
+          NODE
+          if git ls-remote --exit-code --heads origin "refs/heads/${B98_RESULT_BRANCH}" >/dev/null 2>&1; then
+            echo "::error::Result branch ${B98_RESULT_BRANCH} already exists; refusing a second publication attempt"
+            exit 1
+          fi
+
+      - name: Re-run P0/P1 and canonical integrity before B98 append
+        run: |
+          set -euo pipefail
+          for file in docs/engineer-osint/*.js docs/engineer-osint/*.mjs docs/engineer-osint/lib/*.mjs; do
+            node --check "$file"
+          done
+          node --test docs/engineer-osint/tests/*.test.mjs
+          node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build persistent B97 and verify current canonical baseline
+        run: |
+          set -euo pipefail
+          node docs/engineer-osint/build-pages.mjs
+          node docs/engineer-osint/audit-persistent-b97.mjs
+
+      - name: Regenerate exact reviewed B98 candidate without writes
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/build-b98-readiness.mjs
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          test "$(sha256sum docs/engineer-osint-dist/b98-patch-candidate.json | awk '{print $1}')" = "$B98_CANDIDATE_SHA256"
+
+      - name: Dry-run exact reviewed B98 through standard append helper
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
+          plan='docs/engineer-osint-dist/b98-one-shot-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find docs/engineer-osint/data/runs -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find docs/engineer-osint/data/runs -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const authorization=JSON.parse(fs.readFileSync('docs/engineer-osint/V4526_B98_APPEND_AUTHORIZATION.json','utf8'));
+          const candidate=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-patch-candidate.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-one-shot-append-plan.json','utf8'));
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error('B98 append helper did not remain dry-run');
+          if(plan.entry?.run_id!==process.env.B98_RUN||plan.entry?.parent_run_id!==process.env.B97_RUN)throw new Error('B98 dry-run identity mismatch');
+          if(plan.entry?.file_sha256!==process.env.B98_CANDIDATE_SHA256||plan.entry?.canonical_sha256!==process.env.B98_RESULT_SHA256)throw new Error('B98 dry-run hash drift');
+          if(plan.entry?.parent_canonical_sha256!==authorization.expected_parent_canonical_sha256)throw new Error('B98 parent canonical SHA drift');
+          if(candidate.evidence?.length!==2)throw new Error('B98 candidate evidence scope drift');
+          const intel=candidate.extensions?.intelligence_v1;
+          if(!intel||intel.gaps?.length!==0||intel.assessments?.length!==4||intel.contradictions?.length!==0)throw new Error('B98 candidate Intelligence scope drift');
+          if(candidate.extensions?.operations_v1!==undefined)throw new Error('B98 candidate unexpectedly contains factual correction operations');
+          if(candidate.continuity?.overlay_retirement_authorized!==false)throw new Error('B98 candidate unexpectedly authorizes overlay retirement');
+          NODE
+
+      - name: Re-audit simulated exact POST_B98 state before write
+        run: |
+          set -euo pipefail
+          node docs/engineer-osint/audit-persistent-b98.mjs --simulate-from-generated
+          node - <<'NODE'
+          const fs=require('fs');
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b98-audit.json','utf8'));
+          if(audit.status!=='PASS'||audit.mode!=='SIMULATED_PRE_APPEND_READINESS')throw new Error('simulated POST_B98 audit failed');
+          if(audit.guard_short_circuit_count!==3||audit.guarded_factual_mutation_count!==0)throw new Error('simulated POST_B98 guard contract failed');
+          if(audit.residual_signature_count!==61||audit.residual_factual_leaf_mutations!==81)throw new Error('simulated POST_B98 unguarded baseline drift');
+          if(audit.overlay_retirement_authorized!==false||audit.identity_fix_migration_authorized!==false)throw new Error('simulated POST_B98 safety boundary broadened');
+          NODE
+
+      - name: Execute guarded standard B98 append locally
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
+          node docs/engineer-osint/append-run.mjs "$candidate" --write > /tmp/b98-append-write-plan.json
+          node - <<'NODE'
+          const fs=require('fs');
+          const plan=JSON.parse(fs.readFileSync('/tmp/b98-append-write-plan.json','utf8'));
+          if(plan.status!=='APPENDED')throw new Error(`expected APPENDED, got ${plan.status}`);
+          if(plan.entry?.run_id!==process.env.B98_RUN||plan.entry?.parent_run_id!==process.env.B97_RUN)throw new Error('written B98 identity mismatch');
+          if(plan.entry?.file_sha256!==process.env.B98_CANDIDATE_SHA256||plan.entry?.canonical_sha256!==process.env.B98_RESULT_SHA256)throw new Error('written B98 hash drift');
+          NODE
+
+      - name: Verify persistent B98 locally before any push
+        run: |
+          set -euo pipefail
+          node docs/engineer-osint/validate-patch.mjs
+          rm -rf docs/engineer-osint-dist
+          node docs/engineer-osint/build-pages.mjs
+          node docs/engineer-osint/audit-persistent-b98.mjs
+          node - <<'NODE'
+          const fs=require('fs');
+          const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const current=manifest.runs.at(-1);
+          if(current?.run_id!==process.env.B98_RUN||current?.parent_run_id!==process.env.B97_RUN)throw new Error('manifest tip is not exact B98 after append');
+          if(current?.file_sha256!==process.env.B98_CANDIDATE_SHA256||current?.canonical_sha256!==process.env.B98_RESULT_SHA256)throw new Error('persistent B98 manifest hashes drifted');
+          const run=JSON.parse(fs.readFileSync(`docs/engineer-osint/data/runs/${process.env.B98_RUN}.json`,'utf8'));
+          if(run.evidence?.length!==2)throw new Error('persistent B98 evidence scope drift');
+          const intel=run.extensions?.intelligence_v1;
+          if(!intel||intel.gaps?.length!==0||intel.assessments?.length!==4||intel.contradictions?.length!==0)throw new Error('persistent B98 Intelligence scope drift');
+          if(run.extensions?.operations_v1!==undefined)throw new Error('factual operations leaked into B98 publication slice');
+          if(run.continuity?.overlay_retirement_authorized!==false)throw new Error('B98 publication slice authorized overlay retirement');
+          NODE
+
+      - name: Enforce exact two-file publication diff
+        run: |
+          set -euo pipefail
+          rm -rf docs/engineer-osint-dist
+          git status --porcelain --untracked-files=all | cut -c4- | sort > /tmp/b98-actual-paths.txt
+          printf '%s\n' \
+            'docs/engineer-osint/data/run-store-manifest.json' \
+            'docs/engineer-osint/data/runs/engineer-osint-20260830-B98.json' | sort > /tmp/b98-expected-paths.txt
+          diff -u /tmp/b98-expected-paths.txt /tmp/b98-actual-paths.txt
+          test "$(wc -l < /tmp/b98-actual-paths.txt | tr -d ' ')" = '2'
+
+      - name: Push append-generated result to isolated review branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$B98_RESULT_BRANCH"
+          git add \
+            docs/engineer-osint/data/run-store-manifest.json \
+            docs/engineer-osint/data/runs/engineer-osint-20260830-B98.json
+          git diff --cached --name-only | sort > /tmp/b98-staged-paths.txt
+          diff -u /tmp/b98-expected-paths.txt /tmp/b98-staged-paths.txt
+          git commit -m 'Append reviewed B98 Intelligence v1 assessment/evidence migration'
+          git push --set-upstream origin "$B98_RESULT_BRANCH"
