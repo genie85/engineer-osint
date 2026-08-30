@@ -34,7 +34,21 @@ jobs:
         run: node docs/engineer-osint/build-pages.mjs
       - name: Materialize canonical media
         run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+      - name: Detect B99 lifecycle phase
+        id: lifecycle
+        run: |
+          node - <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const runs=m.runs||[],b98='engineer-osint-20260830-B98',b99='engineer-osint-20260830-B99';
+          const current=runs.at(-1)?.run_id||m.snapshot?.run_id,i=runs.findIndex(x=>x.run_id===b99);
+          if(current===b98&&i<0)console.log('phase=PRE_B99');
+          else if(current===b99&&i===runs.length-1)console.log('phase=POST_B99');
+          else if(i>=0&&runs.length-1>i)console.log('phase=POST_B99_STEADY');
+          else throw new Error(`unexpected B99 lifecycle tip ${current}`);
+          NODE
       - name: Inject source-derived media materialization
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         run: |
           node - <<'NODE'
           const fs=require('fs');
@@ -50,8 +64,10 @@ jobs:
           fs.writeFileSync(p,h);
           NODE
       - name: Build exact B99 and audit mirror-only residual
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         run: node docs/engineer-osint/audit-identity-mirror-parity-readiness.mjs
       - name: Headless browser active-overlay vs synchronized-mirror parity
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         shell: bash
         run: |
           set -euo pipefail
@@ -102,7 +118,8 @@ jobs:
           Path('/tmp/v4534-browser-parity.txt').write_text(f'PASS sha256={digest}\n')
           print(f'HEADLESS_IDENTITY_MIRROR_PARITY=PASS sha256={digest}')
           PY
-      - name: Verify audit safety boundary
+      - name: Verify PRE_B99 audit safety boundary
+        if: steps.lifecycle.outputs.phase == 'PRE_B99'
         run: |
           node - <<'NODE'
           const fs=require('fs');
@@ -116,6 +133,18 @@ jobs:
           fs.writeFileSync(p,JSON.stringify(audit,null,2)+'\n');
           console.log('IDENTITY_MIRROR_PARITY_REVIEW=PASS_NO_WRITE');
           NODE
+      - name: Audit persistent B99 mirror-synchronized state
+        if: steps.lifecycle.outputs.phase == 'POST_B99' || steps.lifecycle.outputs.phase == 'POST_B99_STEADY'
+        run: node docs/engineer-osint/audit-persistent-b99-identity.mjs
+      - name: Verify POST_B99 mirror lifecycle
+        if: steps.lifecycle.outputs.phase == 'POST_B99' || steps.lifecycle.outputs.phase == 'POST_B99_STEADY'
+        run: |
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');const a=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
+          if(a.status!=='PASS'||a.mirror_sync_request_count!==1||a.mirror_sync_target_id!=='ENG-TECH-0036'||a.mirror_sync_field_count!==18||a.identity_overlay_residual_mutations!==0)throw new Error('POST_B99 mirror lifecycle mismatch');
+          if(a.identity_fix_runtime_active!==true||a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.canonical_write_performed!==false)throw new Error('POST_B99 mirror safety boundary broadened');
+          NODE
       - name: Upload mirror parity evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -125,8 +154,8 @@ jobs:
           path: |
             docs/engineer-osint-dist/identity-mirror-parity-audit.json
             docs/engineer-osint-dist/identity-mirror-parity-audit.md
-            docs/engineer-osint-dist/identity-fix-b99-candidate.json
-            docs/engineer-osint-dist/identity-fix-b99-candidate-audit.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.md
             /tmp/v4534-active-dom.html
             /tmp/v4534-clean-dom.html
             /tmp/v4534-active-normalized.html
