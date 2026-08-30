@@ -6,6 +6,7 @@ const audit=fs.readFileSync(new URL('../audit-overlay-provenance.mjs',import.met
 const review=JSON.parse(fs.readFileSync(new URL('../V453_PROVENANCE_REVIEW.json',import.meta.url),'utf8'));
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 
 test('v4.5.3 scopes provenance review to the three structurally equivalent rich overlays',()=>{
   assert.deepEqual(review.scope_modules,[
@@ -61,12 +62,13 @@ test('v4.5.3 remains read-only and never authorizes append or retirement',()=>{
   assert.match(policy,/read-only with respect to canonical data and persistence/i);
 });
 
-test('Pages runs and verifies the v4.5.3 provenance artifact before deployment',()=>{
+test('Pages runs and verifies the v4.5.3 provenance artifact before deployment through the final verifier',()=>{
   assert.match(workflow,/Audit overlay provenance readiness/);
   assert.match(workflow,/audit-overlay-provenance\.mjs/);
-  assert.match(workflow,/overlay-provenance-audit\.json/);
-  assert.match(workflow,/overlay-provenance-audit\.md/);
-  assert.match(workflow,/overlay_provenance_audit=pass/);
-  assert.match(workflow,/overlay_provenance_unclassified=0/);
-  assert.match(workflow,/overlay_provenance_safe_to_append=0/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay-provenance-audit\.json/);
+  assert.match(pagesVerifier,/overlay-provenance-audit\.md/);
+  assert.match(pagesVerifier,/overlay_provenance_audit=pass/);
+  assert.match(pagesVerifier,/overlay_provenance_unclassified=0/);
+  assert.match(pagesVerifier,/overlay_provenance_safe_to_append=0/);
 });
