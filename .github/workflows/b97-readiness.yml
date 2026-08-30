@@ -1,0 +1,86 @@
+name: ENGINEER OSINT B97 readiness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b97-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b97-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineer-osint-b97-readiness-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical snapshot and append-only runs
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test P0/P1 integrity contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate persistent B96 chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build canonical B96 dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Re-audit persistent B96 baseline
+        run: node docs/engineer-osint/audit-persistent-b96.mjs
+
+      - name: Dry-run exact reviewed B97 through standard append helper
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          candidate='docs/engineer-osint/V4517_B97_PATCH_CANDIDATE.json'
+          plan='docs/engineer-osint-dist/b97-append-plan.json'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4517_B97_READINESS.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b97-append-plan.json','utf8'));
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error('B97 append helper did not remain dry-run');
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('B97 append plan identity mismatch');
+          if(plan.entry?.file_sha256!==policy.exact_candidate_file_sha256||plan.entry?.parent_canonical_sha256!==policy.expected_parent_canonical_sha256)throw new Error('B97 append plan reviewed hash mismatch');
+          if(!/^[a-f0-9]{64}$/.test(plan.entry?.canonical_sha256||''))throw new Error('B97 resulting canonical SHA invalid');
+          console.log(`B97_DRY_RUN_RESULT_SHA=${plan.entry.canonical_sha256}`);
+          NODE
+
+      - name: Audit persistent-B96 to B97 readiness
+        run: node docs/engineer-osint/audit-b97-readiness.mjs
+
+      - name: Upload B97 readiness evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: b97-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/b97-append-plan.json
+            docs/engineer-osint-dist/b97-readiness-audit.json
+            docs/engineer-osint-dist/b97-readiness-audit.md
+            docs/engineer-osint-dist/health.txt
