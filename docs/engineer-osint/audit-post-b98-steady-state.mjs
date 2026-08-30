@@ -17,6 +17,11 @@ if(activeFirstThree){
   process.exit(0);
 }
 
+// Normalize the retired audit input to the same deterministic media-materialized dist state
+// used by production Pages before the v4.5.29 semantic-parity audit. The materializer is
+// idempotent and writes only the generated dist artifact; canonical run-store state is read-only.
+execFileSync(process.execPath,[join(src,'materialize-canonical-media-history.mjs')],{stdio:'inherit'});
+
 // After v4.5.30 retirement, preserve the v4.5.29 artifact as historical compatibility evidence.
 // The actual current-state retirement proof is produced by the normalized v4.5.30 audit wrapper.
 execFileSync(process.execPath,[join(src,'audit-first-three-overlay-retirement-normalized.mjs')],{stdio:'inherit'});
