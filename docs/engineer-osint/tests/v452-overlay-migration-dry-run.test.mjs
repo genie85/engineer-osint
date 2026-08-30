@@ -5,6 +5,7 @@ import fs from 'node:fs';
 const dryRun=fs.readFileSync(new URL('../audit-overlay-migration-dry-run.mjs',import.meta.url),'utf8');
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 
 test('v4.5.2 exercises the production strict materializer only in memory',()=>{
   assert.match(dryRun,/applyStrictPatchToCanonicalData/);
@@ -67,11 +68,12 @@ test('v4.5.2 cannot write or append persistent canonical state',()=>{
   assert.match(dryRun,/safe_to_retire_overlays:false/);
 });
 
-test('Pages publishes and gates the v4.5.2 dry-run artifact',()=>{
+test('Pages publishes and gates the v4.5.2 dry-run artifact through the final verifier',()=>{
   assert.match(workflow,/Strict dry-run overlay canonical migration/);
   assert.match(workflow,/audit-overlay-migration-dry-run\.mjs/);
-  assert.match(workflow,/overlay-migration-dry-run\.json/);
-  assert.match(workflow,/overlay-migration-dry-run\.md/);
-  assert.match(workflow,/overlay_migration_dry_run=pass/);
-  assert.match(workflow,/unexpected_residual_signatures/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay-migration-dry-run\.json/);
+  assert.match(pagesVerifier,/overlay-migration-dry-run\.md/);
+  assert.match(pagesVerifier,/overlay_migration_dry_run=pass/);
+  assert.match(pagesVerifier,/unexpected_residual_signatures/);
 });
