@@ -1,7 +1,7 @@
 {
   "schema_version": "engineer-osint-identity-fix-b99-mirror-sync-readiness-v1",
   "version": "4.5.36",
-  "status": "GENERATE_EXACT_MIRROR_SYNC_CANDIDATE_NO_WRITE",
+  "status": "EXACT_MIRROR_SYNC_CANDIDATE_PINNED_NO_WRITE",
   "candidate_run_id": "engineer-osint-20260830-B99",
   "expected_parent_run_id": "engineer-osint-20260830-B98",
   "expected_parent_canonical_sha256": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
@@ -35,8 +35,8 @@
   "expected_overlay_mutations_after": 0,
   "expected_canonical_overlay_mutations_after": 0,
   "expected_legacy_mirror_mutations_after": 0,
-  "exact_candidate_file_sha256": null,
-  "expected_resulting_canonical_sha256": null,
+  "exact_candidate_file_sha256": "3287950fb5ca93f542ca9aa4fa4c1de6e3a893c4f7e631e397730be3ea8da138",
+  "expected_resulting_canonical_sha256": "f7741ab3cb8a3cbcec16ac2a476696f65313fa21af0d0f1c23f79410d426bd4a",
   "safety": {
     "canonical_write_performed": false,
     "append_run_write_allowed": false,
