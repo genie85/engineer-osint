@@ -1,10 +1,11 @@
 {
-  "schema_version": "engineer-osint-media-sweep-exceptions-v1",
+  "schema_version": "engineer-osint-media-sweep-exceptions-v2",
   "exceptions": [
     {
       "exception_id": "MEDIA-SWEEP-ATTEST-B72",
       "run_id": "engineer-osint-20260825-B72",
       "parent_run_id": "engineer-osint-20260825-B71",
+      "attestation_basis": "DRIVE_REPORT",
       "source_drive_raw_file_sha256": "a3e012d70b349e4451e72197f8555ef24720f4a01fecf636169fbed741b40f4b",
       "source_transport_normalization": "APPEND_SINGLE_LF",
       "repository_file_sha256": "6008de05b46b2059803cd4134d7699ba64b5c597db97c406408e25a54407ff06",
@@ -21,6 +22,7 @@
       "exception_id": "MEDIA-SWEEP-ATTEST-B73",
       "run_id": "engineer-osint-20260825-B73",
       "parent_run_id": "engineer-osint-20260825-B72",
+      "attestation_basis": "DRIVE_REPORT",
       "source_drive_raw_file_sha256": "81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9",
       "source_transport_normalization": "IDENTITY",
       "repository_file_sha256": "81644d02087c9909425ca6605b942e3f88c7058c8884175f5c611641701e96b9",
@@ -37,6 +39,7 @@
       "exception_id": "MEDIA-SWEEP-ATTEST-B74",
       "run_id": "engineer-osint-20260825-B74",
       "parent_run_id": "engineer-osint-20260825-B73",
+      "attestation_basis": "DRIVE_REPORT",
       "source_drive_raw_file_sha256": "a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895",
       "source_transport_normalization": "IDENTITY",
       "repository_file_sha256": "a6872f6686b6cb378edbcf8472a27e2cbc772d5e2770b373f33a3fbb50941895",
@@ -48,6 +51,21 @@
       "resolved_status": "MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION",
       "waiver_scope": "NO_MEDIA_ADDITION",
       "rationale": "Immutable B74 is a verified no-media SUCCESS. Its Drive report explicitly records that no visual or media item was promoted, but the strict delta omitted qa.multimedia_status. This one-run waiver preserves the immutable run and does not prove a full multimedia sweep."
+    },
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B96-MIGRATION",
+      "run_id": "engineer-osint-20260829-B96",
+      "parent_run_id": "engineer-osint-20260826-B95",
+      "attestation_basis": "REPOSITORY_REVIEWED_MIGRATION",
+      "attestation_reference": "V4511_B96_APPEND_AUTHORIZATION+V4513_B96_PUBLICATION",
+      "repository_file_sha256": "3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1",
+      "repository_canonical_sha256": "4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5",
+      "report_text_sha256": "060eeb920d6f90777ed84be0673269a83980608078d752a576318a845f3d66ed",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260829-B96-media-omission.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_MIGRATION_NO_MEDIA_ADDITION",
+      "waiver_scope": "MIGRATION_NO_MEDIA_ADDITION",
+      "rationale": "B96 is the exact reviewed Stage A legacy-overlay migration with research_delta_performed=false, zero true_delta, 104 correction operations, 15 reviewed source appends, NEW_MEDIA=0 and no media payload. The immutable candidate omitted qa.multimedia_status. This one-run migration attestation does not claim a full multimedia sweep and cannot cover ordinary research, enrichment or future runs."
     }
   ]
 }
