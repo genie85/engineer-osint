@@ -26,147 +26,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import json
-
-          run=Path('docs/engineer-osint/lib/run-store.mjs')
-          s=run.read_text()
-          old="export const INTELLIGENCE_EXTENSION_VERSION='engineer-osint-intelligence-v1';\n"
-          new=old+"export const LEGACY_MIRROR_SYNC_VERSION='engineer-osint-legacy-mirror-sync-v1';\n"
-          assert s.count(old)==1
-          s=s.replace(old,new)
-
-          anchor="export function validatePatchOperations(patch){\n"
-          assert s.count(anchor)==1
-          validator=r'''export function validateLegacyMirrorSyncV1(patch){
-  const ext=patch?.extensions?.legacy_mirror_sync_v1;
-  if(ext===undefined)return {updated_records:[]};
-  ensure(isObject(ext),'extensions.legacy_mirror_sync_v1 must be an object');
-  assertKeys(ext,['updated_records'],'extensions.legacy_mirror_sync_v1');
-  ensure(Array.isArray(ext.updated_records),'extensions.legacy_mirror_sync_v1.updated_records must be an array');
-  const protectedFields=new Set(['id','first_seen_run','run_id','last_update_run']);
-  const seenTargets=new Set();
-  for(const [index,request] of ext.updated_records.entries()){
-    const at=`extensions.legacy_mirror_sync_v1.updated_records[${index}]`;
-    ensure(isObject(request),`${at} must be an object`);
-    assertKeys(request,['target_id','fields'],at);
-    ensure(typeof request.target_id==='string'&&request.target_id,`${at}.target_id is required`);
-    ensure(!seenTargets.has(request.target_id),`${at}.target_id duplicates ${request.target_id}`);seenTargets.add(request.target_id);
-    ensure(Array.isArray(request.fields)&&request.fields.length>0,`${at}.fields must be a non-empty array`);
-    ensure(new Set(request.fields).size===request.fields.length,`${at}.fields contains duplicates`);
-    for(const field of request.fields){
-      ensure(typeof field==='string'&&/^[A-Za-z][A-Za-z0-9_]*$/.test(field),`${at}.fields contains an invalid top-level field`);
-      ensure(!protectedFields.has(field),`${at}.fields cannot synchronize protected field ${field}`);
-    }
-  }
-  return ext;
-}
-
-function syncExplicitLegacyMirrors(data,ext){
-  for(const request of ext.updated_records){
-    const canonicalMatches=collection(data,'records').filter(item=>itemKey(item,idRules.records)===request.target_id);
-    ensure(canonicalMatches.length===1,`Legacy mirror sync target ${request.target_id} must resolve to exactly one canonical record`);
-    const mirrorItems=asArray(data.dashboard_patch_extras?.updated_records);
-    const mirrorMatches=mirrorItems.filter(item=>itemKey(item,idRules.records)===request.target_id);
-    ensure(mirrorMatches.length===1,`Legacy mirror sync target ${request.target_id} must resolve to exactly one existing updated_records mirror`);
-    const source=canonicalMatches[0],mirror=mirrorMatches[0];
-    for(const field of request.fields){
-      const canonicalOwn=Object.hasOwn(source,field),mirrorOwn=Object.hasOwn(mirror,field);
-      ensure(canonicalOwn||mirrorOwn,`Legacy mirror sync field ${request.target_id}.${field} exists in neither canonical nor mirror state`);
-      if(canonicalOwn)mirror[field]=structuredClone(source[field]);
-      else delete mirror[field];
-    }
-  }
-}
-
-'''
-          s=s.replace(anchor,validator+anchor)
-
-          old_apply="  const intelligence=validateIntelligenceExtensionV1(patch);\n  const data=structuredClone(input),runId=patch.state.run_id;\n"
-          new_apply="  const intelligence=validateIntelligenceExtensionV1(patch);\n  const legacyMirrorSync=validateLegacyMirrorSyncV1(patch);\n  const data=structuredClone(input),runId=patch.state.run_id;\n"
-          assert s.count(old_apply)==1
-          s=s.replace(old_apply,new_apply)
-          old_sync="  applyOperations(data,patch);\n  syncMirrors(data);\n"
-          new_sync="  applyOperations(data,patch);\n  syncMirrors(data);\n  syncExplicitLegacyMirrors(data,legacyMirrorSync);\n"
-          assert s.count(old_sync)==1
-          s=s.replace(old_sync,new_sync)
-          run.write_text(s)
-
-          schema=Path('docs/engineer-osint/schemas/patch-v1.schema.json')
-          obj=json.loads(schema.read_text())
-          props=obj['properties']['extensions']['properties']
-          assert 'legacy_mirror_sync_v1' not in props
-          props['legacy_mirror_sync_v1']={'$ref':'#/$defs/legacyMirrorSyncV1'}
-          defs=obj['$defs']
-          defs['legacyMirrorSyncV1']={
-            'type':'object','required':['updated_records'],
-            'properties':{'updated_records':{'type':'array','items':{'$ref':'#/$defs/legacyUpdatedRecordMirrorSyncRequest'}}},
-            'additionalProperties':False
-          }
-          defs['legacyUpdatedRecordMirrorSyncRequest']={
-            'type':'object','required':['target_id','fields'],
-            'properties':{
-              'target_id':{'type':'string','minLength':1},
-              'fields':{'type':'array','minItems':1,'uniqueItems':True,'items':{'type':'string','pattern':'^[A-Za-z][A-Za-z0-9_]*$'}}
-            },'additionalProperties':False
-          }
-          schema.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n')
-
-          tests=Path('docs/engineer-osint/tests/p1-run-store.test.mjs')
-          t=tests.read_text()
-          import_old="  applyStrictPatchToCanonicalData,loadCanonicalRunStore,RUN_STORE_SCHEMA_VERSION,validatePatchOperations\n"
-          import_new="  applyStrictPatchToCanonicalData,loadCanonicalRunStore,RUN_STORE_SCHEMA_VERSION,validateLegacyMirrorSyncV1,validatePatchOperations\n"
-          assert t.count(import_old)==1
-          t=t.replace(import_old,import_new)
-          insert_before="test('strict append materializes a new source and record with provenance',()=>{\n"
-          assert t.count(insert_before)==1
-          block=r'''test('explicit legacy updated_records mirror sync is field-scoped and canonical-derived',()=>{
-  const base=canonical();
-  base.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1',title:'stale',summary:'legacy-only',source_ids:['ENG-SRC-TEST1']}];
-  const next=patch();next.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title','summary']}]};
-  const result=applyStrictPatchToCanonicalData(base,next),mirror=result.dashboard_patch_extras.updated_records[0];
-  assert.equal(result.records.records[0].title,'old');
-  assert.equal(mirror.title,'old');
-  assert.equal(Object.hasOwn(mirror,'summary'),false);
-  assert.deepEqual(mirror.source_ids,['ENG-SRC-TEST1']);
-});
-
-test('legacy mirror sync fails closed on missing, duplicate, protected and stale requests',()=>{
-  const base=canonical();base.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1',title:'stale'}];
-  const missing=patch();missing.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-MISSING',fields:['title']}]};
-  assert.throws(()=>applyStrictPatchToCanonicalData(base,missing),IntegrityError);
-  const protectedField=patch();protectedField.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['id']}]};
-  assert.throws(()=>validateLegacyMirrorSyncV1(protectedField),IntegrityError);
-  const duplicateField=patch();duplicateField.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title','title']}]};
-  assert.throws(()=>validateLegacyMirrorSyncV1(duplicateField),IntegrityError);
-  const duplicateTarget=patch();duplicateTarget.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title']},{target_id:'ENG-EVT-TEST1',fields:['tags']}]};
-  assert.throws(()=>validateLegacyMirrorSyncV1(duplicateTarget),IntegrityError);
-  const stale=patch();stale.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['summary']}]};
-  const noSummary=canonical();noSummary.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1'}];
-  assert.throws(()=>applyStrictPatchToCanonicalData(noSummary,stale),IntegrityError);
-  const noMirror=patch();noMirror.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title']}]};
-  assert.throws(()=>applyStrictPatchToCanonicalData(canonical(),noMirror),IntegrityError);
-});
-
-'''
-          t=t.replace(insert_before,block+insert_before)
-          schema_test="test('patch schema publishes the versioned correction operation contract',()=>{\n"
-          assert t.count(schema_test)==1
-          # Add separate schema-specific test immediately before existing schema test.
-          schema_block=r'''test('patch schema publishes explicit legacy updated_records mirror sync contract',()=>{
-  const schema=JSON.parse(readFileSync(`${root}/schemas/patch-v1.schema.json`,'utf8'));
-  assert.equal(schema.properties.extensions.properties.legacy_mirror_sync_v1.$ref,'#/$defs/legacyMirrorSyncV1');
-  assert.deepEqual(schema.$defs.legacyMirrorSyncV1.required,['updated_records']);
-  assert.deepEqual(schema.$defs.legacyUpdatedRecordMirrorSyncRequest.required,['target_id','fields']);
-  assert.equal(schema.$defs.legacyUpdatedRecordMirrorSyncRequest.properties.fields.uniqueItems,true);
-});
-
-'''
-          t=t.replace(schema_test,schema_block+schema_test)
-          tests.write_text(t)
-          PY
-
+          printf '%s' 'CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAppbXBvcnQganNvbgoKcnVuPVBhdGgoJ2RvY3MvZW5naW5lZXItb3NpbnQvbGliL3J1bi1zdG9yZS5tanMnKQpzPXJ1bi5yZWFkX3RleHQoKQpvbGQ9ImV4cG9ydCBjb25zdCBJTlRFTExJR0VOQ0VfRVhURU5TSU9OX1ZFUlNJT049J2VuZ2luZWVyLW9zaW50LWludGVsbGlnZW5jZS12MSc7XG4iCm5ldz1vbGQrImV4cG9ydCBjb25zdCBMRUdBQ1lfTUlSUk9SX1NZTkNfVkVSU0lPTj0nZW5naW5lZXItb3NpbnQtbGVnYWN5LW1pcnJvci1zeW5jLXYxJztcbiIKYXNzZXJ0IHMuY291bnQob2xkKT09MQpzPXMucmVwbGFjZShvbGQsbmV3KQoKYW5jaG9yPSJleHBvcnQgZnVuY3Rpb24gdmFsaWRhdGVQYXRjaE9wZXJhdGlvbnMocGF0Y2gpe1xuIgphc3NlcnQgcy5jb3VudChhbmNob3IpPT0xCnZhbGlkYXRvcj0iIiJleHBvcnQgZnVuY3Rpb24gdmFsaWRhdGVMZWdhY3lNaXJyb3JTeW5jVjEocGF0Y2gpewogIGNvbnN0IGV4dD1wYXRjaD8uZXh0ZW5zaW9ucz8ubGVnYWN5X21pcnJvcl9zeW5jX3YxOwogIGlmKGV4dD09PXVuZGVmaW5lZClyZXR1cm4ge3VwZGF0ZWRfcmVjb3JkczpbXX07CiAgZW5zdXJlKGlzT2JqZWN0KGV4dCksJ2V4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxIG11c3QgYmUgYW4gb2JqZWN0Jyk7CiAgYXNzZXJ0S2V5cyhleHQsWyd1cGRhdGVkX3JlY29yZHMnXSwnZXh0ZW5zaW9ucy5sZWdhY3lfbWlycm9yX3N5bmNfdjEnKTsKICBlbnN1cmUoQXJyYXkuaXNBcnJheShleHQudXBkYXRlZF9yZWNvcmRzKSwnZXh0ZW5zaW9ucy5sZWdhY3lfbWlycm9yX3N5bmNfdjEudXBkYXRlZF9yZWNvcmRzIG11c3QgYmUgYW4gYXJyYXknKTsKICBjb25zdCBwcm90ZWN0ZWRGaWVsZHM9bmV3IFNldChbJ2lkJywnZmlyc3Rfc2Vlbl9ydW4nLCdydW5faWQnLCdsYXN0X3VwZGF0ZV9ydW4nXSk7CiAgY29uc3Qgc2VlblRhcmdldHM9bmV3IFNldCgpOwogIGZvcihjb25zdCBbaW5kZXgscmVxdWVzdF0gb2YgZXh0LnVwZGF0ZWRfcmVjb3Jkcy5lbnRyaWVzKCkpewogICAgY29uc3QgYXQ9YGV4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxLnVwZGF0ZWRfcmVjb3Jkc1ske2luZGV4fV1gOwogICAgZW5zdXJlKGlzT2JqZWN0KHJlcXVlc3QpLGAke2F0fSBtdXN0IGJlIGFuIG9iamVjdGApOwogICAgYXNzZXJ0S2V5cyhyZXF1ZXN0LFsndGFyZ2V0X2lkJywnZmllbGRzJ10sYXQpOwogICAgZW5zdXJlKHR5cGVvZiByZXF1ZXN0LnRhcmdldF9pZD09PSdzdHJpbmcnJiZyZXF1ZXN0LnRhcmdldF9pZCxgJHthdH0udGFyZ2V0X2lkIGlzIHJlcXVpcmVkYCk7CiAgICBlbnN1cmUoIXNlZW5UYXJnZXRzLmhhcyhyZXF1ZXN0LnRhcmdldF9pZCksYCR7YXR9LnRhcmdldF9pZCBkdXBsaWNhdGVzICR7cmVxdWVzdC50YXJnZXRfaWR9YCk7c2VlblRhcmdldHMuYWRkKHJlcXVlc3QudGFyZ2V0X2lkKTsKICAgIGVuc3VyZShBcnJheS5pc0FycmF5KHJlcXVlc3QuZmllbGRzKSYmcmVxdWVzdC5maWVsZHMubGVuZ3RoPjAsYCR7YXR9LmZpZWxkcyBtdXN0IGJlIGEgbm9uLWVtcHR5IGFycmF5YCk7CiAgICBlbnN1cmUobmV3IFNldChyZXF1ZXN0LmZpZWxkcykuc2l6ZT09PXJlcXVlc3QuZmllbGRzLmxlbmd0aCxgJHthdH0uZmllbGRzIGNvbnRhaW5zIGR1cGxpY2F0ZXNgKTsKICAgIGZvcihjb25zdCBmaWVsZCBvZiByZXF1ZXN0LmZpZWxkcyl7CiAgICAgIGVuc3VyZSh0eXBlb2YgZmllbGQ9PT0nc3RyaW5nJyYmL15bQS1aYS16XVtBLVphLXowLTlfXSokLy50ZXN0KGZpZWxkKSxgJHthdH0uZmllbGRzIGNvbnRhaW5zIGFuIGludmFsaWQgdG9wLWxldmVsIGZpZWxkYCk7CiAgICAgIGVuc3VyZSghcHJvdGVjdGVkRmllbGRzLmhhcyhmaWVsZCksYCR7YXR9LmZpZWxkcyBjYW5ub3Qgc3luY2hyb25pemUgcHJvdGVjdGVkIGZpZWxkICR7ZmllbGR9YCk7CiAgICB9CiAgfQogIHJldHVybiBleHQ7Cn0KCmZ1bmN0aW9uIHN5bmNFeHBsaWNpdExlZ2FjeU1pcnJvcnMoZGF0YSxleHQpewogIGZvcihjb25zdCByZXF1ZXN0IG9mIGV4dC51cGRhdGVkX3JlY29yZHMpewogICAgY29uc3QgY2Fub25pY2FsTWF0Y2hlcz1jb2xsZWN0aW9uKGRhdGEsJ3JlY29yZHMnKS5maWx0ZXIoaXRlbT0+aXRlbUtleShpdGVtLGlkUnVsZXMucmVjb3Jkcyk9PT1yZXF1ZXN0LnRhcmdldF9pZCk7CiAgICBlbnN1cmUoY2Fub25pY2FsTWF0Y2hlcy5sZW5ndGg9PT0xLGBMZWdhY3kgbWlycm9yIHN5bmMgdGFyZ2V0ICR7cmVxdWVzdC50YXJnZXRfaWR9IG11c3QgcmVzb2x2ZSB0byBleGFjdGx5IG9uZSBjYW5vbmljYWwgcmVjb3JkYCk7CiAgICBjb25zdCBtaXJyb3JJdGVtcz1hc0FycmF5KGRhdGEuZGFzaGJvYXJkX3BhdGNoX2V4dHJhcz8udXBkYXRlZF9yZWNvcmRzKTsKICAgIGNvbnN0IG1pcnJvck1hdGNoZXM9bWlycm9ySXRlbXMuZmlsdGVyKGl0ZW09Pml0ZW1LZXkoaXRlbSxpZFJ1bGVzLnJlY29yZHMpPT09cmVxdWVzdC50YXJnZXRfaWQpOwogICAgZW5zdXJlKG1pcnJvck1hdGNoZXMubGVuZ3RoPT09MSxgTGVnYWN5IG1pcnJvciBzeW5jIHRhcmdldCAke3JlcXVlc3QudGFyZ2V0X2lkfSBtdXN0IHJlc29sdmUgdG8gZXhhY3RseSBvbmUgZXhpc3RpbmcgdXBkYXRlZF9yZWNvcmRzIG1pcnJvcmApOwogICAgY29uc3Qgc291cmNlPWNhbm9uaWNhbE1hdGNoZXNbMF0sbWlycm9yPW1pcnJvck1hdGNoZXNbMF07CiAgICBmb3IoY29uc3QgZmllbGQgb2YgcmVxdWVzdC5maWVsZHMpewogICAgICBjb25zdCBjYW5vbmljYWxPd249T2JqZWN0Lmhhc093bihzb3VyY2UsZmllbGQpLG1pcnJvck93bj1PYmplY3QuaGFzT3duKG1pcnJvcixmaWVsZCk7CiAgICAgIGVuc3VyZShjYW5vbmljYWxPd258fG1pcnJvck93bixgTGVnYWN5IG1pcnJvciBzeW5jIGZpZWxkICR7cmVxdWVzdC50YXJnZXRfaWR9LiR7ZmllbGR9IGV4aXN0cyBpbiBuZWl0aGVyIGNhbm9uaWNhbCBub3IgbWlycm9yIHN0YXRlYCk7CiAgICAgIGlmKGNhbm9uaWNhbE93biltaXJyb3JbZmllbGRdPXN0cnVjdHVyZWRDbG9uZShzb3VyY2VbZmllbGRdKTsKICAgICAgZWxzZSBkZWxldGUgbWlycm9yW2ZpZWxkXTsKICAgIH0KICB9Cn0KCiIiIgpzPXMucmVwbGFjZShhbmNob3IsdmFsaWRhdG9yK2FuY2hvcikKCm9sZF9hcHBseT0iICBjb25zdCBpbnRlbGxpZ2VuY2U9dmFsaWRhdGVJbnRlbGxpZ2VuY2VFeHRlbnNpb25WMShwYXRjaCk7XG4gIGNvbnN0IGRhdGE9c3RydWN0dXJlZENsb25lKGlucHV0KSxydW5JZD1wYXRjaC5zdGF0ZS5ydW5faWQ7XG4iCm5ld19hcHBseT0iICBjb25zdCBpbnRlbGxpZ2VuY2U9dmFsaWRhdGVJbnRlbGxpZ2VuY2VFeHRlbnNpb25WMShwYXRjaCk7XG4gIGNvbnN0IGxlZ2FjeU1pcnJvclN5bmM9dmFsaWRhdGVMZWdhY3lNaXJyb3JTeW5jVjEocGF0Y2gpO1xuICBjb25zdCBkYXRhPXN0cnVjdHVyZWRDbG9uZShpbnB1dCkscnVuSWQ9cGF0Y2guc3RhdGUucnVuX2lkO1xuIgphc3NlcnQgcy5jb3VudChvbGRfYXBwbHkpPT0xCnM9cy5yZXBsYWNlKG9sZF9hcHBseSxuZXdfYXBwbHkpCm9sZF9zeW5jPSIgIGFwcGx5T3BlcmF0aW9ucyhkYXRhLHBhdGNoKTtcbiAgc3luY01pcnJvcnMoZGF0YSk7XG4iCm5ld19zeW5jPSIgIGFwcGx5T3BlcmF0aW9ucyhkYXRhLHBhdGNoKTtcbiAgc3luY01pcnJvcnMoZGF0YSk7XG4gIHN5bmNFeHBsaWNpdExlZ2FjeU1pcnJvcnMoZGF0YSxsZWdhY3lNaXJyb3JTeW5jKTtcbiIKYXNzZXJ0IHMuY291bnQob2xkX3N5bmMpPT0xCnM9cy5yZXBsYWNlKG9sZF9zeW5jLG5ld19zeW5jKQpydW4ud3JpdGVfdGV4dChzKQoKc2NoZW1hPVBhdGgoJ2RvY3MvZW5naW5lZXItb3NpbnQvc2NoZW1hcy9wYXRjaC12MS5zY2hlbWEuanNvbicpCm9iaj1qc29uLmxvYWRzKHNjaGVtYS5yZWFkX3RleHQoKSkKcHJvcHM9b2JqWydwcm9wZXJ0aWVzJ11bJ2V4dGVuc2lvbnMnXVsncHJvcGVydGllcyddCmFzc2VydCAnbGVnYWN5X21pcnJvcl9zeW5jX3YxJyBub3QgaW4gcHJvcHMKcHJvcHNbJ2xlZ2FjeV9taXJyb3Jfc3luY192MSddPXsnJHJlZic6JyMvJGRlZnMvbGVnYWN5TWlycm9yU3luY1YxJ30KZGVmcz1vYmpbJyRkZWZzJ10KZGVmc1snbGVnYWN5TWlycm9yU3luY1YxJ109ewogICd0eXBlJzonb2JqZWN0JywncmVxdWlyZWQnOlsndXBkYXRlZF9yZWNvcmRzJ10sCiAgJ3Byb3BlcnRpZXMnOnsndXBkYXRlZF9yZWNvcmRzJzp7J3R5cGUnOidhcnJheScsJ2l0ZW1zJzp7JyRyZWYnOicjLyRkZWZzL2xlZ2FjeVVwZGF0ZWRSZWNvcmRNaXJyb3JTeW5jUmVxdWVzdCd9fX0sCiAgJ2FkZGl0aW9uYWxQcm9wZXJ0aWVzJzpGYWxzZQp9CmRlZnNbJ2xlZ2FjeVVwZGF0ZWRSZWNvcmRNaXJyb3JTeW5jUmVxdWVzdCddPXsKICAndHlwZSc6J29iamVjdCcsJ3JlcXVpcmVkJzpbJ3RhcmdldF9pZCcsJ2ZpZWxkcyddLAogICdwcm9wZXJ0aWVzJzp7CiAgICAndGFyZ2V0X2lkJzp7J3R5cGUnOidzdHJpbmcnLCdtaW5MZW5ndGgnOjF9LAogICAgJ2ZpZWxkcyc6eyd0eXBlJzonYXJyYXknLCdtaW5JdGVtcyc6MSwndW5pcXVlSXRlbXMnOlRydWUsJ2l0ZW1zJzp7J3R5cGUnOidzdHJpbmcnLCdwYXR0ZXJuJzonXltBLVphLXpdW0EtWmEtejAtOV9dKiQnfX0KICB9LCdhZGRpdGlvbmFsUHJvcGVydGllcyc6RmFsc2UKfQpzY2hlbWEud3JpdGVfdGV4dChqc29uLmR1bXBzKG9iaixlbnN1cmVfYXNjaWk9RmFsc2UsaW5kZW50PTIpKydcbicpCgp0ZXN0cz1QYXRoKCdkb2NzL2VuZ2luZWVyLW9zaW50L3Rlc3RzL3AxLXJ1bi1zdG9yZS50ZXN0Lm1qcycpCnQ9dGVzdHMucmVhZF90ZXh0KCkKaW1wb3J0X29sZD0iICBhcHBseVN0cmljdFBhdGNoVG9DYW5vbmljYWxEYXRhLGxvYWRDYW5vbmljYWxSdW5TdG9yZSxSVU5fU1RPUkVfU0NIRU1BX1ZFUlNJT04sdmFsaWRhdGVQYXRjaE9wZXJhdGlvbnNcbiIKaW1wb3J0X25ldz0iICBhcHBseVN0cmljdFBhdGNoVG9DYW5vbmljYWxEYXRhLGxvYWRDYW5vbmljYWxSdW5TdG9yZSxSVU5fU1RPUkVfU0NIRU1BX1ZFUlNJT04sdmFsaWRhdGVMZWdhY3lNaXJyb3JTeW5jVjEsdmFsaWRhdGVQYXRjaE9wZXJhdGlvbnNcbiIKYXNzZXJ0IHQuY291bnQoaW1wb3J0X29sZCk9PTEKdD10LnJlcGxhY2UoaW1wb3J0X29sZCxpbXBvcnRfbmV3KQoKaW5zZXJ0X2JlZm9yZT0idGVzdCgnc3RyaWN0IGFwcGVuZCBtYXRlcmlhbGl6ZXMgYSBuZXcgc291cmNlIGFuZCByZWNvcmQgd2l0aCBwcm92ZW5hbmNlJywoKT0+e1xuIgphc3NlcnQgdC5jb3VudChpbnNlcnRfYmVmb3JlKT09MQpibG9jaz0iIiJ0ZXN0KCdleHBsaWNpdCBsZWdhY3kgdXBkYXRlZF9yZWNvcmRzIG1pcnJvciBzeW5jIGlzIGZpZWxkLXNjb3BlZCBhbmQgY2Fub25pY2FsLWRlcml2ZWQnLCgpPT57CiAgY29uc3QgYmFzZT1jYW5vbmljYWwoKTsKICBiYXNlLmRhc2hib2FyZF9wYXRjaF9leHRyYXMudXBkYXRlZF9yZWNvcmRzPVt7aWQ6J0VORy1FVlQtVEVTVDEnLHRpdGxlOidzdGFsZScsc3VtbWFyeTonbGVnYWN5LW9ubHknLHNvdXJjZV9pZHM6WydFTkctU1JDLVRFU1QxJ119XTsKICBjb25zdCBuZXh0PXBhdGNoKCk7bmV4dC5leHRlbnNpb25zLmxlZ2FjeV9taXJyb3Jfc3luY192MT17dXBkYXRlZF9yZWNvcmRzOlt7dGFyZ2V0X2lkOidFTkctRVZULVRFU1QxJyxmaWVsZHM6Wyd0aXRsZScsJ3N1bW1hcnknXX1dfTsKICBjb25zdCByZXN1bHQ9YXBwbHlTdHJpY3RQYXRjaFRvQ2Fub25pY2FsRGF0YShiYXNlLG5leHQpLG1pcnJvcj1yZXN1bHQuZGFzaGJvYXJkX3BhdGNoX2V4dHJhcy51cGRhdGVkX3JlY29yZHNbMF07CiAgYXNzZXJ0LmVxdWFsKHJlc3VsdC5yZWNvcmRzLnJlY29yZHNbMF0udGl0bGUsJ29sZCcpOwogIGFzc2VydC5lcXVhbChtaXJyb3IudGl0bGUsJ29sZCcpOwogIGFzc2VydC5lcXVhbChPYmplY3QuaGFzT3duKG1pcnJvciwnc3VtbWFyeScpLGZhbHNlKTsKICBhc3NlcnQuZGVlcEVxdWFsKG1pcnJvci5zb3VyY2VfaWRzLFsnRU5HLVNSQy1URVNUMSddKTsKfSk7Cgp0ZXN0KCdsZWdhY3kgbWlycm9yIHN5bmMgZmFpbHMgY2xvc2VkIG9uIG1pc3NpbmcsIGR1cGxpY2F0ZSwgcHJvdGVjdGVkIGFuZCBzdGFsZSByZXF1ZXN0cycsKCk9PnsKICBjb25zdCBiYXNlPWNhbm9uaWNhbCgpO2Jhc2UuZGFzaGJvYXJkX3BhdGNoX2V4dHJhcy51cGRhdGVkX3JlY29yZHM9W3tpZDonRU5HLUVWVC1URVNUMScsdGl0bGU6J3N0YWxlJ31dOwogIGNvbnN0IG1pc3Npbmc9cGF0Y2goKTttaXNzaW5nLmV4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxPXt1cGRhdGVkX3JlY29yZHM6W3t0YXJnZXRfaWQ6J0VORy1FVlQtTUlTU0lORycsZmllbGRzOlsndGl0bGUnXX1dfTsKICBhc3NlcnQudGhyb3dzKCgpPT5hcHBseVN0cmljdFBhdGNoVG9DYW5vbmljYWxEYXRhKGJhc2UsbWlzc2luZyksSW50ZWdyaXR5RXJyb3IpOwogIGNvbnN0IHByb3RlY3RlZEZpZWxkPXBhdGNoKCk7cHJvdGVjdGVkRmllbGQuZXh0ZW5zaW9ucy5sZWdhY3lfbWlycm9yX3N5bmNfdjE9e3VwZGF0ZWRfcmVjb3Jkczpbe3RhcmdldF9pZDonRU5HLUVWVC1URVNUMScsZmllbGRzOlsnaWQnXX1dfTsKICBhc3NlcnQudGhyb3dzKCgpPT52YWxpZGF0ZUxlZ2FjeU1pcnJvclN5bmNWMShwcm90ZWN0ZWRGaWVsZCksSW50ZWdyaXR5RXJyb3IpOwogIGNvbnN0IGR1cGxpY2F0ZUZpZWxkPXBhdGNoKCk7ZHVwbGljYXRlRmllbGQuZXh0ZW5zaW9ucy5sZWdhY3lfbWlycm9yX3N5bmNfdjE9e3VwZGF0ZWRfcmVjb3Jkczpbe3RhcmdldF9pZDonRU5HLUVWVC1URVNUMScsZmllbGRzOlsndGl0bGUnLCd0aXRsZSddfV19OwogIGFzc2VydC50aHJvd3MoKCk9PnZhbGlkYXRlTGVnYWN5TWlycm9yU3luY1YxKGR1cGxpY2F0ZUZpZWxkKSxJbnRlZ3JpdHlFcnJvcik7CiAgY29uc3QgZHVwbGljYXRlVGFyZ2V0PXBhdGNoKCk7ZHVwbGljYXRlVGFyZ2V0LmV4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxPXt1cGRhdGVkX3JlY29yZHM6W3t0YXJnZXRfaWQ6J0VORy1FVlQtVEVTVDEnLGZpZWxkczpbJ3RpdGxlJ119LHt0YXJnZXRfaWQ6J0VORy1FVlQtVEVTVDEnLGZpZWxkczpbJ3RhZ3MnXX1dfTsKICBhc3NlcnQudGhyb3dzKCgpPT52YWxpZGF0ZUxlZ2FjeU1pcnJvclN5bmNWMShkdXBsaWNhdGVUYXJnZXQpLEludGVncml0eUVycm9yKTsKICBjb25zdCBzdGFsZT1wYXRjaCgpO3N0YWxlLmV4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxPXt1cGRhdGVkX3JlY29yZHM6W3t0YXJnZXRfaWQ6J0VORy1FVlQtVEVTVDEnLGZpZWxkczpbJ3N1bW1hcnknXX1dfTsKICBjb25zdCBub1N1bW1hcnk9Y2Fub25pY2FsKCk7bm9TdW1tYXJ5LmRhc2hib2FyZF9wYXRjaF9leHRyYXMudXBkYXRlZF9yZWNvcmRzPVt7aWQ6J0VORy1FVlQtVEVTVDEnfV07CiAgYXNzZXJ0LnRocm93cygoKT0+YXBwbHlTdHJpY3RQYXRjaFRvQ2Fub25pY2FsRGF0YShub1N1bW1hcnksc3RhbGUpLEludGVncml0eUVycm9yKTsKICBjb25zdCBub01pcnJvcj1wYXRjaCgpO25vTWlycm9yLmV4dGVuc2lvbnMubGVnYWN5X21pcnJvcl9zeW5jX3YxPXt1cGRhdGVkX3JlY29yZHM6W3t0YXJnZXRfaWQ6J0VORy1FVlQtVEVTVDEnLGZpZWxkczpbJ3RpdGxlJ119XX07CiAgYXNzZXJ0LnRocm93cygoKT0+YXBwbHlTdHJpY3RQYXRjaFRvQ2Fub25pY2FsRGF0YShjYW5vbmljYWwoKSxub01pcnJvciksSW50ZWdyaXR5RXJyb3IpOwp9KTsKCiIiIgp0PXQucmVwbGFjZShpbnNlcnRfYmVmb3JlLGJsb2NrK2luc2VydF9iZWZvcmUpCgpzY2hlbWFfdGVzdD0idGVzdCgncGF0Y2ggc2NoZW1hIHB1Ymxpc2hlcyB0aGUgdmVyc2lvbmVkIGNvcnJlY3Rpb24gb3BlcmF0aW9uIGNvbnRyYWN0JywoKT0+e1xuIgphc3NlcnQgdC5jb3VudChzY2hlbWFfdGVzdCk9PTEKc2NoZW1hX2Jsb2NrPSIiInRlc3QoJ3BhdGNoIHNjaGVtYSBwdWJsaXNoZXMgZXhwbGljaXQgbGVnYWN5IHVwZGF0ZWRfcmVjb3JkcyBtaXJyb3Igc3luYyBjb250cmFjdCcsKCk9PnsKICBjb25zdCBzY2hlbWE9SlNPTi5wYXJzZShyZWFkRmlsZVN5bmMoJ2RvY3MvZW5naW5lZXItb3NpbnQvc2NoZW1hcy9wYXRjaC12MS5zY2hlbWEuanNvbicsJ3V0ZjgnKSk7CiAgYXNzZXJ0LmVxdWFsKHNjaGVtYS5wcm9wZXJ0aWVzLmV4dGVuc2lvbnMucHJvcGVydGllcy5sZWdhY3lfbWlycm9yX3N5bmNfdjEuJHJlZiwnIy8kZGVmcy9sZWdhY3lNaXJyb3JTeW5jVjEnKTsKICBhc3NlcnQuZGVlcEVxdWFsKHNjaGVtYS4kZGVmcy5sZWdhY3lNaXJyb3JTeW5jVjEucmVxdWlyZWQsWyd1cGRhdGVkX3JlY29yZHMnXSk7CiAgYXNzZXJ0LmRlZXBFcXVhbChzY2hlbWEuJGRlZnMubGVnYWN5VXBkYXRlZFJlY29yZE1pcnJvclN5bmNSZXF1ZXN0LnJlcXVpcmVkLFsndGFyZ2V0X2lkJywnZmllbGRzJ10pOwogIGFzc2VydC5lcXVhbChzY2hlbWEuJGRlZnMubGVnYWN5VXBkYXRlZFJlY29yZE1pcnJvclN5bmNSZXF1ZXN0LnByb3BlcnRpZXMuZmllbGRzLnVuaXF1ZUl0ZW1zLHRydWUpOwp9KTsKCiIiIgp0PXQucmVwbGFjZShzY2hlbWFfdGVzdCxzY2hlbWFfYmxvY2src2NoZW1hX3Rlc3QpCnRlc3RzLndyaXRlX3RleHQodCkK' | base64 -d > /tmp/v4535-patch.py
+          python /tmp/v4535-patch.py
       - name: Syntax, tests and chain validation
         run: |
           set -euo pipefail
@@ -174,7 +35,6 @@ test('legacy mirror sync fails closed on missing, duplicate, protected and stale
           node --test docs/engineer-osint/tests/*.test.mjs
           node docs/engineer-osint/validate-patch.mjs
           git diff --check
-
       - name: Enforce exact non-canonical diff
         shell: bash
         run: |
@@ -186,7 +46,6 @@ test('legacy mirror sync fails closed on missing, duplicate, protected and stale
           printf '%s\n' "${changed[@]}" | grep -qx 'docs/engineer-osint/schemas/patch-v1.schema.json'
           printf '%s\n' "${changed[@]}" | grep -qx 'docs/engineer-osint/tests/p1-run-store.test.mjs'
           ! git diff --name-only | grep -E '^docs/engineer-osint/data/(run-store-manifest\.json|runs/)'
-
       - name: Commit only reviewed mechanism and remove bootstrap workflow
         shell: bash
         run: |
