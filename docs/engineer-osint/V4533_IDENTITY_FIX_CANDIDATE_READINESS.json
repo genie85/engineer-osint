@@ -19,8 +19,8 @@
   "expected_canonical_overlay_mutations_after": 0,
   "expected_legacy_mirror_mutations_after": 18,
   "allowed_legacy_mirror_prefix": "dashboard_patch_extras.updated_records[70].",
-  "exact_candidate_file_sha256": null,
-  "expected_resulting_canonical_sha256": null,
+  "exact_candidate_file_sha256": "d58c874f5846f53f5eaa610f35d452b165282cf3f495cb8c7013cd392105e411",
+  "expected_resulting_canonical_sha256": "029b533d88846cb4e14137dffe563771b5ad204e1df77568d64e20ee0f529cef",
   "safety": {
     "canonical_write_performed": false,
     "append_run_write_allowed": false,
