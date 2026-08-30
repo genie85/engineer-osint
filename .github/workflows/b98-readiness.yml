@@ -46,32 +46,7 @@ jobs:
           else throw new Error(`unsupported B98 lifecycle tip ${run}`);
           NODE
 
-      - name: Test v4.5.24 B98 readiness contract
-        run: node --test docs/engineer-osint/tests/v4524-b98-readiness.test.mjs
-
-      - name: Test v4.5.25 B98 post-CI contract
-        run: node --test docs/engineer-osint/tests/v4525-post-b98-ci-readiness.test.mjs
-
-      - name: Test v4.5.26 B98 activation contract
-        run: node --test docs/engineer-osint/tests/v4526-b98-activation.test.mjs
-
-      - name: Test v4.5.27 B98 lifecycle contract
-        run: node --test docs/engineer-osint/tests/v4527-b98-lifecycle.test.mjs
-
-      - name: Test pre-v4.5 regression suite
-        run: |
-          find docs/engineer-osint/tests -maxdepth 1 -type f -name '*.test.mjs' ! -name 'v45*.test.mjs' -print0 | sort -z | xargs -0 node --test
-
-      - name: Test v4.5 migration foundation contracts
-        run: node --test docs/engineer-osint/tests/v45-overlay-retirement.test.mjs docs/engineer-osint/tests/v452-overlay-migration-dry-run.test.mjs docs/engineer-osint/tests/v453-overlay-provenance.test.mjs docs/engineer-osint/tests/v454-production-migration-preview.test.mjs docs/engineer-osint/tests/v455-stage-a-patch-candidate.test.mjs docs/engineer-osint/tests/v456-stage-b-intelligence.test.mjs docs/engineer-osint/tests/v457-assessment-evidence.test.mjs docs/engineer-osint/tests/v458-stage-bc-pages-gate.test.mjs docs/engineer-osint/tests/v459-compat-transition-preview.test.mjs
-
-      - name: Test B96 lifecycle contracts
-        run: node --test docs/engineer-osint/tests/v4510-runtime-transition-guard.test.mjs docs/engineer-osint/tests/v4511-b96-append-authorization.test.mjs docs/engineer-osint/tests/v4512-post-b96-ci-readiness.test.mjs docs/engineer-osint/tests/v4513-b96-publication-workflow.test.mjs docs/engineer-osint/tests/v4515-b96-media-attestation.test.mjs
-
-      - name: Test B97 lifecycle contracts
-        run: node --test docs/engineer-osint/tests/v4517-b97-readiness.test.mjs docs/engineer-osint/tests/v4518-post-b97-readiness.test.mjs docs/engineer-osint/tests/v4520-b97-one-shot-publication.test.mjs docs/engineer-osint/tests/v4522-post-b97-lifecycle.test.mjs
-
-      - name: Test full P0/P1 and B98 readiness contracts
+      - name: Test P0/P1 and B98 readiness contracts
         run: node --test docs/engineer-osint/tests/*.test.mjs
 
       - name: Validate current canonical chain
