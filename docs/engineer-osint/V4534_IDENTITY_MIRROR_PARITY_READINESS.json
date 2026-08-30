@@ -1,0 +1,23 @@
+{
+  "schema_version": "engineer-osint-identity-mirror-parity-readiness-v1",
+  "version": "4.5.34",
+  "status": "READ_ONLY_MIRROR_PARITY_REVIEW",
+  "candidate_run_id": "engineer-osint-20260830-B99",
+  "exact_candidate_file_sha256": "d58c874f5846f53f5eaa610f35d452b165282cf3f495cb8c7013cd392105e411",
+  "expected_resulting_canonical_sha256": "029b533d88846cb4e14137dffe563771b5ad204e1df77568d64e20ee0f529cef",
+  "identity_overlay_file": "data-integrity-identity-fixes.js",
+  "legacy_mirror_path": "dashboard_patch_extras.updated_records[70]",
+  "legacy_mirror_target_id": "ENG-TECH-0036",
+  "expected_overlay_residual_count_after_b99": 18,
+  "expected_authoritative_residual_count_after_b99": 0,
+  "expected_non_overlay_public_runtime_updated_records_readers": 0,
+  "expected_data_diff_after_exact_mirror_sync": 0,
+  "browser_parity_required": true,
+  "safety": {
+    "canonical_write_performed": false,
+    "b99_append_authorized": false,
+    "legacy_mirror_cleanup_persisted": false,
+    "identity_fix_runtime_removal_authorized": false,
+    "requires_separate_cleanup_or_publication_authorization_slice": true
+  }
+}
