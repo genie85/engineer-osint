@@ -1,0 +1,43 @@
+{
+  "schema_version": "engineer-osint-first-three-overlay-retirement-v1",
+  "status": "READY_FOR_RETIREMENT",
+  "reviewed_against_main_commit": "7f7d08867052716d95ba75472afbafdcee4484ef",
+  "historical_b98_run_id": "engineer-osint-20260830-B98",
+  "historical_b98_file_sha256": "ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79",
+  "historical_b98_canonical_sha256": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
+  "pre_retirement_public_data_sha256": "3633ba18cc69e06bdc72ca574157d901da5b43644993b4c8760e6302b728460f",
+  "retired_modules": [
+    {
+      "runtime_id": "engineer-rich-backfill-module",
+      "file": "rich-backfill.js",
+      "archive_file_sha256": "ab586191861c2eaaa910b1bf612782fad202157ef9fc9d47944e6e5950cd1c80"
+    },
+    {
+      "runtime_id": "engineer-rich-backfill-israel-turkiye-eod-module",
+      "file": "rich-backfill-israel-turkiye-eod.js",
+      "archive_file_sha256": "f5a68655b2fbef6e5db049c708ff503cdf86fb4ed8a3363a9ae960b17386cb30"
+    },
+    {
+      "runtime_id": "engineer-rich-backfill-usa-rok-module",
+      "file": "rich-backfill-usa-rok.js",
+      "archive_file_sha256": "6b3542e58469e0eba6c12152c3ae815e676254b279d55b4691e91bce3688d877"
+    }
+  ],
+  "required_active_identity_fix": {
+    "runtime_id": "engineer-data-integrity-identity-fixes-module",
+    "file": "data-integrity-identity-fixes.js",
+    "file_sha256": "7c03bc97f329a030cba48c4f24f8281b3966feb2f66c477fbb949893c7b9d2fc"
+  },
+  "authorization": {
+    "remove_first_three_from_active_runtime": true,
+    "remove_first_three_from_active_legacy_baseline": true,
+    "retain_first_three_files_as_historical_migration_artifacts": true,
+    "keep_transition_guard_runtime_installed": true,
+    "keep_identity_fix_active": true,
+    "allow_identity_fix_migration": false,
+    "allow_canonical_run_append": false,
+    "allow_run_store_manifest_edit": false,
+    "allow_canonical_data_edit": false,
+    "allow_other_runtime_module_removal": false
+  }
+}
