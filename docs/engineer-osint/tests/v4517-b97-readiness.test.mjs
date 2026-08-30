@@ -19,6 +19,7 @@ test('v4.5.17 pins the exact reviewed B97 candidate to persistent B96',()=>{
   assert.equal(policy.expected_parent_canonical_sha256,'4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5');
   assert.equal(sha256(candidateRaw),policy.exact_candidate_file_sha256);
   assert.equal(policy.exact_candidate_file_sha256,'b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad');
+  assert.equal(policy.expected_resulting_canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
   assert.equal(candidate.state.run_id,policy.candidate_run_id);
   assert.equal(candidate.state.parent_run_id,policy.expected_parent_run_id);
 });
@@ -61,8 +62,8 @@ test('B97 readiness preserves reviewed overlay debt and blocks short-circuit bef
   assert.match(audit,/overlays_must_remain_active:true/);
 });
 
-test('resulting B97 canonical SHA is discovered by the real dry-run before being pinned',()=>{
-  assert.equal(policy.expected_resulting_canonical_sha256,null);
+test('resulting B97 canonical SHA is pinned after real standard dry-run discovery',()=>{
+  assert.equal(policy.expected_resulting_canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
   assert.match(audit,/policy\.expected_resulting_canonical_sha256!==null/);
   assert.match(workflow,/b97-append-plan\.json/);
 });
