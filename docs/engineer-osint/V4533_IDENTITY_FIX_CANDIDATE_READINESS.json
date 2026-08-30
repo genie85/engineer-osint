@@ -1,0 +1,31 @@
+{
+  "schema_version": "engineer-osint-identity-fix-candidate-readiness-v1",
+  "version": "4.5.33",
+  "status": "GENERATE_EXACT_CANDIDATE_NO_WRITE",
+  "candidate_run_id": "engineer-osint-20260830-B99",
+  "expected_parent_run_id": "engineer-osint-20260830-B98",
+  "expected_parent_canonical_sha256": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
+  "expected_operation_count": 36,
+  "expected_replace_field_count": 27,
+  "expected_remove_field_count": 9,
+  "expected_changed_ids": [
+    "ENG-EVID-0113",
+    "ENG-TECH-0032",
+    "ENG-TECH-0036",
+    "ENG-VIS-0054"
+  ],
+  "expected_overlay_mutations_before": 70,
+  "expected_overlay_mutations_after": 18,
+  "expected_canonical_overlay_mutations_after": 0,
+  "expected_legacy_mirror_mutations_after": 18,
+  "allowed_legacy_mirror_prefix": "dashboard_patch_extras.updated_records[70].",
+  "exact_candidate_file_sha256": "d58c874f5846f53f5eaa610f35d452b165282cf3f495cb8c7013cd392105e411",
+  "expected_resulting_canonical_sha256": "029b533d88846cb4e14137dffe563771b5ad204e1df77568d64e20ee0f529cef",
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_write_allowed": false,
+    "identity_fix_runtime_removal_authorized": false,
+    "legacy_mirror_cleanup_required_before_identity_fix_retirement": true,
+    "candidate_requires_exact_hash_pinning_before_append_authorization": true
+  }
+}
