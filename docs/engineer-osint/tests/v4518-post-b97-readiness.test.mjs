@@ -14,7 +14,7 @@ const mediaLib=readFileSync(`${root}/lib/media-sweep-exceptions.mjs`,'utf8');
 const registry=JSON.parse(readFileSync(`${root}/media-sweep-status-exceptions.json`,'utf8'));
 const attestationRaw=readFileSync(`${root}/data/attestations/engineer-osint-20260830-B97-media-omission.md`,'utf8');
 const workflow=readFileSync('.github/workflows/pages.yml','utf8');
-const verifier=readFileSync(`${root}/verify-pages-artifact.mjs`,'utf8');
+const verifier=readFileSync(`${root}/verify-pages-artifact-pre-b98.mjs`,'utf8');
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const b97Exception=registry.exceptions.find(item=>item.run_id==='engineer-osint-20260830-B97');
 
