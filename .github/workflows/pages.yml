@@ -226,6 +226,9 @@ jobs:
         if: steps.migration-phase.outputs.phase == 'POST_B98'
         run: node docs/engineer-osint/audit-persistent-b98.mjs
 
+      - name: Gate POST_B98 Pages readiness
+        run: node docs/engineer-osint/verify-post-b98-pages-readiness.mjs
+
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
 
