@@ -14,6 +14,7 @@ const b97='engineer-osint-20260830-B97',b98='engineer-osint-20260830-B98';
 const b97Sha='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4';
 const b98FileSha='ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79';
 const b98Sha='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201';
+const preRetirementPublicSha='3633ba18cc69e06bdc72ca574157d901da5b43644993b4c8760e6302b728460f';
 const fail=message=>{throw new Error(`FIRST_THREE_RETIREMENT: ${message}`)};
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const readJson=path=>parseJsonStrict(readFileSync(join(src,path),'utf8'),{source:path});
@@ -21,7 +22,7 @@ const readJson=path=>parseJsonStrict(readFileSync(join(src,path),'utf8'),{source
 const policy=readJson('V4530_FIRST_THREE_OVERLAY_RETIREMENT.json');
 if(policy.schema_version!=='engineer-osint-first-three-overlay-retirement-v1'||policy.status!=='READY_FOR_RETIREMENT')fail('retirement policy inactive or schema drifted');
 if(policy.historical_b98_run_id!==b98||policy.historical_b98_file_sha256!==b98FileSha||policy.historical_b98_canonical_sha256!==b98Sha)fail('retirement policy B98 anchor drift');
-if(policy.pre_retirement_public_data_sha256!=='3633ba18cc69e06bdc72ca574157d901da5b43644993b4c8760e6302b728460f')fail('pre-retirement public digest drift');
+if(policy.pre_retirement_public_data_sha256!==preRetirementPublicSha)fail('pre-retirement public digest drift');
 const auth=policy.authorization||{};
 if(auth.remove_first_three_from_active_runtime!==true||auth.remove_first_three_from_active_legacy_baseline!==true||auth.retain_first_three_files_as_historical_migration_artifacts!==true||auth.keep_transition_guard_runtime_installed!==true||auth.keep_identity_fix_active!==true)fail('retirement authorization incomplete');
 if(auth.allow_identity_fix_migration!==false||auth.allow_canonical_run_append!==false||auth.allow_run_store_manifest_edit!==false||auth.allow_canonical_data_edit!==false||auth.allow_other_runtime_module_removal!==false)fail('retirement authorization scope broadened');
@@ -60,6 +61,7 @@ if(b98Index<0||b98Index!==manifest.runs.findLastIndex(entry=>entry.run_id===b98)
 const currentIndex=manifest.runs.length-1,currentEntry=manifest.runs[currentIndex];
 if(currentIndex<b98Index)fail('current canonical tip predates B98');
 if(store.report.current_run_id!==currentEntry.run_id||store.report.canonical_sha256!==currentEntry.canonical_sha256)fail('current run-store tip/report mismatch');
+const exactB98=store.report.current_run_id===b98;
 const b98Entry=manifest.runs[b98Index];
 if(b98Entry.parent_run_id!==b97||b98Entry.parent_canonical_sha256!==b97Sha||b98Entry.path!=='data/runs/engineer-osint-20260830-B98.json'||b98Entry.file_sha256!==b98FileSha||b98Entry.canonical_sha256!==b98Sha)fail('historical B98 manifest anchor drift');
 const b98Raw=readFileSync(join(src,b98Entry.path),'utf8');
@@ -98,10 +100,11 @@ validatePublicUrls(publicData);
 const localizationViolations=translationMutationViolations(beforeLocalization,publicData,{intrinsicPath:isIntrinsicTranslationPath});
 if(localizationViolations.length)fail(`retired runtime localization escaped translation provenance: ${localizationViolations.slice(0,20).map(item=>item.path).join(',')}`);
 const publicDataSha=sha256(JSON.stringify(publicData));
-if(publicDataSha!==policy.pre_retirement_public_data_sha256)fail(`public-data digest changed after retirement: ${publicDataSha}`);
+if(exactB98&&publicDataSha!==preRetirementPublicSha)fail(`public-data digest changed on exact B98 retirement: ${publicDataSha}`);
 
 const report={
   generated_at:new Date().toISOString(),status:'PASS',schema_version:'engineer-osint-first-three-overlay-retirement-audit-v1',
+  mode:exactB98?'EXACT_B98_RETIREMENT':'POST_B98_DESCENDANT_RETIRED_RUNTIME',
   current_run_id:store.report.current_run_id,current_canonical_sha256:store.report.canonical_sha256,
   historical_b98:{run_id:b98,parent_run_id:b97,file_sha256:b98FileSha,canonical_sha256:b98Sha,status:'PASS'},
   retired_modules:firstThree,retired_runtime_ids:firstThreeIds,retired_runtime_module_count:3,
@@ -110,11 +113,12 @@ const report={
   identity_fix_active:true,identity_fix_in_scope:false,identity_fix_migration_authorized:false,
   active_baseline_module_count:baselineNames.length,active_baseline_identity_fix_only:true,
   native_historical_intelligence:{persistent_b97_gaps:15,b98_evidence:2,b98_assessments:4,status:'PASS'},
-  pre_retirement_public_data_sha256:policy.pre_retirement_public_data_sha256,retired_public_data_sha256:publicDataSha,public_data_semantic_parity:true,
+  pre_retirement_digest_applicable:exactB98,pre_retirement_public_data_sha256:preRetirementPublicSha,
+  retired_public_data_sha256:publicDataSha,public_data_semantic_parity:exactB98?true:null,
   retired_runtime_scripts_absent:true,identity_fix_runtime_script_present:true,
   retirement_validated:true,canonical_write_performed:false,run_store_manifest_edit_performed:false
 };
 writeFileSync(join(dist,'first-three-overlay-retirement-audit.json'),JSON.stringify(report,null,2)+'\n');
-writeFileSync(join(dist,'first-three-overlay-retirement-audit.md'),`# ENGINEER OSINT v4.5.30 — first-three overlay retirement audit\n\nStatus: **PASS**\nCurrent canonical run: **${report.current_run_id}**\n\n- Retired active factual overlays: **3**\n- Active legacy factual overlays: **1** (identity-fix only)\n- Guarded-file set: **0**\n- Historical retired files retained and hash-pinned: **PASS**\n- Historical B98 integrity: **PASS**\n- Native B97 gaps / B98 evidence / B98 assessments: **15 / 2 / 4**\n- Retired script IDs absent from built artifact: **PASS**\n- Identity-fix script remains active: **PASS**\n- Public-data digest parity with deployed v4.5.29: **PASS**\n- Public-data SHA-256: \`${publicDataSha}\`\n- Canonical writes: **0**\n\nIdentity-fix remains active and out of scope. The transition guard runtime remains installed but has no guarded files.\n`);
-appendFileSync(join(dist,'health.txt'),`first_three_overlay_retirement=pass\nfirst_three_overlay_retired=1\nfirst_three_overlay_retired_modules=3\nfirst_three_overlay_archive_hashes=pass\nfirst_three_overlay_runtime_scripts_absent=1\nfirst_three_overlay_active_legacy_modules=1\nfirst_three_overlay_active_identity_fix_only=1\nfirst_three_overlay_transition_guard_retained=1\nfirst_three_overlay_guarded_files=0\nfirst_three_overlay_public_data_sha=${publicDataSha}\nfirst_three_overlay_public_data_semantic_parity=1\nfirst_three_overlay_identity_fix_active=1\nfirst_three_overlay_identity_fix_in_scope=0\nfirst_three_overlay_identity_fix_migration_authorized=0\nfirst_three_overlay_canonical_writes=0\nfirst_three_overlay_run_store_manifest_edits=0\n`);
-console.log(`FIRST_THREE_RETIREMENT PASS: run=${report.current_run_id}; retired=3; active-legacy=identity-fix-only; public-data=${publicDataSha}`);
+writeFileSync(join(dist,'first-three-overlay-retirement-audit.md'),`# ENGINEER OSINT v4.5.30 — first-three overlay retirement audit\n\nStatus: **PASS**\nMode: **${report.mode}**\nCurrent canonical run: **${report.current_run_id}**\n\n- Retired active factual overlays: **3**\n- Active legacy factual overlays: **1** (identity-fix only)\n- Guarded-file set: **0**\n- Historical retired files retained and hash-pinned: **PASS**\n- Historical B98 integrity: **PASS**\n- Native B97 gaps / B98 evidence / B98 assessments: **15 / 2 / 4**\n- Retired script IDs absent from built artifact: **PASS**\n- Identity-fix script remains active: **PASS**\n- Exact-B98 pre-retirement digest gate: **${exactB98?'PASS':'not applicable to descendant'}**\n- Current public-data SHA-256: \`${publicDataSha}\`\n- Canonical writes: **0**\n\nIdentity-fix remains active and out of scope. The transition guard runtime remains installed but has no guarded files.\n`);
+appendFileSync(join(dist,'health.txt'),`first_three_overlay_retirement=pass\nfirst_three_overlay_retirement_mode=${report.mode}\nfirst_three_overlay_retired=1\nfirst_three_overlay_retired_modules=3\nfirst_three_overlay_archive_hashes=pass\nfirst_three_overlay_runtime_scripts_absent=1\nfirst_three_overlay_active_legacy_modules=1\nfirst_three_overlay_active_identity_fix_only=1\nfirst_three_overlay_transition_guard_retained=1\nfirst_three_overlay_guarded_files=0\nfirst_three_overlay_pre_retirement_digest_applicable=${exactB98?1:0}\nfirst_three_overlay_public_data_sha=${publicDataSha}\nfirst_three_overlay_public_data_semantic_parity=${exactB98?1:'not-applicable-descendant'}\nfirst_three_overlay_identity_fix_active=1\nfirst_three_overlay_identity_fix_in_scope=0\nfirst_three_overlay_identity_fix_migration_authorized=0\nfirst_three_overlay_canonical_writes=0\nfirst_three_overlay_run_store_manifest_edits=0\n`);
+console.log(`FIRST_THREE_RETIREMENT PASS: run=${report.current_run_id}; mode=${report.mode}; retired=3; active-legacy=identity-fix-only; public-data=${publicDataSha}`);
