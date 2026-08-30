@@ -8,6 +8,7 @@ import {
 export const RUN_STORE_SCHEMA_VERSION='engineer-osint-run-store-v1';
 export const RUN_OPERATION_VERSION='engineer-osint-operations-v1';
 export const INTELLIGENCE_EXTENSION_VERSION='engineer-osint-intelligence-v1';
+export const LEGACY_MIRROR_SYNC_VERSION='engineer-osint-legacy-mirror-sync-v1';
 
 const isObject=value=>Boolean(value)&&typeof value==='object'&&!Array.isArray(value);
 const fail=(message,details={})=>{throw new IntegrityError(message,details)};
@@ -174,6 +175,47 @@ export function validateIntelligenceExtensionV1(patch){
   return ext;
 }
 
+export function validateLegacyMirrorSyncV1(patch){
+  const ext=patch?.extensions?.legacy_mirror_sync_v1;
+  if(ext===undefined)return {updated_records:[]};
+  ensure(isObject(ext),'extensions.legacy_mirror_sync_v1 must be an object');
+  assertKeys(ext,['updated_records'],'extensions.legacy_mirror_sync_v1');
+  ensure(Array.isArray(ext.updated_records),'extensions.legacy_mirror_sync_v1.updated_records must be an array');
+  const protectedFields=new Set(['id','first_seen_run','run_id','last_update_run']);
+  const seenTargets=new Set();
+  for(const [index,request] of ext.updated_records.entries()){
+    const at=`extensions.legacy_mirror_sync_v1.updated_records[${index}]`;
+    ensure(isObject(request),`${at} must be an object`);
+    assertKeys(request,['target_id','fields'],at);
+    ensure(typeof request.target_id==='string'&&request.target_id,`${at}.target_id is required`);
+    ensure(!seenTargets.has(request.target_id),`${at}.target_id duplicates ${request.target_id}`);seenTargets.add(request.target_id);
+    ensure(Array.isArray(request.fields)&&request.fields.length>0,`${at}.fields must be a non-empty array`);
+    ensure(new Set(request.fields).size===request.fields.length,`${at}.fields contains duplicates`);
+    for(const field of request.fields){
+      ensure(typeof field==='string'&&/^[A-Za-z][A-Za-z0-9_]*$/.test(field),`${at}.fields contains an invalid top-level field`);
+      ensure(!protectedFields.has(field),`${at}.fields cannot synchronize protected field ${field}`);
+    }
+  }
+  return ext;
+}
+
+function syncExplicitLegacyMirrors(data,ext){
+  for(const request of ext.updated_records){
+    const canonicalMatches=collection(data,'records').filter(item=>itemKey(item,idRules.records)===request.target_id);
+    ensure(canonicalMatches.length===1,`Legacy mirror sync target ${request.target_id} must resolve to exactly one canonical record`);
+    const mirrorItems=asArray(data.dashboard_patch_extras?.updated_records);
+    const mirrorMatches=mirrorItems.filter(item=>itemKey(item,idRules.records)===request.target_id);
+    ensure(mirrorMatches.length===1,`Legacy mirror sync target ${request.target_id} must resolve to exactly one existing updated_records mirror`);
+    const source=canonicalMatches[0],mirror=mirrorMatches[0];
+    for(const field of request.fields){
+      const canonicalOwn=Object.hasOwn(source,field),mirrorOwn=Object.hasOwn(mirror,field);
+      ensure(canonicalOwn||mirrorOwn,`Legacy mirror sync field ${request.target_id}.${field} exists in neither canonical nor mirror state`);
+      if(canonicalOwn)mirror[field]=structuredClone(source[field]);
+      else delete mirror[field];
+    }
+  }
+}
+
 export function validatePatchOperations(patch){
   const operations=patch?.extensions?.operations_v1;
   if(operations===undefined){
@@ -333,6 +375,7 @@ function reconcileLegacyVisualMirror(data){
 export function applyStrictPatchToCanonicalData(input,patch){
   validatePatch(patch,{strict:true});
   const intelligence=validateIntelligenceExtensionV1(patch);
+  const legacyMirrorSync=validateLegacyMirrorSyncV1(patch);
   const data=structuredClone(input),runId=patch.state.run_id;
   reconcileLegacyVisualMirror(data);
   const touched=new Map([
@@ -368,6 +411,7 @@ export function applyStrictPatchToCanonicalData(input,patch){
   }
   applyOperations(data,patch);
   syncMirrors(data);
+  syncExplicitLegacyMirrors(data,legacyMirrorSync);
   const knownEntityIds=[
     ...collection(data,'technology_signals'),...collection(data,'leads'),
     ...collection(data,'observed_minimum'),...collection(data,'lessons_learned'),
