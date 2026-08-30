@@ -42,7 +42,8 @@ test('B97 readiness uses standard append-run dry-run and forbids persistent writ
   assert.equal(policy.authorization.allow_b98_same_slice,false);
   assert.equal(policy.authorization.allow_overlay_retirement,false);
   assert.equal(policy.authorization.allow_identity_fix_migration,false);
-  assert.match(workflow,/append-run\.mjs .*V4517_B97_PATCH_CANDIDATE\.json/);
+  assert.match(workflow,/candidate='docs\/engineer-osint\/V4517_B97_PATCH_CANDIDATE\.json'/);
+  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
   assert.doesNotMatch(workflow,/append-run\.mjs .*--write/);
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
   assert.match(audit,/canonical_write_performed:false/);
