@@ -43,6 +43,9 @@ jobs:
       - name: Build retired runtime artifact
         run: node docs/engineer-osint/build-pages.mjs
 
+      - name: Diagnose v4.5.29 versus v4.5.30 digest paths
+        run: node docs/engineer-osint/diagnose-v4530-retirement-digest.mjs
+
       - name: Audit retired runtime and historical semantic parity
         run: node docs/engineer-osint/audit-post-b98-steady-state.mjs
 
