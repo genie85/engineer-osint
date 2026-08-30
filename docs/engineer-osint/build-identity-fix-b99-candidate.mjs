@@ -17,7 +17,6 @@ if(store.report.current_run_id!==policy.expected_parent_run_id)fail(`persistent 
 if(store.report.canonical_sha256!==policy.expected_parent_canonical_sha256)fail('parent canonical SHA drift');
 if(readiness.persistent_tip_required!==policy.expected_parent_run_id||readiness.persistent_canonical_sha256_required!==policy.expected_parent_canonical_sha256)fail('v4.5.31 parent anchor drift');
 
-// Recreate the exact read-only v4.5.31 migration map from the current built artifact.
 execFileSync(process.execPath,[join(src,'audit-identity-fix-migration-readiness.mjs')],{stdio:'inherit'});
 const audit=JSON.parse(readFileSync(join(dist,'identity-fix-migration-readiness.json'),'utf8'));
 const map=JSON.parse(readFileSync(join(dist,'overlay-migration-map.json'),'utf8'));
@@ -83,8 +82,13 @@ if(overlayMutationsBefore!==policy.expected_overlay_mutations_before)fail(`pre-c
 
 const result=applyStrictPatchToCanonicalData(store.data,patch);
 const afterOverlay=runOverlay(result);
-const overlayMutationsAfter=deepDiff(result,afterOverlay).length;
-if(overlayMutationsAfter!==policy.expected_overlay_mutations_after)fail(`post-candidate overlay mutation count ${overlayMutationsAfter}`);
+const residual=deepDiff(result,afterOverlay);
+const overlayMutationsAfter=residual.length;
+if(overlayMutationsAfter!==policy.expected_overlay_mutations_after){
+  writeFileSync(join(dist,'identity-fix-b99-residual-diagnostic.json'),JSON.stringify({count:overlayMutationsAfter,residual},null,2)+'\n','utf8');
+  console.error('IDENTITY_FIX_B99_RESIDUAL_DIAGNOSTIC='+JSON.stringify(residual));
+  fail(`post-candidate overlay mutation count ${overlayMutationsAfter}`);
+}
 
 const raw=JSON.stringify(patch,null,2)+'\n';
 const candidateFileSha=createHash('sha256').update(raw).digest('hex');
