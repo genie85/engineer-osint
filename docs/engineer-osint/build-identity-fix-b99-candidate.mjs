@@ -61,6 +61,7 @@ const patch={
     status:'IDENTITY_FIX_CANONICAL_MIGRATION_CANDIDATE_AFTER_PERSISTENT_B98',
     source_readiness_policy:'V4531_IDENTITY_FIX_MIGRATION_READINESS',
     remove_field_contract:'V4532_FAIL_CLOSED_REMOVE_FIELD',
+    legacy_mirror_cleanup_required:true,
     identity_fix_runtime_removal_authorized:false
   },
   true_delta:{CURRENT_DELTA:0,LATE_DISCOVERED_CURRENT:0,HISTORICAL_BACKFILL:0,ENTITY_ENRICHMENT:0,IDENTITY_CORRECTION_OPERATIONS:operations.length},
@@ -84,10 +85,12 @@ const result=applyStrictPatchToCanonicalData(store.data,patch);
 const afterOverlay=runOverlay(result);
 const residual=deepDiff(result,afterOverlay);
 const overlayMutationsAfter=residual.length;
-if(overlayMutationsAfter!==policy.expected_overlay_mutations_after){
-  writeFileSync(join(dist,'identity-fix-b99-residual-diagnostic.json'),JSON.stringify({count:overlayMutationsAfter,residual},null,2)+'\n','utf8');
+const legacyMirrorResidual=residual.filter(change=>change.path.startsWith(policy.allowed_legacy_mirror_prefix));
+const canonicalResidual=residual.filter(change=>!change.path.startsWith(policy.allowed_legacy_mirror_prefix));
+if(overlayMutationsAfter!==policy.expected_overlay_mutations_after||legacyMirrorResidual.length!==policy.expected_legacy_mirror_mutations_after||canonicalResidual.length!==policy.expected_canonical_overlay_mutations_after){
+  writeFileSync(join(dist,'identity-fix-b99-residual-diagnostic.json'),JSON.stringify({count:overlayMutationsAfter,legacy_mirror_count:legacyMirrorResidual.length,canonical_count:canonicalResidual.length,residual},null,2)+'\n','utf8');
   console.error('IDENTITY_FIX_B99_RESIDUAL_DIAGNOSTIC='+JSON.stringify(residual));
-  fail(`post-candidate overlay mutation count ${overlayMutationsAfter}`);
+  fail(`post-candidate residual mismatch total=${overlayMutationsAfter} legacy=${legacyMirrorResidual.length} canonical=${canonicalResidual.length}`);
 }
 
 const raw=JSON.stringify(patch,null,2)+'\n';
@@ -101,9 +104,11 @@ const report={
   candidate_file_sha256:candidateFileSha,resulting_canonical_sha256:resultingCanonicalSha,
   operation_count:operations.length,replace_field_count:replaceCount,remove_field_count:removeCount,
   changed_ids:changedIds,overlay_mutations_before:overlayMutationsBefore,overlay_mutations_after:overlayMutationsAfter,
+  canonical_overlay_mutations_after:canonicalResidual.length,legacy_mirror_mutations_after:legacyMirrorResidual.length,
+  legacy_mirror_residual_paths:legacyMirrorResidual.map(change=>change.path),legacy_mirror_cleanup_required:true,
   canonical_write_performed:false,append_run_write_invoked:false,identity_fix_runtime_removal_authorized:false,
   safe_to_append:false,safe_to_retire_identity_fix_overlay:false
 };
 writeFileSync(join(dist,'identity-fix-b99-candidate-audit.json'),JSON.stringify(report,null,2)+'\n','utf8');
-writeFileSync(join(dist,'identity-fix-b99-candidate-audit.md'),`# ENGINEER OSINT v4.5.33 — identity-fix B99 candidate\n\nStatus: **PASS — generated for exact review only**\nCandidate: **${report.candidate_run_id}**\nCandidate SHA-256: \`${candidateFileSha}\`\nResulting canonical SHA-256: \`${resultingCanonicalSha}\`\n\n- operations: **${operations.length}** (${replaceCount} REPLACE_FIELD + ${removeCount} REMOVE_FIELD)\n- identity overlay mutations before candidate: **${overlayMutationsBefore}**\n- identity overlay mutations after candidate: **${overlayMutationsAfter}**\n- canonical writes: **0**\n- append authorization: **false**\n- runtime retirement authorization: **false**\n`,'utf8');
-console.log(`IDENTITY_FIX_B99_CANDIDATE=PASS file_sha=${candidateFileSha} canonical_sha=${resultingCanonicalSha} overlay_after=${overlayMutationsAfter}`);
+writeFileSync(join(dist,'identity-fix-b99-candidate-audit.md'),`# ENGINEER OSINT v4.5.33 — identity-fix B99 candidate\n\nStatus: **PASS — generated for exact review only**\nCandidate: **${report.candidate_run_id}**\nCandidate SHA-256: \`${candidateFileSha}\`\nResulting canonical SHA-256: \`${resultingCanonicalSha}\`\n\n- operations: **${operations.length}** (${replaceCount} REPLACE_FIELD + ${removeCount} REMOVE_FIELD)\n- identity overlay mutations before candidate: **${overlayMutationsBefore}**\n- canonical overlay mutations after candidate: **${canonicalResidual.length}**\n- legacy mirror-only mutations after candidate: **${legacyMirrorResidual.length}**\n- legacy mirror cleanup required before runtime retirement: **yes**\n- canonical writes: **0**\n- append authorization: **false**\n- runtime retirement authorization: **false**\n`,'utf8');
+console.log(`IDENTITY_FIX_B99_CANDIDATE=PASS file_sha=${candidateFileSha} canonical_sha=${resultingCanonicalSha} canonical_residual=${canonicalResidual.length} legacy_mirror_residual=${legacyMirrorResidual.length}`);
