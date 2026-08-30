@@ -1,0 +1,75 @@
+name: ENGINEER OSINT identity-fix migration readiness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineer-osint-identity-fix-readiness-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical lifecycle state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate append-only canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build current canonical dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Materialize canonical media from snapshot and append-only runs
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+
+      - name: Audit exact identity-fix migration readiness
+        run: node docs/engineer-osint/audit-identity-fix-migration-readiness.mjs
+
+      - name: Verify no persistent canonical writes
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const report=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-migration-readiness.json','utf8'));
+          if(report.status!=='PASS')throw new Error('identity-fix readiness audit did not PASS');
+          if(report.current_run_id!=='engineer-osint-20260830-B98')throw new Error('unexpected persistent tip');
+          if(report.current_mutation_count!==70||report.migration_candidate_count!==36||report.operations_v1_candidates!==27||report.manual_review_candidates!==9)throw new Error('identity-fix readiness counts drift');
+          if(report.canonical_write_performed!==false||report.append_run_invoked!==false||report.safe_to_append_identity_migration!==false||report.safe_to_retire_identity_fix_overlay!==false||report.identity_fix_runtime_removal_authorized!==false)throw new Error('identity-fix safety boundary broadened');
+          console.log('IDENTITY_FIX_READINESS_CI=PASS_NO_WRITE');
+          NODE
+
+      - name: Upload identity-fix readiness evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/identity-fix-migration-readiness.json
+            docs/engineer-osint-dist/identity-fix-migration-readiness.md
+            docs/engineer-osint-dist/overlay-retirement-audit.json
+            docs/engineer-osint-dist/overlay-migration-map.json
+            docs/engineer-osint-dist/health.txt
