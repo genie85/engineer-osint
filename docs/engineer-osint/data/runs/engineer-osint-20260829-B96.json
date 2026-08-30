@@ -1,0 +1,1771 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260829-B96",
+    "parent_run_id": "engineer-osint-20260826-B95",
+    "status": "SUCCESS",
+    "window_from": "2026-08-29T10:35:00+02:00",
+    "window_to": "2026-08-29T10:35:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 104,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 15,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "MIGRATION_CANDIDATE_FROM_VERIFIED_CANONICAL_TIP",
+    "source_canonical_run_id": "engineer-osint-20260826-B95",
+    "source_canonical_sha256": "dc0dae682004554a8f9a0dafbbd31187b9baebd2c325e9e37e503d6aa8bcabae",
+    "migration_scope": "FIRST_THREE_PINNED_LEGACY_FACTUAL_OVERLAYS_STAGE_A_ONLY",
+    "research_delta_performed": false,
+    "stage_b_intelligence_materialization_pending": true,
+    "overlay_retirement_authorized": false
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "RICH-SRC-007",
+      "name": "IDF — Combat Engineering Corps",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://www.idf.il/en/mini-sites/our-units/combat-engineering-corps/combat-engineering-corps/",
+      "lineage": "Israel Defense Forces"
+    },
+    {
+      "id": "RICH-SRC-008",
+      "name": "IDF — Get To Know The Yahalom Unit",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2022-12-07",
+      "url": "https://www.idf.il/en/articles/2022/get-to-know-the-yahalom-unit/",
+      "lineage": "Israel Defense Forces"
+    },
+    {
+      "id": "RICH-SRC-009",
+      "name": "IDF — Yahalom Unit",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://m.www.idf.il/en/mini-sites/our-units/yahalom-unit/yahalom-unit/",
+      "lineage": "Israel Defense Forces"
+    },
+    {
+      "id": "RICH-SRC-010",
+      "name": "Israel MoD — Merkava and Armored Vehicles Directorate",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://mod.gov.il/en/departments/merkava-and-armored-vehicles-directorate",
+      "lineage": "Israel Ministry of Defense"
+    },
+    {
+      "id": "RICH-SRC-011",
+      "name": "Israel MoD — Israel Defense Prize 2024 / Namer APC",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://mod.gov.il/en/press-releases/press-room/israel-defense-prize-2024-awarded-for-groundbreaking-defense-technologies-that-proved-critical-during-the-swords-of-iron-war",
+      "lineage": "Israel Ministry of Defense"
+    },
+    {
+      "id": "RICH-SRC-012",
+      "name": "Türkiye MSB — Weekly Press Briefing / Euphrates floating bridge",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2026-07-09",
+      "url": "https://www.msb.gov.tr/SlaytHaber/cbf794296d9646ba86ad48cde9c729a9",
+      "lineage": "Republic of Türkiye Ministry of National Defence"
+    },
+    {
+      "id": "RICH-SRC-013",
+      "name": "NATO EOD COE — The 68th EOD WG Meeting",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2025-03-26",
+      "url": "https://www.eodcoe.org/en/news/the-68th-eod-wg-meeting.html",
+      "lineage": "NATO Explosive Ordnance Disposal Centre of Excellence"
+    },
+    {
+      "id": "RICH-SRC-014",
+      "name": "U.S. Army — Soldiers test drone-delivered breach capability",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2026-06-25",
+      "url": "https://www.army.mil/article/293513/oregon_engineers_test_drone_delivered_breach_capability",
+      "lineage": "U.S. Army / Oregon National Guard Public Affairs"
+    },
+    {
+      "id": "RICH-SRC-015",
+      "name": "U.S. Army Europe and Africa / DVIDS — Oregon engineers breach wire obstacle with drone-delivered Bangalore",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2026-06-25",
+      "url": "https://www.europeafrica.army.mil/Innovation/videoid/1012370/dvpmoduleid/104815/dvpTag/drones/",
+      "lineage": "U.S. Army / Oregon National Guard Public Affairs"
+    },
+    {
+      "id": "RICH-SRC-001",
+      "name": "TerreMag — Le SDZ, nouveau système de dépollution de zone",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2026-04-21",
+      "url": "https://www.terremag.defense.gouv.fr/enquetes/zoom-sur/le-sdz-nouveau-systeme-de-depollution-de-zone",
+      "lineage": "French Army / Ministry of Armed Forces"
+    },
+    {
+      "id": "RICH-SRC-002",
+      "name": "DGA — La DGA commande le système de franchissement Syfrall",
+      "type": "PRIMARY",
+      "tier": 1,
+      "publication_date": "2026-02-02",
+      "url": "https://www.defense.gouv.fr/dga/actualites/dga-commande-systeme-franchissement-syfrall",
+      "lineage": "French DGA"
+    },
+    {
+      "id": "RICH-SRC-003",
+      "name": "DRDO — Bridge Layer Tank (BLT) Arjun",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://drdo.gov.in/drdo/en/offerings/products/bridge-layer-tank-blt-arjun",
+      "lineage": "DRDO / Government of India"
+    },
+    {
+      "id": "RICH-SRC-004",
+      "name": "DRDO — Short Span Bridge 10m",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://drdo.gov.in/drdo/en/offerings/products/short-span-bridge-10m",
+      "lineage": "DRDO / Government of India"
+    },
+    {
+      "id": "RICH-SRC-005",
+      "name": "DRDO — Autonomous Systems and Robotics",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://drdo.gov.in/drdo/en/offerings/technology-foresight/autonomous-systems-and-robotics",
+      "lineage": "DRDO / Government of India"
+    },
+    {
+      "id": "RICH-SRC-006",
+      "name": "DRDO — UGV technology foresight",
+      "type": "PRIMARY",
+      "tier": 1,
+      "url": "https://drdo.gov.in/drdo/en/offerings/technology-foresight/ugv",
+      "lineage": "DRDO / Government of India"
+    }
+  ],
+  "relations": [],
+  "evidence": [],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "REVIEWED_STAGE_A_PATCH_CANDIDATE_ONLY",
+    "provenance_gate": "PASS",
+    "production_preview": "PASS",
+    "candidate_generated_from": "overlay-production-migration-preview-v1",
+    "canonical_write_performed": false,
+    "append_run_write_flag_used": false,
+    "safe_to_append": false,
+    "safe_to_retire_overlays": false,
+    "stage_b_intelligence_candidates": 19,
+    "explicit_no_write_candidates": 18
+  },
+  "extensions": {
+    "operations_v1": [
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-001",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "CZECH_EOD_FORCE_DESIGN_BASELINE",
+        "field": "eoc_standardization_evidence",
+        "value": "The 68th NATO EOD WG public record states that EOC minimum standards of proficiency will be re-defined with support of the MILENG community and notes analysis of EOC tasks in NATO operations.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:CZECH_EOD_FORCE_DESIGN_BASELINE:eoc_standardization_evidence; resolution=FACTUAL_OPERATION_READY_WITH_ATTRIBUTION_LIMIT",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-002",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "CZECH_EOD_FORCE_DESIGN_BASELINE",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:CZECH_EOD_FORCE_DESIGN_BASELINE:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-003",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "CZECH_EOD_FORCE_DESIGN_BASELINE",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0224",
+          "ENG-SRC-0225",
+          "ENG-SRC-0227",
+          "ENG-SRC-0228",
+          "ENG-SRC-0229",
+          "RICH-SRC-013"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:CZECH_EOD_FORCE_DESIGN_BASELINE:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-004",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0051",
+        "field": "eoc_standardization_evidence",
+        "value": "The 68th NATO EOD WG public record states that EOC minimum standards of proficiency will be re-defined with support of the MILENG community and notes analysis of EOC tasks in NATO operations.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0051:eoc_standardization_evidence; resolution=FACTUAL_OPERATION_READY_WITH_ATTRIBUTION_LIMIT",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-005",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0051",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0051:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-006",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0051",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0464",
+          "RICH-SRC-013"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0051:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-007",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0053",
+        "field": "eoc_standardization_evidence",
+        "value": "The 68th NATO EOD WG public record states that EOC minimum standards of proficiency will be re-defined with support of the MILENG community and notes analysis of EOC tasks in NATO operations.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0053:eoc_standardization_evidence; resolution=FACTUAL_OPERATION_READY_WITH_ATTRIBUTION_LIMIT",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-008",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0053",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0053:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-009",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-DOC-0053",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0470",
+          "ENG-SRC-0481",
+          "ENG-SRC-0488",
+          "RICH-SRC-013"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-DOC-0053:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-010",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0002",
+        "field": "eoc_standardization_evidence",
+        "value": "The 68th NATO EOD WG public record states that EOC minimum standards of proficiency will be re-defined with support of the MILENG community and notes analysis of EOC tasks in NATO operations.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0002:eoc_standardization_evidence; resolution=FACTUAL_OPERATION_READY_WITH_ATTRIBUTION_LIMIT",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-011",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0002",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0002:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-012",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0002",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0002",
+          "RICH-SRC-013"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0002:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-013",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0020",
+        "field": "eoc_standardization_evidence",
+        "value": "The 68th NATO EOD WG public record states that EOC minimum standards of proficiency will be re-defined with support of the MILENG community and notes analysis of EOC tasks in NATO operations.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0020:eoc_standardization_evidence; resolution=FACTUAL_OPERATION_READY_WITH_ATTRIBUTION_LIMIT",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-014",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0020",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0020:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-015",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0020",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0076",
+          "RICH-SRC-013"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0020:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-013"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-016",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "capability_demonstrated",
+        "value": "Wet-gap crossing / floating bridge construction at a publicly stated length of 240 m.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:capability_demonstrated; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-017",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "claims",
+        "value": [
+          {
+            "text": "Türkiye MSB stated that the 2nd Army Engineer Brigade completed a 240 m floating bridge over the Euphrates in Deir ez-Zor.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-012"
+            ]
+          },
+          {
+            "text": "The ministry stated that the bridge would open on 10 July after control crossings.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-012"
+            ]
+          },
+          {
+            "text": "The exact bridge-system model and load classification are not disclosed in the cited statement.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-012"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-018",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "event_date",
+        "value": "2026-07-09",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:event_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-019",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "last_evidence_date",
+        "value": "2026-07-09",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-020",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-021",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "location",
+        "value": "Deir ez-Zor, Syria — Euphrates River",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:location; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-022",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "operational_evidence",
+        "value": "Named Turkish engineer brigade, operational geography, river, bridge type (floating bridge) and stated length are directly supported by the Turkish MoD briefing.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-023",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "participants",
+        "value": "2nd Army Engineer Brigade (2’nci Ordu İstihkâm Tugay Komutanlığı)",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:participants; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-024",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-025",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-012"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-026",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-EVT-0021",
+        "field": "summary_cs",
+        "value": "Turecké ministerstvo obrany 9. července 2026 oznámilo dokončení 240m plovoucího mostu přes Eufrat v syrském Dajr az-Zauru jednotkou 2’nci Ordu İstihkâm Tugay Komutanlığı. Zdroj uvádí dokončení instalace a plánované otevření po kontrolních přejezdech 10. července.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-EVT-0021:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-027",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "claims",
+        "value": [
+          {
+            "text": "Israel MoD identifies Namer as an advanced armored platform within the Merkava and Armored Vehicles Directorate portfolio.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-010"
+            ]
+          },
+          {
+            "text": "Israel MoD stated that the Namer APC proved important during the Swords of Iron war.",
+            "classification": "CLAIM",
+            "source_ids": [
+              "RICH-SRC-011"
+            ]
+          },
+          {
+            "text": "The currently re-verified sources do not by themselves confirm the detailed three-configuration Namer Engineering architecture previously recorded in the historical baseline.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-010",
+              "RICH-SRC-011"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-028",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "last_evidence_date",
+        "value": "2024-07-16",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-029",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-030",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "manufacturer",
+        "value": "Israel Ministry of Defense / Merkava and Armored Vehicles Directorate",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:manufacturer; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-031",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "operational_evidence",
+        "value": "Israel MoD publicly stated in the 2024 Israel Defense Prize announcement that the Namer APC proved important during the Swords of Iron war. This supports operational use of the Namer family, but does not by itself identify the dedicated engineering configuration.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-032",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-033",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-034",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "summary_cs",
+        "value": "Namer je izraelský obrněný transportér (APC) v programu Merkava/Namer. Izraelské ministerstvo obrany uvádí Namer mezi pokročilými obrněnými platformami a samostatně doložilo jeho operační význam během války Swords of Iron. Tyto citované zdroje samy o sobě nedokládají konkrétní ženijní konfiguraci Nameru.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:summary_cs; resolution=NARROW_TO_CURRENT_REVIEWED_SOURCE_SCOPE",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-035",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0013",
+        "field": "technical_profile",
+        "value": "Namer armored personnel carrier (APC) within the Israeli Merkava/Namer armored-vehicle program. The reviewed IMOD sources support the Namer platform and its operational use, but do not establish the detailed configuration of a dedicated engineering variant.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0013:technical_profile; resolution=NARROW_TO_CURRENT_REVIEWED_SOURCE_SCOPE",
+        "source_ids": [
+          "RICH-SRC-010",
+          "RICH-SRC-011"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-036",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "claims",
+        "value": [
+          {
+            "text": "IDF lists minefield dismantling, bridge construction and fortification construction among Combat Engineering Corps responsibilities.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-007"
+            ]
+          },
+          {
+            "text": "IDF describes Yahalom as the special combat unit of the Combat Engineering Corps with specialized engineering, dangerous-ammunition, complex-minefield and underground tasks.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-008",
+              "RICH-SRC-009"
+            ]
+          },
+          {
+            "text": "IDF states that Yahalom at times uses robots and remote-controlled devices to reduce risk to personnel.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-008",
+              "RICH-SRC-009"
+            ]
+          },
+          {
+            "text": "These Israeli public descriptions should not automatically be treated as exact NATO EOD/EOC/EOR equivalents.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-007",
+              "RICH-SRC-008",
+              "RICH-SRC-009"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-037",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "equipment",
+        "value": "Public IDF material explicitly mentions robots and remote-controlled devices in Yahalom tasks. Complete current equipment holdings are not publicly established by these pages.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:equipment; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-038",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "last_evidence_date",
+        "value": "2022-12-07",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-039",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-040",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "mission",
+        "value": "Combat engineering support including minefield dismantling, bridging, fortifications and specialized engineering tasks.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:mission; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-041",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "operational_evidence",
+        "value": "IDF public material describes Yahalom as providing specialized engineering support involving dangerous ammunition, complex minefields, ground/water obstacles and underground threats. These pages establish mission scope, not a complete current TO&E.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-042",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "organization_profile",
+        "value": "Public IDF material identifies Yahalom as the special unit of the Combat Engineering Corps; the public Yahalom page states it is headed by an officer with the rank of colonel.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:organization_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-043",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-044",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-045",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0012",
+        "field": "summary_cs",
+        "value": "IDF veřejně popisuje Combat Engineering Corps jako sbor odpovědný mimo jiné za dismantling minefields, bridging a fortifications. Yahalom je zvláštní jednotka sboru pro specializované ženijní úkoly, nebezpečnou munici, komplexní minová pole a podzemní prostředí; IDF výslovně uvádí také používání robotů a dálkově ovládaných zařízení.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0012:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-007",
+          "RICH-SRC-008",
+          "RICH-SRC-009"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-046",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "claims",
+        "value": [
+          {
+            "text": "The Turkish Ministry of National Defence publicly names the 2nd Army Engineer Brigade in connection with a 240 m Euphrates floating bridge in Deir ez-Zor.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-012"
+            ]
+          },
+          {
+            "text": "This event demonstrates a brigade-level public wet-gap-crossing data point, but not the brigade’s full TO&E.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-012"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-047",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "last_evidence_date",
+        "value": "2026-07-09",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-048",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-049",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "mission",
+        "value": "Publicly demonstrated engineer support including wet-gap crossing / floating-bridge construction.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:mission; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-050",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "operational_evidence",
+        "value": "Türkiye MSB directly attributes the 240 m Deir ez-Zor Euphrates floating-bridge event to 2’nci Ordu İstihkâm Tugay Komutanlığı.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-051",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-052",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-012"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-053",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-UNIT-0013",
+        "field": "summary_cs",
+        "value": "2nd Army Engineer Brigade je veřejně doložena jako turecká ženijní brigáda schopná realizovat rozsáhlejší wet-gap crossing úkol mimo území Türkiye. Veřejný červencový záznam 2026 ji přímo spojuje s dokončením 240m plovoucího mostu přes Eufrat v Dajr az-Zauru.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-UNIT-0013:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-012"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-054",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "claims",
+        "value": [
+          {
+            "text": "Bravo Company, 741st Brigade Engineer Battalion conducted a proof-of-concept drone-delivered breach against a wire obstacle on 22 Jun 2026 at Orchard Combat Training Center.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-014",
+              "RICH-SRC-015"
+            ]
+          },
+          {
+            "text": "The Army article identifies the UAS as a Lorica Technologies Mule 28 and the live breaching charge as an M1A3 Bangalore torpedo.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-014"
+            ]
+          },
+          {
+            "text": "The live iteration delivered and detonated the Bangalore against concertina wire and opened a lane.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-014"
+            ]
+          },
+          {
+            "text": "The event is evidence of unit-level military testing, not Army-wide fielding or standardized TTP.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-014",
+              "RICH-SRC-015"
+            ]
+          },
+          {
+            "text": "The Army article states that observations from Ukraine were among the inspirations for the concept.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-014"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-055",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "last_evidence_date",
+        "value": "2026-06-25",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-056",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-057",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "maturity",
+        "value": "MILITARY_TESTING",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:maturity; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-058",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "operational_evidence",
+        "value": "MILITARY TESTING only. The source describes annual-training proof-of-concept activity and a planned battalion white paper for the engineer community; it does not establish operational deployment, program-of-record status or Army-wide TTP adoption.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-059",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-060",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-061",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "summary_en",
+        "value": "U.S. Army / Oregon Army National Guard publicly documented a June 2026 proof-of-concept in which Bravo Company, 741st Brigade Engineer Battalion used a heavy-lift Mule 28 UAS to deliver a live M1A3 Bangalore torpedo against a concertina-wire obstacle at Orchard Combat Training Center, Idaho. The event demonstrates a unit-level experimental breaching TTP intended to reduce Soldier exposure; it is not evidence of Army-wide standardization or fielding.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:summary_en; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-062",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "technical_profile",
+        "value": "Heavy-lift unmanned aircraft delivery of an engineer breaching charge. The Army article identifies the airframe as the Lorica Technologies Mule 28 and the live charge as an M1A3 Bangalore torpedo.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:technical_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-063",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0006",
+        "field": "testing_evidence",
+        "value": "On 22 Jun 2026, Bravo Company, 741st Brigade Engineer Battalion, 41st Infantry Brigade Combat Team, conducted inert and live proof-of-concept iterations at Orchard Combat Training Center. The Army article states the live Bangalore was delivered to and detonated against concertina wire, opening a lane.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0006:testing_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-064",
+        "op": "REPLACE_FIELD",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0009",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for visuals:ENG-VIS-0009:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-065",
+        "op": "REPLACE_FIELD",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0009",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for visuals:ENG-VIS-0009:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-014",
+          "RICH-SRC-015"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-066",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "claims",
+        "value": [
+          {
+            "text": "DRDO lists computer-vision object perception for Combat Engineering Support, Human Robot Teaming Technology and collaborative robotic manipulation among development tasks.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-005"
+            ]
+          },
+          {
+            "text": "DRDO UGV foresight lists AI-based autonomous driving, SLAM, collaborative UGVs and unmanned ground combat vehicle technologies.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-006"
+            ]
+          },
+          {
+            "text": "These public pages do not prove Army procurement or operational fielding.",
+            "classification": "INFERENCE",
+            "source_ids": [
+              "RICH-SRC-005",
+              "RICH-SRC-006"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-067",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-068",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "maturity",
+        "value": "R_AND_D",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:maturity; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-069",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "operational_evidence",
+        "value": "No Army procurement or operational fielding is established by the cited foresight pages; they are R&D/development-task evidence.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-070",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-071",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-072",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "summary_cs",
+        "value": "DRDO veřejně eviduje široké portfolio vývojových úkolů v autonomii a robotice relevantních pro combat engineering, včetně computer-vision perception, autonomní navigace UGV, human-robot teaming a robotických manipulátorů pro combat-engineering support.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-073",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-SIG-0007",
+        "field": "technical_profile",
+        "value": "Technology-foresight portfolio includes autonomous perception/navigation, collaborative manipulation, human-robot teaming, robotic manipulators and autonomous combat-engineering support tasks.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-SIG-0007:technical_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-005",
+          "RICH-SRC-006"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-074",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "claims",
+        "value": [
+          {
+            "text": "SDZ is tele-operated and composed of two robots.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-001"
+            ]
+          },
+          {
+            "text": "TerreMag described the system as replacing MADEM and listed six systems in service at publication.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-001"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-075",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "engineering_equipment",
+        "value": "Two tele-operated robots for area clearance / dépollution tasks",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:engineering_equipment; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-076",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "manufacturer",
+        "value": "CEFA",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:manufacturer; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-077",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "operational_evidence",
+        "value": "French Army public material states six systems in service at the time of publication, including École du génie and support companies of 19e and 31e RG.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-078",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "remote_control",
+        "value": "Tele-operated",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:remote_control; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-079",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0203",
+          "RICH-SRC-001"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-080",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "summary_cs",
+        "value": "Francouzský SDZ je teleoperovaný systém pro dépollution/de-mining rozsáhlejších prostorů, vyvinutý CEFA jako náhrada staršího MADEM. Veřejný armádní zdroj jej popisuje jako dvourobotový systém s důrazem na omezení expozice obsluhy.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-081",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0011",
+        "field": "weight",
+        "value": "10.7 t (machine only)",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0011:weight; resolution=REPLACE_WITH_PRIMARY_SOURCE_PRECISION",
+        "source_ids": [
+          "RICH-SRC-001"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-082",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "claims",
+        "value": [
+          {
+            "text": "DGA ordered SYFRALL on 30 Dec 2025 from a CNIM SI, CEFA and SOFRAME consortium.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-002"
+            ]
+          },
+          {
+            "text": "The order covers eight systems representing about 300 linear metres and intended for French Army engineer regiments.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-002"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-083",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "last_evidence_date",
+        "value": "2026-02-02",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:last_evidence_date; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-084",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "manufacturer",
+        "value": "CNIM Systèmes Industriels / CEFA / SOFRAME consortium",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:manufacturer; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-085",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "operational_evidence",
+        "value": "DGA order placed 30 Dec 2025; public DGA release states eight systems for French Army engineer regiments. This is acquisition/program evidence, not proof of operational fielding.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-086",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0204",
+          "ENG-SRC-0205",
+          "RICH-SRC-002"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-087",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "summary_cs",
+        "value": "SYFRALL je francouzský modulární těžko-lehký wet-gap crossing program určený k obnově schopností překonávání vodních překážek. DGA objednala osm systémů, které mají tvořit přibližně 300 metrů lineárního přemostění.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-088",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0012",
+        "field": "technical_profile",
+        "value": "Modular truck-transported floating bridging system configurable as ferries or bridges by assembling floating modules and loading ramps.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0012:technical_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-002"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-089",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "claims",
+        "value": [
+          {
+            "text": "BLT Arjun uses an Arjun chassis and MLC-70 bridge superstructure.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-003"
+            ]
+          },
+          {
+            "text": "DRDO lists 24 m steel and 26 m aluminium-alloy bridge options and a two-person crew.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-003"
+            ]
+          },
+          {
+            "text": "DRDO states a 10-minute launch/retrieval time.",
+            "classification": "CLAIM",
+            "source_ids": [
+              "RICH-SRC-003"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-090",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "crew",
+        "value": "2 — commander and driver",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:crew; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-091",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "engineering_equipment",
+        "value": "Single-span treadway bridge; 24 m steel or 26 m aluminium-alloy bridge; independent power unit for launch/retrieval.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:engineering_equipment; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-092",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "manufacturer",
+        "value": "DRDO / CVRDE",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:manufacturer; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-093",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "operational_evidence",
+        "value": "Current DRDO product page confirms product baseline but does not itself establish current Indian Army fleet quantity or unit distribution.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-094",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "source_ids",
+        "value": [
+          "ENG-SRC-0206",
+          "RICH-SRC-003"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-095",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "summary_cs",
+        "value": "BLT Arjun je těžký mostní tank na podvozku MBT Arjun. DRDO jej popisuje jako slide-launch assault bridging system s mostní nástavbou MLC-70 a dvoučlennou osádkou.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-096",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0014",
+        "field": "technical_profile",
+        "value": "Arjun-chassis bridge layer; MLC-70 bridge superstructure; slide-launch mechanism; stated launch/retrieval time 10 minutes.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0014:technical_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-003"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-097",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "claims",
+        "value": [
+          {
+            "text": "The system is mechanically launched, MLC-70 and intended for gaps/canals up to 10 m.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-004"
+            ]
+          },
+          {
+            "text": "DRDO lists a high-mobility launch platform, double-A trestle and minimum-crew concept.",
+            "classification": "FACT",
+            "source_ids": [
+              "RICH-SRC-004"
+            ]
+          }
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:claims; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-098",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "last_verified_date",
+        "value": "2026-08-29",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:last_verified_date; resolution=GENERATE_AT_REAL_APPEND_RUN_DATE",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-099",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "manufacturer",
+        "value": "DRDO / R&DE (Engineers)",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:manufacturer; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-100",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "operational_evidence",
+        "value": "The DRDO product page establishes the system design baseline; current holdings and unit-level distribution are not stated on that page.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:operational_evidence; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-101",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "provenance_granularity",
+        "value": "CLAIM_LEVEL",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:provenance_granularity; resolution=PRESERVE_CLAIM_LEVEL_ONLY_WHEN_CLAIMS_PERSIST",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-102",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "source_ids",
+        "value": [
+          "RICH-SRC-004"
+        ],
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:source_ids; resolution=UNION_CANONICAL_AND_REVIEWED_SOURCE_IDS",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-103",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "summary_cs",
+        "value": "Short Span Bridge 10 m je indický mechanicky pokládaný MLC-70 systém určený pro menší mezery a kanály do 10 metrů. DRDO zdůrazňuje mobilní launcher a konstrukci navrženou pro rychlou obsluhu s minimem personálu.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:summary_cs; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B96-OVL-MIG-104",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0015",
+        "field": "technical_profile",
+        "value": "Mechanically launched short-span bridge; MLC-70; intended for gaps/canals up to 10 m; high-mobility launching platform; double-A trestle for stability; beta light for night deployment.",
+        "reason": "Reviewed legacy-overlay Stage A migration for records:ENG-TECH-0015:technical_profile; resolution=FACTUAL_OPERATION_READY_AS_REVIEWED",
+        "source_ids": [
+          "RICH-SRC-004"
+        ]
+      }
+    ]
+  }
+}
