@@ -4,6 +4,7 @@ import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
+const guardedB96='engineer-osint-20260829-B96';
 if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write]');
 const raw=readFileSync(input,'utf8'),patch=parseJsonStrict(raw,{source:input});
 validatePatchOperations(patch);
@@ -19,6 +20,23 @@ const entry={
 };
 const manifest={...store.manifest,runs:[...store.manifest.runs,entry]};
 const plan={status:write?'APPENDED':'VALIDATED_DRY_RUN',input:basename(input),entry};
+
+if(write&&runId===guardedB96){
+  const authorizationPath=join(source,'V4511_B96_APPEND_AUTHORIZATION.json');
+  const authorization=parseJsonStrict(readFileSync(authorizationPath,'utf8'),{source:'B96 append authorization'});
+  if(authorization.schema_version!=='engineer-osint-b96-append-authorization-v1')throw new Error('B96 append authorization schema mismatch');
+  if(authorization.status!=='READY_FOR_APPEND')throw new Error(`B96 append blocked by authorization status ${authorization.status}`);
+  if(authorization.required_preconditions?.post_b96_ci_pipeline_ready!==true)throw new Error('B96 append blocked: post-B96 CI pipeline is not ready');
+  if(authorization.candidate_run_id!==runId||authorization.expected_parent_run_id!==entry.parent_run_id)throw new Error('B96 append authorization identity mismatch');
+  if(authorization.expected_parent_canonical_sha256!==entry.parent_canonical_sha256)throw new Error('B96 append authorization parent canonical SHA mismatch');
+  if(authorization.exact_candidate_file_sha256!==entry.file_sha256)throw new Error('B96 append candidate file SHA differs from reviewed authorization');
+  if(authorization.expected_resulting_canonical_sha256!==entry.canonical_sha256)throw new Error('B96 append resulting canonical SHA differs from reviewed authorization');
+  if((patch.extensions?.operations_v1||[]).length!==authorization.expected_operation_count)throw new Error('B96 append operation count mismatch');
+  if((patch.sources||[]).length!==authorization.expected_source_append_count)throw new Error('B96 append source append count mismatch');
+  if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true)throw new Error('B96 append authorization is incomplete');
+  if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_overlay_retirement!==false||authorization.authorization?.allow_b97_or_b98_same_slice!==false||authorization.authorization?.allow_identity_fix_migration!==false)throw new Error('B96 append authorization scope is unsafe');
+}
+
 if(write){
   const manifestPath=join(source,'data/run-store-manifest.json'),runTemp=`${destination}.tmp`,manifestTemp=`${manifestPath}.tmp`;
   writeFileSync(runTemp,normalized,{encoding:'utf8',flag:'wx'});
