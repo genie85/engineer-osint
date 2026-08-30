@@ -19,13 +19,15 @@ test('v4.5.22 historical B96 authorization remains exact through B97 and B98 lif
   assert.match(b96Test,/b98Entry\.parent_canonical_sha256,b97Sha/);
 });
 
-test('B97 readiness workflow explicitly distinguishes pre-append and persistent lifecycle phases',()=>{
+test('B97 readiness workflow explicitly distinguishes pre-append, persistent B97 and historical-under-B98 phases',()=>{
   assert.match(workflow,/name: Detect B97 lifecycle phase/);
   assert.match(workflow,/current==='engineer-osint-20260829-B96'\)console\.log\('PRE_B97'\)/);
   assert.match(workflow,/current==='engineer-osint-20260830-B97'\)console\.log\('POST_B97'\)/);
+  assert.match(workflow,/current==='engineer-osint-20260830-B98'\)console\.log\('POST_B98'\)/);
   assert.match(workflow,/unsupported B97 readiness lifecycle tip/);
   assert.match(workflow,/if: steps\.lifecycle\.outputs\.phase == 'PRE_B97'/);
   assert.match(workflow,/if: steps\.lifecycle\.outputs\.phase == 'POST_B97'/);
+  assert.match(workflow,/if: steps\.lifecycle\.outputs\.phase == 'POST_B98'/);
 });
 
 test('pre-B97 path retains exact dry-run while post-B97 path performs persistence audit instead of re-appending',()=>{
@@ -39,9 +41,22 @@ test('pre-B97 path retains exact dry-run while post-B97 path performs persistenc
   assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
 });
 
-test('post-B97 workflow publishes dedicated persistence evidence',()=>{
+test('post-B98 B97 lifecycle verifies immutable historical lineage instead of requiring B97 to remain tip',()=>{
+  assert.match(workflow,/Verify historical B97 lineage under persistent B98/);
+  assert.match(workflow,/HISTORICAL_B97_UNDER_PERSISTENT_B98/);
+  assert.match(workflow,/b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad/);
+  assert.match(workflow,/9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4/);
+  assert.match(workflow,/4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201/);
+  assert.match(workflow,/historical B97 manifest lineage\/hash drift/);
+  assert.match(workflow,/b97-historical-lineage-under-b98\.json/);
+  assert.match(workflow,/canonical_write_performed:false/);
+});
+
+test('post-B97 and post-B98 workflow publish dedicated lifecycle evidence',()=>{
   assert.match(workflow,/name: Upload post-B97 persistence evidence/);
   assert.match(workflow,/b97-persistent-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/);
   assert.match(workflow,/persistent-b97-audit\.json/);
   assert.match(workflow,/persistent-b97-audit\.md/);
+  assert.match(workflow,/name: Upload historical B97-under-B98 evidence/);
+  assert.match(workflow,/b97-historical-under-b98-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/);
 });
