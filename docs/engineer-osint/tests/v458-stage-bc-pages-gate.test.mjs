@@ -4,7 +4,7 @@ import fs from 'node:fs';
 
 const gate=fs.readFileSync(new URL('../verify-stage-bc-pages-gate.mjs',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
-const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 
 test('v4.5.8 explicitly requires all six Stage B/C artifacts',()=>{
   for(const file of [

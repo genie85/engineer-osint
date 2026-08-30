@@ -7,9 +7,18 @@ const policy=JSON.parse(readFileSync(`${root}/V4524_B98_READINESS.json`,'utf8'))
 const review=JSON.parse(readFileSync(`${root}/V457_ASSESSMENT_EVIDENCE_REVIEW.json`,'utf8'));
 const generator=readFileSync(`${root}/build-b98-readiness.mjs`,'utf8');
 const workflow=readFileSync('.github/workflows/b98-readiness.yml','utf8');
+const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
+const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+const b98Path=`${root}/data/runs/engineer-osint-20260830-B98.json`;
 const b96Raw=readFileSync(`${root}/data/runs/engineer-osint-20260829-B96.json`,'utf8');
 const b97Raw=readFileSync(`${root}/data/runs/engineer-osint-20260830-B97.json`,'utf8');
 const b96=JSON.parse(b96Raw),b97=JSON.parse(b97Raw);
+
+const assertLifecyclePresence=()=>{
+  if(currentRun==='engineer-osint-20260830-B97')assert.equal(existsSync(b98Path),false);
+  else if(currentRun==='engineer-osint-20260830-B98')assert.equal(existsSync(b98Path),true);
+  else assert.fail(`unexpected B98 lifecycle tip ${currentRun}`);
+};
 
 test('v4.5.24 B98 readiness is pinned to exact persistent B97 and remains no-write',()=>{
   assert.equal(policy.schema_version,'engineer-osint-b98-readiness-v1');
@@ -27,7 +36,7 @@ test('v4.5.24 B98 readiness is pinned to exact persistent B97 and remains no-wri
   assert.equal(policy.expected_unguarded_residual_signatures,61);
   assert.equal(policy.expected_unguarded_residual_factual_leaf_mutations,81);
   for(const value of Object.values(policy.safety))assert.equal(value,false);
-  assert.equal(existsSync(`${root}/data/runs/engineer-osint-20260830-B98.json`),false);
+  assertLifecyclePresence();
 });
 
 test('persistent B96 and B97 inputs retain the exact reviewed migration scope',()=>{
@@ -82,15 +91,22 @@ test('B98 simulation proves fail-closed runtime transition from zero to three sh
   assert.match(generator,/expected_unguarded_residual_factual_leaf_mutations/);
 });
 
-test('B98 readiness artifacts are dist-only and workflow dry-runs standard append with zero persistent mutation',()=>{
+test('B98 readiness workflow is lifecycle-aware, never writes, and preserves the exact pre-B98 dry-run',()=>{
   assert.match(generator,/b98-patch-candidate\.json/);
   assert.match(generator,/b98-readiness-audit\.json/);
   assert.match(generator,/b98-readiness-audit\.md/);
+  assert.match(workflow,/Detect B98 lifecycle phase/);
+  assert.match(workflow,/phase=PRE_B98/);
+  assert.match(workflow,/phase=POST_B98/);
+  assert.match(workflow,/steps\.lifecycle\.outputs\.phase == 'PRE_B98'/);
+  assert.match(workflow,/steps\.lifecycle\.outputs\.phase == 'POST_B98'/);
   assert.match(workflow,/node docs\/engineer-osint\/build-b98-readiness\.mjs/);
   assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
   assert.match(workflow,/plan\.status!=='VALIDATED_DRY_RUN'/);
   assert.match(workflow,/B98_DRY_RUN_RESULT_SHA=/);
+  assert.match(workflow,/audit-persistent-b98\.mjs/);
+  assert.match(workflow,/PERSISTENT_POST_APPEND/);
   assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
   assert.doesNotMatch(generator,/append-run\.mjs/);
 });

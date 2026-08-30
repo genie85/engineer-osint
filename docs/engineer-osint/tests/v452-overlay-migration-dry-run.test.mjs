@@ -5,7 +5,7 @@ import fs from 'node:fs';
 const dryRun=fs.readFileSync(new URL('../audit-overlay-migration-dry-run.mjs',import.meta.url),'utf8');
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
-const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 
 test('v4.5.2 exercises the production strict materializer only in memory',()=>{
   assert.match(dryRun,/applyStrictPatchToCanonicalData/);
