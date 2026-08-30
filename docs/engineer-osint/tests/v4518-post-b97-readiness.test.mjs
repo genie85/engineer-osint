@@ -24,9 +24,11 @@ const B96_SHA='4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5'
 const B97_FILE_SHA='b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad';
 const B97_CANONICAL_SHA='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4';
 
-test('v4.5.18 keeps the exact B97 append authorization fail-closed until POST_B97 CI is proven',()=>{
+test('v4.5.19 activates only the exact B97 candidate after reviewed POST_B97 CI evidence',()=>{
   assert.equal(authorization.schema_version,'engineer-osint-b97-append-authorization-v1');
-  assert.equal(authorization.status,'BLOCKED_PENDING_POST_B97_CI_READINESS');
+  assert.equal(authorization.status,'READY_FOR_APPEND');
+  assert.equal(authorization.review_date,'2026-08-30');
+  assert.equal(authorization.reviewed_baseline_main_sha,'c9bfbd3c5813e1a5cb10cac9519fae5e97ec3e02');
   assert.equal(authorization.candidate_run_id,B97);
   assert.equal(authorization.expected_parent_run_id,B96);
   assert.equal(authorization.expected_parent_canonical_sha256,B96_SHA);
@@ -35,14 +37,29 @@ test('v4.5.18 keeps the exact B97 append authorization fail-closed until POST_B9
   assert.equal(authorization.expected_gap_count,15);
   assert.equal(authorization.expected_assessment_count,0);
   assert.equal(authorization.expected_contradiction_count,0);
-  assert.equal(authorization.required_preconditions.post_b97_ci_pipeline_ready,false);
-  assert.equal(authorization.authorization.append_exact_candidate_only,false);
+  assert.equal(authorization.current_blocker,null);
+  assert.equal(authorization.required_preconditions.post_b97_ci_pipeline_ready,true);
+  assert.equal(authorization.authorization.append_exact_candidate_only,true);
   assert.equal(authorization.authorization.standard_append_run_write_required,true);
   assert.equal(authorization.authorization.one_run_only,true);
   assert.equal(authorization.authorization.allow_manual_manifest_or_hash_edit,false);
   assert.equal(authorization.authorization.allow_b98_same_slice,false);
   assert.equal(authorization.authorization.allow_overlay_retirement,false);
   assert.equal(authorization.authorization.allow_identity_fix_migration,false);
+  assert.equal(authorization.activation_evidence.readiness_pr_number,232);
+  assert.equal(authorization.activation_evidence.reviewed_ci_head_sha,'7d8da16a5bc6dd486ace9145188a919b785c22a2');
+  assert.equal(authorization.activation_evidence.runtime_audit_workflow_run_id,33319980190);
+  assert.equal(authorization.activation_evidence.runtime_audit_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.pages_pr_workflow_run_id,33319980184);
+  assert.equal(authorization.activation_evidence.pages_pr_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.b97_readiness_pr_workflow_run_id,33319980208);
+  assert.equal(authorization.activation_evidence.b97_readiness_pr_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.merged_readiness_main_sha,'c9bfbd3c5813e1a5cb10cac9519fae5e97ec3e02');
+  assert.equal(authorization.activation_evidence.pages_main_workflow_run_id,33320057536);
+  assert.equal(authorization.activation_evidence.pages_main_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.b97_readiness_main_workflow_run_id,33320057511);
+  assert.equal(authorization.activation_evidence.b97_readiness_main_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.post_b97_pages_simulation,'success');
   assert.equal(sha256(candidateRaw),B97_FILE_SHA);
   assert.equal(readiness.expected_resulting_canonical_sha256,B97_CANONICAL_SHA);
 });
@@ -111,7 +128,7 @@ test('Pages workflow has explicit POST_B97 phase and simulates it before B97 app
   assert.match(workflow,/node docs\/engineer-osint\/audit-persistent-b97\.mjs/);
 });
 
-test('final Pages verifier distinguishes POST_B96 readiness from persistent POST_B97',()=>{
+test('final Pages verifier requires active exact-only B97 authorization in pre-write and persistent states',()=>{
   assert.match(verifier,/currentRun===b97\?'POST_B97'/);
   assert.match(verifier,/persistent_b97_mode=simulated-pre-append/);
   assert.match(verifier,/persistent_b97_mode=persistent/);
@@ -123,14 +140,16 @@ test('final Pages verifier distinguishes POST_B96 readiness from persistent POST
   assert.match(verifier,/residual_factual_leaf_mutations!==81/);
   assert.match(verifier,/guard_short_circuit_count!==0/);
   assert.match(verifier,/post_b97_pages_validation_ready!==true/);
-  assert.match(verifier,/authorization\.status!=='BLOCKED_PENDING_POST_B97_CI_READINESS'/);
-  assert.match(verifier,/authorization\.status!=='READY_FOR_APPEND'/);
+  assert.equal((verifier.match(/authorization\.status!=='READY_FOR_APPEND'/g)||[]).length,2);
+  assert.equal((verifier.match(/append_exact_candidate_only!==true/g)||[]).length,2);
+  assert.match(verifier,/B97 pre-write authorization is not active and exact-only/);
+  assert.match(verifier,/persisted B97 lacks reviewed active authorization/);
   assert.match(verifier,/allow_b98_same_slice!==false/);
   assert.match(verifier,/allow_overlay_retirement!==false/);
   assert.match(verifier,/allow_identity_fix_migration!==false/);
 });
 
-test('reviewed B97 candidate remains gaps-only and unchanged by v4.5.18 readiness work',()=>{
+test('reviewed B97 candidate remains gaps-only and unchanged by activation work',()=>{
   assert.equal(candidate.state.run_id,B97);
   assert.equal(candidate.state.parent_run_id,B96);
   assert.deepEqual(candidate.extensions.intelligence_v1.gaps.map(item=>item.gap_id),Array.from({length:15},(_,i)=>`ENG-GAP-B97-OVL-${String(i+1).padStart(3,'0')}`));
