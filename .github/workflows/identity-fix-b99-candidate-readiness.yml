@@ -57,7 +57,8 @@ jobs:
           const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-candidate-audit.json','utf8'));
           const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-b99-append-plan.json','utf8'));
           if(audit.status!=='PASS'||audit.operation_count!==36||audit.replace_field_count!==27||audit.remove_field_count!==9)throw new Error('identity B99 candidate scope mismatch');
-          if(audit.overlay_mutations_before!==70||audit.overlay_mutations_after!==0)throw new Error('identity overlay zero-mutation proof failed');
+          if(audit.overlay_mutations_before!==70||audit.overlay_mutations_after!==18||audit.canonical_overlay_mutations_after!==0||audit.legacy_mirror_mutations_after!==18)throw new Error('identity B99 canonical/mirror residual classification failed');
+          if(audit.legacy_mirror_cleanup_required!==true||audit.legacy_mirror_residual_paths?.some(path=>!path.startsWith(policy.allowed_legacy_mirror_prefix)))throw new Error('identity B99 legacy mirror residual escaped pinned scope');
           if(plan.status!=='VALIDATED_DRY_RUN')throw new Error(`append helper escaped dry-run: ${plan.status}`);
           if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('identity B99 append identity mismatch');
           if(plan.entry?.file_sha256!==audit.candidate_file_sha256)throw new Error('identity B99 candidate file SHA mismatch');
