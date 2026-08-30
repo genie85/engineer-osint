@@ -95,6 +95,7 @@ jobs:
           let phase;
           if(run==='engineer-osint-20260826-B95')phase='PRE_B96';
           else if(run==='engineer-osint-20260829-B96')phase='POST_B96';
+          else if(run==='engineer-osint-20260830-B97')phase='POST_B97';
           else throw new Error(`Unsupported canonical migration phase at ${run}`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT,`phase=${phase}\nrun=${run}\n`);
           console.log(`Canonical migration phase ${phase}: ${run}`);
@@ -166,6 +167,14 @@ jobs:
       - name: Audit persistent B96 post-append state
         if: steps.migration-phase.outputs.phase == 'POST_B96'
         run: node docs/engineer-osint/audit-persistent-b96.mjs
+
+      - name: Simulate post-B97 Pages validation before append
+        if: steps.migration-phase.outputs.phase == 'POST_B96'
+        run: node docs/engineer-osint/audit-persistent-b97.mjs --simulate-from-candidate
+
+      - name: Audit persistent B97 post-append state
+        if: steps.migration-phase.outputs.phase == 'POST_B97'
+        run: node docs/engineer-osint/audit-persistent-b97.mjs
 
       - name: Audit PUBLIC-CZ-UI runtime
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
