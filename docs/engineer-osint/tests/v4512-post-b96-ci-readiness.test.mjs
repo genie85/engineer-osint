@@ -60,7 +60,13 @@ test('phase-aware final verifier preserves pre-B96 proof and adds a separate B96
   assert.match(verifier,/authorization\.status!=='READY_FOR_APPEND'/);
 });
 
-test('authorization intentionally remains blocked during initial v4.5.12 review',()=>{
-  assert.equal(authorization.status,'BLOCKED_PENDING_POST_B96_CI_READINESS');
-  assert.equal(authorization.required_preconditions.post_b96_ci_pipeline_ready,false);
+test('authorization is activated only after successful dual-workflow v4.5.12 review',()=>{
+  assert.equal(authorization.status,'READY_FOR_APPEND');
+  assert.equal(authorization.required_preconditions.post_b96_ci_pipeline_ready,true);
+  assert.equal(authorization.current_blocker,null);
+  assert.equal(authorization.activation_evidence.pages_workflow_run_id,33314650178);
+  assert.equal(authorization.activation_evidence.pages_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.runtime_audit_workflow_run_id,33314650190);
+  assert.equal(authorization.activation_evidence.runtime_audit_workflow_conclusion,'success');
+  assert.equal(authorization.activation_evidence.post_b96_pages_simulation,'success');
 });
