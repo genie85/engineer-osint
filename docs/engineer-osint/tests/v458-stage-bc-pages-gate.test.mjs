@@ -4,6 +4,7 @@ import fs from 'node:fs';
 
 const gate=fs.readFileSync(new URL('../verify-stage-bc-pages-gate.mjs',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 
 test('v4.5.8 explicitly requires all six Stage B/C artifacts',()=>{
   for(const file of [
@@ -42,20 +43,22 @@ test('v4.5.8 fails closed on Stage B/C safety drift or unexpected residuals',()=
   assert.match(gate,/overlay_stage_bc_pages_gate_canonical_writes=0/);
 });
 
-test('Pages runs the explicit Stage B/C verifier before PUBLIC-CZ and deployment',()=>{
+test('Pages runs the explicit Stage B/C verifier before PUBLIC-CZ and delegates final checks',()=>{
   const gateIndex=workflow.indexOf('Explicitly gate Stage B/C migration artifacts');
   const publicIndex=workflow.indexOf('Audit PUBLIC-CZ-UI runtime');
   const deployIndex=workflow.indexOf('Configure GitHub Pages');
   assert.ok(gateIndex>0&&publicIndex>gateIndex&&deployIndex>publicIndex);
   assert.match(workflow,/verify-stage-bc-pages-gate\.mjs/);
-  assert.match(workflow,/overlay_stage_bc_pages_gate=pass/);
-  assert.match(workflow,/overlay_stage_bc_pages_gate_unexpected_residuals=0/);
-  assert.match(workflow,/overlay_stage_bc_pages_gate_canonical_writes=0/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay_stage_bc_pages_gate=pass/);
+  assert.match(pagesVerifier,/overlay_stage_bc_pages_gate_unexpected_residuals=0/);
+  assert.match(pagesVerifier,/overlay_stage_bc_pages_gate_canonical_writes=0/);
 });
 
-test('final Pages verification independently requires Stage B/C artifacts',()=>{
+test('final Pages verifier independently requires Stage B/C artifacts',()=>{
   for(const file of [
     'overlay-stage-b-intelligence-audit.json','overlay-stage-b-intelligence-audit.md','overlay-stage-b-gap-patch-candidate.json',
     'overlay-assessment-evidence-audit.json','overlay-assessment-evidence-audit.md','overlay-stage-c-assessment-evidence-candidate.json'
-  ])assert.match(workflow,new RegExp(`test -s docs/engineer-osint-dist/${file.replaceAll('.','\\.')}`));
+  ])assert.match(pagesVerifier,new RegExp(file.replaceAll('.','\\.')));
+  assert.match(pagesVerifier,/migrationFiles\.forEach\(requireFile\)/);
 });
