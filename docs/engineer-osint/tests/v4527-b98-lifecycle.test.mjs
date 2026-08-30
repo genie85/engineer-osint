@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const pre=readFileSync(`${root}/verify-pages-artifact-pre-b98.mjs`,'utf8');
 const wrapper=readFileSync(`${root}/verify-pages-artifact.mjs`,'utf8');
+const b97Readiness=readFileSync('.github/workflows/b97-readiness.yml','utf8');
 const readiness=readFileSync('.github/workflows/b98-readiness.yml','utf8');
 const postCi=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8');
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
@@ -39,6 +40,15 @@ test('v4.5.27 final Pages wrapper delegates all non-B98 states and pins exact pe
   assert.match(wrapper,/identity_fix_migration_authorized!==false/);
   assert.match(wrapper,/allow_future_run_same_slice!==false/);
   assert.match(wrapper,/PAGES_VERIFY PASS: phase=POST_B98/);
+});
+
+test('v4.5.27 keeps the required B97 readiness workflow green after exact B98 publication',()=>{
+  assert.match(b97Readiness,/current==='engineer-osint-20260830-B98'\)console\.log\('POST_B98'\)/);
+  assert.match(b97Readiness,/Verify historical B97 lineage under persistent B98/);
+  assert.match(b97Readiness,/HISTORICAL_B97_UNDER_PERSISTENT_B98/);
+  assert.match(b97Readiness,/historical B97 manifest lineage\/hash drift/);
+  assert.match(b97Readiness,/canonical_write_performed:false/);
+  assert.doesNotMatch(b97Readiness,/append-run\.mjs[^\n]*--write/);
 });
 
 for(const [name,workflow] of [['B98 readiness',readiness],['B98 post-CI',postCi]]){
