@@ -90,10 +90,10 @@ jobs:
           const p='docs/engineer-osint-dist/identity-mirror-parity-audit.json';
           const audit=JSON.parse(fs.readFileSync(p,'utf8'));
           if(audit.status!=='PASS'||audit.authoritative_residual_count_after_b99!==0||audit.legacy_mirror_residual_count_after_b99!==18||audit.data_diff_after_exact_mirror_sync!==0)throw new Error('identity mirror parity audit mismatch');
-          if(audit.non_overlay_public_runtime_updated_records_readers?.length!==0)throw new Error('unexpected runtime consumer of legacy updated_records');
-          if(audit.canonical_write_performed!==false||audit.b99_append_authorized!==false||audit.legacy_mirror_cleanup_persisted!==false||audit.identity_fix_runtime_removal_authorized!==false)throw new Error('identity mirror safety boundary broadened');
+          if(audit.consumer_set_matches_policy!==true||audit.non_overlay_public_runtime_updated_records_readers?.length!==9)throw new Error('legacy updated_records consumer set drift');
+          if(audit.canonical_write_performed!==false||audit.b99_append_authorized!==false||audit.legacy_mirror_sync_persisted!==false||audit.legacy_mirror_removal_forbidden!==true||audit.identity_fix_runtime_removal_authorized!==false)throw new Error('identity mirror safety boundary broadened');
           audit.browser_parity_passed=true;
-          audit.ready_for_separate_mirror_cleanup_review=true;
+          audit.ready_for_separate_mirror_sync_review=true;
           fs.writeFileSync(p,JSON.stringify(audit,null,2)+'\n');
           console.log('IDENTITY_MIRROR_PARITY_REVIEW=PASS_NO_WRITE');
           NODE
