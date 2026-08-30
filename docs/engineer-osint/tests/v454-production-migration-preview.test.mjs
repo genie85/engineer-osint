@@ -7,6 +7,7 @@ const resolution=JSON.parse(fs.readFileSync(new URL('../V454_MIGRATION_RESOLUTIO
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const intelligence=fs.readFileSync(new URL('../INTELLIGENCE_V1_CONTRACT.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 
 test('v4.5.4 resolves the four substantive provenance blockers explicitly',()=>{
   const special=resolution.special_resolutions;
@@ -61,12 +62,13 @@ test('v4.5.4 keeps real append and overlay retirement disabled',()=>{
   assert.match(policy,/read-only with respect to canonical data and persistence/i);
 });
 
-test('Pages publishes and gates the v4.5.4 production preview before deployment',()=>{
+test('Pages publishes and gates the v4.5.4 production preview before deployment through the final verifier',()=>{
   assert.match(workflow,/Preview resolved overlay production migration/);
   assert.match(workflow,/audit-overlay-production-preview\.mjs/);
-  assert.match(workflow,/overlay-production-migration-preview\.json/);
-  assert.match(workflow,/overlay-production-migration-preview\.md/);
-  assert.match(workflow,/overlay_production_preview=pass/);
-  assert.match(workflow,/overlay_production_preview_stage_a_strict=pass/);
-  assert.match(workflow,/overlay_production_preview_safe_to_append=0/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay-production-migration-preview\.json/);
+  assert.match(pagesVerifier,/overlay-production-migration-preview\.md/);
+  assert.match(pagesVerifier,/overlay_production_preview=pass/);
+  assert.match(pagesVerifier,/overlay_production_preview_stage_a_strict=pass/);
+  assert.match(pagesVerifier,/overlay_production_preview_safe_to_append=0/);
 });
