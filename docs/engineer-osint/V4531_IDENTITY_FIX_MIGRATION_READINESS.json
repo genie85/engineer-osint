@@ -1,0 +1,49 @@
+{
+  "schema_version": "engineer-osint-identity-fix-migration-readiness-v1",
+  "version": "4.5.31",
+  "status": "READ_ONLY_MIGRATION_REVIEW_REQUIRED",
+  "policy": "MATERIALIZE_IDENTITY_FIX_BEFORE_RUNTIME_RETIREMENT",
+  "persistent_tip_required": "engineer-osint-20260830-B98",
+  "persistent_canonical_sha256_required": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
+  "overlay_file": "data-integrity-identity-fixes.js",
+  "overlay_file_sha256": "7c03bc97f329a030cba48c4f24f8281b3966feb2f66c477fbb949893c7b9d2fc",
+  "expected": {
+    "current_mutation_count": 70,
+    "migration_candidate_count": 36,
+    "operations_v1_candidates": 27,
+    "manual_review_candidates": 9,
+    "strict_append_candidates": 0,
+    "source_binding_required_candidates": 0,
+    "changed_ids": [
+      "ENG-EVID-0113",
+      "ENG-TECH-0032",
+      "ENG-TECH-0036",
+      "ENG-VIS-0054"
+    ],
+    "manual_field_removals": [
+      "records:ENG-TECH-0036:temporal_observations",
+      "records:ENG-TECH-0036:timeline_events",
+      "visuals:ENG-VIS-0054:confidence",
+      "visuals:ENG-VIS-0054:media_type",
+      "visuals:ENG-VIS-0054:publication_date",
+      "visuals:ENG-VIS-0054:rights_or_license_status",
+      "visuals:ENG-VIS-0054:source_page_url",
+      "visuals:ENG-VIS-0054:title_cs",
+      "visuals:ENG-VIS-0054:title_en"
+    ]
+  },
+  "identity_contract": {
+    "ENG-TECH-0036": "SIRKO-S1 restored to its original 2025 Ukrainian platform identity; NEO-1 certification enrichment must not remain on this ID.",
+    "ENG-TECH-0032": "NEO-1 retains its own canonical identity and receives ENG-SRC-0403 plus ENG-EVID-0113.",
+    "ENG-EVID-0113": "Certification evidence is rebound exclusively to ENG-TECH-0032.",
+    "ENG-VIS-0054": "Katyusha / Flot-2026 visual identity is restored and Czech EOD-gallery collision fields are removed."
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_invoked": false,
+    "safe_to_append_identity_migration": false,
+    "safe_to_retire_identity_fix_overlay": false,
+    "identity_fix_runtime_removal_authorized": false,
+    "first_three_retirement_scope_reopened": false
+  }
+}
