@@ -39,7 +39,16 @@ test('B96 migration waiver is structurally narrower than ordinary no-media-addit
   assert.match(lib,/counts\.CORRECTION!==104\|\|counts\.NEW_SOURCES!==15\|\|counts\.NEW_MEDIA!==0\|\|counts\.NEW_VISUALS!==0/);
   assert.match(lib,/operations\.length!==104/);
   assert.match(lib,/patch\.sources\.length!==15/);
-  assert.match(lib,/cannot cover media or visual correction operations/);
+  assert.match(lib,/cannot cover media correction operations/);
+});
+
+test('B96 migration waiver permits only the exact reviewed ENG-VIS-0009 metadata pair',()=>{
+  assert.match(lib,/ENG-OP-B96-OVL-MIG-064/);
+  assert.match(lib,/ENG-OP-B96-OVL-MIG-065/);
+  assert.match(lib,/target_id:'ENG-VIS-0009'/);
+  assert.match(lib,/field:'last_verified_date',value:'2026-08-29'/);
+  assert.match(lib,/field:'source_ids',value:\['RICH-SRC-014','RICH-SRC-015'\]/);
+  assert.match(lib,/visual migration operations differ from the exact reviewed metadata pair/);
 });
 
 test('B96 repository attestation fails closed if broadened or mixed with Drive provenance fields',()=>{
