@@ -41,10 +41,13 @@ jobs:
           phase=$(node - <<'NODE'
           const fs=require('fs');
           const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
-          const current=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const runs=manifest.runs||[];
+          const current=runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const b98Index=runs.findIndex(item=>item.run_id==='engineer-osint-20260830-B98');
           if(current==='engineer-osint-20260829-B96')console.log('PRE_B97');
           else if(current==='engineer-osint-20260830-B97')console.log('POST_B97');
           else if(current==='engineer-osint-20260830-B98')console.log('POST_B98');
+          else if(b98Index>=0&&runs.length-1>b98Index)console.log('POST_B98_STEADY');
           else throw new Error(`unsupported B97 readiness lifecycle tip ${current}`);
           NODE
           )
@@ -100,25 +103,33 @@ jobs:
         run: node docs/engineer-osint/audit-persistent-b97.mjs
 
       - name: Verify historical B97 lineage under persistent B98
-        if: steps.lifecycle.outputs.phase == 'POST_B98'
+        if: steps.lifecycle.outputs.phase == 'POST_B98' || steps.lifecycle.outputs.phase == 'POST_B98_STEADY'
         run: |
           node - <<'NODE'
           const fs=require('fs'),crypto=require('crypto');
           const root='docs/engineer-osint';
           const manifest=JSON.parse(fs.readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
+          const runs=manifest.runs||[];
           const b96='engineer-osint-20260829-B96',b97='engineer-osint-20260830-B97',b98='engineer-osint-20260830-B98';
           const b96Sha='4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5';
           const b97FileSha='b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad';
           const b97Sha='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4';
+          const b98FileSha='ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79';
           const b98Sha='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201';
-          const current=manifest.runs.at(-1);
-          if(current?.run_id!==b98||current?.parent_run_id!==b97||current?.parent_canonical_sha256!==b97Sha||current?.canonical_sha256!==b98Sha)throw new Error('B97 historical check requires exact persistent B98 tip');
-          const entry=manifest.runs.find(item=>item.run_id===b97);
+          const current=runs.at(-1),b98Index=runs.findIndex(item=>item.run_id===b98);
+          if(b98Index<0||runs.length-1<b98Index)throw new Error('B97 historical check requires B98 in current ancestry');
+          const b98Entry=runs[b98Index];
+          if(b98Entry.parent_run_id!==b97||b98Entry.parent_canonical_sha256!==b97Sha||b98Entry.file_sha256!==b98FileSha||b98Entry.canonical_sha256!==b98Sha)throw new Error('historical B98 anchor drift during B97 check');
+          const b98Raw=fs.readFileSync(`${root}/${b98Entry.path}`,'utf8');
+          if(crypto.createHash('sha256').update(b98Raw).digest('hex')!==b98FileSha)throw new Error('historical B98 file SHA drift during B97 check');
+          const entry=runs.find(item=>item.run_id===b97);
           if(!entry||entry.parent_run_id!==b96||entry.parent_canonical_sha256!==b96Sha||entry.file_sha256!==b97FileSha||entry.canonical_sha256!==b97Sha)throw new Error('historical B97 manifest lineage/hash drift');
           const raw=fs.readFileSync(`${root}/${entry.path}`,'utf8');
           if(crypto.createHash('sha256').update(raw).digest('hex')!==b97FileSha)throw new Error('historical B97 file SHA drift under B98');
-          fs.writeFileSync('docs/engineer-osint-dist/b97-historical-lineage-under-b98.json',JSON.stringify({status:'PASS',mode:'HISTORICAL_B97_UNDER_PERSISTENT_B98',b97_run_id:b97,b97_file_sha256:b97FileSha,b97_canonical_sha256:b97Sha,current_run_id:b98,current_canonical_sha256:b98Sha,canonical_write_performed:false},null,2)+'\n');
-          console.log('B97_LIFECYCLE=HISTORICAL_B97_UNDER_PERSISTENT_B98_PASS');
+          const exact=current?.run_id===b98;
+          const mode=exact?'HISTORICAL_B97_UNDER_PERSISTENT_B98':'HISTORICAL_B97_UNDER_POST_B98_DESCENDANT';
+          fs.writeFileSync('docs/engineer-osint-dist/b97-historical-lineage-under-b98.json',JSON.stringify({status:'PASS',mode,b97_run_id:b97,b97_file_sha256:b97FileSha,b97_canonical_sha256:b97Sha,b98_run_id:b98,b98_file_sha256:b98FileSha,b98_canonical_sha256:b98Sha,current_run_id:current?.run_id||null,current_canonical_sha256:current?.canonical_sha256||null,canonical_write_performed:false},null,2)+'\n');
+          console.log(exact?'B97_LIFECYCLE=HISTORICAL_B97_UNDER_PERSISTENT_B98_PASS':`B97_LIFECYCLE=HISTORICAL_B97_UNDER_POST_B98_DESCENDANT_PASS run=${current?.run_id}`);
           NODE
 
       - name: Upload pre-B97 readiness evidence
@@ -143,7 +154,7 @@ jobs:
             docs/engineer-osint-dist/health.txt
 
       - name: Upload historical B97-under-B98 evidence
-        if: steps.lifecycle.outputs.phase == 'POST_B98'
+        if: steps.lifecycle.outputs.phase == 'POST_B98' || steps.lifecycle.outputs.phase == 'POST_B98_STEADY'
         uses: actions/upload-artifact@v4
         with:
           name: b97-historical-under-b98-${{ github.run_id }}-${{ github.run_attempt }}
