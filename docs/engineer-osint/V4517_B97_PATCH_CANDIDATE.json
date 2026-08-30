@@ -67,7 +67,189 @@
       "gaps": [
         {
           "gap_id": "ENG-GAP-B97-OVL-001",
-          "question": "Which specific Namer Engineering variants, engineering packages, and unit allocations are publicly verified beyond the baseline Namer APC platform?",
+          "question": "Exact designation and final status of the later EOC annex / study draft remain unresolved in public material.",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "CZECH_EOD_FORCE_DESIGN_BASELINE"
+          ],
+          "sources_checked": [
+            "RICH-SRC-013"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-002",
+          "question": "Exact designation and final status of the later EOC annex / study draft remain unresolved in public material.",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-DOC-0051"
+          ],
+          "sources_checked": [
+            "RICH-SRC-013"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-003",
+          "question": "Exact designation and final status of the later EOC annex / study draft remain unresolved in public material.",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-DOC-0053"
+          ],
+          "sources_checked": [
+            "RICH-SRC-013"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-004",
+          "question": "Exact designation and final status of the later EOC annex / study draft remain unresolved in public material.",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-EVT-0002"
+          ],
+          "sources_checked": [
+            "RICH-SRC-013"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-005",
+          "question": "Exact designation and final status of the later EOC annex / study draft remain unresolved in public material.",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-EVT-0020"
+          ],
+          "sources_checked": [
+            "RICH-SRC-013"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-006",
+          "question": "Exact bridge system/model,Module count and load classification,Construction time and engineer manpower,Whether the crossing was tactical-temporary or intended for longer operational use,Follow-up evidence of traffic/opening after control crossings",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-EVT-0021"
+          ],
+          "sources_checked": [
+            "RICH-SRC-012"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-007",
+          "question": "Whether the battalion white paper was published or accepted by a broader Army engineer organization,Results of follow-on demonstrations and inert-drop iterations,Whether any Army capability developer or acquisition organization adopted the concept,Current status and configuration of Mule 28 prototypes after June 2026,Any approved doctrine/TTP change beyond the originating battalion",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-SIG-0006"
+          ],
+          "sources_checked": [
+            "RICH-SRC-014",
+            "RICH-SRC-015"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-008",
+          "question": "Which development tasks have transitioned to prototypes,Which tasks have formal Army user sponsorship,Procurement or trials status for combat-engineering-specific autonomous systems,Relationship between generic UGV technology tasks and fielded engineer organizations",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-SIG-0007"
+          ],
+          "sources_checked": [
+            "RICH-SRC-005",
+            "RICH-SRC-006"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-009",
+          "question": "Exact current fleet status after the 21 Apr 2026 publication,Full public technical specification of each robot and interchangeable tool set,Task-by-task doctrinal mapping between French dépollution terminology and NATO EOC/route-area-clearance categories",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-TECH-0011"
+          ],
+          "sources_checked": [
+            "RICH-SRC-001"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-010",
+          "question": "Delivery schedule and unit-by-unit allocation,Current qualification status beyond publicly announced program milestones,Exact military load classifications and configuration-specific performance in publicly accessible authoritative material",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-TECH-0012"
+          ],
+          "sources_checked": [
+            "RICH-SRC-002"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-011",
+          "question": "Re-verify the historical public source for the three specific Namer Engineering command/breaching/bridging configurations,Current fielding scale of dedicated Namer engineering variants,Unit-by-unit distribution of engineering configurations,Separate operational evidence specifically identifying the engineering variant rather than the generic Namer APC family",
           "priority": "UNASSESSED",
           "status": "OPEN",
           "related_ids": [
@@ -85,8 +267,44 @@
           }
         },
         {
-          "gap_id": "ENG-GAP-B97-OVL-002",
-          "question": "Which current operational units, quantities, and mission profiles are publicly confirmed for the Israeli Combat Engineering Corps and Yahalom beyond the reviewed public mission descriptions?",
+          "gap_id": "ENG-GAP-B97-OVL-012",
+          "question": "Current fielded quantity,Unit distribution,Operational availability and exercise usage after latest public baseline,Transport and recovery constraints in current service",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-TECH-0014"
+          ],
+          "sources_checked": [
+            "RICH-SRC-003"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-013",
+          "question": "Current inventory quantity,Exact launcher chassis/configuration in current fielded batches,Unit distribution and exercise evidence,Deployment time under field conditions from independent or Army sources",
+          "priority": "UNASSESSED",
+          "status": "OPEN",
+          "related_ids": [
+            "ENG-TECH-0015"
+          ],
+          "sources_checked": [
+            "RICH-SRC-004"
+          ],
+          "first_opened": "2026-08-30",
+          "last_checked": "2026-08-30",
+          "migration_origin": {
+            "legacy_field": "intelligence_gaps",
+            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
+          }
+        },
+        {
+          "gap_id": "ENG-GAP-B97-OVL-014",
+          "question": "Current 2026 Combat Engineering Corps battalion/brigade command relationships and full TO&E,Current equipment distribution by battalion/company,Precise one-to-one mapping of Israeli dangerous-ammunition / minefield responsibilities to NATO EOD/EOC/EOR terminology,Current personnel strength and readiness data",
           "priority": "UNASSESSED",
           "status": "OPEN",
           "related_ids": [
@@ -105,233 +323,15 @@
           }
         },
         {
-          "gap_id": "ENG-GAP-B97-OVL-003",
-          "question": "What is the current organization, equipment inventory, and operational employment pattern of the Czech EOD force design beyond the reviewed NATO EOD WG standardization evidence?",
+          "gap_id": "ENG-GAP-B97-OVL-015",
+          "question": "Peacetime subordination and detailed brigade structure,Battalion/company composition,Organic bridging systems and quantities,Other current operational deployments and readiness data",
           "priority": "UNASSESSED",
           "status": "OPEN",
           "related_ids": [
-            "CZECH_EOD_FORCE_DESIGN_BASELINE"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-004",
-          "question": "Which current NATO EOD/EOC standardization documents and implementation decisions follow from the 68th EOD WG discussion of EOC minimum standards of proficiency?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-DOC-0051"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-005",
-          "question": "Which NATO MILENG/EOD doctrinal publications now encode the EOC task analysis and standardization work referenced by the 68th EOD WG?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-DOC-0053"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-006",
-          "question": "What subsequent NATO decisions, task analyses, or training changes resulted from the 68th EOD WG EOC standardization discussion?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-EVT-0002"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-007",
-          "question": "Which bridge system, load classification, control-crossing results, and subsequent operational use are publicly confirmed for the 240 m Euphrates floating bridge?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-EVT-0021"
+            "ENG-UNIT-0013"
           ],
           "sources_checked": [
             "RICH-SRC-012"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-008",
-          "question": "What follow-on trials, fielding decisions, and TTP development resulted from the June 2026 drone-delivered Bangalore proof-of-concept?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-SIG-0006"
-          ],
-          "sources_checked": [
-            "RICH-SRC-014",
-            "RICH-SRC-015"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-009",
-          "question": "Which DRDO autonomous/robotic combat-engineering technologies have progressed from foresight or R&D listings into procurement, trials, unit fielding, or operational use?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-SIG-0007"
-          ],
-          "sources_checked": [
-            "RICH-SRC-005",
-            "RICH-SRC-006"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-010",
-          "question": "What is the current operational inventory, unit allocation, readiness, and employment record of the French SDZ system beyond the six systems reported in service?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-TECH-0011"
-          ],
-          "sources_checked": [
-            "RICH-SRC-001"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-011",
-          "question": "What is the delivery schedule, final configuration, unit allocation, load classification, and operational fielding status of the eight SYFRALL systems ordered by DGA?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-TECH-0012"
-          ],
-          "sources_checked": [
-            "RICH-SRC-002"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-012",
-          "question": "What are the current Indian Army quantities, unit allocations, serviceability, and operational employment of BLT Arjun?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-TECH-0014"
-          ],
-          "sources_checked": [
-            "RICH-SRC-003"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-013",
-          "question": "What are the current Indian Army quantities, unit allocations, serviceability, and operational employment of the DRDO Short Span Bridge 10 m system?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-TECH-0015"
-          ],
-          "sources_checked": [
-            "RICH-SRC-004"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-014",
-          "question": "What current force-structure or training changes have been implemented in response to NATO EOC task-analysis and standardization work?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-UNIT-0004"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
-          ],
-          "first_opened": "2026-08-30",
-          "last_checked": "2026-08-30",
-          "migration_origin": {
-            "legacy_field": "intelligence_gaps",
-            "route": "INTELLIGENCE_V1_GAP_OBJECTIZATION_REQUIRED"
-          }
-        },
-        {
-          "gap_id": "ENG-GAP-B97-OVL-015",
-          "question": "Which current NATO/partner force-design changes can be directly tied to EOC standardization and task-analysis outputs rather than inferred from general doctrine?",
-          "priority": "UNASSESSED",
-          "status": "OPEN",
-          "related_ids": [
-            "ENG-UNIT-0017"
-          ],
-          "sources_checked": [
-            "RICH-SRC-013"
           ],
           "first_opened": "2026-08-30",
           "last_checked": "2026-08-30",
