@@ -1,23 +1,25 @@
 import {createHash} from 'node:crypto';
 
-const REGISTRY_SCHEMA='engineer-osint-media-sweep-exceptions-v1';
+const REGISTRY_SCHEMA='engineer-osint-media-sweep-exceptions-v2';
 const RESOLVED_STATUSES={
   ZERO_DELTA:'MISSING_WAIVED_PINNED_ZERO_DELTA',
-  NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION'
+  NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',
+  MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_MIGRATION_NO_MEDIA_ADDITION'
 };
 const EXPLICIT_STATUSES=new Set([
   'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',
   'COMPLETE_WITH_CANONICAL_MEDIA_ADDITION'
 ]);
 const ELIGIBLE_RUNS=new Map([
-  ['engineer-osint-20260825-B72',{reportDriveId:'1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV',waiverScope:'ZERO_DELTA'}],
-  ['engineer-osint-20260825-B73',{reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}],
-  ['engineer-osint-20260825-B74',{reportDriveId:'1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx',waiverScope:'NO_MEDIA_ADDITION'}]
+  ['engineer-osint-20260825-B72',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1fVtgCE2qMDw7tGIOdEGqHoiKdDGiqDuV',waiverScope:'ZERO_DELTA'}],
+  ['engineer-osint-20260825-B73',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1sbw2oAoeD2999qQrI3F0VvHIJTdu3r3n',waiverScope:'NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260825-B74',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx',waiverScope:'NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260829-B96',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4511_B96_APPEND_AUTHORIZATION+V4513_B96_PUBLICATION',waiverScope:'MIGRATION_NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
-  'exception_id','run_id','parent_run_id','source_drive_raw_file_sha256',
-  'source_transport_normalization',
+  'exception_id','run_id','parent_run_id','attestation_basis','attestation_reference',
+  'source_drive_raw_file_sha256','source_transport_normalization',
   'repository_file_sha256','repository_canonical_sha256','report_drive_id','report_text_sha256',
   'report_snapshot_path','omitted_field','resolved_status','waiver_scope','rationale'
 ]);
@@ -34,17 +36,28 @@ export function validateMediaSweepExceptionRegistry(registry){
   for(const item of registry.exceptions){
     if(!item||typeof item!=='object'||Array.isArray(item))fail('each entry must be an object');
     for(const key of Object.keys(item))if(!ALLOWED.has(key))fail(`${item.exception_id||'UNKNOWN'} contains unsupported field ${key}`);
-    for(const field of ['exception_id','run_id','parent_run_id','report_drive_id','report_snapshot_path','rationale']){
+    for(const field of ['exception_id','run_id','parent_run_id','attestation_basis','report_snapshot_path','rationale']){
       if(typeof item[field]!=='string'||!item[field].trim())fail(`${item.exception_id||'UNKNOWN'} is missing ${field}`);
     }
-    for(const field of ['source_drive_raw_file_sha256','repository_file_sha256','repository_canonical_sha256','report_text_sha256']){
+    for(const field of ['repository_file_sha256','repository_canonical_sha256','report_text_sha256']){
       if(!HASH.test(item[field]||''))fail(`${item.exception_id} has invalid ${field}`);
     }
     if(item.omitted_field!=='qa.multimedia_status')fail(`${item.exception_id} may only attest qa.multimedia_status`);
     if(item.resolved_status!==RESOLVED_STATUSES[item.waiver_scope])fail(`${item.exception_id} has unsupported resolved_status`);
-    if(!['IDENTITY','APPEND_SINGLE_LF'].includes(item.source_transport_normalization))fail(`${item.exception_id} has unsupported source_transport_normalization`);
     const eligibility=ELIGIBLE_RUNS.get(item.run_id);
-    if(!eligibility||eligibility.reportDriveId!==item.report_drive_id||eligibility.waiverScope!==item.waiver_scope)fail(`${item.exception_id} is not an approved one-run attestation`);
+    if(!eligibility||eligibility.attestationBasis!==item.attestation_basis||eligibility.waiverScope!==item.waiver_scope)fail(`${item.exception_id} is not an approved one-run attestation`);
+    if(item.attestation_basis==='DRIVE_REPORT'){
+      for(const field of ['report_drive_id','source_drive_raw_file_sha256','source_transport_normalization']){
+        if(typeof item[field]!=='string'||!item[field].trim())fail(`${item.exception_id} is missing ${field}`);
+      }
+      if(!HASH.test(item.source_drive_raw_file_sha256))fail(`${item.exception_id} has invalid source_drive_raw_file_sha256`);
+      if(!['IDENTITY','APPEND_SINGLE_LF'].includes(item.source_transport_normalization))fail(`${item.exception_id} has unsupported source_transport_normalization`);
+      if(eligibility.reportDriveId!==item.report_drive_id)fail(`${item.exception_id} is not an approved one-run attestation`);
+      if(item.attestation_reference!==undefined)fail(`${item.exception_id} DRIVE_REPORT may not set attestation_reference`);
+    }else if(item.attestation_basis==='REPOSITORY_REVIEWED_MIGRATION'){
+      if(typeof item.attestation_reference!=='string'||item.attestation_reference!==eligibility.attestationReference)fail(`${item.exception_id} repository attestation reference mismatch`);
+      for(const field of ['report_drive_id','source_drive_raw_file_sha256','source_transport_normalization'])if(item[field]!==undefined)fail(`${item.exception_id} repository attestation may not use ${field}`);
+    }else fail(`${item.exception_id} has unsupported attestation_basis`);
     if(!item.report_snapshot_path.startsWith('data/attestations/')||item.report_snapshot_path.includes('..')||item.report_snapshot_path.includes('\\'))fail(`${item.exception_id} has unsafe report_snapshot_path`);
     if(ids.has(item.exception_id)||runs.has(item.run_id))fail(`duplicate exception identity for ${item.run_id}`);
     ids.add(item.exception_id);runs.add(item.run_id);
@@ -78,6 +91,23 @@ function ensureZeroDelta(patch,item){
   if(asArray(operations).length)fail(`${item.exception_id} cannot cover correction operations`);
 }
 
+function ensureMigrationNoMediaAddition(patch,item){
+  if(patch?.continuity?.research_delta_performed!==false)fail(`${item.exception_id} requires research_delta_performed=false`);
+  if(patch?.continuity?.migration_scope!=='FIRST_THREE_PINNED_LEGACY_FACTUAL_OVERLAYS_STAGE_A_ONLY')fail(`${item.exception_id} migration scope mismatch`);
+  if(patch?.continuity?.stage_b_intelligence_materialization_pending!==true||patch?.continuity?.overlay_retirement_authorized!==false)fail(`${item.exception_id} migration lifecycle flags mismatch`);
+  const trueDelta=patch?.true_delta;
+  const trueDeltaKeys=['CURRENT_DELTA','LATE_DISCOVERED_CURRENT','HISTORICAL_BACKFILL','ENTITY_ENRICHMENT'];
+  if(!trueDelta||Object.keys(trueDelta).length!==trueDeltaKeys.length||trueDeltaKeys.some(key=>trueDelta[key]!==0))fail(`${item.exception_id} requires exact zero true_delta`);
+  const counts=patch?.state?.counts;
+  if(!counts||counts.CURRENT_DELTA!==0||counts.LATE_DISCOVERED_CURRENT!==0||counts.HISTORICAL_BACKFILL!==0||counts.ENTITY_ENRICHMENT!==0)fail(`${item.exception_id} requires zero factual research delta counts`);
+  if(counts.CORRECTION!==104||counts.NEW_SOURCES!==15||counts.NEW_MEDIA!==0||counts.NEW_VISUALS!==0)fail(`${item.exception_id} reviewed Stage A counts mismatch`);
+  if(!Array.isArray(patch.sources)||patch.sources.length!==15)fail(`${item.exception_id} requires exactly 15 reviewed source appends`);
+  for(const field of ['media','visuals'])if(!Array.isArray(patch[field])||patch[field].length)fail(`${item.exception_id} requires empty ${field}`);
+  const operations=patch?.extensions?.operations_v1;
+  if(!Array.isArray(operations)||operations.length!==104)fail(`${item.exception_id} requires exactly 104 reviewed correction operations`);
+  if(operations.some(operation=>['media','media_registry','visuals','visual_registry'].includes(operation?.collection)))fail(`${item.exception_id} cannot cover media or visual correction operations`);
+}
+
 export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFileRaw,reportSnapshotRaw,registry}){
   validateMediaSweepExceptionRegistry(registry);
   const explicitCandidates=[patch?.qa?.multimedia_status,patch?.qa?.multimedia?.status,patch?.multimedia?.status].filter(value=>value!==undefined&&value!==null);
@@ -96,8 +126,10 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   if(manifestEntry.file_sha256!==item.repository_file_sha256)fail(`${item.exception_id} manifest file hash mismatch`);
   if(manifestEntry.canonical_sha256!==item.repository_canonical_sha256)fail(`${item.exception_id} canonical hash mismatch`);
   if(sha256(repositoryFileRaw)!==item.repository_file_sha256)fail(`${item.exception_id} repository file bytes mismatch`);
-  const sourceNormalized=item.source_transport_normalization==='IDENTITY'?repositoryFileRaw:repositoryFileRaw.endsWith('\n')?repositoryFileRaw.slice(0,-1):null;
-  if(sourceNormalized===null||sha256(sourceNormalized)!==item.source_drive_raw_file_sha256)fail(`${item.exception_id} Drive-to-repository normalization mismatch`);
+  if(item.attestation_basis==='DRIVE_REPORT'){
+    const sourceNormalized=item.source_transport_normalization==='IDENTITY'?repositoryFileRaw:repositoryFileRaw.endsWith('\n')?repositoryFileRaw.slice(0,-1):null;
+    if(sourceNormalized===null||sha256(sourceNormalized)!==item.source_drive_raw_file_sha256)fail(`${item.exception_id} Drive-to-repository normalization mismatch`);
+  }
   let parsedRepositoryPatch;
   try{parsedRepositoryPatch=JSON.parse(repositoryFileRaw)}catch{fail(`${item.exception_id} repository file is not valid JSON`)}
   if(JSON.stringify(parsedRepositoryPatch)!==JSON.stringify(patch))fail(`${item.exception_id} patch object does not match the pinned repository bytes`);
@@ -107,6 +139,7 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   ensureOptionalEmptyArray(patch?.qa?.worth_watching,'qa.worth_watching');
   ensureOptionalEmptyArray(patch?.qa?.worth_listening,'qa.worth_listening');
   if(item.waiver_scope==='ZERO_DELTA')ensureZeroDelta(patch,item);
+  else if(item.waiver_scope==='MIGRATION_NO_MEDIA_ADDITION')ensureMigrationNoMediaAddition(patch,item);
   else{
     const operations=patch?.extensions?.operations_v1;
     if(operations!==undefined&&!Array.isArray(operations))fail(`${item.exception_id} requires operations_v1 to be an array when present`);
