@@ -4,7 +4,7 @@ import fs from 'node:fs';
 
 const workflow=fs.readFileSync('.github/workflows/pages.yml','utf8');
 const audit=fs.readFileSync(new URL('../audit-persistent-b96.mjs',import.meta.url),'utf8');
-const verifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const verifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 const baseline=JSON.parse(fs.readFileSync(new URL('../V4512_POST_B96_RESIDUAL_BASELINE.json',import.meta.url),'utf8'));
 const authorization=JSON.parse(fs.readFileSync(new URL('../V4511_B96_APPEND_AUTHORIZATION.json',import.meta.url),'utf8'));
 
