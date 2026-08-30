@@ -46,7 +46,19 @@ jobs:
           else throw new Error(`unsupported B98 lifecycle tip ${run}`);
           NODE
 
-      - name: Test P0/P1 and B98 readiness contracts
+      - name: Test v4.5.24 B98 readiness contract
+        run: node --test docs/engineer-osint/tests/v4524-b98-readiness.test.mjs
+
+      - name: Test v4.5.25 B98 post-CI contract
+        run: node --test docs/engineer-osint/tests/v4525-post-b98-ci-readiness.test.mjs
+
+      - name: Test v4.5.26 B98 activation contract
+        run: node --test docs/engineer-osint/tests/v4526-b98-activation.test.mjs
+
+      - name: Test v4.5.27 B98 lifecycle contract
+        run: node --test docs/engineer-osint/tests/v4527-b98-lifecycle.test.mjs
+
+      - name: Test full P0/P1 and B98 readiness contracts
         run: node --test docs/engineer-osint/tests/*.test.mjs
 
       - name: Validate current canonical chain
