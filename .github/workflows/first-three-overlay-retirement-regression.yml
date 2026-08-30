@@ -43,6 +43,31 @@ jobs:
       - name: Build retired runtime artifact
         run: node docs/engineer-osint/build-pages.mjs
 
+      - name: Materialize canonical media from snapshot and append-only runs
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js)) throw new Error('unsafe literal </script in media source module');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
+
+      - name: Audit canonical multimedia records
+        run: node docs/engineer-osint/audit-media-history.mjs
+
+      - name: Gate current-run media sweep and audit persistence backlog
+        run: node docs/engineer-osint/validate-media-coverage.mjs
+
       - name: Diagnose v4.5.29 versus v4.5.30 digest paths
         run: node docs/engineer-osint/diagnose-v4530-retirement-digest.mjs
 
