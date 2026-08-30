@@ -29,16 +29,21 @@ test('v4.5.20 pins the exact B96-to-B97 identity, hashes and Intelligence-only s
   assert.match(workflow,/operations_v1!==undefined/);
 });
 
-test('v4.5.20 requires dry-run before guarded standard write and persistent post-write audit',()=>{
+test('v4.5.21 creates the standard B97 dry-run plan before readiness and simulated POST_B97 audits',()=>{
+  const baseline=workflow.indexOf('Build persistent B96 and verify current canonical baseline');
   const dry=workflow.indexOf('Dry-run exact reviewed B97 through standard append helper');
+  const readiness=workflow.indexOf('Re-audit exact B97 readiness and simulated POST_B97 state');
   const write=workflow.indexOf('Execute guarded standard B97 append locally');
   const audit=workflow.indexOf('Verify persistent B97 locally before any push');
   const diff=workflow.indexOf('Enforce exact two-file publication diff');
   const push=workflow.indexOf('Push append-generated result to isolated review branch');
-  assert.ok(dry>0&&write>dry&&audit>write&&diff>audit&&push>diff);
+  assert.ok(baseline>0&&dry>baseline&&readiness>dry&&write>readiness&&audit>write&&diff>audit&&push>diff);
+  assert.match(workflow,/plan='docs\/engineer-osint-dist\/b97-append-plan\.json'/);
   assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
-  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" --write/);
+  assert.match(workflow,/node docs\/engineer-osint\/audit-b97-readiness\.mjs/);
   assert.match(workflow,/node docs\/engineer-osint\/audit-persistent-b97\.mjs --simulate-from-candidate/);
+  assert.ok(workflow.indexOf('node docs/engineer-osint/audit-b97-readiness.mjs')>workflow.indexOf('node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"'));
+  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" --write/);
   assert.match(workflow,/node docs\/engineer-osint\/audit-persistent-b97\.mjs\n/);
   assert.match(workflow,/plan\.status!=='VALIDATED_DRY_RUN'/);
   assert.match(workflow,/plan\.status!=='APPENDED'/);
