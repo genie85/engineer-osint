@@ -1,0 +1,90 @@
+{
+  "schema_version": "engineer-osint-post-b96-residual-baseline-v1",
+  "source": "successful v4.5.11 Pages Stage A impact audit",
+  "candidate_run_id": "engineer-osint-20260829-B96",
+  "candidate_file_sha256": "3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1",
+  "resulting_canonical_sha256": "4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5",
+  "expected_total_residual_signatures": 61,
+  "expected_total_factual_leaf_mutations": 81,
+  "modules": {
+    "rich-backfill.js": {
+      "residual_signature_count": 17,
+      "residual_factual_leaf_mutations": 26,
+      "residual_signatures": [
+        "records|ENG-SIG-0007|intelligence_gaps",
+        "records|ENG-SIG-0007|last_verified_date",
+        "records|ENG-SIG-0007|rich_backfill_status",
+        "records|ENG-TECH-0011|intelligence_gaps",
+        "records|ENG-TECH-0011|rich_backfill_status",
+        "records|ENG-TECH-0011|source_ids",
+        "records|ENG-TECH-0011|weight",
+        "records|ENG-TECH-0012|intelligence_gaps",
+        "records|ENG-TECH-0012|rich_backfill_status",
+        "records|ENG-TECH-0012|source_ids",
+        "records|ENG-TECH-0014|intelligence_gaps",
+        "records|ENG-TECH-0014|rich_backfill_status",
+        "records|ENG-TECH-0014|source_ids",
+        "records|ENG-TECH-0014|weight",
+        "records|ENG-TECH-0015|intelligence_gaps",
+        "records|ENG-TECH-0015|last_verified_date",
+        "records|ENG-TECH-0015|rich_backfill_status"
+      ]
+    },
+    "rich-backfill-israel-turkiye-eod.js": {
+      "residual_signature_count": 35,
+      "residual_factual_leaf_mutations": 46,
+      "residual_signatures": [
+        "records|CZECH_EOD_FORCE_DESIGN_BASELINE|intelligence_gaps",
+        "records|CZECH_EOD_FORCE_DESIGN_BASELINE|last_verified_date",
+        "records|CZECH_EOD_FORCE_DESIGN_BASELINE|rich_backfill_status",
+        "records|CZECH_EOD_FORCE_DESIGN_BASELINE|source_ids",
+        "records|ENG-DOC-0051|intelligence_gaps",
+        "records|ENG-DOC-0051|last_verified_date",
+        "records|ENG-DOC-0051|rich_backfill_status",
+        "records|ENG-DOC-0051|source_ids",
+        "records|ENG-DOC-0053|intelligence_gaps",
+        "records|ENG-DOC-0053|last_verified_date",
+        "records|ENG-DOC-0053|rich_backfill_status",
+        "records|ENG-DOC-0053|source_ids",
+        "records|ENG-EVT-0002|intelligence_gaps",
+        "records|ENG-EVT-0002|last_verified_date",
+        "records|ENG-EVT-0002|rich_backfill_status",
+        "records|ENG-EVT-0002|source_ids",
+        "records|ENG-EVT-0020|intelligence_gaps",
+        "records|ENG-EVT-0020|last_verified_date",
+        "records|ENG-EVT-0020|rich_backfill_status",
+        "records|ENG-EVT-0020|source_ids",
+        "records|ENG-EVT-0021|intelligence_gaps",
+        "records|ENG-EVT-0021|last_verified_date",
+        "records|ENG-EVT-0021|rich_backfill_status",
+        "records|ENG-EVT-0021|what_it_does_not_prove",
+        "records|ENG-TECH-0013|intelligence_gaps",
+        "records|ENG-TECH-0013|last_verified_date",
+        "records|ENG-TECH-0013|rich_backfill_status",
+        "records|ENG-TECH-0013|summary_cs",
+        "records|ENG-TECH-0013|technical_profile",
+        "records|ENG-UNIT-0012|intelligence_gaps",
+        "records|ENG-UNIT-0012|last_verified_date",
+        "records|ENG-UNIT-0012|rich_backfill_status",
+        "records|ENG-UNIT-0013|intelligence_gaps",
+        "records|ENG-UNIT-0013|last_verified_date",
+        "records|ENG-UNIT-0013|rich_backfill_status"
+      ]
+    },
+    "rich-backfill-usa-rok.js": {
+      "residual_signature_count": 9,
+      "residual_factual_leaf_mutations": 9,
+      "residual_signatures": [
+        "records|ENG-SIG-0006|intelligence_gaps",
+        "records|ENG-SIG-0006|last_verified_date",
+        "records|ENG-SIG-0006|rich_backfill_status",
+        "records|ENG-SIG-0006|staff_relevance",
+        "records|ENG-SIG-0006|training_relevance",
+        "records|ENG-SIG-0006|why_it_matters",
+        "visuals|ENG-VIS-0009|last_verified_date",
+        "visuals|ENG-VIS-0009|rich_backfill_status",
+        "visuals|ENG-VIS-0009|verification_note"
+      ]
+    }
+  }
+}

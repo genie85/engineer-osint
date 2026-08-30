@@ -8,6 +8,7 @@ const policy=JSON.parse(fs.readFileSync(new URL('../V459_COMPAT_TRANSITION_POLIC
 const ui42=fs.readFileSync(new URL('../ui-v42-situation-hubs.js',import.meta.url),'utf8');
 const ui43=fs.readFileSync(new URL('../ui-v43-entity-detail.js',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
 
 function fixture(){
   const p={policy:'TEST',persistent_tip_required:'B0',stage_a_run_id:'B1',stage_b_run_id:'B2',stage_c_run_id:'B3',expected:{stage_a_operations:1,stage_a_sources:1,native_gaps:1,native_assessments:1,native_evidence:1,native_analytical_total:2}};
@@ -85,15 +86,16 @@ test('v4.5.9 treats reviewed assessment narrowing as semantic replacement, not b
   assert.match(audit,/NATIVE_INTELLIGENCE_PRESERVED_WITH_REVIEWED_RECLASSIFICATION/);
 });
 
-test('Pages runs compatibility transition after explicit Stage B/C gate and before PUBLIC-CZ',()=>{
+test('Pages runs compatibility transition after explicit Stage B/C gate and verifies it before PUBLIC-CZ',()=>{
   const stageBC=workflow.indexOf('Explicitly gate Stage B/C migration artifacts');
   const transition=workflow.indexOf('Preview fail-closed legacy overlay compatibility transition');
   const publicCZ=workflow.indexOf('Audit PUBLIC-CZ-UI runtime');
   assert.ok(stageBC>0&&transition>stageBC&&publicCZ>transition);
   assert.match(workflow,/audit-overlay-compat-transition\.mjs/);
-  assert.match(workflow,/overlay-compat-transition-preview\.json/);
-  assert.match(workflow,/overlay-compat-transition-guard-spec\.json/);
-  assert.match(workflow,/overlay_compat_transition=pass/);
-  assert.match(workflow,/overlay_compat_transition_first3_zero_mutations=1/);
-  assert.match(workflow,/overlay_compat_transition_safe_to_retire=0/);
+  assert.match(workflow,/verify-pages-artifact\.mjs/);
+  assert.match(pagesVerifier,/overlay-compat-transition-preview\.json/);
+  assert.match(pagesVerifier,/overlay-compat-transition-guard-spec\.json/);
+  assert.match(pagesVerifier,/overlay_compat_transition=pass/);
+  assert.match(pagesVerifier,/overlay_compat_transition_first3_zero_mutations=1/);
+  assert.match(pagesVerifier,/overlay_compat_transition_safe_to_retire=0/);
 });
