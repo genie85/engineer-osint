@@ -1,19 +1,13 @@
 // One ordered manifest is shared by the public injector and runtime audits.
-// Legacy factual overlays remain explicit migration debt and are audited separately.
-export const TRANSITION_GUARDED_LEGACY_OVERLAY_FILES=new Set([
-  'rich-backfill.js',
-  'rich-backfill-israel-turkiye-eod.js',
-  'rich-backfill-usa-rok.js'
-]);
+// The first three migrated factual overlays are retired from active runtime after the v4.5.29 semantic-parity gate.
+// The identity-fix overlay remains explicit migration debt and is audited separately.
+export const TRANSITION_GUARDED_LEGACY_OVERLAY_FILES=new Set([]);
 
 export const TRANSITION_RUNTIME_MODULES=[
   ['engineer-overlay-transition-runtime-guard-module','overlay-transition-runtime-guard.js']
 ];
 
 export const LEGACY_FACTUAL_OVERLAY_MODULES=[
-  ['engineer-rich-backfill-module','rich-backfill.js'],
-  ['engineer-rich-backfill-israel-turkiye-eod-module','rich-backfill-israel-turkiye-eod.js'],
-  ['engineer-rich-backfill-usa-rok-module','rich-backfill-usa-rok.js'],
   ['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']
 ];
 

@@ -1,26 +1,9 @@
 {
-  "version": 1,
+  "version": 2,
   "baseline_run_id": "engineer-osint-20260823-B61",
-  "status": "DEPRECATED_MIGRATION_DEBT",
+  "status": "IDENTITY_FIX_MIGRATION_DEBT_ONLY",
+  "retired_first_three_at": "v4.5.30",
   "modules": {
-    "rich-backfill.js": {
-      "file_sha256": "ab586191861c2eaaa910b1bf612782fad202157ef9fc9d47944e6e5950cd1c80",
-      "allowed_target_ids": ["ENG-SIG-0007", "ENG-TECH-0011", "ENG-TECH-0012", "ENG-TECH-0014", "ENG-TECH-0015", "RICH-SRC-001", "RICH-SRC-002", "RICH-SRC-003", "RICH-SRC-004", "RICH-SRC-005", "RICH-SRC-006"],
-      "mutation_count": 77,
-      "mutation_fingerprint": "174f120461757c24ef47b076127b1993f3ce39d14d21f82ecffc72cb9e9aa28a"
-    },
-    "rich-backfill-israel-turkiye-eod.js": {
-      "file_sha256": "f5a68655b2fbef6e5db049c708ff503cdf86fb4ed8a3363a9ae960b17386cb30",
-      "allowed_target_ids": ["CZECH_EOD_FORCE_DESIGN_BASELINE", "ENG-DOC-0051", "ENG-DOC-0053", "ENG-EVT-0002", "ENG-EVT-0020", "ENG-EVT-0021", "ENG-TECH-0013", "ENG-UNIT-0012", "ENG-UNIT-0013", "RICH-SRC-007", "RICH-SRC-008", "RICH-SRC-009", "RICH-SRC-010", "RICH-SRC-011", "RICH-SRC-012", "RICH-SRC-013"],
-      "mutation_count": 88,
-      "mutation_fingerprint": "627ed7fdae2b7d06d2bc8274132c467c69dbf92d3f77992ee6e68395fab8a87c"
-    },
-    "rich-backfill-usa-rok.js": {
-      "file_sha256": "6b3542e58469e0eba6c12152c3ae815e676254b279d55b4691e91bce3688d877",
-      "allowed_target_ids": ["ENG-SIG-0006", "ENG-VIS-0009", "RICH-SRC-014", "RICH-SRC-015"],
-      "mutation_count": 23,
-      "mutation_fingerprint": "1ab20ff04b91e360676f0abf704fc80008a563a348be9a90ab4455b0f669fa10"
-    },
     "data-integrity-identity-fixes.js": {
       "file_sha256": "7c03bc97f329a030cba48c4f24f8281b3966feb2f66c477fbb949893c7b9d2fc",
       "allowed_target_ids": ["ENG-EVID-0113", "ENG-TECH-0032", "ENG-TECH-0036", "ENG-VIS-0054"],
