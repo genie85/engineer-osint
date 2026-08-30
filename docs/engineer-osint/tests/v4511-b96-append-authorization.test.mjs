@@ -10,10 +10,12 @@ const appendRun=fs.readFileSync(new URL('../append-run.mjs',import.meta.url),'ut
 const root='docs/engineer-osint';
 const b95='engineer-osint-20260826-B95';
 const b96='engineer-osint-20260829-B96';
+const b97='engineer-osint-20260830-B97';
 const b95Sha='dc0dae682004554a8f9a0dafbbd31187b9baebd2c325e9e37e503d6aa8bcabae';
 const b96Sha='4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5';
+const b97Sha='9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4';
 
-test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across pre/post-B96 lifecycle',()=>{
+test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across later migration lifecycle',()=>{
   const store=loadCanonicalRunStore({root});
   assert.equal(approval.schema_version,'engineer-osint-b96-append-authorization-v1');
   assert.equal(approval.status,'READY_FOR_APPEND');
@@ -28,20 +30,30 @@ test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across 
   assert.equal(approval.expected_operation_count,candidatePolicy.expected.operation_count);
   assert.equal(approval.expected_source_append_count,candidatePolicy.expected.source_append_count);
 
-  assert.ok([b95,b96].includes(store.report.current_run_id),`unsupported B96 authorization lifecycle tip ${store.report.current_run_id}`);
+  assert.ok([b95,b96,b97].includes(store.report.current_run_id),`unsupported B96 authorization lifecycle tip ${store.report.current_run_id}`);
   if(store.report.current_run_id===b95){
     assert.equal(store.report.canonical_sha256,b95Sha);
     assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),false);
-  }else{
-    assert.equal(store.report.current_run_id,b96);
+    return;
+  }
+
+  assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),true);
+  const entry=store.manifest.runs.find(item=>item.run_id===b96);
+  assert.ok(entry,'persistent B96 manifest entry missing');
+  assert.equal(entry.parent_run_id,b95);
+  assert.equal(entry.parent_canonical_sha256,b95Sha);
+  assert.equal(entry.file_sha256,approval.exact_candidate_file_sha256);
+  assert.equal(entry.canonical_sha256,b96Sha);
+
+  if(store.report.current_run_id===b96){
     assert.equal(store.report.canonical_sha256,b96Sha);
-    assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),true);
-    const entry=store.manifest.runs.find(item=>item.run_id===b96);
-    assert.ok(entry,'persistent B96 manifest entry missing');
-    assert.equal(entry.parent_run_id,b95);
-    assert.equal(entry.parent_canonical_sha256,b95Sha);
-    assert.equal(entry.file_sha256,approval.exact_candidate_file_sha256);
-    assert.equal(entry.canonical_sha256,b96Sha);
+  }else{
+    assert.equal(store.report.current_run_id,b97);
+    assert.equal(store.report.canonical_sha256,b97Sha);
+    const b97Entry=store.manifest.runs.find(item=>item.run_id===b97);
+    assert.ok(b97Entry,'later B97 manifest entry missing');
+    assert.equal(b97Entry.parent_run_id,b96);
+    assert.equal(b97Entry.parent_canonical_sha256,b96Sha);
   }
 });
 
