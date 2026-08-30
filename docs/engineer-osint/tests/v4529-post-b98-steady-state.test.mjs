@@ -48,7 +48,9 @@ test('v4.5.29 remains review-only and fail-closed for actual retirement',()=>{
   ])assert.match(audit,new RegExp(marker));
   assert.match(audit,/READY_FOR_SEPARATE_RETIREMENT_SLICE_REVIEW/);
   assert.match(policy,/READ-ONLY REVIEW GATE — NO RETIREMENT AUTHORIZATION/);
-  assert.match(policy,/full browser\/runtime\/PUBLIC-CZ regression suite/);
+  assert.match(policy,/full P0\/P1/);
+  assert.match(policy,/PUBLIC-CZ/);
+  assert.match(policy,/browser regression validation/);
 });
 
 test('v4.5.29 Pages accepts B98 descendants only after the historical B98 anchor exists',()=>{
@@ -61,11 +63,10 @@ test('v4.5.29 Pages accepts B98 descendants only after the historical B98 anchor
 });
 
 test('v4.5.29 historical B97/B98 workflows survive B99+ descendants without rerunning exact-tip audits',()=>{
-  for(const workflow of [b97,b98,b98Post]){
-    assert.match(workflow,/POST_B98_STEADY/);
-    assert.match(workflow,/audit-post-b98-steady-state\.mjs/);
-  }
+  for(const workflow of [b97,b98,b98Post])assert.match(workflow,/POST_B98_STEADY/);
   assert.match(b97,/B98 in current ancestry/);
+  assert.match(b98,/audit-post-b98-steady-state\.mjs/);
+  assert.match(b98Post,/audit-post-b98-steady-state\.mjs/);
   assert.match(postB98Gate,/postB98Lineage=b98Index>=0&&currentIndex>=b98Index/);
   assert.match(postB98Gate,/post-b98-steady-state-audit\.json/);
 });
