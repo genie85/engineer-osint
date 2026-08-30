@@ -42,7 +42,7 @@ const b98Raw=readFileSync(join(src,b98Entry.path),'utf8');
 if(createHash('sha256').update(b98Raw).digest('hex')!==candidateSha)fail('historical persistent B98 file SHA drift');
 
 const futureAuthorization=join(src,'V4526_B98_APPEND_AUTHORIZATION.json');
-if(!existsSync(futureAuthorization))fail('persistent B98 lineage requires the reviewed active B98 append authorization');
+if(!existsSync(futureAuthorization))fail('persistent B98 requires a separately reviewed active B98 append authorization; descendant lineage requires the same historical authorization');
 const authorization=readJson(futureAuthorization);
 if(authorization.status!=='READY_FOR_APPEND'||authorization.candidate_run_id!==b98||authorization.expected_parent_run_id!==b97||authorization.exact_candidate_file_sha256!==candidateSha||authorization.expected_resulting_canonical_sha256!==resultSha||authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.allow_overlay_retirement!==false||authorization.authorization?.allow_identity_fix_migration!==false)fail('persistent B98 active authorization invalid');
 
