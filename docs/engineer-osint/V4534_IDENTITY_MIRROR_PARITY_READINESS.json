@@ -10,14 +10,25 @@
   "legacy_mirror_target_id": "ENG-TECH-0036",
   "expected_overlay_residual_count_after_b99": 18,
   "expected_authoritative_residual_count_after_b99": 0,
-  "expected_non_overlay_public_runtime_updated_records_readers": 0,
+  "expected_non_overlay_public_runtime_updated_records_readers": [
+    "i18n-content-cs-public-cz-backlog.js",
+    "ui-phase6-i18n.js",
+    "ui-overview-intro-stats.js",
+    "ui-v4-public.js",
+    "i18n-runtime-switch-fix.js",
+    "i18n-en-postrender-cleanup.js",
+    "ui-v43-entity-detail.js",
+    "ui-v44-evidence-explorer.js",
+    "public-cz-ui-canary.js"
+  ],
   "expected_data_diff_after_exact_mirror_sync": 0,
   "browser_parity_required": true,
   "safety": {
     "canonical_write_performed": false,
     "b99_append_authorized": false,
-    "legacy_mirror_cleanup_persisted": false,
+    "legacy_mirror_sync_persisted": false,
+    "legacy_mirror_removal_forbidden": true,
     "identity_fix_runtime_removal_authorized": false,
-    "requires_separate_cleanup_or_publication_authorization_slice": true
+    "requires_separate_mirror_sync_and_publication_authorization_slice": true
   }
 }
