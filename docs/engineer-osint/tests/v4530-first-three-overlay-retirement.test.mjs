@@ -7,6 +7,7 @@ const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4530_FIRST_THREE_OVERLAY_RETIREMENT.json`,'utf8'));
 const baseline=JSON.parse(readFileSync(`${root}/legacy-runtime-overlay-baseline.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-first-three-overlay-retirement.mjs`,'utf8');
+const normalizedAudit=readFileSync(`${root}/audit-first-three-overlay-retirement-normalized.mjs`,'utf8');
 const dispatcher=readFileSync(`${root}/audit-post-b98-steady-state.mjs`,'utf8');
 const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const firstThree=['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js'];
@@ -65,6 +66,12 @@ test('retirement audit pins exact B98 retirement digest but permits later append
   assert.match(audit,/run_store_manifest_edit_performed:false/);
 });
 
+test('normalized retirement wrapper preserves the v4.5.29 structured-clone serialization contract',()=>{
+  assert.match(normalizedAudit,/structuredClone/);
+  assert.match(normalizedAudit,/audit-first-three-overlay-retirement\.mjs/);
+  assert.match(normalizedAudit,/originalStringify/);
+});
+
 test('built-artifact retirement contract requires three script IDs absent and identity-fix present',()=>{
   for(const id of firstThreeIds)assert.ok(policy.retired_modules.some(item=>item.runtime_id===id));
   assert.match(audit,/retired runtime script still injected/);
@@ -72,12 +79,12 @@ test('built-artifact retirement contract requires three script IDs absent and id
   assert.match(audit,/transition guard runtime script unexpectedly missing/);
 });
 
-test('v4.5.29 dispatcher preserves historical proof and delegates retired current state to v4.5.30',()=>{
+test('v4.5.29 dispatcher preserves historical proof and delegates retired current state to normalized v4.5.30 audit',()=>{
   assert.match(dispatcher,/activeFirstThree/);
   assert.match(dispatcher,/retiredFirstThree/);
   assert.match(dispatcher,/partial\/inconsistent first-three runtime retirement state/);
   assert.match(dispatcher,/audit-post-b98-steady-state-active\.mjs/);
-  assert.match(dispatcher,/audit-first-three-overlay-retirement\.mjs/);
+  assert.match(dispatcher,/audit-first-three-overlay-retirement-normalized\.mjs/);
   assert.match(dispatcher,/POST_RETIREMENT_COMPATIBILITY/);
 });
 
