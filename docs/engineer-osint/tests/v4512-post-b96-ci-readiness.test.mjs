@@ -49,8 +49,8 @@ test('Pages workflow is migration-phase aware and PR validation cannot deploy',(
   assert.match(workflow,/if: github\.event_name != 'pull_request'/);
 });
 
-test('phase-aware final verifier preserves pre-B96 proof and adds a separate B96 contract',()=>{
-  assert.match(verifier,/phase=currentRun===b95\?'PRE_B96':currentRun===b96\?'POST_B96':null/);
+test('phase-aware final verifier preserves pre-B96 proof and retains a separate B96 contract as later phases are added',()=>{
+  assert.match(verifier,/phase=currentRun===b95\?'PRE_B96':currentRun===b96\?'POST_B96'/);
   assert.match(verifier,/unsupported canonical migration phase/);
   assert.match(verifier,/overlay_migration_dry_run=pass/);
   assert.match(verifier,/overlay_compat_transition=pass/);
