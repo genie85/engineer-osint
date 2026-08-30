@@ -1,0 +1,111 @@
+name: ENGINEER OSINT identity legacy-mirror parity readiness
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4534-identity-mirror-parity
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-mirror-parity-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical lifecycle state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+      - name: Validate persistent canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+      - name: Build production-style artifact
+        run: node docs/engineer-osint/build-pages.mjs
+      - name: Materialize canonical media
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js)) throw new Error('unsafe literal </script in media source module');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
+      - name: Build exact B99 and audit mirror-only residual
+        run: node docs/engineer-osint/audit-identity-mirror-parity-readiness.mjs
+      - name: Headless browser active-overlay vs synchronized-mirror parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$browser"
+          active="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4534-b99-identity-active.html"
+          clean="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4534-b99-mirror-synced-no-identity.html"
+          for pair in "active:$active" "clean:$clean"; do
+            key="${pair%%:*}"; path="${pair#*:}"
+            "$browser" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --allow-file-access-from-files --virtual-time-budget=5000 --dump-dom "file://${path}" > "/tmp/v4534-${key}-dom.html"
+            test -s "/tmp/v4534-${key}-dom.html"
+            grep -q 'ENGINEER OSINT' "/tmp/v4534-${key}-dom.html"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib
+          def norm(path):
+              s=Path(path).read_text(errors='replace')
+              s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
+              s=re.sub(r'\s+',' ',s).strip()
+              return s
+          a=norm('/tmp/v4534-active-dom.html')
+          b=norm('/tmp/v4534-clean-dom.html')
+          if a!=b:
+              Path('/tmp/v4534-active-normalized.html').write_text(a)
+              Path('/tmp/v4534-clean-normalized.html').write_text(b)
+              raise SystemExit('HEADLESS_IDENTITY_MIRROR_PARITY: normalized DOM differs')
+          digest=hashlib.sha256(a.encode()).hexdigest()
+          Path('/tmp/v4534-browser-parity.txt').write_text(f'PASS sha256={digest}\n')
+          print(f'HEADLESS_IDENTITY_MIRROR_PARITY=PASS sha256={digest}')
+          PY
+      - name: Verify audit safety boundary
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-mirror-parity-audit.json';
+          const audit=JSON.parse(fs.readFileSync(p,'utf8'));
+          if(audit.status!=='PASS'||audit.authoritative_residual_count_after_b99!==0||audit.legacy_mirror_residual_count_after_b99!==18||audit.data_diff_after_exact_mirror_sync!==0)throw new Error('identity mirror parity audit mismatch');
+          if(audit.non_overlay_public_runtime_updated_records_readers?.length!==0)throw new Error('unexpected runtime consumer of legacy updated_records');
+          if(audit.canonical_write_performed!==false||audit.b99_append_authorized!==false||audit.legacy_mirror_cleanup_persisted!==false||audit.identity_fix_runtime_removal_authorized!==false)throw new Error('identity mirror safety boundary broadened');
+          audit.browser_parity_passed=true;
+          audit.ready_for_separate_mirror_cleanup_review=true;
+          fs.writeFileSync(p,JSON.stringify(audit,null,2)+'\n');
+          console.log('IDENTITY_MIRROR_PARITY_REVIEW=PASS_NO_WRITE');
+          NODE
+      - name: Upload mirror parity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-mirror-parity-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/identity-mirror-parity-audit.json
+            docs/engineer-osint-dist/identity-mirror-parity-audit.md
+            docs/engineer-osint-dist/identity-fix-b99-candidate.json
+            docs/engineer-osint-dist/identity-fix-b99-candidate-audit.json
+            /tmp/v4534-active-dom.html
+            /tmp/v4534-clean-dom.html
+            /tmp/v4534-browser-parity.txt
