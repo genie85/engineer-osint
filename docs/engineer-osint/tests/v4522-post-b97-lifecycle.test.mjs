@@ -5,15 +5,18 @@ import {readFileSync} from 'node:fs';
 const workflow=readFileSync('.github/workflows/b97-readiness.yml','utf8');
 const b96Test=readFileSync('docs/engineer-osint/tests/v4511-b96-append-authorization.test.mjs','utf8');
 
-test('v4.5.22 historical B96 authorization remains exact when B97 becomes the current tip',()=>{
+test('v4.5.22 historical B96 authorization remains exact through B97 and B98 lifecycle',()=>{
   assert.match(b96Test,/const b97='engineer-osint-20260830-B97'/);
-  assert.match(b96Test,/\[b95,b96,b97\]\.includes\(store\.report\.current_run_id\)/);
+  assert.match(b96Test,/const b98='engineer-osint-20260830-B98'/);
+  assert.match(b96Test,/\[b95,b96,b97,b98\]\.includes\(store\.report\.current_run_id\)/);
   assert.match(b96Test,/const entry=store\.manifest\.runs\.find\(item=>item\.run_id===b96\)/);
   assert.match(b96Test,/entry\.parent_run_id,b95/);
   assert.match(b96Test,/entry\.parent_canonical_sha256,b95Sha/);
   assert.match(b96Test,/entry\.canonical_sha256,b96Sha/);
   assert.match(b96Test,/b97Entry\.parent_run_id,b96/);
   assert.match(b96Test,/b97Entry\.parent_canonical_sha256,b96Sha/);
+  assert.match(b96Test,/b98Entry\.parent_run_id,b97/);
+  assert.match(b96Test,/b98Entry\.parent_canonical_sha256,b97Sha/);
 });
 
 test('B97 readiness workflow explicitly distinguishes pre-append and persistent lifecycle phases',()=>{
