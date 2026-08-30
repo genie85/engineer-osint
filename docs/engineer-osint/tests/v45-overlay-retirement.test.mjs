@@ -7,8 +7,9 @@ const manifest=fs.readFileSync(new URL('../runtime-modules.mjs',import.meta.url)
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
 const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
+const v4530=JSON.parse(fs.readFileSync(new URL('../V4530_FIRST_THREE_OVERLAY_RETIREMENT.json',import.meta.url),'utf8'));
 
-test('v4.5 retirement audit is current-materialization based and fail-closed on pinned scope',()=>{
+test('v4.5 retirement audit remains current-materialization based and fail-closed on active pinned scope',()=>{
   assert.match(audit,/built canonical ENGINEER_DATA/);
   assert.match(audit,/fileHash!==expected\.file_sha256/);
   assert.match(audit,/escaped pinned targets/);
@@ -23,13 +24,14 @@ test('v4.5 classifies zero-delta modules without auto-retiring them',()=>{
   assert.match(policy,/public-output comparison/);
 });
 
-test('all four factual overlays remain active until a separate canonical retirement slice',()=>{
-  for(const file of [
-    'rich-backfill.js',
-    'rich-backfill-israel-turkiye-eod.js',
-    'rich-backfill-usa-rok.js',
-    'data-integrity-identity-fixes.js'
-  ])assert.ok(manifest.includes(file),`unsafe early retirement of ${file}`);
+test('v4.5.30 retires exactly the first three factual overlays while identity-fix remains active',()=>{
+  for(const file of ['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js']){
+    assert.equal(manifest.includes(`['engineer-${file.replace(/\.js$/,'').replaceAll('-','-')}-module','${file}']`),false);
+    assert.ok(v4530.retired_modules.some(item=>item.file===file));
+  }
+  assert.match(manifest,/\['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'\]/);
+  assert.equal(v4530.authorization.keep_identity_fix_active,true);
+  assert.equal(v4530.authorization.allow_identity_fix_migration,false);
 });
 
 test('v4.5.1 emits an exact field-level migration map with explicit route semantics',()=>{
