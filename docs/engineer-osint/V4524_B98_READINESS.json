@@ -1,0 +1,33 @@
+{
+  "schema_version": "engineer-osint-b98-readiness-v1",
+  "status": "READ_ONLY_CANDIDATE_BUILD",
+  "review_basis": "V457_ASSESSMENT_EVIDENCE_REVIEW.json",
+  "transition_policy_basis": "V459_COMPAT_TRANSITION_POLICY.json",
+  "candidate_run_id": "engineer-osint-20260830-B98",
+  "expected_parent_run_id": "engineer-osint-20260830-B97",
+  "expected_parent_canonical_sha256": "9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4",
+  "expected_b96_file_sha256": "3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1",
+  "expected_b97_file_sha256": "b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad",
+  "expected_evidence_count": 2,
+  "expected_assessment_count": 4,
+  "expected_gap_count_already_persistent": 15,
+  "expected_guard_short_circuits_before": 0,
+  "expected_guard_short_circuits_after_simulated_b98": 3,
+  "expected_unguarded_residual_signatures": 61,
+  "expected_unguarded_residual_factual_leaf_mutations": 81,
+  "required_semantics": {
+    "evidence_must_precede_assessment": true,
+    "evidence_must_remain_source_scoped": true,
+    "reviewed_assessment_wording_must_be_preserved": true,
+    "unsupported_ew_implications_must_remain_excluded": true,
+    "legacy_overlay_short_circuit_must_be_fail_closed": true
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "append_run_write_allowed": false,
+    "b98_persistence_authorized": false,
+    "overlay_retirement_authorized": false,
+    "identity_fix_migration_authorized": false,
+    "manual_manifest_or_hash_edit_authorized": false
+  }
+}

@@ -1,0 +1,106 @@
+name: ENGINEER OSINT B98 readiness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b98-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/b98-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineer-osint-b98-readiness-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout persistent B97 canonical state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test P0/P1 and B98 readiness contracts
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate persistent B97 chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build persistent B97 dashboard
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Re-audit persistent B97 before B98 simulation
+        run: node docs/engineer-osint/audit-persistent-b97.mjs
+
+      - name: Build read-only B98 candidate and transition proof
+        run: |
+          set -euo pipefail
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/build-b98-readiness.mjs
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+
+      - name: Dry-run exact generated B98 through standard append helper
+        run: |
+          set -euo pipefail
+          candidate='docs/engineer-osint-dist/b98-patch-candidate.json'
+          plan='docs/engineer-osint-dist/b98-append-plan.json'
+          manifest='docs/engineer-osint/data/run-store-manifest.json'
+          runs_dir='docs/engineer-osint/data/runs'
+          manifest_before=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_before=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          node docs/engineer-osint/append-run.mjs "$candidate" > "$plan"
+          manifest_after=$(sha256sum "$manifest" | awk '{print $1}')
+          runs_after=$(find "$runs_dir" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')
+          test "$manifest_before" = "$manifest_after"
+          test "$runs_before" = "$runs_after"
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const policy=JSON.parse(fs.readFileSync('docs/engineer-osint/V4524_B98_READINESS.json','utf8'));
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-readiness-audit.json','utf8'));
+          const plan=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/b98-append-plan.json','utf8'));
+          if(audit.status!=='PASS')throw new Error('B98 readiness audit is not PASS');
+          if(plan.status!=='VALIDATED_DRY_RUN')throw new Error(`B98 append helper did not remain dry-run: ${plan.status}`);
+          if(plan.entry?.run_id!==policy.candidate_run_id||plan.entry?.parent_run_id!==policy.expected_parent_run_id)throw new Error('B98 dry-run identity mismatch');
+          if(plan.entry?.file_sha256!==audit.candidate_file_sha256)throw new Error('B98 candidate file SHA mismatch');
+          if(plan.entry?.parent_canonical_sha256!==policy.expected_parent_canonical_sha256)throw new Error('B98 parent canonical SHA mismatch');
+          if(!/^[a-f0-9]{64}$/.test(plan.entry?.canonical_sha256||''))throw new Error('B98 resulting canonical SHA invalid');
+          if(audit.evidence_count!==2||audit.assessment_count!==4)throw new Error('B98 native Intelligence scope mismatch');
+          if(audit.runtime_guard_before_short_circuits!==0||audit.runtime_guard_after_short_circuits!==3)throw new Error('B98 runtime transition proof mismatch');
+          if(audit.unguarded_residual_signature_count!==61||audit.unguarded_residual_factual_leaf_mutations!==81||audit.guarded_mutation_count!==0)throw new Error('B98 legacy transition residual proof mismatch');
+          if(audit.canonical_write_performed!==false||audit.append_run_invoked!==false||audit.safe_to_append!==false||audit.safe_to_retire_overlays!==false)throw new Error('B98 readiness safety state broadened');
+          console.log(`B98_DRY_RUN_CANDIDATE_SHA=${plan.entry.file_sha256}`);
+          console.log(`B98_DRY_RUN_RESULT_SHA=${plan.entry.canonical_sha256}`);
+          NODE
+
+      - name: Upload B98 readiness evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: b98-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/b98-patch-candidate.json
+            docs/engineer-osint-dist/b98-readiness-audit.json
+            docs/engineer-osint-dist/b98-readiness-audit.md
+            docs/engineer-osint-dist/b98-append-plan.json
+            docs/engineer-osint-dist/health.txt
