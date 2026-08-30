@@ -7,7 +7,7 @@ const resolution=JSON.parse(fs.readFileSync(new URL('../V454_MIGRATION_RESOLUTIO
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const intelligence=fs.readFileSync(new URL('../INTELLIGENCE_V1_CONTRACT.md',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
-const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 
 test('v4.5.4 resolves the four substantive provenance blockers explicitly',()=>{
   const special=resolution.special_resolutions;
