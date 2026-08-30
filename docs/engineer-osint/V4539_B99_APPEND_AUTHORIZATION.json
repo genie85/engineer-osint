@@ -1,0 +1,46 @@
+{
+  "schema_version": "engineer-osint-b99-append-authorization-v1",
+  "version": "4.5.39",
+  "status": "READY_FOR_APPEND",
+  "candidate_run_id": "engineer-osint-20260830-B99",
+  "expected_parent_run_id": "engineer-osint-20260830-B98",
+  "expected_parent_canonical_sha256": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
+  "exact_candidate_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+  "expected_resulting_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+  "expected_operation_count": 36,
+  "expected_replace_field_count": 27,
+  "expected_remove_field_count": 9,
+  "expected_mirror_sync_request_count": 1,
+  "expected_mirror_sync_target_id": "ENG-TECH-0036",
+  "expected_mirror_sync_field_count": 18,
+  "expected_identity_overlay_residual_after_append": 0,
+  "required_preconditions": {
+    "v4536_exact_candidate_reviewed": true,
+    "v4537_post_b99_lifecycle_ready": true,
+    "v4538_pages_b99_gate_ready": true,
+    "identity_fix_runtime_must_remain_active": true,
+    "expected_identity_overlay_residual_after_append": 0
+  },
+  "review_evidence": {
+    "candidate_readiness_pr": 253,
+    "candidate_readiness_main_sha": "4bc1adba9db5a01fd63d9f4d0bb835e50b6d9775",
+    "lifecycle_hardening_pr": 254,
+    "lifecycle_hardening_main_sha": "560ac0dd9bdbd1b9bc2c496436674c651e78737b",
+    "pages_readiness_pr": 255,
+    "pages_readiness_main_sha": "e64f7dbff6b2b5d062e842514fe520ba344d9ebb",
+    "pages_main_run_id": 33342940548,
+    "pages_main_build": "success",
+    "pages_main_deploy": "success"
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "standard_append_run_write_required": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_identity_fix_runtime_removal": false,
+    "allow_identity_overlay_retirement": false,
+    "allow_other_runtime_module_removal": false
+  }
+}
