@@ -82,3 +82,4 @@ const expectedHealth={
 for(const [key,value] of Object.entries(expectedHealth))requireHealth(key,value);
 appendFileSync(join(dist,'health.txt'),'overlay_stage_bc_pages_gate=pass\noverlay_stage_bc_pages_gate_artifacts=6\noverlay_stage_bc_pages_gate_native_analytical=19\noverlay_stage_bc_pages_gate_unexpected_residuals=0\noverlay_stage_bc_pages_gate_canonical_writes=0\n','utf8');
 console.log('Stage B/C Pages gate PASS: 6 artifacts; 15 gaps; 4 assessments; 2 evidence; 19/19 native analytical; unexpected residuals=0; persistent writes=0');
+await import('./audit-overlay-runtime-transition.mjs');
