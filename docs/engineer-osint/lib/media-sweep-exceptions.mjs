@@ -105,7 +105,16 @@ function ensureMigrationNoMediaAddition(patch,item){
   for(const field of ['media','visuals'])if(!Array.isArray(patch[field])||patch[field].length)fail(`${item.exception_id} requires empty ${field}`);
   const operations=patch?.extensions?.operations_v1;
   if(!Array.isArray(operations)||operations.length!==104)fail(`${item.exception_id} requires exactly 104 reviewed correction operations`);
-  if(operations.some(operation=>['media','media_registry','visuals','visual_registry'].includes(operation?.collection)))fail(`${item.exception_id} cannot cover media or visual correction operations`);
+  if(operations.some(operation=>['media','media_registry'].includes(operation?.collection)))fail(`${item.exception_id} cannot cover media correction operations`);
+  const visualOps=operations.filter(operation=>['visuals','visual_registry'].includes(operation?.collection)).map(operation=>({
+    operation_id:operation.operation_id,op:operation.op,collection:operation.collection,target_id:operation.target_id,field:operation.field,
+    value:operation.value,source_ids:operation.source_ids
+  }));
+  const expectedVisualOps=[
+    {operation_id:'ENG-OP-B96-OVL-MIG-064',op:'REPLACE_FIELD',collection:'visuals',target_id:'ENG-VIS-0009',field:'last_verified_date',value:'2026-08-29',source_ids:['RICH-SRC-014','RICH-SRC-015']},
+    {operation_id:'ENG-OP-B96-OVL-MIG-065',op:'REPLACE_FIELD',collection:'visuals',target_id:'ENG-VIS-0009',field:'source_ids',value:['RICH-SRC-014','RICH-SRC-015'],source_ids:['RICH-SRC-014','RICH-SRC-015']}
+  ];
+  if(JSON.stringify(visualOps)!==JSON.stringify(expectedVisualOps))fail(`${item.exception_id} visual migration operations differ from the exact reviewed metadata pair`);
 }
 
 export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFileRaw,reportSnapshotRaw,registry}){
