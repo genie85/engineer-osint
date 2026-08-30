@@ -3,8 +3,7 @@ import {appendFileSync,readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import vm from 'node:vm';
 import {
-  deepDiff,isIntrinsicTranslationPath as _unused,
-  parseJsonStrict,translationMutationViolations,validatePublicUrls
+  deepDiff,parseJsonStrict,translationMutationViolations,validatePublicUrls
 } from './lib/integrity.mjs';
 import {loadCanonicalRunStore} from './lib/run-store.mjs';
 import {
@@ -41,16 +40,11 @@ const baseline=parseJsonStrict(html.slice(a+marker.length,b),{source:'built cano
 if(baseline.state_latest?.run_id!==store.report.current_run_id)fail(`built current run mismatch ${baseline.state_latest?.run_id}`);
 validatePublicUrls(baseline);
 
-const firstThree=[...TRANSITION_GUARDED_LEGACY_OVERLAY_FILES];
 const orderedFirstThree=LEGACY_FACTUAL_OVERLAY_MODULES.map(([,file])=>file).filter(file=>TRANSITION_GUARDED_LEGACY_OVERLAY_FILES.has(file));
-if(firstThree.size!==undefined)fail('unexpected Set conversion state');
 if(orderedFirstThree.length!==3||new Set(orderedFirstThree).size!==3)fail('first-three retirement scope is not exactly three modules');
 if(orderedFirstThree.some(file=>file==='data-integrity-identity-fixes.js'))fail('identity-fix overlay entered first-three retirement scope');
 if(!LEGACY_FACTUAL_OVERLAY_MODULES.some(([,file])=>file==='data-integrity-identity-fixes.js'))fail('identity-fix overlay unexpectedly absent from active legacy runtime');
-
-const expectedFirstThree=[
-  'rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js'
-];
+const expectedFirstThree=['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js'];
 if(JSON.stringify(orderedFirstThree)!==JSON.stringify(expectedFirstThree))fail(`guarded module order drift ${orderedFirstThree.join(',')}`);
 const baselineHashes=readJson('legacy-runtime-overlay-baseline.json');
 for(const [,file] of LEGACY_FACTUAL_OVERLAY_MODULES){
@@ -121,8 +115,8 @@ const productionPublicDataSha=sha256(JSON.stringify(productionLocalized));
 const retiredPublicDataSha=sha256(JSON.stringify(retiredLocalized));
 if(productionPublicDataSha!==retiredPublicDataSha)fail('public-data semantic digest mismatch');
 
-let unguarded=structuredClone(baseline),unguardedFactualLeafMutations=0;
-const unguardedContext=vm.createContext({window:{__ENGINEER_DATA__:unguarded},console});
+const unguarded=structuredClone(baseline),unguardedContext=vm.createContext({window:{__ENGINEER_DATA__:unguarded},console});
+let unguardedFactualLeafMutations=0;
 const isOverlayMeta=path=>path==='rich_backfill_meta'||path.startsWith('rich_backfill_meta.');
 for(const file of orderedFirstThree){
   const before=structuredClone(unguardedContext.window.__ENGINEER_DATA__);
@@ -131,9 +125,7 @@ for(const file of orderedFirstThree){
 }
 if(store.report.current_run_id===b98&&unguardedFactualLeafMutations!==81)fail(`exact B98 unguarded first-three residual drift ${unguardedFactualLeafMutations}/81`);
 
-for(const [id,file] of LEGACY_FACTUAL_OVERLAY_MODULES){
-  if(!html.includes(`id="${id}"`))fail(`active runtime module missing from built artifact before retirement review: ${file}`);
-}
+for(const [id,file] of LEGACY_FACTUAL_OVERLAY_MODULES)if(!html.includes(`id="${id}"`))fail(`active runtime module missing from built artifact before retirement review: ${file}`);
 
 const report={
   generated_at:new Date().toISOString(),status:'PASS',schema_version:'engineer-osint-post-b98-steady-state-v1',
