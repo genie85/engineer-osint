@@ -1,0 +1,38 @@
+{
+  "schema_version": "engineer-osint-b98-post-ci-readiness-v1",
+  "status": "BLOCKED_PENDING_POST_B98_CI_READINESS",
+  "review_date": "2026-08-30",
+  "reviewed_baseline_main_sha": "ddf10b3b1752fdebfbc7e935ae977a10ad6a1686",
+  "candidate_run_id": "engineer-osint-20260830-B98",
+  "expected_parent_run_id": "engineer-osint-20260830-B97",
+  "expected_parent_canonical_sha256": "9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4",
+  "exact_candidate_file_sha256": "ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79",
+  "expected_resulting_canonical_sha256": "4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201",
+  "expected_evidence_count": 2,
+  "expected_assessment_count": 4,
+  "expected_persistent_gap_count": 15,
+  "expected_guard_short_circuits_before": 0,
+  "expected_guard_short_circuits_after": 3,
+  "expected_unguarded_residual_signatures": 61,
+  "expected_unguarded_residual_factual_leaf_mutations": 81,
+  "current_blocker": "POST_B98_CI_PIPELINE_NOT_YET_REVIEWED",
+  "required_preconditions": {
+    "persistent_b97_parent_verified": true,
+    "v4524_b98_dry_run_green": true,
+    "exact_candidate_hash_reproduced_on_main": true,
+    "exact_resulting_canonical_hash_reproduced_on_main": true,
+    "exact_b98_media_attestation_required": true,
+    "post_b98_ci_pipeline_ready": false,
+    "persistent_b98_audit_ready": false,
+    "pages_post_b98_phase_ready": false
+  },
+  "authorization": {
+    "append_allowed": false,
+    "standard_append_run_dry_run_required": true,
+    "standard_append_run_write_allowed": false,
+    "one_run_only": true,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_overlay_retirement": false,
+    "allow_identity_fix_migration": false
+  }
+}
