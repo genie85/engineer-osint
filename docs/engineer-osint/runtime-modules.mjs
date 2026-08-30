@@ -1,5 +1,15 @@
 // One ordered manifest is shared by the public injector and runtime audits.
 // Legacy factual overlays remain explicit migration debt and are audited separately.
+export const TRANSITION_GUARDED_LEGACY_OVERLAY_FILES=new Set([
+  'rich-backfill.js',
+  'rich-backfill-israel-turkiye-eod.js',
+  'rich-backfill-usa-rok.js'
+]);
+
+export const TRANSITION_RUNTIME_MODULES=[
+  ['engineer-overlay-transition-runtime-guard-module','overlay-transition-runtime-guard.js']
+];
+
 export const LEGACY_FACTUAL_OVERLAY_MODULES=[
   ['engineer-rich-backfill-module','rich-backfill.js'],
   ['engineer-rich-backfill-israel-turkiye-eod-module','rich-backfill-israel-turkiye-eod.js'],
@@ -64,6 +74,7 @@ export const PRESENTATION_MODULES=[
 
 export const CANONICAL_SNAPSHOT_MODULE=['engineer-canonical-snapshot-module','canonical-snapshot.js'];
 export const PUBLIC_RUNTIME_MODULES=[
+  ...TRANSITION_RUNTIME_MODULES,
   ...LEGACY_FACTUAL_OVERLAY_MODULES,
   ...LOCALIZATION_DATA_MODULES,
   CANONICAL_SNAPSHOT_MODULE,
