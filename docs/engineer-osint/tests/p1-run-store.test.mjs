@@ -5,7 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {canonicalDigest,IntegrityError,sha256Text} from '../lib/integrity.mjs';
 import {
-  applyStrictPatchToCanonicalData,loadCanonicalRunStore,RUN_STORE_SCHEMA_VERSION,validatePatchOperations
+  applyStrictPatchToCanonicalData,loadCanonicalRunStore,RUN_STORE_SCHEMA_VERSION,validateLegacyMirrorSyncV1,validatePatchOperations
 } from '../lib/run-store.mjs';
 
 const counts=()=>({CURRENT_DELTA:0,LATE_DISCOVERED_CURRENT:0,HISTORICAL_BACKFILL:0,ENTITY_ENRICHMENT:0,NEW:0,UPDATE:0,CONFIRMATION:0,CORRECTION:0,CONTRADICTION:0,LEAD:0,NEW_RELATIONS:0,UPDATED_RELATIONS:0,NEW_EVIDENCE:0,UPDATED_EVIDENCE:0,NEW_SOURCES:0,UPDATED_SOURCES:0,NEW_VISUALS:0,NEW_MEDIA:0});
@@ -45,6 +45,34 @@ test('REMOVE_FIELD deletes an existing top-level field and fails closed on unsaf
 
   const withValue=patch();withValue.state.counts.CORRECTION=1;withValue.extensions.operations_v1=[operation('REMOVE_FIELD',{field:'title',value:null})];
   assert.throws(()=>validatePatchOperations(withValue),IntegrityError);
+});
+
+test('explicit legacy updated_records mirror sync is field-scoped and canonical-derived',()=>{
+  const base=canonical();
+  base.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1',title:'stale',summary:'legacy-only',source_ids:['ENG-SRC-TEST1']}];
+  const next=patch();next.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title','summary']}]};
+  const result=applyStrictPatchToCanonicalData(base,next),mirror=result.dashboard_patch_extras.updated_records[0];
+  assert.equal(result.records.records[0].title,'old');
+  assert.equal(mirror.title,'old');
+  assert.equal(Object.hasOwn(mirror,'summary'),false);
+  assert.deepEqual(mirror.source_ids,['ENG-SRC-TEST1']);
+});
+
+test('legacy mirror sync fails closed on missing, duplicate, protected and stale requests',()=>{
+  const base=canonical();base.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1',title:'stale'}];
+  const missing=patch();missing.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-MISSING',fields:['title']}]};
+  assert.throws(()=>applyStrictPatchToCanonicalData(base,missing),IntegrityError);
+  const protectedField=patch();protectedField.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['id']}]};
+  assert.throws(()=>validateLegacyMirrorSyncV1(protectedField),IntegrityError);
+  const duplicateField=patch();duplicateField.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title','title']}]};
+  assert.throws(()=>validateLegacyMirrorSyncV1(duplicateField),IntegrityError);
+  const duplicateTarget=patch();duplicateTarget.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title']},{target_id:'ENG-EVT-TEST1',fields:['tags']}]};
+  assert.throws(()=>validateLegacyMirrorSyncV1(duplicateTarget),IntegrityError);
+  const stale=patch();stale.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['summary']}]};
+  const noSummary=canonical();noSummary.dashboard_patch_extras.updated_records=[{id:'ENG-EVT-TEST1'}];
+  assert.throws(()=>applyStrictPatchToCanonicalData(noSummary,stale),IntegrityError);
+  const noMirror=patch();noMirror.extensions.legacy_mirror_sync_v1={updated_records:[{target_id:'ENG-EVT-TEST1',fields:['title']}]};
+  assert.throws(()=>applyStrictPatchToCanonicalData(canonical(),noMirror),IntegrityError);
 });
 
 test('strict append materializes a new source and record with provenance',()=>{
@@ -122,6 +150,14 @@ test('repository snapshot is canonical and no Git history is needed to load it',
   next.state.run_id=`${match[1]}${String(Number(match[2])+1).padStart(match[2].length,'0')}`;
   assert.equal(applyStrictPatchToCanonicalData(loaded.data,next).state_latest.run_id,next.state.run_id);
   assert.equal(readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8').includes('DEGRADED_LEGACY_ACKNOWLEDGED'),true);
+});
+
+test('patch schema publishes explicit legacy updated_records mirror sync contract',()=>{
+  const schema=JSON.parse(readFileSync('docs/engineer-osint/schemas/patch-v1.schema.json','utf8'));
+  assert.equal(schema.properties.extensions.properties.legacy_mirror_sync_v1.$ref,'#/$defs/legacyMirrorSyncV1');
+  assert.deepEqual(schema.$defs.legacyMirrorSyncV1.required,['updated_records']);
+  assert.deepEqual(schema.$defs.legacyUpdatedRecordMirrorSyncRequest.required,['target_id','fields']);
+  assert.equal(schema.$defs.legacyUpdatedRecordMirrorSyncRequest.properties.fields.uniqueItems,true);
 });
 
 test('patch schema publishes the versioned correction operation contract',()=>{

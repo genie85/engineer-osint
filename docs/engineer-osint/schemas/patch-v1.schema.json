@@ -83,7 +83,8 @@
             "contradictions": {"type": "array", "items": {"$ref": "#/$defs/contradictionV1"}}
           },
           "additionalProperties": false
-        }
+        },
+        "legacy_mirror_sync_v1": {"$ref": "#/$defs/legacyMirrorSyncV1"}
       },
       "additionalProperties": true
     }
@@ -152,6 +153,23 @@
         "confidence": {"type": "string", "minLength": 1}
       },
       "additionalProperties": true
+    },
+    "legacyMirrorSyncV1": {
+      "type": "object",
+      "required": ["updated_records"],
+      "properties": {
+        "updated_records": {"type": "array", "items": {"$ref": "#/$defs/legacyUpdatedRecordMirrorSyncRequest"}}
+      },
+      "additionalProperties": false
+    },
+    "legacyUpdatedRecordMirrorSyncRequest": {
+      "type": "object",
+      "required": ["target_id", "fields"],
+      "properties": {
+        "target_id": {"type": "string", "minLength": 1},
+        "fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"}}
+      },
+      "additionalProperties": false
     },
     "operationV1": {
       "type": "object",

@@ -42,3 +42,12 @@ test('v4.5.34 browser gate compares overlay-active B99 with synchronized mirror 
   assert.equal(policy.safety.identity_fix_runtime_removal_authorized,false);
   assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
 });
+
+test('v4.5.34 browser parity normalizes only an explicit bilingual label race',()=>{
+  assert.ok(workflow.includes('data-label-cs="(?P<cs>[^\"]*)"'));
+  assert.ok(workflow.includes('data-label-en="(?P<en>[^\"]*)"'));
+  assert.ok(workflow.includes('if text not in {cs,en}:'));
+  assert.ok(workflow.includes("return match.group('open')+match.group('cs')+match.group('close')"));
+  assert.ok(workflow.includes('s=bilingual.sub(canonicalize_bilingual_label,s)'));
+  assert.doesNotMatch(workflow,/s=re\.sub\([^\n]*data-label[^\n]*,''/);
+});

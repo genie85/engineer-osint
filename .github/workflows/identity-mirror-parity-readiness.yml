@@ -67,10 +67,23 @@ jobs:
           done
           python - <<'PY'
           from pathlib import Path
-          import re, hashlib
+          import re, hashlib, html
+          bilingual=re.compile(
+              r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
+              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',
+              re.I
+          )
+          def canonicalize_bilingual_label(match):
+              text=html.unescape(match.group('text')).strip()
+              cs=html.unescape(match.group('cs')).strip()
+              en=html.unescape(match.group('en')).strip()
+              if text not in {cs,en}:
+                  return match.group(0)
+              return match.group('open')+match.group('cs')+match.group('close')
           def norm(path):
               s=Path(path).read_text(errors='replace')
               s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
+              s=bilingual.sub(canonicalize_bilingual_label,s)
               s=re.sub(r'\s+',' ',s).strip()
               return s
           a=norm('/tmp/v4534-active-dom.html')
