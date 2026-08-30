@@ -1,10 +1,10 @@
 # ENGINEER OSINT v4.5.12 — post-B96 CI readiness
 
-Status: **IMPLEMENTED FOR REVIEW / AUTHORIZATION REMAINS BLOCKED UNTIL FULL PR PAGES PASS**
+Status: **READY FOR APPEND / B96 NOT YET PERSISTED**
 
 ## Purpose
 
-The exact Stage A B96 candidate is already reviewed and byte-stable, but the pre-v4.5.12 Pages migration-preview chain assumes persistent B95. Persisting B96 before fixing that lifecycle coupling would turn a correct append into a deployment failure.
+The exact Stage A B96 candidate is already reviewed and byte-stable, but the pre-v4.5.12 Pages migration-preview chain assumed persistent B95. Persisting B96 before fixing that lifecycle coupling would have turned a correct append into a deployment failure.
 
 v4.5.12 makes Pages validation explicit about canonical migration phase without weakening any pre-B96 proof.
 
@@ -46,13 +46,21 @@ This is transition debt, not a waiver. It exists to prove that a real B96 append
 
 The Pages workflow now runs its full build on pull requests as validation-only and deploys only for non-PR events. PRE_B96 and POST_B96 paths are selected from the immutable run-store tip. The final freshness gate is implemented in `verify-pages-artifact.mjs` and preserves the former pre-B96 checks while adding a separate post-B96 contract.
 
+The regression tests that previously asserted final artifact markers directly against inline workflow YAML now explicitly verify workflow delegation to `verify-pages-artifact.mjs` and the corresponding verifier contract. This preserves the original checks after the v4.5.12 verifier extraction rather than weakening them.
+
 ## Authorization lifecycle
 
-During initial review, `V4511_B96_APPEND_AUTHORIZATION.json` remains `BLOCKED_PENDING_POST_B96_CI_READINESS` and `post_b96_ci_pipeline_ready=false`.
+Initial review kept `V4511_B96_APPEND_AUTHORIZATION.json` at `BLOCKED_PENDING_POST_B96_CI_READINESS` with `post_b96_ci_pipeline_ready=false`.
 
-Only after the v4.5.12 PR passes both the existing runtime audit and the new full Pages PR workflow may a final commit in this same slice set:
+The reviewed pre-activation head `951dd87376cddacc9da57906c72134f1a9bae46d` then passed both required validation workflows:
+
+- Pages PR workflow run `33314650178` / run number 528: **SUCCESS**, including `Simulate post-B96 Pages validation before append` and the final deployable-artifact verifier;
+- runtime audit snapshot run `33314650190` / run number 379: **SUCCESS**, including P0/P1, runtime audit, PUBLIC-CZ audit and regression ratchet.
+
+The authorization is therefore activated in this slice as:
 
 - `status=READY_FOR_APPEND`;
-- `post_b96_ci_pipeline_ready=true`.
+- `post_b96_ci_pipeline_ready=true`;
+- `current_blocker=null`.
 
-That activation does not append B96. The real B96 append remains a separate one-run-only publication slice using the standard guarded `append-run.mjs --write` path.
+This activation does **not** append B96. The real B96 append remains a separate one-run-only publication slice using the standard guarded `append-run.mjs --write` path. Overlay retirement, B97/B98 persistence, identity-fix migration and manual manifest/hash edits remain prohibited by the authorization.
