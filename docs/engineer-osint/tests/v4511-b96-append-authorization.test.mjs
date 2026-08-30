@@ -8,27 +8,46 @@ const candidatePolicy=JSON.parse(fs.readFileSync(new URL('../V455_STAGE_A_CANDID
 const runtimeGuardDoc=fs.readFileSync(new URL('../V4510_RUNTIME_TRANSITION_GUARD.md',import.meta.url),'utf8');
 const appendRun=fs.readFileSync(new URL('../append-run.mjs',import.meta.url),'utf8');
 const root='docs/engineer-osint';
+const b95='engineer-osint-20260826-B95';
+const b96='engineer-osint-20260829-B96';
+const b95Sha='dc0dae682004554a8f9a0dafbbd31187b9baebd2c325e9e37e503d6aa8bcabae';
+const b96Sha='4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5';
 
-test('v4.5.11 B96 review is pinned to the exact candidate and persistent B95 parent',()=>{
+test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across pre/post-B96 lifecycle',()=>{
   const store=loadCanonicalRunStore({root});
   assert.equal(approval.schema_version,'engineer-osint-b96-append-authorization-v1');
   assert.equal(approval.status,'READY_FOR_APPEND');
   assert.equal(approval.reviewed_baseline_main_sha,'c941446e7e358ed1c0e3ccc9e355413c9658701f');
-  assert.equal(store.report.current_run_id,'engineer-osint-20260826-B95');
-  assert.equal(store.report.canonical_sha256,'dc0dae682004554a8f9a0dafbbd31187b9baebd2c325e9e37e503d6aa8bcabae');
-  assert.equal(approval.expected_parent_run_id,store.report.current_run_id);
-  assert.equal(approval.expected_parent_canonical_sha256,store.report.canonical_sha256);
+  assert.equal(approval.expected_parent_run_id,b95);
+  assert.equal(approval.expected_parent_canonical_sha256,b95Sha);
+  assert.equal(approval.candidate_run_id,b96);
+  assert.equal(approval.expected_resulting_canonical_sha256,b96Sha);
   assert.equal(approval.candidate_run_id,candidatePolicy.candidate_run_id);
   assert.equal(approval.expected_parent_run_id,candidatePolicy.expected_parent_run_id);
   assert.deepEqual(approval.scope_modules,candidatePolicy.scope_modules);
   assert.equal(approval.expected_operation_count,candidatePolicy.expected.operation_count);
   assert.equal(approval.expected_source_append_count,candidatePolicy.expected.source_append_count);
-  assert.equal(fs.existsSync(`${root}/data/runs/${approval.candidate_run_id}.json`),false);
+
+  assert.ok([b95,b96].includes(store.report.current_run_id),`unsupported B96 authorization lifecycle tip ${store.report.current_run_id}`);
+  if(store.report.current_run_id===b95){
+    assert.equal(store.report.canonical_sha256,b95Sha);
+    assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),false);
+  }else{
+    assert.equal(store.report.current_run_id,b96);
+    assert.equal(store.report.canonical_sha256,b96Sha);
+    assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),true);
+    const entry=store.manifest.runs.find(item=>item.run_id===b96);
+    assert.ok(entry,'persistent B96 manifest entry missing');
+    assert.equal(entry.parent_run_id,b95);
+    assert.equal(entry.parent_canonical_sha256,b95Sha);
+    assert.equal(entry.file_sha256,approval.exact_candidate_file_sha256);
+    assert.equal(entry.canonical_sha256,b96Sha);
+  }
 });
 
 test('review pins the exact v4.5.11 regenerated dry-run hashes and preserves historical no-write provenance',()=>{
   assert.equal(approval.exact_candidate_file_sha256,'3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1');
-  assert.equal(approval.expected_resulting_canonical_sha256,'4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5');
+  assert.equal(approval.expected_resulting_canonical_sha256,b96Sha);
   assert.match(approval.exact_candidate_file_sha256,/^[a-f0-9]{64}$/);
   assert.match(approval.expected_resulting_canonical_sha256,/^[a-f0-9]{64}$/);
   assert.equal(candidatePolicy.safety.safe_to_append,false);
@@ -63,7 +82,7 @@ test('standard append helper enforces active B96 authorization before any write'
   assert.ok(appendRun.indexOf("if(write&&runId===guardedB96)")<appendRun.indexOf('if(write){\n  const manifestPath='));
 });
 
-test('v4.5.10 runtime guard prerequisite remains explicit and B95-inert',()=>{
+test('v4.5.10 runtime guard prerequisite remains explicit as historical B95-inert evidence',()=>{
   assert.match(runtimeGuardDoc,/RUNTIME GUARD INSTALLED \/ PERSISTENT B95 INERT/);
   assert.match(runtimeGuardDoc,/persistent current run remains \*\*B95\*\*/);
   assert.match(runtimeGuardDoc,/next migration stage is a separately reviewed real append of the exact Stage A B96 candidate/i);
