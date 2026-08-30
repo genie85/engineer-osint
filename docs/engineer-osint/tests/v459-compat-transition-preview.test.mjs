@@ -8,7 +8,7 @@ const policy=JSON.parse(fs.readFileSync(new URL('../V459_COMPAT_TRANSITION_POLIC
 const ui42=fs.readFileSync(new URL('../ui-v42-situation-hubs.js',import.meta.url),'utf8');
 const ui43=fs.readFileSync(new URL('../ui-v43-entity-detail.js',import.meta.url),'utf8');
 const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',import.meta.url),'utf8');
-const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact.mjs',import.meta.url),'utf8');
+const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 
 function fixture(){
   const p={policy:'TEST',persistent_tip_required:'B0',stage_a_run_id:'B1',stage_b_run_id:'B2',stage_c_run_id:'B3',expected:{stage_a_operations:1,stage_a_sources:1,native_gaps:1,native_assessments:1,native_evidence:1,native_analytical_total:2}};
