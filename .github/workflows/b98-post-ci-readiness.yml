@@ -42,9 +42,12 @@ jobs:
           node - <<'NODE' >> "$GITHUB_OUTPUT"
           const fs=require('fs');
           const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
-          const run=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const runs=manifest.runs||[];
+          const run=runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const b98Index=runs.findIndex(item=>item.run_id==='engineer-osint-20260830-B98');
           if(run==='engineer-osint-20260830-B97')console.log('phase=PRE_B98');
           else if(run==='engineer-osint-20260830-B98')console.log('phase=POST_B98');
+          else if(b98Index>=0&&runs.length-1>b98Index)console.log('phase=POST_B98_STEADY');
           else throw new Error(`unsupported B98 lifecycle tip ${run}`);
           NODE
 
@@ -157,6 +160,25 @@ jobs:
           console.log('POST_B98_CI_READINESS=PERSISTENT_PASS');
           NODE
 
+      - name: Audit post-B98 steady state and first-three semantic parity
+        if: steps.lifecycle.outputs.phase == 'POST_B98' || steps.lifecycle.outputs.phase == 'POST_B98_STEADY'
+        run: node docs/engineer-osint/audit-post-b98-steady-state.mjs
+
+      - name: Verify post-B98 steady-state evidence
+        if: steps.lifecycle.outputs.phase == 'POST_B98' || steps.lifecycle.outputs.phase == 'POST_B98_STEADY'
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
+          const current=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
+          const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/post-b98-steady-state-audit.json','utf8'));
+          if(audit.status!=='PASS'||audit.current_run_id!==current||audit.historical_b98?.status!=='PASS')throw new Error('post-B98 steady-state identity/integrity failure');
+          if(audit.native_historical_intelligence?.persistent_b97_gaps!==15||audit.native_historical_intelligence?.b98_evidence!==2||audit.native_historical_intelligence?.b98_assessments!==4)throw new Error('post-B98 native historical Intelligence drift');
+          if(audit.guard_short_circuit_count!==3||audit.guarded_first_three_factual_mutation_count!==0||audit.pre_localization_semantic_diff_count!==0||audit.post_localization_semantic_diff_count!==0||audit.public_data_semantic_parity!==true)throw new Error('post-B98 semantic parity failure');
+          if(audit.first_three_ready_for_retirement_review!==true||audit.retirement_authorized!==false||audit.full_browser_retirement_regression_required!==true||audit.identity_fix_in_scope!==false||audit.identity_fix_migration_authorized!==false||audit.canonical_write_performed!==false)throw new Error('post-B98 review safety boundary broadened');
+          console.log(`POST_B98_CI_STEADY_STATE=PASS run=${current}`);
+          NODE
+
       - name: Upload simulated POST_B98 readiness evidence
         if: steps.lifecycle.outputs.phase == 'PRE_B98'
         uses: actions/upload-artifact@v4
@@ -178,4 +200,16 @@ jobs:
           path: |
             docs/engineer-osint-dist/persistent-b98-audit.json
             docs/engineer-osint-dist/persistent-b98-audit.md
+            docs/engineer-osint-dist/post-b98-steady-state-audit.json
+            docs/engineer-osint-dist/post-b98-steady-state-audit.md
+            docs/engineer-osint-dist/health.txt
+
+      - name: Upload post-B98 descendant CI evidence
+        if: steps.lifecycle.outputs.phase == 'POST_B98_STEADY'
+        uses: actions/upload-artifact@v4
+        with:
+          name: b98-post-ci-steady-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            docs/engineer-osint-dist/post-b98-steady-state-audit.json
+            docs/engineer-osint-dist/post-b98-steady-state-audit.md
             docs/engineer-osint-dist/health.txt
