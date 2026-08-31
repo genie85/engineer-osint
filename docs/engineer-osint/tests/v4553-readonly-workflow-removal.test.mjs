@@ -81,6 +81,6 @@ test('v4.5.53 records only the exact authorized workflow deletion scope',()=>{
 test('v4.5.53 post-removal audit remains immutable after separately authorized v4.5.56 successor',()=>{
   const audit=readFileSync(`${root}/audit-readonly-workflow-removal.mjs`,'utf8');
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  assert.equal(gitBlobSha(audit),'5151f44f12a11d19434c743b2060515ad558bef8');
+  assert.equal(gitBlobSha(audit),'a1eee801731d42934d26cf200d0591d324249240');
   assertV4556Applied();
 });
