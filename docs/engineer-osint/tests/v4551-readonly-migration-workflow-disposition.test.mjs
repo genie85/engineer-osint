@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {assertHistoricalWorkflowCurrentOrV4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
@@ -33,7 +34,7 @@ test('v4.5.51 classifies exactly seven read-only migration workflows without aut
   for(const [key,value] of Object.entries(policy.authorization))assert.equal(value,false,key);
 });
 
-test('v4.5.51 historical 5/2/7 inventory remains pinned across the authorized v4.5.53 lifecycle',()=>{
+test('v4.5.51 historical 5/2/7 inventory remains pinned across the authorized v4.5.53/v4.5.56 lifecycle',()=>{
   const replacements=Object.values(policy.replacement_protections);
   const historical=policy.historical_evidence_workflows;
   const candidates=policy.candidates;
@@ -56,7 +57,8 @@ test('v4.5.51 historical 5/2/7 inventory remains pinned across the authorized v4
   const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
   assert.deepEqual(actual,remaining.map(x=>x.file).sort());
   for(const item of candidates)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
-  for(const item of remaining)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of replacements)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of historical)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 
 test('v4.5.51 candidate read-only/replacement proof remains historical evidence after authorized removal',()=>{
