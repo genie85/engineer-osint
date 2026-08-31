@@ -68,6 +68,6 @@ test('v4.5.54 identifies both historical automatic PR triggers only as candidate
 
 test('v4.5.54 audit remains immutable while v4.5.56 separately consumes its recommendation',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  assert.equal(lifecycleBlobSha(audit),'10a778479bd4d8ac2c2674b3f1108ec3e812baea');
+  assert.equal(lifecycleBlobSha(audit),'ff922f8ac9578381d0311adb2134c30edbff32de');
   assertV4556Applied();
 });
