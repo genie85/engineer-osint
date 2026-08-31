@@ -74,6 +74,16 @@ test('v4.5.52 target set exactly equals v4.5.51 classified candidates',()=>{
   assert.ok(v4551.candidates.every(x=>x.disposition==='SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION'));
 });
 
+test('v4.5.52 dependency contract blocks retained/reusable dependencies but allows atomic internal target triggers',()=>{
+  const proof=policy.dependency_proof;
+  assert.equal(proof.candidate_contents_read_count,7);
+  assert.equal(proof.candidate_contents_write_count,0);
+  assert.equal(proof.candidate_workflow_call_count,0);
+  assert.equal(proof.remaining_workflow_candidate_reference_count,0);
+  assert.equal(proof.reusable_uses_dependency_count,0);
+  assert.equal(proof.internal_target_filename_references_are_nonblocking_when_all_targets_deleted_atomically,true);
+});
+
 test('v4.5.52 preserves B99, zero-overlay runtime, and exact post-removal inventory contract',()=>{
   const unchanged=policy.required_unchanged_state;
   assert.equal(unchanged.b99_run_id,'engineer-osint-20260830-B99');
@@ -93,5 +103,5 @@ test('v4.5.52 authorization audit is read-only and passes fail-closed',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
   const output=execFileSync(process.execPath,[`${root}/audit-readonly-workflow-removal-authorization.mjs`],{encoding:'utf8'});
   assert.match(output,/READONLY_WORKFLOW_REMOVAL_AUTHORIZATION=PASS/);
-  assert.match(output,/targets=7 workflows=14 after=7 active=5 historical=2 read=7 write=0 workflow-call=0 cross-refs=0 authorization=exact-all-seven-only b99=engineer-osint-20260830-B99/);
+  assert.match(output,/targets=7 workflows=14 after=7 active=5 historical=2 read=7 write=0 workflow-call=0 remaining-refs=0 reusable-uses=0 internal-target-refs=\d+ authorization=exact-all-seven-only b99=engineer-osint-20260830-B99/);
 });
