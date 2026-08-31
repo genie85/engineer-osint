@@ -1,0 +1,140 @@
+name: ENGINEER OSINT identity-fix retirement authorization
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4545-identity-retirement-authorization
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-retirement-authorization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize-exact-next-slice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reviewed persistent state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate append-only canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build production-style artifact
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Materialize canonical media
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js))throw new Error('unsafe literal </script in media source module');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
+
+      - name: Reproduce persistent B99 and v4.5.44 pre-browser readiness
+        run: |
+          node docs/engineer-osint/audit-persistent-b99-identity.mjs
+          node docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs
+          git diff --exit-code -- docs/engineer-osint/data
+
+      - name: Reproduce v4.5.44 browser parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$browser"
+          active="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4544-identity-active.html"
+          retired="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4544-identity-retired-simulated.html"
+          for pair in "active:$active" "retired:$retired"; do
+            key="${pair%%:*}"; path="${pair#*:}"
+            "$browser" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --allow-file-access-from-files --virtual-time-budget=5000 --dump-dom "file://${path}" > "/tmp/v4545-${key}-dom.html"
+            test -s "/tmp/v4545-${key}-dom.html"
+            grep -q 'ENGINEER OSINT' "/tmp/v4545-${key}-dom.html"
+          done
+          grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/v4545-active-dom.html
+          ! grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/v4545-retired-dom.html
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, html
+          bilingual=re.compile(
+              r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
+              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',re.I)
+          def canon(m):
+              text=html.unescape(m.group('text')).strip(); cs=html.unescape(m.group('cs')).strip(); en=html.unescape(m.group('en')).strip()
+              return m.group('open')+m.group('cs')+m.group('close') if text in {cs,en} else m.group(0)
+          def norm(path):
+              s=Path(path).read_text(errors='replace')
+              s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
+              s=bilingual.sub(canon,s)
+              return re.sub(r'\s+',' ',s).strip()
+          a=norm('/tmp/v4545-active-dom.html'); b=norm('/tmp/v4545-retired-dom.html')
+          if a!=b: raise SystemExit('V4545_BROWSER_PARITY: normalized DOM differs')
+          digest=hashlib.sha256(a.encode()).hexdigest()
+          expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'
+          if digest!=expected: raise SystemExit(f'V4545_BROWSER_PARITY: digest drift {digest}')
+          Path('/tmp/v4545-browser-parity.txt').write_text(f'PASS sha256={digest}\n')
+          print(f'V4545_BROWSER_PARITY=PASS sha256={digest}')
+          PY
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json';
+          const a=JSON.parse(fs.readFileSync(p,'utf8'));
+          a.browser_normalized_dom_parity=true;
+          a.browser_parity_evidence_pending=false;
+          a.ready_for_separate_retirement_authorization_review=true;
+          fs.writeFileSync(p,JSON.stringify(a,null,2)+'\n');
+          NODE
+
+      - name: Audit exact retirement authorization
+        run: |
+          node docs/engineer-osint/audit-identity-fix-retirement-authorization.mjs
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const a=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-retirement-authorization-audit.json','utf8'));
+          if(a.status!=='PASS'||a.readiness_reproduced!==true||a.authorization?.exact_identity_fix_retirement_slice_authorized!==true)throw new Error('v4.5.45 authorization audit mismatch');
+          if(a.retirement_performed!==false||a.canonical_write_performed!==false||a.run_store_manifest_edit_performed!==false)throw new Error('v4.5.45 performed unauthorized mutation');
+          if(a.authorization.source_file_deletion_authorized!==false||a.authorization.transition_guard_removal_authorized!==false||a.authorization.other_runtime_module_removal_authorized!==false||a.authorization.canonical_data_edit_authorized!==false||a.authorization.run_store_manifest_edit_authorized!==false||a.authorization.run_append_authorized!==false)throw new Error('v4.5.45 authorization scope broadened');
+          console.log('V4545_EXACT_RETIREMENT_AUTHORIZATION=PASS_NO_RETIREMENT_PERFORMED');
+          NODE
+
+      - name: Upload authorization evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-retirement-authorization-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            docs/engineer-osint-dist/identity-fix-retirement-authorization-audit.json
+            docs/engineer-osint-dist/identity-fix-retirement-authorization-audit.md
+            docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.json
+            /tmp/v4545-active-dom.html
+            /tmp/v4545-retired-dom.html
+            /tmp/v4545-browser-parity.txt
+            docs/engineer-osint-dist/health.txt
