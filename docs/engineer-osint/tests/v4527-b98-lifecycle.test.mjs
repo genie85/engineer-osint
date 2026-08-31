@@ -87,12 +87,18 @@ test('v4.5.27 keeps Pages lifecycle gate ahead of PUBLIC-CZ and final verificati
   assert.ok(persistent>0&&gate>persistent&&publicCz>gate&&finalVerify>publicCz);
 });
 
-test('v4.5.27 makes historical B98 tests lifecycle-aware instead of requiring permanent absence',()=>{
+test('v4.5.27 historical B98 tests preserve exact anchors and permit only append-only descendants',()=>{
   for(const source of [old24,old25,old26]){
     assert.match(source,/engineer-osint-20260830-B97/);
     assert.match(source,/engineer-osint-20260830-B98/);
-    assert.match(source,/unexpected B98 lifecycle tip/);
+    assert.match(source,/const b98Index=manifest\.runs\.findIndex\(item=>item\.run_id===b98Id\)/);
+    assert.match(source,/for\(let i=b98Index\+1;i<manifest\.runs\.length;i\+\+\)/);
+    assert.match(source,/descendant\.parent_run_id,parent\.run_id/);
+    assert.match(source,/descendant\.parent_canonical_sha256,parent\.canonical_sha256/);
+    assert.doesNotMatch(source,/unexpected B98 lifecycle tip/);
   }
+  assert.match(old24,/ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79/);
+  assert.match(old24,/4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201/);
   assert.match(old25,/exact_candidate_file_sha256/);
   assert.match(old26,/authorization\.exact_candidate_file_sha256/);
 });

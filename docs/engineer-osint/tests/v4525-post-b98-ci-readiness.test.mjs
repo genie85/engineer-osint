@@ -15,22 +15,39 @@ const pagesGate=readFileSync(`${root}/verify-post-b98-pages-readiness.mjs`,'utf8
 const attestation=readFileSync(`${root}/data/attestations/engineer-osint-20260830-B98-media-omission.md`,'utf8');
 const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
-const b98Path=`${root}/data/runs/engineer-osint-20260830-B98.json`;
+const b97Id='engineer-osint-20260830-B97';
+const b98Id='engineer-osint-20260830-B98';
+const b98Path=`${root}/data/runs/${b98Id}.json`;
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 
 const assertLifecyclePresence=()=>{
-  if(currentRun==='engineer-osint-20260830-B97')assert.equal(existsSync(b98Path),false);
-  else if(currentRun==='engineer-osint-20260830-B98'){
-    assert.equal(existsSync(b98Path),true);
-    assert.equal(sha256(readFileSync(b98Path,'utf8')),policy.exact_candidate_file_sha256);
-  }else assert.fail(`unexpected B98 lifecycle tip ${currentRun}`);
+  const b98Index=manifest.runs.findIndex(item=>item.run_id===b98Id);
+  if(currentRun===b97Id){
+    assert.equal(b98Index,-1);
+    assert.equal(existsSync(b98Path),false);
+    return;
+  }
+  assert.ok(b98Index>=0,'historical B98 manifest entry missing under later lifecycle tip');
+  assert.equal(existsSync(b98Path),true);
+  assert.equal(sha256(readFileSync(b98Path,'utf8')),policy.exact_candidate_file_sha256);
+  const b98Entry=manifest.runs[b98Index];
+  assert.equal(b98Entry.parent_run_id,b97Id);
+  assert.equal(b98Entry.parent_canonical_sha256,policy.expected_parent_canonical_sha256);
+  assert.equal(b98Entry.file_sha256,policy.exact_candidate_file_sha256);
+  assert.equal(b98Entry.canonical_sha256,policy.expected_resulting_canonical_sha256);
+  for(let i=b98Index+1;i<manifest.runs.length;i++){
+    const parent=manifest.runs[i-1];
+    const descendant=manifest.runs[i];
+    assert.equal(descendant.parent_run_id,parent.run_id,`post-B98 descendant ${descendant.run_id} parent drift`);
+    assert.equal(descendant.parent_canonical_sha256,parent.canonical_sha256,`post-B98 descendant ${descendant.run_id} parent canonical SHA drift`);
+  }
 };
 
 test('v4.5.25 pins exact historical B98 no-write hashes and scope',()=>{
   assert.equal(policy.schema_version,'engineer-osint-b98-post-ci-readiness-v1');
   assert.equal(policy.status,'BLOCKED_PENDING_POST_B98_CI_READINESS');
-  assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B98');
-  assert.equal(policy.expected_parent_run_id,'engineer-osint-20260830-B97');
+  assert.equal(policy.candidate_run_id,b98Id);
+  assert.equal(policy.expected_parent_run_id,b97Id);
   assert.equal(policy.expected_parent_canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
   assert.equal(policy.exact_candidate_file_sha256,'ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79');
   assert.equal(policy.expected_resulting_canonical_sha256,'4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201');
@@ -45,11 +62,11 @@ test('v4.5.25 pins exact historical B98 no-write hashes and scope',()=>{
 
 test('B98 media attestation is exact, one-run and assessment-migration-only',()=>{
   validateMediaSweepExceptionRegistry(registry);
-  const entry=registry.exceptions.find(item=>item.run_id==='engineer-osint-20260830-B98');
+  const entry=registry.exceptions.find(item=>item.run_id===b98Id);
   assert.ok(entry);
-  assert.equal(registry.exceptions.filter(item=>item.run_id==='engineer-osint-20260830-B98').length,1);
+  assert.equal(registry.exceptions.filter(item=>item.run_id===b98Id).length,1);
   assert.equal(entry.exception_id,'MEDIA-SWEEP-ATTEST-B98-INTELLIGENCE-MIGRATION');
-  assert.equal(entry.parent_run_id,'engineer-osint-20260830-B97');
+  assert.equal(entry.parent_run_id,b97Id);
   assert.equal(entry.attestation_basis,'REPOSITORY_REVIEWED_MIGRATION');
   assert.equal(entry.attestation_reference,'V4524_B98_READINESS+V4525_B98_POST_CI_READINESS');
   assert.equal(entry.waiver_scope,'INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION');

@@ -32,7 +32,6 @@ test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across 
   assert.equal(approval.expected_operation_count,candidatePolicy.expected.operation_count);
   assert.equal(approval.expected_source_append_count,candidatePolicy.expected.source_append_count);
 
-  assert.ok([b95,b96,b97,b98].includes(store.report.current_run_id),`unsupported B96 authorization lifecycle tip ${store.report.current_run_id}`);
   if(store.report.current_run_id===b95){
     assert.equal(store.report.canonical_sha256,b95Sha);
     assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),false);
@@ -40,8 +39,9 @@ test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across 
   }
 
   assert.equal(fs.existsSync(`${root}/data/runs/${b96}.json`),true);
-  const entry=store.manifest.runs.find(item=>item.run_id===b96);
-  assert.ok(entry,'persistent B96 manifest entry missing');
+  const b96Index=store.manifest.runs.findIndex(item=>item.run_id===b96);
+  const entry=store.manifest.runs[b96Index];
+  assert.ok(b96Index>=0&&entry,'persistent B96 manifest entry missing');
   assert.equal(entry.parent_run_id,b95);
   assert.equal(entry.parent_canonical_sha256,b95Sha);
   assert.equal(entry.file_sha256,approval.exact_candidate_file_sha256);
@@ -52,21 +52,37 @@ test('v4.5.11 B96 review stays pinned to the exact historical B95 parent across 
     return;
   }
 
-  const b97Entry=store.manifest.runs.find(item=>item.run_id===b97);
-  assert.ok(b97Entry,'later B97 manifest entry missing');
+  const b97Index=store.manifest.runs.findIndex(item=>item.run_id===b97);
+  const b97Entry=store.manifest.runs[b97Index];
+  assert.ok(b97Index>b96Index&&b97Entry,'later B97 manifest entry missing or out of order');
   assert.equal(b97Entry.parent_run_id,b96);
   assert.equal(b97Entry.parent_canonical_sha256,b96Sha);
+  assert.equal(b97Entry.canonical_sha256,b97Sha);
   if(store.report.current_run_id===b97){
     assert.equal(store.report.canonical_sha256,b97Sha);
     return;
   }
 
-  assert.equal(store.report.current_run_id,b98);
-  assert.equal(store.report.canonical_sha256,b98Sha);
-  const b98Entry=store.manifest.runs.find(item=>item.run_id===b98);
-  assert.ok(b98Entry,'later B98 manifest entry missing');
+  const b98Index=store.manifest.runs.findIndex(item=>item.run_id===b98);
+  const b98Entry=store.manifest.runs[b98Index];
+  assert.ok(b98Index>b97Index&&b98Entry,'later B98 manifest entry missing or out of order');
   assert.equal(b98Entry.parent_run_id,b97);
   assert.equal(b98Entry.parent_canonical_sha256,b97Sha);
+  assert.equal(b98Entry.canonical_sha256,b98Sha);
+  if(store.report.current_run_id===b98){
+    assert.equal(store.report.canonical_sha256,b98Sha);
+    return;
+  }
+
+  for(let i=b98Index+1;i<store.manifest.runs.length;i++){
+    const parent=store.manifest.runs[i-1];
+    const descendant=store.manifest.runs[i];
+    assert.equal(descendant.parent_run_id,parent.run_id,`post-B98 descendant ${descendant.run_id} parent drift`);
+    assert.equal(descendant.parent_canonical_sha256,parent.canonical_sha256,`post-B98 descendant ${descendant.run_id} parent canonical SHA drift`);
+  }
+  const current=store.manifest.runs.at(-1);
+  assert.equal(store.report.current_run_id,current.run_id);
+  assert.equal(store.report.canonical_sha256,current.canonical_sha256);
 });
 
 test('review pins the exact v4.5.11 regenerated dry-run hashes and preserves historical no-write provenance',()=>{

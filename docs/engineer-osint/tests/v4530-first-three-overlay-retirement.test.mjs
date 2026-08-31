@@ -12,14 +12,17 @@ const dispatcher=readFileSync(`${root}/audit-post-b98-steady-state.mjs`,'utf8');
 const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const firstThree=['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js'];
 const firstThreeIds=['engineer-rich-backfill-module','engineer-rich-backfill-israel-turkiye-eod-module','engineer-rich-backfill-usa-rok-module'];
+const b98Id='engineer-osint-20260830-B98';
+const b98FileSha='ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79';
+const b98CanonicalSha='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201';
 
 test('v4.5.30 authorization is exact, no-canonical-write and identity-fix excluded',()=>{
   assert.equal(policy.schema_version,'engineer-osint-first-three-overlay-retirement-v1');
   assert.equal(policy.status,'READY_FOR_RETIREMENT');
   assert.equal(policy.reviewed_against_main_commit,'7f7d08867052716d95ba75472afbafdcee4484ef');
-  assert.equal(policy.historical_b98_run_id,'engineer-osint-20260830-B98');
-  assert.equal(policy.historical_b98_file_sha256,'ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79');
-  assert.equal(policy.historical_b98_canonical_sha256,'4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201');
+  assert.equal(policy.historical_b98_run_id,b98Id);
+  assert.equal(policy.historical_b98_file_sha256,b98FileSha);
+  assert.equal(policy.historical_b98_canonical_sha256,b98CanonicalSha);
   assert.equal(policy.pre_retirement_public_data_sha256,'3633ba18cc69e06bdc72ca574157d901da5b43644993b4c8760e6302b728460f');
   assert.deepEqual(policy.retired_modules.map(item=>item.file),firstThree);
   assert.equal(policy.authorization.allow_canonical_run_append,false);
@@ -88,9 +91,16 @@ test('v4.5.29 dispatcher preserves historical proof and delegates retired curren
   assert.match(dispatcher,/POST_RETIREMENT_COMPATIBILITY/);
 });
 
-test('retirement slice does not modify canonical run-store lineage',()=>{
-  const current=manifest.runs.at(-1);
-  assert.equal(current.run_id,'engineer-osint-20260830-B98');
-  assert.equal(current.file_sha256,'ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79');
-  assert.equal(current.canonical_sha256,'4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201');
+test('retirement slice preserves the exact historical B98 anchor under append-only descendants',()=>{
+  const b98Index=manifest.runs.findIndex(item=>item.run_id===b98Id);
+  assert.ok(b98Index>=0,'historical B98 retirement anchor missing');
+  const b98Entry=manifest.runs[b98Index];
+  assert.equal(b98Entry.file_sha256,b98FileSha);
+  assert.equal(b98Entry.canonical_sha256,b98CanonicalSha);
+  for(let i=b98Index+1;i<manifest.runs.length;i++){
+    const parent=manifest.runs[i-1];
+    const descendant=manifest.runs[i];
+    assert.equal(descendant.parent_run_id,parent.run_id,`post-B98 descendant ${descendant.run_id} parent drift`);
+    assert.equal(descendant.parent_canonical_sha256,parent.canonical_sha256,`post-B98 descendant ${descendant.run_id} parent canonical SHA drift`);
+  }
 });
