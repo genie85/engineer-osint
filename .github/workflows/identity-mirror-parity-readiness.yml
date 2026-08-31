@@ -142,8 +142,12 @@ jobs:
           git diff --exit-code -- docs/engineer-osint/data
           node - <<'NODE'
           const fs=require('fs');const a=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
-          if(a.status!=='PASS'||a.mirror_sync_request_count!==1||a.mirror_sync_target_id!=='ENG-TECH-0036'||a.mirror_sync_field_count!==18||a.identity_overlay_residual_mutations!==0)throw new Error('POST_B99 mirror lifecycle mismatch');
-          if(a.identity_fix_runtime_active!==true||a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.canonical_write_performed!==false)throw new Error('POST_B99 mirror safety boundary broadened');
+          if(a.status!=='PASS'||a.mirror_sync_request_count!==1||a.mirror_sync_target_id!=='ENG-TECH-0036'||a.mirror_sync_field_count!==18||a.identity_overlay_residual_mutations!==0||a.b99_append_authorized!==false||a.canonical_write_performed!==false)throw new Error('POST_B99 mirror lifecycle mismatch');
+          const active=a.identity_fix_runtime_active===true&&a.identity_fix_runtime_retired===false;
+          const retired=a.identity_fix_runtime_active===false&&a.identity_fix_runtime_retired===true;
+          if(!active&&!retired)throw new Error('POST_B99 mirror identity lifecycle mismatch');
+          if(active&&(a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.identity_retirement_validated!==false))throw new Error('active POST_B99 mirror safety boundary broadened');
+          if(retired&&(a.identity_fix_runtime_removal_authorized!==true||a.identity_overlay_retirement_authorized!==true||a.identity_retirement_validated!==true||a.identity_fix_source_retained!==true||a.transition_guard_runtime_active!==true))throw new Error('retired POST_B99 mirror lifecycle not authorized/validated');
           NODE
       - name: Upload mirror parity evidence
         if: always()
