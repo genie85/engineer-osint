@@ -4,7 +4,7 @@ import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
-const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98';
+const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99';
 if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write]');
 const raw=readFileSync(input,'utf8'),patch=parseJsonStrict(raw,{source:input});
 validatePatchOperations(patch);
@@ -73,6 +73,33 @@ if(write&&runId===guardedB98){
   if(patch.continuity?.overlay_retirement_authorized!==false)throw new Error('B98 append candidate may not authorize overlay retirement');
   if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true)throw new Error('B98 append authorization is incomplete');
   if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_overlay_retirement!==false||authorization.authorization?.allow_identity_fix_migration!==false)throw new Error('B98 append authorization scope is unsafe');
+}
+
+if(write&&runId===guardedB99){
+  const authorizationPath=join(source,'V4540_B99_APPEND_AUTHORIZATION.json');
+  const authorization=parseJsonStrict(readFileSync(authorizationPath,'utf8'),{source:'B99 append authorization'});
+  if(authorization.schema_version!=='engineer-osint-b99-append-authorization-v1')throw new Error('B99 append authorization schema mismatch');
+  if(authorization.status!=='READY_FOR_APPEND')throw new Error(`B99 append blocked by authorization status ${authorization.status}`);
+  if(authorization.required_preconditions?.v4536_exact_candidate_reviewed!==true||authorization.required_preconditions?.v4537_post_b99_lifecycle_ready!==true||authorization.required_preconditions?.v4538_pages_b99_gate_ready!==true||authorization.required_preconditions?.v4539_b99_media_attestation_ready!==true||authorization.required_preconditions?.current_main_push_checks_green!==true)throw new Error('B99 append blocked: reviewed candidate/lifecycle/Pages/media/current-main evidence is incomplete');
+  if(authorization.required_preconditions?.identity_fix_runtime_must_remain_active!==true||authorization.required_preconditions?.expected_identity_overlay_residual_after_append!==0)throw new Error('B99 append blocked: identity overlay safety preconditions drifted');
+  if(authorization.candidate_run_id!==runId||authorization.expected_parent_run_id!==entry.parent_run_id)throw new Error('B99 append authorization identity mismatch');
+  if(authorization.expected_parent_canonical_sha256!==entry.parent_canonical_sha256)throw new Error('B99 append authorization parent canonical SHA mismatch');
+  if(authorization.exact_candidate_file_sha256!==entry.file_sha256)throw new Error('B99 append candidate file SHA differs from reviewed authorization');
+  if(authorization.expected_resulting_canonical_sha256!==entry.canonical_sha256)throw new Error('B99 append resulting canonical SHA differs from reviewed authorization');
+  const operations=patch.extensions?.operations_v1||[];
+  if(operations.length!==authorization.expected_operation_count)throw new Error('B99 append operation count mismatch');
+  if(operations.filter(item=>item.op==='REPLACE_FIELD').length!==authorization.expected_replace_field_count)throw new Error('B99 append REPLACE_FIELD count mismatch');
+  if(operations.filter(item=>item.op==='REMOVE_FIELD').length!==authorization.expected_remove_field_count)throw new Error('B99 append REMOVE_FIELD count mismatch');
+  const mirrorSync=patch.extensions?.legacy_mirror_sync_v1?.updated_records||[];
+  if(mirrorSync.length!==authorization.expected_mirror_sync_request_count)throw new Error('B99 append mirror sync request count mismatch');
+  if(mirrorSync[0]?.target_id!==authorization.expected_mirror_sync_target_id)throw new Error('B99 append mirror sync target mismatch');
+  if(JSON.stringify(mirrorSync[0]?.fields)!==JSON.stringify(authorization.expected_mirror_sync_fields))throw new Error('B99 append mirror sync exact field scope mismatch');
+  const mediaRegistry=parseJsonStrict(readFileSync(join(source,'media-sweep-status-exceptions.json'),'utf8'),{source:'media-sweep exception registry'});
+  const mediaException=mediaRegistry.exceptions?.find(item=>item.exception_id===authorization.media_attestation?.exception_id);
+  if(!mediaException||mediaException.run_id!==runId||mediaException.repository_file_sha256!==entry.file_sha256||mediaException.repository_canonical_sha256!==entry.canonical_sha256||mediaException.report_text_sha256!==authorization.media_attestation?.report_text_sha256||mediaException.resolved_status!==authorization.media_attestation?.resolved_status)throw new Error('B99 append media attestation mismatch');
+  if(patch.continuity?.identity_fix_runtime_removal_authorized!==false)throw new Error('B99 append candidate may not authorize identity-fix runtime removal');
+  if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true)throw new Error('B99 append authorization is incomplete');
+  if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_identity_fix_runtime_removal!==false||authorization.authorization?.allow_identity_overlay_retirement!==false||authorization.authorization?.allow_other_runtime_module_removal!==false)throw new Error('B99 append authorization scope is unsafe');
 }
 
 if(write){
