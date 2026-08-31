@@ -1,11 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4534_IDENTITY_MIRROR_PARITY_READINESS.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-identity-mirror-parity-readiness.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/identity-mirror-parity-readiness.yml','utf8');
+const workflowPath='.github/workflows/identity-mirror-parity-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'identity mirror parity workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='identity-mirror-parity-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'f30ff955539d510bc78131c5a7ce1b4ba8d26e0f');
+};
 
 test('v4.5.34 keeps exact B99 identity hashes and mirror target pinned',()=>{
   assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B99');
@@ -33,6 +41,7 @@ test('v4.5.34 requires mirror synchronization rather than mirror removal',()=>{
 });
 
 test('v4.5.34 browser gate compares overlay-active B99 with synchronized mirror and no identity overlay',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.match(workflow,/v4534-b99-identity-active\.html/);
   assert.match(workflow,/v4534-b99-mirror-synced-no-identity\.html/);
   assert.match(workflow,/HEADLESS_IDENTITY_MIRROR_PARITY=PASS/);
@@ -44,6 +53,7 @@ test('v4.5.34 browser gate compares overlay-active B99 with synchronized mirror 
 });
 
 test('v4.5.34 browser parity normalizes only an explicit bilingual label race',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.ok(workflow.includes('bilingual=re.compile('));
   assert.ok(workflow.includes('data-label-cs='));
   assert.ok(workflow.includes('data-label-en='));
