@@ -1,0 +1,165 @@
+name: ENGINEER OSINT identity-fix retirement readiness
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4544-identity-retirement-readiness
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-retirement-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout persistent B99 state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate append-only canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build production-style artifact
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Materialize canonical media
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js)) throw new Error('unsafe literal </script in media source module');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
+
+      - name: Audit persistent B99 identity baseline
+        run: node docs/engineer-osint/audit-persistent-b99-identity.mjs
+
+      - name: Build fail-closed identity retirement readiness evidence
+        run: node docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs
+
+      - name: Verify pre-browser readiness safety boundary
+        run: |
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json';
+          const a=JSON.parse(fs.readFileSync(p,'utf8'));
+          if(a.status!=='PASS'||a.identity_overlay_residual_mutations!==0||a.other_public_runtime_sentinel_consumer_count!==0)throw new Error('identity retirement pre-browser evidence mismatch');
+          if(a.active_legacy_factual_module_count!==1||a.identity_fix_runtime_active!==true||a.built_identity_script_count!==1||a.simulated_no_identity_script_count!==0)throw new Error('identity retirement runtime scope mismatch');
+          if(a.browser_normalized_dom_parity!==null||a.browser_parity_evidence_pending!==true||a.ready_for_separate_retirement_authorization_review!==false)throw new Error('browser readiness state broadened before browser proof');
+          for(const key of ['canonical_write_performed','run_store_manifest_edit_performed','identity_fix_runtime_removal_authorized','identity_overlay_retirement_authorized','runtime_manifest_edit_authorized','identity_fix_file_deletion_authorized','legacy_baseline_edit_authorized'])if(a[key]!==false)throw new Error(`identity retirement safety boundary broadened: ${key}`);
+          NODE
+
+      - name: Headless browser active vs simulated retired parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$browser"
+          active="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4544-identity-active.html"
+          retired="${GITHUB_WORKSPACE}/docs/engineer-osint-dist/v4544-identity-retired-simulated.html"
+          for pair in "active:$active" "retired:$retired"; do
+            key="${pair%%:*}"; path="${pair#*:}"
+            "$browser" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --allow-file-access-from-files --virtual-time-budget=5000 --dump-dom "file://${path}" > "/tmp/v4544-${key}-dom.html"
+            test -s "/tmp/v4544-${key}-dom.html"
+            grep -qi '<html' "/tmp/v4544-${key}-dom.html"
+            grep -q 'ENGINEER OSINT' "/tmp/v4544-${key}-dom.html"
+          done
+          grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/v4544-active-dom.html
+          ! grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/v4544-retired-dom.html
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, html
+          bilingual=re.compile(
+              r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
+              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',
+              re.I
+          )
+          def canonicalize_bilingual_label(match):
+              text=html.unescape(match.group('text')).strip()
+              cs=html.unescape(match.group('cs')).strip()
+              en=html.unescape(match.group('en')).strip()
+              if text not in {cs,en}:
+                  return match.group(0)
+              return match.group('open')+match.group('cs')+match.group('close')
+          def norm(path):
+              s=Path(path).read_text(errors='replace')
+              s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
+              s=bilingual.sub(canonicalize_bilingual_label,s)
+              s=re.sub(r'\s+',' ',s).strip()
+              return s
+          active=norm('/tmp/v4544-active-dom.html')
+          retired=norm('/tmp/v4544-retired-dom.html')
+          Path('/tmp/v4544-active-normalized.html').write_text(active)
+          Path('/tmp/v4544-retired-normalized.html').write_text(retired)
+          if active!=retired:
+              limit=min(len(active),len(retired))
+              idx=next((i for i in range(limit) if active[i]!=retired[i]),limit)
+              lo=max(0,idx-500); hi=idx+1000
+              diag=f'FIRST_DIFF_INDEX={idx}\nACTIVE_CONTEXT={active[lo:hi]}\nRETIRED_CONTEXT={retired[lo:hi]}\n'
+              Path('/tmp/v4544-browser-parity.txt').write_text('FAIL\n'+diag)
+              print(diag)
+              raise SystemExit('HEADLESS_IDENTITY_RETIREMENT_PARITY: normalized DOM differs')
+          digest=hashlib.sha256(active.encode()).hexdigest()
+          Path('/tmp/v4544-browser-parity.txt').write_text(f'PASS sha256={digest}\n')
+          print(f'HEADLESS_IDENTITY_RETIREMENT_PARITY=PASS sha256={digest}')
+          PY
+
+      - name: Mark readiness evidence browser-complete without authorizing retirement
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json';
+          const a=JSON.parse(fs.readFileSync(p,'utf8'));
+          a.browser_normalized_dom_parity=true;
+          a.browser_parity_evidence_pending=false;
+          a.ready_for_separate_retirement_authorization_review=true;
+          if(a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.runtime_manifest_edit_authorized!==false||a.identity_fix_file_deletion_authorized!==false||a.legacy_baseline_edit_authorized!==false)throw new Error('browser completion broadened retirement authorization');
+          fs.writeFileSync(p,JSON.stringify(a,null,2)+'\n');
+          fs.appendFileSync('docs/engineer-osint-dist/health.txt','identity_fix_retirement_browser_parity=pass\nidentity_fix_retirement_ready_for_separate_authorization_review=1\nidentity_fix_retirement_authorized=0\n');
+          console.log('IDENTITY_FIX_RETIREMENT_READINESS=PASS_NO_AUTHORIZATION');
+          NODE
+
+      - name: Upload retirement readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-retirement-readiness-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json
+            docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.md
+            docs/engineer-osint-dist/persistent-b99-identity-audit.json
+            docs/engineer-osint-dist/v4544-identity-active.html
+            docs/engineer-osint-dist/v4544-identity-retired-simulated.html
+            /tmp/v4544-active-dom.html
+            /tmp/v4544-retired-dom.html
+            /tmp/v4544-active-normalized.html
+            /tmp/v4544-retired-normalized.html
+            /tmp/v4544-browser-parity.txt
+            docs/engineer-osint-dist/health.txt

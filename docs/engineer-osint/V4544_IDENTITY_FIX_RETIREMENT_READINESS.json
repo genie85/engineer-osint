@@ -1,0 +1,31 @@
+{
+  "schema_version": "engineer-osint-identity-fix-retirement-readiness-v1",
+  "status": "READINESS_ONLY_NO_RETIREMENT_AUTHORIZATION",
+  "reviewed_baseline_main_sha": "e1a5ba07aaeeb0559df67a3cddc3f758f04c1e57",
+  "required_persistent_run_id": "engineer-osint-20260830-B99",
+  "required_b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+  "required_b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+  "identity_fix": {
+    "file": "data-integrity-identity-fixes.js",
+    "runtime_id": "engineer-data-integrity-identity-fixes-module",
+    "git_blob_sha": "7dd9ae912cdc76159b3c180a6a015054603c0db5",
+    "sentinel": "__ENGINEER_DATA_IDENTITY_FIX_20260822__"
+  },
+  "expected": {
+    "active_legacy_factual_module_count": 1,
+    "identity_overlay_residual_mutations": 0,
+    "other_public_runtime_sentinel_consumer_count": 0,
+    "built_identity_script_count": 1,
+    "simulated_no_identity_script_count": 0,
+    "browser_normalized_dom_parity": true
+  },
+  "safety": {
+    "canonical_write_performed": false,
+    "run_store_manifest_edit_performed": false,
+    "identity_fix_runtime_removal_authorized": false,
+    "identity_overlay_retirement_authorized": false,
+    "runtime_manifest_edit_authorized": false,
+    "identity_fix_file_deletion_authorized": false,
+    "legacy_baseline_edit_authorized": false
+  }
+}
