@@ -1,20 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const pre=readFileSync(`${root}/verify-pages-artifact-pre-b98.mjs`,'utf8');
 const wrapper=readFileSync(`${root}/verify-pages-artifact.mjs`,'utf8');
 const persistentB98=readFileSync(`${root}/audit-persistent-b98.mjs`,'utf8');
-const b97Readiness=readFileSync('.github/workflows/b97-readiness.yml','utf8');
-const readiness=readFileSync('.github/workflows/b98-readiness.yml','utf8');
-const postCi=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8');
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
 const old24=readFileSync(`${root}/tests/v4524-b98-readiness.test.mjs`,'utf8');
 const old25=readFileSync(`${root}/tests/v4525-post-b98-ci-readiness.test.mjs`,'utf8');
 const old26=readFileSync(`${root}/tests/v4526-b98-activation.test.mjs`,'utf8');
-
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const specs={
+  b97:['.github/workflows/b97-readiness.yml','b97-readiness.yml','054ae37c1d57352057c817784c962968011b5409'],
+  b98:['.github/workflows/b98-readiness.yml','b98-readiness.yml','df6851c3985373e2f8a92a4af6516af8c38ca1c2'],
+  post:['.github/workflows/b98-post-ci-readiness.yml','b98-post-ci-readiness.yml','d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a']
+};
+const load=key=>existsSync(specs[key][0])?readFileSync(specs[key][0],'utf8'):null;
+const b97Readiness=load('b97'),readiness=load('b98'),postCi=load('post');
+const assertHistoricalWorkflow=key=>{
+  const [,file,blob]=specs[key];
+  assert.ok(v4553,`${file} missing without v4.5.53 removal evidence`);
+  const removed=v4553.removed_targets.find(x=>x.file===file);
+  assert.ok(removed,file);
+  assert.equal(removed.git_blob_sha,blob,file);
+};
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 
 test('v4.5.27 preserves the complete pre-B98 final Pages verifier byte-identically',()=>{
@@ -52,7 +63,8 @@ test('v4.5.28 final Pages health markers exactly match the persistent B98 audit 
   assert.doesNotMatch(wrapper,/persistent_b98_native_gaps=/);
 });
 
-test('v4.5.27 keeps the required B97 readiness workflow green after exact B98 publication',()=>{
+test('v4.5.27 historical B97 readiness contract remains pinned after authorized workflow retirement',()=>{
+  if(!b97Readiness){assertHistoricalWorkflow('b97');return;}
   assert.match(b97Readiness,/current==='engineer-osint-20260830-B98'\)console\.log\('POST_B98'\)/);
   assert.match(b97Readiness,/Verify historical B97 lineage under persistent B98/);
   assert.match(b97Readiness,/HISTORICAL_B97_UNDER_PERSISTENT_B98/);
@@ -61,8 +73,9 @@ test('v4.5.27 keeps the required B97 readiness workflow green after exact B98 pu
   assert.doesNotMatch(b97Readiness,/append-run\.mjs[^\n]*--write/);
 });
 
-for(const [name,workflow] of [['B98 readiness',readiness],['B98 post-CI',postCi]]){
-  test(`v4.5.27 ${name} workflow has symmetric PRE_B98 and POST_B98 lifecycle paths`,()=>{
+for(const [name,key,workflow] of [['B98 readiness','b98',readiness],['B98 post-CI','post',postCi]]){
+  test(`v4.5.27 ${name} historical workflow lifecycle remains pinned`,()=>{
+    if(!workflow){assertHistoricalWorkflow(key);return;}
     assert.match(workflow,/Detect B98 lifecycle phase/);
     assert.match(workflow,/phase=PRE_B98/);
     assert.match(workflow,/phase=POST_B98/);
