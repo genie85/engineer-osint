@@ -1,0 +1,188 @@
+{
+  "schema_version": "engineer-osint-migration-workflow-classification-v1",
+  "status": "CLASSIFIED_NO_REMOVAL_AUTHORIZED",
+  "reviewed_main_sha": "8c8b527ec4642539bb9966fee6cc804cee61f36a",
+  "inventory_scope": ".github/workflows/*.yml",
+  "inventory_count": 18,
+  "classification_counts": {
+    "ACTIVE_PRODUCTION_PROTECTION": 5,
+    "HISTORICAL_EVIDENCE_KEEP": 2,
+    "REMOVABLE_CI_DEBT_CANDIDATE": 11
+  },
+  "removal_authorized": false,
+  "workflow_deactivation_authorized": false,
+  "taxonomy": {
+    "ACTIVE_PRODUCTION_PROTECTION": "Current read-only CI or deployment workflow that protects production invariants and must remain active until explicitly superseded.",
+    "HISTORICAL_EVIDENCE_KEEP": "Historical readiness/authorization workflow whose file should remain available as evidence; automatic-trigger deactivation requires a separate reviewed slice.",
+    "REMOVABLE_CI_DEBT_CANDIDATE": "Migration-era workflow whose original transition is complete and whose current invariant coverage is superseded; classification alone does not authorize deletion."
+  },
+  "workflows": [
+    {
+      "file": "b96-one-shot-publish.yml",
+      "git_blob_sha": "3960aa2524d7c7a5767319e1c1097914fb6359e1",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": true,
+      "reason": "B96 publication already exists in the append-only chain; workflow is a historical one-shot gated on the pre-B96 state.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b97-one-shot-publish.yml",
+      "git_blob_sha": "377c1b9287a49de235938e5a3e9444b02f1c4ad7",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": true,
+      "reason": "B97 publication already exists in the append-only chain; workflow is a historical one-shot gated on the pre-B97 state.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b97-readiness.yml",
+      "git_blob_sha": "054ae37c1d57352057c817784c962968011b5409",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "B97 transition readiness is complete; present-day chain/runtime protection is covered by later steady-state regression and canonical validation.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b98-one-shot-publish.yml",
+      "git_blob_sha": "5d56b04e7c9aa80027900629c5444aa04fdb98dc",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": true,
+      "reason": "B98 publication already exists in the append-only chain; workflow is a historical one-shot gated on the pre-B98 state.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b98-readiness.yml",
+      "git_blob_sha": "df6851c3985373e2f8a92a4af6516af8c38ca1c2",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "B98 transition readiness is complete; the current first-three retirement regression executes the post-B98 steady-state audit and canonical validation.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b98-post-ci-readiness.yml",
+      "git_blob_sha": "d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "Historical B98 post-CI transition gate is complete and now duplicates steady-state post-B98 audit coverage.",
+      "superseded_by": ["first-three-overlay-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "b99-one-shot-publish.yml",
+      "git_blob_sha": "f07660fd524e44904b24e0b8e04dae538e7c8ac2",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": true,
+      "reason": "Exact B99 is already persistent and hash-pinned; the one-shot still carries contents:write and manual dispatch but fail-closes once B99 exists.",
+      "superseded_by": ["identity-fix-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "identity-fix-b99-candidate-readiness.yml",
+      "git_blob_sha": "947f4f7ee65a2677e107e6662d315bac5de3eaf0",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "Pre-B99 candidate generation is historical; post-B99 mode only re-audits persistent B99, which the final retirement regression already validates.",
+      "superseded_by": ["identity-fix-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "identity-fix-b99-mirror-sync-candidate-readiness.yml",
+      "git_blob_sha": "d5d48134fe707b2d07ebeccfe555b9790d3d2c0f",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "Mirror-sync candidate generation is historical; exact synchronized B99 and zero identity residual are protected by the final retirement regression.",
+      "superseded_by": ["identity-fix-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "identity-fix-readiness.yml",
+      "git_blob_sha": "6b71a4b4d757ba25e135334115285d7f96e8d5d1",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "Identity migration readiness has completed; its POST_B99 branch rechecks lifecycle facts enforced by the final retirement regression.",
+      "superseded_by": ["identity-fix-retirement-regression.yml", "runtime-audit-snapshot.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "identity-mirror-parity-readiness.yml",
+      "git_blob_sha": "f30ff955539d510bc78131c5a7ce1b4ba8d26e0f",
+      "classification": "REMOVABLE_CI_DEBT_CANDIDATE",
+      "write_capable": false,
+      "reason": "Pre-B99 active-overlay versus mirror-synced parity proof is historical; final retired DOM and persistent B99 are now directly regression-gated.",
+      "superseded_by": ["identity-fix-retirement-regression.yml"],
+      "removal_authorized": false
+    },
+    {
+      "file": "identity-fix-retirement-readiness.yml",
+      "git_blob_sha": "925f139e1288cb43d16b7c06f042417fcb599322",
+      "classification": "HISTORICAL_EVIDENCE_KEEP",
+      "write_capable": false,
+      "reason": "Preserve the exact v4.5.44/v4.5.46 retirement-readiness procedure as historical evidence; live retirement protection is provided elsewhere.",
+      "future_action": "RETAIN_FILE_DEACTIVATE_AUTOMATIC_TRIGGERS_IN_SEPARATE_SLICE",
+      "workflow_deactivation_authorized": false
+    },
+    {
+      "file": "identity-fix-retirement-authorization.yml",
+      "git_blob_sha": "eac7e69735e79a41354c036ba04b23f7c2d3c7f9",
+      "classification": "HISTORICAL_EVIDENCE_KEEP",
+      "write_capable": false,
+      "reason": "Preserve the exact v4.5.45 authorization procedure as historical evidence; the authorization result remains pinned in static policy and final retirement audits.",
+      "future_action": "RETAIN_FILE_DEACTIVATE_AUTOMATIC_TRIGGERS_IN_SEPARATE_SLICE",
+      "workflow_deactivation_authorized": false
+    },
+    {
+      "file": "first-three-overlay-retirement-regression.yml",
+      "git_blob_sha": "913520fdbae0b404628420d6bf8fe7f4170ac5d9",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "write_capable": false,
+      "reason": "Current production regression for post-B98 steady state, zero retired-overlay debt, PUBLIC-CZ and browser parity.",
+      "future_action": "RETAIN_AND_MODERNIZE"
+    },
+    {
+      "file": "i18n-switch-regression.yml",
+      "git_blob_sha": "e07db7a6acb5aae7db64b3bb92e21d6250f78bbc",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "write_capable": false,
+      "reason": "Current language-switch regression protects a user-visible production behavior not replaced by migration cleanup.",
+      "future_action": "RETAIN_AND_MODERNIZE"
+    },
+    {
+      "file": "identity-fix-retirement-regression.yml",
+      "git_blob_sha": "272c85272137c256484b831be98f7340cbe6db8e",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "write_capable": false,
+      "reason": "Current final B99/identity-retirement regression protects exact B99 anchors, zero legacy runtime debt and the retired browser digest.",
+      "future_action": "RETAIN_AND_MODERNIZE"
+    },
+    {
+      "file": "pages.yml",
+      "git_blob_sha": "49d8b2e2222848e370800d5dec20c8d8c572afad",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "write_capable": false,
+      "reason": "Current production build, verification and GitHub Pages deployment path.",
+      "future_action": "RETAIN_AND_MODERNIZE"
+    },
+    {
+      "file": "runtime-audit-snapshot.yml",
+      "git_blob_sha": "9a07eb9fcf949d1ff1984867e39bc0acbbb420c4",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "write_capable": false,
+      "reason": "Current runtime audit snapshot protects module-order and runtime-integrity invariants independently of migration history.",
+      "future_action": "RETAIN_AND_MODERNIZE"
+    }
+  ],
+  "required_next_slice": {
+    "goal": "Authorize or reject removal of only the four write-capable B96-B99 one-shot publication workflows.",
+    "must_prove": [
+      "all four target files are still exact blob-pinned candidates",
+      "B96-B99 append-only runs and canonical hashes remain unchanged",
+      "no active workflow references a target as a required dependency",
+      "five ACTIVE_PRODUCTION_PROTECTION workflows remain unchanged",
+      "full P0/P1 plus production browser regressions pass before any deletion"
+    ]
+  }
+}
