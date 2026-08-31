@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {readFileSync,readdirSync} from 'node:fs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertV4556Applied,gitBlobSha as lifecycleBlobSha} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4554_MINIMIZED_WORKFLOW_TRIGGER_COVERAGE.json`,'utf8'));
@@ -19,21 +19,17 @@ test('v4.5.54 is read-only trigger coverage review over exact v4.5.53 production
   for(const value of Object.values(policy.authorization))assert.equal(value,false);
 });
 
-test('v4.5.54 pins exactly seven workflows with 5 active and 2 historical',()=>{
-  assert.deepEqual(policy.workflow_inventory,{
-    total:7,
-    active_production_protection:5,
-    historical_evidence_keep:2,
-    migration_ci_debt_candidate:0
-  });
+test('v4.5.54 pins exactly seven historical workflow identities with 5 active and 2 later-authorized successors',()=>{
+  assert.deepEqual(policy.workflow_inventory,{total:7,active_production_protection:5,historical_evidence_keep:2,migration_ci_debt_candidate:0});
   const expected=[...policy.active_production_protections,...policy.historical_evidence_workflows];
   const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(expected.length,7);
   assert.deepEqual(actual,expected.map(x=>x.file).sort());
-  for(const item of expected){
+  for(const item of policy.active_production_protections){
     const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
     assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
   }
+  for(const item of policy.historical_evidence_workflows)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 
 test('v4.5.54 explains observed 6 PR and 3 push runs without relying on historical workflows for current coverage',()=>{
@@ -57,10 +53,7 @@ test('v4.5.54 explains observed 6 PR and 3 push runs without relying on historic
 });
 
 test('v4.5.54 identifies both historical automatic PR triggers only as candidates for separate manual-only review',()=>{
-  assert.deepEqual(policy.historical_evidence_workflows.map(x=>x.file).sort(),[
-    'identity-fix-retirement-authorization.yml',
-    'identity-fix-retirement-readiness.yml'
-  ]);
+  assert.deepEqual(policy.historical_evidence_workflows.map(x=>x.file).sort(),['identity-fix-retirement-authorization.yml','identity-fix-retirement-readiness.yml']);
   for(const item of policy.historical_evidence_workflows){
     assert.equal(item.pull_request_main_docs_broad,true,item.file);
     assert.equal(item.push_main,false,item.file);
@@ -73,9 +66,8 @@ test('v4.5.54 identifies both historical automatic PR triggers only as candidate
   assert.equal(policy.required_next_slice.must_preserve_all_five_active_protection_blobs,true);
 });
 
-test('v4.5.54 fail-closed audit is read-only and proves trigger coverage',()=>{
+test('v4.5.54 audit remains immutable while v4.5.56 separately consumes its recommendation',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  const output=execFileSync(process.execPath,[`${root}/audit-minimized-workflow-trigger-coverage.mjs`],{encoding:'utf8'});
-  assert.match(output,/MINIMIZED_WORKFLOW_TRIGGER_COVERAGE=PASS/);
-  assert.match(output,/workflows=7 active=5 historical=2 broad-pr-active=4 broad-push-active=3 observed-pr=6 observed-push=3 historical-pr-redundant=2 trigger-change-authorized=0/);
+  assert.equal(lifecycleBlobSha(audit),'10a778479bd4d8ac2c2674b3f1108ec3e812baea');
+  assertV4556Applied();
 });
