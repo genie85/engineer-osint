@@ -1,0 +1,562 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260830-B99",
+    "parent_run_id": "engineer-osint-20260830-B98",
+    "status": "SUCCESS",
+    "window_from": "2026-08-30T23:00:00+02:00",
+    "window_to": "2026-08-30T23:00:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 0,
+      "UPDATE": 0,
+      "CONFIRMATION": 0,
+      "CORRECTION": 36,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "IDENTITY_FIX_CANONICAL_MIGRATION_CANDIDATE_AFTER_PERSISTENT_B98",
+    "source_readiness_policy": "V4531_IDENTITY_FIX_MIGRATION_READINESS",
+    "remove_field_contract": "V4532_FAIL_CLOSED_REMOVE_FIELD",
+    "legacy_mirror_cleanup_required": false,
+    "identity_fix_runtime_removal_authorized": false,
+    "legacy_mirror_sync_contract": "V4535_EXPLICIT_FAIL_CLOSED_LEGACY_UPDATED_RECORDS_MIRROR_SYNC",
+    "legacy_mirror_sync_target": "ENG-TECH-0036",
+    "legacy_mirror_sync_field_count": 18
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 0,
+    "IDENTITY_CORRECTION_OPERATIONS": 36
+  },
+  "new_records": [],
+  "updated_records": [],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "READ_ONLY_IDENTITY_FIX_MIGRATION_WITH_EXPLICIT_LEGACY_MIRROR_SYNC",
+    "review_scope": [
+      "ENG-EVID-0113",
+      "ENG-TECH-0032",
+      "ENG-TECH-0036",
+      "ENG-VIS-0054"
+    ],
+    "canonical_write_performed": false
+  },
+  "presentation_fact_overlay_gap": "OPEN",
+  "extensions": {
+    "operations_v1": [
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-001",
+        "collection": "evidence",
+        "target_id": "ENG-EVID-0113",
+        "field": "related_ids",
+        "reason": "Materialize reviewed identity correction for ENG-EVID-0113.related_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0403"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-TECH-0032"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-002",
+        "collection": "records",
+        "target_id": "ENG-TECH-0032",
+        "field": "evidence_ids",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0032.evidence_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0312",
+          "ENG-SRC-0313",
+          "ENG-SRC-0403"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-EVID-0032",
+          "ENG-EVID-0113"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-003",
+        "collection": "records",
+        "target_id": "ENG-TECH-0032",
+        "field": "source_ids",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0032.source_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0312",
+          "ENG-SRC-0313",
+          "ENG-SRC-0403"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-SRC-0312",
+          "ENG-SRC-0313",
+          "ENG-SRC-0403"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-004",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "analysis_cs",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.analysis_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Ministerstvo obrany Ukrajiny 25. 3. 2025 uvedlo, že SIRKO-S1 patří mezi kodifikované a pořizované pozemní robotické platformy a může nést modulární vybavení pro logistiku, průzkum a některé minové/odminovací úkoly. Záznam zachovává pouze schopnostní úroveň; nepřenáší taktické parametry ani neprojektuje množství nebo rozdělení systému do srpna 2026."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-005",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "classification",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.classification from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "FACT_ABOUT_2025_OFFICIAL_PLATFORM_STATUS_WITH_SCOPE_LIMIT"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-006",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "confidence",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.confidence from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "HIGH_FOR_2025_OFFICIAL_STATUS"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-007",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "date_precision",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.date_precision from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "PUBLICATION_DATE"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-008",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "event_date",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.event_date from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "2025-03-25"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-009",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "evidence_ids",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.evidence_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-EVID-0080"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-010",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "fact_cs",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.fact_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Ministerstvo obrany Ukrajiny 25. 3. 2025 uvedlo, že SIRKO-S1 patří mezi kodifikované a pořizované pozemní robotické platformy a může nést modulární vybavení pro logistiku, průzkum a některé minové/odminovací úkoly. Záznam zachovává pouze schopnostní úroveň; nepřenáší taktické parametry ani neprojektuje množství nebo rozdělení systému do srpna 2026."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-011",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "mine_action_context",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.mine_action_context from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "UNKNOWN_NEEDS_REVIEW"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-012",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "record_role",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.record_role from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "HISTORICAL_BACKFILL_AND_TECHNOLOGY_ENRICHMENT"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-013",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "secondary_contexts",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.secondary_contexts from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "COUNTERMOBILITY_MINE_EMPLACEMENT"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-014",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "source_ids",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.source_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-SRC-0372"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-015",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "summary_cs",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.summary_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Ministerstvo obrany Ukrajiny 25. 3. 2025 uvedlo, že SIRKO-S1 patří mezi kodifikované a pořizované pozemní robotické platformy a může nést modulární vybavení pro logistiku, průzkum a některé minové/odminovací úkoly. Záznam zachovává pouze schopnostní úroveň; nepřenáší taktické parametry ani neprojektuje množství nebo rozdělení systému do srpna 2026."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-016",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "summary_en",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.summary_en from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "On 25 Mar 2025, Ukraine’s Ministry of Defence stated that SIRKO-S1 was among codified and procured ground robotic platforms and could carry modular payloads for logistics, reconnaissance and selected mine/de-mining tasks. The record retains only capability-level information; it does not carry tactical parameters or project quantities/distribution into August 2026."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-017",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "temporal_observations",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.temporal_observations from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-018",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "temporal_status",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.temporal_status from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "HISTORICAL_OFFICIAL_FIELDING_SNAPSHOT"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-019",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "timeline_events",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.timeline_events from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-020",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "title_cs",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.title_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "SIRKO-S1 — ukrajinský modulární pozemní robotický systém pro logistiku, průzkum a ženijní úkoly (veřejný snapshot 2025)"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-021",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "title_en",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.title_en from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "SIRKO-S1 — Ukrainian modular ground robotic system for logistics, reconnaissance and engineer-related tasks (2025 public snapshot)"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-022",
+        "collection": "records",
+        "target_id": "ENG-TECH-0036",
+        "field": "translation_status",
+        "reason": "Materialize reviewed identity correction for ENG-TECH-0036.translation_status from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0372"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "ANALYST_TRANSLATION"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-023",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "caption_cs",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.caption_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Metadata TASS Media identifikují NRTK „Katjuša“ na salonu Flot-2026 v Kronštadtu."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-024",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "confidence",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.confidence from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-025",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "media_type",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.media_type from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-026",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "publication_date",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.publication_date from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-027",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "related_ids",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.related_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-TECH-0025"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-028",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "rights_or_license_status",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.rights_or_license_status from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-029",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "source_ids",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.source_ids from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": [
+          "ENG-SRC-0239",
+          "ENG-SRC-0238"
+        ]
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-030",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "source_page_url",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.source_page_url from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-031",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "title_cs",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.title_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-032",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "title_en",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.title_en from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REMOVE_FIELD"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-033",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "verification_status",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.verification_status from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "NOT_PIXEL_INSPECTED"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-034",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "visual_observation_basis",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.visual_observation_basis from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "MEDIA_METADATA_ONLY"
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-035",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "what_it_does_not_prove_cs",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.what_it_does_not_prove_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Neprokazuje operační nasazení, konkrétní přijímající jednotku, účinnost odminování ani rozsah výroby."
+      },
+      {
+        "operation_id": "ENG-OP-B99-IDFIX-036",
+        "collection": "visuals",
+        "target_id": "ENG-VIS-0054",
+        "field": "what_it_supports_cs",
+        "reason": "Materialize reviewed identity correction for ENG-VIS-0054.what_it_supports_cs from the pinned v4.5.31 identity-fix migration map.",
+        "source_ids": [
+          "ENG-SRC-0238",
+          "ENG-SRC-0239"
+        ],
+        "op": "REPLACE_FIELD",
+        "value": "Veřejné vystavení platformy Katjuša na salonu Flot-2026."
+      }
+    ],
+    "legacy_mirror_sync_v1": {
+      "updated_records": [
+        {
+          "target_id": "ENG-TECH-0036",
+          "fields": [
+            "record_role",
+            "title_cs",
+            "title_en",
+            "temporal_status",
+            "summary_cs",
+            "summary_en",
+            "source_ids",
+            "evidence_ids",
+            "timeline_events",
+            "confidence",
+            "event_date",
+            "date_precision",
+            "fact_cs",
+            "analysis_cs",
+            "mine_action_context",
+            "secondary_contexts",
+            "classification",
+            "translation_status"
+          ]
+        }
+      ]
+    }
+  }
+}
