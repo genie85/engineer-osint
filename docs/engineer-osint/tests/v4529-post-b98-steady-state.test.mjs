@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const dispatcher=readFileSync(`${root}/audit-post-b98-steady-state.mjs`,'utf8');
@@ -9,11 +9,23 @@ const normalizedRetirement=readFileSync(`${root}/audit-first-three-overlay-retir
 const audit=dispatcher+'\n'+activeAudit;
 const policy=readFileSync(`${root}/V4529_POST_B98_STEADY_STATE.md`,'utf8');
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
-const b97=readFileSync('.github/workflows/b97-readiness.yml','utf8');
-const b98=readFileSync('.github/workflows/b98-readiness.yml','utf8');
-const b98Post=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8');
 const pagesVerify=readFileSync(`${root}/verify-pages-artifact.mjs`,'utf8');
 const postB98Gate=readFileSync(`${root}/verify-post-b98-pages-readiness.mjs`,'utf8');
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const workflowSpecs=[
+  ['.github/workflows/b97-readiness.yml','b97-readiness.yml','054ae37c1d57352057c817784c962968011b5409'],
+  ['.github/workflows/b98-readiness.yml','b98-readiness.yml','df6851c3985373e2f8a92a4af6516af8c38ca1c2'],
+  ['.github/workflows/b98-post-ci-readiness.yml','b98-post-ci-readiness.yml','d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a']
+];
+const historicalWorkflows=workflowSpecs.map(([path,file,blob])=>[existsSync(path)?readFileSync(path,'utf8'):null,file,blob]);
+const assertHistoricalWorkflowPins=()=>{
+  assert.ok(v4553,'B97/B98 workflows missing without v4.5.53 removal evidence');
+  for(const [,file,blob] of historicalWorkflows){
+    const removed=v4553.removed_targets.find(x=>x.file===file);
+    assert.ok(removed,file);
+    assert.equal(removed.git_blob_sha,blob,file);
+  }
+};
 
 test('v4.5.29 historical steady-state proof remains pinned to immutable B98 ancestry and native Intelligence retention',()=>{
   assert.match(activeAudit,/engineer-osint-20260830-B98/);
@@ -69,7 +81,9 @@ test('v4.5.29 Pages accepts B98 descendants only after the historical B98 anchor
   assert.match(pagesVerify,/post-b98-steady-state-audit\.json/);
 });
 
-test('v4.5.29 historical B97/B98 workflows survive B99+ descendants without rerunning exact-tip audits',()=>{
+test('v4.5.29 historical B97/B98 workflow lifecycle remains hash-pinned after v4.5.53 retirement',()=>{
+  if(historicalWorkflows.some(([text])=>text===null)){assertHistoricalWorkflowPins();return;}
+  const [b97,b98,b98Post]=historicalWorkflows.map(([text])=>text);
   for(const workflow of [b97,b98,b98Post])assert.match(workflow,/POST_B98_STEADY/);
   assert.match(b97,/B98 in current ancestry/);
   assert.match(b98,/audit-post-b98-steady-state\.mjs/);
