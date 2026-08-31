@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,readdirSync} from 'node:fs';
-import {assertHistoricalWorkflowCurrentOrV4556,assertV4556Applied,v4556} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557,assertV4556Applied,v4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json`,'utf8'));
@@ -32,14 +32,11 @@ test('v4.5.55 target set remains the exact historical anchor for both v4.5.56 su
   }
 });
 
-test('v4.5.55 freezes all five active protections and keeps seven workflow files',()=>{
+test('v4.5.55 freezes all five active protections as historical anchors with only exact v4.5.57 browser-guard successor allowed',()=>{
   assert.equal(policy.required_unchanged_active_protections.length,5);
   const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(actual.length,7);
-  for(const item of policy.required_unchanged_active_protections){
-    const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
-  }
+  for(const item of policy.required_unchanged_active_protections)assertActiveProtectionCurrentOrV4557(item);
 });
 
 test('v4.5.55 future state preserves current active CI coverage while making historical evidence manual-only',()=>{
