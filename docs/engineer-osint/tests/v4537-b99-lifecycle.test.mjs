@@ -1,18 +1,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4537_B99_LIFECYCLE.json`,'utf8'));
 const retirement=JSON.parse(readFileSync(`${root}/V4546_IDENTITY_FIX_RETIREMENT.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-persistent-b99-identity.mjs`,'utf8');
 const runtime=readFileSync(`${root}/runtime-modules.mjs`,'utf8');
-const workflows=[
-  '.github/workflows/identity-fix-readiness.yml',
-  '.github/workflows/identity-fix-b99-candidate-readiness.yml',
-  '.github/workflows/identity-mirror-parity-readiness.yml',
-  '.github/workflows/identity-fix-b99-mirror-sync-candidate-readiness.yml'
-].map(path=>[path,readFileSync(path,'utf8')]);
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const workflowSpecs=[
+  ['.github/workflows/identity-fix-readiness.yml','identity-fix-readiness.yml','6b71a4b4d757ba25e135334115285d7f96e8d5d1'],
+  ['.github/workflows/identity-fix-b99-candidate-readiness.yml','identity-fix-b99-candidate-readiness.yml','947f4f7ee65a2677e107e6662d315bac5de3eaf0'],
+  ['.github/workflows/identity-mirror-parity-readiness.yml','identity-mirror-parity-readiness.yml','f30ff955539d510bc78131c5a7ce1b4ba8d26e0f'],
+  ['.github/workflows/identity-fix-b99-mirror-sync-candidate-readiness.yml','identity-fix-b99-mirror-sync-candidate-readiness.yml','d5d48134fe707b2d07ebeccfe555b9790d3d2c0f']
+];
+const workflows=workflowSpecs.map(([path,file,blob])=>[path,existsSync(path)?readFileSync(path,'utf8'):null,file,blob]);
+const assertHistoricalWorkflows=()=>{
+  assert.ok(v4553,'identity workflows missing without v4.5.53 removal evidence');
+  for(const [, ,file,blob] of workflows){
+    const removed=v4553.removed_targets.find(x=>x.file===file);
+    assert.ok(removed,file);
+    assert.equal(removed.git_blob_sha,blob,file);
+  }
+};
+const allWorkflowTextPresent=workflows.every(([,text])=>text!==null);
 
 test('v4.5.37 pins exact B99 lifecycle hashes without authorizing publication or retirement',()=>{
   assert.equal(policy.status,'LIFECYCLE_HARDENING_NO_APPEND_AUTHORIZATION');
@@ -53,7 +64,8 @@ test('v4.5.37 itself keeps retirement blocked while current audit accepts only l
   assert.equal(retirement.required_b99_canonical_sha256,policy.b99_canonical_sha256);
 });
 
-test('all four identity workflows distinguish PRE_B99, POST_B99 and POST_B99_STEADY',()=>{
+test('all four identity workflows historically distinguish PRE_B99, POST_B99 and POST_B99_STEADY',()=>{
+  if(!allWorkflowTextPresent){assertHistoricalWorkflows();return;}
   for(const [path,workflow] of workflows){
     assert.match(workflow,/Detect B99 lifecycle phase/,path);
     assert.match(workflow,/phase=PRE_B99/,path);
@@ -64,8 +76,9 @@ test('all four identity workflows distinguish PRE_B99, POST_B99 and POST_B99_STE
   }
 });
 
-test('PRE_B99 historical evidence remains present while POST_B99 never regenerates B99',()=>{
-  const map=Object.fromEntries(workflows);
+test('PRE_B99 historical evidence remains pinned after authorized workflow retirement',()=>{
+  if(!allWorkflowTextPresent){assertHistoricalWorkflows();return;}
+  const map=Object.fromEntries(workflows.map(([path,text])=>[path,text]));
   assert.match(map['.github/workflows/identity-fix-readiness.yml'],/audit-identity-fix-migration-readiness\.mjs/);
   assert.match(map['.github/workflows/identity-fix-b99-candidate-readiness.yml'],/build-identity-fix-b99-candidate\.mjs/);
   assert.match(map['.github/workflows/identity-mirror-parity-readiness.yml'],/audit-identity-mirror-parity-readiness\.mjs/);
@@ -77,5 +90,6 @@ test('PRE_B99 historical evidence remains present while POST_B99 never regenerat
 test('v4.5.37 lifecycle hardening itself cannot write canonical data',()=>{
   assert.doesNotMatch(audit,/append-run\.mjs/);
   assert.doesNotMatch(audit,/writeFileSync\(join\(src/);
+  if(!allWorkflowTextPresent){assertHistoricalWorkflows();return;}
   for(const [,workflow] of workflows)assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
 });
