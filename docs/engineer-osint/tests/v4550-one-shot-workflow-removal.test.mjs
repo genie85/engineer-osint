@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
-import {assertHistoricalWorkflowCurrentOrV4556} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
@@ -20,7 +20,7 @@ test('v4.5.50 applies exactly the v4.5.49-authorized four-workflow deletion',()=
   for(const file of targets)assert.equal(existsSync(`.github/workflows/${file}`),false,file);
 });
 
-test('v4.5.50 historical 14-workflow post-state remains pinned across authorized v4.5.53/v4.5.56 lifecycle',()=>{
+test('v4.5.50 historical 14-workflow post-state remains pinned across authorized v4.5.53/v4.5.56/v4.5.57 lifecycle',()=>{
   const expected=Object.values(policy.required_remaining_workflows).flat();
   const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(expected.length,14);
@@ -42,7 +42,7 @@ test('v4.5.50 historical 14-workflow post-state remains pinned across authorized
   assert.deepEqual(actual,remaining.map(x=>x.file).sort());
   for(const item of remaining){
     if(v4553.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP.some(x=>x.file===item.file))assertHistoricalWorkflowCurrentOrV4556(item);
-    else assert.equal(gitBlobSha(readFileSync(`.github/workflows/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+    else assertActiveProtectionCurrentOrV4557(item);
   }
   const candidates=policy.required_remaining_workflows.REMAINING_REMOVABLE_CI_DEBT_CANDIDATE;
   assert.deepEqual(v4553.removed_targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),candidates.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
