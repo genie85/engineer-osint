@@ -8,10 +8,11 @@ const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4548_MIGRATION_WORKFLOW_CLASSIFICATION.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-migration-workflow-classification.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
-const removedTargets=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
+const removedOneShots=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
+const removedReadOnly=['b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml','identity-fix-b99-candidate-readiness.yml','identity-fix-b99-mirror-sync-candidate-readiness.yml','identity-fix-readiness.yml','identity-mirror-parity-readiness.yml'];
 const byClass=name=>policy.workflows.filter(item=>item.classification===name);
 
-test('v4.5.48 preserves its exact 18-workflow historical classification across the authorized v4.5.50 lifecycle',()=>{
+test('v4.5.48 preserves its exact 18-workflow historical classification across authorized v4.5.50/v4.5.53 lifecycle',()=>{
   const actual=readdirSync('.github/workflows').filter(name=>name.endsWith('.yml')).sort();
   const classified=policy.workflows.map(item=>item.file).sort();
   assert.equal(policy.schema_version,'engineer-osint-migration-workflow-classification-v1');
@@ -22,14 +23,23 @@ test('v4.5.48 preserves its exact 18-workflow historical classification across t
   assert.equal(policy.workflow_deactivation_authorized,false);
   if(actual.length===18){
     assert.deepEqual(classified,actual);
-  }else{
-    assert.equal(actual.length,14);
-    assert.ok(existsSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`));
-    const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
-    assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
-    assert.deepEqual(actual,classified.filter(file=>!removedTargets.includes(file)));
-    for(const file of removedTargets)assert.equal(existsSync(`.github/workflows/${file}`),false,file);
+    return;
   }
+  assert.ok(existsSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`));
+  const v4550=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+  assert.equal(v4550.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+  if(actual.length===14){
+    assert.deepEqual(actual,classified.filter(file=>!removedOneShots.includes(file)));
+    for(const file of removedOneShots)assert.equal(existsSync(`.github/workflows/${file}`),false,file);
+    return;
+  }
+  assert.equal(actual.length,7);
+  assert.ok(existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`));
+  const v4553=JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8'));
+  assert.equal(v4553.status,'AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOWS_REMOVED');
+  assert.deepEqual(actual,classified.filter(file=>![...removedOneShots,...removedReadOnly].includes(file)));
+  assert.deepEqual(v4553.removed_targets.map(x=>x.file).sort(),[...removedReadOnly].sort());
+  for(const file of [...removedOneShots,...removedReadOnly])assert.equal(existsSync(`.github/workflows/${file}`),false,file);
 });
 
 test('v4.5.48 has an exact 5 active / 2 historical / 11 removable split',()=>{
@@ -44,7 +54,7 @@ test('v4.5.48 has an exact 5 active / 2 historical / 11 removable split',()=>{
 });
 
 test('v4.5.48 historically isolates all four repository-write one-shot workflows without authorizing their removal',()=>{
-  const expected=[...removedTargets].sort();
+  const expected=[...removedOneShots].sort();
   const writeCapable=policy.workflows.filter(item=>item.write_capable===true).map(item=>item.file).sort();
   assert.deepEqual(writeCapable,expected);
   for(const file of expected){
@@ -78,7 +88,7 @@ test('v4.5.48 retains exactly the five current replacement protections',()=>{
 test('v4.5.48 fail-closed audit remains immutable; it runs only in its exact pre-removal lifecycle',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
   assert.doesNotMatch(audit,/delete_file|update_file|create_file/);
-  const targetPresence=removedTargets.filter(file=>existsSync(`.github/workflows/${file}`)).length;
+  const targetPresence=removedOneShots.filter(file=>existsSync(`.github/workflows/${file}`)).length;
   assert.ok(targetPresence===0||targetPresence===4,`partial one-shot lifecycle state: ${targetPresence}/4 present`);
   if(targetPresence===4){
     const output=execFileSync(process.execPath,[`${root}/audit-migration-workflow-classification.mjs`],{encoding:'utf8'});
