@@ -41,7 +41,7 @@ test('v4.5.44 readiness requires zero residual mutations and zero external senti
 
 test('v4.5.44 prepares a simulated no-identity artifact without changing active runtime',()=>{
   assert.match(runtime,/LEGACY_FACTUAL_OVERLAY_MODULES=\[/);
-  assert.match(runtime,/engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'/);
+  assert.ok(runtime.includes("['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']"));
   assert.match(audit,/v4544-identity-active\.html/);
   assert.match(audit,/v4544-identity-retired-simulated\.html/);
   assert.match(audit,/built_identity_script_count:matches\.length/);
@@ -55,7 +55,7 @@ test('v4.5.44 browser gate compares active and simulated-retired public DOM',()=
   assert.match(workflow,/v4544-identity-retired-simulated\.html/);
   assert.match(workflow,/HEADLESS_IDENTITY_RETIREMENT_PARITY=PASS/);
   assert.match(workflow,/bilingual=re\.compile/);
-  assert.match(workflow,/s=re\.sub\(r'<script\\b\[\^>\]\*>\[\\s\\S\]\*\?<\/script>'/);
+  assert.ok(workflow.includes("s=re.sub(r'<script\\b[^>]*>[\\s\\S]*?</script>','',s,flags=re.I)"));
   assert.match(workflow,/active!=retired/);
 });
 
