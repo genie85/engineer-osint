@@ -19,18 +19,33 @@ test('v4.5.50 applies exactly the v4.5.49-authorized four-workflow deletion',()=
   for(const file of targets)assert.equal(existsSync(`.github/workflows/${file}`),false,file);
 });
 
-test('v4.5.50 leaves exactly 14 pinned non-target workflows',()=>{
+test('v4.5.50 historical 14-workflow post-state remains pinned across authorized v4.5.53 cleanup',()=>{
   const expected=Object.values(policy.required_remaining_workflows).flat();
   const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(expected.length,14);
-  assert.deepEqual(actual,expected.map(x=>x.file).sort());
-  for(const item of expected){
-    const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
-  }
   assert.equal(policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION.length,5);
   assert.equal(policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP.length,2);
   assert.equal(policy.required_remaining_workflows.REMAINING_REMOVABLE_CI_DEBT_CANDIDATE.length,7);
+  if(actual.length===14){
+    assert.deepEqual(actual,expected.map(x=>x.file).sort());
+    for(const item of expected){
+      const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
+      assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
+    }
+    return;
+  }
+  assert.equal(actual.length,7);
+  const v4553=JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8'));
+  assert.equal(v4553.status,'AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOWS_REMOVED');
+  const remaining=Object.values(v4553.required_remaining_workflows).flat();
+  assert.deepEqual(actual,remaining.map(x=>x.file).sort());
+  for(const item of remaining){
+    const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
+    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
+  }
+  const candidates=policy.required_remaining_workflows.REMAINING_REMOVABLE_CI_DEBT_CANDIDATE;
+  assert.deepEqual(v4553.removed_targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),candidates.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
+  for(const item of candidates)assert.equal(existsSync(`.github/workflows/${item.file}`),false,item.file);
 });
 
 test('v4.5.50 preserves immutable v4.5.48/v4.5.49 policy and audit evidence',()=>{
@@ -53,11 +68,22 @@ test('v4.5.50 preserves exact B96-B99 historical anchors and canonical safety bo
   for(const key of ['other_workflow_deleted','other_workflow_edited','canonical_data_edited','run_store_manifest_edited','run_appended','runtime_module_edited','manual_hash_edit'])assert.equal(policy.removal_result[key],false,key);
 });
 
-test('v4.5.50 post-removal audit is read-only and passes fail-closed',()=>{
+test('v4.5.50 post-removal audit is immutable and runs only before the v4.5.53 cleanup',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  const output=execFileSync(process.execPath,[`${root}/audit-one-shot-workflow-removal.mjs`],{encoding:'utf8'});
-  assert.match(output,/ONE_SHOT_WORKFLOW_REMOVAL=PASS/);
-  assert.match(output,/removed=4 workflows=14 active=5 historical=2 remaining-debt=7 write-one-shots=0 b96-b99-history=unchanged/);
+  const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+  if(actual.length===14){
+    const output=execFileSync(process.execPath,[`${root}/audit-one-shot-workflow-removal.mjs`],{encoding:'utf8'});
+    assert.match(output,/ONE_SHOT_WORKFLOW_REMOVAL=PASS/);
+    assert.match(output,/removed=4 workflows=14 active=5 historical=2 remaining-debt=7 write-one-shots=0 b96-b99-history=unchanged/);
+    return;
+  }
+  assert.equal(actual.length,7);
+  assert.equal(gitBlobSha(audit),'fcd7dc8bf4f570ca270d4348a5f45de5196cf4ee');
+  const v4553=JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8'));
+  assert.equal(v4553.status,'AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOWS_REMOVED');
+  assert.equal(v4553.removal_result.workflow_count_before,14);
+  assert.equal(v4553.removal_result.workflow_count_after,7);
+  assert.equal(v4553.removal_result.deleted_workflow_count,7);
 });
 
 test('v4.5.50 does not authorize the next seven-workflow cleanup or historical trigger changes',()=>{
