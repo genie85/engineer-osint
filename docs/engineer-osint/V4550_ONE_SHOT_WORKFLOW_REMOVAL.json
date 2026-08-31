@@ -1,0 +1,69 @@
+{
+  "schema_version": "engineer-osint-one-shot-workflow-removal-v1",
+  "status": "AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED",
+  "reviewed_authorization_main_sha": "3433ec2c636ebb1c87a04ff34d9c7cbc2af4cb79",
+  "authorization_policy_git_blob_sha": "8ef9ab22c1d92dd8caa29c5a71360df3d7888499",
+  "classification_policy_git_blob_sha": "13f968a22a9c65b953a95246b32b704b7939dd6e",
+  "historical_audits_retained": [
+    {"file":"audit-migration-workflow-classification.mjs","git_blob_sha":"36abc4b74a3d360833d7e1b2f6e30795bb91f26d"},
+    {"file":"audit-one-shot-workflow-removal-authorization.mjs","git_blob_sha":"b01aeb1cc88a697d8757bc918b6c20e2cb9bed76"}
+  ],
+  "removed_targets": [
+    {"file":"b96-one-shot-publish.yml","git_blob_sha":"3960aa2524d7c7a5767319e1c1097914fb6359e1","historical_run_id":"engineer-osint-20260829-B96","run_file_sha256":"3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1","canonical_sha256":"4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5"},
+    {"file":"b97-one-shot-publish.yml","git_blob_sha":"377c1b9287a49de235938e5a3e9444b02f1c4ad7","historical_run_id":"engineer-osint-20260830-B97","run_file_sha256":"b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad","canonical_sha256":"9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4"},
+    {"file":"b98-one-shot-publish.yml","git_blob_sha":"5d56b04e7c9aa80027900629c5444aa04fdb98dc","historical_run_id":"engineer-osint-20260830-B98","run_file_sha256":"ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79","canonical_sha256":"4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201"},
+    {"file":"b99-one-shot-publish.yml","git_blob_sha":"f07660fd524e44904b24e0b8e04dae538e7c8ac2","historical_run_id":"engineer-osint-20260830-B99","run_file_sha256":"ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab","canonical_sha256":"754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30"}
+  ],
+  "required_remaining_workflows": {
+    "ACTIVE_PRODUCTION_PROTECTION": [
+      {"file":"first-three-overlay-retirement-regression.yml","git_blob_sha":"913520fdbae0b404628420d6bf8fe7f4170ac5d9"},
+      {"file":"i18n-switch-regression.yml","git_blob_sha":"e07db7a6acb5aae7db64b3bb92e21d6250f78bbc"},
+      {"file":"identity-fix-retirement-regression.yml","git_blob_sha":"272c85272137c256484b831be98f7340cbe6db8e"},
+      {"file":"pages.yml","git_blob_sha":"49d8b2e2222848e370800d5dec20c8d8c572afad"},
+      {"file":"runtime-audit-snapshot.yml","git_blob_sha":"9a07eb9fcf949d1ff1984867e39bc0acbbb420c4"}
+    ],
+    "HISTORICAL_EVIDENCE_KEEP": [
+      {"file":"identity-fix-retirement-readiness.yml","git_blob_sha":"925f139e1288cb43d16b7c06f042417fcb599322"},
+      {"file":"identity-fix-retirement-authorization.yml","git_blob_sha":"eac7e69735e79a41354c036ba04b23f7c2d3c7f9"}
+    ],
+    "REMAINING_REMOVABLE_CI_DEBT_CANDIDATE": [
+      {"file":"b97-readiness.yml","git_blob_sha":"054ae37c1d57352057c817784c962968011b5409"},
+      {"file":"b98-readiness.yml","git_blob_sha":"df6851c3985373e2f8a92a4af6516af8c38ca1c2"},
+      {"file":"b98-post-ci-readiness.yml","git_blob_sha":"d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a"},
+      {"file":"identity-fix-b99-candidate-readiness.yml","git_blob_sha":"947f4f7ee65a2677e107e6662d315bac5de3eaf0"},
+      {"file":"identity-fix-b99-mirror-sync-candidate-readiness.yml","git_blob_sha":"d5d48134fe707b2d07ebeccfe555b9790d3d2c0f"},
+      {"file":"identity-fix-readiness.yml","git_blob_sha":"6b71a4b4d757ba25e135334115285d7f96e8d5d1"},
+      {"file":"identity-mirror-parity-readiness.yml","git_blob_sha":"f30ff955539d510bc78131c5a7ce1b4ba8d26e0f"}
+    ]
+  },
+  "required_unchanged_data": {
+    "run_store_manifest_git_blob_sha": "c79db99f2bc0746ee553d5e3cc08c26186f90a34",
+    "runtime_modules_git_blob_sha": "247843bed41af69812cae40aecbfba27cb0022db",
+    "active_legacy_factual_overlay_count": 0,
+    "active_legacy_baseline_module_count": 0
+  },
+  "removal_result": {
+    "workflow_count_before": 18,
+    "workflow_count_after": 14,
+    "deleted_workflow_count": 4,
+    "remaining_repository_write_capable_migration_one_shots": 0,
+    "active_production_protection_count": 5,
+    "historical_evidence_keep_count": 2,
+    "remaining_removable_ci_debt_candidate_count": 7,
+    "other_workflow_deleted": false,
+    "other_workflow_edited": false,
+    "historical_policy_edited": false,
+    "historical_audit_edited": false,
+    "canonical_data_edited": false,
+    "run_store_manifest_edited": false,
+    "run_appended": false,
+    "runtime_module_edited": false,
+    "manual_hash_edit": false
+  },
+  "required_next_slice": {
+    "goal": "Classify and separately authorize the disposition of the seven remaining read-only migration-era CI-debt candidates; do not remove or deactivate them under v4.5.50 authorization.",
+    "automatic_historical_evidence_trigger_deactivation_authorized": false,
+    "remaining_candidate_removal_authorized": false,
+    "active_protection_modernization_authorized": false
+  }
+}
