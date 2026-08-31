@@ -43,8 +43,8 @@ const health=readFileSync(join(dist,'health.txt'),'utf8'),index=readFileSync(joi
   'post_b98_steady_state=pass',`post_b98_steady_state_run=${currentRun}`,'post_b98_historical_b98_integrity=pass',
   'post_b98_guard_short_circuits=3','post_b98_guarded_first3_factual_mutations=0','post_b98_prelocalization_semantic_diffs=0',
   'post_b98_postlocalization_semantic_diffs=0','post_b98_public_data_semantic_parity=1','post_b98_first3_retirement_review_ready=1',
-  'post_b98_retirement_authorized=0','post_b98_identity_fix_in_scope=0','post_b98_identity_fix_migration_authorized=0',
-  'post_b98_browser_retirement_regression_required=1','post_b98_canonical_writes=0'
+  'post_b98_retirement_authorized=0','post_b98_identity_fix_in_scope=0','post_b98_browser_retirement_regression_required=1',
+  'post_b98_canonical_writes=0','post_b98_retirement_current_state_validated=1'
 ].forEach(marker=>requireHealth(health,marker));
 if(currentRun===b98)[
   'persistent_b98_audit=pass','persistent_b98_mode=persistent',`persistent_b98_candidate_run=${b98}`,`persistent_b98_parent_run=${b97}`,
@@ -85,11 +85,28 @@ if(run.extensions?.operations_v1!==undefined)throw new Error('PAGES_VERIFY: fact
 if(run.continuity?.overlay_retirement_authorized!==false)throw new Error('PAGES_VERIFY: B98 run authorizes overlay retirement');
 
 const steady=readJson(join(dist,'post-b98-steady-state-audit.json'));
-if(steady.status!=='PASS'||steady.schema_version!=='engineer-osint-post-b98-steady-state-v1'||steady.current_run_id!==currentRun||steady.current_canonical_sha256!==store.report.canonical_sha256)throw new Error('PAGES_VERIFY: post-B98 steady-state audit identity mismatch');
+if(steady.status!=='PASS'||steady.schema_version!=='engineer-osint-post-b98-steady-state-v2'||steady.current_run_id!==currentRun||steady.current_canonical_sha256!==store.report.canonical_sha256)throw new Error('PAGES_VERIFY: post-B98 steady-state audit identity mismatch');
 if(steady.historical_b98?.status!=='PASS'||steady.historical_b98?.run_id!==b98||steady.historical_b98?.parent_run_id!==b97||steady.historical_b98?.file_sha256!==exactFileSha||steady.historical_b98?.canonical_sha256!==exactCanonicalSha)throw new Error('PAGES_VERIFY: post-B98 historical anchor drift');
 if(steady.native_historical_intelligence?.persistent_b97_gaps!==15||steady.native_historical_intelligence?.b98_evidence!==2||steady.native_historical_intelligence?.b98_assessments!==4)throw new Error('PAGES_VERIFY: post-B98 native Intelligence retention mismatch');
 if(steady.guard_short_circuit_count!==3||steady.guarded_first_three_factual_mutation_count!==0||steady.pre_localization_semantic_diff_count!==0||steady.post_localization_semantic_diff_count!==0||steady.public_data_semantic_parity!==true||steady.production_public_data_sha256!==steady.retired_candidate_public_data_sha256)throw new Error('PAGES_VERIFY: first-three public-data semantic parity failed');
-if(steady.first_three_ready_for_retirement_review!==true||steady.review_gate_status!=='READY_FOR_SEPARATE_RETIREMENT_SLICE_REVIEW'||steady.retirement_authorized!==false||steady.runtime_module_removal_performed!==false||steady.baseline_manifest_cleanup_performed!==false||steady.full_browser_retirement_regression_required!==true||steady.full_browser_retirement_regression_passed!==false||steady.identity_fix_in_scope!==false||steady.identity_fix_migration_authorized!==false||steady.canonical_write_performed!==false)throw new Error('PAGES_VERIFY: post-B98 retirement-review safety boundary broadened');
+if(steady.first_three_ready_for_retirement_review!==true||steady.review_gate_status!=='HISTORICAL_FIRST_THREE_RETIREMENT_VALIDATED'||steady.retirement_authorized!==false||steady.runtime_module_removal_performed!==false||steady.baseline_manifest_cleanup_performed!==false||steady.full_browser_retirement_regression_required!==true||steady.full_browser_retirement_regression_passed!==false||steady.identity_fix_in_scope!==false||steady.canonical_write_performed!==false||steady.retirement_current_state_validated!==true)throw new Error('PAGES_VERIFY: post-B98 historical retirement-review safety boundary broadened');
+const identityActive=steady.identity_fix_runtime_active===true&&steady.identity_fix_runtime_retired===false;
+const identityRetired=steady.identity_fix_runtime_active===false&&steady.identity_fix_runtime_retired===true;
+if(!identityActive&&!identityRetired)throw new Error('PAGES_VERIFY: post-B98 identity lifecycle partial/inconsistent');
+if(identityActive){
+  if(steady.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_ACTIVE'||steady.runtime_state!=='RETIRED_FIRST_THREE_IDENTITY_ACTIVE'||steady.identity_fix_migration_authorized!==false)throw new Error('PAGES_VERIFY: active identity lifecycle invalid');
+  requireHealth(health,'post_b98_identity_fix_runtime_active=1');
+  requireHealth(health,'post_b98_identity_fix_runtime_retired=0');
+  requireHealth(health,'post_b98_identity_fix_migration_authorized=0');
+}else{
+  if(steady.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_RETIRED_AUTHORIZED'||steady.runtime_state!=='ALL_FACTUAL_LEGACY_OVERLAYS_RETIRED'||steady.identity_fix_migration_authorized!==true)throw new Error('PAGES_VERIFY: retired identity lifecycle invalid');
+  if(steady.b99_pages_gate_applicable!==true||steady.b99_pages_gate_passed!==true||steady.b99_identity_overlay_residual_mutations!==0||steady.b99_identity_fix_runtime_active!==false||steady.b99_identity_fix_runtime_retired!==true||steady.b99_identity_overlay_retirement_authorized!==true)throw new Error('PAGES_VERIFY: retired B99 identity lifecycle invalid');
+  requireHealth(health,'post_b98_identity_fix_runtime_active=0');
+  requireHealth(health,'post_b98_identity_fix_runtime_retired=1');
+  requireHealth(health,'post_b98_identity_fix_migration_authorized=1');
+  requireHealth(health,'b99_pages_gate_applicable=1');
+  requireHealth(health,'b99_pages_gate_passed=1');
+}
 
 if(currentRun===b98){
   const audit=readJson(join(dist,'persistent-b98-audit.json'));
@@ -108,5 +125,5 @@ if(auth.candidate_run_id!==b98||auth.expected_parent_run_id!==b97||auth.exact_ca
 if(auth.authorization?.append_exact_candidate_only!==true||auth.authorization?.standard_append_run_write_required!==true||auth.authorization?.one_run_only!==true)throw new Error('PAGES_VERIFY: B98 authorization incomplete');
 if(auth.authorization?.allow_manual_manifest_or_hash_edit!==false||auth.authorization?.allow_future_run_same_slice!==false||auth.authorization?.allow_overlay_retirement!==false||auth.authorization?.allow_identity_fix_migration!==false)throw new Error('PAGES_VERIFY: B98 authorization safety scope broadened');
 
-if(currentRun===b98)console.log(`PAGES_VERIFY PASS: phase=POST_B98; run=${b98}; persistent-b98=pass; steady-state=pass; overlays=active`);
-else console.log(`PAGES_VERIFY PASS: phase=POST_B98_STEADY; run=${currentRun}; historical-b98=pass; steady-state=pass; overlays=active`);
+if(currentRun===b98)console.log(`PAGES_VERIFY PASS: phase=POST_B98; run=${b98}; persistent-b98=pass; steady-state=pass; identity=${identityActive?'active':'retired-authorized'}`);
+else console.log(`PAGES_VERIFY PASS: phase=POST_B98_STEADY; run=${currentRun}; historical-b98=pass; steady-state=pass; identity=${identityActive?'active':'retired-authorized'}`);
