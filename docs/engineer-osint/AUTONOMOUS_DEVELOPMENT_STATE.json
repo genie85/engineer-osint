@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-31T22:26:39+02:00",
+  "main_sha": "a1a33b00c2638a7b54533e7153e4cf5de902eb12",
+  "current_phase": "A_POST_V4546_CONSOLIDATION",
+  "current_task": "Establish an auditable autonomous-development baseline before removing any retired migration CI or historical evidence.",
+  "active_pr": null,
+  "last_completed_task": "v4.5.46 final identity-fix runtime overlay retirement merged and verified in production.",
+  "next_recommended_task": "Classify post-B96/B97/B98/B99 readiness, candidate and one-shot workflows as active protection, historical evidence or removable CI debt; remove nothing until the classification is regression-tested.",
+  "blockers": [],
+  "photo_total_cards": null,
+  "photo_cards_with_local_image": null,
+  "photo_cards_missing_image": null,
+  "photo_coverage_percent": null,
+  "photo_inventory_status": "PENDING_BASELINE_AUDIT",
+  "ci_status": {
+    "head_sha": "a1a33b00c2638a7b54533e7153e4cf5de902eb12",
+    "push_workflows_total": 8,
+    "push_workflows_success": 8,
+    "push_workflows_failed": 0,
+    "push_workflows_running": 0,
+    "pages_deployment": "SUCCESS"
+  },
+  "production_invariants": {
+    "active_legacy_factual_overlays": 0,
+    "active_legacy_baseline_modules": 0,
+    "identity_fix_runtime_retired": true,
+    "identity_fix_historical_source_retained": true,
+    "transition_guard_retained": true,
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "retired_browser_dom_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+  }
+}
