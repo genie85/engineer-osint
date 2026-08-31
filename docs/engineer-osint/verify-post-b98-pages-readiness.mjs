@@ -55,8 +55,17 @@ if(currentRun===b98){
 requireDist('post-b98-steady-state-audit.json');
 requireDist('post-b98-steady-state-audit.md');
 const steady=readJson(join(dist,'post-b98-steady-state-audit.json'));
-if(steady.status!=='PASS'||steady.schema_version!=='engineer-osint-post-b98-steady-state-v1'||steady.current_run_id!==currentRun)fail('post-B98 steady-state audit identity mismatch');
+if(steady.status!=='PASS'||steady.schema_version!=='engineer-osint-post-b98-steady-state-v2'||steady.current_run_id!==currentRun)fail('post-B98 steady-state audit identity mismatch');
 if(steady.historical_b98?.status!=='PASS'||steady.historical_b98?.run_id!==b98||steady.historical_b98?.parent_run_id!==b97||steady.historical_b98?.file_sha256!==candidateSha||steady.historical_b98?.canonical_sha256!==resultSha)fail('post-B98 steady-state historical anchor invalid');
 if(steady.guard_short_circuit_count!==3||steady.guarded_first_three_factual_mutation_count!==0||steady.pre_localization_semantic_diff_count!==0||steady.post_localization_semantic_diff_count!==0||steady.public_data_semantic_parity!==true)fail('post-B98 steady-state semantic parity invalid');
-if(steady.first_three_ready_for_retirement_review!==true||steady.review_gate_status!=='READY_FOR_SEPARATE_RETIREMENT_SLICE_REVIEW'||steady.retirement_authorized!==false||steady.runtime_module_removal_performed!==false||steady.full_browser_retirement_regression_required!==true||steady.identity_fix_in_scope!==false||steady.identity_fix_migration_authorized!==false||steady.canonical_write_performed!==false)fail('post-B98 steady-state safety boundary broadened');
-console.log(currentRun===b98?'POST_B98 Pages gate PASS: exact persistent B98 plus steady-state semantic parity':'POST_B98 Pages gate PASS: descendant steady-state lineage and semantic parity');
+if(steady.first_three_ready_for_retirement_review!==true||steady.review_gate_status!=='HISTORICAL_FIRST_THREE_RETIREMENT_VALIDATED'||steady.retirement_authorized!==false||steady.runtime_module_removal_performed!==false||steady.full_browser_retirement_regression_required!==true||steady.identity_fix_in_scope!==false||steady.canonical_write_performed!==false||steady.retirement_current_state_validated!==true)fail('post-B98 steady-state historical safety boundary broadened');
+const identityActive=steady.identity_fix_runtime_active===true&&steady.identity_fix_runtime_retired===false;
+const identityRetired=steady.identity_fix_runtime_active===false&&steady.identity_fix_runtime_retired===true;
+if(!identityActive&&!identityRetired)fail('post-B98 identity lifecycle partial/inconsistent');
+if(identityActive){
+  if(steady.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_ACTIVE'||steady.runtime_state!=='RETIRED_FIRST_THREE_IDENTITY_ACTIVE'||steady.identity_fix_migration_authorized!==false)fail('post-B98 active identity lifecycle invalid');
+}else{
+  if(steady.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_RETIRED_AUTHORIZED'||steady.runtime_state!=='ALL_FACTUAL_LEGACY_OVERLAYS_RETIRED'||steady.identity_fix_migration_authorized!==true)fail('post-B98 retired identity lifecycle invalid');
+  if(steady.b99_pages_gate_applicable!==true||steady.b99_pages_gate_passed!==true||steady.b99_identity_overlay_residual_mutations!==0||steady.b99_identity_fix_runtime_active!==false||steady.b99_identity_fix_runtime_retired!==true||steady.b99_identity_overlay_retirement_authorized!==true)fail('post-B98 retired B99 lifecycle invalid');
+}
+console.log(currentRun===b98?`POST_B98 Pages gate PASS: exact persistent B98 plus steady-state semantic parity; identity=${identityActive?'active':'retired-authorized'}`:`POST_B98 Pages gate PASS: descendant steady-state lineage and semantic parity; identity=${identityActive?'active':'retired-authorized'}`);
