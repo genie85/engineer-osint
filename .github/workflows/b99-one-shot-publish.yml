@@ -100,7 +100,12 @@ jobs:
       - name: Require exact two-file append diff
         run: |
           set -euo pipefail
-          mapfile -t changed < <(git diff --name-only)
+          mapfile -t changed < <(
+            {
+              git diff --name-only -- docs/engineer-osint/data
+              git ls-files --others --exclude-standard -- docs/engineer-osint/data
+            } | sort -u
+          )
           printf '%s\n' "${changed[@]}"
           test "${#changed[@]}" -eq 2
           test "${changed[0]}" = "docs/engineer-osint/data/run-store-manifest.json"
