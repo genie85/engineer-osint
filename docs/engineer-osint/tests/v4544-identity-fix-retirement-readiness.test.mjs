@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4544_IDENTITY_FIX_RETIREMENT_READINESS.json`,'utf8'));
+const retirement=JSON.parse(readFileSync(`${root}/V4546_IDENTITY_FIX_RETIREMENT.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-identity-fix-retirement-readiness.mjs`,'utf8');
 const workflow=readFileSync('.github/workflows/identity-fix-retirement-readiness.yml','utf8');
 const runtime=readFileSync(`${root}/runtime-modules.mjs`,'utf8');
@@ -25,7 +26,7 @@ test('v4.5.44 is readiness-only and pins the exact persistent B99 baseline',()=>
   for(const value of Object.values(policy.safety))assert.equal(value,false);
 });
 
-test('v4.5.44 readiness requires zero residual mutations and zero external sentinel consumers',()=>{
+test('v4.5.44 readiness historically requires zero residual mutations and zero external sentinel consumers',()=>{
   assert.equal(policy.expected.active_legacy_factual_module_count,1);
   assert.equal(policy.expected.identity_overlay_residual_mutations,0);
   assert.equal(policy.expected.other_public_runtime_sentinel_consumer_count,0);
@@ -39,27 +40,35 @@ test('v4.5.44 readiness requires zero residual mutations and zero external senti
   assert.match(audit,/gitBlobSha\(identityCode\)!==identity\.git_blob_sha/);
 });
 
-test('v4.5.44 prepares a simulated no-identity artifact without changing active runtime',()=>{
-  assert.match(runtime,/LEGACY_FACTUAL_OVERLAY_MODULES=\[/);
-  assert.ok(runtime.includes("['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']"));
+test('v4.5.44 simulation remains historical evidence while current v4.5.46 runtime is actually retired',()=>{
   assert.match(audit,/v4544-identity-active\.html/);
   assert.match(audit,/v4544-identity-retired-simulated\.html/);
   assert.match(audit,/built_identity_script_count:matches\.length/);
   assert.match(audit,/identity_fix_runtime_active:true/);
   assert.doesNotMatch(audit,/writeFileSync\(join\(src/);
+  assert.match(runtime,/export const LEGACY_FACTUAL_OVERLAY_MODULES=\[\]/);
+  assert.doesNotMatch(runtime,/\['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'\]/);
+  assert.equal(retirement.status,'AUTHORIZED_RETIREMENT_APPLIED');
+  assert.equal(retirement.retirement.identity_fix_removed_from_public_runtime,true);
+  assert.equal(retirement.identity_fix.historical_source_retained,true);
 });
 
-test('v4.5.44 browser gate compares active and simulated-retired public DOM',()=>{
+test('v4.5.44 workflow preserves original browser parity gate on PRE_RETIREMENT and validates actual retirement later',()=>{
+  assert.match(workflow,/Detect identity retirement phase/);
+  assert.match(workflow,/phase=PRE_RETIREMENT/);
+  assert.match(workflow,/phase=POST_RETIREMENT/);
   assert.match(workflow,/Headless browser active vs simulated retired parity/);
   assert.match(workflow,/v4544-identity-active\.html/);
   assert.match(workflow,/v4544-identity-retired-simulated\.html/);
   assert.match(workflow,/HEADLESS_IDENTITY_RETIREMENT_PARITY=PASS/);
   assert.match(workflow,/bilingual=re\.compile/);
   assert.ok(workflow.includes("s=re.sub(r'<script\\b[^>]*>[\\s\\S]*?</script>','',s,flags=re.I)"));
-  assert.match(workflow,/active!=retired/);
+  assert.match(workflow,/if a!=b/);
+  assert.match(workflow,/Audit authorized post-retirement state/);
+  assert.match(workflow,/audit-identity-fix-retirement\.mjs/);
 });
 
-test('v4.5.44 browser completion can only mark readiness for a separate review',()=>{
+test('v4.5.44 browser completion can only mark readiness for a separate review in its historical phase',()=>{
   assert.match(workflow,/ready_for_separate_retirement_authorization_review=true/);
   assert.match(workflow,/identity_fix_runtime_removal_authorized!==false/);
   assert.match(workflow,/identity_overlay_retirement_authorized!==false/);
@@ -67,9 +76,10 @@ test('v4.5.44 browser completion can only mark readiness for a separate review',
   assert.match(workflow,/identity_fix_file_deletion_authorized!==false/);
   assert.match(workflow,/legacy_baseline_edit_authorized!==false/);
   assert.match(workflow,/IDENTITY_FIX_RETIREMENT_READINESS=PASS_NO_AUTHORIZATION/);
+  assert.match(workflow,/HISTORICAL_READY_CURRENT_RETIRED_VALIDATED/);
 });
 
-test('v4.5.44 cannot write canonical data or perform retirement itself',()=>{
+test('v4.5.44 workflow cannot write canonical data or perform retirement itself',()=>{
   assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
   assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
   assert.doesNotMatch(workflow,/rm[^\n]*data-integrity-identity-fixes\.js/);
