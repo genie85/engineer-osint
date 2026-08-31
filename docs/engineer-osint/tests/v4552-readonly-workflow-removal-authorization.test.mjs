@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {assertHistoricalWorkflowCurrentOrV4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
@@ -37,7 +38,7 @@ test('v4.5.52 authorizes exactly all seven classified read-only workflows and no
   assert.equal(policy.application_contract.this_slice_performs_deletion,false);
 });
 
-test('v4.5.52 repinned all fourteen blobs; v4.5.53 may consume only the exact seven targets',()=>{
+test('v4.5.52 repinned all fourteen blobs; later authorized lifecycle may only consume exact declared targets',()=>{
   const active=policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION;
   const historical=policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP;
   assert.equal(active.length,5);
@@ -57,7 +58,8 @@ test('v4.5.52 repinned all fourteen blobs; v4.5.53 may consume only the exact se
   const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
   assert.deepEqual(actual,remainingFiles);
   for(const item of policy.targets)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
-  for(const item of [...active,...historical])assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of active)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of historical)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 
 test('v4.5.52 target set exactly equals v4.5.51 classified candidates',()=>{
