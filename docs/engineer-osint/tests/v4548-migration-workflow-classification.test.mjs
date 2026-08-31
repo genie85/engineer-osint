@@ -1,24 +1,35 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {readFileSync,readdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {existsSync,readFileSync,readdirSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4548_MIGRATION_WORKFLOW_CLASSIFICATION.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-migration-workflow-classification.mjs`,'utf8');
-
+const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const removedTargets=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
 const byClass=name=>policy.workflows.filter(item=>item.classification===name);
 
-test('v4.5.48 classifies the complete current workflow inventory without authorizing deletion',()=>{
+test('v4.5.48 preserves its exact 18-workflow historical classification across the authorized v4.5.50 lifecycle',()=>{
   const actual=readdirSync('.github/workflows').filter(name=>name.endsWith('.yml')).sort();
   const classified=policy.workflows.map(item=>item.file).sort();
   assert.equal(policy.schema_version,'engineer-osint-migration-workflow-classification-v1');
   assert.equal(policy.status,'CLASSIFIED_NO_REMOVAL_AUTHORIZED');
   assert.equal(policy.reviewed_main_sha,'8c8b527ec4642539bb9966fee6cc804cee61f36a');
   assert.equal(policy.inventory_count,18);
-  assert.deepEqual(classified,actual);
   assert.equal(policy.removal_authorized,false);
   assert.equal(policy.workflow_deactivation_authorized,false);
+  if(actual.length===18){
+    assert.deepEqual(classified,actual);
+  }else{
+    assert.equal(actual.length,14);
+    assert.ok(existsSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`));
+    const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+    assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+    assert.deepEqual(actual,classified.filter(file=>!removedTargets.includes(file)));
+    for(const file of removedTargets)assert.equal(existsSync(`.github/workflows/${file}`),false,file);
+  }
 });
 
 test('v4.5.48 has an exact 5 active / 2 historical / 11 removable split',()=>{
@@ -32,8 +43,8 @@ test('v4.5.48 has an exact 5 active / 2 historical / 11 removable split',()=>{
   });
 });
 
-test('v4.5.48 isolates all four repository-write one-shot workflows but does not authorize removal',()=>{
-  const expected=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'].sort();
+test('v4.5.48 historically isolates all four repository-write one-shot workflows without authorizing their removal',()=>{
+  const expected=[...removedTargets].sort();
   const writeCapable=policy.workflows.filter(item=>item.write_capable===true).map(item=>item.file).sort();
   assert.deepEqual(writeCapable,expected);
   for(const file of expected){
@@ -64,15 +75,24 @@ test('v4.5.48 retains exactly the five current replacement protections',()=>{
   for(const item of byClass('ACTIVE_PRODUCTION_PROTECTION'))assert.equal(item.future_action,'RETAIN_AND_MODERNIZE');
 });
 
-test('v4.5.48 fail-closed audit is read-only and passes against the exact inventory',()=>{
+test('v4.5.48 fail-closed audit remains immutable; it runs only in its exact pre-removal lifecycle',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
   assert.doesNotMatch(audit,/delete_file|update_file|create_file/);
-  const output=execFileSync(process.execPath,[`${root}/audit-migration-workflow-classification.mjs`],{encoding:'utf8'});
-  assert.match(output,/MIGRATION_WORKFLOW_CLASSIFICATION=PASS/);
-  assert.match(output,/inventory=18 active=5 historical=2 removable=11 removal-authorized=0/);
+  const targetPresence=removedTargets.filter(file=>existsSync(`.github/workflows/${file}`)).length;
+  assert.ok(targetPresence===0||targetPresence===4,`partial one-shot lifecycle state: ${targetPresence}/4 present`);
+  if(targetPresence===4){
+    const output=execFileSync(process.execPath,[`${root}/audit-migration-workflow-classification.mjs`],{encoding:'utf8'});
+    assert.match(output,/MIGRATION_WORKFLOW_CLASSIFICATION=PASS/);
+    assert.match(output,/inventory=18 active=5 historical=2 removable=11 removal-authorized=0/);
+  }else{
+    assert.equal(gitBlobSha(audit),'36abc4b74a3d360833d7e1b2f6e30795bb91f26d');
+    const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+    assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+    assert.equal(removal.historical_audits_retained.find(x=>x.file==='audit-migration-workflow-classification.mjs')?.git_blob_sha,'36abc4b74a3d360833d7e1b2f6e30795bb91f26d');
+  }
 });
 
-test('v4.5.48 next slice is constrained to authorization/proof for four write-capable one-shots',()=>{
+test('v4.5.48 next slice remained constrained to authorization/proof for four write-capable one-shots',()=>{
   assert.match(policy.required_next_slice.goal,/four write-capable B96-B99 one-shot/);
   assert.ok(policy.required_next_slice.must_prove.length>=5);
   assert.equal(policy.removal_authorized,false);

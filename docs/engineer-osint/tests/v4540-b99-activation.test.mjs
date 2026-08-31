@@ -1,12 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4540_B99_APPEND_AUTHORIZATION.json`,'utf8'));
 const append=readFileSync(`${root}/append-run.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/b99-one-shot-publish.yml','utf8');
+const workflowPath='.github/workflows/b99-one-shot-publish.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
 const media=JSON.parse(readFileSync(`${root}/media-sweep-status-exceptions.json`,'utf8'));
+const assertHistoricalWorkflowOrAuthorizedRemoval=()=>{
+  if(workflow!==null)return true;
+  const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+  const target=removal.removed_targets.find(x=>x.file==='b99-one-shot-publish.yml');
+  assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+  assert.equal(target?.git_blob_sha,'f07660fd524e44904b24e0b8e04dae538e7c8ac2');
+  assert.equal(target?.historical_run_id,'engineer-osint-20260830-B99');
+  assert.equal(target?.run_file_sha256,'ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab');
+  assert.equal(target?.canonical_sha256,'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30');
+  return false;
+};
 
 test('v4.5.40 authorizes only the exact reviewed B99 after media readiness',()=>{
   assert.equal(auth.status,'READY_FOR_APPEND');
@@ -43,6 +55,7 @@ test('v4.5.40 standard append helper independently guards B99 exact scope and me
 });
 
 test('v4.5.40 one-shot is main-triggered but writes only an isolated review branch',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/branches: \[main\]/);
   assert.match(workflow,/\.github\/workflows\/b99-one-shot-publish\.yml/);
   assert.doesNotMatch(workflow,/pull_request:/);
@@ -67,5 +80,6 @@ test('v4.5.40 activation cannot authorize identity-fix removal or retirement',()
   assert.equal(auth.authorization.allow_future_run_same_slice,false);
   assert.equal(auth.authorization.one_run_only,true);
   assert.equal(auth.authorization.isolated_review_branch_required,true);
-  assert.doesNotMatch(workflow,/data-integrity-identity-fixes\.js.*rm|rm.*data-integrity-identity-fixes\.js/);
+  if(workflow!==null)assert.doesNotMatch(workflow,/data-integrity-identity-fixes\.js.*rm|rm.*data-integrity-identity-fixes\.js/);
+  else assertHistoricalWorkflowOrAuthorizedRemoval();
 });

@@ -2,11 +2,25 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const workflow=fs.readFileSync('.github/workflows/b96-one-shot-publish.yml','utf8');
+const root='docs/engineer-osint';
+const workflowPath='.github/workflows/b96-one-shot-publish.yml';
+const workflow=fs.existsSync(workflowPath)?fs.readFileSync(workflowPath,'utf8'):null;
 const appendRun=fs.readFileSync(new URL('../append-run.mjs',import.meta.url),'utf8');
 const authorization=JSON.parse(fs.readFileSync(new URL('../V4511_B96_APPEND_AUTHORIZATION.json',import.meta.url),'utf8'));
+const assertHistoricalWorkflowOrAuthorizedRemoval=()=>{
+  if(workflow!==null)return true;
+  const removal=JSON.parse(fs.readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+  const target=removal.removed_targets.find(x=>x.file==='b96-one-shot-publish.yml');
+  assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+  assert.equal(target?.git_blob_sha,'3960aa2524d7c7a5767319e1c1097914fb6359e1');
+  assert.equal(target?.historical_run_id,'engineer-osint-20260829-B96');
+  assert.equal(target?.run_file_sha256,'3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1');
+  assert.equal(target?.canonical_sha256,'4a2dd9dd1756fd15316741ce2488cb69ad17db3986830e7d20eea9b79693dcd5');
+  return false;
+};
 
 test('v4.5.13 one-shot trigger is scoped to its own main-branch enablement commit',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/push:\n    branches: \[main\]/);
   assert.match(workflow,/\.github\/workflows\/b96-one-shot-publish\.yml/);
   assert.match(workflow,/contents: write/);
@@ -17,6 +31,7 @@ test('v4.5.13 one-shot trigger is scoped to its own main-branch enablement commi
 test('v4.5.13 pins the exact authorized B95-to-B96 identities and hashes',()=>{
   assert.equal(authorization.status,'READY_FOR_APPEND');
   assert.equal(authorization.required_preconditions.post_b96_ci_pipeline_ready,true);
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/B95_RUN: engineer-osint-20260826-B95/);
   assert.match(workflow,/B96_RUN: engineer-osint-20260829-B96/);
   assert.match(workflow,/B96_CANDIDATE_SHA256: 3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1/);
@@ -29,6 +44,7 @@ test('v4.5.13 pins the exact authorized B95-to-B96 identities and hashes',()=>{
 });
 
 test('v4.5.13 regenerates and dry-runs the exact candidate before any guarded write',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   const build=workflow.indexOf('build-overlay-stage-a-candidate.mjs');
   const dry=workflow.indexOf('append-run.mjs "$candidate" > "$plan"');
   const impact=workflow.indexOf('audit-overlay-stage-a-impact.mjs');
@@ -54,6 +70,7 @@ test('guarded repository append helper independently enforces exact B96 authoriz
 });
 
 test('v4.5.13 audits persistent B96 and excludes B97/B98 before preparing a branch',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   const write=workflow.indexOf('append-run.mjs "$candidate" --write');
   const validate=workflow.indexOf('node docs/engineer-osint/validate-patch.mjs',write);
   const persistent=workflow.indexOf('node docs/engineer-osint/audit-persistent-b96.mjs',write);
@@ -64,6 +81,7 @@ test('v4.5.13 audits persistent B96 and excludes B97/B98 before preparing a bran
 });
 
 test('v4.5.13 permits exactly the append-generated manifest plus B96 run file',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/docs\/engineer-osint\/data\/run-store-manifest\.json/);
   assert.match(workflow,/docs\/engineer-osint\/data\/runs\/engineer-osint-20260829-B96\.json/);
   assert.match(workflow,/diff -u \/tmp\/b96-expected-paths\.txt \/tmp\/b96-actual-paths\.txt/);
@@ -72,6 +90,7 @@ test('v4.5.13 permits exactly the append-generated manifest plus B96 run file',(
 });
 
 test('append-generated canonical changes are pushed only to an isolated review branch',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/B96_RESULT_BRANCH: automation\/b96-append-result/);
   assert.match(workflow,/git ls-remote --exit-code --heads origin/);
   assert.match(workflow,/git push --set-upstream origin "\$B96_RESULT_BRANCH"/);
