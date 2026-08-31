@@ -22,15 +22,16 @@ test('v4.5.38 pins exact B99 Pages scope without append or retirement authorizat
   for(const value of Object.values(policy.safety))assert.equal(value,false);
 });
 
-test('post-B98 Pages hook runs persistent B99 audit and B99 gate only when B99 is persistent',()=>{
+test('post-B98 Pages hook runs persistent B99 audit and accepts only active-blocked or later retired-authorized identity state',()=>{
   assert.match(dispatcher,/const b99Index=runs\.findIndex/);
   assert.match(dispatcher,/b99Persistent=b99Index>=0&&runs\.length-1>=b99Index/);
   assert.match(dispatcher,/audit-persistent-b99-identity\.mjs/);
   assert.match(dispatcher,/verify-b99-pages-readiness\.mjs/);
   assert.match(dispatcher,/b99_pages_gate_passed:b99Persistent\?true:null/);
   assert.match(dispatcher,/identity_overlay_residual_mutations!==0/);
-  assert.match(dispatcher,/identity_fix_runtime_active!==true/);
-  assert.match(dispatcher,/identity_overlay_retirement_authorized!==false/);
+  assert.match(dispatcher,/const identityActive=/);
+  assert.match(dispatcher,/const identityRetired=/);
+  assert.match(dispatcher,/IDENTITY_RETIRED_AUTHORIZED/);
 });
 
 test('B99 Pages gate requires exact persistent hash, migration and mirror-sync scope',()=>{
@@ -44,11 +45,16 @@ test('B99 Pages gate requires exact persistent hash, migration and mirror-sync s
   assert.match(gate,/audit\.identity_overlay_residual_mutations!==policy\.expected_identity_overlay_residual/);
 });
 
-test('B99 Pages gate requires identity-fix runtime active and retirement still blocked',()=>{
-  assert.match(gate,/identity_fix_runtime_active!==true/);
-  assert.match(gate,/identity_fix_runtime_removal_authorized!==false/);
-  assert.match(gate,/identity_overlay_retirement_authorized!==false/);
-  assert.match(gate,/canonical_write_performed!==false/);
+test('B99 Pages gate preserves historical active-blocked path and validates later authorized retirement separately',()=>{
+  assert.match(gate,/if\(audit\.identity_fix_runtime_active===true\)/);
+  assert.match(gate,/active identity lifecycle safety state mismatch/);
+  assert.match(gate,/retirement=blocked/);
+  assert.match(gate,/retired identity lifecycle authorization\/validation mismatch/);
+  assert.match(gate,/audit-identity-fix-retirement\.mjs/);
+  assert.match(gate,/identity retirement zero-debt proof failed/);
+  assert.match(gate,/identity retirement built runtime contract failed/);
+  assert.match(gate,/identity-runtime=retired-authorized/);
+  assert.match(gate,/audit\.b99_append_authorized!==false\|\|audit\.canonical_write_performed!==false/);
   assert.doesNotMatch(gate,/append-run\.mjs/);
   assert.doesNotMatch(dispatcher,/append-run\.mjs/);
 });
@@ -61,7 +67,7 @@ test('existing Pages order executes post-B98 steady-state hook before PUBLIC-CZ 
   assert.match(pages,/audit-post-b98-steady-state\.mjs/);
 });
 
-test('PRE_B99 remains a no-op for the new gate and cannot fabricate persistent evidence',()=>{
+test('PRE_B99 remains a no-op for the historical gate and cannot fabricate persistent evidence',()=>{
   assert.match(gate,/if\(b99Index<0\)/);
   assert.match(gate,/B99 Pages gate PRE_B99: not yet persistent; no append authorization/);
   assert.match(gate,/process\.exit\(0\)/);
