@@ -1,0 +1,80 @@
+{
+  "schema_version": "engineer-osint-readonly-workflow-removal-authorization-v1",
+  "status": "AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOW_REMOVAL",
+  "reviewed_main_sha": "1d7f9a5f7dbf0ada8c09d95fbd8b4d3dca437d07",
+  "reviewed_v4551_policy_git_blob_sha": "71c41f006375fbbf44ec53d94272777bc4f74370",
+  "reviewed_v4551_audit_git_blob_sha": "2890b5ce742aaf6a2c0e7bf2c8208a60266541c4",
+  "targets": [
+    {"file":"b97-readiness.yml","git_blob_sha":"054ae37c1d57352057c817784c962968011b5409"},
+    {"file":"b98-readiness.yml","git_blob_sha":"df6851c3985373e2f8a92a4af6516af8c38ca1c2"},
+    {"file":"b98-post-ci-readiness.yml","git_blob_sha":"d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a"},
+    {"file":"identity-fix-b99-candidate-readiness.yml","git_blob_sha":"947f4f7ee65a2677e107e6662d315bac5de3eaf0"},
+    {"file":"identity-fix-b99-mirror-sync-candidate-readiness.yml","git_blob_sha":"d5d48134fe707b2d07ebeccfe555b9790d3d2c0f"},
+    {"file":"identity-fix-readiness.yml","git_blob_sha":"6b71a4b4d757ba25e135334115285d7f96e8d5d1"},
+    {"file":"identity-mirror-parity-readiness.yml","git_blob_sha":"f30ff955539d510bc78131c5a7ce1b4ba8d26e0f"}
+  ],
+  "required_remaining_workflows": {
+    "ACTIVE_PRODUCTION_PROTECTION": [
+      {"file":"first-three-overlay-retirement-regression.yml","git_blob_sha":"913520fdbae0b404628420d6bf8fe7f4170ac5d9"},
+      {"file":"i18n-switch-regression.yml","git_blob_sha":"e07db7a6acb5aae7db64b3bb92e21d6250f78bbc"},
+      {"file":"identity-fix-retirement-regression.yml","git_blob_sha":"272c85272137c256484b831be98f7340cbe6db8e"},
+      {"file":"pages.yml","git_blob_sha":"49d8b2e2222848e370800d5dec20c8d8c572afad"},
+      {"file":"runtime-audit-snapshot.yml","git_blob_sha":"9a07eb9fcf949d1ff1984867e39bc0acbbb420c4"}
+    ],
+    "HISTORICAL_EVIDENCE_KEEP": [
+      {"file":"identity-fix-retirement-readiness.yml","git_blob_sha":"925f139e1288cb43d16b7c06f042417fcb599322"},
+      {"file":"identity-fix-retirement-authorization.yml","git_blob_sha":"eac7e69735e79a41354c036ba04b23f7c2d3c7f9"}
+    ]
+  },
+  "dependency_proof": {
+    "workflow_count_before": 14,
+    "candidate_count": 7,
+    "candidate_contents_read_count": 7,
+    "candidate_contents_write_count": 0,
+    "candidate_workflow_call_count": 0,
+    "cross_workflow_candidate_reference_count": 0,
+    "expected_workflow_count_after_exact_removal": 7,
+    "expected_active_production_protection_count_after": 5,
+    "expected_historical_evidence_keep_count_after": 2,
+    "expected_remaining_migration_ci_debt_candidate_count_after": 0,
+    "expected_write_capable_migration_one_shot_count_after": 0
+  },
+  "required_unchanged_state": {
+    "run_store_manifest_git_blob_sha": "c79db99f2bc0746ee553d5e3cc08c26186f90a34",
+    "runtime_modules_git_blob_sha": "247843bed41af69812cae40aecbfba27cb0022db",
+    "b99_run_id": "engineer-osint-20260830-B99",
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "active_legacy_factual_overlay_count": 0,
+    "active_legacy_baseline_module_count": 0,
+    "retired_browser_dom_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+  },
+  "authorization": {
+    "exact_all_seven_workflow_deletion_authorized": true,
+    "partial_subset_deletion_authorized": false,
+    "candidate_workflow_edit_authorized": false,
+    "other_workflow_deletion_authorized": false,
+    "other_workflow_edit_authorized": false,
+    "active_protection_change_authorized": false,
+    "historical_evidence_workflow_change_authorized": false,
+    "historical_evidence_trigger_deactivation_authorized": false,
+    "v4551_policy_edit_or_delete_authorized": false,
+    "v4551_audit_edit_or_delete_authorized": false,
+    "canonical_data_edit_authorized": false,
+    "run_store_edit_authorized": false,
+    "run_append_authorized": false,
+    "runtime_edit_authorized": false,
+    "manual_hash_edit_authorized": false
+  },
+  "application_contract": {
+    "this_slice_performs_deletion": false,
+    "next_slice_must_delete_exactly_all_seven_targets": true,
+    "next_slice_must_revalidate_target_blobs_before_deletion": true,
+    "next_slice_must_preserve_exactly_five_active_protections": true,
+    "next_slice_must_preserve_exactly_two_historical_evidence_workflows": true,
+    "next_slice_must_preserve_b99_hashes": true,
+    "next_slice_must_preserve_run_store_and_runtime_blobs": true,
+    "next_slice_must_add_post_removal_fail_closed_audit": true,
+    "expected_post_removal_workflow_count": 7
+  }
+}
