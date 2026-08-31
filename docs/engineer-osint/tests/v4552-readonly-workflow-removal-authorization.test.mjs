@@ -2,31 +2,24 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {readFileSync,readdirSync} from 'node:fs';
+import {existsSync,readFileSync,readdirSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
-const policy=JSON.parse(readFileSync(`${root}/V4552_READONLY_WORKFLOW_REMOVAL_AUTHORIZATION.json`,'utf8'));
+const policyText=readFileSync(`${root}/V4552_READONLY_WORKFLOW_REMOVAL_AUTHORIZATION.json`,'utf8');
+const policy=JSON.parse(policyText);
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const v4553Path=`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`;
+const v4553=existsSync(v4553Path)?JSON.parse(readFileSync(v4553Path,'utf8')):null;
 
 const targetFiles=[
-  'b97-readiness.yml',
-  'b98-readiness.yml',
-  'b98-post-ci-readiness.yml',
-  'identity-fix-b99-candidate-readiness.yml',
-  'identity-fix-b99-mirror-sync-candidate-readiness.yml',
-  'identity-fix-readiness.yml',
-  'identity-mirror-parity-readiness.yml'
+  'b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml',
+  'identity-fix-b99-candidate-readiness.yml','identity-fix-b99-mirror-sync-candidate-readiness.yml',
+  'identity-fix-readiness.yml','identity-mirror-parity-readiness.yml'
 ].sort();
-
 const remainingFiles=[
-  'first-three-overlay-retirement-regression.yml',
-  'i18n-switch-regression.yml',
-  'identity-fix-retirement-regression.yml',
-  'pages.yml',
-  'runtime-audit-snapshot.yml',
-  'identity-fix-retirement-readiness.yml',
-  'identity-fix-retirement-authorization.yml'
+  'first-three-overlay-retirement-regression.yml','i18n-switch-regression.yml','identity-fix-retirement-regression.yml',
+  'pages.yml','runtime-audit-snapshot.yml','identity-fix-retirement-readiness.yml','identity-fix-retirement-authorization.yml'
 ].sort();
 
 test('v4.5.52 authorizes exactly all seven classified read-only workflows and nothing broader',()=>{
@@ -44,20 +37,27 @@ test('v4.5.52 authorizes exactly all seven classified read-only workflows and no
   assert.equal(policy.application_contract.this_slice_performs_deletion,false);
 });
 
-test('v4.5.52 re-pins all fourteen current workflow blobs before future removal',()=>{
+test('v4.5.52 repinned all fourteen blobs; v4.5.53 may consume only the exact seven targets',()=>{
   const active=policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION;
   const historical=policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP;
   assert.equal(active.length,5);
   assert.equal(historical.length,2);
   assert.deepEqual([...active,...historical].map(x=>x.file).sort(),remainingFiles);
-  const expected=[...policy.targets,...active,...historical];
-  const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
-  assert.equal(expected.length,14);
-  assert.deepEqual(actual,expected.map(x=>x.file).sort());
-  for(const item of expected){
-    const text=readFileSync(`${workflowsDir}/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
+  if(!v4553){
+    const expected=[...policy.targets,...active,...historical];
+    const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+    assert.equal(expected.length,14);
+    assert.deepEqual(actual,expected.map(x=>x.file).sort());
+    for(const item of expected)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+    return;
   }
+  assert.equal(v4553.status,'AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOWS_REMOVED');
+  assert.equal(v4553.authorization_policy_git_blob_sha,'9394a1f6a4749b12c127128b8555ac358e751f4c');
+  assert.deepEqual(v4553.removed_targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),policy.targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
+  const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+  assert.deepEqual(actual,remainingFiles);
+  for(const item of policy.targets)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
+  for(const item of [...active,...historical])assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
 });
 
 test('v4.5.52 target set exactly equals v4.5.51 classified candidates',()=>{
@@ -67,10 +67,7 @@ test('v4.5.52 target set exactly equals v4.5.51 classified candidates',()=>{
   assert.equal(gitBlobSha(v4551Text),policy.reviewed_v4551_policy_git_blob_sha);
   assert.equal(gitBlobSha(auditText),policy.reviewed_v4551_audit_git_blob_sha);
   assert.equal(v4551.status,'SEVEN_SAFE_REMOVAL_CANDIDATES_NO_REMOVAL_AUTHORIZED');
-  assert.deepEqual(
-    policy.targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),
-    v4551.candidates.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0]))
-  );
+  assert.deepEqual(policy.targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),v4551.candidates.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
   assert.ok(v4551.candidates.every(x=>x.disposition==='SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION'));
 });
 
@@ -98,9 +95,15 @@ test('v4.5.52 preserves B99, zero-overlay runtime, and exact post-removal invent
   assert.equal(policy.dependency_proof.expected_remaining_migration_ci_debt_candidate_count_after,0);
 });
 
-test('v4.5.52 authorization audit is read-only and passes fail-closed',()=>{
+test('v4.5.52 authorization audit stays immutable; execute only before authorized removal',()=>{
   const audit=readFileSync(`${root}/audit-readonly-workflow-removal-authorization.mjs`,'utf8');
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
+  if(v4553){
+    assert.equal(gitBlobSha(policyText),v4553.authorization_policy_git_blob_sha);
+    assert.equal(gitBlobSha(audit),v4553.authorization_audit_git_blob_sha);
+    assert.equal(v4553.removal_result.deleted_workflow_count,7);
+    return;
+  }
   const output=execFileSync(process.execPath,[`${root}/audit-readonly-workflow-removal-authorization.mjs`],{encoding:'utf8'});
   assert.match(output,/READONLY_WORKFLOW_REMOVAL_AUTHORIZATION=PASS/);
   assert.match(output,/targets=7 workflows=14 after=7 active=5 historical=2 read=7 write=0 workflow-call=0 remaining-refs=0 reusable-uses=0 internal-target-refs=\d+ authorization=exact-all-seven-only b99=engineer-osint-20260830-B99/);

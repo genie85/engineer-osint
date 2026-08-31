@@ -1,11 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4533_IDENTITY_FIX_CANDIDATE_READINESS.json`,'utf8'));
 const generator=readFileSync(`${root}/build-identity-fix-b99-candidate.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/identity-fix-b99-candidate-readiness.yml','utf8');
+const workflowPath='.github/workflows/identity-fix-b99-candidate-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B99 candidate workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='identity-fix-b99-candidate-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'947f4f7ee65a2677e107e6662d315bac5de3eaf0');
+};
 
 test('v4.5.33 pins exact B99 identity candidate to persistent B98',()=>{
   assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B99');
@@ -36,8 +44,10 @@ test('v4.5.33 requires zero authoritative residual and isolates exact legacy mir
 });
 
 test('v4.5.33 uses standard append dry-run and does not authorize publication or retirement',()=>{
-  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
-  assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
+  if(workflow){
+    assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
+    assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
+  }else assertHistoricalWorkflow();
   assert.equal(policy.safety.canonical_write_performed,false);
   assert.equal(policy.safety.append_run_write_allowed,false);
   assert.equal(policy.safety.identity_fix_runtime_removal_authorized,false);
