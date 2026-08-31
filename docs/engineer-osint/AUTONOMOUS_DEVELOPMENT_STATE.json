@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-31T22:26:39+02:00",
+  "updated_at": "2026-08-31T22:30:00+02:00",
   "main_sha": "a1a33b00c2638a7b54533e7153e4cf5de902eb12",
   "current_phase": "A_POST_V4546_CONSOLIDATION",
   "current_task": "Establish an auditable autonomous-development baseline before removing any retired migration CI or historical evidence.",
-  "active_pr": null,
+  "active_pr": 267,
   "last_completed_task": "v4.5.46 final identity-fix runtime overlay retirement merged and verified in production.",
   "next_recommended_task": "Classify post-B96/B97/B98/B99 readiness, candidate and one-shot workflows as active protection, historical evidence or removable CI debt; remove nothing until the classification is regression-tested.",
   "blockers": [],
