@@ -8,6 +8,7 @@ const workflow=fs.readFileSync(new URL('../../../.github/workflows/pages.yml',im
 const pagesVerifier=fs.readFileSync(new URL('../verify-pages-artifact-pre-b98.mjs',import.meta.url),'utf8');
 const policy=fs.readFileSync(new URL('../V45_OVERLAY_RETIREMENT_POLICY.md',import.meta.url),'utf8');
 const v4530=JSON.parse(fs.readFileSync(new URL('../V4530_FIRST_THREE_OVERLAY_RETIREMENT.json',import.meta.url),'utf8'));
+const v4546=JSON.parse(fs.readFileSync(new URL('../V4546_IDENTITY_FIX_RETIREMENT.json',import.meta.url),'utf8'));
 
 test('v4.5 retirement audit remains current-materialization based and fail-closed on active pinned scope',()=>{
   assert.match(audit,/built canonical ENGINEER_DATA/);
@@ -24,14 +25,19 @@ test('v4.5 classifies zero-delta modules without auto-retiring them',()=>{
   assert.match(policy,/public-output comparison/);
 });
 
-test('v4.5.30 retires exactly the first three factual overlays while identity-fix remains active',()=>{
+test('v4.5.30 historically retires exactly the first three and v4.5.46 later retires identity-fix separately',()=>{
   for(const file of ['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js']){
     assert.equal(manifest.includes(`['engineer-${file.replace(/\.js$/,'').replaceAll('-','-')}-module','${file}']`),false);
     assert.ok(v4530.retired_modules.some(item=>item.file===file));
   }
-  assert.match(manifest,/\['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'\]/);
   assert.equal(v4530.authorization.keep_identity_fix_active,true);
   assert.equal(v4530.authorization.allow_identity_fix_migration,false);
+  assert.doesNotMatch(manifest,/\['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'\]/);
+  assert.match(manifest,/export const LEGACY_FACTUAL_OVERLAY_MODULES=\[\]/);
+  assert.equal(v4546.status,'AUTHORIZED_RETIREMENT_APPLIED');
+  assert.equal(v4546.retirement.identity_fix_removed_from_public_runtime,true);
+  assert.equal(v4546.retirement.resulting_active_legacy_factual_module_count,0);
+  assert.equal(v4546.identity_fix.historical_source_retained,true);
 });
 
 test('v4.5.1 emits an exact field-level migration map with explicit route semantics',()=>{
