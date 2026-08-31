@@ -9,22 +9,42 @@ const generator=readFileSync(`${root}/build-b98-readiness.mjs`,'utf8');
 const workflow=readFileSync('.github/workflows/b98-readiness.yml','utf8');
 const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
-const b98Path=`${root}/data/runs/engineer-osint-20260830-B98.json`;
+const b97Id='engineer-osint-20260830-B97';
+const b98Id='engineer-osint-20260830-B98';
+const b98Path=`${root}/data/runs/${b98Id}.json`;
+const b98FileSha='ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79';
+const b98CanonicalSha='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201';
 const b96Raw=readFileSync(`${root}/data/runs/engineer-osint-20260829-B96.json`,'utf8');
-const b97Raw=readFileSync(`${root}/data/runs/engineer-osint-20260830-B97.json`,'utf8');
+const b97Raw=readFileSync(`${root}/data/runs/${b97Id}.json`,'utf8');
 const b96=JSON.parse(b96Raw),b97=JSON.parse(b97Raw);
 
 const assertLifecyclePresence=()=>{
-  if(currentRun==='engineer-osint-20260830-B97')assert.equal(existsSync(b98Path),false);
-  else if(currentRun==='engineer-osint-20260830-B98')assert.equal(existsSync(b98Path),true);
-  else assert.fail(`unexpected B98 lifecycle tip ${currentRun}`);
+  const b98Index=manifest.runs.findIndex(item=>item.run_id===b98Id);
+  if(currentRun===b97Id){
+    assert.equal(b98Index,-1);
+    assert.equal(existsSync(b98Path),false);
+    return;
+  }
+  assert.ok(b98Index>=0,'historical B98 manifest entry missing under later lifecycle tip');
+  assert.equal(existsSync(b98Path),true);
+  const b98Entry=manifest.runs[b98Index];
+  assert.equal(b98Entry.parent_run_id,b97Id);
+  assert.equal(b98Entry.parent_canonical_sha256,policy.expected_parent_canonical_sha256);
+  assert.equal(b98Entry.file_sha256,b98FileSha);
+  assert.equal(b98Entry.canonical_sha256,b98CanonicalSha);
+  for(let i=b98Index+1;i<manifest.runs.length;i++){
+    const parent=manifest.runs[i-1];
+    const descendant=manifest.runs[i];
+    assert.equal(descendant.parent_run_id,parent.run_id,`post-B98 descendant ${descendant.run_id} parent drift`);
+    assert.equal(descendant.parent_canonical_sha256,parent.canonical_sha256,`post-B98 descendant ${descendant.run_id} parent canonical SHA drift`);
+  }
 };
 
 test('v4.5.24 B98 readiness is pinned to exact persistent B97 and remains no-write',()=>{
   assert.equal(policy.schema_version,'engineer-osint-b98-readiness-v1');
   assert.equal(policy.status,'READ_ONLY_CANDIDATE_BUILD');
-  assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B98');
-  assert.equal(policy.expected_parent_run_id,'engineer-osint-20260830-B97');
+  assert.equal(policy.candidate_run_id,b98Id);
+  assert.equal(policy.expected_parent_run_id,b97Id);
   assert.equal(policy.expected_parent_canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
   assert.equal(policy.expected_b96_file_sha256,'3d3992f63b84e3b797e91bf4b407e97046f7e0ca2bbb5f1f29f3f5c0426a13f1');
   assert.equal(policy.expected_b97_file_sha256,'b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad');
@@ -44,7 +64,7 @@ test('persistent B96 and B97 inputs retain the exact reviewed migration scope',(
   assert.equal(b96.state.parent_run_id,'engineer-osint-20260826-B95');
   assert.equal(b96.extensions.operations_v1.length,104);
   assert.equal(b96.sources.length,15);
-  assert.equal(b97.state.run_id,'engineer-osint-20260830-B97');
+  assert.equal(b97.state.run_id,b97Id);
   assert.equal(b97.state.parent_run_id,'engineer-osint-20260829-B96');
   assert.equal(b97.extensions.intelligence_v1.gaps.length,15);
   assert.equal(b97.extensions.intelligence_v1.assessments.length,0);
@@ -53,8 +73,8 @@ test('persistent B96 and B97 inputs retain the exact reviewed migration scope',(
 });
 
 test('B98 generator reuses the curated review but rebuilds Stage C directly from persistent B97',()=>{
-  assert.equal(review.candidate_run_id,'engineer-osint-20260830-B98');
-  assert.equal(review.expected_parent_run_id,'engineer-osint-20260830-B97');
+  assert.equal(review.candidate_run_id,b98Id);
+  assert.equal(review.expected_parent_run_id,b97Id);
   assert.equal(review.evidence_candidates.length,2);
   assert.equal(review.assessment_candidates.length,4);
   assert.match(generator,/V457_ASSESSMENT_EVIDENCE_REVIEW\.json/);
