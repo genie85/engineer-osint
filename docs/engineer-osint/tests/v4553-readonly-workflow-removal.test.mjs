@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
-import {assertHistoricalWorkflowCurrentOrV4556,assertV4556Applied} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557,assertV4556Applied} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
@@ -37,7 +37,7 @@ test('v4.5.53 leaves exactly five active protections and two historical-evidence
   const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
   assert.deepEqual(actual,remaining);
   assert.deepEqual([...active,...historical].map(x=>x.file).sort(),remaining);
-  for(const item of active)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of active)assertActiveProtectionCurrentOrV4557(item);
   for(const item of historical)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 

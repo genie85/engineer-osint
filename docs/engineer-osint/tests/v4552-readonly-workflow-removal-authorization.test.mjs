@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
-import {assertHistoricalWorkflowCurrentOrV4556} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
@@ -58,7 +58,7 @@ test('v4.5.52 repinned all fourteen blobs; later authorized lifecycle may only c
   const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
   assert.deepEqual(actual,remainingFiles);
   for(const item of policy.targets)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
-  for(const item of active)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of active)assertActiveProtectionCurrentOrV4557(item);
   for(const item of historical)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,readdirSync} from 'node:fs';
-import {assertHistoricalWorkflowCurrentOrV4556,assertV4556Applied,gitBlobSha as lifecycleBlobSha} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557,assertV4556Applied,gitBlobSha as lifecycleBlobSha} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4554_MINIMIZED_WORKFLOW_TRIGGER_COVERAGE.json`,'utf8'));
@@ -25,10 +25,7 @@ test('v4.5.54 pins exactly seven historical workflow identities with 5 active an
   const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(expected.length,7);
   assert.deepEqual(actual,expected.map(x=>x.file).sort());
-  for(const item of policy.active_production_protections){
-    const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
-  }
+  for(const item of policy.active_production_protections)assertActiveProtectionCurrentOrV4557(item);
   for(const item of policy.historical_evidence_workflows)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 

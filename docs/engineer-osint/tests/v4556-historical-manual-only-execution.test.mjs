@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {assertV4556Applied,gitBlobSha,v4556} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertActiveProtectionCurrentOrV4557,assertV4556Applied,gitBlobSha,v4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json`,'utf8'));
@@ -13,15 +13,12 @@ test('v4.5.56 consumes exactly the two v4.5.55 authorized historical anchors',()
   assertV4556Applied();
 });
 
-test('v4.5.56 keeps exactly five active protections byte-pinned and seven workflow files',()=>{
+test('v4.5.56 keeps exactly five active protection anchors with only exact v4.5.57 browser-guard successor allowed',()=>{
   const files=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
   assert.equal(files.length,7);
   assert.equal(v4556.unchanged_active_protections.length,5);
   assert.deepEqual(v4556.unchanged_active_protections,auth.required_unchanged_active_protections);
-  for(const item of v4556.unchanged_active_protections){
-    const text=readFileSync(`.github/workflows/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
-  }
+  for(const item of v4556.unchanged_active_protections)assertActiveProtectionCurrentOrV4557(item);
 });
 
 test('v4.5.56 changes no data/runtime/history safety boundary',()=>{

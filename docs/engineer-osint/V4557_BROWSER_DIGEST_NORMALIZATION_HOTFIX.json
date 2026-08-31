@@ -1,0 +1,49 @@
+{
+  "schema_version": "engineer-osint-browser-digest-normalization-hotfix-v1",
+  "status": "EXACT_ACTIVE_BROWSER_GUARD_SUCCESSOR_APPLIED",
+  "reviewed_main_sha": "418802da8c46e26588dfb9fc56cbdef95bc7c317",
+  "production_failure": {
+    "workflow_run_id": 33451532114,
+    "failed_step": "Headless browser exact retired DOM digest",
+    "expected_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31",
+    "observed_sha256": "102875d1e93fefba527f68c426f7b328e87a1edfb32f4f592f4389a1827f10dc",
+    "prior_successful_workflow_run_id": 33446496913,
+    "isolated_normalized_dom_difference": {
+      "prior_text": "Informační mezery",
+      "failed_text": "INFORMAČNÍ MEZERY",
+      "declared_data_label_cs": "Informační mezery",
+      "declared_data_label_en": "Intelligence Gaps",
+      "other_normalized_dom_difference_count": 0
+    }
+  },
+  "target": {
+    "file": "identity-fix-retirement-regression.yml",
+    "historical_git_blob_sha": "272c85272137c256484b831be98f7340cbe6db8e",
+    "successor_git_blob_sha": "7e11d0d3c5b314c08ca9ea9ec36c5421d917fe44",
+    "change_scope": "BILINGUAL_LABEL_NORMALIZATION_CASEFOLD_ONLY",
+    "expected_browser_sha256_unchanged": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31",
+    "workflow_triggers_preserved": true,
+    "permissions_preserved": true,
+    "job_structure_preserved": true,
+    "canonical_guard_steps_preserved": true,
+    "browser_guard_preserved": true
+  },
+  "safety_boundary": {
+    "canonical_data_edited": false,
+    "run_store_manifest_edited": false,
+    "run_appended": false,
+    "runtime_module_edited": false,
+    "historical_policy_edited": false,
+    "historical_audit_edited": false,
+    "expected_browser_hash_edited": false,
+    "manual_historical_hash_edited": false,
+    "arbitrary_text_drift_normalized": false
+  },
+  "required_unchanged_state": {
+    "b99_run_id": "engineer-osint-20260830-B99",
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "active_legacy_factual_overlay_count": 0,
+    "active_legacy_baseline_module_count": 0
+  }
+}

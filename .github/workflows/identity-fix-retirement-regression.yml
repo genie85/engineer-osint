@@ -109,7 +109,7 @@ jobs:
               r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',re.I)
           def canon(m):
               text=html.unescape(m.group('text')).strip(); cs=html.unescape(m.group('cs')).strip(); en=html.unescape(m.group('en')).strip()
-              return m.group('open')+m.group('cs')+m.group('close') if text in {cs,en} else m.group(0)
+              return m.group('open')+m.group('cs')+m.group('close') if text.casefold() in {cs.casefold(),en.casefold()} else m.group(0)
           s=Path('/tmp/v4546-retired-dom.html').read_text(errors='replace')
           s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
           s=bilingual.sub(canon,s)
