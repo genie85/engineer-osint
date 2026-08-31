@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {assertHistoricalWorkflowCurrentOrV4556,assertV4556Applied} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
@@ -29,7 +29,7 @@ test('v4.5.53 applies exactly the v4.5.52 all-seven authorization',()=>{
   for(const file of removed)assert.equal(existsSync(`${workflowsDir}/${file}`),false,file);
 });
 
-test('v4.5.53 leaves exactly five active protections and two historical-evidence workflows',()=>{
+test('v4.5.53 leaves exactly five active protections and two historical-evidence anchors',()=>{
   const active=policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION;
   const historical=policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP;
   assert.equal(active.length,5);
@@ -37,10 +37,8 @@ test('v4.5.53 leaves exactly five active protections and two historical-evidence
   const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
   assert.deepEqual(actual,remaining);
   assert.deepEqual([...active,...historical].map(x=>x.file).sort(),remaining);
-  for(const item of [...active,...historical]){
-    const text=readFileSync(`${workflowsDir}/${item.file}`,'utf8');
-    assert.equal(gitBlobSha(text),item.git_blob_sha,item.file);
-  }
+  for(const item of active)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
+  for(const item of historical)assertHistoricalWorkflowCurrentOrV4556(item);
 });
 
 test('v4.5.53 retains v4.5.51 classification and v4.5.52 authorization byte-for-byte',()=>{
@@ -77,14 +75,12 @@ test('v4.5.53 records only the exact authorized workflow deletion scope',()=>{
   assert.equal(r.historical_evidence_keep_count,2);
   assert.equal(r.remaining_migration_ci_debt_candidate_count,0);
   assert.equal(r.remaining_write_capable_migration_one_shot_count,0);
-  for(const [key,value] of Object.entries(r)){
-    if(typeof value==='boolean')assert.equal(value,false,key);
-  }
+  for(const [key,value] of Object.entries(r))if(typeof value==='boolean')assert.equal(value,false,key);
 });
 
-test('v4.5.53 post-removal audit is read-only and passes fail-closed',()=>{
+test('v4.5.53 post-removal audit remains immutable after separately authorized v4.5.56 successor',()=>{
   const audit=readFileSync(`${root}/audit-readonly-workflow-removal.mjs`,'utf8');
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  const output=execFileSync(process.execPath,[`${root}/audit-readonly-workflow-removal.mjs`],{encoding:'utf8'});
-  assert.match(output,/READONLY_WORKFLOW_REMOVAL=PASS removed=7 workflows=7 active=5 historical=2 migration-debt=0 write-one-shots=0 b99=engineer-osint-20260830-B99 overlays=0 baseline=0/);
+  assert.equal(gitBlobSha(audit),'5151f44f12a11d19434c743b2060515ad558bef8');
+  assertV4556Applied();
 });
