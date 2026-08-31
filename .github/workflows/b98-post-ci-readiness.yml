@@ -172,11 +172,21 @@ jobs:
           const manifest=JSON.parse(fs.readFileSync('docs/engineer-osint/data/run-store-manifest.json','utf8'));
           const current=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
           const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/post-b98-steady-state-audit.json','utf8'));
-          if(audit.status!=='PASS'||audit.current_run_id!==current||audit.historical_b98?.status!=='PASS')throw new Error('post-B98 steady-state identity/integrity failure');
+          if(audit.status!=='PASS'||audit.schema_version!=='engineer-osint-post-b98-steady-state-v2'||audit.current_run_id!==current||audit.historical_b98?.status!=='PASS')throw new Error('post-B98 steady-state identity/integrity failure');
+          if(audit.historical_b98?.file_sha256!=='ac2ae06bf3e3914b857cd0fddf2aa895aa9dd11f9289c379eba2b6cc9a038a79'||audit.historical_b98?.canonical_sha256!=='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b34b30201')throw new Error('post-B98 historical B98 anchor drift');
           if(audit.native_historical_intelligence?.persistent_b97_gaps!==15||audit.native_historical_intelligence?.b98_evidence!==2||audit.native_historical_intelligence?.b98_assessments!==4)throw new Error('post-B98 native historical Intelligence drift');
           if(audit.guard_short_circuit_count!==3||audit.guarded_first_three_factual_mutation_count!==0||audit.pre_localization_semantic_diff_count!==0||audit.post_localization_semantic_diff_count!==0||audit.public_data_semantic_parity!==true)throw new Error('post-B98 semantic parity failure');
-          if(audit.first_three_ready_for_retirement_review!==true||audit.retirement_authorized!==false||audit.full_browser_retirement_regression_required!==true||audit.identity_fix_in_scope!==false||audit.identity_fix_migration_authorized!==false||audit.canonical_write_performed!==false)throw new Error('post-B98 review safety boundary broadened');
-          console.log(`POST_B98_CI_STEADY_STATE=PASS run=${current}`);
+          if(audit.first_three_ready_for_retirement_review!==true||audit.review_gate_status!=='HISTORICAL_FIRST_THREE_RETIREMENT_VALIDATED'||audit.retirement_authorized!==false||audit.runtime_module_removal_performed!==false||audit.full_browser_retirement_regression_required!==true||audit.identity_fix_in_scope!==false||audit.canonical_write_performed!==false||audit.retirement_current_state_validated!==true)throw new Error('post-B98 historical review safety boundary broadened');
+          const identityActive=audit.identity_fix_runtime_active===true&&audit.identity_fix_runtime_retired===false;
+          const identityRetired=audit.identity_fix_runtime_active===false&&audit.identity_fix_runtime_retired===true;
+          if(!identityActive&&!identityRetired)throw new Error('post-B98 identity lifecycle partial/inconsistent');
+          if(identityActive){
+            if(audit.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_ACTIVE'||audit.runtime_state!=='RETIRED_FIRST_THREE_IDENTITY_ACTIVE'||audit.identity_fix_migration_authorized!==false)throw new Error('post-B98 active identity lifecycle mismatch');
+          }else{
+            if(audit.mode!=='POST_RETIREMENT_COMPATIBILITY_IDENTITY_RETIRED_AUTHORIZED'||audit.runtime_state!=='ALL_FACTUAL_LEGACY_OVERLAYS_RETIRED'||audit.identity_fix_migration_authorized!==true)throw new Error('post-B98 retired identity lifecycle mismatch');
+            if(audit.b99_pages_gate_applicable!==true||audit.b99_pages_gate_passed!==true||audit.b99_identity_overlay_residual_mutations!==0||audit.b99_identity_fix_runtime_active!==false||audit.b99_identity_fix_runtime_retired!==true||audit.b99_identity_overlay_retirement_authorized!==true)throw new Error('post-B98 retired B99 identity lifecycle mismatch');
+          }
+          console.log(`POST_B98_CI_STEADY_STATE=PASS run=${current} identity=${identityActive?'active':'retired-authorized'}`);
           NODE
 
       - name: Upload simulated POST_B98 readiness evidence
