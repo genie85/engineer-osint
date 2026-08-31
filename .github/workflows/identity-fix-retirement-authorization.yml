@@ -1,15 +1,6 @@
 name: ENGINEER OSINT identity-fix retirement authorization
 
 on:
-  push:
-    branches:
-      - chatgpt/engineer-osint-v4545-identity-retirement-authorization
-      - chatgpt/engineer-osint-v4546-identity-retirement
-  pull_request:
-    branches: [main]
-    paths:
-      - 'docs/engineer-osint/**'
-      - '.github/workflows/identity-fix-retirement-authorization.yml'
   workflow_dispatch:
 
 permissions:
