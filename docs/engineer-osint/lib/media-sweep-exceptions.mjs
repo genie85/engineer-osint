@@ -6,7 +6,8 @@ const RESOLVED_STATUSES={
   NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION',
   MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_MIGRATION_NO_MEDIA_ADDITION',
   INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION',
-  INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'
+  INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION',
+  IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION:'MISSING_WAIVED_PINNED_IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION'
 };
 const EXPLICIT_STATUSES=new Set([
   'COMPLETE_NO_CANONICAL_MEDIA_ADDITION',
@@ -18,7 +19,8 @@ const ELIGIBLE_RUNS=new Map([
   ['engineer-osint-20260825-B74',{attestationBasis:'DRIVE_REPORT',reportDriveId:'1gH3xYPSSeY-eEIieDQ6pUCq7m30fiACx',waiverScope:'NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260829-B96',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4511_B96_APPEND_AUTHORIZATION+V4513_B96_PUBLICATION',waiverScope:'MIGRATION_NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260830-B97',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4517_B97_READINESS',waiverScope:'INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'}],
-  ['engineer-osint-20260830-B98',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4524_B98_READINESS+V4525_B98_POST_CI_READINESS',waiverScope:'INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'}]
+  ['engineer-osint-20260830-B98',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4524_B98_READINESS+V4525_B98_POST_CI_READINESS',waiverScope:'INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260830-B99',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS+V4537_B99_LIFECYCLE+V4538_B99_PAGES_READINESS',waiverScope:'IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
@@ -157,6 +159,29 @@ function ensureIntelligenceAssessmentMigrationNoMediaAddition(patch,item){
   if(patch.extensions.operations_v1!==undefined)fail(`${item.exception_id} cannot cover correction operations`);
 }
 
+function ensureIdentityFixMigrationNoMediaAddition(patch,item){
+  const counts=patch?.state?.counts;
+  if(!counts||typeof counts!=='object'||Array.isArray(counts))fail(`${item.exception_id} requires state.counts`);
+  const expectedCountKeys=['CURRENT_DELTA','LATE_DISCOVERED_CURRENT','HISTORICAL_BACKFILL','ENTITY_ENRICHMENT','NEW','UPDATE','CONFIRMATION','CORRECTION','CONTRADICTION','LEAD','NEW_RELATIONS','UPDATED_RELATIONS','NEW_EVIDENCE','UPDATED_EVIDENCE','NEW_SOURCES','UPDATED_SOURCES','NEW_VISUALS','NEW_MEDIA'];
+  if(Object.keys(counts).length!==expectedCountKeys.length||expectedCountKeys.some(key=>!Object.hasOwn(counts,key)))fail(`${item.exception_id} requires exact declared count keys`);
+  if(counts.CORRECTION!==36)fail(`${item.exception_id} requires CORRECTION=36`);
+  if(expectedCountKeys.filter(key=>key!=='CORRECTION').some(key=>counts[key]!==0))fail(`${item.exception_id} requires every non-correction count to equal zero`);
+  const trueDelta=patch?.true_delta;
+  const expectedTrueDelta={CURRENT_DELTA:0,LATE_DISCOVERED_CURRENT:0,HISTORICAL_BACKFILL:0,ENTITY_ENRICHMENT:0,IDENTITY_CORRECTION_OPERATIONS:36};
+  if(JSON.stringify(trueDelta)!==JSON.stringify(expectedTrueDelta))fail(`${item.exception_id} requires exact identity-fix true_delta`);
+  for(const field of ['new_records','updated_records','sources','relations','evidence','visuals','media','technology_signals','lead_updates','observed_minimum_updates','lessons_learned'])if(!Array.isArray(patch[field])||patch[field].length)fail(`${item.exception_id} requires empty ${field}`);
+  const operations=patch?.extensions?.operations_v1;
+  if(!Array.isArray(operations)||operations.length!==36)fail(`${item.exception_id} requires exactly 36 reviewed correction operations`);
+  if(operations.filter(operation=>operation?.op==='REPLACE_FIELD').length!==27||operations.filter(operation=>operation?.op==='REMOVE_FIELD').length!==9)fail(`${item.exception_id} reviewed identity operation mix mismatch`);
+  if(operations.some(operation=>['media','media_registry'].includes(operation?.collection)))fail(`${item.exception_id} cannot cover media correction operations`);
+  const expectedSyncFields=['record_role','title_cs','title_en','temporal_status','summary_cs','summary_en','source_ids','evidence_ids','timeline_events','confidence','event_date','date_precision','fact_cs','analysis_cs','mine_action_context','secondary_contexts','classification','translation_status'];
+  const sync=patch?.extensions?.legacy_mirror_sync_v1?.updated_records;
+  if(!Array.isArray(sync)||sync.length!==1||sync[0]?.target_id!=='ENG-TECH-0036'||JSON.stringify(sync[0]?.fields)!==JSON.stringify(expectedSyncFields))fail(`${item.exception_id} exact legacy mirror sync scope mismatch`);
+  if(patch?.continuity?.status!=='IDENTITY_FIX_CANONICAL_MIGRATION_CANDIDATE_AFTER_PERSISTENT_B98')fail(`${item.exception_id} continuity status mismatch`);
+  if(patch?.continuity?.legacy_mirror_sync_contract!=='V4535_EXPLICIT_FAIL_CLOSED_LEGACY_UPDATED_RECORDS_MIRROR_SYNC'||patch?.continuity?.legacy_mirror_cleanup_required!==false||patch?.continuity?.legacy_mirror_sync_target!=='ENG-TECH-0036'||patch?.continuity?.legacy_mirror_sync_field_count!==18||patch?.continuity?.identity_fix_runtime_removal_authorized!==false)fail(`${item.exception_id} identity migration lifecycle flags mismatch`);
+  if(patch?.qa?.mode!=='READ_ONLY_IDENTITY_FIX_MIGRATION_WITH_EXPLICIT_LEGACY_MIRROR_SYNC'||patch?.qa?.canonical_write_performed!==false)fail(`${item.exception_id} identity migration QA scope mismatch`);
+}
+
 export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFileRaw,reportSnapshotRaw,registry}){
   validateMediaSweepExceptionRegistry(registry);
   const explicitCandidates=[patch?.qa?.multimedia_status,patch?.qa?.multimedia?.status,patch?.multimedia?.status].filter(value=>value!==undefined&&value!==null);
@@ -191,6 +216,7 @@ export function resolvePinnedMultimediaStatus({patch,manifestEntry,repositoryFil
   else if(item.waiver_scope==='MIGRATION_NO_MEDIA_ADDITION')ensureMigrationNoMediaAddition(patch,item);
   else if(item.waiver_scope==='INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION')ensureIntelligenceMigrationNoMediaAddition(patch,item);
   else if(item.waiver_scope==='INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION')ensureIntelligenceAssessmentMigrationNoMediaAddition(patch,item);
+  else if(item.waiver_scope==='IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION')ensureIdentityFixMigrationNoMediaAddition(patch,item);
   else{
     const operations=patch?.extensions?.operations_v1;
     if(operations!==undefined&&!Array.isArray(operations))fail(`${item.exception_id} requires operations_v1 to be an array when present`);

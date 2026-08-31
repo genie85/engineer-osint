@@ -96,6 +96,21 @@
       "resolved_status": "MISSING_WAIVED_PINNED_INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION",
       "waiver_scope": "INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION",
       "rationale": "B98 is the exact reviewed Stage C Intelligence v1 evidence/assessment migration: zero factual research delta, exactly two source-scoped evidence objects, exactly four reviewed native ENG-ASMT-B98-OVL-* assessments, no operations_v1, NEW_MEDIA=0 and NEW_VISUALS=0. This one-run attestation does not claim a new multimedia sweep and cannot cover ordinary research, overlay retirement, identity-fix migration or future runs."
+    },
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B99-IDENTITY-FIX-MIGRATION",
+      "run_id": "engineer-osint-20260830-B99",
+      "parent_run_id": "engineer-osint-20260830-B98",
+      "attestation_basis": "REPOSITORY_REVIEWED_MIGRATION",
+      "attestation_reference": "V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS+V4537_B99_LIFECYCLE+V4538_B99_PAGES_READINESS",
+      "repository_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+      "repository_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+      "report_text_sha256": "f1a2ff54960074a532bcffa7411897bc0d8c3172cf96258e780b7205413c4965",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260830-B99-media-omission.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION",
+      "waiver_scope": "IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION",
+      "rationale": "B99 is the exact reviewed identity-fix canonical migration with explicit legacy updated_records mirror synchronization: exactly 36 correction operations (27 REPLACE_FIELD + 9 REMOVE_FIELD), one exact 18-field ENG-TECH-0036 mirror sync, NEW_MEDIA=0 and NEW_VISUALS=0, and no media payload. The candidate omitted qa.multimedia_status. This one-run attestation records no media addition without claiming a new multimedia sweep and cannot authorize B99 append, runtime removal, identity-overlay retirement, ordinary research or future runs."
     }
   ]
 }
