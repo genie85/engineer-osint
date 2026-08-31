@@ -9,6 +9,7 @@ const postprocess=fs.readFileSync(new URL('../postprocess-ui.mjs',import.meta.ur
 const verifier=fs.readFileSync(new URL('../verify-stage-bc-pages-gate.mjs',import.meta.url),'utf8');
 const baseline=JSON.parse(fs.readFileSync(new URL('../legacy-runtime-overlay-baseline.json',import.meta.url),'utf8'));
 const retirement=JSON.parse(fs.readFileSync(new URL('../V4530_FIRST_THREE_OVERLAY_RETIREMENT.json',import.meta.url),'utf8'));
+const identityRetirement=JSON.parse(fs.readFileSync(new URL('../V4546_IDENTITY_FIX_RETIREMENT.json',import.meta.url),'utf8'));
 const firstThree=['rich-backfill.js','rich-backfill-israel-turkiye-eod.js','rich-backfill-usa-rok.js'];
 
 test('v4.5.10 transition guard remains syntactically valid but guarded runtime set is empty after v4.5.30',()=>{
@@ -22,10 +23,16 @@ test('v4.5.10 transition guard remains syntactically valid but guarded runtime s
   }
 });
 
-test('identity-fix overlay remains outside the runtime transition guard and active',()=>{
+test('identity-fix remains outside transition guard and is later retired only by the authorized v4.5.46 slice',()=>{
   assert.equal(TRANSITION_GUARDED_LEGACY_OVERLAY_FILES.has('data-integrity-identity-fixes.js'),false);
-  assert.ok(PUBLIC_RUNTIME_MODULES.some(([,file])=>file==='data-integrity-identity-fixes.js'));
-  assert.ok(baseline.modules['data-integrity-identity-fixes.js']);
+  assert.equal(retirement.authorization.keep_identity_fix_active,true);
+  assert.equal(retirement.authorization.allow_identity_fix_migration,false);
+  assert.equal(PUBLIC_RUNTIME_MODULES.some(([,file])=>file==='data-integrity-identity-fixes.js'),false);
+  assert.equal(baseline.modules['data-integrity-identity-fixes.js'],undefined);
+  assert.equal(identityRetirement.status,'AUTHORIZED_RETIREMENT_APPLIED');
+  assert.equal(identityRetirement.identity_fix.historical_source_retained,true);
+  assert.equal(identityRetirement.retirement.identity_fix_removed_from_public_runtime,true);
+  assert.equal(identityRetirement.retirement.identity_fix_removed_from_active_legacy_baseline,true);
 });
 
 test('postprocess wrapper remains fail-safe although no retired overlay is wrapped',()=>{
@@ -63,6 +70,7 @@ test('retired overlay files move from active baseline to the pinned retirement a
     assert.match(archived.archive_file_sha256,/^[a-f0-9]{64}$/);
   }
   assert.equal(retirement.authorization.retain_first_three_files_as_historical_migration_artifacts,true);
+  assert.deepEqual(Object.keys(baseline.modules),[]);
 });
 
 test('Stage B/C Pages verifier retains historical runtime transition coverage',()=>{
