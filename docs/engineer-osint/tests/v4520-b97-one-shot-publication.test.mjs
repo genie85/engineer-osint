@@ -1,11 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
-const workflow=readFileSync('.github/workflows/b97-one-shot-publish.yml','utf8');
+const root='docs/engineer-osint';
+const workflowPath='.github/workflows/b97-one-shot-publish.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
 const contract=readFileSync('docs/engineer-osint/V4520_B97_ONE_SHOT_PUBLICATION.md','utf8');
+const assertHistoricalWorkflowOrAuthorizedRemoval=()=>{
+  if(workflow!==null)return true;
+  const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+  const target=removal.removed_targets.find(x=>x.file==='b97-one-shot-publish.yml');
+  assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+  assert.equal(target?.git_blob_sha,'377c1b9287a49de235938e5a3e9444b02f1c4ad7');
+  assert.equal(target?.historical_run_id,'engineer-osint-20260830-B97');
+  assert.equal(target?.run_file_sha256,'b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad');
+  assert.equal(target?.canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
+  return false;
+};
 
 test('v4.5.23 B97 one-shot regeneration is main-triggered but writes only the fresh isolated review branch',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/push:\n    branches: \[main\]/);
   assert.match(workflow,/paths:\n      - '\.github\/workflows\/b97-one-shot-publish\.yml'/);
   assert.match(workflow,/B97_RESULT_BRANCH: automation\/b97-append-result-v2/);
@@ -16,6 +30,7 @@ test('v4.5.23 B97 one-shot regeneration is main-triggered but writes only the fr
 });
 
 test('v4.5.20 pins the exact B96-to-B97 identity, hashes and Intelligence-only scope',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/B96_RUN: engineer-osint-20260829-B96/);
   assert.match(workflow,/B97_RUN: engineer-osint-20260830-B97/);
   assert.match(workflow,/B97_CANDIDATE_SHA256: b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad/);
@@ -30,6 +45,7 @@ test('v4.5.20 pins the exact B96-to-B97 identity, hashes and Intelligence-only s
 });
 
 test('v4.5.21 creates the standard B97 dry-run plan before readiness and simulated POST_B97 audits',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   const baseline=workflow.indexOf('Build persistent B96 and verify current canonical baseline');
   const dry=workflow.indexOf('Dry-run exact reviewed B97 through standard append helper');
   const readiness=workflow.indexOf('Re-audit exact B97 readiness and simulated POST_B97 state');
@@ -50,6 +66,7 @@ test('v4.5.21 creates the standard B97 dry-run plan before readiness and simulat
 });
 
 test('v4.5.20 result diff is exactly manifest plus immutable B97 run and excludes B98',()=>{
+  if(!assertHistoricalWorkflowOrAuthorizedRemoval())return;
   assert.match(workflow,/'docs\/engineer-osint\/data\/run-store-manifest\.json'/);
   assert.match(workflow,/'docs\/engineer-osint\/data\/runs\/engineer-osint-20260830-B97\.json'/);
   assert.match(workflow,/test "\$\(wc -l < \/tmp\/b97-actual-paths\.txt \| tr -d ' '\)" = '2'/);
