@@ -30,7 +30,7 @@ test('post-B98 Pages hook runs persistent B99 audit and accepts only active-bloc
   assert.match(dispatcher,/b99_pages_gate_passed:b99Persistent\?true:null/);
   assert.match(dispatcher,/identity_overlay_residual_mutations!==0/);
   assert.match(dispatcher,/const identityActive=/);
-  assert.match(dispatcher,/const identityRetired=/);
+  assert.match(dispatcher,/identityRetired=!identityActive&&activeFiles\.length===0/);
   assert.match(dispatcher,/IDENTITY_RETIRED_AUTHORIZED/);
 });
 
