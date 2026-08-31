@@ -1,15 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4517_B97_READINESS.json`,'utf8'));
 const candidateRaw=readFileSync(`${root}/V4517_B97_PATCH_CANDIDATE.json`,'utf8');
 const candidate=JSON.parse(candidateRaw);
 const audit=readFileSync(`${root}/audit-b97-readiness.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/b97-readiness.yml','utf8');
+const workflowPath='.github/workflows/b97-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
 const sha256=text=>createHash('sha256').update(text).digest('hex');
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B97 readiness workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='b97-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'054ae37c1d57352057c817784c962968011b5409');
+};
 
 test('v4.5.17 pins the exact reviewed B97 candidate to persistent B96',()=>{
   assert.equal(policy.schema_version,'engineer-osint-b97-readiness-v1');
@@ -43,10 +51,12 @@ test('B97 readiness uses standard append-run dry-run and forbids persistent writ
   assert.equal(policy.authorization.allow_b98_same_slice,false);
   assert.equal(policy.authorization.allow_overlay_retirement,false);
   assert.equal(policy.authorization.allow_identity_fix_migration,false);
-  assert.match(workflow,/candidate='docs\/engineer-osint\/V4517_B97_PATCH_CANDIDATE\.json'/);
-  assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
-  assert.doesNotMatch(workflow,/append-run\.mjs .*--write/);
-  assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
+  if(workflow){
+    assert.match(workflow,/candidate='docs\/engineer-osint\/V4517_B97_PATCH_CANDIDATE\.json'/);
+    assert.match(workflow,/node docs\/engineer-osint\/append-run\.mjs "\$candidate" > "\$plan"/);
+    assert.doesNotMatch(workflow,/append-run\.mjs .*--write/);
+    assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
+  }else assertHistoricalWorkflow();
   assert.match(audit,/canonical_write_performed:false/);
   assert.match(audit,/safe_to_append:false/);
   assert.match(audit,/post_b97_pages_validation_ready:false/);
@@ -65,5 +75,5 @@ test('B97 readiness preserves reviewed overlay debt and blocks short-circuit bef
 test('resulting B97 canonical SHA is pinned after real standard dry-run discovery',()=>{
   assert.equal(policy.expected_resulting_canonical_sha256,'9c3e7a53379aa252adfafb0adac98e6a898402daee91663d427fc75331b377d4');
   assert.match(audit,/policy\.expected_resulting_canonical_sha256!==null/);
-  assert.match(workflow,/b97-append-plan\.json/);
+  if(workflow)assert.match(workflow,/b97-append-plan\.json/); else assertHistoricalWorkflow();
 });
