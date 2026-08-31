@@ -92,7 +92,12 @@ jobs:
           const fs=require('fs');const a=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
           if(a.status!=='PASS'||a.operation_count!==36||a.replace_field_count!==27||a.remove_field_count!==9)throw new Error('persistent B99 operation scope mismatch');
           if(a.mirror_sync_request_count!==1||a.mirror_sync_target_id!=='ENG-TECH-0036'||a.mirror_sync_field_count!==18||a.identity_overlay_residual_mutations!==0)throw new Error('persistent B99 mirror/residual mismatch');
-          if(a.b99_append_authorized!==false||a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.canonical_write_performed!==false)throw new Error('persistent B99 safety boundary broadened');
+          if(a.b99_append_authorized!==false||a.canonical_write_performed!==false)throw new Error('persistent B99 append/canonical safety boundary broadened');
+          const active=a.identity_fix_runtime_active===true&&a.identity_fix_runtime_retired===false;
+          const retired=a.identity_fix_runtime_active===false&&a.identity_fix_runtime_retired===true;
+          if(!active&&!retired)throw new Error('persistent B99 identity lifecycle mismatch');
+          if(active&&(a.identity_fix_runtime_removal_authorized!==false||a.identity_overlay_retirement_authorized!==false||a.identity_retirement_validated!==false))throw new Error('active persistent B99 safety boundary broadened');
+          if(retired&&(a.identity_fix_runtime_removal_authorized!==true||a.identity_overlay_retirement_authorized!==true||a.identity_retirement_validated!==true||a.identity_fix_source_retained!==true||a.transition_guard_runtime_active!==true))throw new Error('retired persistent B99 lifecycle not authorized/validated');
           NODE
       - name: Upload synced B99 review evidence
         uses: actions/upload-artifact@v4
