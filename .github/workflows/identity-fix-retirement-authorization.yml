@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - chatgpt/engineer-osint-v4545-identity-retirement-authorization
+      - chatgpt/engineer-osint-v4546-identity-retirement
   pull_request:
     branches: [main]
     paths:
@@ -56,13 +57,27 @@ jobs:
           fs.writeFileSync(p,h);
           NODE
 
+      - name: Detect identity retirement phase
+        id: retirement
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_OUTPUT"
+          import {LEGACY_FACTUAL_OVERLAY_MODULES,PUBLIC_RUNTIME_MODULES} from './docs/engineer-osint/runtime-modules.mjs';
+          const file='data-integrity-identity-fixes.js',id='engineer-data-integrity-identity-fixes-module';
+          const legacy=LEGACY_FACTUAL_OVERLAY_MODULES.map(([,f])=>f),publicActive=PUBLIC_RUNTIME_MODULES.some(([runtimeId,f])=>runtimeId===id&&f===file);
+          if(legacy.length===1&&legacy[0]===file&&publicActive)console.log('phase=PRE_RETIREMENT');
+          else if(legacy.length===0&&!publicActive)console.log('phase=POST_RETIREMENT');
+          else throw new Error(`partial/inconsistent identity retirement state legacy=${legacy.join(',')} public=${publicActive}`);
+          NODE
+
       - name: Reproduce persistent B99 and v4.5.44 pre-browser readiness
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         run: |
           node docs/engineer-osint/audit-persistent-b99-identity.mjs
           node docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs
           git diff --exit-code -- docs/engineer-osint/data
 
       - name: Reproduce v4.5.44 browser parity
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         shell: bash
         run: |
           set -euo pipefail
@@ -111,6 +126,7 @@ jobs:
           NODE
 
       - name: Audit exact retirement authorization
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         run: |
           node docs/engineer-osint/audit-identity-fix-retirement-authorization.mjs
           git diff --exit-code -- docs/engineer-osint/data
@@ -123,6 +139,22 @@ jobs:
           console.log('V4545_EXACT_RETIREMENT_AUTHORIZATION=PASS_NO_RETIREMENT_PERFORMED');
           NODE
 
+      - name: Verify authorization consumed by exact post-retirement state
+        if: steps.retirement.outputs.phase == 'POST_RETIREMENT'
+        run: |
+          node docs/engineer-osint/audit-persistent-b99-identity.mjs
+          node docs/engineer-osint/audit-identity-fix-retirement.mjs
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const b=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-retirement-audit.json','utf8'));
+          if(b.status!=='PASS'||b.identity_fix_runtime_active!==false||b.identity_fix_runtime_retired!==true||b.identity_fix_runtime_removal_authorized!==true||b.identity_overlay_retirement_authorized!==true||b.identity_retirement_validated!==true)throw new Error('v4.5.45 authorization not consumed by persistent B99 lifecycle');
+          if(r.status!=='PASS'||r.identity_fix_runtime_retired!==true||r.identity_fix_source_retained!==true||r.active_legacy_factual_module_count!==0||r.active_legacy_baseline_module_count!==0)throw new Error('post-retirement state does not match exact authorization scope');
+          if(r.canonical_write_performed!==false||r.run_store_manifest_edit_performed!==false||r.run_appended!==false||r.source_file_deleted!==false||r.other_runtime_module_removed!==false)throw new Error('post-retirement state broadened v4.5.45 authorization');
+          console.log('V4545_EXACT_RETIREMENT_AUTHORIZATION=CONSUMED_BY_V4546_NO_SCOPE_DRIFT');
+          NODE
+
       - name: Upload authorization evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -133,6 +165,7 @@ jobs:
             docs/engineer-osint-dist/identity-fix-retirement-authorization-audit.json
             docs/engineer-osint-dist/identity-fix-retirement-authorization-audit.md
             docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json
+            docs/engineer-osint-dist/identity-fix-retirement-audit.json
             docs/engineer-osint-dist/persistent-b99-identity-audit.json
             /tmp/v4545-active-dom.html
             /tmp/v4545-retired-dom.html

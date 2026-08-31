@@ -1,14 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "baseline_run_id": "engineer-osint-20260823-B61",
-  "status": "IDENTITY_FIX_MIGRATION_DEBT_ONLY",
+  "status": "NO_ACTIVE_LEGACY_FACTUAL_OVERLAY_DEBT",
   "retired_first_three_at": "v4.5.30",
-  "modules": {
-    "data-integrity-identity-fixes.js": {
-      "file_sha256": "7c03bc97f329a030cba48c4f24f8281b3966feb2f66c477fbb949893c7b9d2fc",
-      "allowed_target_ids": ["ENG-EVID-0113", "ENG-TECH-0032", "ENG-TECH-0036", "ENG-VIS-0054"],
-      "mutation_count": 55,
-      "mutation_fingerprint": "d860bac71e74255a89a6cd397afe3dd469cdb54654bd9340343fe94dafba45cc"
-    }
-  }
+  "retired_identity_fix_at": "v4.5.46",
+  "modules": {}
 }

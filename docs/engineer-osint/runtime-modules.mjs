@@ -1,15 +1,14 @@
 // One ordered manifest is shared by the public injector and runtime audits.
-// The first three migrated factual overlays are retired from active runtime after the v4.5.29 semantic-parity gate.
-// The identity-fix overlay remains explicit migration debt and is audited separately.
+// The first three migrated factual overlays were retired after the v4.5.29 semantic-parity gate.
+// The final identity-fix compatibility overlay was retired in the separately authorized v4.5.46 slice.
+// Historical overlay source files remain in the repository; no factual legacy overlay is active at runtime.
 export const TRANSITION_GUARDED_LEGACY_OVERLAY_FILES=new Set([]);
 
 export const TRANSITION_RUNTIME_MODULES=[
   ['engineer-overlay-transition-runtime-guard-module','overlay-transition-runtime-guard.js']
 ];
 
-export const LEGACY_FACTUAL_OVERLAY_MODULES=[
-  ['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']
-];
+export const LEGACY_FACTUAL_OVERLAY_MODULES=[];
 
 export const LOCALIZATION_DATA_MODULES=[
   ['engineer-i18n-terminology-module','i18n-terminology.js'],

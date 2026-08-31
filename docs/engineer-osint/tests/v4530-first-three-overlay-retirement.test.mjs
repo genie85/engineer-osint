@@ -6,6 +6,7 @@ import {LEGACY_FACTUAL_OVERLAY_MODULES,PUBLIC_RUNTIME_MODULES,TRANSITION_GUARDED
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4530_FIRST_THREE_OVERLAY_RETIREMENT.json`,'utf8'));
 const baseline=JSON.parse(readFileSync(`${root}/legacy-runtime-overlay-baseline.json`,'utf8'));
+const identityRetirement=JSON.parse(readFileSync(`${root}/V4546_IDENTITY_FIX_RETIREMENT.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-first-three-overlay-retirement.mjs`,'utf8');
 const normalizedAudit=readFileSync(`${root}/audit-first-three-overlay-retirement-normalized.mjs`,'utf8');
 const dispatcher=readFileSync(`${root}/audit-post-b98-steady-state.mjs`,'utf8');
@@ -32,12 +33,15 @@ test('v4.5.30 authorization is exact, no-canonical-write and identity-fix exclud
   assert.equal(policy.authorization.keep_identity_fix_active,true);
 });
 
-test('v4.5.30 active runtime contains identity-fix only and no guarded retired files',()=>{
-  assert.deepEqual(LEGACY_FACTUAL_OVERLAY_MODULES,[['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes.js']]);
+test('current runtime preserves first-three retirement and applies later authorized identity-fix retirement',()=>{
+  assert.deepEqual(LEGACY_FACTUAL_OVERLAY_MODULES,[]);
   assert.deepEqual([...TRANSITION_GUARDED_LEGACY_OVERLAY_FILES],[]);
   for(const file of firstThree)assert.equal(PUBLIC_RUNTIME_MODULES.some(([,candidate])=>candidate===file),false);
-  assert.ok(PUBLIC_RUNTIME_MODULES.some(([,file])=>file==='data-integrity-identity-fixes.js'));
+  assert.equal(PUBLIC_RUNTIME_MODULES.some(([,file])=>file==='data-integrity-identity-fixes.js'),false);
   assert.ok(PUBLIC_RUNTIME_MODULES.some(([,file])=>file==='overlay-transition-runtime-guard.js'));
+  assert.equal(policy.authorization.keep_identity_fix_active,true,'historical v4.5.30 boundary must remain pinned');
+  assert.equal(identityRetirement.status,'AUTHORIZED_RETIREMENT_APPLIED');
+  assert.equal(identityRetirement.retirement.resulting_active_legacy_factual_module_count,0);
 });
 
 test('retired source files are retained as historical artifacts with pinned hashes',()=>{
@@ -45,26 +49,32 @@ test('retired source files are retained as historical artifacts with pinned hash
     assert.ok(existsSync(`${root}/${item.file}`));
     assert.match(item.archive_file_sha256,/^[a-f0-9]{64}$/);
   }
+  assert.ok(existsSync(`${root}/${identityRetirement.identity_fix.file}`));
   assert.equal(policy.authorization.retain_first_three_files_as_historical_migration_artifacts,true);
+  assert.equal(identityRetirement.identity_fix.historical_source_retained,true);
 });
 
-test('active legacy baseline is cleaned atomically to identity-fix only',()=>{
-  assert.equal(baseline.version,2);
-  assert.equal(baseline.status,'IDENTITY_FIX_MIGRATION_DEBT_ONLY');
-  assert.deepEqual(Object.keys(baseline.modules),['data-integrity-identity-fixes.js']);
-  assert.equal(baseline.modules['data-integrity-identity-fixes.js'].file_sha256,policy.required_active_identity_fix.file_sha256);
+test('active legacy baseline reaches zero debt only in later v4.5.46 retirement',()=>{
+  assert.equal(policy.authorization.keep_identity_fix_active,true);
+  assert.equal(baseline.version,3);
+  assert.equal(baseline.status,'NO_ACTIVE_LEGACY_FACTUAL_OVERLAY_DEBT');
+  assert.deepEqual(Object.keys(baseline.modules),[]);
+  assert.equal(baseline.retired_identity_fix_at,'v4.5.46');
+  assert.equal(identityRetirement.retirement.resulting_active_legacy_baseline_module_count,0);
   for(const file of firstThree)assert.equal(baseline.modules[file],undefined);
 });
 
-test('retirement audit pins exact B98 retirement digest but permits later append-only descendants',()=>{
+test('retirement audit pins exact B98 first-three digest while permitting later authorized identity retirement on descendants',()=>{
   assert.match(audit,/const exactB98=store\.report\.current_run_id===b98/);
   assert.match(audit,/if\(exactB98&&publicDataSha!==preRetirementPublicSha\)fail/);
-  assert.match(audit,/POST_B98_DESCENDANT_RETIRED_RUNTIME/);
+  assert.match(audit,/POST_B98_DESCENDANT_FIRST_THREE_RETIRED_/);
+  assert.match(audit,/IDENTITY_RETIRED_AUTHORIZED/);
   assert.match(audit,/pre_retirement_digest_applicable:exactB98/);
   assert.match(audit,/retired_runtime_module_count:3/);
-  assert.match(audit,/active_legacy_factual_module_count:1/);
-  assert.match(audit,/identity_fix_active:true/);
-  assert.match(audit,/identity_fix_migration_authorized:false/);
+  assert.match(audit,/active_legacy_factual_module_count:activeLegacyFiles\.length/);
+  assert.match(audit,/identity_fix_active:identityActive/);
+  assert.match(audit,/identity_fix_retired:identityRetired/);
+  assert.match(audit,/identity_fix_migration_authorized:laterIdentityRetirementAuthorized/);
   assert.match(audit,/canonical_write_performed:false/);
   assert.match(audit,/run_store_manifest_edit_performed:false/);
 });
@@ -75,10 +85,10 @@ test('normalized retirement wrapper preserves the v4.5.29 structured-clone seria
   assert.match(normalizedAudit,/originalStringify/);
 });
 
-test('built-artifact retirement contract requires three script IDs absent and identity-fix present',()=>{
+test('built-artifact retirement contract requires first-three and later identity scripts absent while transition guard remains',()=>{
   for(const id of firstThreeIds)assert.ok(policy.retired_modules.some(item=>item.runtime_id===id));
-  assert.match(audit,/retired runtime script still injected/);
-  assert.match(audit,/identity-fix runtime script missing from built artifact/);
+  assert.match(audit,/retired first-three runtime script still injected/);
+  assert.match(audit,/retired identity-fix runtime script still injected/);
   assert.match(audit,/transition guard runtime script unexpectedly missing/);
 });
 
@@ -89,6 +99,7 @@ test('v4.5.29 dispatcher preserves historical proof and delegates retired curren
   assert.match(dispatcher,/audit-post-b98-steady-state-active\.mjs/);
   assert.match(dispatcher,/audit-first-three-overlay-retirement-normalized\.mjs/);
   assert.match(dispatcher,/POST_RETIREMENT_COMPATIBILITY/);
+  assert.match(dispatcher,/IDENTITY_RETIRED_AUTHORIZED/);
 });
 
 test('retirement slice preserves the exact historical B98 anchor under append-only descendants',()=>{

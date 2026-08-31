@@ -74,10 +74,10 @@ jobs:
       - name: Audit retired runtime and historical semantic parity
         run: node docs/engineer-osint/audit-post-b98-steady-state.mjs
 
-      - name: Audit runtime after first-three retirement
+      - name: Audit runtime after all factual overlay retirements
         run: node docs/engineer-osint/validate-runtime.mjs
 
-      - name: Audit PUBLIC-CZ after first-three retirement
+      - name: Audit PUBLIC-CZ after all factual overlay retirements
         run: node docs/engineer-osint/audit-public-cz-ui-latest.mjs
 
       - name: Gate PUBLIC-CZ regression ratchet
@@ -103,25 +103,25 @@ jobs:
           test -s /tmp/engineer-osint-retired-dom.html
           grep -qi '<html' /tmp/engineer-osint-retired-dom.html
           grep -q 'ENGINEER OSINT' /tmp/engineer-osint-retired-dom.html
-          grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/engineer-osint-retired-dom.html
+          ! grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/engineer-osint-retired-dom.html
           grep -q 'engineer-overlay-transition-runtime-guard-module' /tmp/engineer-osint-retired-dom.html
           ! grep -q 'engineer-rich-backfill-module' /tmp/engineer-osint-retired-dom.html
           ! grep -q 'engineer-rich-backfill-israel-turkiye-eod-module' /tmp/engineer-osint-retired-dom.html
           ! grep -q 'engineer-rich-backfill-usa-rok-module' /tmp/engineer-osint-retired-dom.html
-          echo 'HEADLESS_BROWSER_FIRST_THREE_RETIREMENT=PASS'
+          echo 'HEADLESS_BROWSER_FIRST_THREE_RETIREMENT=PASS_IDENTITY_ALSO_RETIRED'
 
       - name: Verify retirement audit evidence
         run: |
           node - <<'NODE'
           const fs=require('fs');
           const audit=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/first-three-overlay-retirement-audit.json','utf8'));
-          if(audit.status!=='PASS'||audit.schema_version!=='engineer-osint-first-three-overlay-retirement-audit-v1')throw new Error('retirement audit did not PASS');
-          if(audit.retired_runtime_module_count!==3||audit.active_legacy_factual_module_count!==1||audit.identity_fix_active!==true||audit.identity_fix_in_scope!==false)throw new Error('retirement runtime scope mismatch');
+          if(audit.status!=='PASS'||audit.schema_version!=='engineer-osint-first-three-overlay-retirement-audit-v2')throw new Error('retirement audit did not PASS');
+          if(audit.retired_runtime_module_count!==3||audit.active_legacy_factual_module_count!==0||audit.identity_fix_active!==false||audit.identity_fix_retired!==true||audit.identity_fix_in_scope!==false)throw new Error('retirement runtime scope mismatch');
           if(audit.transition_guarded_file_count!==0||audit.transition_guard_runtime_retained!==true)throw new Error('transition guard retirement state mismatch');
-          if(audit.retired_runtime_scripts_absent!==true||audit.identity_fix_runtime_script_present!==true)throw new Error('built retirement script contract failed');
+          if(audit.retired_runtime_scripts_absent!==true||audit.identity_fix_runtime_script_present!==false||audit.identity_fix_runtime_script_absent!==true)throw new Error('built retirement script contract failed');
           if(audit.current_run_id==='engineer-osint-20260830-B98'&&(audit.pre_retirement_digest_applicable!==true||audit.public_data_semantic_parity!==true||audit.retired_public_data_sha256!=='3633ba18cc69e06bdc72ca574157d901da5b43644993b4c8760e6302b728460f'))throw new Error('exact B98 public-data retirement digest mismatch');
-          if(audit.canonical_write_performed!==false||audit.run_store_manifest_edit_performed!==false||audit.identity_fix_migration_authorized!==false)throw new Error('retirement safety boundary broadened');
-          console.log('FIRST_THREE_RETIREMENT_REGRESSION=PASS');
+          if(audit.canonical_write_performed!==false||audit.run_store_manifest_edit_performed!==false||audit.identity_fix_migration_authorized!==true)throw new Error('later identity retirement authorization was not preserved exactly');
+          console.log('FIRST_THREE_RETIREMENT_REGRESSION=PASS_IDENTITY_RETIRED_AUTHORIZED');
           NODE
 
       - name: Upload retirement regression evidence

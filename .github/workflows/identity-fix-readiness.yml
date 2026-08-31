@@ -82,8 +82,12 @@ jobs:
           node - <<'NODE'
           const fs=require('fs');
           const report=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
-          if(report.status!=='PASS'||report.identity_overlay_residual_mutations!==0||report.identity_fix_runtime_active!==true)throw new Error('POST_B99 identity audit mismatch');
-          if(report.b99_append_authorized!==false||report.identity_fix_runtime_removal_authorized!==false||report.identity_overlay_retirement_authorized!==false||report.canonical_write_performed!==false)throw new Error('POST_B99 identity safety boundary broadened');
+          if(report.status!=='PASS'||report.identity_overlay_residual_mutations!==0||report.b99_append_authorized!==false||report.canonical_write_performed!==false)throw new Error('POST_B99 identity audit mismatch');
+          const active=report.identity_fix_runtime_active===true&&report.identity_fix_runtime_retired===false;
+          const retired=report.identity_fix_runtime_active===false&&report.identity_fix_runtime_retired===true;
+          if(!active&&!retired)throw new Error('POST_B99 identity lifecycle is neither active nor retired');
+          if(active&&(report.identity_fix_runtime_removal_authorized!==false||report.identity_overlay_retirement_authorized!==false||report.identity_retirement_validated!==false))throw new Error('active POST_B99 identity safety boundary broadened');
+          if(retired&&(report.identity_fix_runtime_removal_authorized!==true||report.identity_overlay_retirement_authorized!==true||report.identity_retirement_validated!==true||report.identity_fix_source_retained!==true||report.transition_guard_runtime_active!==true))throw new Error('retired POST_B99 identity lifecycle not authorized/validated');
           console.log(`IDENTITY_FIX_POST_B99_CI=PASS mode=${report.mode}`);
           NODE
       - name: Upload identity-fix readiness evidence

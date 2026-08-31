@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4537_B99_LIFECYCLE.json`,'utf8'));
+const retirement=JSON.parse(readFileSync(`${root}/V4546_IDENTITY_FIX_RETIREMENT.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-persistent-b99-identity.mjs`,'utf8');
 const runtime=readFileSync(`${root}/runtime-modules.mjs`,'utf8');
 const workflows=[
@@ -36,13 +37,20 @@ test('persistent B99 audit requires exact lineage, exact migration scope and zer
   assert.match(audit,/identity_overlay_residual_mutations:residual\.length/);
 });
 
-test('identity-fix stays active after B99 and retirement remains explicitly separate',()=>{
-  assert.match(runtime,/data-integrity-identity-fixes\.js/);
-  assert.match(audit,/identity-fix is not sole active legacy factual overlay/);
-  assert.match(audit,/identity-fix runtime unexpectedly absent/);
-  assert.match(audit,/identity_fix_runtime_active:true/);
-  assert.match(audit,/identity_fix_runtime_removal_authorized:false/);
-  assert.match(audit,/identity_overlay_retirement_authorized:false/);
+test('v4.5.37 itself keeps retirement blocked while current audit accepts only later authorized v4.5.46 retirement',()=>{
+  for(const value of Object.values(policy.safety))assert.equal(value,false);
+  assert.doesNotMatch(runtime,/\['engineer-data-integrity-identity-fixes-module','data-integrity-identity-fixes\.js'\]/);
+  assert.match(audit,/const identityActive=/);
+  assert.match(audit,/const identityRetired=/);
+  assert.match(audit,/identity retirement lacks v4\.5\.45 authorization/);
+  assert.match(audit,/v4\.5\.46 retirement policy\/B99 handoff drift/);
+  assert.match(audit,/IDENTITY_RETIRED_AUTHORIZED/);
+  assert.match(audit,/identity_fix_runtime_active:identityActive/);
+  assert.match(audit,/identity_fix_runtime_removal_authorized:removalAuthorized/);
+  assert.match(audit,/identity_overlay_retirement_authorized:retirementAuthorized/);
+  assert.equal(retirement.status,'AUTHORIZED_RETIREMENT_APPLIED');
+  assert.equal(retirement.required_b99_file_sha256,policy.b99_file_sha256);
+  assert.equal(retirement.required_b99_canonical_sha256,policy.b99_canonical_sha256);
 });
 
 test('all four identity workflows distinguish PRE_B99, POST_B99 and POST_B99_STEADY',()=>{

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - chatgpt/engineer-osint-v4544-identity-retirement-readiness
+      - chatgpt/engineer-osint-v4546-identity-retirement
   pull_request:
     branches: [main]
     paths:
@@ -56,13 +57,28 @@ jobs:
           fs.writeFileSync(p,h);
           NODE
 
+      - name: Detect identity retirement phase
+        id: retirement
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_OUTPUT"
+          import {LEGACY_FACTUAL_OVERLAY_MODULES,PUBLIC_RUNTIME_MODULES} from './docs/engineer-osint/runtime-modules.mjs';
+          const file='data-integrity-identity-fixes.js',id='engineer-data-integrity-identity-fixes-module';
+          const legacy=LEGACY_FACTUAL_OVERLAY_MODULES.map(([,f])=>f);
+          const publicActive=PUBLIC_RUNTIME_MODULES.some(([runtimeId,f])=>runtimeId===id&&f===file);
+          if(legacy.length===1&&legacy[0]===file&&publicActive)console.log('phase=PRE_RETIREMENT');
+          else if(legacy.length===0&&!publicActive)console.log('phase=POST_RETIREMENT');
+          else throw new Error(`partial/inconsistent identity retirement state legacy=${legacy.join(',')} public=${publicActive}`);
+          NODE
+
       - name: Audit persistent B99 identity baseline
         run: node docs/engineer-osint/audit-persistent-b99-identity.mjs
 
       - name: Build fail-closed identity retirement readiness evidence
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         run: node docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs
 
       - name: Verify pre-browser readiness safety boundary
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         run: |
           git diff --exit-code -- docs/engineer-osint/data
           node - <<'NODE'
@@ -76,6 +92,7 @@ jobs:
           NODE
 
       - name: Headless browser active vs simulated retired parity
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         shell: bash
         run: |
           set -euo pipefail
@@ -97,40 +114,24 @@ jobs:
           import re, hashlib, html
           bilingual=re.compile(
               r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
-              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',
-              re.I
-          )
-          def canonicalize_bilingual_label(match):
-              text=html.unescape(match.group('text')).strip()
-              cs=html.unescape(match.group('cs')).strip()
-              en=html.unescape(match.group('en')).strip()
-              if text not in {cs,en}:
-                  return match.group(0)
-              return match.group('open')+match.group('cs')+match.group('close')
+              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',re.I)
+          def canon(m):
+              text=html.unescape(m.group('text')).strip(); cs=html.unescape(m.group('cs')).strip(); en=html.unescape(m.group('en')).strip()
+              return m.group('open')+m.group('cs')+m.group('close') if text in {cs,en} else m.group(0)
           def norm(path):
               s=Path(path).read_text(errors='replace')
               s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
-              s=bilingual.sub(canonicalize_bilingual_label,s)
-              s=re.sub(r'\s+',' ',s).strip()
-              return s
-          active=norm('/tmp/v4544-active-dom.html')
-          retired=norm('/tmp/v4544-retired-dom.html')
-          Path('/tmp/v4544-active-normalized.html').write_text(active)
-          Path('/tmp/v4544-retired-normalized.html').write_text(retired)
-          if active!=retired:
-              limit=min(len(active),len(retired))
-              idx=next((i for i in range(limit) if active[i]!=retired[i]),limit)
-              lo=max(0,idx-500); hi=idx+1000
-              diag=f'FIRST_DIFF_INDEX={idx}\nACTIVE_CONTEXT={active[lo:hi]}\nRETIRED_CONTEXT={retired[lo:hi]}\n'
-              Path('/tmp/v4544-browser-parity.txt').write_text('FAIL\n'+diag)
-              print(diag)
-              raise SystemExit('HEADLESS_IDENTITY_RETIREMENT_PARITY: normalized DOM differs')
-          digest=hashlib.sha256(active.encode()).hexdigest()
+              s=bilingual.sub(canon,s)
+              return re.sub(r'\s+',' ',s).strip()
+          a=norm('/tmp/v4544-active-dom.html'); b=norm('/tmp/v4544-retired-dom.html')
+          if a!=b: raise SystemExit('HEADLESS_IDENTITY_RETIREMENT_PARITY: normalized DOM differs')
+          digest=hashlib.sha256(a.encode()).hexdigest()
           Path('/tmp/v4544-browser-parity.txt').write_text(f'PASS sha256={digest}\n')
           print(f'HEADLESS_IDENTITY_RETIREMENT_PARITY=PASS sha256={digest}')
           PY
 
       - name: Mark readiness evidence browser-complete without authorizing retirement
+        if: steps.retirement.outputs.phase == 'PRE_RETIREMENT'
         run: |
           node - <<'NODE'
           const fs=require('fs');
@@ -145,6 +146,22 @@ jobs:
           console.log('IDENTITY_FIX_RETIREMENT_READINESS=PASS_NO_AUTHORIZATION');
           NODE
 
+      - name: Audit authorized post-retirement state
+        if: steps.retirement.outputs.phase == 'POST_RETIREMENT'
+        run: |
+          node docs/engineer-osint/audit-identity-fix-retirement.mjs
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-fix-retirement-audit.json';
+          const a=JSON.parse(fs.readFileSync(p,'utf8'));
+          if(a.status!=='PASS'||a.identity_fix_runtime_active!==false||a.identity_fix_runtime_retired!==true||a.identity_fix_source_retained!==true)throw new Error('post-retirement identity state mismatch');
+          if(a.active_legacy_factual_module_count!==0||a.active_legacy_baseline_module_count!==0||a.historical_identity_source_residual_mutations!==0||a.other_public_runtime_sentinel_consumer_count!==0)throw new Error('post-retirement zero-debt proof failed');
+          if(a.built_identity_script_count!==0||a.transition_guard_runtime_active!==true||a.transition_guard_script_count!==1)throw new Error('post-retirement runtime contract failed');
+          if(a.canonical_write_performed!==false||a.run_store_manifest_edit_performed!==false||a.run_appended!==false||a.source_file_deleted!==false||a.other_runtime_module_removed!==false)throw new Error('post-retirement safety boundary broadened');
+          console.log('IDENTITY_FIX_RETIREMENT_READINESS=HISTORICAL_READY_CURRENT_RETIRED_VALIDATED');
+          NODE
+
       - name: Upload retirement readiness evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -154,12 +171,12 @@ jobs:
           path: |
             docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.json
             docs/engineer-osint-dist/identity-fix-retirement-readiness-audit.md
+            docs/engineer-osint-dist/identity-fix-retirement-audit.json
+            docs/engineer-osint-dist/identity-fix-retirement-audit.md
             docs/engineer-osint-dist/persistent-b99-identity-audit.json
             docs/engineer-osint-dist/v4544-identity-active.html
             docs/engineer-osint-dist/v4544-identity-retired-simulated.html
             /tmp/v4544-active-dom.html
             /tmp/v4544-retired-dom.html
-            /tmp/v4544-active-normalized.html
-            /tmp/v4544-retired-normalized.html
             /tmp/v4544-browser-parity.txt
             docs/engineer-osint-dist/health.txt
