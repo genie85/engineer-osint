@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-31T23:04:00+02:00",
-  "main_sha": "3433ec2c636ebb1c87a04ff34d9c7cbc2af4cb79",
+  "updated_at": "2026-08-31T23:20:00+02:00",
+  "main_sha": "cf846fe1f10a8a06187354bda47a99a8890666a5",
   "current_phase": "A_POST_V4546_CONSOLIDATION",
-  "current_task": "Apply the exact v4.5.49-authorized deletion of the four B96-B99 write-capable one-shot publication workflows while preserving all remaining workflow, canonical, runtime and historical evidence.",
-  "active_pr": 270,
-  "last_completed_task": "v4.5.49 exact four-one-shot removal authorization merged and verified with 13/13 PR CI and 7/7 post-merge push workflows successful.",
-  "next_recommended_task": "After v4.5.50 merges green, separately classify and authorize the disposition of the seven remaining read-only migration-era CI-debt candidates; do not remove them or deactivate historical evidence triggers without a new exact authorization slice.",
+  "current_task": "Classify the seven remaining read-only migration-era CI-debt workflows, prove their current redundancy and replacement coverage, and preserve a fail-closed no-removal authorization boundary.",
+  "active_pr": 271,
+  "last_completed_task": "v4.5.50 exact deletion of the four v4.5.49-authorized B96-B99 write-capable one-shot workflows merged as cf846fe1f10a8a06187354bda47a99a8890666a5 and verified with 13/13 PR CI plus 7/7 post-merge push workflows successful.",
+  "next_recommended_task": "After v4.5.51 merges green, create a separate exact v4.5.52 authorization slice for deletion of all seven classified read-only migration workflow candidates; repin all seven blobs and re-prove no workflow_call or cross-workflow dependency before any removal.",
   "blockers": [],
   "photo_total_cards": null,
   "photo_cards_with_local_image": null,
@@ -14,23 +14,26 @@
   "photo_coverage_percent": null,
   "photo_inventory_status": "PENDING_BASELINE_AUDIT",
   "workflow_inventory": {
-    "status": "V4550_EXACT_FOUR_ONE_SHOTS_REMOVED_IN_REVIEW",
+    "status": "V4551_SEVEN_READONLY_CANDIDATES_CLASSIFIED_IN_REVIEW",
     "total": 14,
     "active_production_protection": 5,
     "historical_evidence_keep": 2,
     "remaining_removable_ci_debt_candidate": 7,
     "repository_write_capable_migration_one_shots": 0,
     "removed_authorized_one_shots": 4,
+    "classified_safe_after_exact_authorization": 7,
     "remaining_candidate_removal_authorized": false,
-    "historical_evidence_trigger_deactivation_authorized": false
+    "historical_evidence_trigger_deactivation_authorized": false,
+    "active_protection_modernization_authorized": false
   },
   "ci_status": {
-    "head_sha": "3433ec2c636ebb1c87a04ff34d9c7cbc2af4cb79",
+    "head_sha": "cf846fe1f10a8a06187354bda47a99a8890666a5",
     "push_workflows_total": 7,
     "push_workflows_success": 7,
     "push_workflows_failed": 0,
     "push_workflows_running": 0,
-    "pages_deployment": "SUCCESS"
+    "pages_deployment": "SUCCESS",
+    "active_pr_ci": "PENDING_FINAL_HEAD"
   },
   "production_invariants": {
     "active_legacy_factual_overlays": 0,
