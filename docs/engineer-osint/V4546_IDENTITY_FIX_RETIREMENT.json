@@ -1,0 +1,51 @@
+{
+  "schema_version": "engineer-osint-identity-fix-retirement-v1",
+  "status": "AUTHORIZED_RETIREMENT_APPLIED",
+  "reviewed_authorization_main_sha": "a8a67ac1f3bb5dbdc2841c5df7d552a8f5d3b5f9",
+  "authorization_policy_git_blob_sha": "06439dace8c0053cd18e1ecc07d2a3262eb8243f",
+  "required_persistent_run_id": "engineer-osint-20260830-B99",
+  "required_b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+  "required_b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+  "identity_fix": {
+    "file": "data-integrity-identity-fixes.js",
+    "runtime_id": "engineer-data-integrity-identity-fixes-module",
+    "git_blob_sha": "7dd9ae912cdc76159b3c180a6a015054603c0db5",
+    "sentinel": "__ENGINEER_DATA_IDENTITY_FIX_20260822__",
+    "historical_source_retained": true
+  },
+  "transition_guard": {
+    "file": "overlay-transition-runtime-guard.js",
+    "runtime_id": "engineer-overlay-transition-runtime-guard-module",
+    "must_remain_active": true
+  },
+  "retirement": {
+    "identity_fix_removed_from_legacy_factual_overlay_modules": true,
+    "identity_fix_removed_from_public_runtime": true,
+    "identity_fix_removed_from_active_legacy_baseline": true,
+    "resulting_active_legacy_factual_module_count": 0,
+    "resulting_active_legacy_baseline_module_count": 0,
+    "resulting_legacy_baseline_version": 3,
+    "resulting_legacy_baseline_status": "NO_ACTIVE_LEGACY_FACTUAL_OVERLAY_DEBT",
+    "source_file_deleted": false,
+    "transition_guard_removed": false,
+    "other_runtime_module_removed": false,
+    "canonical_data_edited": false,
+    "run_store_manifest_edited": false,
+    "run_appended": false
+  },
+  "required_proof": {
+    "historical_source_residual_mutations": 0,
+    "other_public_runtime_sentinel_consumer_count": 0,
+    "built_identity_script_count": 0,
+    "transition_guard_script_count": 1,
+    "browser_normalized_dom_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31",
+    "historical_b99_hashes_unchanged": true,
+    "canonical_write_performed": false,
+    "run_store_manifest_edit_performed": false
+  },
+  "v4545_post_merge_validation": {
+    "workflow_count": 6,
+    "success_count": 6,
+    "failure_count": 0
+  }
+}
