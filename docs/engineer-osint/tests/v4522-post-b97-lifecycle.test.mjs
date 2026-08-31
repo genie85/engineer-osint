@@ -1,9 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
-const workflow=readFileSync('.github/workflows/b97-readiness.yml','utf8');
-const b96Test=readFileSync('docs/engineer-osint/tests/v4511-b96-append-authorization.test.mjs','utf8');
+const root='docs/engineer-osint';
+const workflowPath='.github/workflows/b97-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const b96Test=readFileSync(`${root}/tests/v4511-b96-append-authorization.test.mjs`,'utf8');
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B97 readiness workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='b97-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'054ae37c1d57352057c817784c962968011b5409');
+};
 
 test('v4.5.22 historical B96 authorization remains exact through B97/B98 and later append-only descendants',()=>{
   assert.match(b96Test,/const b97='engineer-osint-20260830-B97'/);
@@ -25,6 +34,7 @@ test('v4.5.22 historical B96 authorization remains exact through B97/B98 and lat
 });
 
 test('B97 readiness workflow explicitly distinguishes pre-append, persistent B97 and historical-under-B98 phases',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.match(workflow,/name: Detect B97 lifecycle phase/);
   assert.match(workflow,/current==='engineer-osint-20260829-B96'\)console\.log\('PRE_B97'\)/);
   assert.match(workflow,/current==='engineer-osint-20260830-B97'\)console\.log\('POST_B97'\)/);
@@ -36,6 +46,7 @@ test('B97 readiness workflow explicitly distinguishes pre-append, persistent B97
 });
 
 test('pre-B97 path retains exact dry-run while post-B97 path performs persistence audit instead of re-appending',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   const dry=workflow.indexOf('Dry-run exact reviewed B97 through standard append helper');
   const readiness=workflow.indexOf('Audit persistent-B96 to B97 readiness');
   const persistent=workflow.indexOf('Audit persistent B97 post-append state');
@@ -47,6 +58,7 @@ test('pre-B97 path retains exact dry-run while post-B97 path performs persistenc
 });
 
 test('post-B98 B97 lifecycle verifies immutable historical lineage instead of requiring B97 to remain tip',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.match(workflow,/Verify historical B97 lineage under persistent B98/);
   assert.match(workflow,/HISTORICAL_B97_UNDER_PERSISTENT_B98/);
   assert.match(workflow,/b6a9a123dbeb9e3eab88f4a746198226b741281744305d66141c8ab5e93150ad/);
@@ -58,6 +70,7 @@ test('post-B98 B97 lifecycle verifies immutable historical lineage instead of re
 });
 
 test('post-B97 and post-B98 workflow publish dedicated lifecycle evidence',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.match(workflow,/name: Upload post-B97 persistence evidence/);
   assert.match(workflow,/b97-persistent-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/);
   assert.match(workflow,/persistent-b97-audit\.json/);
