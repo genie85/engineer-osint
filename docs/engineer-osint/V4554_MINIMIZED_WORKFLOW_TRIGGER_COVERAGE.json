@@ -1,0 +1,116 @@
+{
+  "schema_version": "engineer-osint-minimized-workflow-trigger-coverage-v1",
+  "status": "READ_ONLY_TRIGGER_COVERAGE_REVIEW_NO_TRIGGER_CHANGE_AUTHORIZED",
+  "reviewed_main_sha": "483ddeb2da16a29043902f14e265b31b2c8cbc98",
+  "reviewed_v4553_policy_git_blob_sha": "aa16712ecf935936719522ff15ab7b7599d3e6aa",
+  "observed_v4553_ci": {
+    "final_pr_head_sha": "79b839ea5e9943cc3dcd4ccb3ea42ea5fe086644",
+    "pull_request_workflows_triggered": 6,
+    "pull_request_workflows_success": 6,
+    "pull_request_workflows_failed": 0,
+    "production_main_sha": "483ddeb2da16a29043902f14e265b31b2c8cbc98",
+    "push_workflows_triggered": 3,
+    "push_workflows_success": 3,
+    "push_workflows_failed": 0,
+    "pages_run_id": 33445402934,
+    "pages_artifact_id": 9777837903,
+    "pages_build_version": "483ddeb2da16a29043902f14e265b31b2c8cbc98",
+    "pages_environment_url": "https://genie85.github.io/engineer-osint/"
+  },
+  "workflow_inventory": {
+    "total": 7,
+    "active_production_protection": 5,
+    "historical_evidence_keep": 2,
+    "migration_ci_debt_candidate": 0
+  },
+  "active_production_protections": [
+    {
+      "file": "first-three-overlay-retirement-regression.yml",
+      "git_blob_sha": "913520fdbae0b404628420d6bf8fe7f4170ac5d9",
+      "pull_request_main_docs_broad": true,
+      "push_main_docs_broad": true,
+      "workflow_dispatch": true,
+      "role": "BROAD_P0_P1_AND_RETIREMENT_REGRESSION"
+    },
+    {
+      "file": "i18n-switch-regression.yml",
+      "git_blob_sha": "e07db7a6acb5aae7db64b3bb92e21d6250f78bbc",
+      "pull_request_main_docs_broad": false,
+      "push_main_docs_broad": false,
+      "workflow_dispatch": true,
+      "role": "PATH_SCOPED_I18N_SPECIALIST"
+    },
+    {
+      "file": "identity-fix-retirement-regression.yml",
+      "git_blob_sha": "272c85272137c256484b831be98f7340cbe6db8e",
+      "pull_request_main_docs_broad": true,
+      "push_main_docs_broad": true,
+      "workflow_dispatch": true,
+      "role": "BROAD_P0_P1_AND_FINAL_RETIREMENT_REGRESSION"
+    },
+    {
+      "file": "pages.yml",
+      "git_blob_sha": "49d8b2e2222848e370800d5dec20c8d8c572afad",
+      "pull_request_main_docs_broad": true,
+      "push_main_docs_broad": true,
+      "workflow_dispatch": true,
+      "role": "BROAD_BUILD_VALIDATION_AND_MAIN_DEPLOYMENT"
+    },
+    {
+      "file": "runtime-audit-snapshot.yml",
+      "git_blob_sha": "9a07eb9fcf949d1ff1984867e39bc0acbbb420c4",
+      "pull_request_main_docs_broad": true,
+      "push_main_docs_broad": false,
+      "workflow_dispatch": true,
+      "role": "BROAD_PR_RUNTIME_AND_PUBLIC_CZ_AUDIT"
+    }
+  ],
+  "historical_evidence_workflows": [
+    {
+      "file": "identity-fix-retirement-readiness.yml",
+      "git_blob_sha": "925f139e1288cb43d16b7c06f042417fcb599322",
+      "pull_request_main_docs_broad": true,
+      "push_main": false,
+      "push_historical_branches_only": true,
+      "workflow_dispatch": true,
+      "automatic_current_pr_trigger_disposition": "REDUNDANT_CANDIDATE_FOR_SEPARATE_MANUAL_ONLY_REVIEW"
+    },
+    {
+      "file": "identity-fix-retirement-authorization.yml",
+      "git_blob_sha": "eac7e69735e79a41354c036ba04b23f7c2d3c7f9",
+      "pull_request_main_docs_broad": true,
+      "push_main": false,
+      "push_historical_branches_only": true,
+      "workflow_dispatch": true,
+      "automatic_current_pr_trigger_disposition": "REDUNDANT_CANDIDATE_FOR_SEPARATE_MANUAL_ONLY_REVIEW"
+    }
+  ],
+  "coverage_proof": {
+    "broad_active_pull_request_main_docs_workflow_count": 4,
+    "broad_active_push_main_docs_workflow_count": 3,
+    "path_scoped_i18n_additional_when_relevant": true,
+    "historical_workflows_required_for_current_pull_request_coverage": false,
+    "historical_workflows_required_for_current_main_push_coverage": false,
+    "observed_pull_request_count_explained_by_four_broad_active_plus_two_historical": true,
+    "observed_push_count_explained_by_three_broad_active": true
+  },
+  "authorization": {
+    "historical_trigger_change_authorized": false,
+    "historical_workflow_deletion_authorized": false,
+    "active_protection_trigger_change_authorized": false,
+    "active_protection_deletion_authorized": false,
+    "canonical_data_edit_authorized": false,
+    "run_store_edit_authorized": false,
+    "run_append_authorized": false,
+    "runtime_module_edit_authorized": false
+  },
+  "required_next_slice": {
+    "goal": "Separately decide whether the two historical-evidence workflows should become workflow_dispatch-only while retaining their files and historical logic.",
+    "must_repin_both_historical_workflow_blobs": true,
+    "must_preserve_all_five_active_protection_blobs": true,
+    "must_preserve_workflow_dispatch_for_historical_evidence": true,
+    "must_not_delete_historical_evidence_files": true,
+    "must_validate_pull_request_and_main_push_coverage_after_change": true,
+    "must_preserve_b99_and_runtime_invariants": true
+  }
+}
