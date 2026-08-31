@@ -1,11 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS.json`,'utf8'));
 const generator=readFileSync(`${root}/build-identity-fix-b99-mirror-sync-candidate.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/identity-fix-b99-mirror-sync-candidate-readiness.yml','utf8');
+const workflowPath='.github/workflows/identity-fix-b99-mirror-sync-candidate-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B99 mirror-sync workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='identity-fix-b99-mirror-sync-candidate-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'d5d48134fe707b2d07ebeccfe555b9790d3d2c0f');
+};
 
 test('v4.5.36 derives synchronized B99 only from the historical exact v4.5.33 candidate',()=>{
   assert.equal(policy.candidate_run_id,'engineer-osint-20260830-B99');
@@ -42,8 +50,10 @@ test('v4.5.36 remains review-only and standard append validation is dry-run only
   assert.equal(policy.safety.append_run_write_allowed,false);
   assert.equal(policy.safety.identity_fix_runtime_removal_authorized,false);
   assert.equal(policy.safety.historical_v4533_candidate_preserved,true);
-  assert.match(workflow,/append-run\.mjs \"\$candidate\" > \"\$plan\"/);
-  assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
-  assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
-  assert.match(workflow,/overlay_mutations_after!==0/);
+  if(workflow){
+    assert.match(workflow,/append-run\.mjs \"\$candidate\" > \"\$plan\"/);
+    assert.doesNotMatch(workflow,/append-run\.mjs[^\n]*--write/);
+    assert.match(workflow,/git diff --exit-code -- docs\/engineer-osint\/data/);
+    assert.match(workflow,/overlay_mutations_after!==0/);
+  }else assertHistoricalWorkflow();
 });
