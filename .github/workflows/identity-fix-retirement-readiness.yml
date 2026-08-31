@@ -1,15 +1,6 @@
 name: ENGINEER OSINT identity-fix retirement readiness
 
 on:
-  push:
-    branches:
-      - chatgpt/engineer-osint-v4544-identity-retirement-readiness
-      - chatgpt/engineer-osint-v4546-identity-retirement
-  pull_request:
-    branches: [main]
-    paths:
-      - 'docs/engineer-osint/**'
-      - '.github/workflows/identity-fix-retirement-readiness.yml'
   workflow_dispatch:
 
 permissions:

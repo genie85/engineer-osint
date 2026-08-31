@@ -1,0 +1,55 @@
+{
+  "schema_version": "engineer-osint-historical-manual-only-execution-v1",
+  "status": "AUTHORIZED_EXACT_TWO_HISTORICAL_WORKFLOWS_MANUAL_ONLY_APPLIED",
+  "reviewed_main_sha": "a3d6caf23b00a15a011ef5a1b954c900b006b844",
+  "authorization_policy": "V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json",
+  "targets": [
+    {
+      "file": "identity-fix-retirement-readiness.yml",
+      "historical_git_blob_sha": "925f139e1288cb43d16b7c06f042417fcb599322",
+      "manual_only_git_blob_sha": "1eeb1dfbbef509b288aa0aaff703dcf91ecb4239",
+      "trigger_state": "WORKFLOW_DISPATCH_ONLY",
+      "file_retained": true,
+      "jobs_preserved": true,
+      "permissions_preserved": true
+    },
+    {
+      "file": "identity-fix-retirement-authorization.yml",
+      "historical_git_blob_sha": "eac7e69735e79a41354c036ba04b23f7c2d3c7f9",
+      "manual_only_git_blob_sha": "3677ce503119901bdf763698e78884733c49daf0",
+      "trigger_state": "WORKFLOW_DISPATCH_ONLY",
+      "file_retained": true,
+      "jobs_preserved": true,
+      "permissions_preserved": true
+    }
+  ],
+  "unchanged_active_protections": [
+    {"file":"first-three-overlay-retirement-regression.yml","git_blob_sha":"913520fdbae0b404628420d6bf8fe7f4170ac5d9"},
+    {"file":"i18n-switch-regression.yml","git_blob_sha":"e07db7a6acb5aae7db64b3bb92e21d6250f78bbc"},
+    {"file":"identity-fix-retirement-regression.yml","git_blob_sha":"272c85272137c256484b831be98f7340cbe6db8e"},
+    {"file":"pages.yml","git_blob_sha":"49d8b2e2222848e370800d5dec20c8d8c572afad"},
+    {"file":"runtime-audit-snapshot.yml","git_blob_sha":"9a07eb9fcf949d1ff1984867e39bc0acbbb420c4"}
+  ],
+  "result": {
+    "workflow_count": 7,
+    "active_production_protection_count": 5,
+    "historical_evidence_count": 2,
+    "historical_auto_pull_request_trigger_count": 0,
+    "historical_auto_push_trigger_count": 0,
+    "historical_manual_dispatch_count": 2,
+    "canonical_data_edited": false,
+    "run_store_manifest_edited": false,
+    "run_appended": false,
+    "runtime_module_edited": false,
+    "historical_policy_edited": false,
+    "historical_audit_edited": false,
+    "manual_hash_edit": false
+  },
+  "required_unchanged_state": {
+    "b99_run_id": "engineer-osint-20260830-B99",
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "active_legacy_factual_overlay_count": 0,
+    "active_legacy_baseline_module_count": 0
+  }
+}
