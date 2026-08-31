@@ -1,0 +1,155 @@
+name: ENGINEER OSINT final identity-fix retirement regression
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4546-identity-retirement
+      - main
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-retirement-regression.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/**'
+      - '.github/workflows/identity-fix-retirement-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineer-osint-final-identity-retirement-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  final-retirement-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact retirement state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test complete P0/P1 contract
+        run: node --test docs/engineer-osint/tests/*.test.mjs
+
+      - name: Validate append-only canonical chain
+        run: node docs/engineer-osint/validate-patch.mjs
+
+      - name: Build production-style retired artifact
+        run: node docs/engineer-osint/build-pages.mjs
+
+      - name: Materialize canonical media
+        run: node docs/engineer-osint/materialize-canonical-media-history.mjs
+
+      - name: Inject source-derived media materialization
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/index.html';
+          const js=fs.readFileSync('docs/engineer-osint/media-source-materialization.js','utf8');
+          if(/<\/script/i.test(js))throw new Error('unsafe literal </script in media source module');
+          let h=fs.readFileSync(p,'utf8');
+          const anchor='<script id="engineer-ui-phase7-media-module">';
+          if(!h.includes('engineer-media-source-materialization')){
+            const script=`<script id="engineer-media-source-materialization">${js}</script>`;
+            h=h.includes(anchor)?h.replace(anchor,script+anchor):h.replace('</body>',script+'</body>');
+          }
+          fs.writeFileSync(p,h);
+          NODE
+
+      - name: Audit persistent B99 and exact retirement scope
+        run: |
+          node docs/engineer-osint/audit-persistent-b99-identity.mjs
+          node docs/engineer-osint/audit-identity-fix-retirement.mjs
+          git diff --exit-code -- docs/engineer-osint/data
+          node - <<'NODE'
+          const fs=require('fs');
+          const b=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/identity-fix-retirement-audit.json','utf8'));
+          if(b.status!=='PASS'||b.identity_overlay_residual_mutations!==0||b.identity_fix_runtime_active!==false||b.identity_fix_runtime_retired!==true||b.identity_fix_runtime_removal_authorized!==true||b.identity_overlay_retirement_authorized!==true||b.identity_retirement_validated!==true)throw new Error('persistent B99 retirement lifecycle mismatch');
+          if(r.status!=='PASS'||r.identity_fix_runtime_active!==false||r.identity_fix_runtime_retired!==true||r.identity_fix_source_retained!==true)throw new Error('identity retirement audit mismatch');
+          if(r.active_legacy_factual_module_count!==0||r.active_legacy_baseline_module_count!==0||r.historical_identity_source_residual_mutations!==0||r.other_public_runtime_sentinel_consumer_count!==0)throw new Error('identity retirement zero-debt proof failed');
+          if(r.built_identity_script_count!==0||r.transition_guard_runtime_active!==true||r.transition_guard_script_count!==1)throw new Error('identity retirement runtime injection contract failed');
+          if(r.canonical_write_performed!==false||r.run_store_manifest_edit_performed!==false||r.run_appended!==false||r.source_file_deleted!==false||r.other_runtime_module_removed!==false)throw new Error('identity retirement safety scope broadened');
+          NODE
+
+      - name: Headless browser exact retired DOM digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$browser"
+          "$browser" \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --disable-dev-shm-usage \
+            --allow-file-access-from-files \
+            --virtual-time-budget=5000 \
+            --dump-dom \
+            "file://${GITHUB_WORKSPACE}/docs/engineer-osint-dist/index.html" \
+            > /tmp/v4546-retired-dom.html
+          test -s /tmp/v4546-retired-dom.html
+          grep -qi '<html' /tmp/v4546-retired-dom.html
+          grep -q 'ENGINEER OSINT' /tmp/v4546-retired-dom.html
+          ! grep -q 'engineer-data-integrity-identity-fixes-module' /tmp/v4546-retired-dom.html
+          grep -q 'engineer-overlay-transition-runtime-guard-module' /tmp/v4546-retired-dom.html
+          python - <<'PY'
+          from pathlib import Path
+          import re, hashlib, html
+          bilingual=re.compile(
+              r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
+              r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',re.I)
+          def canon(m):
+              text=html.unescape(m.group('text')).strip(); cs=html.unescape(m.group('cs')).strip(); en=html.unescape(m.group('en')).strip()
+              return m.group('open')+m.group('cs')+m.group('close') if text in {cs,en} else m.group(0)
+          s=Path('/tmp/v4546-retired-dom.html').read_text(errors='replace')
+          s=re.sub(r'<script\b[^>]*>[\s\S]*?</script>','',s,flags=re.I)
+          s=bilingual.sub(canon,s)
+          s=re.sub(r'\s+',' ',s).strip()
+          Path('/tmp/v4546-retired-normalized.html').write_text(s)
+          digest=hashlib.sha256(s.encode()).hexdigest()
+          expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'
+          Path('/tmp/v4546-browser-digest.txt').write_text(f'sha256={digest}\nexpected={expected}\n')
+          if digest!=expected: raise SystemExit(f'V4546_BROWSER_DIGEST: expected {expected}, got {digest}')
+          print(f'V4546_BROWSER_DIGEST=PASS sha256={digest}')
+          PY
+
+      - name: Seal browser-complete retirement evidence
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/engineer-osint-dist/identity-fix-retirement-audit.json';
+          const a=JSON.parse(fs.readFileSync(p,'utf8'));
+          const expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31';
+          a.browser_normalized_dom_sha256=expected;
+          a.browser_parity_pending=false;
+          if(a.status!=='PASS'||a.identity_fix_runtime_retired!==true||a.identity_fix_source_retained!==true||a.active_legacy_factual_module_count!==0||a.active_legacy_baseline_module_count!==0)throw new Error('browser completion found invalid retirement audit');
+          if(a.canonical_write_performed!==false||a.run_store_manifest_edit_performed!==false||a.run_appended!==false||a.source_file_deleted!==false||a.other_runtime_module_removed!==false)throw new Error('browser completion broadened retirement scope');
+          fs.writeFileSync(p,JSON.stringify(a,null,2)+'\n');
+          fs.appendFileSync('docs/engineer-osint-dist/health.txt',`identity_fix_retirement_browser_digest=${expected}\nidentity_fix_retirement_browser_parity=pass\n`);
+          console.log('V4546_IDENTITY_FIX_RETIREMENT=PASS_BROWSER_COMPLETE');
+          NODE
+
+      - name: Upload final retirement evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-fix-final-retirement-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            docs/engineer-osint-dist/identity-fix-retirement-audit.json
+            docs/engineer-osint-dist/identity-fix-retirement-audit.md
+            docs/engineer-osint-dist/persistent-b99-identity-audit.json
+            docs/engineer-osint-dist/persistent-b99-identity-audit.md
+            docs/engineer-osint-dist/health.txt
+            /tmp/v4546-retired-dom.html
+            /tmp/v4546-retired-normalized.html
+            /tmp/v4546-browser-digest.txt
