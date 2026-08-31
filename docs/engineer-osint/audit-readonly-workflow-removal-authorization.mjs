@@ -44,8 +44,9 @@ for(const item of [...targets,...active,...historical]){
   if(gitBlobSha(read(path))!==item.git_blob_sha)fail(`workflow blob drift: ${item.file}`);
 }
 
-let readCount=0,writeCount=0,workflowCallCount=0,crossRefs=0,reusableUsesRefs=0;
+let readCount=0,writeCount=0,workflowCallCount=0,remainingRefs=0,internalTargetRefs=0,reusableUsesRefs=0;
 const targetNames=new Set(targets.map(x=>x.file));
+const remainingNames=new Set([...active,...historical].map(x=>x.file));
 for(const target of targets){
   const text=read(`${workflowsDir}/${target.file}`);
   if(/permissions:\s*\n\s*contents:\s*read\b/.test(text))readCount++;
@@ -55,15 +56,19 @@ for(const target of targets){
 for(const file of actualFiles){
   const text=read(`${workflowsDir}/${file}`);
   for(const targetName of targetNames){
-    if(file!==targetName&&text.includes(targetName))crossRefs++;
+    if(file!==targetName&&text.includes(targetName)){
+      if(remainingNames.has(file))remainingRefs++;
+      else if(targetNames.has(file))internalTargetRefs++;
+    }
     const escaped=targetName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     if(file!==targetName&&new RegExp(`uses:\\s*\\.?\\/?\\.?\\/?\\.github\\/workflows\\/${escaped}`).test(text))reusableUsesRefs++;
   }
 }
-if(readCount!==7||writeCount!==0||workflowCallCount!==0||crossRefs!==0||reusableUsesRefs!==0)fail(`dependency/read-only proof failed read=${readCount} write=${writeCount} workflow_call=${workflowCallCount} cross=${crossRefs} uses=${reusableUsesRefs}`);
+if(readCount!==7||writeCount!==0||workflowCallCount!==0||remainingRefs!==0||reusableUsesRefs!==0)fail(`dependency/read-only proof failed read=${readCount} write=${writeCount} workflow_call=${workflowCallCount} remaining_refs=${remainingRefs} internal_target_refs=${internalTargetRefs} uses=${reusableUsesRefs}`);
 
 const proof=policy.dependency_proof||{};
-if(proof.workflow_count_before!==14||proof.candidate_count!==7||proof.candidate_contents_read_count!==7||proof.candidate_contents_write_count!==0||proof.candidate_workflow_call_count!==0||proof.cross_workflow_candidate_reference_count!==0)fail('declared dependency proof drift');
+if(proof.workflow_count_before!==14||proof.candidate_count!==7||proof.candidate_contents_read_count!==7||proof.candidate_contents_write_count!==0||proof.candidate_workflow_call_count!==0)fail('declared basic dependency proof drift');
+if(proof.remaining_workflow_candidate_reference_count!==0||proof.reusable_uses_dependency_count!==0||proof.internal_target_filename_references_are_nonblocking_when_all_targets_deleted_atomically!==true)fail('declared dependency boundary drift');
 if(proof.expected_workflow_count_after_exact_removal!==7||proof.expected_active_production_protection_count_after!==5||proof.expected_historical_evidence_keep_count_after!==2||proof.expected_remaining_migration_ci_debt_candidate_count_after!==0||proof.expected_write_capable_migration_one_shot_count_after!==0)fail('declared post-removal inventory drift');
 
 const unchanged=policy.required_unchanged_state||{};
@@ -104,4 +109,4 @@ for(const key of [
 ])if(application[key]!==true)fail(`application guard missing: ${key}`);
 if(application.expected_post_removal_workflow_count!==7)fail('application post-removal count drift');
 
-console.log(`READONLY_WORKFLOW_REMOVAL_AUTHORIZATION=PASS targets=7 workflows=14 after=7 active=5 historical=2 read=${readCount} write=${writeCount} workflow-call=${workflowCallCount} cross-refs=${crossRefs} authorization=exact-all-seven-only b99=${b99.run_id}`);
+console.log(`READONLY_WORKFLOW_REMOVAL_AUTHORIZATION=PASS targets=7 workflows=14 after=7 active=5 historical=2 read=${readCount} write=${writeCount} workflow-call=${workflowCallCount} remaining-refs=${remainingRefs} reusable-uses=${reusableUsesRefs} internal-target-refs=${internalTargetRefs} authorization=exact-all-seven-only b99=${b99.run_id}`);
