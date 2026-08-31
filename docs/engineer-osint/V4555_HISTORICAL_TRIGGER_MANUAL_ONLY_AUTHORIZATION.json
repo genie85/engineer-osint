@@ -1,0 +1,99 @@
+{
+  "schema_version": "engineer-osint-historical-trigger-manual-only-authorization-v1",
+  "status": "AUTHORIZED_EXACT_TWO_HISTORICAL_WORKFLOWS_MANUAL_ONLY_NEXT_SLICE",
+  "reviewed_main_sha": "fe989b673b069f2d584f9dcdaf2f15fa931995ba",
+  "reviewed_v4554_policy_git_blob_sha": "d9ce01ae676a942dc1e22433acb138d5330dde5e",
+  "reviewed_v4554_production_evidence": {
+    "v4554_final_pr_head_sha": "3a774fed64c3bfd5e4d759fe9e3f53dacbaf2f4b",
+    "v4554_pr_workflows_success": 6,
+    "v4554_pr_workflows_failed": 0,
+    "v4554_merge_sha": "fe989b673b069f2d584f9dcdaf2f15fa931995ba",
+    "v4554_push_workflows_success": 3,
+    "v4554_push_workflows_failed": 0,
+    "pages_run_id": 33446070096,
+    "pages_artifact_id": 9778082196,
+    "pages_build_version": "fe989b673b069f2d584f9dcdaf2f15fa931995ba",
+    "pages_environment_url": "https://genie85.github.io/engineer-osint/"
+  },
+  "targets": [
+    {
+      "file": "identity-fix-retirement-readiness.yml",
+      "current_git_blob_sha": "925f139e1288cb43d16b7c06f042417fcb599322",
+      "current_pull_request_main_docs_broad": true,
+      "current_push_historical_branches_only": true,
+      "current_workflow_dispatch": true,
+      "authorized_next_state": "WORKFLOW_DISPATCH_ONLY",
+      "file_must_be_retained": true,
+      "jobs_and_permissions_must_be_preserved": true
+    },
+    {
+      "file": "identity-fix-retirement-authorization.yml",
+      "current_git_blob_sha": "eac7e69735e79a41354c036ba04b23f7c2d3c7f9",
+      "current_pull_request_main_docs_broad": true,
+      "current_push_historical_branches_only": true,
+      "current_workflow_dispatch": true,
+      "authorized_next_state": "WORKFLOW_DISPATCH_ONLY",
+      "file_must_be_retained": true,
+      "jobs_and_permissions_must_be_preserved": true
+    }
+  ],
+  "required_unchanged_active_protections": [
+    {"file":"first-three-overlay-retirement-regression.yml","git_blob_sha":"913520fdbae0b404628420d6bf8fe7f4170ac5d9"},
+    {"file":"i18n-switch-regression.yml","git_blob_sha":"e07db7a6acb5aae7db64b3bb92e21d6250f78bbc"},
+    {"file":"identity-fix-retirement-regression.yml","git_blob_sha":"272c85272137c256484b831be98f7340cbe6db8e"},
+    {"file":"pages.yml","git_blob_sha":"49d8b2e2222848e370800d5dec20c8d8c572afad"},
+    {"file":"runtime-audit-snapshot.yml","git_blob_sha":"9a07eb9fcf949d1ff1984867e39bc0acbbb420c4"}
+  ],
+  "coverage_after_authorized_future_change": {
+    "workflow_file_count": 7,
+    "active_production_protection_count": 5,
+    "historical_evidence_file_count": 2,
+    "automatic_historical_pull_request_trigger_count": 0,
+    "automatic_historical_push_trigger_count": 0,
+    "manual_historical_workflow_dispatch_count": 2,
+    "broad_active_pull_request_main_docs_workflow_count": 4,
+    "broad_active_push_main_docs_workflow_count": 3,
+    "path_scoped_i18n_specialist_retained": true,
+    "current_pull_request_coverage_preserved_without_historical_automatic_triggers": true,
+    "current_main_push_coverage_preserved_without_historical_automatic_triggers": true
+  },
+  "authorization": {
+    "one_execution_slice_only": true,
+    "edit_exact_two_target_workflow_trigger_blocks": true,
+    "remove_pull_request_triggers_from_targets": true,
+    "remove_push_triggers_from_targets": true,
+    "retain_workflow_dispatch_on_targets": true,
+    "retain_target_files": true,
+    "edit_target_jobs": false,
+    "edit_target_permissions": false,
+    "delete_target_files": false,
+    "edit_any_active_protection": false,
+    "delete_any_active_protection": false,
+    "edit_any_other_workflow": false,
+    "delete_any_other_workflow": false,
+    "canonical_data_edit": false,
+    "run_store_manifest_edit": false,
+    "run_append": false,
+    "runtime_module_edit": false,
+    "historical_policy_or_audit_rewrite": false,
+    "manual_hash_edit": false
+  },
+  "application_contract": {
+    "this_slice_performs_trigger_change": false,
+    "next_slice_must_repin_both_target_blobs_before_edit": true,
+    "next_slice_must_prove_only_on_block_changed": true,
+    "next_slice_must_preserve_name_permissions_jobs_byte_semantics": true,
+    "next_slice_must_prove_both_files_remain_present": true,
+    "next_slice_must_prove_workflow_dispatch_only": true,
+    "next_slice_must_run_full_available_pr_ci_before_merge": true,
+    "next_slice_must_validate_post_merge_three_push_workflows_and_pages": true
+  },
+  "required_unchanged_state": {
+    "b99_run_id": "engineer-osint-20260830-B99",
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "active_legacy_factual_overlay_count": 0,
+    "active_legacy_baseline_module_count": 0,
+    "retired_browser_dom_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+  }
+}
