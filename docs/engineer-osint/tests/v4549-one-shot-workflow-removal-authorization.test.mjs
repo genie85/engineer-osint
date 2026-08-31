@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4549_ONE_SHOT_WORKFLOW_REMOVAL_AUTHORIZATION.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-one-shot-workflow-removal-authorization.mjs`,'utf8');
-
+const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const expectedTargets=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'].sort();
 
 test('v4.5.49 authorizes exactly one future removal slice for four B96-B99 one-shots',()=>{
@@ -49,14 +50,25 @@ test('v4.5.49 freezes the five active protections and two historical evidence wo
   ].sort());
 });
 
-test('v4.5.49 authorization audit is read-only, fail-closed and passes before deletion',()=>{
+test('v4.5.49 authorization audit remains immutable and runs only before the authorized deletion',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  const output=execFileSync(process.execPath,[`${root}/audit-one-shot-workflow-removal-authorization.mjs`],{encoding:'utf8'});
-  assert.match(output,/ONE_SHOT_WORKFLOW_REMOVAL_AUTHORIZATION=PASS/);
-  assert.match(output,/targets=4 references=0 active=5 historical=2 pre-inventory=18 post-expected=14/);
+  const targetPresence=expectedTargets.filter(file=>existsSync(`.github/workflows/${file}`)).length;
+  assert.ok(targetPresence===0||targetPresence===4,`partial one-shot lifecycle state: ${targetPresence}/4 present`);
+  if(targetPresence===4){
+    const output=execFileSync(process.execPath,[`${root}/audit-one-shot-workflow-removal-authorization.mjs`],{encoding:'utf8'});
+    assert.match(output,/ONE_SHOT_WORKFLOW_REMOVAL_AUTHORIZATION=PASS/);
+    assert.match(output,/targets=4 references=0 active=5 historical=2 pre-inventory=18 post-expected=14/);
+  }else{
+    assert.equal(gitBlobSha(audit),'b01aeb1cc88a697d8757bc918b6c20e2cb9bed76');
+    assert.ok(existsSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`));
+    const removal=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.json`,'utf8'));
+    assert.equal(removal.status,'AUTHORIZED_EXACT_FOUR_ONE_SHOTS_REMOVED');
+    assert.equal(removal.authorization_policy_git_blob_sha,'8ef9ab22c1d92dd8caa29c5a71360df3d7888499');
+    assert.equal(removal.historical_audits_retained.find(x=>x.file==='audit-one-shot-workflow-removal-authorization.mjs')?.git_blob_sha,'b01aeb1cc88a697d8757bc918b6c20e2cb9bed76');
+  }
 });
 
-test('v4.5.49 next slice is deletion-only and retains full regression gates',()=>{
+test('v4.5.49 next slice was deletion-only and retained full regression gates',()=>{
   const next=policy.required_next_slice;
   assert.match(next.goal,/Delete exactly the four authorized B96-B99 one-shot publish workflow files and nothing else/);
   assert.equal(next.expected_workflow_count_after,14);
