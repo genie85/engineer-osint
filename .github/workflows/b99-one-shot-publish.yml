@@ -45,10 +45,16 @@ jobs:
       - name: Test complete P0/P1 contract
         run: node --test docs/engineer-osint/tests/*.test.mjs
 
+      - name: Build required production-style audit artifact
+        run: |
+          set -euo pipefail
+          node docs/engineer-osint/build-pages.mjs
+          test -s docs/engineer-osint-dist/index.html
+          node docs/engineer-osint/materialize-canonical-media-history.mjs
+
       - name: Regenerate exact B99 mirror-synchronized candidate
         run: |
           set -euo pipefail
-          mkdir -p docs/engineer-osint-dist
           node docs/engineer-osint/build-identity-fix-b99-mirror-sync-candidate.mjs
           sha256sum docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate.json
           test "$(sha256sum docs/engineer-osint-dist/identity-fix-b99-mirror-sync-candidate.json | awk '{print $1}')" = "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab"
