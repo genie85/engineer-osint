@@ -9,7 +9,9 @@ const policy=JSON.parse(readFileSync(`${root}/V4525_B98_POST_CI_READINESS.json`,
 const registry=JSON.parse(readFileSync(`${root}/media-sweep-status-exceptions.json`,'utf8'));
 const lib=readFileSync(`${root}/lib/media-sweep-exceptions.mjs`,'utf8');
 const audit=readFileSync(`${root}/audit-persistent-b98.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/b98-post-ci-readiness.yml','utf8');
+const workflowPath='.github/workflows/b98-post-ci-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
 const pages=readFileSync('.github/workflows/pages.yml','utf8');
 const pagesGate=readFileSync(`${root}/verify-post-b98-pages-readiness.mjs`,'utf8');
 const attestation=readFileSync(`${root}/data/attestations/engineer-osint-20260830-B98-media-omission.md`,'utf8');
@@ -19,6 +21,12 @@ const b97Id='engineer-osint-20260830-B97';
 const b98Id='engineer-osint-20260830-B98';
 const b98Path=`${root}/data/runs/${b98Id}.json`;
 const sha256=text=>createHash('sha256').update(text).digest('hex');
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B98 post-CI workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='b98-post-ci-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a');
+};
 
 const assertLifecyclePresence=()=>{
   const b98Index=manifest.runs.findIndex(item=>item.run_id===b98Id);
@@ -94,6 +102,7 @@ test('persistent B98 audit has symmetric simulated and persistent exact-hash mod
 });
 
 test('POST_B98 readiness workflow is lifecycle-aware and never writes canonical data',()=>{
+  if(!workflow){assertHistoricalWorkflow();return;}
   assert.match(workflow,/Detect B98 lifecycle phase/);
   assert.match(workflow,/phase=PRE_B98/);
   assert.match(workflow,/phase=POST_B98/);
