@@ -6,7 +6,9 @@ const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4524_B98_READINESS.json`,'utf8'));
 const review=JSON.parse(readFileSync(`${root}/V457_ASSESSMENT_EVIDENCE_REVIEW.json`,'utf8'));
 const generator=readFileSync(`${root}/build-b98-readiness.mjs`,'utf8');
-const workflow=readFileSync('.github/workflows/b98-readiness.yml','utf8');
+const workflowPath='.github/workflows/b98-readiness.yml';
+const workflow=existsSync(workflowPath)?readFileSync(workflowPath,'utf8'):null;
+const v4553=existsSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`)?JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8')):null;
 const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const currentRun=manifest.runs.at(-1)?.run_id||manifest.snapshot.run_id;
 const b97Id='engineer-osint-20260830-B97';
@@ -17,6 +19,12 @@ const b98CanonicalSha='4ebc674ce036e3aa8cc77b52ae22f893b38ce345fe37ee0a8700585b3
 const b96Raw=readFileSync(`${root}/data/runs/engineer-osint-20260829-B96.json`,'utf8');
 const b97Raw=readFileSync(`${root}/data/runs/${b97Id}.json`,'utf8');
 const b96=JSON.parse(b96Raw),b97=JSON.parse(b97Raw);
+const assertHistoricalWorkflow=()=>{
+  assert.ok(v4553,'B98 readiness workflow missing without v4.5.53 removal evidence');
+  const removed=v4553.removed_targets.find(x=>x.file==='b98-readiness.yml');
+  assert.ok(removed);
+  assert.equal(removed.git_blob_sha,'df6851c3985373e2f8a92a4af6516af8c38ca1c2');
+};
 
 const assertLifecyclePresence=()=>{
   const b98Index=manifest.runs.findIndex(item=>item.run_id===b98Id);
@@ -115,6 +123,7 @@ test('B98 readiness workflow is lifecycle-aware, never writes, and preserves the
   assert.match(generator,/b98-patch-candidate\.json/);
   assert.match(generator,/b98-readiness-audit\.json/);
   assert.match(generator,/b98-readiness-audit\.md/);
+  if(!workflow){assertHistoricalWorkflow();assert.doesNotMatch(generator,/append-run\.mjs/);return;}
   assert.match(workflow,/Detect B98 lifecycle phase/);
   assert.match(workflow,/phase=PRE_B98/);
   assert.match(workflow,/phase=POST_B98/);
