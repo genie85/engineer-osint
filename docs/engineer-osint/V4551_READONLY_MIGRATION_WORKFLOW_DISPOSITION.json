@@ -1,0 +1,180 @@
+{
+  "schema_version": "engineer-osint-readonly-migration-workflow-disposition-v1",
+  "status": "SEVEN_SAFE_REMOVAL_CANDIDATES_NO_REMOVAL_AUTHORIZED",
+  "reviewed_main_sha": "cf846fe1f10a8a06187354bda47a99a8890666a5",
+  "reviewed_v4550_policy_git_blob_sha": "030a35d5e8c5cb28754e1befa087bba6b5c7d461",
+  "inventory": {
+    "workflow_count": 14,
+    "active_production_protection_count": 5,
+    "historical_evidence_keep_count": 2,
+    "readonly_migration_candidate_count": 7,
+    "write_capable_migration_one_shot_count": 0
+  },
+  "authorization": {
+    "removal_authorized": false,
+    "workflow_edit_authorized": false,
+    "trigger_deactivation_authorized": false,
+    "historical_evidence_workflow_change_authorized": false,
+    "active_protection_workflow_change_authorized": false,
+    "canonical_data_edit_authorized": false,
+    "run_store_edit_authorized": false,
+    "run_append_authorized": false,
+    "runtime_edit_authorized": false,
+    "manual_hash_edit_authorized": false
+  },
+  "replacement_protections": {
+    "first_three_retirement": {
+      "file": "first-three-overlay-retirement-regression.yml",
+      "git_blob_sha": "913520fdbae0b404628420d6bf8fe7f4170ac5d9",
+      "required_markers": [
+        "node --test docs/engineer-osint/tests/*.test.mjs",
+        "node docs/engineer-osint/validate-patch.mjs",
+        "node docs/engineer-osint/build-pages.mjs",
+        "node docs/engineer-osint/audit-post-b98-steady-state.mjs",
+        "Headless browser retirement regression"
+      ]
+    },
+    "identity_retirement": {
+      "file": "identity-fix-retirement-regression.yml",
+      "git_blob_sha": "272c85272137c256484b831be98f7340cbe6db8e",
+      "required_markers": [
+        "node --test docs/engineer-osint/tests/*.test.mjs",
+        "node docs/engineer-osint/validate-patch.mjs",
+        "node docs/engineer-osint/build-pages.mjs",
+        "node docs/engineer-osint/audit-persistent-b99-identity.mjs",
+        "node docs/engineer-osint/audit-identity-fix-retirement.mjs",
+        "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+      ]
+    },
+    "pages": {
+      "file": "pages.yml",
+      "git_blob_sha": "49d8b2e2222848e370800d5dec20c8d8c572afad"
+    },
+    "runtime_audit": {
+      "file": "runtime-audit-snapshot.yml",
+      "git_blob_sha": "9a07eb9fcf949d1ff1984867e39bc0acbbb420c4"
+    },
+    "i18n_regression": {
+      "file": "i18n-switch-regression.yml",
+      "git_blob_sha": "e07db7a6acb5aae7db64b3bb92e21d6250f78bbc"
+    }
+  },
+  "historical_evidence_workflows": [
+    {"file":"identity-fix-retirement-readiness.yml","git_blob_sha":"925f139e1288cb43d16b7c06f042417fcb599322"},
+    {"file":"identity-fix-retirement-authorization.yml","git_blob_sha":"eac7e69735e79a41354c036ba04b23f7c2d3c7f9"}
+  ],
+  "candidates": [
+    {
+      "file": "b97-readiness.yml",
+      "git_blob_sha": "054ae37c1d57352057c817784c962968011b5409",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": true,
+      "historical_transition_scope": "PRE_B97_AND_B97_B98_LINEAGE",
+      "current_reachable_scope": "POST_B98_STEADY",
+      "replacement_workflows": ["first-three-overlay-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "Current steady-state P0/P1, canonical validation, build and post-B98 lineage/parity checks are already enforced by the active retirement regression and Pages pipeline. PRE_B97 transition execution is historical and unreachable from the current B99 lineage."
+    },
+    {
+      "file": "b98-readiness.yml",
+      "git_blob_sha": "df6851c3985373e2f8a92a4af6516af8c38ca1c2",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": true,
+      "historical_transition_scope": "PRE_B98_AND_POST_B98_READINESS",
+      "current_reachable_scope": "POST_B98_STEADY",
+      "replacement_workflows": ["first-three-overlay-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "Current post-B98 steady-state audit, P0/P1, canonical validation and browser-sensitive retirement state are enforced by active first-three retirement regression and Pages. PRE_B98 candidate generation is historical and unreachable from current B99 lineage."
+    },
+    {
+      "file": "b98-post-ci-readiness.yml",
+      "git_blob_sha": "d9611e1ffb4a2aad3d2b34f38375f14ff648ba9a",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": true,
+      "historical_transition_scope": "PRE_B98_SIMULATION_AND_POST_B98_CI_READINESS",
+      "current_reachable_scope": "POST_B98_STEADY",
+      "replacement_workflows": ["first-three-overlay-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "The current branch only revalidates historical B98 anchors and post-B98 semantic parity already covered by active retirement regression and Pages; pre-append B98 simulation is historical and unreachable."
+    },
+    {
+      "file": "identity-fix-b99-candidate-readiness.yml",
+      "git_blob_sha": "947f4f7ee65a2677e107e6662d315bac5de3eaf0",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": false,
+      "legacy_branch_push": "chatgpt/engineer-osint-v4533-identity-fix-candidate",
+      "historical_transition_scope": "PRE_B99_IDENTITY_CANDIDATE",
+      "current_reachable_scope": "POST_B99_OR_STEADY_PERSISTENT_AUDIT",
+      "replacement_workflows": ["identity-fix-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "Current POST_B99 branch delegates to persistent B99 identity audit already required by the final identity retirement regression; PRE_B99 candidate construction is historical and unreachable."
+    },
+    {
+      "file": "identity-fix-b99-mirror-sync-candidate-readiness.yml",
+      "git_blob_sha": "d5d48134fe707b2d07ebeccfe555b9790d3d2c0f",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": false,
+      "legacy_branch_push": "chatgpt/engineer-osint-v4536-b99-mirror-sync-candidate",
+      "historical_transition_scope": "PRE_B99_MIRROR_SYNC_CANDIDATE",
+      "current_reachable_scope": "POST_B99_OR_STEADY_PERSISTENT_AUDIT",
+      "replacement_workflows": ["identity-fix-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "Current POST_B99 branch reuses the persistent B99 identity audit and exact 36-operation/mirror residual assertions preserved by tests and final retirement regression; candidate generation is historical."
+    },
+    {
+      "file": "identity-fix-readiness.yml",
+      "git_blob_sha": "6b71a4b4d757ba25e135334115285d7f96e8d5d1",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": true,
+      "historical_transition_scope": "PRE_B99_IDENTITY_MIGRATION_READINESS",
+      "current_reachable_scope": "POST_B99_OR_STEADY_RETIRED_IDENTITY_AUDIT",
+      "replacement_workflows": ["identity-fix-retirement-regression.yml","pages.yml"],
+      "replacement_reason": "Final identity retirement regression runs the same persistent B99 audit plus the stronger exact retirement audit and browser digest. PRE_B99 migration-readiness branch is historical and unreachable."
+    },
+    {
+      "file": "identity-mirror-parity-readiness.yml",
+      "git_blob_sha": "f30ff955539d510bc78131c5a7ce1b4ba8d26e0f",
+      "disposition": "SAFE_REMOVAL_CANDIDATE_AFTER_EXACT_AUTHORIZATION",
+      "permissions": "contents: read",
+      "node_version": "20",
+      "automatic_pr_main": true,
+      "automatic_push_main": false,
+      "legacy_branch_push": "chatgpt/engineer-osint-v4534-identity-mirror-parity",
+      "historical_transition_scope": "PRE_B99_ACTIVE_OVERLAY_VS_MIRROR_BROWSER_PARITY",
+      "current_reachable_scope": "POST_B99_OR_STEADY_PERSISTENT_AUDIT",
+      "replacement_workflows": ["identity-fix-retirement-regression.yml","first-three-overlay-retirement-regression.yml"],
+      "replacement_reason": "The PRE_B99 active-overlay parity comparison is historical; current retired state is protected by exact persistent B99 audit plus two active browser regressions, including the pinned retired DOM digest."
+    }
+  ],
+  "required_current_lineage": {
+    "b99_run_id": "engineer-osint-20260830-B99",
+    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "current_tip_must_be_b99_or_descendant": true
+  },
+  "required_next_slice": {
+    "goal": "Create a separate exact authorization for deletion of the seven classified read-only migration workflow candidates; do not delete them in v4.5.51.",
+    "exact_seven_removal_authorized": false,
+    "partial_subset_removal_authorized": false,
+    "historical_evidence_trigger_deactivation_authorized": false,
+    "active_protection_modernization_authorized": false,
+    "must_pin_all_seven_blobs_again": true,
+    "must_prove_no_workflow_call_or_cross_workflow_dependency": true,
+    "must_preserve_five_active_protections": true,
+    "must_preserve_two_historical_evidence_workflows": true,
+    "must_preserve_b99_hashes": true
+  }
+}
