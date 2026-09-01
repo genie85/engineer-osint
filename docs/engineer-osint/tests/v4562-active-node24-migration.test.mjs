@@ -11,7 +11,9 @@ const repoRoot = path.resolve(here, '../../..');
 const workflowsDir = path.join(repoRoot, '.github', 'workflows');
 const migrationPath = path.join(projectDir, 'V4562_ACTIVE_NODE24_MIGRATION.json');
 const baselinePath = path.join(projectDir, 'V4561_CI_NODE_RUNTIME_INVENTORY.json');
+const successorPath = path.join(projectDir, 'V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json');
 const migration = JSON.parse(fs.readFileSync(migrationPath, 'utf8'));
+const successorPolicy = JSON.parse(fs.readFileSync(successorPath, 'utf8'));
 
 function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8');
@@ -29,6 +31,9 @@ function configuredNodeMajor(content) {
   const match = content.match(/^\s*node-version:\s*['"]?(\d+)['"]?\s*$/m);
   return match ? Number(match[1]) : null;
 }
+
+const substitutionMap = new Map(successorPolicy.authorized_action_substitutions);
+const workflowSuccessors = new Map(successorPolicy.workflow_successors.map((item) => [item.file, item]));
 
 test('v4.5.62 migration scope is Node-runtime-only and fail-closed', () => {
   assert.equal(migration.schema_version, 'engineer-osint-active-node24-migration-v1');
@@ -55,14 +60,24 @@ test('v4.5.62 contract covers every current workflow exactly once', () => {
   assert.equal(actual.length, 7);
 });
 
-test('v4.5.62 exact workflow blobs, action references and Node majors match contract', () => {
+test('v4.5.62 exact workflow history permits only the pinned v4.5.65 action successor for active workflows', () => {
   for (const item of migration.workflows) {
     const workflowPath = path.join(workflowsDir, item.file);
     const content = fs.readFileSync(workflowPath, 'utf8');
-    assert.equal(gitBlobSha(content), item.git_blob_sha, `${item.file}: git blob SHA drift`);
+    const currentSha = gitBlobSha(content);
     assert.equal(configuredNodeMajor(content), item.configured_node_major, `${item.file}: Node major drift`);
-    assert.deepEqual(actionUses(content), item.actions, `${item.file}: action reference drift`);
+    if (item.role === 'ACTIVE_PRODUCTION_PROTECTION') {
+      const successor = workflowSuccessors.get(item.file);
+      assert.ok(successor, `${item.file}: missing exact action successor`);
+      assert.equal(successor.v4562_git_blob_sha, item.git_blob_sha, `${item.file}: v4.5.62 historical anchor drift`);
+      assert.equal(currentSha, successor.v4564_diagnostic_git_blob_sha, `${item.file}: unauthorized action successor blob`);
+      assert.deepEqual(actionUses(content), item.actions.map((ref) => substitutionMap.get(ref) || ref), `${item.file}: action successor reference drift`);
+    } else {
+      assert.equal(currentSha, item.git_blob_sha, `${item.file}: historical workflow blob drift`);
+      assert.deepEqual(actionUses(content), item.actions, `${item.file}: historical action reference drift`);
+    }
   }
+  assert.equal(successorPolicy.execution_boundary.wildcard_or_current_state_acceptance_authorized, false);
 });
 
 test('v4.5.62 removes active Node 20 debt while preserving two historical manual-only workflows', () => {
@@ -92,10 +107,13 @@ test('v4.5.62 preserves the exact v4.5.61 historical baseline artifact', () => {
   assert.equal(baseline.configured_node24_workflow_count, 0);
 });
 
-test('v4.5.62 keeps the upstream Pages deploy action warning outside repository Node migration scope', () => {
+test('v4.5.62 keeps the upstream Pages deploy action warning as historical evidence only', () => {
   const pages = migration.workflows.find((item) => item.file === 'pages.yml');
   assert.ok(pages);
   assert.equal(pages.configured_node_major, 24);
   assert.ok(pages.actions.includes('actions/deploy-pages@v4'));
   assert.equal(migration.findings.pages_deploy_action_upstream_node20_warning_expected_to_remain, true);
+  const successor = workflowSuccessors.get('pages.yml');
+  assert.ok(successor);
+  assert.equal(successor.v4562_git_blob_sha, pages.git_blob_sha);
 });
