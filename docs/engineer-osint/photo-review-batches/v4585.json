@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0024",
+      "system_name": "Czech EOD robotic systems baseline — TALON 5 / Dragon Runner 20",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.85",
+      "origin_url": "https://acr.mo.gov.cz/informacni-servis/zpravodajstvi/vylepsene-verze-robotu-poslouzi-doma-i-v-zahranici-235156/",
+      "source_title": "Vylepšené verze robotů poslouží doma i v zahraničí",
+      "source_type": "OFFICIAL_MILITARY_PHOTO_GALLERY",
+      "author_rightsholder": "Armáda České republiky / Ministerstvo obrany ČR",
+      "identity_evidence": "The official Czech Armed Forces article dated 4 May 2022 explicitly identifies the newly delivered EOD robots as TALON 5 and Dragon Runner 20 and includes gallery captions identifying Dragon Runner 20 during control testing. This is exact-system evidence for the ENGINEER OSINT card; it is not inferred from visual appearance alone.",
+      "license_evidence": "The reviewed official Czech Armed Forces page provides exact identity and public gallery access but does not state a compatible open redistribution licence for repository rehosting. No licence advancement is claimed.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official military image source found, but compatible open redistribution rights for repository reuse have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0025",
+      "system_name": "Katyusha ground robotic platform — sapper/clearance configuration",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.85",
+      "origin_url": "https://tass.com/defense/2145573/amp",
+      "source_title": "Russian tech firm unveils Katyusha ground robotic vehicles at Fleet 2026 naval show",
+      "source_type": "NEWS_AGENCY_EXHIBITION_REPORT",
+      "author_rightsholder": "TASS",
+      "identity_evidence": "TASS's 11 June 2026 report from Fleet-2026 explicitly identifies the Katyusha unmanned ground platform and quotes a company representative saying the displayed configuration is for combat engineers, specifically mine clearance and cargo delivery. This supports exact platform/configuration identity at the exhibition without inferring fielding scale.",
+      "license_evidence": "The TASS report is an exact public source but no compatible open redistribution licence for the associated imagery is demonstrated on the reviewed material. No repository-reuse right is inferred from public accessibility.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact exhibition identity source found, but compatible open image redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0026",
+      "system_name": "MS-21 temporary bridge set — Czech Army training baseline",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.85",
+      "origin_url": "https://vepozs.mo.gov.cz/aktuality/zeniste-152-zenijniho-praporu-procvicili-stavbu-mostnich-provizorii",
+      "source_title": "Ženisté 152. ženijního praporu procvičili stavbu mostních provizorií",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_GALLERY",
+      "author_rightsholder": "Velitelství pozemních sil AČR / Ministerstvo obrany ČR",
+      "identity_evidence": "The official Czech Land Forces article dated 6 February 2026 explicitly states that the 152nd Engineer Battalion trained bridge-provisional construction with the MS-21 bridge set and provides the associated official article gallery. The system identity comes from the official caption/text context, not image-only inference.",
+      "license_evidence": "The official Czech Land Forces page provides exact identity and image context but the reviewed page does not demonstrate a compatible open redistribution licence for repository rehosting.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official MS-21 image source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0027",
+      "system_name": "PMS pontoon bridge set — Czech Army current training baseline",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.85",
+      "origin_url": "https://acr.mo.gov.cz/informacni-servis/zpravodajstvi/zeniste-v-litomericich-prekonavali-labe%3A-vycvik-spojil-profesionaly-i-zalohy--264281/",
+      "source_title": "Ženisté v Litoměřicích překonávali Labe: Výcvik spojil profesionály i zálohy",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_GALLERY",
+      "author_rightsholder": "Armáda České republiky / Ministerstvo obrany ČR",
+      "identity_evidence": "The official Czech Army article dated 29 May 2026 explicitly documents the 152nd Engineer Battalion pontoon company training on the Elbe with the PMS pontoon bridge set. The official Czech Army equipment page independently identifies PMS by name and role, so exact platform identity is supported without visual-only inference.",
+      "license_evidence": "The official Czech Army article/equipment material provides exact public identity evidence but no compatible open redistribution licence for the associated imagery is demonstrated in the reviewed pages.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official PMS image source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0030",
+      "system_name": "NRTK Kuryer — engineer configurations for mine emplacement and route clearance",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.85",
+      "origin_url": "https://t.me/s/mod_russia/43527?q=%23%D0%92%D0%BE%D0%B9%D1%81%D0%BA%D0%B0%D0%91%D0%9F%D0%A1",
+      "source_title": "Russian MoD public post — Kuryer used by sappers for route clearance",
+      "source_type": "OFFICIAL_MILITARY_SOCIAL_POST",
+      "author_rightsholder": "Ministry of Defence of the Russian Federation",
+      "identity_evidence": "The public Russian Ministry of Defence Telegram post identified in the canonical source registry explicitly names Kuryer in a sapper route-clearance context; a separate Russian MoD public training post identifies Kuryer among ground robotic systems used in engineer training. The reviewed evidence supports the Kuryer engineer-role identity while quantities and fleet scale remain unresolved.",
+      "license_evidence": "The official public posts provide exact identity/image context but do not demonstrate a compatible open redistribution licence for repository rehosting. Public availability is not treated as permission to redistribute.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official military source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    }
+  ]
+}
