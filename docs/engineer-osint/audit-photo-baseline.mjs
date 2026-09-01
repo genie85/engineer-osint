@@ -6,6 +6,7 @@ import {loadCanonicalRunStore} from './lib/run-store.mjs';
 const ROOT='docs/engineer-osint';
 const STATUS_PATH=join(ROOT,'photo-review-status.json');
 const IMAGE_EXT=/\.(?:avif|webp|png|jpe?g)$/i;
+const SHA256_RE=/^[a-f0-9]{64}$/;
 const REVIEW_STATUSES=new Set(['SOURCE_FOUND','LICENSE_VERIFIED','IDENTITY_VERIFIED','READY_FOR_IMPORT','LICENSE_BLOCKED','NOT_FOUND','LOCAL_IMAGE']);
 const TERMINAL_NEGATIVE_STATUSES=new Set(['LICENSE_BLOCKED','NOT_FOUND']);
 const asArray=v=>Array.isArray(v)?v:(v?[v]:[]);
@@ -49,6 +50,14 @@ export function validatePhotoReviewRegistry(registry){
       }
       if(!/^https:\/\//i.test(entry.origin_url)||!/^https:\/\//i.test(entry.license_url))throw new Error(`PHOTO_BASELINE: READY_FOR_IMPORT ${entry.card_id} requires HTTPS origin/license URLs`);
     }
+    if(entry.status==='LOCAL_IMAGE'){
+      for(const field of ['origin_url','source_title','author_rightsholder','license','license_url','identity_evidence','license_evidence','reviewed_at','acquired_at','local_image_path','sha256']){
+        if(!String(entry[field]||'').trim())throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} missing ${field}`);
+      }
+      if(!/^https:\/\//i.test(entry.origin_url)||!/^https:\/\//i.test(entry.license_url))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires HTTPS origin/license URLs`);
+      if(!SHA256_RE.test(String(entry.sha256||'').toLowerCase()))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires lowercase SHA-256`);
+      if(!IMAGE_EXT.test(String(entry.local_image_path||'').split(/[?#]/,1)[0]))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires a supported local image path`);
+    }
     if(TERMINAL_NEGATIVE_STATUSES.has(entry.status)&&!String(entry.disposition_evidence||'').trim()){
       throw new Error(`PHOTO_BASELINE: ${entry.status} ${entry.card_id} requires disposition_evidence`);
     }
@@ -71,6 +80,10 @@ export function buildPhotoBaseline({data,statusRegistry,root=ROOT}={}){
     const review_status=review?.status||null;
     if(local.length&&review_status&&review_status!=='LOCAL_IMAGE')throw new Error(`PHOTO_BASELINE: ${record.id} has a local image but remains ${review_status}`);
     if(!local.length&&review_status==='LOCAL_IMAGE')throw new Error(`PHOTO_BASELINE: ${record.id} claims LOCAL_IMAGE without a linked local image`);
+    if(local.length&&review_status==='LOCAL_IMAGE'){
+      const declared=resolveLocalImagePath(review.local_image_path,{root});
+      if(!declared||!local.some(image=>normalize(image.path)===normalize(declared)))throw new Error(`PHOTO_BASELINE: ${record.id} LOCAL_IMAGE metadata does not match a linked local image`);
+    }
     return {card_id:record.id,title:record.title_cs||record.title||record.title_en||record.id,local_images:local,remote_visual_count:remote.length,review_status,review_batch:review?.review_batch||null};
   });
   const withLocal=items.filter(x=>x.local_images.length>0).length;
