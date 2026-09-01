@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T02:31:00+02:00",
+  "updated_at": "2026-09-01T02:33:00+02:00",
   "main_sha": "e3207a8a6326b03f1d7a5001a12981bf76ba8ee3",
   "current_phase": "A_POST_V4546_CONSOLIDATION",
-  "current_task": "v4.5.58 read-only lifecycle consolidation slice: classify V4531_IDENTITY_FIX_MIGRATION_READINESS.json as historical evidence rather than an active lifecycle contract, without deletion or canonical/runtime/workflow changes.",
-  "active_pr": null,
+  "current_task": "v4.5.58 read-only lifecycle consolidation slice in PR #279: classify V4531_IDENTITY_FIX_MIGRATION_READINESS.json as historical evidence rather than an active lifecycle contract, without deletion or canonical/runtime/workflow changes.",
+  "active_pr": 279,
   "last_completed_task": "v4.5.57 merged as e3207a8a6326b03f1d7a5001a12981bf76ba8ee3; exact-main post-merge Pages, first-three overlay retirement regression, and final identity-fix retirement regression are green.",
-  "next_recommended_task": "After v4.5.58 is fully verified, classify exactly one additional pre-B99 readiness/candidate artifact as historical evidence only if supersession can be proven without modifying or deleting B96-B99 history.",
+  "next_recommended_task": "After PR #279 is fully verified and merged, classify exactly one additional pre-B99 readiness/candidate artifact as historical evidence only if supersession can be proven without modifying or deleting B96-B99 history.",
   "blockers": [],
   "photo_total_cards": null,
   "photo_cards_with_local_image": null,
@@ -14,7 +14,7 @@
   "photo_coverage_percent": null,
   "photo_inventory_status": "PENDING_BASELINE_AUDIT",
   "workflow_inventory": {
-    "status": "V4557_PRODUCTION_GREEN_V4558_DOC_CLASSIFICATION_IN_PROGRESS",
+    "status": "V4557_PRODUCTION_GREEN_V4558_DOC_CLASSIFICATION_IN_REVIEW",
     "total": 7,
     "active_production_protection": 5,
     "historical_evidence_keep": 2,
@@ -39,9 +39,9 @@
     "production_pages_status": "SUCCESS",
     "production_first_three_status": "SUCCESS",
     "production_final_identity_status": "SUCCESS",
-    "active_pr": null,
-    "active_pr_head_sha": "PENDING_PR",
-    "active_pr_ci": "PENDING_PR"
+    "active_pr": 279,
+    "active_pr_head_sha": "aab40ec0352d9fb063530b9be9f149534aa4e580",
+    "active_pr_ci": "PENDING_FINAL_HEAD_AFTER_STATE_UPDATE"
   },
   "production_invariants": {
     "active_legacy_factual_overlays": 0,
