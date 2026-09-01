@@ -29,14 +29,27 @@ test('current canonical store produces internally consistent photo KPI',()=>{
   const report=auditPhotoBaseline();
   assert.ok(report.total_cards>0,'expected at least one ENG-TECH card');
   assert.equal(report.cards_with_local_image+report.cards_without_image,report.total_cards);
-  assert.ok(report.license_blocked+report.not_found<=report.cards_without_image);
-  assert.equal(report.unassessed,report.cards_without_image-report.license_blocked-report.not_found);
+  const reviewedWithoutLocal=
+    report.source_found+
+    report.license_verified+
+    report.identity_verified+
+    report.ready_for_import+
+    report.license_blocked+
+    report.not_found;
+  assert.ok(reviewedWithoutLocal<=report.cards_without_image);
+  assert.equal(report.reviewed_without_local_image,reviewedWithoutLocal);
+  assert.equal(report.unassessed,report.cards_without_image-reviewedWithoutLocal);
+  assert.equal(report.remaining_unassessed,report.unassessed);
   assert.ok(report.photo_coverage_percent>=0&&report.photo_coverage_percent<=100);
   assert.match(report.canonical_sha256,/^[a-f0-9]{64}$/);
   console.log('PHOTO_BASELINE_METRICS',JSON.stringify({
     total_cards:report.total_cards,
     cards_with_local_image:report.cards_with_local_image,
     cards_without_image:report.cards_without_image,
+    source_found:report.source_found,
+    license_verified:report.license_verified,
+    identity_verified:report.identity_verified,
+    ready_for_import:report.ready_for_import,
     license_blocked:report.license_blocked,
     not_found:report.not_found,
     unassessed:report.unassessed,
