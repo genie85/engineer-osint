@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0040",
+      "system_name": "Système robotisé GR — francouzský těžký mikrorobot pro ženijní/EOD úkoly",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.87",
+      "origin_url": "https://www.defense.gouv.fr/eurosatory/stand-equipements/eurosatory-2026-equipements-exposes/combat-du-genie/systeme-robotise-gr",
+      "source_title": "Système robotisé GR",
+      "source_type": "OFFICIAL_MILITARY_EQUIPMENT_PAGE_IMAGE",
+      "author_rightsholder": "Armée de Terre / Défense",
+      "identity_evidence": "The official French Ministry of the Armed Forces Eurosatory equipment page explicitly identifies the pictured platform as Système robotisé GR, describes it as the French Army's heavy micro-robot, and lists counter-IED and mine-clearance among its operational missions. The page captions the image as a teleoperated ground robot with an intervention arm, so identity is established by official text and caption rather than visual inference.",
+      "license_evidence": "The exact official image is credited © Armée de Terre/Défense. The reviewed page does not demonstrate a compatible open redistribution licence for repository rehosting, so public download/access is not treated as permission to redistribute.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official GR image source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0021",
+      "system_name": "EvoLogics Sonobot 5 USV — military hydrographic reconnaissance baseline",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.87",
+      "origin_url": "https://www.bundeswehr.de/de/organisation/heer/aktuelles/ueberwasserdrohne-fuer-mindener-pioniere-5726948",
+      "source_title": "Überwasserdrohne für Mindener Pioniere",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_GALLERY",
+      "author_rightsholder": "Bundeswehr / Vivien Meisenzahl",
+      "identity_evidence": "The official Bundeswehr article dated 17 January 2024 explicitly states that engineers of Deutsch/Britisches Pionierbrückenbataillon 130 received the Sonobot 5 and use the autonomous hydrographic surface vehicle to reconnoitre waters for crossing operations. Its gallery captions and article text identify Sonobot 5 in the unit context, providing exact official identity evidence.",
+      "license_evidence": "The official Bundeswehr gallery credits its Sonobot imagery to Bundeswehr/Vivien Meisenzahl. The reviewed material does not demonstrate a compatible open redistribution licence for repository rehosting, and no exact open-licence alternative was established in this review.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official Sonobot 5 image source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0033",
+      "system_name": "PM-55 — přepravník mostu",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.87",
+      "origin_url": "https://www.flickr.com/photos/czecharmy/5567857414",
+      "source_title": "T 813 PM-55 přepravník mostu (Tatra 813 PM-55 bridge truck) 22",
+      "source_type": "OFFICIAL_MILITARY_FLICKR_PHOTO",
+      "author_rightsholder": "Marie Křížová / Ministerstvo obrany České republiky; published by Armed Forces of the Czech Republic",
+      "identity_evidence": "The official Armed Forces of the Czech Republic Flickr account titles the photograph 'T 813 PM-55 přepravník mostu (Tatra 813 PM-55 bridge truck) 22' and credits Marie Křížová, Ministry of Defence of the Czech Republic. Exact PM-55 identity is therefore explicit in the source title and publisher context, not inferred from appearance.",
+      "license_evidence": "The reviewed Flickr result exposes exact title, official publisher and author attribution, but did not expose a compatible Creative Commons or other open redistribution licence for this exact image. Without explicit compatible rights, the photo remains SOURCE_FOUND rather than READY_FOR_IMPORT.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official PM-55 photo source found, but compatible open redistribution rights are not demonstrated for the exact Flickr image; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0034",
+      "system_name": "GCS-200 — těžká dálkově řízená odminovací platforma v Ukrajině",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.87",
+      "origin_url": "https://mod.gov.ua/en/news/this-year-26-more-gcs-mechanized-demining-machines-will-be-delivered-to-ukraine",
+      "source_title": "This year, 26 more GCS mechanized demining machines will be delivered to Ukraine",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_IMAGE",
+      "author_rightsholder": "Ministry of Defence of Ukraine",
+      "identity_evidence": "The Ukrainian Ministry of Defence article dated 3 March 2025 explicitly states that 62 GCS-200 mechanized demining machines were operating in Ukraine and describes GCS-200 as an unmanned multipurpose tracked platform delivered to a Support Forces military unit. The associated article image is presented in this exact GCS context, giving primary-source identity evidence.",
+      "license_evidence": "The official Ukrainian Ministry of Defence page provides exact GCS-200 identity and imagery but does not demonstrate a compatible open redistribution licence for repository rehosting. The manufacturer's press page offers an image bundle, but availability as press material alone is not treated as an open redistribution licence.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official GCS-200 image source found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0035",
+      "system_name": "TERMIT / Termit 2.0 — ukrajinský pásový UGV",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.87",
+      "origin_url": "https://mod.gov.ua/en/news/iron-soldiers-a-multifunctional-ground-robotic-system-could-reinforce-the-capabilities-of-our-military-units",
+      "source_title": "‘Iron Soldiers’: A multifunctional ground robotic system could reinforce the capabilities of our military units",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_IMAGE",
+      "author_rightsholder": "Manufacturer / Ministry of Defence of Ukraine publication",
+      "identity_evidence": "The Ukrainian Ministry of Defence article dated 21 June 2025 explicitly identifies the Ukrainian-made TERMIT unmanned ground robotic system, says the new tracked iteration was codified and authorized for operational use, and lists configurations including mine laying. The article marks its image as provided by the manufacturer. Manufacturer Tencore's current Termit 2.0 page independently describes the modular tracked platform and its engineering mine-laying module, corroborating platform identity and engineer role.",
+      "license_evidence": "The Ministry of Defence article states that the photo was provided by the manufacturer, while the Tencore product page presents product imagery. Neither reviewed source demonstrates a compatible open redistribution licence for repository rehosting; manufacturer-provided/publicly downloadable imagery is not assumed to be openly licensed.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact TERMIT/Termit 2.0 official/manufacturer image sources found, but compatible open redistribution rights are not demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    }
+  ]
+}
