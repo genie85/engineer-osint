@@ -64,6 +64,23 @@
       "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
     },
     {
+      "card_id": "ENG-TECH-0005",
+      "system_name": "UK-German Wide Wet Gap Crossing programme / M3 family",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.80",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:NATO_Bridging_Operation_In_Germany_MOD_45162595.jpg",
+      "source_title": "NATO Bridging Operation In Germany MOD 45162595.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Stuart A Hill AMS / UK Ministry of Defence, Crown copyright 2017",
+      "license": "Open Government Licence v1.0",
+      "license_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/",
+      "attribution_requirement": "Attribute the image to Stuart A Hill AMS / UK Ministry of Defence, retain Crown copyright and source provenance, and link the Open Government Licence v1.0.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies a UK M3 Amphibious Rig operated by a Corps of Royal Engineers crew during a joint UK/German bridging operation in Minden. The ENGINEER OSINT card ENG-TECH-0005 is the UK-German Wide Wet Gap Crossing programme. OCCAR's 30 October 2025 contract announcement identifies the programme's new M3 EVO capability, while Bundeswehr reporting identifies the existing UK-German M3 capability as Wide Wet Gap Crossing. This 2017 image therefore establishes the exact legacy M3 family and binational operational context only; it is not claimed to depict the new M3 EVO / Schwimmschnellbrücke 2 configuration.",
+      "license_evidence": "Wikimedia Commons states that the UK Ministry of Defence image is downloadable for reuse under the Open Government Licence and records Crown copyright 2017; the file's structured data records an Open Government Licence copyright licence.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; the licensed historical M3 image is not claimed to depict the new M3 EVO configuration, and no LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0006",
       "system_name": "JGSDF Type 07 Mobility Support Bridge (07MSB)",
       "status": "READY_FOR_IMPORT",
