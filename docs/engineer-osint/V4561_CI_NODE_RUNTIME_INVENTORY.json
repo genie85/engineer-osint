@@ -1,0 +1,104 @@
+{
+  "schema_version": "engineer-osint-ci-node-runtime-inventory-v1",
+  "version": "v4.5.61",
+  "status": "READ_ONLY_INVENTORY_NO_WORKFLOW_CHANGE",
+  "reviewed_main_sha": "2860625ab373f255bef0bfb81f40da25bb334f45",
+  "workflow_count": 7,
+  "active_production_protection_count": 5,
+  "historical_manual_only_count": 2,
+  "configured_node20_workflow_count": 7,
+  "configured_node24_workflow_count": 0,
+  "workflows": [
+    {
+      "file": "first-three-overlay-retirement-regression.yml",
+      "git_blob_sha": "913520fdbae0b404628420d6bf8fe7f4170ac5d9",
+      "role": "ACTIVE_PRODUCTION_PROTECTION",
+      "trigger_mode": "PULL_REQUEST_AND_MAIN_PUSH_PLUS_MANUAL",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/upload-artifact@v4"]
+    },
+    {
+      "file": "i18n-switch-regression.yml",
+      "git_blob_sha": "e07db7a6acb5aae7db64b3bb92e21d6250f78bbc",
+      "role": "ACTIVE_PRODUCTION_PROTECTION",
+      "trigger_mode": "PATH_SCOPED_PULL_REQUEST_AND_MAIN_PUSH_PLUS_MANUAL",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4"]
+    },
+    {
+      "file": "identity-fix-retirement-authorization.yml",
+      "git_blob_sha": "3677ce503119901bdf763698e78884733c49daf0",
+      "role": "HISTORICAL_EVIDENCE_KEEP",
+      "trigger_mode": "WORKFLOW_DISPATCH_ONLY",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/upload-artifact@v4"]
+    },
+    {
+      "file": "identity-fix-retirement-readiness.yml",
+      "git_blob_sha": "1eeb1dfbbef509b288aa0aaff703dcf91ecb4239",
+      "role": "HISTORICAL_EVIDENCE_KEEP",
+      "trigger_mode": "WORKFLOW_DISPATCH_ONLY",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/upload-artifact@v4"]
+    },
+    {
+      "file": "identity-fix-retirement-regression.yml",
+      "git_blob_sha": "7e11d0d3c5b314c08ca9ea9ec36c5421d917fe44",
+      "role": "ACTIVE_PRODUCTION_PROTECTION",
+      "trigger_mode": "PULL_REQUEST_AND_MAIN_PUSH_PLUS_MANUAL",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/upload-artifact@v4"]
+    },
+    {
+      "file": "pages.yml",
+      "git_blob_sha": "49d8b2e2222848e370800d5dec20c8d8c572afad",
+      "role": "ACTIVE_PRODUCTION_PROTECTION",
+      "trigger_mode": "PULL_REQUEST_AND_MAIN_PUSH_PLUS_MANUAL",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/configure-pages@v5", "actions/upload-pages-artifact@v4", "actions/deploy-pages@v4"]
+    },
+    {
+      "file": "runtime-audit-snapshot.yml",
+      "git_blob_sha": "9a07eb9fcf949d1ff1984867e39bc0acbbb420c4",
+      "role": "ACTIVE_PRODUCTION_PROTECTION",
+      "trigger_mode": "PULL_REQUEST_PLUS_MANUAL",
+      "setup_node_action": "actions/setup-node@v4",
+      "configured_node_major": 20,
+      "actions": ["actions/checkout@v4", "actions/setup-node@v4", "actions/upload-artifact@v4"]
+    }
+  ],
+  "current_pages_runtime_evidence": {
+    "run_id": 33469768472,
+    "deploy_job_id": 99737137408,
+    "run_conclusion": "success",
+    "pages_artifact_id": 9786123732,
+    "pages_build_version": "2860625ab373f255bef0bfb81f40da25bb334f45",
+    "deploy_action": "actions/deploy-pages@v4",
+    "deploy_action_runner_warning": "Node 20 target forced to run on Node 24 by GitHub runner",
+    "deployment_success": true,
+    "environment_url": "https://genie85.github.io/engineer-osint/"
+  },
+  "findings": {
+    "all_workflows_explicitly_configure_node20": true,
+    "active_workflows_explicitly_configure_node20": 5,
+    "historical_manual_workflows_explicitly_configure_node20": 2,
+    "setup_node_major_version_is_currently_v4": true,
+    "pages_deploy_action_has_separate_upstream_runtime_warning": true,
+    "workflow_trigger_change_performed": false,
+    "workflow_job_change_performed": false,
+    "canonical_data_edit_performed": false,
+    "run_store_edit_performed": false,
+    "runtime_module_edit_performed": false
+  },
+  "recommended_next_slice": {
+    "phase": "B_CI_MODERNIZATION",
+    "task": "Migrate explicit Node runtime from 20 to 24 in the five active production-protection workflows, with exact-head CI and post-merge Pages verification; leave the two historical manual-only workflows unchanged until separately evaluated.",
+    "why": "This removes the active repository-controlled Node 20 runtime debt without coupling the change to historical manual-only workflow semantics or to the separate upstream actions/deploy-pages@v4 runtime warning."
+  }
+}
