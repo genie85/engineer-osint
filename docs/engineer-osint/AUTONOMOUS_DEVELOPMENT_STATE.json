@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T15:01:30+02:00",
-  "observed_main_sha": "f888bdf3cab43ca5abf70dd0b0d05d3b7271c40c",
+  "updated_at": "2026-09-01T15:32:00+02:00",
+  "observed_main_sha": "671542aa7cf17645e0675c9aa9640b333bf22385",
   "current_phase": "E_PHOTO_COVERAGE",
-  "current_task": "v4.5.76: record exact licensed photo provenance for ENG-TECH-0016 JGSDF Type 07 Mobility Support Bridge (07MSB) without claiming a repository-local binary.",
+  "current_task": "v4.5.77: record exact licensed photo provenance for ENG-TECH-0017 JGSDF Type 92 Minefield Clearing Vehicle without claiming a repository-local binary.",
   "active_pr": null,
-  "active_branch": "chatgpt/engineer-osint-v4576-07msb-photo-research",
+  "active_branch": "chatgpt/engineer-osint-v4577-type92-photo-research",
   "observed_pr_head": null,
-  "last_completed_task": "v4.5.75 merged on main as f888bdf3cab43ca5abf70dd0b0d05d3b7271c40c; historical photo-review tests were decoupled from mutable global backlog counts and post-merge Pages build/deploy passed on the exact main SHA.",
-  "next_recommended_task": "After v4.5.76 passes exact-head CI and post-merge Pages verification, continue the deterministic photo-review queue with ENG-TECH-0017 Type 92 minefield clearing vehicle.",
+  "last_completed_task": "v4.5.76 merged on main as 671542aa7cf17645e0675c9aa9640b333bf22385; ENG-TECH-0016 07MSB reached READY_FOR_IMPORT and all three actual post-merge push workflows plus Pages build/deploy passed on the exact main SHA.",
+  "next_recommended_task": "After v4.5.77 exact-head CI and post-merge Pages verification, recalculate the deterministic photo-review queue and process its next highest-priority unassessed ENG-TECH card.",
   "blockers": [
-    "Repository-local binary acquisition for the verified 07MSB image could not be completed in the current execution environment; READY_FOR_IMPORT is truthful, but LOCAL_IMAGE is not claimed."
+    "The connected GitHub text-file write surface cannot publish a binary image asset, so READY_FOR_IMPORT provenance research can proceed but LOCAL_IMAGE requires a later execution surface that can commit binary files plus optimized variants and SHA-256 metadata."
   ],
   "expected_ci_surface": {
     "pull_request": [
@@ -19,7 +19,7 @@
       "ENGINEER OSINT first-three overlay retirement regression",
       "ENGINEER OSINT final identity-fix retirement regression"
     ],
-    "reason": "Current changed files are under docs/engineer-osint/**. Pages, runtime audit, first-three retirement and final identity retirement workflows all match this path; i18n-switch uses a narrower explicit file list, while identity retirement authorization/readiness are workflow_dispatch-only."
+    "reason": "Current slice changes only docs/engineer-osint/**. The four current PR-triggered workflows match that path; the i18n switch workflow uses a narrower explicit path list and identity retirement authorization/readiness are workflow_dispatch-only."
   },
   "photo_total_cards": 41,
   "photo_cards_with_local_image": 0,
@@ -27,20 +27,20 @@
   "photo_source_found": 2,
   "photo_license_verified": 0,
   "photo_identity_verified": 0,
-  "photo_ready_for_import": 5,
+  "photo_ready_for_import": 6,
   "photo_license_blocked": 0,
   "photo_not_found": 0,
-  "photo_remaining_unassessed": 34,
+  "photo_remaining_unassessed": 33,
   "photo_coverage_percent": 0,
-  "photo_inventory_status": "07MSB_READY_FOR_IMPORT_PENDING_PR_CI",
+  "photo_inventory_status": "TYPE92_READY_FOR_IMPORT_PENDING_PR_CI",
   "ci_status": {
-    "production_main_sha": "f888bdf3cab43ca5abf70dd0b0d05d3b7271c40c",
+    "production_main_sha": "671542aa7cf17645e0675c9aa9640b333bf22385",
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
     "active_pr": null,
     "active_pr_ci": "PENDING_PR_CREATION"
   },
-  "pages_build_version": "f888bdf3cab43ca5abf70dd0b0d05d3b7271c40c",
+  "pages_build_version": "671542aa7cf17645e0675c9aa9640b333bf22385",
   "production_invariants": {
     "canonical_data_write_in_slice": false,
     "append_only_run_write_in_slice": false,
