@@ -1,10 +1,11 @@
-import {existsSync,lstatSync,readFileSync} from 'node:fs';
+import {existsSync,lstatSync,readFileSync,readdirSync} from 'node:fs';
 import {join,normalize,relative,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadCanonicalRunStore} from './lib/run-store.mjs';
 
 const ROOT='docs/engineer-osint';
 const STATUS_PATH=join(ROOT,'photo-review-status.json');
+const STATUS_BATCH_DIR=join(ROOT,'photo-review-batches');
 const IMAGE_EXT=/\.(?:avif|webp|png|jpe?g)$/i;
 const SHA256_RE=/^[a-f0-9]{64}$/;
 const REVIEW_STATUSES=new Set(['SOURCE_FOUND','LICENSE_VERIFIED','IDENTITY_VERIFIED','READY_FOR_IMPORT','LICENSE_BLOCKED','NOT_FOUND','LOCAL_IMAGE']);
@@ -65,8 +66,16 @@ export function validatePhotoReviewRegistry(registry){
   }
   return registry;
 }
-function loadStatuses(path=STATUS_PATH){
-  return validatePhotoReviewRegistry(JSON.parse(readFileSync(path,'utf8')));
+export function loadPhotoReviewStatuses({path=STATUS_PATH,batchDir=STATUS_BATCH_DIR}={}){
+  const base=validatePhotoReviewRegistry(JSON.parse(readFileSync(path,'utf8')));
+  const entries=[...base.entries];
+  if(existsSync(batchDir)){
+    for(const name of readdirSync(batchDir).filter(name=>name.endsWith('.json')).sort()){
+      const batch=validatePhotoReviewRegistry(JSON.parse(readFileSync(join(batchDir,name),'utf8')));
+      entries.push(...batch.entries);
+    }
+  }
+  return validatePhotoReviewRegistry({...base,entries});
 }
 export function buildPhotoBaseline({data,statusRegistry,root=ROOT}={}){
   const records=asArray(data?.records?.records).filter(r=>/^ENG-TECH-\d+$/.test(r.id||''));
@@ -117,9 +126,9 @@ export function buildPhotoBaseline({data,statusRegistry,root=ROOT}={}){
     items
   };
 }
-export function auditPhotoBaseline({root=ROOT,statusPath=STATUS_PATH}={}){
+export function auditPhotoBaseline({root=ROOT,statusPath=STATUS_PATH,statusBatchDir=STATUS_BATCH_DIR}={}){
   const {data,report}=loadCanonicalRunStore({root});
-  const result=buildPhotoBaseline({data,statusRegistry:loadStatuses(statusPath),root});
+  const result=buildPhotoBaseline({data,statusRegistry:loadPhotoReviewStatuses({path:statusPath,batchDir:statusBatchDir}),root});
   return {...result,current_run_id:report.current_run_id,canonical_sha256:report.canonical_sha256};
 }
 
