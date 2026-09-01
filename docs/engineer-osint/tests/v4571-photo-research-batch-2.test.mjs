@@ -41,13 +41,14 @@ test('v4.5.71 second photo research batch pins exactly UBIM and JGSDF Type 07 pr
   }
 });
 
-test('v4.5.71 advances research lifecycle without claiming local coverage',()=>{
+test('v4.5.71 batch remains valid at the exact v4.5.74 lifecycle successor',()=>{
   const report=auditPhotoBaseline();
   assert.equal(report.total_cards,41);
   assert.equal(report.cards_with_local_image,0);
   assert.equal(report.cards_without_image,41);
+  assert.equal(report.source_found,2);
   assert.equal(report.ready_for_import,4);
-  assert.equal(report.unassessed,36);
+  assert.equal(report.unassessed,35);
   assert.equal(report.license_blocked,0);
   assert.equal(report.not_found,0);
   assert.equal(report.photo_coverage_percent,0);

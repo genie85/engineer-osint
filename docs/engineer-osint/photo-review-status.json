@@ -1,15 +1,7 @@
 {
   "schema_version": 2,
   "interpretation": "Photo review lifecycle registry for ENG-TECH cards. Entries may record researched intermediate states; LICENSE_BLOCKED and NOT_FOUND require explicit evidence. READY_FOR_IMPORT means source, redistribution license and depicted-system identity were reviewed, but no repository-local asset is claimed until binary acquisition, optimization and SHA-256 are complete.",
-  "allowed_statuses": [
-    "SOURCE_FOUND",
-    "LICENSE_VERIFIED",
-    "IDENTITY_VERIFIED",
-    "READY_FOR_IMPORT",
-    "LICENSE_BLOCKED",
-    "NOT_FOUND",
-    "LOCAL_IMAGE"
-  ],
+  "allowed_statuses": ["SOURCE_FOUND", "LICENSE_VERIFIED", "IDENTITY_VERIFIED", "READY_FOR_IMPORT", "LICENSE_BLOCKED", "NOT_FOUND", "LOCAL_IMAGE"],
   "entries": [
     {
       "card_id": "ENG-TECH-0001",
@@ -23,6 +15,19 @@
       "license_evidence": "The manufacturer source provides an exact-identity public image/document context, but the reviewed Rheinmetall materials do not demonstrate a compatible open redistribution license for repository reuse. No license advancement is claimed.",
       "reviewed_at": "2026-09-01",
       "import_blocker": "Exact manufacturer source found, but compatible redistribution rights for the image have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0002",
+      "system_name": "TRAWL Assembly for T-72/T-90 tanks",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.74",
+      "origin_url": "https://www.bemlindia.in/wp-content/uploads/2026/04/pressrelease_210426.pdf",
+      "source_title": "BEML Ltd. Secures MoD Order Worth ₹590 Crore for Trawl Assemblies",
+      "source_type": "MANUFACTURER_PRESS_RELEASE",
+      "identity_evidence": "BEML's 21 April 2026 press release explicitly states that the trawl assemblies are for deployment on Indian Army T-72 and T-90 tanks; the document includes a visual captioned 'Trawl assembly for T-72/T-90 Tanks'.",
+      "license_evidence": "The reviewed BEML press release provides an exact-system manufacturer visual/document source but does not state a compatible open redistribution license for repository reuse. No license advancement is claimed.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact manufacturer source and visual caption found, but compatible redistribution rights for the image have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
     },
     {
       "card_id": "ENG-TECH-0003",
