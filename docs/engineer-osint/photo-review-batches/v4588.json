@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0038",
+      "system_name": "DOK-ING MV-10 — těžký dálkově řízený systém mechanizovaného odminování na Ukrajině",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.88",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:UA-made_MV-10_01.jpg",
+      "source_title": "UA-made MV-10 01.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_OFFICIAL_UKRAINIAN_PROVENANCE",
+      "author_rightsholder": "Міністерство економіки України",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "identity_evidence": "The Wikimedia Commons file explicitly describes the image as a localized A3tech unmanned demining machine MV-10, dates it 13 June 2024, and traces it to archived Ministry of Economy of Ukraine news pages. The current Ukrainian state certification list independently identifies MV-10 as a remote-controlled/heavy-duty robotic demining system, supporting exact platform identity without visual-only inference.",
+      "license_evidence": "The Commons file page explicitly licenses the exact photograph under Creative Commons Attribution 4.0 International, identifies the Ministry of Economy of Ukraine as author, and preserves official Ukrainian source provenance. This satisfies the open-licence provenance threshold for READY_FOR_IMPORT; the binary is not yet stored in the repository.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Open-licensed exact image is ready for binary acquisition, optimization, attribution metadata and SHA-256 recording, but the connected text-only GitHub write surface cannot safely publish the binary asset."
+    },
+    {
+      "card_id": "ENG-TECH-0041",
+      "system_name": "Uran-6 — veřejný státní exportní technický profil dálkově řízeného odminovacího UGV",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.88",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Uran-6.jpg",
+      "source_title": "Uran-6.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_RUSSIAN_MOD_PROVENANCE",
+      "author_rightsholder": "Ministry of Defence of the Russian Federation; attribution Mil.ru",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "identity_evidence": "The Commons file page explicitly identifies the system as Uran-6 and describes it in an engineer-unit exercise context. It records the original source as the Russian Ministry of Defence multimedia gallery and the author as the Ministry of Defence of the Russian Federation. Commons also maintains a dedicated Uran-6 category identifying the platform as a demining robot, so the identity is source-explicit rather than inferred from appearance.",
+      "license_evidence": "The exact Commons file page states that the Russian Ministry of Defence image is licensed under Creative Commons Attribution 4.0 and requires attribution to Mil.ru. The file page supplies the original military source, author and explicit CC BY 4.0 terms, satisfying the READY_FOR_IMPORT licence/provenance contract while no repository binary is yet claimed.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Open-licensed exact Uran-6 image is ready for binary acquisition, optimization, attribution metadata and SHA-256 recording, but the connected text-only GitHub write surface cannot safely publish the binary asset."
+    },
+    {
+      "card_id": "ENG-TECH-0042",
+      "system_name": "MKR-2 — veřejný certifikační stav po 20. 8. 2026",
+      "status": "NOT_FOUND",
+      "review_batch": "v4.5.88",
+      "reviewed_at": "2026-09-01",
+      "disposition_evidence": "A targeted search of the authoritative Ukrainian certification register, its English mirror, the canonical Milrem Robotics/CNIM source context, and broader exact-name web results established the MKR-2 designation only as a mechanized complex for humanitarian demining and confidence building. The official register gives certificate UA.431.ПО.067-25 with validity 21 August 2025 through 20 August 2026 but supplies no exact MKR-2 photograph. Searches for the exact MKR-2/МКР-2 designation did not produce a manufacturer, military, procurement, Commons or other provenance-qualified image that explicitly identifies the pictured system as MKR-2. The Milrem/CNIM engineering-reconnaissance material is not treated as an MKR-2 image without an explicit identity link.",
+      "identity_evidence": "The State Scientific Research Institute of Armament and Military Equipment Testing and Certification explicitly lists MKR-2 as the mechanized complex for humanitarian demining and confidence building under certificate UA.431.ПО.067-25. This verifies the designation but not the identity of any photograph.",
+      "license_evidence": "No exact provenance-qualified MKR-2 image was found, so no image licence can be asserted. Related engineering-system imagery is intentionally not substituted for the MKR-2 designation.",
+      "source_title": "List of Certificates Issued by the State Scientific Research Institute for Armament and Military Equipment Testing and Certification",
+      "origin_url": "https://dndivsovt.mil.gov.ua/en/ovt-certification/list-of-certificates-2/"
+    }
+  ]
+}
