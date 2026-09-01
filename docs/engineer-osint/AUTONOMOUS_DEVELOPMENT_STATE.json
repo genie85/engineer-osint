@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T07:31:29+02:00",
-  "observed_main_sha": "c40cf6de1a4083d67000e64338af3983685a9067",
+  "updated_at": "2026-09-01T09:11:17+02:00",
+  "observed_main_sha": "e2887b28600c8043452e67f582a5185d8d297727",
   "current_phase": "B_CI_MODERNIZATION",
-  "current_task": "v4.5.63 / PR #284: authorization-only slice for exact Node 24 GitHub Action major upgrades across the five active production-protection workflows; no workflow mutation in this slice.",
-  "active_pr": 284,
-  "active_branch": "chatgpt/engineer-osint-v4563-action-node24-authorization",
-  "observed_pr_head": "87e01b4604804c4bd9abe0d1a040b91ed7aa2dae",
-  "last_completed_task": "v4.5.62 merged as c40cf6de1a4083d67000e64338af3983685a9067; project Node runtime is 24 in all five active workflows and exact-main push CI plus Pages deploy are green.",
-  "next_recommended_task": "After PR #284 is exact-head green and merged, execute one separately reviewed v4.5.64 slice applying only the six authorized action-major substitutions to the five pinned active workflow blobs, then prove zero active Node 20 action warnings and exact Pages deploy SHA.",
+  "current_task": "v4.5.65 / PR #286: authorization-only successor handling for the exact four lifecycle test files exposed by diagnostic PR #285; no workflow mutation in this slice.",
+  "active_pr": 286,
+  "active_branch": "chatgpt/engineer-osint-v4565-action-lifecycle-authorization",
+  "observed_pr_head": null,
+  "last_completed_task": "v4.5.63 merged as e2887b28600c8043452e67f582a5185d8d297727; exact-main post-merge CI and Pages deployment are green. Diagnostic v4.5.64 PR #285 was closed unmerged after proving Action majors execute on Node 24 but 11 historical lifecycle assertions require separately authorized exact successor handling.",
+  "next_recommended_task": "After PR #286 is exact-head green and merged, execute v4.5.66 by reapplying only the six v4.5.63 Action-major substitutions plus exact successor handling in the four v4.5.65-authorized test files; require full P0/P1, canonical, PUBLIC-CZ, browser and Pages gates plus zero active Node 20 Action warnings.",
   "blockers": [],
   "expected_ci_surface": {
     "pull_request": [
@@ -18,7 +18,7 @@
       "ENGINEER OSINT final identity-fix retirement regression"
     ],
     "i18n_specialist_expected": false,
-    "reason": "PR changes docs/engineer-osint only and does not touch the i18n specialist path set."
+    "reason": "PR #286 changes only generic docs/engineer-osint authorization/test/checkpoint paths and does not touch the i18n specialist path set."
   },
   "photo_total_cards": null,
   "photo_cards_with_local_image": null,
@@ -26,24 +26,30 @@
   "photo_coverage_percent": null,
   "photo_inventory_status": "PENDING_BASELINE_AUDIT",
   "workflow_inventory": {
-    "status": "V4562_ACTIVE_NODE24_PRODUCTION_V4563_ACTION_MAJOR_AUTHORIZATION_IN_REVIEW",
+    "status": "V4563_ACTION_MAJOR_AUTHORIZED_V4565_LIFECYCLE_SUCCESSOR_AUTHORIZATION_IN_REVIEW",
     "total": 7,
     "active_production_protection": 5,
     "historical_evidence_keep": 2,
     "configured_node20_workflows": 2,
     "configured_node24_workflows": 5,
-    "active_action_node20_warning_debt": "AUTHORIZED_FOR_SEPARATE_EXECUTION_AFTER_V4563_REVIEW"
+    "active_action_node20_warning_debt": "ACTION_UPGRADE_AUTHORIZED_BY_V4563_EXECUTION_BLOCKED_PENDING_EXACT_V4565_LIFECYCLE_SUCCESSOR_AUTHORIZATION"
   },
   "ci_status": {
-    "production_main_sha": "c40cf6de1a4083d67000e64338af3983685a9067",
-    "production_push_workflows_total": 4,
-    "production_push_workflows_success": 4,
+    "production_main_sha": "e2887b28600c8043452e67f582a5185d8d297727",
+    "production_push_workflows_total": 3,
+    "production_push_workflows_success": 3,
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
-    "production_pages_run_id": 33472352500,
+    "production_pages_run_id": 33476875424,
     "production_pages_status": "SUCCESS",
-    "production_pages_build_version": "c40cf6de1a4083d67000e64338af3983685a9067",
-    "active_pr": 284,
+    "production_pages_artifact_id": 9788477925,
+    "production_pages_build_version": "e2887b28600c8043452e67f582a5185d8d297727",
+    "diagnostic_pr": 285,
+    "diagnostic_pr_head": "26f8aa62927d2d1f53686a6ca857bad51f8c285e",
+    "diagnostic_pr_state": "CLOSED_UNMERGED",
+    "diagnostic_p0_p1": "420_TOTAL_406_PASS_11_FAIL_3_SKIP_LIFECYCLE_CONTRACT_DRIFT",
+    "active_pr": 286,
+    "expected_pr_workflow_surface": 4,
     "active_pr_ci": "PENDING_FINAL_HEAD_AFTER_STATE_UPDATE"
   },
   "production_invariants": {

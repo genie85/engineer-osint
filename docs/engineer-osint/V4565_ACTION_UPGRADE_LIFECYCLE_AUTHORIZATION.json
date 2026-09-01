@@ -1,0 +1,106 @@
+{
+  "schema_version": "engineer-osint-action-upgrade-lifecycle-authorization-v1",
+  "version": "v4.5.65",
+  "status": "AUTHORIZED_EXACT_ACTION_UPGRADE_LIFECYCLE_SUCCESSOR_HANDLING_NOT_EXECUTED",
+  "reviewed_main_sha": "e2887b28600c8043452e67f582a5185d8d297727",
+  "diagnostic_execution": {
+    "pr_number": 285,
+    "pr_state": "CLOSED_UNMERGED_DIAGNOSTIC",
+    "head_sha": "26f8aa62927d2d1f53686a6ca857bad51f8c285e",
+    "pages_run_id": 33477763242,
+    "pages_job_id": 99760509576,
+    "p0_p1_tests_total": 420,
+    "p0_p1_tests_pass": 406,
+    "p0_p1_tests_fail": 11,
+    "p0_p1_tests_skip": 3,
+    "i18n_workflow_success": true,
+    "action_download_and_setup_success": true,
+    "failure_classification": "HISTORICAL_LIFECYCLE_CONTRACT_DRIFT_ONLY"
+  },
+  "authorized_test_files": [
+    {
+      "file": "docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs",
+      "historical_git_blob_sha": "3501017e228ac37a59c2b1ec115786550fb014fb",
+      "allowed_change": "Accept only the exact v4.5.64 diagnostic workflow successor blobs as an additional lifecycle state after the exact v4.5.62 Node 24 state while preserving all earlier anchors and safety assertions."
+    },
+    {
+      "file": "docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs",
+      "historical_git_blob_sha": "2999eecf4b6f45a98e674d7e4529da763a11837c",
+      "allowed_change": "Extend the exact identity-regression predecessor chain from v4.5.57 through v4.5.62 to the pinned v4.5.64 action-upgrade successor without changing the browser digest or hotfix historical facts."
+    },
+    {
+      "file": "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+      "historical_git_blob_sha": "8c8612c73f677064db2d59f013d3bfecd6dfbcfe",
+      "allowed_change": "Keep v4.5.62 as immutable historical Node-runtime migration evidence and permit only the exact v4.5.64 action-major successor state declared here."
+    },
+    {
+      "file": "docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs",
+      "historical_git_blob_sha": "459c52e39ad732508bd8df8fa03793521803f04e",
+      "allowed_change": "Keep v4.5.63 authorization policy immutable while validating either its exact pre-execution baseline or the exact pinned authorized successor action references and workflow blobs."
+    }
+  ],
+  "workflow_successors": [
+    {
+      "file": "first-three-overlay-retirement-regression.yml",
+      "v4562_git_blob_sha": "9ca5ee4c483c81f0f9af2b938c2578c82510e1de",
+      "v4564_diagnostic_git_blob_sha": "a0a1586824981f3154c78e24656d3cd19e1d7609"
+    },
+    {
+      "file": "i18n-switch-regression.yml",
+      "v4562_git_blob_sha": "7eb80c13e7f72b4557a8a1cc451942c1bba38044",
+      "v4564_diagnostic_git_blob_sha": "c616f37d870b93b428f652a284a3dc5de13df609"
+    },
+    {
+      "file": "identity-fix-retirement-regression.yml",
+      "v4562_git_blob_sha": "d32f8f39d54c0e5ff07be7e616d4ea62cc8ade3d",
+      "v4564_diagnostic_git_blob_sha": "6b93ce6ffe25b74a661f2326f20adb11d31a19f7"
+    },
+    {
+      "file": "pages.yml",
+      "v4562_git_blob_sha": "eb677cdf7b775dff55449a911d08318b1e62989b",
+      "v4564_diagnostic_git_blob_sha": "47102c7d9481beaeedbdf03532ffaad72675af43"
+    },
+    {
+      "file": "runtime-audit-snapshot.yml",
+      "v4562_git_blob_sha": "61ab1b58bd3d476e8ef312e848d77481fd1090a3",
+      "v4564_diagnostic_git_blob_sha": "9cffd58764aa5ed02aa11dcbe7745772077f06c7"
+    }
+  ],
+  "authorized_action_substitutions": [
+    ["actions/checkout@v4", "actions/checkout@v5"],
+    ["actions/setup-node@v4", "actions/setup-node@v5"],
+    ["actions/upload-artifact@v4", "actions/upload-artifact@v7"],
+    ["actions/configure-pages@v5", "actions/configure-pages@v6"],
+    ["actions/upload-pages-artifact@v4", "actions/upload-pages-artifact@v5"],
+    ["actions/deploy-pages@v4", "actions/deploy-pages@v5"]
+  ],
+  "required_unchanged": {
+    "v4563_authorization_policy": true,
+    "workflow_triggers": true,
+    "workflow_permissions": true,
+    "workflow_jobs_and_shell_commands": true,
+    "project_node_major_24": true,
+    "historical_manual_only_workflows": true,
+    "canonical_data": true,
+    "append_only_runs": true,
+    "run_store_manifest": true,
+    "runtime_modules": true,
+    "ui": true,
+    "browser_digest": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+  },
+  "execution_boundary": {
+    "test_file_change_authorized": true,
+    "authorized_test_file_count": 4,
+    "workflow_action_upgrade_remains_authorized_by_v4563": true,
+    "historical_policy_edit_authorized": false,
+    "canonical_write_authorized": false,
+    "append_only_write_authorized": false,
+    "runtime_change_authorized": false,
+    "ui_change_authorized": false,
+    "browser_digest_change_authorized": false,
+    "trigger_change_authorized": false,
+    "permissions_change_authorized": false,
+    "job_or_command_change_authorized": false,
+    "wildcard_or_current_state_acceptance_authorized": false
+  }
+}
