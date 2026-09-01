@@ -55,7 +55,7 @@ export function validatePhotoReviewRegistry(registry){
         if(!String(entry[field]||'').trim())throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} missing ${field}`);
       }
       if(!/^https:\/\//i.test(entry.origin_url)||!/^https:\/\//i.test(entry.license_url))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires HTTPS origin/license URLs`);
-      if(!SHA256_RE.test(String(entry.sha256||'').toLowerCase()))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires lowercase SHA-256`);
+      if(!SHA256_RE.test(String(entry.sha256||'')))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires lowercase SHA-256`);
       if(!IMAGE_EXT.test(String(entry.local_image_path||'').split(/[?#]/,1)[0]))throw new Error(`PHOTO_BASELINE: LOCAL_IMAGE ${entry.card_id} requires a supported local image path`);
     }
     if(TERMINAL_NEGATIVE_STATUSES.has(entry.status)&&!String(entry.disposition_evidence||'').trim()){
