@@ -1,15 +1,17 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T10:54:00+02:00",
-  "observed_main_sha": "7b1eeb8a6f0ed22be37154501a91173f3dcf95e3",
+  "updated_at": "2026-09-01T12:10:00+02:00",
+  "observed_main_sha": "46e6746cbbdf05519a63b51d4f88cb60955f5827",
   "current_phase": "E_PHOTO_COVERAGE",
-  "current_task": "v4.5.69: research the first small ENG-TECH photo batch and persist only candidates with verified redistribution license and depicted-system identity; do not claim local coverage before binary acquisition and SHA-256.",
-  "active_pr": 290,
-  "active_branch": "chatgpt/engineer-osint-v4569-photo-research-batch-1",
+  "current_task": "v4.5.71: advance a second small exact-identity photo research batch to READY_FOR_IMPORT while binary acquisition remains unavailable in the current sandbox; do not claim local coverage without repository-local bytes and SHA-256.",
+  "active_pr": 292,
+  "active_branch": "chatgpt/engineer-osint-v4571-photo-research-batch-2",
   "observed_pr_head": null,
-  "last_completed_task": "v4.5.68 merged on main as 7b1eeb8a6f0ed22be37154501a91173f3dcf95e3, establishing a deterministic 41-card local-photo baseline at 0% coverage.",
-  "next_recommended_task": "After v4.5.69 completes all gates, acquire and optimize the verified AM-50 Commons asset, record its SHA-256/provenance and safely materialize the first local photo without modifying canonical history.",
-  "blockers": [],
+  "last_completed_task": "v4.5.70 merged on main as 46e6746cbbdf05519a63b51d4f88cb60955f5827, adding fail-closed LOCAL_IMAGE provenance, local-path and SHA-256 validation.",
+  "next_recommended_task": "After v4.5.71 completes all gates, use an execution path with binary network access to acquire one verified READY_FOR_IMPORT asset, optimize it, hash it and create the first truthful LOCAL_IMAGE entry.",
+  "blockers": [
+    "Current assistant sandbox cannot resolve upload.wikimedia.org for binary acquisition; this blocks truthful LOCAL_IMAGE import but does not block provenance research."
+  ],
   "expected_ci_surface": {
     "pull_request": [
       "Deploy ENGINEER OSINT to GitHub Pages",
@@ -25,17 +27,17 @@
   "photo_source_found": 0,
   "photo_license_verified": 0,
   "photo_identity_verified": 0,
-  "photo_ready_for_import": 2,
+  "photo_ready_for_import": 4,
   "photo_license_blocked": 0,
   "photo_not_found": 0,
-  "photo_remaining_unassessed": 39,
+  "photo_remaining_unassessed": 37,
   "photo_coverage_percent": 0,
-  "photo_inventory_status": "FIRST_RESEARCH_BATCH_READY_FOR_IMPORT",
+  "photo_inventory_status": "SECOND_RESEARCH_BATCH_READY_FOR_IMPORT",
   "ci_status": {
-    "production_main_sha": "7b1eeb8a6f0ed22be37154501a91173f3dcf95e3",
+    "production_main_sha": "46e6746cbbdf05519a63b51d4f88cb60955f5827",
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
-    "active_pr": 290,
+    "active_pr": 292,
     "active_pr_ci": "PENDING_FINAL_HEAD_READBACK"
   },
   "production_invariants": {
