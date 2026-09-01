@@ -22,13 +22,14 @@ const provenance={
   sha256:'0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 };
 
-test('LOCAL_IMAGE requires provenance, acquisition metadata, supported local path and SHA-256',()=>{
+test('LOCAL_IMAGE requires provenance, acquisition metadata, supported local path and lowercase SHA-256',()=>{
   assert.doesNotThrow(()=>validatePhotoReviewRegistry({schema_version:2,entries:[provenance]}));
   for(const field of ['origin_url','source_title','author_rightsholder','license','license_url','identity_evidence','license_evidence','reviewed_at','acquired_at','local_image_path','sha256']){
     const broken={...provenance,[field]:''};
     assert.throws(()=>validatePhotoReviewRegistry({schema_version:2,entries:[broken]}),new RegExp(`LOCAL_IMAGE ENG-TECH-0028 missing ${field}`));
   }
   assert.throws(()=>validatePhotoReviewRegistry({schema_version:2,entries:[{...provenance,sha256:'not-a-sha'}]}),/requires lowercase SHA-256/);
+  assert.throws(()=>validatePhotoReviewRegistry({schema_version:2,entries:[{...provenance,sha256:provenance.sha256.toUpperCase()}]}),/requires lowercase SHA-256/);
   assert.throws(()=>validatePhotoReviewRegistry({schema_version:2,entries:[{...provenance,local_image_path:'assets/photos/am50.svg'}]}),/requires a supported local image path/);
 });
 
