@@ -17,7 +17,7 @@ for (const entry of batch.entries) {
   assert.equal(entry.review_batch, 'v4.5.84');
   assert.match(entry.origin_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
   assert.match(entry.license_url, /^https:\/\//);
-  assert.match(entry.identity_evidence, /exact platform identity|exact system identity|matches the ENGINEER OSINT/i);
+  assert.ok(String(entry.identity_evidence || '').trim().length > 40, `${entry.card_id} must retain substantive identity evidence`);
   assert.match(entry.license_evidence, /licensed|public domain|licence/i);
   assert.equal(entry.local_image_path, undefined);
   assert.equal(entry.sha256, undefined);
@@ -26,14 +26,19 @@ for (const entry of batch.entries) {
 
 const byId = new Map(batch.entries.map((entry) => [entry.card_id, entry]));
 assert.match(byId.get('ENG-TECH-0014').author_rightsholder, /DRDO/);
+assert.match(byId.get('ENG-TECH-0014').identity_evidence, /BLT Arjun|24 m bridge/);
 assert.match(byId.get('ENG-TECH-0014').license, /Government Open Data License/);
 assert.match(byId.get('ENG-TECH-0015').source_title, /10M Short Span Bridge/);
+assert.match(byId.get('ENG-TECH-0015').identity_evidence, /Short Span Bridge|Republic Day/);
 assert.match(byId.get('ENG-TECH-0015').license, /Government Open Data License/);
 assert.match(byId.get('ENG-TECH-0018').system_name, /施設作業車/);
+assert.match(byId.get('ENG-TECH-0018').identity_evidence, /combat engineering vehicle|施設作業車/i);
 assert.match(byId.get('ENG-TECH-0018').license, /Public domain/);
 assert.match(byId.get('ENG-TECH-0019').system_name, /92式浮橋/);
+assert.match(byId.get('ENG-TECH-0019').identity_evidence, /92式浮橋/);
 assert.equal(byId.get('ENG-TECH-0019').license, 'CC BY 2.0');
 assert.match(byId.get('ENG-TECH-0020').system_name, /83式地雷敷設装置/);
+assert.match(byId.get('ENG-TECH-0020').identity_evidence, /83式地雷敷設装置|８３式地雷敷設装置/);
 assert.equal(byId.get('ENG-TECH-0020').license, 'CC BY 4.0');
 
 const merged = loadPhotoReviewStatuses({
