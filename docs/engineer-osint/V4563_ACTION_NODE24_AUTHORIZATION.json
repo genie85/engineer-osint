@@ -1,0 +1,60 @@
+{
+  "schema_version": "engineer-osint-action-node24-authorization-v1",
+  "status": "AUTHORIZED_EXACT_ACTIVE_ACTION_NODE24_UPGRADE_NOT_EXECUTED",
+  "authorized_at": "2026-09-01T07:28:27+02:00",
+  "reviewed_main_sha": "c40cf6de1a4083d67000e64338af3983685a9067",
+  "scope": "Future execution may change only the declared GitHub Action major references in exactly five active production-protection workflows. No trigger, permissions, jobs, shell commands, project Node version, canonical data, append-only runs, runtime, UI, browser digest, or historical workflow changes are authorized.",
+  "active_workflows": [
+    {"file":"first-three-overlay-retirement-regression.yml","historical_git_blob_sha":"9ca5ee4c483c81f0f9af2b938c2578c82510e1de"},
+    {"file":"i18n-switch-regression.yml","historical_git_blob_sha":"7eb80c13e7f72b4557a8a1cc451942c1bba38044"},
+    {"file":"identity-fix-retirement-regression.yml","historical_git_blob_sha":"d32f8f39d54c0e5ff07be7e616d4ea62cc8ade3d"},
+    {"file":"pages.yml","historical_git_blob_sha":"eb677cdf7b775dff55449a911d08318b1e62989b"},
+    {"file":"runtime-audit-snapshot.yml","historical_git_blob_sha":"61ab1b58bd3d476e8ef312e848d77481fd1090a3"}
+  ],
+  "authorized_substitutions": [
+    {"from":"actions/checkout@v4","to":"actions/checkout@v5","successor_runtime":"node24","source_action_yml":"https://github.com/actions/checkout/blob/v5/action.yml"},
+    {"from":"actions/setup-node@v4","to":"actions/setup-node@v5","successor_runtime":"node24","source_action_yml":"https://github.com/actions/setup-node/blob/v5/action.yml"},
+    {"from":"actions/upload-artifact@v4","to":"actions/upload-artifact@v7","successor_runtime":"node24","source_action_yml":"https://github.com/actions/upload-artifact/blob/v7/action.yml"},
+    {"from":"actions/configure-pages@v5","to":"actions/configure-pages@v6","successor_runtime":"node24","source_action_yml":"https://github.com/actions/configure-pages/blob/v6/action.yml"},
+    {"from":"actions/upload-pages-artifact@v4","to":"actions/upload-pages-artifact@v5","successor_runtime":"composite_with_upload_artifact_v7_node24","source_action_yml":"https://github.com/actions/upload-pages-artifact/blob/v5/action.yml"},
+    {"from":"actions/deploy-pages@v4","to":"actions/deploy-pages@v5","successor_runtime":"node24","source_action_yml":"https://github.com/actions/deploy-pages/blob/v5/action.yml"}
+  ],
+  "expected_baseline_reference_counts": {
+    "actions/checkout@v4": 5,
+    "actions/setup-node@v4": 5,
+    "actions/upload-artifact@v4": 3,
+    "actions/configure-pages@v5": 1,
+    "actions/upload-pages-artifact@v4": 1,
+    "actions/deploy-pages@v4": 1
+  },
+  "historical_workflows_not_authorized": [
+    "identity-fix-retirement-authorization.yml",
+    "identity-fix-retirement-readiness.yml"
+  ],
+  "required_execution_proof": {
+    "exact_only_substitutions": true,
+    "all_five_active_workflows_node_version_24_unchanged": true,
+    "triggers_permissions_jobs_commands_unchanged": true,
+    "historical_workflow_blobs_unchanged": true,
+    "p0_p1_success": true,
+    "canonical_chain_success": true,
+    "public_cz_success": true,
+    "browser_regressions_success": true,
+    "pages_build_success": true,
+    "pages_deploy_success": true,
+    "pages_build_version_equals_merged_main": true,
+    "node20_action_warning_count_expected_zero_for_active_workflows": true
+  },
+  "safety_boundary": {
+    "workflow_mutation_performed": false,
+    "canonical_write_authorized": false,
+    "append_only_write_authorized": false,
+    "runtime_change_authorized": false,
+    "ui_change_authorized": false,
+    "historical_evidence_edit_authorized": false,
+    "browser_digest_change_authorized": false,
+    "trigger_change_authorized": false,
+    "permissions_change_authorized": false,
+    "job_or_command_change_authorized": false
+  }
+}
