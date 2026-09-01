@@ -1,0 +1,279 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260902-B101",
+    "parent_run_id": "engineer-osint-20260902-B100",
+    "status": "SUCCESS",
+    "window_from": "2026-09-02T15:00:00+02:00",
+    "window_to": "2026-09-02T15:00:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 3,
+      "NEW": 3,
+      "UPDATE": 0,
+      "CONFIRMATION": 3,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 4,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 4,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN",
+    "reviewed_main_sha": "4a56e5d121827e2a111681fda910f3a19069a5e0",
+    "reviewed_parent_canonical_sha256": "518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141",
+    "research_batches": [
+      "v4.5.90"
+    ],
+    "publication_write_authorized": false,
+    "canonical_write_performed": false,
+    "duplicate_audit": {
+      "Terrier": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "WiSENT 2": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "M1150 Assault Breacher Vehicle": "NO_EXACT_CANONICAL_RECORD_MATCH"
+    },
+    "configuration_scope_note": "Terrier mine-clearance equipment and WiSENT 2 mine-clearing/bridge-laying kits are preserved as optional or role-specific configurations rather than treated as universal fit."
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 3
+  },
+  "new_records": [
+    {
+      "id": "ENG-TECH-0046",
+      "type": "ENG-TECH",
+      "country": "GBR",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "Terrier — British Army combat engineer vehicle",
+      "title_cs": "Terrier — bojové ženijní vozidlo British Army",
+      "summary_en": "BAE Systems describes Terrier as a British Army combat engineer vehicle for mobility support, counter-mobility, survivability and general engineering tasks. The manufacturer states that it supports obstacle and route clearance, construction of anti-tank ditches and other obstacles, trench and AFV-slot digging, and wireless remote operation up to 1 km. A later BAE Systems capability demonstration adds a field-trialled track-width mine plough and long-reach rummage arm for route proving and clearance.",
+      "summary_cs": "BAE Systems popisuje Terrier jako bojové ženijní vozidlo British Army pro podporu mobility, protimobilitu, ochranné a všeobecné ženijní práce. Výrobce uvádí odstraňování překážek a čištění tras, budování protitankových příkopů a dalších překážek, hloubení zákopů a stanovišť pro bojová vozidla a bezdrátové dálkové ovládání do 1 km. Pozdější demonstrace BAE Systems doplňuje v polních zkouškách ověřený minový pluh šířky pásu a dlouhé průzkumné rameno pro prověřování a čištění tras.",
+      "fact_en": "Manufacturer-primary evidence confirms Terrier identity, British Army service context, its baseline combat-engineer task set and remote-control capability; separate manufacturer evidence supports the later mine-clearance attachment demonstration.",
+      "fact_cs": "Primární podklady výrobce potvrzují identitu Terrieru, kontext služby v British Army, základní soubor ženijních úkolů a dálkové ovládání; samostatný podklad výrobce podporuje pozdější demonstraci odminovacího vybavení.",
+      "analysis_en": "The mine plough and rummage arm are treated as demonstrated capability enhancements, not as proof that every Terrier carries this configuration. No fleet quantity, readiness or current unit allocation is inferred.",
+      "analysis_cs": "Minový pluh a průzkumné rameno jsou vedeny jako demonstrované rozšíření schopností, nikoli jako důkaz, že tuto konfiguraci nese každý Terrier. Nejsou dovozovány počty, připravenost ani aktuální přidělení jednotkám.",
+      "temporal_status": "HISTORICAL_MANUFACTURER_SERVICE_AND_CAPABILITY_PROFILES",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_SERVICE_AND_CAPABILITY_PROFILES",
+      "confidence": "HIGH_FOR_PLATFORM_IDENTITY_BASELINE_TASKS_REMOTE_CONTROL_AND_DEMONSTRATED_ATTACHMENT_SCOPE",
+      "source_ids": [
+        "ENG-SRC-0530",
+        "ENG-SRC-0531"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0218",
+        "ENG-EVID-0219"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0047",
+      "type": "ENG-TECH",
+      "country": "DEU",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "WiSENT 2 — Leopard 2-based multifunctional support and engineering vehicle",
+      "title_cs": "WiSENT 2 — víceúčelové podpůrné a ženijní vozidlo na podvozku Leopard 2",
+      "summary_en": "FFG describes WiSENT 2 as a modular platform based on the Leopard 2 chassis that can be configured for recovery, engineering, mine-clearing or bridge-laying roles. In AEV configuration it uses an articulated excavator and specialised dozer blade. The separate mine-clearing configuration replaces the blade with a full-width mine plough and adds lane marking and a magnetic signature duplicator.",
+      "summary_cs": "FFG popisuje WiSENT 2 jako modulární platformu na podvozku Leopard 2, kterou lze konfigurovat pro vyprošťování, ženijní práce, odminování nebo mostní zabezpečení. Ve verzi AEV používá kloubové rypadlo a specializovanou ženijní radlici. Samostatná odminovací konfigurace nahrazuje radlici celoplošným minovým pluhem a doplňuje značkování průchodu a duplikátor magnetické signatury.",
+      "fact_en": "Manufacturer-primary evidence confirms the Leopard 2 basis, modular role architecture, AEV excavator/dozer equipment and distinct mine-clearing configuration.",
+      "fact_cs": "Primární podklad výrobce potvrzuje základ na podvozku Leopard 2, modulární architekturu rolí, vybavení AEV rypadlem a radlicí a samostatnou odminovací konfiguraci.",
+      "analysis_en": "Role-specific equipment is kept configuration-bound: the record does not imply that recovery, AEV, mine-clearing and bridge-laying equipment is carried simultaneously.",
+      "analysis_cs": "Vybavení je vázáno na jednotlivé konfigurace: záznam neimplikuje současné nesení vyprošťovacího, ženijního, odminovacího a mostního vybavení.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_MODULAR_PRODUCT_PROFILE",
+      "confidence": "HIGH_FOR_PLATFORM_IDENTITY_AND_MANUFACTURER_DESCRIBED_ROLE_CONFIGURATIONS",
+      "source_ids": [
+        "ENG-SRC-0532"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0220"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0048",
+      "type": "ENG-TECH",
+      "country": "USA",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "M1150 Assault Breacher Vehicle — Abrams-based mine and obstacle breaching vehicle",
+      "title_cs": "M1150 Assault Breacher Vehicle — průlomové vozidlo na bázi Abrams pro překonávání min a překážek",
+      "summary_en": "The U.S. Army OE Data Integration Network identifies the M1150 Assault Breacher Vehicle as an M1 Abrams-chassis system purpose-built to clear pathways through minefields, roadside bombs and improvised explosive devices. The Army profile identifies a front mine plough and explosive line charges as defining breaching equipment.",
+      "summary_cs": "U.S. Army OE Data Integration Network identifikuje M1150 Assault Breacher Vehicle jako systém na podvozku M1 Abrams určený k vytváření průchodů minovými poli, kolem nástražných výbušných systémů u komunikací a improvizovaných výbušných zařízení. Armádní profil uvádí přední minový pluh a výbušné odminovací nálože jako hlavní průlomové vybavení.",
+      "fact_en": "U.S. Army primary evidence supports the M1150 ABV identity, Abrams-chassis basis, mine/IED breaching role and the listed mine-plough and line-charge equipment.",
+      "fact_cs": "Primární podklad U.S. Army podporuje identitu M1150 ABV, základ na podvozku Abrams, úlohu při překonávání min a IED a uvedené vybavení minovým pluhem a výbušnými odminovacími náložemi.",
+      "analysis_en": "This record establishes the Army-described public capability profile only; it does not infer current unit allocation, readiness, quantities, tactics or employment procedures.",
+      "analysis_cs": "Záznam stanovuje pouze veřejný profil schopností popsaný U.S. Army; nevyvozuje aktuální přidělení jednotkám, připravenost, počty, taktiku ani postupy použití.",
+      "temporal_status": "CURRENT_OFFICIAL_US_ARMY_DATABASE_PROFILE",
+      "classification": "FACT_FROM_US_ARMY_PRIMARY_EQUIPMENT_DATABASE",
+      "confidence": "HIGH_FOR_PLATFORM_IDENTITY_CHASSIS_ROLE_AND_LISTED_BREACHING_EQUIPMENT",
+      "source_ids": [
+        "ENG-SRC-0533"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0221"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0530",
+      "title": "Terrier demonstrating innovation in military vehicles at DSEi",
+      "title_en": "Terrier demonstrating innovation in military vehicles at DSEi",
+      "title_cs": "Terrier — demonstrace inovací vojenských vozidel na DSEi",
+      "publisher": "BAE Systems",
+      "publication_date": "2013-09-10",
+      "accessed_at": "2026-09-02",
+      "url": "https://www.baesystems.com/en/article/terrierreg-demonstrating-innovation-in-military-vehicles-at-dsei",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_SERVICE_CAPABILITY_PROFILE",
+      "role": "PRIMARY_TERRIER_IDENTITY_BASELINE_TASKS_AND_REMOTE_CONTROL",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0531",
+      "title": "BAE Systems showcases new mine clearing capability for Terrier combat engineer vehicle",
+      "title_en": "BAE Systems showcases new mine clearing capability for Terrier combat engineer vehicle",
+      "title_cs": "BAE Systems představuje novou odminovací schopnost vozidla Terrier",
+      "publisher": "BAE Systems",
+      "publication_date": "2015-09-15",
+      "accessed_at": "2026-09-02",
+      "url": "https://www.baesystems.com/en/article/bae-systems-showcases-new-mine-clearing-capability-for-terrier-combat-engineer-vehicle",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_CAPABILITY_DEMONSTRATION",
+      "role": "PRIMARY_TERRIER_DEMONSTRATED_MINE_CLEARANCE_ATTACHMENTS",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0532",
+      "title": "WiSENT 2 — the unstoppable support vehicle",
+      "title_en": "WiSENT 2 — the unstoppable support vehicle",
+      "title_cs": "WiSENT 2 — víceúčelové podpůrné vozidlo",
+      "publisher": "FFG Flensburger Fahrzeugbau Gesellschaft mbH",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://www.ffg-flensburg.de/en/products/ffg-developments/wisent-2/",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_WISENT2_PLATFORM_AND_ROLE_CONFIGURATION_PROFILE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0533",
+      "title": "M1150 American Assault Breacher Vehicle",
+      "title_en": "M1150 American Assault Breacher Vehicle",
+      "title_cs": "M1150 Assault Breacher Vehicle",
+      "publisher": "U.S. Army OE Data Integration Network",
+      "publication_date": "2025-04-01",
+      "accessed_at": "2026-09-02",
+      "url": "https://odin.t2com.army.mil/WEG/Asset/M1150_American_Assault_Breacher_Vehicle",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "US_ARMY_PRIMARY_EQUIPMENT_DATABASE",
+      "role": "PRIMARY_M1150_IDENTITY_CHASSIS_ROLE_AND_BREACHING_EQUIPMENT",
+      "verification_status": "VERIFIED_OFFICIAL_ARMY_DATABASE_REFERENCE_2026-09-02"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0218",
+      "evidence_id": "ENG-EVID-0218",
+      "evidence_type": "MANUFACTURER_PRIMARY_TEXT_SERVICE_CAPABILITY_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0046"
+      ],
+      "source_ids": [
+        "ENG-SRC-0530"
+      ],
+      "evidence_date": "2013-09-10",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT",
+      "what_it_supports_en": "Supports Terrier identity, British Army service context, mobility/counter-mobility/survivability task examples and manufacturer-stated wireless remote control up to 1 km.",
+      "what_it_supports_cs": "Podporuje identitu Terrieru, kontext služby v British Army, příklady úkolů mobility, protimobility a ochrany a výrobcem uvedené bezdrátové dálkové ovládání do 1 km."
+    },
+    {
+      "id": "ENG-EVID-0219",
+      "evidence_id": "ENG-EVID-0219",
+      "evidence_type": "MANUFACTURER_PRIMARY_TEXT_CAPABILITY_DEMONSTRATION",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0046"
+      ],
+      "source_ids": [
+        "ENG-SRC-0531"
+      ],
+      "evidence_date": "2015-09-15",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT",
+      "what_it_supports_en": "Supports the field-trialled Terrier track-width mine plough and long-reach rummage arm as demonstrated route-proving and clearance capability enhancements.",
+      "what_it_supports_cs": "Podporuje v polních zkouškách ověřený minový pluh šířky pásu a dlouhé průzkumné rameno Terrieru jako demonstrované rozšíření schopností pro prověřování a čištění tras."
+    },
+    {
+      "id": "ENG-EVID-0220",
+      "evidence_id": "ENG-EVID-0220",
+      "evidence_type": "MANUFACTURER_PRIMARY_TEXT_MODULAR_PRODUCT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0047"
+      ],
+      "source_ids": [
+        "ENG-SRC-0532"
+      ],
+      "evidence_date": "2026-09-02",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT",
+      "what_it_supports_en": "Supports WiSENT 2 Leopard 2 basis, modular recovery/engineering/mine-clearing/bridge-laying role architecture, AEV excavator/dozer equipment and distinct mine-clearing plough, lane-marking and magnetic-signature equipment.",
+      "what_it_supports_cs": "Podporuje základ WiSENT 2 na podvozku Leopard 2, modulární role vyprošťování, ženijních prací, odminování a mostního zabezpečení, vybavení AEV rypadlem a radlicí a samostatné odminovací vybavení pluhem, značkováním a duplikátorem magnetické signatury."
+    },
+    {
+      "id": "ENG-EVID-0221",
+      "evidence_id": "ENG-EVID-0221",
+      "evidence_type": "US_ARMY_PRIMARY_EQUIPMENT_DATABASE_PROFILE",
+      "evidence_status": "OFFICIAL_DATABASE_REFERENCE_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0048"
+      ],
+      "source_ids": [
+        "ENG-SRC-0533"
+      ],
+      "evidence_date": "2025-04-01",
+      "observation_basis": "OFFICIAL_US_ARMY_DATABASE_PROFILE",
+      "what_it_supports_en": "Supports M1150 Assault Breacher Vehicle identity, M1 Abrams chassis basis, mine/IED pathway-clearing role and Army-listed mine plough and line-charge equipment.",
+      "what_it_supports_cs": "Podporuje identitu M1150 Assault Breacher Vehicle, základ na podvozku M1 Abrams, úlohu při vytváření průchodů přes miny a IED a armádou uváděné vybavení minovým pluhem a výbušnými odminovacími náložemi."
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN_ONLY",
+    "publication_ready_candidate_count": 3,
+    "canonical_write_performed": false,
+    "requires_append_run_write_after_exact_review": true,
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}
