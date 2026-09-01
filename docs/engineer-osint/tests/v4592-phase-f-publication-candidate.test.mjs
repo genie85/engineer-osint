@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
-import {execFileSync} from 'node:child_process';
 
 const candidatePath='docs/engineer-osint/osint-publication-candidates/v4592-b100.json';
+const persistedPath='docs/engineer-osint/data/runs/engineer-osint-20260902-B100.json';
+const manifestPath='docs/engineer-osint/data/run-store-manifest.json';
 const candidate=JSON.parse(readFileSync(candidatePath,'utf8'));
 
 test('v4.5.92 publication candidate keeps exact Phase F scope',()=>{
@@ -44,14 +46,17 @@ test('v4.5.92 keeps exact variant and evidence relationships fail-closed',()=>{
   }
 });
 
-test('v4.5.92 B100 candidate validates through standard append-run dry-run without persistent write',()=>{
-  const stdout=execFileSync(process.execPath,['docs/engineer-osint/append-run.mjs',candidatePath],{encoding:'utf8'});
-  const plan=JSON.parse(stdout);
-  assert.equal(plan.status,'VALIDATED_DRY_RUN');
-  assert.equal(plan.entry.run_id,'engineer-osint-20260902-B100');
-  assert.equal(plan.entry.parent_run_id,'engineer-osint-20260830-B99');
-  assert.equal(plan.entry.parent_canonical_sha256,'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30');
-  assert.match(plan.entry.file_sha256,/^[a-f0-9]{64}$/);
-  assert.match(plan.entry.canonical_sha256,/^[a-f0-9]{64}$/);
-  assert.notEqual(plan.entry.canonical_sha256,plan.entry.parent_canonical_sha256);
+test('v4.5.92 reviewed B100 candidate remains byte-equivalent to the later persisted append',()=>{
+  const persistedRaw=readFileSync(persistedPath,'utf8');
+  assert.deepEqual(JSON.parse(persistedRaw),candidate);
+  assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),'ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  assert.deepEqual(manifest.runs.at(-1),{
+    run_id:'engineer-osint-20260902-B100',
+    parent_run_id:'engineer-osint-20260830-B99',
+    parent_canonical_sha256:'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30',
+    path:'data/runs/engineer-osint-20260902-B100.json',
+    file_sha256:'ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92',
+    canonical_sha256:'518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141'
+  });
 });
