@@ -17,7 +17,7 @@ for (const entry of batch.entries) {
   assert.equal(entry.review_batch, 'v4.5.87');
   assert.match(entry.origin_url, /^https:\/\//);
   assert.ok(String(entry.identity_evidence || '').trim().length > 80, `${entry.card_id} must retain substantive exact-identity evidence`);
-  assert.match(entry.license_evidence, /does not demonstrate a compatible open redistribution licence|did not expose a compatible Creative Commons or other open redistribution licence/i);
+  assert.match(entry.license_evidence, /does not demonstrate a compatible open redistribution licence|did not expose a compatible Creative Commons or other open redistribution licence|neither reviewed source demonstrates a compatible open redistribution licence/i);
   for (const field of ['license', 'license_url', 'local_image_path', 'sha256', 'acquired_at']) assert.equal(entry[field], undefined, `${entry.card_id} must not claim ${field}`);
 }
 
