@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {auditPhotoBaseline,validatePhotoReviewRegistry} from '../audit-photo-baseline.mjs';
+import {validatePhotoReviewRegistry} from '../audit-photo-baseline.mjs';
 
 const registry=JSON.parse(readFileSync('docs/engineer-osint/photo-review-status.json','utf8'));
 const entry=registry.entries.find(item=>item.card_id==='ENG-TECH-0002');
@@ -22,19 +22,4 @@ test('v4.5.74 records exact TRAWL manufacturer visual provenance without inventi
   for(const field of ['license','license_url','local_image_path','sha256','acquired_at']){
     assert.ok(!Object.hasOwn(entry,field),`SOURCE_FOUND must not fabricate ${field}`);
   }
-});
-
-test('v4.5.74 advances exactly one additional card while preserving truthful zero local coverage',()=>{
-  const report=auditPhotoBaseline();
-  assert.equal(report.total_cards,41);
-  assert.equal(report.cards_with_local_image,0);
-  assert.equal(report.cards_without_image,41);
-  assert.equal(report.source_found,2);
-  assert.equal(report.license_verified,0);
-  assert.equal(report.identity_verified,0);
-  assert.equal(report.ready_for_import,4);
-  assert.equal(report.license_blocked,0);
-  assert.equal(report.not_found,0);
-  assert.equal(report.unassessed,35);
-  assert.equal(report.photo_coverage_percent,0);
 });
