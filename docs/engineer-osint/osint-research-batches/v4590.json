@@ -1,0 +1,109 @@
+{
+  "schema_version": "engineer-osint-osint-research-batch-v1",
+  "batch_id": "v4.5.90",
+  "phase": "F",
+  "reviewed_at": "2026-09-01",
+  "publication_authorized": false,
+  "canonical_write_authorized": false,
+  "candidates": [
+    {
+      "candidate_id": "PHASE-F-0004",
+      "proposed_title": "Terrier armoured engineer vehicle",
+      "country_scope": ["GBR"],
+      "category": "armoured_engineer_vehicle",
+      "canonical_absence_check": {
+        "query": "Terrier armoured engineer vehicle",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "19de68495c6afe0fcfb9057464081ef4f30cc5cc"
+      },
+      "claims": [
+        {
+          "claim": "BAE Systems identifies Terrier as a British Army combat engineer vehicle designed for mobility support, counter-mobility and survivability engineering tasks.",
+          "evidence": "BAE Systems states that Terrier entered British Army service and lists obstacle and route clearance, anti-tank ditch and obstacle construction, and trench or AFV-slot digging among its typical applications.",
+          "source_url": "https://www.baesystems.com/en/article/terrierreg-demonstrating-innovation-in-military-vehicles-at-dsei",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2013-09-10",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "Terrier can be remotely controlled at distances up to 1 km and can be configured with mine-plough and investigation-arm equipment for route proving and clearance.",
+          "evidence": "BAE Systems reports wireless remote control to 1 km and separately describes field-trialled mine-plough and long-reach investigation-arm capabilities for mine and IED route clearance.",
+          "source_url": "https://www.baesystems.com/en/article/bae-systems-showcases-new-mine-clearing-capability-for-terrier-combat-engineer-vehicle",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2015-09-15",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate only; later canonicalization should distinguish baseline Terrier capability from later optional or trialled attachments."
+    },
+    {
+      "candidate_id": "PHASE-F-0005",
+      "proposed_title": "WiSENT 2 multifunctional support and engineering vehicle",
+      "country_scope": ["DEU"],
+      "category": "armoured_engineer_vehicle",
+      "canonical_absence_check": {
+        "query": "WISENT 2",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "19de68495c6afe0fcfb9057464081ef4f30cc5cc"
+      },
+      "claims": [
+        {
+          "claim": "FFG describes WiSENT 2 as a modular Leopard 2-based support platform configurable for recovery, engineering, mine-clearing and bridge-laying roles.",
+          "evidence": "The manufacturer product page explicitly states that WiSENT 2 is based on the Leopard 2 chassis and can be configured in recovery, engineering, mine-clearing or bridge-laying roles.",
+          "source_url": "https://www.ffg-flensburg.de/en/products/ffg-developments/wisent-2/",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The WiSENT 2 AEV combines an articulated excavator and engineer blade, while mine-clearing configuration can add a full-width mine plough, lane-marking system and magnetic-signature duplicator.",
+          "evidence": "FFG lists the articulated excavator and pioneer clearing blade for the AEV role and separately lists the full-width mine plough, lane-marking system and magnetic-signature duplicator for mine-clearing configuration.",
+          "source_url": "https://www.ffg-flensburg.de/en/products/ffg-developments/wisent-2/",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Preserve role-specific configuration boundaries if later appended; not every WiSENT 2 carries every engineering kit simultaneously."
+    },
+    {
+      "candidate_id": "PHASE-F-0006",
+      "proposed_title": "M1150 Assault Breacher Vehicle",
+      "country_scope": ["USA"],
+      "category": "breaching_mine_clearance",
+      "canonical_absence_check": {
+        "query": "M1150 Assault Breacher Vehicle",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "19de68495c6afe0fcfb9057464081ef4f30cc5cc"
+      },
+      "claims": [
+        {
+          "claim": "The U.S. Army ODIN database identifies the M1150 Assault Breacher Vehicle as an M1 Abrams-chassis mine- and explosives-clearing vehicle.",
+          "evidence": "The U.S. Army OE Data Integration Network describes the M1150 ABV as based on the M1 Abrams chassis and purpose-built to clear pathways through minefields, roadside bombs and improvised explosive devices.",
+          "source_url": "https://odin.t2com.army.mil/WEG/Asset/M1150_American_Assault_Breacher_Vehicle",
+          "source_type": "US_ARMY_PRIMARY",
+          "source_date": "2025-04-01",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The M1150 ABV combines a front-mounted mine plough with explosive line-charge capability for obstacle and minefield breaching.",
+          "evidence": "ODIN explicitly lists a mine plough and line charges as defining equipment of the M1150 Assault Breacher Vehicle.",
+          "source_url": "https://odin.t2com.army.mil/WEG/Asset/M1150_American_Assault_Breacher_Vehicle",
+          "source_type": "US_ARMY_PRIMARY",
+          "source_date": "2025-04-01",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate uses the current U.S. Army ODIN description for identity and capability; historical combat-use claims are not required for canonicalization."
+    }
+  ]
+}
