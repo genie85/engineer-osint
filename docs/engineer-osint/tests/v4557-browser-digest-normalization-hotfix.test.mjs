@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {assertV4557Applied,gitBlobSha,v4557} from './v4556-workflow-lifecycle-helper.mjs';
+import {assertV4557Applied,gitBlobSha,v4557,v4561,v4562} from './v4556-workflow-lifecycle-helper.mjs';
 
 const workflow=readFileSync('.github/workflows/identity-fix-retirement-regression.yml','utf8');
 
@@ -20,10 +20,18 @@ test('v4.5.57 records the exact red-main browser failure and one semantic-equiva
   });
 });
 
-test('v4.5.57 consumes only the exact active browser guard successor blob',()=>{
+test('v4.5.57 exact browser-guard successor remains the pinned predecessor of the v4.5.62 Node 24 successor',()=>{
   assert.equal(v4557.target.historical_git_blob_sha,'272c85272137c256484b831be98f7340cbe6db8e');
   assert.equal(v4557.target.successor_git_blob_sha,'7e11d0d3c5b314c08ca9ea9ec36c5421d917fe44');
-  assert.equal(gitBlobSha(workflow),v4557.target.successor_git_blob_sha);
+  const baseline=v4561.workflows.find(item=>item.file==='identity-fix-retirement-regression.yml');
+  const successor=v4562.workflows.find(item=>item.file==='identity-fix-retirement-regression.yml');
+  assert.ok(baseline);
+  assert.ok(successor);
+  assert.equal(baseline.git_blob_sha,v4557.target.successor_git_blob_sha);
+  assert.equal(baseline.configured_node_major,20);
+  assert.equal(successor.git_blob_sha,'d32f8f39d54c0e5ff07be7e616d4ea62cc8ade3d');
+  assert.equal(successor.configured_node_major,24);
+  assert.equal(gitBlobSha(workflow),successor.git_blob_sha);
   assertV4557Applied();
 });
 
