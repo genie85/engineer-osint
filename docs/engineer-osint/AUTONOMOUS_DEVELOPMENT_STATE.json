@@ -1,51 +1,29 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T17:05:00+02:00",
-  "observed_main_sha": "c033c033b976ba9903bce0662a6c8e4821b416f3",
+  "updated_at": "2026-09-01T18:30:00+02:00",
+  "observed_main_sha": "342cbb076189091170c4880512b83a86494b7566",
   "current_phase": "E_PHOTO_COVERAGE",
-  "current_task": "v4.5.80: record licensed historical M3 photo provenance for ENG-TECH-0005 UK-German Wide Wet Gap Crossing while explicitly not claiming that the 2017 image depicts the new M3 EVO configuration.",
+  "current_task": "v4.5.81: record exact official PLA integrated minesweeping vehicle photo source for ENG-TECH-0007 without inventing a formal designation or redistribution licence.",
   "active_pr": null,
-  "active_branch": "chatgpt/engineer-osint-v4580-wwgc-m3-photo-research",
+  "active_branch": "chatgpt/engineer-osint-v4581-pla-minesweeper-photo-research",
   "observed_pr_head": null,
-  "last_completed_task": "v4.5.79 merged on main as c033c033b976ba9903bce0662a6c8e4821b416f3; ENG-TECH-0004 IMR-3M reached READY_FOR_IMPORT and all three actual post-merge push workflows plus Pages build/deploy passed on the exact main SHA.",
-  "next_recommended_task": "After v4.5.80 exact-head CI and post-merge Pages verification, recalculate the deterministic photo-review queue and process its next highest-priority unassessed ENG-TECH card.",
-  "blockers": [
-    "The connected GitHub text-file write surface cannot publish a binary image asset, so READY_FOR_IMPORT provenance research can proceed but LOCAL_IMAGE requires a later execution surface that can commit binary files plus optimized variants and SHA-256 metadata."
-  ],
-  "expected_ci_surface": {
-    "pull_request": [
-      "Deploy ENGINEER OSINT to GitHub Pages",
-      "ENGINEER OSINT runtime audit snapshot",
-      "ENGINEER OSINT first-three overlay retirement regression",
-      "ENGINEER OSINT final identity-fix retirement regression"
-    ],
-    "reason": "Current slice changes only docs/engineer-osint/**. The four current PR-triggered workflows match that path; the i18n switch workflow uses a narrower explicit path list and identity retirement authorization/readiness are workflow_dispatch-only."
-  },
+  "last_completed_task": "v4.5.80 merged on main as 342cbb076189091170c4880512b83a86494b7566; ENG-TECH-0005 reached READY_FOR_IMPORT and all actual post-merge push workflows plus Pages build/deploy passed on the exact main SHA.",
+  "next_recommended_task": "After v4.5.81 exact-head CI and post-merge Pages verification, recalculate the deterministic photo-review queue and process its next highest-priority unassessed ENG-TECH card.",
+  "blockers": ["The connected GitHub text-file write surface cannot publish a binary image asset, so READY_FOR_IMPORT provenance research can proceed but LOCAL_IMAGE requires a later execution surface that can commit binary files plus optimized variants and SHA-256 metadata."],
+  "expected_ci_surface": {"pull_request":["Deploy ENGINEER OSINT to GitHub Pages","ENGINEER OSINT runtime audit snapshot","ENGINEER OSINT first-three overlay retirement regression","ENGINEER OSINT final identity-fix retirement regression"],"reason":"This slice changes only docs/engineer-osint/**. Current workflow YAML therefore yields the same four PR-triggered workflows; i18n uses narrower paths and identity authorization/readiness remain workflow_dispatch-only."},
   "photo_total_cards": 41,
   "photo_cards_with_local_image": 0,
   "photo_cards_missing_image": 41,
-  "photo_source_found": 2,
+  "photo_source_found": 3,
   "photo_license_verified": 0,
   "photo_identity_verified": 0,
   "photo_ready_for_import": 9,
   "photo_license_blocked": 0,
   "photo_not_found": 0,
-  "photo_remaining_unassessed": 30,
+  "photo_remaining_unassessed": 29,
   "photo_coverage_percent": 0,
-  "photo_inventory_status": "WWGC_M3_READY_FOR_IMPORT_PENDING_PR_CI",
-  "ci_status": {
-    "production_main_sha": "c033c033b976ba9903bce0662a6c8e4821b416f3",
-    "production_push_workflows_failed": 0,
-    "production_push_workflows_running": 0,
-    "active_pr": null,
-    "active_pr_ci": "PENDING_PR_CREATION"
-  },
-  "pages_build_version": "c033c033b976ba9903bce0662a6c8e4821b416f3",
-  "production_invariants": {
-    "canonical_data_write_in_slice": false,
-    "append_only_run_write_in_slice": false,
-    "workflow_write_in_slice": false,
-    "runtime_write_in_slice": false,
-    "local_image_claim_in_slice": false
-  }
+  "photo_inventory_status": "PLA_INTEGRATED_MINESWEEPER_SOURCE_FOUND_PENDING_PR_CI",
+  "ci_status": {"production_main_sha":"342cbb076189091170c4880512b83a86494b7566","production_push_workflows_failed":0,"production_push_workflows_running":0,"active_pr":null,"active_pr_ci":"PENDING_PR_CREATION"},
+  "pages_build_version": "342cbb076189091170c4880512b83a86494b7566",
+  "production_invariants": {"canonical_data_write_in_slice":false,"append_only_run_write_in_slice":false,"workflow_write_in_slice":false,"runtime_write_in_slice":false,"local_image_claim_in_slice":false}
 }
