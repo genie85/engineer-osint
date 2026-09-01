@@ -25,15 +25,16 @@ assert.equal(entry.local_image_path, undefined);
 assert.equal(entry.sha256, undefined);
 assert.equal(entry.acquired_at, undefined);
 
-const fixture = {
-  records: { records: [
-    { id: 'ENG-TECH-0007', title: 'PLAA integrated minesweeping vehicle' },
-    { id: 'ENG-TECH-0008', title: 'PLAA Rapidly Emplaced Bridge System' }
-  ]},
-  visual_registry: { visuals: [] }
+const queueReport = {
+  current_run_id: 'fixture',
+  canonical_sha256: 'fixture',
+  items: [
+    { card_id: 'ENG-TECH-0007', title: 'PLAA integrated minesweeping vehicle', local_images: [], remote_visual_count: 0, review_status: entry.status },
+    { card_id: 'ENG-TECH-0008', title: 'PLAA Rapidly Emplaced Bridge System', local_images: [], remote_visual_count: 0, review_status: null }
+  ]
 };
-const queue = buildPhotoReviewQueue(fixture, registry);
-assert(!queue.some((item) => item.card_id === 'ENG-TECH-0007'), 'reviewed SOURCE_FOUND card must leave the unassessed queue');
-assert(queue.some((item) => item.card_id === 'ENG-TECH-0008'), 'next unassessed card must remain queued');
+const queue = buildPhotoReviewQueue(queueReport);
+assert(!queue.items.some((item) => item.card_id === 'ENG-TECH-0007'), 'reviewed SOURCE_FOUND card must leave the unassessed queue');
+assert(queue.items.some((item) => item.card_id === 'ENG-TECH-0008'), 'next unassessed card must remain queued');
 
 console.log('v4.5.81 PLA integrated minesweeper photo research test passed');
