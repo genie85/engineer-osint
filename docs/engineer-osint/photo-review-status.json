@@ -47,6 +47,23 @@
       "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
     },
     {
+      "card_id": "ENG-TECH-0004",
+      "system_name": "IMR-3M armoured engineering / obstacle-clearing vehicle",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.79",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:IMR-3M_armoured_engineering_vehicle_at_Engineering_Technologies_2012.jpg",
+      "source_title": "IMR-3M armoured engineering vehicle at Engineering Technologies 2012.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Mike1979 Russia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "attribution_requirement": "Credit Mike1979 Russia, link the CC BY-SA 3.0 license, indicate modifications, and distribute adaptations under the same or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file title and description explicitly identify the depicted platform as an IMR-3M armoured engineering vehicle and categorize the file under IMR-3M. Rostec's 21 January 2026 reporting independently identifies the current card subject as IMR-3M obstacle-clearing vehicles based on the T-90 platform. This historical 2012 image establishes platform identity only and is not claimed to depict the 2026 EW or additional anti-drone protection fit.",
+      "license_evidence": "Wikimedia Commons states that Mike1979 Russia created the photograph as own work and publishes it under Creative Commons Attribution-ShareAlike 3.0 Unported.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0006",
       "system_name": "JGSDF Type 07 Mobility Support Bridge (07MSB)",
       "status": "READY_FOR_IMPORT",
