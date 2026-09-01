@@ -1,0 +1,61 @@
+{
+  "schema_version": "engineer-osint-b100-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-02",
+  "reviewed_main_sha": "f7e846bfb4bb6a6488752d74414c368ba1fda697",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4592-b100.json",
+  "candidate_git_blob_sha": "a2563118ce95c969c37acc45d666a2f8e419df3a",
+  "candidate_run_id": "engineer-osint-20260902-B100",
+  "expected_parent_run_id": "engineer-osint-20260830-B99",
+  "expected_parent_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+  "exact_candidate_file_sha256": "ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92",
+  "expected_resulting_canonical_sha256": "518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141",
+  "expected_append_run_successor_blob_sha": "7edb68db4950d011b18de0ca7bf1e2655bdbdbf0",
+  "expected_append_run_successor_derivation_commit": "b2cf78a47bdd5c6388a906a387191fc5ab8e42b4",
+  "expected_new_record_count": 3,
+  "expected_new_source_count": 3,
+  "expected_new_evidence_count": 3,
+  "expected_new_relation_count": 0,
+  "expected_updated_record_count": 0,
+  "expected_record_ids": ["ENG-TECH-0043", "ENG-TECH-0044", "ENG-TECH-0045"],
+  "expected_source_ids": ["ENG-SRC-0527", "ENG-SRC-0528", "ENG-SRC-0529"],
+  "expected_evidence_ids": ["ENG-EVID-0215", "ENG-EVID-0216", "ENG-EVID-0217"],
+  "protected_baseline": {
+    "append_run_blob_sha": "de2ead86f0d5967c6bf1db96915b6f1fbd996090",
+    "run_store_blob_sha": "a97184dbd825fab3e5485b72a760bde04749af0b",
+    "integrity_blob_sha": "8c9a9aa766e910e0bccdb9308acc8af5a3aadac7",
+    "manifest_blob_sha": "c79db99f2bc0746ee553d5e3cc08c26186f90a34",
+    "b99_run_blob_sha": "a629f94b68b926faf7226fe5d7df60eb1c888a51"
+  },
+  "required_preconditions": {
+    "v4592_exact_candidate_reviewed": true,
+    "v4592_candidate_dry_run_green": true,
+    "current_main_push_checks_green": true,
+    "b99_is_current_run": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "authorization_stage_append_run_must_remain_baseline": true
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "install_exact_append_run_guard_successor": true,
+    "standard_append_run_write_required": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_runtime_change": false,
+    "allow_workflow_change": false,
+    "allow_photo_or_media_change": false
+  },
+  "execution_state": {
+    "append_run_successor_installed": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false
+  },
+  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.5.92 B100 candidate. The exact append-run guard successor was derived and hash-pinned, then the active helper was restored byte-for-byte to its reviewed baseline. This v4.5.93 authorization slice must not install the successor or persist B100."
+}
