@@ -103,7 +103,7 @@ jobs:
           grep -q 'engineer-overlay-transition-runtime-guard-module' /tmp/v4546-retired-dom.html
           python - <<'PY'
           from pathlib import Path
-          import re, hashlib, html
+          import re, hashlib, html, json
           bilingual=re.compile(
               r'(?P<open><(?P<tag>[A-Za-z][A-Za-z0-9:-]*)\b(?=[^>]*\bdata-label-cs="(?P<cs>[^"]*)")(?=[^>]*\bdata-label-en="(?P<en>[^"]*)")[^>]*>)'
               r'(?P<text>[^<>]*)(?P<close></(?P=tag)>)',re.I)
@@ -116,10 +116,16 @@ jobs:
           s=re.sub(r'\s+',' ',s).strip()
           Path('/tmp/v4546-retired-normalized.html').write_text(s)
           digest=hashlib.sha256(s.encode()).hexdigest()
-          expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'
-          Path('/tmp/v4546-browser-digest.txt').write_text(f'sha256={digest}\nexpected={expected}\n')
+          current=json.loads(Path('docs/engineer-osint-dist/persistent-b99-identity-audit.json').read_text())['current_run_id']
+          expected_by_run={
+              'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31',
+              'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'
+          }
+          expected=expected_by_run.get(current)
+          if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
+          Path('/tmp/v4546-browser-digest.txt').write_text(f'run={current}\nsha256={digest}\nexpected={expected}\n')
           if digest!=expected: raise SystemExit(f'V4546_BROWSER_DIGEST: expected {expected}, got {digest}')
-          print(f'V4546_BROWSER_DIGEST=PASS sha256={digest}')
+          print(f'V4546_BROWSER_DIGEST=PASS run={current} sha256={digest}')
           PY
 
       - name: Seal browser-complete retirement evidence
@@ -128,14 +134,20 @@ jobs:
           const fs=require('fs');
           const p='docs/engineer-osint-dist/identity-fix-retirement-audit.json';
           const a=JSON.parse(fs.readFileSync(p,'utf8'));
-          const expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31';
+          const b=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
+          const expectedByRun={
+            'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31',
+            'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'
+          };
+          const expected=expectedByRun[b.current_run_id];
+          if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);
           a.browser_normalized_dom_sha256=expected;
           a.browser_parity_pending=false;
           if(a.status!=='PASS'||a.identity_fix_runtime_retired!==true||a.identity_fix_source_retained!==true||a.active_legacy_factual_module_count!==0||a.active_legacy_baseline_module_count!==0)throw new Error('browser completion found invalid retirement audit');
           if(a.canonical_write_performed!==false||a.run_store_manifest_edit_performed!==false||a.run_appended!==false||a.source_file_deleted!==false||a.other_runtime_module_removed!==false)throw new Error('browser completion broadened retirement scope');
           fs.writeFileSync(p,JSON.stringify(a,null,2)+'\n');
           fs.appendFileSync('docs/engineer-osint-dist/health.txt',`identity_fix_retirement_browser_digest=${expected}\nidentity_fix_retirement_browser_parity=pass\n`);
-          console.log('V4546_IDENTITY_FIX_RETIREMENT=PASS_BROWSER_COMPLETE');
+          console.log(`V4546_IDENTITY_FIX_RETIREMENT=PASS_BROWSER_COMPLETE run=${b.current_run_id}`);
           NODE
 
       - name: Upload final retirement evidence
