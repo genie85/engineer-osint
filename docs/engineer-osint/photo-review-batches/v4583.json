@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0009",
+      "system_name": "PLAA floating pontoon bridging system — exact designation unresolved",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.83",
+      "origin_url": "https://eng.mod.gov.cn/xb/News_213114/Videos/4919896.html",
+      "source_title": "Pontoon troops deploy floating pontoon bridge in Yellow River",
+      "source_type": "OFFICIAL_MILITARY_VIDEO_PAGE",
+      "author_rightsholder": "China Military Online / Chinese Ministry of National Defense",
+      "identity_evidence": "The official PRC Ministry of National Defense page identifies a pontoon bridge element of an engineering and chemical defense brigade under the PLA 76th Group Army deploying floating bridge sections during a Yellow River drill and states that the completed floating pontoon bridge was 254 meters long. A separate official PRC Ministry of National Defense report from 2023 identifies a 73rd Group Army pontoon element building a 300-meter pontoon bridge in 16 minutes. These sources establish the PLAA floating-pontoon bridging system class and operational context, but they do not establish an exact formal Type/GSL designation, so none is inferred.",
+      "license_evidence": "The reviewed official PRC Ministry of National Defense / China Military Online pages provide public imagery/video and system identity evidence, but no compatible open redistribution licence for repository reuse was found on those pages. Public accessibility is not treated as redistribution permission.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official PLAA floating-pontoon system-class source found, but compatible redistribution rights and a formal Type/GSL designation have not been demonstrated; no READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0010",
+      "system_name": "PLAA vehicle-mounted / rocket mine-laying system — formal designation unresolved",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.83",
+      "origin_url": "https://eng.mod.gov.cn/xb/Home/Focus/16273199.html",
+      "source_title": "Mine-laying vehicle in live-fire training",
+      "source_type": "OFFICIAL_MILITARY_PHOTO_PAGE",
+      "author_rightsholder": "Photo by Li Changxing / China Military Online / Chinese Ministry of National Defense",
+      "identity_evidence": "The official PRC Ministry of National Defense photo page explicitly captions the pictured equipment as a 'vehicle-mounted mine-laying system' attached to a brigade under the PLA 81st Group Army launching mine-loaded rockets during live-fire training in early December 2023. Official PLA reporting also uses the functional Chinese term 火箭布雷车 (rocket mine-laying vehicle). The reviewed official sources do not establish a formal Type/GSL designation or prove that every reported example is the same vehicle variant, so no formal designation is inferred.",
+      "license_evidence": "The official photo page names photographer Li Changxing and provides a public image, but no compatible open redistribution licence for repository reuse was found on the reviewed Ministry of National Defense / China Military Online pages. Public accessibility is not treated as redistribution permission.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official vehicle-mounted mine-laying system photo source found, but compatible redistribution rights and a formal Type/GSL designation have not been demonstrated; no READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0011",
+      "system_name": "SDZ — Système de dépollution de zone",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.83",
+      "origin_url": "https://www.terremag.defense.gouv.fr/enquetes/zoom-sur/le-sdz-nouveau-systeme-de-depollution-de-zone",
+      "source_title": "Le SDZ, nouveau système de dépollution de zone",
+      "source_type": "OFFICIAL_ARMY_FEATURE_WITH_PHOTOS",
+      "author_rightsholder": "Nicolas Haeussler / Armée de Terre / Défense",
+      "identity_evidence": "The official French Army TerreMag feature explicitly identifies the SDZ (Système de dépollution de zone), describes it as a teleoperated area-clearance system built around two robots, states that CEFA developed the system, and provides photographs credited to Nicolas Haeussler/Armée de Terre/Défense. The identity therefore matches the ENGINEER OSINT SDZ card directly.",
+      "license_evidence": "The reviewed official French Army / Ministry of Armed Forces pages provide exact SDZ imagery and photographer/Defence credit, but no compatible open redistribution licence for repository reuse was identified. Government or military ownership alone is not treated as an open licence.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official SDZ photo source found, but compatible redistribution rights have not been demonstrated; no READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0012",
+      "system_name": "SYFRALL modular wet-gap crossing system",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.83",
+      "origin_url": "https://www.defense.gouv.fr/eurosatory/stand-equipements/eurosatory-2026-equipements-exposes/combat-du-genie/syfrall",
+      "source_title": "Syfrall",
+      "source_type": "OFFICIAL_DEFENCE_EQUIPMENT_PAGE",
+      "author_rightsholder": "Armée de Terre / Ministère des Armées et des Anciens combattants",
+      "identity_evidence": "The official French Ministry of Armed Forces Eurosatory 2026 equipment page explicitly identifies the depicted modular crossing system as SYFRALL, describes its bridge and ferry wet-gap crossing modes, 11-meter floating modules and floating access ramps, and lists CNIM SI, CEFA and SOFRAME as the industrial team. The page states that the system is not operational and that state qualification trials begin in 2028. A separate DGA page records the 30 December 2025 order for eight systems representing about 300 linear meters.",
+      "license_evidence": "The official equipment page provides an exact SYFRALL image credited © Armée de Terre, but no compatible open redistribution licence for repository reuse was identified on the reviewed Ministry of Armed Forces pages. The copyright credit is not treated as permission to redistribute.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official SYFRALL photo source found, but compatible redistribution rights have not been demonstrated; no READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0013",
+      "system_name": "Namer Engineering APC",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.83",
+      "origin_url": "https://www.mod.gov.il/%D7%90%D7%92%D7%A4%D7%99%D7%9D/%D7%9E%D7%A0%D7%AA%D7%A7-%D7%9E%D7%A0%D7%94%D7%9C%D7%AA-%D7%94%D7%9E%D7%A8%D7%9B%D7%91%D7%94-%D7%95%D7%94%D7%A8%D7%A7%D7%9D",
+      "source_title": "MANTAK — Merkava and Armored Vehicles Directorate",
+      "source_type": "OFFICIAL_DEFENCE_PROGRAM_PAGE",
+      "author_rightsholder": "Israel Ministry of Defense",
+      "identity_evidence": "The official Israel Ministry of Defense MANTAK page contains a dedicated 'Namer Engineering' (נמר הנדסה) section with an image and explicitly describes the engineering Namer as a Namer-based vehicle for the Combat Engineering Corps with engineering systems and towing/operation of special equipment. It lists three engineering configurations: company-command vehicle with dozer blade, platoon-command vehicle with breaching equipment, and platoon-sergeant vehicle with towing and bridging capabilities. This resolves the prior generic-Namer identity limitation for the engineering card without asserting that every generic Namer photograph depicts an engineering configuration.",
+      "license_evidence": "The Israel Ministry of Defense page states that rights are reserved to the Ministry and does not provide a compatible open redistribution licence for the engineering-Namer image. The exact official image is therefore treated as source evidence only, not as reusable repository media.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official Namer Engineering identity and image source found, but the page reserves rights and no compatible open redistribution licence has been demonstrated; no READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    }
+  ]
+}
