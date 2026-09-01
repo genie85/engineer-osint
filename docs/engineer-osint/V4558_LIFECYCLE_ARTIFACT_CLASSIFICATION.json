@@ -1,0 +1,40 @@
+{
+  "schema_version": "engineer-osint-lifecycle-artifact-classification-v1",
+  "version": "4.5.58",
+  "status": "READ_ONLY_CLASSIFICATION_NO_DELETION_AUTHORIZED",
+  "reviewed_main_sha": "e3207a8a6326b03f1d7a5001a12981bf76ba8ee3",
+  "roadmap_phase": "A_POST_V4546_CONSOLIDATION",
+  "scope": {
+    "artifact": "docs/engineer-osint/V4531_IDENTITY_FIX_MIGRATION_READINESS.json",
+    "artifact_git_blob_sha": "bb581d144c119ae9a7f513a648ddaf97a7dea1d8",
+    "classification": "HISTORICAL_EVIDENCE_NOT_ACTIVE_CONTRACT",
+    "action": "RETAIN_UNCHANGED"
+  },
+  "evidence": {
+    "original_status": "READ_ONLY_MIGRATION_REVIEW_REQUIRED",
+    "original_required_tip": "engineer-osint-20260830-B98",
+    "original_safe_to_append_identity_migration": false,
+    "original_safe_to_retire_identity_fix_overlay": false,
+    "superseded_by_later_lifecycle": [
+      "docs/engineer-osint/V4537_B99_LIFECYCLE.json",
+      "docs/engineer-osint/V4540_B99_APPEND_AUTHORIZATION.json",
+      "docs/engineer-osint/V4546_IDENTITY_FIX_RETIREMENT.json"
+    ],
+    "current_production_identity_fix_runtime_retired": true,
+    "current_active_legacy_factual_overlays": 0,
+    "current_b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "current_b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30"
+  },
+  "decision": {
+    "is_active_runtime_or_ci_contract": false,
+    "is_historical_evidence": true,
+    "delete_file_authorized": false,
+    "modify_historical_payload_authorized": false,
+    "canonical_write_authorized": false,
+    "append_only_run_write_authorized": false,
+    "runtime_change_authorized": false,
+    "workflow_change_authorized": false
+  },
+  "rationale": "V4531 records a pre-B99 read-only migration review against the B98 tip and explicitly denies append and runtime-retirement authorization. Later B99 lifecycle, authorization and v4.5.46 retirement artifacts completed the transition. The file is therefore no longer an active lifecycle contract, but remains valuable historical evidence and is retained byte-for-byte.",
+  "next_recommended_slice": "Classify one additional pre-B99 readiness/candidate artifact as historical evidence only if the same supersession proof can be made without modifying or deleting B96-B99 history."
+}
