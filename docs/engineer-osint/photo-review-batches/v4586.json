@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0031",
+      "system_name": "NOVO digital radiography systems for EOD — 15th Engineer Regiment",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.86",
+      "origin_url": "https://zenijnipluk.mo.gov.cz/aktuality/novy-rentgenovy-system-rozezna-vice-jak-16-tisicu-odstinu-sedi-vydrzi-zatez-az-200-kg",
+      "source_title": "Nový rentgenový systém NOVO",
+      "source_type": "OFFICIAL_MILITARY_ARTICLE_GALLERY",
+      "author_rightsholder": "15. ženijní pluk / Ministerstvo obrany ČR",
+      "identity_evidence": "The canonical primary-source registry identifies the official 15th Engineer Regiment article of 10 June 2024 as 'Nový rentgenový systém NOVO' and links the ENG-TECH-0031 card to that exact source plus NOVO DR. The card records receipt of 14 NOVO systems while explicitly leaving the precise model unresolved; this review therefore preserves the system-family identity and does not infer a model from appearance alone.",
+      "license_evidence": "The reviewed official Czech military article and manufacturer material provide exact NOVO system-family image context but do not state a compatible open redistribution licence for repository rehosting. Public availability is not treated as permission to redistribute.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official NOVO system-family source found, but the precise model remains unresolved and compatible open redistribution rights have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0032",
+      "system_name": "NEO-1 — robotic complex for remote search of explosive objects",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.86",
+      "origin_url": "https://mod.gov.ua/news/znajde-mini-ta-granati-minoboroni-kodifikuvalo-robota-sapera-neo-1",
+      "source_title": "Знайде міни та гранати: Міноборони кодифікувало робота-сапера NEO-1",
+      "source_type": "OFFICIAL_MOD_ARTICLE_WITH_IMAGES",
+      "author_rightsholder": "Ministry of Defence of Ukraine",
+      "identity_evidence": "Ukraine's Ministry of Defence article published 9 June 2026 explicitly identifies the pictured platform as the NEO-1 robotic hardware-software complex for remote detection of explosive objects, states that it was codified and authorised for Armed Forces use, and describes its mine-detection sensor and platform characteristics. Identity is taken from the official caption/text, not visual inference.",
+      "license_evidence": "The official Ministry of Defence of Ukraine page provides exact NEO-1 imagery and identity context but does not state a compatible open redistribution licence for repository rehosting. No reuse right is inferred from public accessibility.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official NEO-1 image source found, but compatible open redistribution rights have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0036",
+      "system_name": "SIRKO-S1 — Ukrainian modular ground robotic system",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.86",
+      "origin_url": "https://mod.gov.ua/en/news/mine-action-demining-and-logistics-how-the-sirko-s1-ground-robotic-system-supports-ukrainian-military",
+      "source_title": "Mine action, demining, and logistics: How the SIRKO-S1 ground robotic system supports Ukrainian military",
+      "source_type": "OFFICIAL_MOD_ARTICLE_WITH_IMAGES",
+      "author_rightsholder": "Ministry of Defence of Ukraine",
+      "identity_evidence": "Ukraine's Ministry of Defence article published 25 March 2025 explicitly names and pictures the SIRKO-S1 UGV, describes it as a codified ground robotic transport platform, and states that modular configurations support reconnaissance, logistics, mine-laying and demining. The exact system identity and engineer-related roles come from the official article text and captions.",
+      "license_evidence": "The official Ministry of Defence of Ukraine page provides exact SIRKO-S1 imagery and identity context but does not state a compatible open redistribution licence for repository rehosting. Public access is not treated as redistribution permission.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official SIRKO-S1 image source found, but compatible open redistribution rights have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0037",
+      "system_name": "Bizon-L — multipurpose tracked UGV with engineering obstacle and area-mining roles",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.86",
+      "origin_url": "https://mod.gov.ua/en/news/bizon-enters-the-battlefield-defence-forces-receive-a-ugv-capable-of-carrying-up-to-300-kg",
+      "source_title": "“Bizon” enters the battlefield: Defence Forces receive a UGV capable of carrying up to 300 kg",
+      "source_type": "OFFICIAL_MOD_ARTICLE_WITH_IMAGES",
+      "author_rightsholder": "Ministry of Defence of Ukraine",
+      "identity_evidence": "Ukraine's Ministry of Defence article published 23 April 2026 explicitly identifies the pictured tracked unmanned ground vehicle as Bizon-L, states that it was codified and authorised for operational use, and lists engineering-obstacle emplacement and area-mining among missions enabled by additional equipment. The review does not infer a variant or module beyond the official wording.",
+      "license_evidence": "The official Ministry of Defence of Ukraine page provides exact Bizon-L imagery and identity context but does not state a compatible open redistribution licence for repository rehosting. No image reuse right is inferred from publication alone.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official Bizon-L image source found, but compatible open redistribution rights have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0039",
+      "system_name": "SDZ / Système de Dépollution de Zone — remotely operated area-clearance system",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.86",
+      "origin_url": "https://www.terremag.defense.gouv.fr/enquetes/zoom-sur/le-sdz-nouveau-systeme-de-depollution-de-zone",
+      "source_title": "Le SDZ, nouveau système de dépollution de zone",
+      "source_type": "OFFICIAL_ARMY_PUBLICATION_WITH_IMAGES",
+      "author_rightsholder": "Nicolas Haeussler / Armée de Terre / Défense",
+      "identity_evidence": "The French Army TerreMag article published 21 April 2026 explicitly identifies and repeatedly captions the photographed system as the SDZ / Système de Dépollution de Zone, describes its two teleoperated robots and demining tools, and names CEFA as developer. A separate French Ministry of Armed Forces equipment page independently identifies the SDZ and credits Armée de Terre/Défense imagery.",
+      "license_evidence": "The reviewed TerreMag and French Ministry of Armed Forces pages identify photographer/rightsholder and exact SDZ imagery but do not state a compatible open redistribution licence for repository rehosting. Copyright credit is provenance, not a redistribution grant.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact official SDZ image source found, but compatible open redistribution rights have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    }
+  ]
+}
