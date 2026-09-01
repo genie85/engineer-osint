@@ -81,6 +81,23 @@
       "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; the current execution environment could not acquire the original binary, so no LOCAL_IMAGE claim is made."
     },
     {
+      "card_id": "ENG-TECH-0017",
+      "system_name": "JGSDF Type 92 Minefield Clearing Vehicle",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.77",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:92%E5%BC%8F%E5%9C%B0%E9%9B%B7%E5%8E%9F%E5%87%A6%E7%90%86%E8%BB%8A_%288465401362%29.jpg",
+      "source_title": "92式地雷原処理車 (8465401362).jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force (JGSDF)",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution_requirement": "Credit Japan Ground Self-Defense Force (JGSDF), link the CC BY 2.0 license, and indicate modifications.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted system as 92式地雷原処理車 (JGSDF Type 92 Minefield Clearing Vehicle), describes its Type 92 minefield-clearing rocket role, and categorizes the file under JGSDF Type 92 Mine Clearance Vehicle. The current ENGINEER OSINT canonical visual ENG-VIS-0028 independently links ENG-TECH-0017 to the official JGSDF Type 92 system.",
+      "license_evidence": "Wikimedia Commons records that this exact image was originally posted by JGSDF to Flickr as photo 8465401362 and that FlickreviewR confirmed on 29 March 2014 that it was licensed under Creative Commons Attribution 2.0.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0028",
       "system_name": "AM-50",
       "status": "READY_FOR_IMPORT",
