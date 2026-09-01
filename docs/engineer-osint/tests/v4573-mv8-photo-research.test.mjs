@@ -23,17 +23,17 @@ test('v4.5.73 records exact MV-8 manufacturer provenance without inventing redis
   }
 });
 
-test('v4.5.73 MV-8 provenance remains valid after subsequent reviewed cards',()=>{
+test('v4.5.73 MV-8 provenance remains valid at the exact v4.5.74 lifecycle successor',()=>{
   const report=auditPhotoBaseline();
   assert.equal(report.total_cards,41);
   assert.equal(report.cards_with_local_image,0);
   assert.equal(report.cards_without_image,41);
-  assert.ok(report.source_found>=1);
+  assert.equal(report.source_found,2);
   assert.equal(report.license_verified,0);
   assert.equal(report.identity_verified,0);
   assert.equal(report.ready_for_import,4);
   assert.equal(report.license_blocked,0);
   assert.equal(report.not_found,0);
-  assert.ok(report.unassessed<=36);
+  assert.equal(report.unassessed,35);
   assert.equal(report.photo_coverage_percent,0);
 });
