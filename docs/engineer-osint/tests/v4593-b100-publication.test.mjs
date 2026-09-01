@@ -1,20 +1,39 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {execFileSync} from 'node:child_process';
+import {loadCanonicalRunStore} from '../lib/run-store.mjs';
 
-const candidatePath='docs/engineer-osint/osint-publication-candidates/v4592-b100.json';
-const manifestPath='docs/engineer-osint/data/run-store-manifest.json';
+const expectedRecords=['ENG-TECH-0043','ENG-TECH-0044','ENG-TECH-0045'];
+const expectedSources=['ENG-SRC-0527','ENG-SRC-0528','ENG-SRC-0529'];
+const expectedEvidence=['ENG-EVID-0215','ENG-EVID-0216','ENG-EVID-0217'];
 
-test('v4.5.93 materializes the exact reviewed B100 append in the ephemeral CI checkout',()=>{
-  const stdout=execFileSync(process.execPath,['docs/engineer-osint/append-run.mjs',candidatePath,'--write'],{encoding:'utf8'});
-  const plan=JSON.parse(stdout);
-  assert.equal(plan.status,'APPENDED');
-  assert.equal(plan.entry.run_id,'engineer-osint-20260902-B100');
-  assert.equal(plan.entry.parent_run_id,'engineer-osint-20260830-B99');
-  assert.equal(plan.entry.parent_canonical_sha256,'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30');
-  assert.equal(plan.entry.file_sha256,'ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92');
-  assert.equal(plan.entry.canonical_sha256,'518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141');
-  const manifest=readFileSync(manifestPath,'utf8');
-  console.log(`V4593_B100_MANIFEST_BASE64 ${Buffer.from(manifest,'utf8').toString('base64')}`);
+test('v4.5.93 persists B100 as the exact append-only canonical head',()=>{
+  const store=loadCanonicalRunStore();
+  assert.equal(store.report.current_run_id,'engineer-osint-20260902-B100');
+  assert.equal(store.report.canonical_sha256,'518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141');
+  assert.equal(store.manifest.runs.at(-2).run_id,'engineer-osint-20260830-B99');
+  assert.equal(store.manifest.runs.at(-2).canonical_sha256,'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30');
+  assert.equal(store.manifest.runs.at(-1).run_id,'engineer-osint-20260902-B100');
+});
+
+test('v4.5.93 publishes the three reviewed Phase F systems with their source and evidence links',()=>{
+  const {data}=loadCanonicalRunStore();
+  const records=data.records.records.filter(item=>expectedRecords.includes(item.id));
+  const sources=data.sources.sources.filter(item=>expectedSources.includes(item.id));
+  const evidence=data.evidence.evidence.filter(item=>expectedEvidence.includes(item.evidence_id||item.id));
+  assert.deepEqual(records.map(item=>item.id),expectedRecords);
+  assert.deepEqual(sources.map(item=>item.id),expectedSources);
+  assert.deepEqual(evidence.map(item=>item.evidence_id||item.id),expectedEvidence);
+  for(const record of records){
+    assert.equal(record.first_seen_run,'engineer-osint-20260902-B100');
+    assert.equal(record.last_update_run,'engineer-osint-20260902-B100');
+    assert.equal(record.source_ids.length,1);
+    assert.equal(record.evidence_ids.length,1);
+    const item=evidence.find(candidate=>(candidate.evidence_id||candidate.id)===record.evidence_ids[0]);
+    assert.ok(item);
+    assert.deepEqual(item.related_ids,[record.id]);
+    assert.deepEqual(item.source_ids,record.source_ids);
+  }
+  const keiler=records.find(item=>item.id==='ENG-TECH-0044');
+  assert.match(keiler.title_en,/Keiler Next Generation/);
+  assert.match(keiler.analysis_en,/distinct from the legacy Minenräumpanzer Keiler/);
 });
