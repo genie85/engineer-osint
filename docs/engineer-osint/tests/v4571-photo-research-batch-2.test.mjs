@@ -47,7 +47,7 @@ test('v4.5.71 advances research lifecycle without claiming local coverage',()=>{
   assert.equal(report.cards_with_local_image,0);
   assert.equal(report.cards_without_image,41);
   assert.equal(report.ready_for_import,4);
-  assert.equal(report.unassessed,37);
+  assert.equal(report.unassessed,36);
   assert.equal(report.license_blocked,0);
   assert.equal(report.not_found,0);
   assert.equal(report.photo_coverage_percent,0);

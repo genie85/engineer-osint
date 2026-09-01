@@ -12,6 +12,19 @@
   ],
   "entries": [
     {
+      "card_id": "ENG-TECH-0001",
+      "system_name": "MV-8 KOMODO Unmanned Breaching System",
+      "status": "SOURCE_FOUND",
+      "review_batch": "v4.5.73",
+      "origin_url": "https://www.rheinmetall.com/en/media/news-watch/news/2026/06/2026-06-15-rheinmetall-at-eurosatory-mv-8-komodo",
+      "source_title": "Eurosatory 2026: MV-8 KOMODO Unmanned Breaching System – unmanned mobility and mine clearance for the modern battlefield",
+      "source_type": "MANUFACTURER_PRESS_RELEASE",
+      "identity_evidence": "Rheinmetall's 15 June 2026 manufacturer press release explicitly identifies and describes the MV-8 KOMODO Unmanned Breaching System (UBS), developed with DOK.ING and Pearson Engineering and presented at Eurosatory 2026.",
+      "license_evidence": "The manufacturer source provides an exact-identity public image/document context, but the reviewed Rheinmetall materials do not demonstrate a compatible open redistribution license for repository reuse. No license advancement is claimed.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Exact manufacturer source found, but compatible redistribution rights for the image have not been demonstrated; no repository copy, READY_FOR_IMPORT or LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0003",
       "system_name": "UBIM",
       "status": "READY_FOR_IMPORT",
