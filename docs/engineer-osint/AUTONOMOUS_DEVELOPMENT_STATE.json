@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T12:10:00+02:00",
-  "observed_main_sha": "46e6746cbbdf05519a63b51d4f88cb60955f5827",
+  "updated_at": "2026-09-01T12:33:00+02:00",
+  "observed_main_sha": "aea1467deeaf8ca091b2e4dc74f356a1d591a881",
   "current_phase": "E_PHOTO_COVERAGE",
-  "current_task": "v4.5.71: advance a second small exact-identity photo research batch to READY_FOR_IMPORT while binary acquisition remains unavailable in the current sandbox; do not claim local coverage without repository-local bytes and SHA-256.",
-  "active_pr": 292,
-  "active_branch": "chatgpt/engineer-osint-v4571-photo-research-batch-2",
-  "observed_pr_head": null,
-  "last_completed_task": "v4.5.70 merged on main as 46e6746cbbdf05519a63b51d4f88cb60955f5827, adding fail-closed LOCAL_IMAGE provenance, local-path and SHA-256 validation.",
-  "next_recommended_task": "After v4.5.71 completes all gates, use an execution path with binary network access to acquire one verified READY_FOR_IMPORT asset, optimize it, hash it and create the first truthful LOCAL_IMAGE entry.",
+  "current_task": "v4.5.72: add a deterministic read-only review queue for unassessed ENG-TECH cards, prioritizing cards with existing remote canonical visuals without treating remote presence as redistribution permission.",
+  "active_pr": 294,
+  "active_branch": "chatgpt/engineer-osint-v4572-photo-review-queue",
+  "observed_pr_head": "8ccd7d2c46f64c1511e6f2fe5933b448a712075a",
+  "last_completed_task": "v4.5.71 merged on main as aea1467deeaf8ca091b2e4dc74f356a1d591a881, bringing the verified READY_FOR_IMPORT photo research set to four cards.",
+  "next_recommended_task": "After v4.5.72 passes exact-head CI and post-merge Pages verification, use the generated review queue to research the next small exact-identity photo batch.",
   "blockers": [
-    "Current assistant sandbox cannot resolve upload.wikimedia.org for binary acquisition; this blocks truthful LOCAL_IMAGE import but does not block provenance research."
+    "Current assistant sandbox cannot resolve GitHub/upload.wikimedia.org for binary acquisition; this blocks truthful LOCAL_IMAGE import but does not block provenance research or review-queue generation."
   ],
   "expected_ci_surface": {
     "pull_request": [
@@ -32,13 +32,13 @@
   "photo_not_found": 0,
   "photo_remaining_unassessed": 37,
   "photo_coverage_percent": 0,
-  "photo_inventory_status": "SECOND_RESEARCH_BATCH_READY_FOR_IMPORT",
+  "photo_inventory_status": "REVIEW_QUEUE_SLICE_IN_PROGRESS",
   "ci_status": {
-    "production_main_sha": "46e6746cbbdf05519a63b51d4f88cb60955f5827",
+    "production_main_sha": "aea1467deeaf8ca091b2e4dc74f356a1d591a881",
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
-    "active_pr": 292,
-    "active_pr_ci": "PENDING_FINAL_HEAD_READBACK"
+    "active_pr": 294,
+    "active_pr_ci": "PENDING_EXACT_HEAD"
   },
   "production_invariants": {
     "canonical_data_write_in_slice": false,
