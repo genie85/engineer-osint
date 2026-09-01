@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T10:31:00+02:00",
-  "observed_main_sha": "d5996625ba7ca3f9f16143119edf3dd0f34d52ce",
+  "updated_at": "2026-09-01T10:54:00+02:00",
+  "observed_main_sha": "7b1eeb8a6f0ed22be37154501a91173f3dcf95e3",
   "current_phase": "E_PHOTO_COVERAGE",
-  "current_task": "v4.5.68: establish a deterministic baseline for local photo coverage of public ENG-TECH cards without treating remote visuals or unreviewed gaps as redistributable local photos.",
-  "active_pr": 289,
-  "active_branch": "chatgpt/engineer-osint-v4568-photo-baseline",
+  "current_task": "v4.5.69: research the first small ENG-TECH photo batch and persist only candidates with verified redistribution license and depicted-system identity; do not claim local coverage before binary acquisition and SHA-256.",
+  "active_pr": 290,
+  "active_branch": "chatgpt/engineer-osint-v4569-photo-research-batch-1",
   "observed_pr_head": null,
-  "last_completed_task": "v4.5.67 merged on main as d5996625ba7ca3f9f16143119edf3dd0f34d52ce, completing the authorized Node 24 Action successor execution.",
-  "next_recommended_task": "After v4.5.68 exact-head CI and merge/post-merge gates pass, use the measured unassessed ENG-TECH backlog to research and add the first small batch of legally redistributable local photos with provenance and attribution metadata.",
+  "last_completed_task": "v4.5.68 merged on main as 7b1eeb8a6f0ed22be37154501a91173f3dcf95e3, establishing a deterministic 41-card local-photo baseline at 0% coverage.",
+  "next_recommended_task": "After v4.5.69 completes all gates, acquire and optimize the verified AM-50 Commons asset, record its SHA-256/provenance and safely materialize the first local photo without modifying canonical history.",
   "blockers": [],
   "expected_ci_surface": {
     "pull_request": [
@@ -17,26 +17,32 @@
       "ENGINEER OSINT first-three overlay retirement regression",
       "ENGINEER OSINT final identity-fix retirement regression"
     ],
-    "reason": "All changed files are under docs/engineer-osint/**; historical authorization/readiness workflows remain manual-only and i18n-switch regression has narrower trigger paths."
+    "reason": "Changed files are under docs/engineer-osint/** and do not match the narrower i18n-switch trigger set; no workflow YAML changes are in scope."
   },
-  "photo_total_cards": null,
-  "photo_cards_with_local_image": null,
-  "photo_cards_missing_image": null,
-  "photo_license_blocked": null,
-  "photo_not_found": null,
-  "photo_coverage_percent": null,
-  "photo_inventory_status": "BASELINE_AUDIT_IMPLEMENTED_PENDING_EXACT_HEAD_CI",
+  "photo_total_cards": 41,
+  "photo_cards_with_local_image": 0,
+  "photo_cards_missing_image": 41,
+  "photo_source_found": 0,
+  "photo_license_verified": 0,
+  "photo_identity_verified": 0,
+  "photo_ready_for_import": 2,
+  "photo_license_blocked": 0,
+  "photo_not_found": 0,
+  "photo_remaining_unassessed": 39,
+  "photo_coverage_percent": 0,
+  "photo_inventory_status": "FIRST_RESEARCH_BATCH_READY_FOR_IMPORT",
   "ci_status": {
-    "production_main_sha": "d5996625ba7ca3f9f16143119edf3dd0f34d52ce",
+    "production_main_sha": "7b1eeb8a6f0ed22be37154501a91173f3dcf95e3",
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
-    "active_pr": 289,
-    "active_pr_ci": "PENDING_EXACT_HEAD_READBACK"
+    "active_pr": 290,
+    "active_pr_ci": "PENDING_FINAL_HEAD_READBACK"
   },
   "production_invariants": {
     "canonical_data_write_in_slice": false,
     "append_only_run_write_in_slice": false,
     "workflow_write_in_slice": false,
-    "runtime_write_in_slice": false
+    "runtime_write_in_slice": false,
+    "local_image_claim_in_slice": false
   }
 }
