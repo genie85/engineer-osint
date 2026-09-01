@@ -64,6 +64,23 @@
       "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
     },
     {
+      "card_id": "ENG-TECH-0016",
+      "system_name": "JGSDF Type 07 Mobility Support Bridge (07MSB)",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.76",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:JGSDF_Type_07_Mobility_support_bridge.jpg",
+      "source_title": "JGSDF Type 07 Mobility support bridge.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution_requirement": "Credit Japan Ground Self-Defense Force, link the CC BY 2.0 license, and indicate modifications.",
+      "identity_evidence": "The official JGSDF engineer-equipment page explicitly labels the system as 07式機動支援橋 (07MSB) and links its original image to JGSDF Flickr photo 8465492238. The Wikimedia Commons file page for that exact Flickr image identifies it as the JGSDF Type 07 Mobility Support Bridge.",
+      "license_evidence": "Wikimedia Commons records that the exact JGSDF Flickr image 8465492238 was reviewed by FlickreviewR on 26 May 2013 and confirmed licensed under Creative Commons Attribution 2.0.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; the current execution environment could not acquire the original binary, so no LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0028",
       "system_name": "AM-50",
       "status": "READY_FOR_IMPORT",
