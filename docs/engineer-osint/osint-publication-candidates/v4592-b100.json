@@ -1,0 +1,245 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260902-B100",
+    "parent_run_id": "engineer-osint-20260830-B99",
+    "status": "SUCCESS",
+    "window_from": "2026-09-02T14:00:00+02:00",
+    "window_to": "2026-09-02T14:00:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 3,
+      "NEW": 3,
+      "UPDATE": 0,
+      "CONFIRMATION": 3,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 3,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN",
+    "reviewed_main_sha": "c82a91a9afa07bbad7c80126525f7b04f6cd5d8a",
+    "reviewed_parent_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "research_batches": [
+      "v4.5.89"
+    ],
+    "publication_write_authorized": false,
+    "canonical_write_performed": false,
+    "duplicate_audit": {
+      "Kodiak": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "Keiler Next Generation": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "M1074": "NO_EXACT_CANONICAL_RECORD_MATCH"
+    },
+    "legacy_context_note": "The production runtime contains a historical unit baseline mentioning the legacy Minenräumpanzer Keiler; this is not an exact identity match for Rheinmetall Keiler Next Generation and must not be merged as the same equipment record."
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 3
+  },
+  "new_records": [
+    {
+      "id": "ENG-TECH-0043",
+      "type": "ENG-TECH",
+      "country": "DEU",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "AEV3 Kodiak — Leopard 2-based armoured engineer vehicle",
+      "title_cs": "AEV3 Kodiak — obrněné ženijní vozidlo na podvozku Leopard 2",
+      "summary_en": "Rheinmetall describes AEV3 Kodiak as a third-generation armoured engineer vehicle based on the Leopard 2 chassis. Its engineering equipment includes a centrally mounted articulated excavator arm, adjustable bulldozer blade and winch system; a mine-breaching kit can add a mine-clearance plough, signature duplicator and lane-marking equipment.",
+      "summary_cs": "Rheinmetall popisuje AEV3 Kodiak jako obrněné ženijní vozidlo třetí generace na podvozku Leopard 2. Ženijní vybavení zahrnuje centrálně uložené kloubové rypadlo, stavitelnou radlici a naviják; souprava pro průchod minovým polem může doplnit odminovací pluh, duplikátor signatury a značkovací zařízení.",
+      "fact_en": "Manufacturer-primary evidence confirms the AEV3 Kodiak identity, Leopard 2 chassis and the listed core engineer-equipment configuration.",
+      "fact_cs": "Primární podklad výrobce potvrzuje identitu AEV3 Kodiak, podvozek Leopard 2 a uvedenou základní konfiguraci ženijního vybavení.",
+      "analysis_en": "This record establishes the platform and manufacturer-described capability set. It does not infer user-specific configuration, fleet quantity, readiness or current unit allocation.",
+      "analysis_cs": "Záznam potvrzuje platformu a výrobcem popsaný soubor schopností. Nevyvozuje uživatelskou konfiguraci, počet kusů, připravenost ani aktuální přidělení jednotkám.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "confidence": "HIGH_FOR_PLATFORM_IDENTITY_AND_PRODUCT_CONFIGURATION_LOW_FOR_USER_SPECIFIC_FIELDING",
+      "source_ids": [
+        "ENG-SRC-0527"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0215"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0044",
+      "type": "ENG-TECH",
+      "country": "DEU",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "Keiler Next Generation — Leopard 2-based armoured breaching vehicle",
+      "title_cs": "Keiler Next Generation — obrněné průlomové vozidlo na podvozku Leopard 2",
+      "summary_en": "Rheinmetall describes Keiler Next Generation as a Leopard 2-based Armoured Engineering Breaching Vehicle for tactical breaching of mine barriers. The public product profile lists a mine plough, Plofadder MICLIC, magnetic field duplicator and integrated line-marking system.",
+      "summary_cs": "Rheinmetall popisuje Keiler Next Generation jako obrněné ženijní průlomové vozidlo na podvozku Leopard 2 pro taktické překonávání minových zátarasů. Veřejný produktový profil uvádí minový pluh, systém Plofadder MICLIC, duplikátor magnetického pole a integrovaný systém značení průchodu.",
+      "fact_en": "Manufacturer-primary evidence confirms Keiler NG as a Leopard 2-based breaching system and explicitly lists its principal mine-breaching subsystems.",
+      "fact_cs": "Primární podklad výrobce potvrzuje Keiler NG jako průlomový systém na podvozku Leopard 2 a výslovně uvádí jeho hlavní prostředky pro překonávání minových zátarasů.",
+      "analysis_en": "Keiler Next Generation is kept distinct from the legacy Minenräumpanzer Keiler referenced elsewhere in the dataset. No equivalence of variants is inferred.",
+      "analysis_cs": "Keiler Next Generation je veden odděleně od staršího Minenräumpanzer Keiler zmiňovaného jinde v datasetu. Shoda variant není dovozována.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_PRODUCT_PROFILE_WITH_VARIANT_SCOPE",
+      "confidence": "HIGH_FOR_KEILER_NG_IDENTITY_AND_PRODUCT_CONFIGURATION",
+      "source_ids": [
+        "ENG-SRC-0528"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0216"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0045",
+      "type": "ENG-TECH",
+      "country": "USA",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "M1074 Joint Assault Bridge — Abrams-family heavy assault bridging system",
+      "title_cs": "M1074 Joint Assault Bridge — těžký útočný mostní systém rodiny Abrams",
+      "summary_en": "A U.S. Army modernization publication describes the M1074 Joint Assault Bridge as a survivable heavy-assault-bridging asset for Armored Brigade Combat Team engineer battalions. It uses a legacy M1A1 Abrams chassis with heavy M1A2 suspension and a hydraulic bridge launcher, and the Army publication states it can span an 11 m gap in about three minutes.",
+      "summary_cs": "Modernizační publikace U.S. Army popisuje M1074 Joint Assault Bridge jako odolný prostředek těžkého útočného mostního zabezpečení pro ženijní prapory obrněných brigád. Používá podvozek M1A1 Abrams s těžkým zavěšením M1A2 a hydraulickým mostním spouštěčem; armádní publikace uvádí překonání přibližně 11m mezery asi za tři minuty.",
+      "fact_en": "U.S. Army primary evidence confirms the M1074 JAB role, Abrams-family chassis configuration and approximately 11 m / three-minute bridging statement.",
+      "fact_cs": "Primární podklad U.S. Army potvrzuje úlohu M1074 JAB, konfiguraci podvozku rodiny Abrams a údaj o přemostění přibližně 11 m za zhruba tři minuty.",
+      "analysis_en": "The record retains the Army-attributed performance statement and does not generalize it to every bridge configuration, terrain condition or operational circumstance.",
+      "analysis_cs": "Záznam zachovává výkonový údaj jako tvrzení U.S. Army a nezobecňuje jej na každou konfiguraci mostu, terénní podmínky nebo operační situaci.",
+      "temporal_status": "HISTORICAL_OFFICIAL_MODERNIZATION_PROFILE_WITH_LATER_OPERATIONAL_USE_EVIDENCE",
+      "classification": "FACT_FROM_US_ARMY_PRIMARY_MODERNIZATION_PUBLICATION",
+      "confidence": "HIGH_FOR_ROLE_CHASSIS_AND_ARMY_STATED_BRIDGING_PERFORMANCE",
+      "source_ids": [
+        "ENG-SRC-0529"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0217"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0527",
+      "title": "Kodiak — AEV3 Armoured engineer vehicle",
+      "title_en": "Kodiak — AEV3 Armoured engineer vehicle",
+      "title_cs": "Kodiak — obrněné ženijní vozidlo AEV3",
+      "publisher": "Rheinmetall Landsysteme GmbH",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://www.rheinmetall.com/en/products/tracked-armoured-vehicles/armoured-engineer-vehicle-kodiak",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_PLATFORM_IDENTITY_AND_ENGINEERING_CONFIGURATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0528",
+      "title": "Keiler Next Generation — Armoured Breaching Vehicle",
+      "title_en": "Keiler Next Generation — Armoured Breaching Vehicle",
+      "title_cs": "Keiler Next Generation — obrněné průlomové vozidlo",
+      "publisher": "Rheinmetall Landsysteme GmbH",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://www.rheinmetall.com/en/products/tracked-armoured-vehicles/armoured-breaching-vehicle-tank-keiler",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_EXACT_VARIANT_IDENTITY_AND_BREACHING_CONFIGURATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0529",
+      "title": "Armored Brigade Combat Team Modernization",
+      "title_en": "Armored Brigade Combat Team Modernization",
+      "title_cs": "Modernizace Armored Brigade Combat Team",
+      "publisher": "U.S. Army Armor / U.S. Army",
+      "publication_date": "2021",
+      "accessed_at": "2026-09-02",
+      "url": "https://www.moore.army.mil/armor/eARMOR/content/issues/2021/Summer/3Barrera-Roberson-Johnson21.pdf",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "US_ARMY_PRIMARY_MODERNIZATION_PUBLICATION",
+      "role": "PRIMARY_JAB_ROLE_CHASSIS_AND_BRIDGING_PERFORMANCE",
+      "verification_status": "VERIFIED_INDEXED_OFFICIAL_ARMY_DOCUMENT_2026-09-02"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0215",
+      "evidence_id": "ENG-EVID-0215",
+      "evidence_type": "MANUFACTURER_PRIMARY_TEXT_PRODUCT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0043"
+      ],
+      "source_ids": [
+        "ENG-SRC-0527"
+      ],
+      "evidence_date": "2026-09-02",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT",
+      "what_it_supports_en": "Supports exact AEV3 Kodiak identity, Leopard 2 chassis and manufacturer-listed engineer equipment including excavator arm, bulldozer blade, winch system and mine-breaching kit.",
+      "what_it_supports_cs": "Podporuje přesnou identitu AEV3 Kodiak, podvozek Leopard 2 a výrobcem uvedené ženijní vybavení včetně rypadla, radlice, navijáku a soupravy pro průchod minovým polem."
+    },
+    {
+      "id": "ENG-EVID-0216",
+      "evidence_id": "ENG-EVID-0216",
+      "evidence_type": "MANUFACTURER_PRIMARY_TEXT_EXACT_VARIANT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0044"
+      ],
+      "source_ids": [
+        "ENG-SRC-0528"
+      ],
+      "evidence_date": "2026-09-02",
+      "observation_basis": "DIRECT_PUBLIC_WEB_TEXT",
+      "what_it_supports_en": "Supports exact Keiler Next Generation identity, Leopard 2 basis and manufacturer-listed mine plough, MICLIC Plofadder, magnetic field duplicator and line-marking system.",
+      "what_it_supports_cs": "Podporuje přesnou identitu Keiler Next Generation, základ na podvozku Leopard 2 a výrobcem uvedený minový pluh, MICLIC Plofadder, duplikátor magnetického pole a systém značení průchodu."
+    },
+    {
+      "id": "ENG-EVID-0217",
+      "evidence_id": "ENG-EVID-0217",
+      "evidence_type": "US_ARMY_PRIMARY_TEXT_JAB_MODERNIZATION_PROFILE",
+      "evidence_status": "OFFICIAL_DOCUMENT_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0045"
+      ],
+      "source_ids": [
+        "ENG-SRC-0529"
+      ],
+      "evidence_date": "2021",
+      "observation_basis": "OFFICIAL_US_ARMY_DOCUMENT_TEXT",
+      "what_it_supports_en": "Supports M1074 JAB heavy-assault-bridging role, M1A1/M1A2 Abrams-family chassis description and Army-stated 11 m gap / about three-minute launch performance.",
+      "what_it_supports_cs": "Podporuje úlohu M1074 JAB v těžkém útočném mostním zabezpečení, popis podvozku rodiny M1A1/M1A2 Abrams a armádní údaj o překonání 11m mezery přibližně za tři minuty."
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN_ONLY",
+    "publication_ready_candidate_count": 3,
+    "canonical_write_performed": false,
+    "requires_append_run_write_after_exact_review": true
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}
