@@ -1,0 +1,118 @@
+{
+  "schema_version": "engineer-osint-osint-research-batch-v1",
+  "batch_id": "v4.5.89",
+  "phase": "F",
+  "reviewed_at": "2026-09-01",
+  "publication_authorized": false,
+  "canonical_write_authorized": false,
+  "candidates": [
+    {
+      "candidate_id": "PHASE-F-0001",
+      "proposed_title": "AEV3 Kodiak armoured engineer vehicle",
+      "country_scope": ["DEU", "CHE", "SWE", "NLD", "SGP"],
+      "category": "armoured_engineer_vehicle",
+      "canonical_absence_check": {
+        "query": "Kodiak",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "a3c5ca6d6bc8bf72671e56bc0ec1c16dbc818187"
+      },
+      "claims": [
+        {
+          "claim": "Rheinmetall identifies the AEV3 Kodiak as a third-generation armoured engineer vehicle based on the Leopard 2 chassis.",
+          "evidence": "The manufacturer product page describes the AEV3/PiPz3 Kodiak as a Leopard-2-based armoured engineer vehicle and lists its engineering equipment.",
+          "source_url": "https://www.rheinmetall.com/en/products/tracked-armoured-vehicles/armoured-engineer-vehicle-kodiak",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The Kodiak combines a centrally mounted articulated excavator arm, adjustable dozer blade and flexible winch system, with mine-breaching equipment available as a kit.",
+          "evidence": "Rheinmetall's product page explicitly lists the articulated arm excavator, dozer blade, winch system and mine breakthrough kit with mine-clearance plough, signature duplicator and marking equipment.",
+          "source_url": "https://www.rheinmetall.com/en/products/tracked-armoured-vehicles/armoured-engineer-vehicle-kodiak",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate only; no canonical ID, source ID or factual append is assigned in this slice."
+    },
+    {
+      "candidate_id": "PHASE-F-0002",
+      "proposed_title": "Keiler Next Generation armoured breaching vehicle",
+      "country_scope": ["DEU"],
+      "category": "breaching_mine_clearance",
+      "canonical_absence_check": {
+        "query": "Keiler",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "a3c5ca6d6bc8bf72671e56bc0ec1c16dbc818187"
+      },
+      "claims": [
+        {
+          "claim": "Keiler Next Generation is Rheinmetall's Leopard-2-family armoured engineering breaching vehicle for tactical breaching of mine barriers.",
+          "evidence": "Rheinmetall describes Keiler NG as an Armoured Engineering Breaching Vehicle based on a Leopard 2 chassis for tactical breaching of mine barriers.",
+          "source_url": "https://www.rheinmetall.com/en/products/tracked-armoured-vehicles/armoured-breaching-vehicle-tank-keiler",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The system combines a mine plough, Plofadder rocket-assisted detonation-cord system, magnetic signature duplicator and integrated lane-marking system.",
+          "evidence": "Rheinmetall's 19 August 2024 live-demonstration release explicitly identifies these four breaching functions and reports a Pearson mine plough clearing speed up to 250 m/min and Plofadder breach dimensions of 160 m by 9 m.",
+          "source_url": "https://www.rheinmetall.com/en/media/news-watch/news/2024/08/2024-08-19-keiler-ng-demonstration",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2024-08-19",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Preserve manufacturer-stated performance figures as attributed claims if later appended; do not generalize them beyond the demonstrated configuration."
+    },
+    {
+      "candidate_id": "PHASE-F-0003",
+      "proposed_title": "M1074 Joint Assault Bridge",
+      "country_scope": ["USA"],
+      "category": "assault_bridging",
+      "canonical_absence_check": {
+        "query": "M1074",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "a3c5ca6d6bc8bf72671e56bc0ec1c16dbc818187"
+      },
+      "claims": [
+        {
+          "claim": "The U.S. Army M1074 Joint Assault Bridge provides Armored Brigade Combat Team engineer formations with a survivable heavy-assault-bridging capability.",
+          "evidence": "A U.S. Army Armor modernization publication describes JAB as a survivable, deployable and sustainable heavy-assault-bridging asset for ABCT engineer battalions.",
+          "source_url": "https://www.moore.army.mil/armor/eARMOR/content/issues/2021/Summer/3Barrera-Roberson-Johnson21.pdf",
+          "source_type": "US_ARMY_PRIMARY",
+          "source_date": "2021",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The JAB uses an Abrams-family chassis and can span an approximately 11 m gap in about three minutes.",
+          "evidence": "The same U.S. Army publication states that JAB uses a legacy M1A1 Abrams chassis with heavy suspension and a hydraulic bridge launcher, spanning an 11 m gap in about three minutes.",
+          "source_url": "https://www.moore.army.mil/armor/eARMOR/content/issues/2021/Summer/3Barrera-Roberson-Johnson21.pdf",
+          "source_type": "US_ARMY_PRIMARY",
+          "source_date": "2021",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "M1074 Joint Assault Bridge systems remain in multinational U.S. Army engineer training in Europe.",
+          "evidence": "A U.S. Army article on Exercise Verboom reports use of an M1074 Joint Assault Bridge System to overcome the final obstacle during multinational engineer training.",
+          "source_url": "https://innovation.army.mil/News/Article-View/Article/4172821/strengthening-battle-readiness-us-soldiers-participate-in-multinational-enginee/",
+          "source_type": "US_ARMY_PRIMARY",
+          "source_date": "2025",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate deliberately avoids relying on ambiguous secondary JABS descriptions; later canonicalization should preserve exact Army wording and dates."
+    }
+  ]
+}
