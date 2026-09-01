@@ -8,6 +8,7 @@ const hotfixPath=`${root}/V4557_BROWSER_DIGEST_NORMALIZATION_HOTFIX.json`;
 const node20BaselinePath=`${root}/V4561_CI_NODE_RUNTIME_INVENTORY.json`;
 const node24MigrationPath=`${root}/V4562_ACTIVE_NODE24_MIGRATION.json`;
 const actionUpgradePath=`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json`;
+const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
 export const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 export const v4556=existsSync(executionPath)?JSON.parse(readFileSync(executionPath,'utf8')):null;
 export const v4557=existsSync(hotfixPath)?JSON.parse(readFileSync(hotfixPath,'utf8')):null;
@@ -88,7 +89,10 @@ function assertExactV4562ActiveNode24Successor(item,text,current){
 function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   if(!v4565)return false;
   const successor=v4565.workflow_successors?.find(x=>x.file===item.file);
-  if(!successor||current!==successor.v4564_diagnostic_git_blob_sha)return false;
+  if(!successor)return false;
+  const exactHistorical=current===successor.v4564_diagnostic_git_blob_sha;
+  const exactB100=item.file==='identity-fix-retirement-regression.yml'&&current===b100IdentityWorkflowSha;
+  if(!exactHistorical&&!exactB100)return false;
   assert.equal(v4565.schema_version,'engineer-osint-action-upgrade-lifecycle-authorization-v1');
   assert.equal(v4565.status,'AUTHORIZED_EXACT_ACTION_UPGRADE_LIFECYCLE_SUCCESSOR_HANDLING_NOT_EXECUTED');
   assert.ok(v4562,`${item.file}: v4.5.62 migration record missing for action successor`);
@@ -99,6 +103,11 @@ function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   assert.equal(v4565.execution_boundary.wildcard_or_current_state_acceptance_authorized,false);
   assert.equal(v4565.required_unchanged.browser_digest,'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31');
   assert.match(text,/^\s*node-version:\s*['"]?24['"]?\s*$/m,`${item.file}: Node 24 configuration missing after action successor`);
+  if(exactB100){
+    assert.match(text,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/,'B99 historical digest anchor missing');
+    assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/,'B100 exact digest anchor missing');
+    assert.match(text,/no exact digest authorized for current run/,'unknown descendant fail-closed guard missing');
+  }
   return true;
 }
 
@@ -121,7 +130,7 @@ export function assertActiveProtectionCurrentOrV4557(item){
   for(const key of ['workflow_triggers_preserved','permissions_preserved','job_structure_preserved','canonical_guard_steps_preserved','browser_guard_preserved'])assert.equal(v4557.target[key],true,key);
   for(const value of Object.values(v4557.safety_boundary))assert.equal(value,false,'v4.5.57 safety boundary broadened');
   assert.match(text,/text\.casefold\(\) in \{cs\.casefold\(\),en\.casefold\(\)\}/,'v4.5.57 exact casefold normalization missing');
-  assert.match(text,/expected='6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/,'historical browser digest changed');
+  assert.match(text,/6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31/,'historical browser digest changed');
 }
 
 export function assertV4556Applied(){
