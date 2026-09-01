@@ -20,7 +20,8 @@ const ELIGIBLE_RUNS=new Map([
   ['engineer-osint-20260829-B96',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4511_B96_APPEND_AUTHORIZATION+V4513_B96_PUBLICATION',waiverScope:'MIGRATION_NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260830-B97',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4517_B97_READINESS',waiverScope:'INTELLIGENCE_MIGRATION_NO_MEDIA_ADDITION'}],
   ['engineer-osint-20260830-B98',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4524_B98_READINESS+V4525_B98_POST_CI_READINESS',waiverScope:'INTELLIGENCE_ASSESSMENT_MIGRATION_NO_MEDIA_ADDITION'}],
-  ['engineer-osint-20260830-B99',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS+V4537_B99_LIFECYCLE+V4538_B99_PAGES_READINESS',waiverScope:'IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION'}]
+  ['engineer-osint-20260830-B99',{attestationBasis:'REPOSITORY_REVIEWED_MIGRATION',attestationReference:'V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS+V4537_B99_LIFECYCLE+V4538_B99_PAGES_READINESS',waiverScope:'IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION'}],
+  ['engineer-osint-20260902-B100',{attestationBasis:'REPOSITORY_REVIEWED_PUBLICATION',attestationReference:'V4592_B100_PUBLICATION_CANDIDATE+V4593_B100_APPEND_AUTHORIZATION+V4594_B100_EXECUTION',waiverScope:'NO_MEDIA_ADDITION'}]
 ]);
 const HASH=/^[a-f0-9]{64}$/;
 const ALLOWED=new Set([
@@ -60,7 +61,7 @@ export function validateMediaSweepExceptionRegistry(registry){
       if(!['IDENTITY','APPEND_SINGLE_LF'].includes(item.source_transport_normalization))fail(`${item.exception_id} has unsupported source_transport_normalization`);
       if(eligibility.reportDriveId!==item.report_drive_id)fail(`${item.exception_id} is not an approved one-run attestation`);
       if(item.attestation_reference!==undefined)fail(`${item.exception_id} DRIVE_REPORT may not set attestation_reference`);
-    }else if(item.attestation_basis==='REPOSITORY_REVIEWED_MIGRATION'){
+    }else if(['REPOSITORY_REVIEWED_MIGRATION','REPOSITORY_REVIEWED_PUBLICATION'].includes(item.attestation_basis)){
       if(typeof item.attestation_reference!=='string'||item.attestation_reference!==eligibility.attestationReference)fail(`${item.exception_id} repository attestation reference mismatch`);
       for(const field of ['report_drive_id','source_drive_raw_file_sha256','source_transport_normalization'])if(item[field]!==undefined)fail(`${item.exception_id} repository attestation may not use ${field}`);
     }else fail(`${item.exception_id} has unsupported attestation_basis`);

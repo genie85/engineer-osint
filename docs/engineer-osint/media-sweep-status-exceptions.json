@@ -111,6 +111,21 @@
       "resolved_status": "MISSING_WAIVED_PINNED_IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION",
       "waiver_scope": "IDENTITY_FIX_MIGRATION_NO_MEDIA_ADDITION",
       "rationale": "B99 is the exact reviewed identity-fix canonical migration with explicit legacy updated_records mirror synchronization: exactly 36 correction operations (27 REPLACE_FIELD + 9 REMOVE_FIELD), one exact 18-field ENG-TECH-0036 mirror sync, NEW_MEDIA=0 and NEW_VISUALS=0, and no media payload. The candidate omitted qa.multimedia_status. This one-run attestation records no media addition without claiming a new multimedia sweep and cannot authorize B99 append, runtime removal, identity-overlay retirement, ordinary research or future runs."
+    },
+    {
+      "exception_id": "MEDIA-SWEEP-ATTEST-B100-PHASE-F-PUBLICATION",
+      "run_id": "engineer-osint-20260902-B100",
+      "parent_run_id": "engineer-osint-20260830-B99",
+      "attestation_basis": "REPOSITORY_REVIEWED_PUBLICATION",
+      "attestation_reference": "V4592_B100_PUBLICATION_CANDIDATE+V4593_B100_APPEND_AUTHORIZATION+V4594_B100_EXECUTION",
+      "repository_file_sha256": "ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92",
+      "repository_canonical_sha256": "518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141",
+      "report_text_sha256": "9a546ca26312b53a67945f2f37cd8915eddf41b1878683fc4ad076a8c0c535c2",
+      "report_snapshot_path": "data/attestations/engineer-osint-20260902-B100-media-omission.md",
+      "omitted_field": "qa.multimedia_status",
+      "resolved_status": "MISSING_WAIVED_PINNED_NO_MEDIA_ADDITION",
+      "waiver_scope": "NO_MEDIA_ADDITION",
+      "rationale": "B100 is the exact separately reviewed Phase F publication of three evidence-backed equipment records. The frozen candidate has NEW_MEDIA=0, empty media and visual payloads, and omitted qa.multimedia_status. This one-run attestation records only no media addition; it does not claim a multimedia sweep, add media, cover another run, or relax any other media gate."
     }
   ]
 }

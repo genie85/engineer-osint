@@ -14,6 +14,7 @@ const baselinePath = path.join(projectDir, 'V4561_CI_NODE_RUNTIME_INVENTORY.json
 const successorPath = path.join(projectDir, 'V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json');
 const migration = JSON.parse(fs.readFileSync(migrationPath, 'utf8'));
 const successorPolicy = JSON.parse(fs.readFileSync(successorPath, 'utf8'));
+const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
 
 function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8');
@@ -60,7 +61,7 @@ test('v4.5.62 contract covers every current workflow exactly once', () => {
   assert.equal(actual.length, 7);
 });
 
-test('v4.5.62 exact workflow history permits only the pinned v4.5.65 action successor for active workflows', () => {
+test('v4.5.62 exact workflow history permits v4.5.65 successors plus the exact B100 identity browser successor', () => {
   for (const item of migration.workflows) {
     const workflowPath = path.join(workflowsDir, item.file);
     const content = fs.readFileSync(workflowPath, 'utf8');
@@ -70,7 +71,14 @@ test('v4.5.62 exact workflow history permits only the pinned v4.5.65 action succ
       const successor = workflowSuccessors.get(item.file);
       assert.ok(successor, `${item.file}: missing exact action successor`);
       assert.equal(successor.v4562_git_blob_sha, item.git_blob_sha, `${item.file}: v4.5.62 historical anchor drift`);
-      assert.equal(currentSha, successor.v4564_diagnostic_git_blob_sha, `${item.file}: unauthorized action successor blob`);
+      if(item.file==='identity-fix-retirement-regression.yml'){
+        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha].includes(currentSha),`${item.file}: unauthorized action/B100 successor blob`);
+        if(currentSha===b100IdentityWorkflowSha){
+          assert.match(content,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
+          assert.match(content,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
+          assert.match(content,/no exact digest authorized for current run/);
+        }
+      }else assert.equal(currentSha, successor.v4564_diagnostic_git_blob_sha, `${item.file}: unauthorized action successor blob`);
       assert.deepEqual(actionUses(content), item.actions.map((ref) => substitutionMap.get(ref) || ref), `${item.file}: action successor reference drift`);
     } else {
       assert.equal(currentSha, item.git_blob_sha, `${item.file}: historical workflow blob drift`);

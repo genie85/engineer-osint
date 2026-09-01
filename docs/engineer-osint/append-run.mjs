@@ -4,7 +4,7 @@ import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
-const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99';
+const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99',guardedB100='engineer-osint-20260902-B100';
 if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write]');
 const raw=readFileSync(input,'utf8'),patch=parseJsonStrict(raw,{source:input});
 validatePatchOperations(patch);
@@ -100,6 +100,25 @@ if(write&&runId===guardedB99){
   if(patch.continuity?.identity_fix_runtime_removal_authorized!==false)throw new Error('B99 append candidate may not authorize identity-fix runtime removal');
   if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true)throw new Error('B99 append authorization is incomplete');
   if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_identity_fix_runtime_removal!==false||authorization.authorization?.allow_identity_overlay_retirement!==false||authorization.authorization?.allow_other_runtime_module_removal!==false)throw new Error('B99 append authorization scope is unsafe');
+}
+
+if(write&&runId===guardedB100){
+  const authorizationPath=join(source,'V4593_B100_APPEND_AUTHORIZATION.json');
+  const authorization=parseJsonStrict(readFileSync(authorizationPath,'utf8'),{source:'B100 append authorization'});
+  if(authorization.schema_version!=='engineer-osint-b100-append-authorization-v1')throw new Error('B100 append authorization schema mismatch');
+  if(authorization.status!=='READY_FOR_APPEND')throw new Error(`B100 append blocked by authorization status ${authorization.status}`);
+  if(authorization.required_preconditions?.v4592_exact_candidate_reviewed!==true||authorization.required_preconditions?.v4592_candidate_dry_run_green!==true||authorization.required_preconditions?.current_main_push_checks_green!==true||authorization.required_preconditions?.b99_is_current_run!==true)throw new Error('B100 append blocked: reviewed candidate/current-main evidence is incomplete');
+  if(authorization.required_preconditions?.candidate_self_authorization_must_remain_false!==true||authorization.required_preconditions?.canonical_write_performed_must_remain_false_before_execution!==true)throw new Error('B100 append blocked: pre-execution no-write boundary is incomplete');
+  if(authorization.candidate_run_id!==runId||authorization.expected_parent_run_id!==entry.parent_run_id)throw new Error('B100 append authorization identity mismatch');
+  if(authorization.expected_parent_canonical_sha256!==entry.parent_canonical_sha256)throw new Error('B100 append authorization parent canonical SHA mismatch');
+  if(authorization.exact_candidate_file_sha256!==entry.file_sha256)throw new Error('B100 append candidate file SHA differs from reviewed authorization');
+  if(authorization.expected_resulting_canonical_sha256!==entry.canonical_sha256)throw new Error('B100 append resulting canonical SHA differs from reviewed authorization');
+  if((patch.new_records||[]).length!==authorization.expected_new_record_count||(patch.sources||[]).length!==authorization.expected_new_source_count||(patch.evidence||[]).length!==authorization.expected_new_evidence_count||(patch.relations||[]).length!==authorization.expected_new_relation_count||(patch.updated_records||[]).length!==authorization.expected_updated_record_count)throw new Error('B100 append collection counts differ from reviewed authorization');
+  if(JSON.stringify((patch.new_records||[]).map(item=>item.id))!==JSON.stringify(authorization.expected_record_ids)||JSON.stringify((patch.sources||[]).map(item=>item.id))!==JSON.stringify(authorization.expected_source_ids)||JSON.stringify((patch.evidence||[]).map(item=>item.id))!==JSON.stringify(authorization.expected_evidence_ids))throw new Error('B100 append exact ID scope mismatch');
+  if(patch.continuity?.publication_write_authorized!==false||patch.continuity?.canonical_write_performed!==false)throw new Error('B100 frozen candidate self-authorization/no-write state drifted');
+  if(authorization.execution_state?.canonical_write_performed!==false||authorization.execution_state?.run_file_created!==false||authorization.execution_state?.manifest_updated!==false)throw new Error('B100 authorization artifact must remain pre-execution');
+  if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true||authorization.authorization?.execution_requires_separate_slice!==true)throw new Error('B100 append authorization is incomplete');
+  if(authorization.authorization?.allow_candidate_mutation!==false||authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_canonical_history_rewrite!==false||authorization.authorization?.allow_runtime_change!==false||authorization.authorization?.allow_workflow_change!==false||authorization.authorization?.allow_photo_or_media_change!==false)throw new Error('B100 append authorization scope is unsafe');
 }
 
 if(write){
