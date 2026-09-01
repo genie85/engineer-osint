@@ -10,7 +10,7 @@ const appendRunPath='docs/engineer-osint/append-run.mjs';
 const raw=readFileSync(candidatePath,'utf8');
 const candidate=JSON.parse(raw);
 const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
-const appendRun=readFileSync(appendRunPath,'utf8');
+const appendRunRaw=readFileSync(appendRunPath,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 
 test('v4.5.93 pins the exact frozen B100 candidate and deterministic canonical successor',()=>{
@@ -42,21 +42,21 @@ test('v4.5.93 authorization is exact-scope and remains pre-execution',()=>{
   assert.equal((candidate.relations||[]).length,authorization.expected_new_relation_count);
   assert.equal((candidate.updated_records||[]).length,authorization.expected_updated_record_count);
   assert.equal(authorization.authorization.append_exact_candidate_only,true);
+  assert.equal(authorization.authorization.install_exact_append_run_guard_successor,true);
   assert.equal(authorization.authorization.standard_append_run_write_required,true);
   assert.equal(authorization.authorization.one_run_only,true);
   assert.equal(authorization.authorization.isolated_review_branch_required,true);
   assert.equal(authorization.authorization.execution_requires_separate_slice,true);
   for(const key of ['allow_candidate_mutation','allow_manual_manifest_or_hash_edit','allow_future_run_same_slice','allow_canonical_history_rewrite','allow_runtime_change','allow_workflow_change','allow_photo_or_media_change']) assert.equal(authorization.authorization[key],false,key);
-  assert.deepEqual(authorization.execution_state,{canonical_write_performed:false,run_file_created:false,manifest_updated:false});
+  assert.deepEqual(authorization.execution_state,{append_run_successor_installed:false,canonical_write_performed:false,run_file_created:false,manifest_updated:false});
   assert.equal(existsSync('docs/engineer-osint/data/runs/engineer-osint-20260902-B100.json'),false);
 });
 
-test('standard append helper fail-closes B100 write behind exact authorization',()=>{
-  assert.match(appendRun,/guardedB100='engineer-osint-20260902-B100'/);
-  assert.match(appendRun,/V4593_B100_APPEND_AUTHORIZATION\.json/);
-  assert.match(appendRun,/B100 append candidate file SHA differs from reviewed authorization/);
-  assert.match(appendRun,/B100 append resulting canonical SHA differs from reviewed authorization/);
-  assert.match(appendRun,/B100 append exact ID scope mismatch/);
-  assert.match(appendRun,/B100 frozen candidate self-authorization\/no-write state drifted/);
-  assert.match(appendRun,/B100 authorization artifact must remain pre-execution/);
+test('v4.5.93 leaves append-run unchanged and pins the exact execution successor',()=>{
+  assert.equal(gitBlobSha(appendRunRaw),authorization.protected_baseline.append_run_blob_sha);
+  assert.equal(authorization.protected_baseline.append_run_blob_sha,'de2ead86f0d5967c6bf1db96915b6f1fbd996090');
+  assert.equal(authorization.expected_append_run_successor_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
+  assert.equal(authorization.expected_append_run_successor_derivation_commit,'b2cf78a47bdd5c6388a906a387191fc5ab8e42b4');
+  assert.notEqual(authorization.expected_append_run_successor_blob_sha,authorization.protected_baseline.append_run_blob_sha);
+  assert.equal(authorization.required_preconditions.authorization_stage_append_run_must_remain_baseline,true);
 });
