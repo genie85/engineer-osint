@@ -1,54 +1,42 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-01T09:29:31+02:00",
-  "observed_main_sha": "6f1b36ba60b258e42b193935248439c6f6d44fb2",
-  "current_phase": "B_CI_MODERNIZATION",
-  "current_task": "v4.5.66: authorization-only correction for the v4.5.65 authorization test so a future execution may validate only exact authorized successor blobs without wildcard/current-state acceptance.",
-  "active_pr": null,
-  "active_branch": "chatgpt/engineer-osint-v4566-self-successor-authorization",
+  "updated_at": "2026-09-01T10:31:00+02:00",
+  "observed_main_sha": "d5996625ba7ca3f9f16143119edf3dd0f34d52ce",
+  "current_phase": "E_PHOTO_COVERAGE",
+  "current_task": "v4.5.68: establish a deterministic baseline for local photo coverage of public ENG-TECH cards without treating remote visuals or unreviewed gaps as redistributable local photos.",
+  "active_pr": 289,
+  "active_branch": "chatgpt/engineer-osint-v4568-photo-baseline",
   "observed_pr_head": null,
-  "last_completed_task": "v4.5.65 merged as 6f1b36ba60b258e42b193935248439c6f6d44fb2. Its exact four-test successor authorization is valid, but pre-execution review found its own v4.5.65 authorization test would fail after execution and is outside the authorized mutation scope.",
-  "next_recommended_task": "After this authorization is exact-head green and merged, execute the Node 24 Action successor slice using v4.5.63 + v4.5.65 + v4.5.66 only: five workflow action upgrades, four previously authorized lifecycle tests, and the single v4.5.65 self-successor test.",
+  "last_completed_task": "v4.5.67 merged on main as d5996625ba7ca3f9f16143119edf3dd0f34d52ce, completing the authorized Node 24 Action successor execution.",
+  "next_recommended_task": "After v4.5.68 exact-head CI and merge/post-merge gates pass, use the measured unassessed ENG-TECH backlog to research and add the first small batch of legally redistributable local photos with provenance and attribution metadata.",
   "blockers": [],
   "expected_ci_surface": {
     "pull_request": [
-      "ENGINEER OSINT runtime audit snapshot",
       "Deploy ENGINEER OSINT to GitHub Pages",
+      "ENGINEER OSINT runtime audit snapshot",
       "ENGINEER OSINT first-three overlay retirement regression",
       "ENGINEER OSINT final identity-fix retirement regression"
     ],
-    "i18n_specialist_expected": false,
-    "reason": "Authorization/test/checkpoint-only slice; no i18n specialist path is changed."
+    "reason": "All changed files are under docs/engineer-osint/**; historical authorization/readiness workflows remain manual-only and i18n-switch regression has narrower trigger paths."
   },
   "photo_total_cards": null,
   "photo_cards_with_local_image": null,
   "photo_cards_missing_image": null,
+  "photo_license_blocked": null,
+  "photo_not_found": null,
   "photo_coverage_percent": null,
-  "photo_inventory_status": "PENDING_BASELINE_AUDIT",
-  "workflow_inventory": {
-    "status": "V4565_ACTION_UPGRADE_AUTHORIZED_V4566_SELF_SUCCESSOR_AUTHORIZATION_IN_PROGRESS",
-    "total": 7,
-    "active_production_protection": 5,
-    "historical_evidence_keep": 2,
-    "configured_node20_workflows": 2,
-    "configured_node24_workflows": 5,
-    "active_action_node20_warning_debt": "EXECUTION_WAITING_FOR_EXACT_V4565_TEST_SELF_SUCCESSOR_AUTHORIZATION"
-  },
+  "photo_inventory_status": "BASELINE_AUDIT_IMPLEMENTED_PENDING_EXACT_HEAD_CI",
   "ci_status": {
-    "production_main_sha": "6f1b36ba60b258e42b193935248439c6f6d44fb2",
+    "production_main_sha": "d5996625ba7ca3f9f16143119edf3dd0f34d52ce",
     "production_push_workflows_failed": 0,
     "production_push_workflows_running": 0,
-    "active_pr": null,
-    "active_pr_ci": "PENDING_PR_CREATION"
+    "active_pr": 289,
+    "active_pr_ci": "PENDING_EXACT_HEAD_READBACK"
   },
   "production_invariants": {
-    "active_legacy_factual_overlays": 0,
-    "active_legacy_baseline_modules": 0,
-    "identity_fix_runtime_retired": true,
-    "identity_fix_historical_source_retained": true,
-    "transition_guard_retained": true,
-    "b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
-    "b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
-    "retired_browser_dom_sha256": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+    "canonical_data_write_in_slice": false,
+    "append_only_run_write_in_slice": false,
+    "workflow_write_in_slice": false,
+    "runtime_write_in_slice": false
   }
 }

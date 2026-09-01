@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "interpretation": "Only confirmed terminal photo-search dispositions belong here. Missing entries are UNASSESSED and must not be counted as LICENSE_BLOCKED or NOT_FOUND.",
+  "allowed_statuses": ["LICENSE_BLOCKED", "NOT_FOUND"],
+  "entries": []
+}
