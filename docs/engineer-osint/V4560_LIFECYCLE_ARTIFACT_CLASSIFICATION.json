@@ -1,0 +1,52 @@
+{
+  "schema_version": "engineer-osint-lifecycle-artifact-classification-v1",
+  "version": "4.5.60",
+  "status": "READ_ONLY_CLASSIFICATION_NO_DELETION_AUTHORIZED",
+  "reviewed_main_sha": "c671147e32ee5653d92552587dcf6c6c7d00e0bf",
+  "roadmap_phase": "A_POST_V4546_CONSOLIDATION",
+  "scope": {
+    "artifact": "docs/engineer-osint/V4534_IDENTITY_MIRROR_PARITY_READINESS.json",
+    "artifact_git_blob_sha": "7c58eb440b51cac044ce9933af194c6b52ced8c6",
+    "classification": "HISTORICAL_EVIDENCE_NOT_ACTIVE_CONTRACT",
+    "action": "RETAIN_UNCHANGED"
+  },
+  "evidence": {
+    "original_status": "READ_ONLY_MIRROR_PARITY_REVIEW",
+    "original_candidate_run_id": "engineer-osint-20260830-B99",
+    "original_exact_candidate_file_sha256": "d58c874f5846f53f5eaa610f35d452b165282cf3f495cb8c7013cd392105e411",
+    "original_expected_resulting_canonical_sha256": "029b533d88846cb4e14137dffe563771b5ad204e1df77568d64e20ee0f529cef",
+    "original_expected_data_diff_after_exact_mirror_sync": 0,
+    "original_browser_parity_required": true,
+    "original_canonical_write_performed": false,
+    "original_b99_append_authorized": false,
+    "original_legacy_mirror_sync_persisted": false,
+    "original_identity_fix_runtime_removal_authorized": false,
+    "v4536_status": "EXACT_SYNCED_CANDIDATE_PINNED_NO_WRITE",
+    "v4536_exact_candidate_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "v4536_expected_resulting_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30",
+    "v4536_expected_legacy_mirror_mutations_after": 0,
+    "v4536_expected_canonical_overlay_mutations_after": 0,
+    "superseded_by_later_lifecycle": [
+      "docs/engineer-osint/V4536_B99_MIRROR_SYNC_CANDIDATE_READINESS.json",
+      "docs/engineer-osint/V4537_B99_LIFECYCLE.json",
+      "docs/engineer-osint/V4540_B99_APPEND_AUTHORIZATION.json",
+      "docs/engineer-osint/V4546_IDENTITY_FIX_RETIREMENT.json"
+    ],
+    "current_production_identity_fix_runtime_retired": true,
+    "current_active_legacy_factual_overlays": 0,
+    "current_b99_file_sha256": "ff4aec190cd5db28bca9a70ed7099183770610dff97820aa9d1facd5e384c2ab",
+    "current_b99_canonical_sha256": "754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30"
+  },
+  "decision": {
+    "is_active_runtime_or_ci_contract": false,
+    "is_historical_evidence": true,
+    "delete_file_authorized": false,
+    "modify_historical_payload_authorized": false,
+    "canonical_write_authorized": false,
+    "append_only_run_write_authorized": false,
+    "runtime_change_authorized": false,
+    "workflow_change_authorized": false
+  },
+  "rationale": "V4534 is a read-only mirror parity review for the intermediate B99 candidate and explicitly records that no canonical write, append authorization, persisted mirror sync, or runtime retirement occurred. V4536 later pins the exact mirror-synced B99 candidate with zero expected legacy-mirror and canonical-overlay mutations and replaces the intermediate candidate/canonical hashes with the values later carried through the B99 lifecycle. V4534 is therefore retained byte-for-byte as historical evidence, not treated as an active lifecycle contract.",
+  "next_recommended_slice": "Classify one additional superseded readiness/candidate artifact only after proving its historical role from later pinned lifecycle evidence; do not delete or mutate B96-B99 history."
+}
