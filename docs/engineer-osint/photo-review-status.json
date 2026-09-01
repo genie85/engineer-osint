@@ -1,6 +1,49 @@
 {
-  "schema_version": 1,
-  "interpretation": "Only confirmed terminal photo-search dispositions belong here. Missing entries are UNASSESSED and must not be counted as LICENSE_BLOCKED or NOT_FOUND.",
-  "allowed_statuses": ["LICENSE_BLOCKED", "NOT_FOUND"],
-  "entries": []
+  "schema_version": 2,
+  "interpretation": "Photo review lifecycle registry for ENG-TECH cards. Entries may record researched intermediate states; LICENSE_BLOCKED and NOT_FOUND require explicit evidence. READY_FOR_IMPORT means source, redistribution license and depicted-system identity were reviewed, but no repository-local asset is claimed until binary acquisition, optimization and SHA-256 are complete.",
+  "allowed_statuses": [
+    "SOURCE_FOUND",
+    "LICENSE_VERIFIED",
+    "IDENTITY_VERIFIED",
+    "READY_FOR_IMPORT",
+    "LICENSE_BLOCKED",
+    "NOT_FOUND",
+    "LOCAL_IMAGE"
+  ],
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0028",
+      "system_name": "AM-50",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.69",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Mostn%C3%AD_automobil_AM-50_pic2.JPG",
+      "source_title": "Mostní automobil AM-50 pic2.JPG",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Alf van Beem",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_requirement": "None required by CC0; retain provenance metadata in ENGINEER OSINT.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted vehicle as 'Mostní automobil AM-50'; the file is categorized under AM-50.",
+      "license_evidence": "The Wikimedia Commons file page states this is the uploader's own work and is dedicated under Creative Commons CC0 1.0.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
+    },
+    {
+      "card_id": "ENG-TECH-0029",
+      "system_name": "MT-55A",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.69",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:MT-55A_VS2.jpg",
+      "source_title": "MT-55A VS2.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Srđan Popović",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Srđan Popović, link the CC BY-SA 4.0 license, and indicate modifications; adaptations must remain under CC BY-SA 4.0 or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies a Serbian Army MT-55A bridgelayer tank; Commons categorizes the file under MT-55A in Serbian service.",
+      "license_evidence": "The Wikimedia Commons file page identifies the work as the uploader's own work and licenses it under CC BY-SA 4.0.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
+    }
+  ]
 }
