@@ -1,0 +1,109 @@
+{
+  "schema_version": "engineer-osint-osint-research-batch-v1",
+  "batch_id": "v4.5.91",
+  "phase": "F",
+  "reviewed_at": "2026-09-01",
+  "publication_authorized": false,
+  "canonical_write_authorized": false,
+  "candidates": [
+    {
+      "candidate_id": "PHASE-F-0007",
+      "proposed_title": "LEGUAN bridge-laying system",
+      "country_scope": ["DEU", "NATO"],
+      "category": "assault_bridging",
+      "canonical_absence_check": {
+        "query": "LEGUAN",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "f1ce73d97b20beff97688f3987f6787fe6319b54"
+      },
+      "claims": [
+        {
+          "claim": "KNDS describes LEGUAN as a modular bridge-laying system for rapid crossing of movement-obstructing infrastructure on tracked or wheeled carrier platforms.",
+          "evidence": "The current KNDS bridge portfolio identifies LEGUAN as its highly mobile bridge-layer and states that the 26 m bridge can be laid in less than five minutes.",
+          "source_url": "https://knds.com/en/products/bridges",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The Leopard 2-based LEGUAN can carry and lay one 26 m MLC 80 bridge or alternatively two 14 m bridges.",
+          "evidence": "KNDS' 27 October 2021 Norwegian roll-out release explicitly states the one-26-metre or two-14-metre bridge options and identifies the 26 m bridge as MLC 80.",
+          "source_url": "https://knds.com/en/press-releases/roll-out-of-the-first-norwegian-leopard-2-bridge-layer-leguan-at-kmw",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2021-10-27",
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate only; later canonicalization should separate the LEGUAN bridge family from any specific carrier-platform configuration."
+    },
+    {
+      "candidate_id": "PHASE-F-0008",
+      "proposed_title": "Dry Support Bridge (DSB)",
+      "country_scope": ["GBR", "USA", "CHE", "AUS", "TUR", "PHL"],
+      "category": "support_bridging",
+      "canonical_absence_check": {
+        "query": "Dry Support Bridge",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "f1ce73d97b20beff97688f3987f6787fe6319b54"
+      },
+      "claims": [
+        {
+          "claim": "KNDS describes the Dry Support Bridge as a rapidly deployable tactical bridge that can span a 46 m wet or dry gap with an eight-person crew and one launch vehicle in less than 90 minutes.",
+          "evidence": "The current KNDS DSB product page explicitly gives the 46 m span, eight-soldier crew, single launch vehicle and sub-90-minute deployment figures.",
+          "source_url": "https://knds.com/en/products/systems/bridges/dry-support-bridge-dsb",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The DSB is rated up to MLC 120 and is intended primarily for main supply routes and secondarily to sustain momentum where gaps exceed assault-bridge capability.",
+          "evidence": "KNDS states an MLC 120 rating and describes the primary mission as emplacement on main supply routes, with a secondary role supporting attack momentum across wet and dry gaps beyond assault bridging assets.",
+          "source_url": "https://knds.com/en/products/systems/bridges/dry-support-bridge-dsb",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate preserves manufacturer-stated load and deployment figures as attributed claims rather than universal performance guarantees."
+    },
+    {
+      "candidate_id": "PHASE-F-0009",
+      "proposed_title": "BOXER Bridgelayer",
+      "country_scope": ["DEU"],
+      "category": "assault_bridging",
+      "canonical_absence_check": {
+        "query": "BOXER Bridgelayer",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "f1ce73d97b20beff97688f3987f6787fe6319b54"
+      },
+      "claims": [
+        {
+          "claim": "KNDS positions the BOXER Bridgelayer as an organic gap-crossing system for medium forces using a fully automatic bridge-laying mission module.",
+          "evidence": "The current KNDS product page states that the BOXER bridgelayer is intended to increase the freedom of movement of medium forces and uses a fully automatic bridgelayer mission module.",
+          "source_url": "https://knds.com/en/products/systems/boxer/boxer-bridgelayer",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "The BOXER Bridgelayer can handle a 22 m MLC 50 TEJU bridge, two 12 m MLC 50 TEJU bridges, or a 14 m MLC 100 LEGUAN bridge without technical adjustment to the laying module.",
+          "evidence": "KNDS lists these three bridge configurations and states that all can be launched and recovered by the same bridge-laying module without technical adjustments.",
+          "source_url": "https://knds.com/en/products/systems/boxer/boxer-bridgelayer",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-01",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Candidate only; later canonicalization should preserve the distinction between the BOXER carrier/module and the compatible TEJU or LEGUAN bridge types."
+    }
+  ]
+}
