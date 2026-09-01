@@ -21,7 +21,7 @@ function gitBlobSha(content) {
 }
 
 function actionUses(content) {
-  return [...content.matchAll(/^\s*uses:\s*([^\s#]+)\s*$/gm)].map((match) => match[1]);
+  return [...content.matchAll(/\buses:\s*([^\s,}\]#]+)/g)].map((match) => match[1]);
 }
 
 function configuredNodeMajor(content) {
