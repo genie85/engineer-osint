@@ -98,6 +98,23 @@
       "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
     },
     {
+      "card_id": "ENG-TECH-0022",
+      "system_name": "KUNDUZ / Armoured Amphibious Combat Earthmover (AACE)",
+      "status": "READY_FOR_IMPORT",
+      "review_batch": "v4.5.78",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:FNSS_Kunduz.png",
+      "source_title": "FNSS Kunduz.png",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Muzo 573",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Muzo 573, link the CC BY-SA 4.0 license, indicate modifications, and distribute adaptations under CC BY-SA 4.0 or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted system as FNSS Kunduz. The official FNSS product page identifies AACE as the Armoured Amphibious Combat Earthmover, while current FNSS catalogue imagery labels the same AACE vehicle 'FNSS | KUNDUZ'. The current ENGINEER OSINT canonical visual ENG-VIS-0048 likewise links ENG-TECH-0022 to an FNSS KUNDUZ manufacturer image.",
+      "license_evidence": "The Wikimedia Commons file page states that uploader Muzo 573 created FNSS Kunduz.png as own work and publishes it under Creative Commons Attribution-ShareAlike 4.0 International.",
+      "reviewed_at": "2026-09-01",
+      "import_blocker": "Repository-local binary acquisition, web optimization and SHA-256 have not yet been completed; no LOCAL_IMAGE claim is made."
+    },
+    {
       "card_id": "ENG-TECH-0028",
       "system_name": "AM-50",
       "status": "READY_FOR_IMPORT",
