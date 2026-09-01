@@ -1,0 +1,44 @@
+{
+  "schema_version": "engineer-osint-self-successor-authorization-v1",
+  "version": "v4.5.66",
+  "status": "AUTHORIZED_EXACT_V4565_TEST_SELF_SUCCESSOR_NOT_EXECUTED",
+  "reviewed_main_sha": "6f1b36ba60b258e42b193935248439c6f6d44fb2",
+  "v4565_policy": {
+    "file": "docs/engineer-osint/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json",
+    "git_blob_sha": "1a04438e8a8541adc0ea426ee2d7c623446e9244"
+  },
+  "authorized_test": {
+    "file": "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+    "historical_git_blob_sha": "bcc84c5536420fcc1be2b6fcf9060cca851e09b4",
+    "allowed_change": "Allow this exact v4.5.65 authorization test to validate either the immutable authorization baseline or only the exact v4.5.65-authorized successor workflow blobs and exact successor blobs of the four v4.5.65-authorized lifecycle tests; retain all historical assertions and forbid wildcard/current-state acceptance."
+  },
+  "required_unchanged": {
+    "v4565_policy": true,
+    "v4563_policy": true,
+    "workflow_triggers": true,
+    "workflow_permissions": true,
+    "workflow_jobs_and_shell_commands": true,
+    "project_node_major_24": true,
+    "historical_manual_only_workflows": true,
+    "canonical_data": true,
+    "append_only_runs": true,
+    "run_store_manifest": true,
+    "runtime_modules": true,
+    "ui": true,
+    "browser_digest": "6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31"
+  },
+  "execution_boundary": {
+    "v4565_test_self_successor_change_authorized": true,
+    "other_test_file_change_authorized": false,
+    "historical_policy_edit_authorized": false,
+    "canonical_write_authorized": false,
+    "append_only_write_authorized": false,
+    "runtime_change_authorized": false,
+    "ui_change_authorized": false,
+    "browser_digest_change_authorized": false,
+    "trigger_change_authorized": false,
+    "permissions_change_authorized": false,
+    "job_or_command_change_authorized": false,
+    "wildcard_or_current_state_acceptance_authorized": false
+  }
+}
