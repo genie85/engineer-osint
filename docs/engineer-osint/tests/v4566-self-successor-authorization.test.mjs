@@ -8,6 +8,7 @@ const policy=JSON.parse(readFileSync(`${root}/V4566_SELF_SUCCESSOR_AUTHORIZATION
 const v4565Text=readFileSync(`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json`,'utf8');
 const v4565TestText=readFileSync(`${root}/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const exactV4565TestSuccessor='4fc6897e808c3d7209ff90127b833b2fd666a864';
 
 test('v4.5.66 is authorization-only and pinned to exact v4.5.65 main',()=>{
   assert.equal(policy.schema_version,'engineer-osint-self-successor-authorization-v1');
@@ -16,11 +17,25 @@ test('v4.5.66 is authorization-only and pinned to exact v4.5.65 main',()=>{
   assert.equal(policy.reviewed_main_sha,'6f1b36ba60b258e42b193935248439c6f6d44fb2');
 });
 
-test('v4.5.66 pins immutable v4.5.65 policy and exact current v4.5.65 test',()=>{
+test('v4.5.66 pins immutable v4.5.65 policy and only baseline or exact authorized v4.5.65 test successor',()=>{
   assert.equal(policy.v4565_policy.git_blob_sha,'1a04438e8a8541adc0ea426ee2d7c623446e9244');
   assert.equal(gitBlobSha(v4565Text),policy.v4565_policy.git_blob_sha);
   assert.equal(policy.authorized_test.historical_git_blob_sha,'bcc84c5536420fcc1be2b6fcf9060cca851e09b4');
-  assert.equal(gitBlobSha(v4565TestText),policy.authorized_test.historical_git_blob_sha);
+  const current=gitBlobSha(v4565TestText);
+  assert.ok(current===policy.authorized_test.historical_git_blob_sha||current===exactV4565TestSuccessor,'v4.5.65 test is neither immutable baseline nor exact authorized successor');
+  if(current===exactV4565TestSuccessor){
+    for(const sha of [
+      '3149bc399f3e6e8faa4ee26d372c64cfe61cfe36',
+      '238303bc0e6db4f1371a0f65f036f28a174a58cd',
+      '1f7770c3a7c1c7b912505012814841d1d06def1d',
+      'ee0132955b4a74c939ef3e57487b44b891dd90e3',
+      'a0a1586824981f3154c78e24656d3cd19e1d7609',
+      'c616f37d870b93b428f652a284a3dc5de13df609',
+      '6b93ce6ffe25b74a661f2326f20adb11d31a19f7',
+      '47102c7d9481beaeedbdf03532ffaad72675af43',
+      '9cffd58764aa5ed02aa11dcbe7745772077f06c7'
+    ])assert.match(v4565TestText,new RegExp(sha),`exact v4.5.65 successor evidence missing ${sha}`);
+  }
 });
 
 test('v4.5.66 authorizes only one self-successor test and no broader mutation',()=>{

@@ -7,11 +7,13 @@ const executionPath=`${root}/V4556_HISTORICAL_MANUAL_ONLY_EXECUTION.json`;
 const hotfixPath=`${root}/V4557_BROWSER_DIGEST_NORMALIZATION_HOTFIX.json`;
 const node20BaselinePath=`${root}/V4561_CI_NODE_RUNTIME_INVENTORY.json`;
 const node24MigrationPath=`${root}/V4562_ACTIVE_NODE24_MIGRATION.json`;
+const actionUpgradePath=`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json`;
 export const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 export const v4556=existsSync(executionPath)?JSON.parse(readFileSync(executionPath,'utf8')):null;
 export const v4557=existsSync(hotfixPath)?JSON.parse(readFileSync(hotfixPath,'utf8')):null;
 export const v4561=existsSync(node20BaselinePath)?JSON.parse(readFileSync(node20BaselinePath,'utf8')):null;
 export const v4562=existsSync(node24MigrationPath)?JSON.parse(readFileSync(node24MigrationPath,'utf8')):null;
+export const v4565=existsSync(actionUpgradePath)?JSON.parse(readFileSync(actionUpgradePath,'utf8')):null;
 
 export function assertHistoricalWorkflowCurrentOrV4556(item){
   const path=`.github/workflows/${item.file}`;
@@ -83,11 +85,29 @@ function assertExactV4562ActiveNode24Successor(item,text,current){
   return true;
 }
 
+function assertExactV4565ActionUpgradeSuccessor(item,text,current){
+  if(!v4565)return false;
+  const successor=v4565.workflow_successors?.find(x=>x.file===item.file);
+  if(!successor||current!==successor.v4564_diagnostic_git_blob_sha)return false;
+  assert.equal(v4565.schema_version,'engineer-osint-action-upgrade-lifecycle-authorization-v1');
+  assert.equal(v4565.status,'AUTHORIZED_EXACT_ACTION_UPGRADE_LIFECYCLE_SUCCESSOR_HANDLING_NOT_EXECUTED');
+  assert.ok(v4562,`${item.file}: v4.5.62 migration record missing for action successor`);
+  const node24=v4562.workflows?.find(x=>x.file===item.file);
+  assert.ok(node24,`${item.file}: missing v4.5.62 active workflow anchor`);
+  assert.equal(successor.v4562_git_blob_sha,node24.git_blob_sha,`${item.file}: v4.5.65 predecessor anchor drift`);
+  assert.equal(node24.configured_node_major,24,`${item.file}: action successor does not preserve Node 24`);
+  assert.equal(v4565.execution_boundary.wildcard_or_current_state_acceptance_authorized,false);
+  assert.equal(v4565.required_unchanged.browser_digest,'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31');
+  assert.match(text,/^\s*node-version:\s*['"]?24['"]?\s*$/m,`${item.file}: Node 24 configuration missing after action successor`);
+  return true;
+}
+
 export function assertActiveProtectionCurrentOrV4557(item){
   const path=`.github/workflows/${item.file}`;
   const text=readFileSync(path,'utf8');
   const current=gitBlobSha(text);
   if(current===item.git_blob_sha)return;
+  if(assertExactV4565ActionUpgradeSuccessor(item,text,current))return;
   if(assertExactV4562ActiveNode24Successor(item,text,current))return;
   assert.equal(item.file,'identity-fix-retirement-regression.yml',`${item.file}: non-target active protection drift`);
   assert.ok(v4557,'identity-fix-retirement-regression.yml: unexpected drift without v4.5.57 hotfix record');
