@@ -1,0 +1,92 @@
+name: ENGINEER OSINT authorized canonical executor
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'docs/engineer-osint/canonical-execution-requests/*.json'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: engineer-osint-authorized-canonical-executor-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  execute-authorized-canonical-request:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref != 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout isolated same-repository PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh authoritative main
+        run: git fetch --no-tags origin main
+
+      - name: Select exactly one execution request
+        id: request
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          mapfile -t requests < <(git diff --name-only "${BASE_SHA}...HEAD" | grep -E '^docs/engineer-osint/canonical-execution-requests/[^/]+\.json$' || true)
+          if [ "${#requests[@]}" -ne 1 ]; then
+            printf 'Expected exactly one canonical execution request; found %s\n' "${#requests[@]}" >&2
+            exit 1
+          fi
+          printf 'path=%s\n' "${requests[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate persistent state before execution
+        run: |
+          node --test docs/engineer-osint/tests/*.test.mjs
+          node docs/engineer-osint/validate-patch.mjs
+
+      - name: Execute or verify exact authorized request
+        env:
+          ENGINEER_OSINT_REPOSITORY: ${{ github.repository }}
+          ENGINEER_OSINT_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          ENGINEER_OSINT_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          ENGINEER_OSINT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node docs/engineer-osint/authorized-canonical-executor.mjs "${{ steps.request.outputs.path }}"
+
+      - name: Validate post-execution canonical state
+        run: |
+          node --test docs/engineer-osint/tests/*.test.mjs
+          node docs/engineer-osint/validate-patch.mjs
+          node docs/engineer-osint/build-pages.mjs
+
+      - name: Commit executor outputs only to PR head
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo 'No executor changes to commit; request was verification-only.'
+            exit 0
+          fi
+          git config user.name 'ENGINEER OSINT canonical executor'
+          git config user.email 'actions@users.noreply.github.com'
+          git add docs/engineer-osint/data/run-store-manifest.json \
+                  docs/engineer-osint/data/runs \
+                  docs/engineer-osint/photo-review-status.json \
+                  docs/engineer-osint/canonical-execution-requests
+          if git diff --cached --quiet; then
+            echo 'Executor produced no authorized staged changes.' >&2
+            exit 1
+          fi
+          git commit -m 'canonical: execute reviewed ENGINEER OSINT request'
+          git push origin "HEAD:${HEAD_REF}"
