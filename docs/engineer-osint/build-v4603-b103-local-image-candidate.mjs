@@ -42,10 +42,11 @@ for(const acquisition of selected){
   for(const field of ['origin_url','author_rightsholder','license','license_url','identity_evidence','license_evidence']){
     if(String(review[field]||'')!==String(acquisition[field]||''))throw new Error(`${acquisition.card_id} provenance drift in ${field}`);
   }
+  if(!/^[a-f0-9]{64}$/.test(acquisition.local_sha256||''))throw new Error(`${acquisition.card_id} acquisition manifest has invalid local_sha256`);
   const filePath=join(ROOT,acquisition.local_image_path);
   if(!existsSync(filePath))throw new Error(`${acquisition.card_id} local file missing: ${acquisition.local_image_path}`);
   const bytes=readFileSync(filePath),actualSha=sha256Buffer(bytes);
-  if(actualSha!==acquisition.sha256)throw new Error(`${acquisition.card_id} local SHA-256 mismatch`);
+  if(actualSha!==acquisition.local_sha256)throw new Error(`${acquisition.card_id} transformed local WebP SHA-256 mismatch`);
   const record=records.find(item=>item.id===acquisition.card_id);
   if(!record)throw new Error(`${acquisition.card_id} canonical record missing`);
   const visualId=`ENG-VIS-LOCAL-${acquisition.card_id.slice('ENG-TECH-'.length)}`;
@@ -60,7 +61,8 @@ for(const acquisition of selected){
     title:`${acquisition.system_name} — repository-local licensed image`,
     related_ids:[acquisition.card_id],
     local_image_path:acquisition.local_image_path,
-    sha256:acquisition.sha256,
+    sha256:acquisition.local_sha256,
+    source_sha256:acquisition.source_sha256,
     origin_url:acquisition.origin_url,
     source_title:acquisition.source_title,
     source_type:acquisition.source_type,
@@ -72,19 +74,21 @@ for(const acquisition of selected){
     license_evidence:acquisition.license_evidence,
     reviewed_at:review.reviewed_at,
     acquired_at:acquisition.acquired_at,
+    modifications:acquisition.modifications,
     verification_status:'LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED'
   });
   const successor=successorById.get(acquisition.card_id);
   successor.status='LOCAL_IMAGE';
   successor.acquired_at=acquisition.acquired_at;
   successor.local_image_path=acquisition.local_image_path;
-  successor.sha256=acquisition.sha256;
+  successor.sha256=acquisition.local_sha256;
   successor.local_acquisition_batch=acquisitions.batch;
   delete successor.import_blocker;
   localFiles.push({
     card_id:acquisition.card_id,
     local_image_path:acquisition.local_image_path,
-    sha256:acquisition.sha256,
+    local_sha256:acquisition.local_sha256,
+    source_sha256:acquisition.source_sha256,
     git_blob_sha:execFileSync('git',['hash-object',filePath],{encoding:'utf8'}).trim()
   });
 }
