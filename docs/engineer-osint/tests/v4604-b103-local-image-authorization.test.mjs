@@ -16,12 +16,24 @@ const auth = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const readiness = json('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json');
 const candidate = json('osint-publication-candidates/v4603-b103-local-images.json');
 const manifest = json('data/run-store-manifest.json');
+const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 
 const expectedCards = [
   'ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0005','ENG-TECH-0006','ENG-TECH-0016',
   'ENG-TECH-0017','ENG-TECH-0022','ENG-TECH-0028','ENG-TECH-0029'
 ];
 const expectedVisuals = expectedCards.map((id) => `ENG-VIS-LOCAL-${id.slice(-4)}`);
+const currentHead=()=>manifest.runs.at(-1);
+const assertExactLifecycleHead=()=>{
+  const current=currentHead();
+  if(current.run_id==='engineer-osint-20260902-B102'){
+    assert.equal(current.canonical_sha256,auth.expected_parent_canonical_sha256);
+    return 'PRE_EXECUTION';
+  }
+  assert.equal(current.run_id,auth.candidate_run_id,'canonical head is outside exact B102→B103 lifecycle');
+  assert.equal(current.canonical_sha256,auth.expected_resulting_canonical_sha256);
+  return 'POST_EXECUTION';
+};
 
 test('v4.6.04 authorization pins the exact B103 local-image candidate and canonical successor', () => {
   assert.equal(auth.schema_version, 'engineer-osint-b103-local-image-append-authorization-v1');
@@ -54,13 +66,20 @@ test('v4.6.04 authorization pins the exact B103 local-image candidate and canoni
   assert.deepEqual(readiness.expected_visual_ids, expectedVisuals);
 });
 
-test('v4.6.04 authorization pins the exact photo lifecycle successor and acquisition provenance', () => {
+test('v4.6.04 authorization pins the exact photo lifecycle predecessor and successor', () => {
   const sourceStatus = read('photo-review-status.json');
   const successor = read('photo-review-candidates/v4603-b103-local-image-status.json');
   const acquisition = read('photo-local-acquisitions/v4601-ready-for-import.json');
+  const phase=assertExactLifecycleHead();
 
-  assert.equal(sha256(sourceStatus), auth.photo_review_status_successor.source_sha256);
-  assert.equal(gitBlobSha(sourceStatus), auth.photo_review_status_successor.source_git_blob_sha);
+  if(phase==='PRE_EXECUTION'){
+    assert.equal(sha256(sourceStatus), auth.photo_review_status_successor.source_sha256);
+    assert.equal(gitBlobSha(sourceStatus), auth.photo_review_status_successor.source_git_blob_sha);
+  } else {
+    assert.equal(sourceStatus.toString('utf8'),successor.toString('utf8'));
+    assert.equal(sha256(sourceStatus), auth.photo_review_status_successor.successor_sha256);
+    assert.equal(gitBlobSha(sourceStatus), auth.photo_review_status_successor.successor_git_blob_sha);
+  }
   assert.equal(sha256(successor), auth.photo_review_status_successor.successor_sha256);
   assert.equal(gitBlobSha(successor), auth.photo_review_status_successor.successor_git_blob_sha);
   assert.equal(sha256(acquisition), auth.source_acquisition_manifest.sha256);
@@ -85,18 +104,22 @@ test('v4.6.04 authorization pins all nine immutable repository-local WebP binari
   }
 });
 
-test('v4.6.04 authorization preserves canonical and execution boundaries', () => {
-  const runs = manifest.runs;
-  const current = runs[runs.length - 1];
-  assert.equal(current.run_id, 'engineer-osint-20260902-B102');
-  assert.equal(current.canonical_sha256, auth.expected_parent_canonical_sha256);
-
-  assert.equal(gitBlobSha(read('append-run.mjs')), auth.protected_baseline.append_run_blob_sha);
+test('v4.6.04 authorization preserves canonical boundaries and admits only exact executor/B103 successors', () => {
+  const phase=assertExactLifecycleHead();
+  assert.equal(auth.protected_baseline.append_run_blob_sha,'174cc646b8d3ecf6e338f6460b95335130154ffb');
+  assert.equal(gitBlobSha(read('append-run.mjs')),EXECUTOR_APPEND_SHA);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
-  assert.equal(gitBlobSha(read('data/run-store-manifest.json')), auth.protected_baseline.manifest_blob_sha);
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')), auth.protected_baseline.b102_run_blob_sha);
   assert.equal(gitBlobSha(read('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json')), auth.protected_baseline.candidate_readiness_blob_sha);
+
+  if(phase==='PRE_EXECUTION'){
+    assert.equal(gitBlobSha(read('data/run-store-manifest.json')), auth.protected_baseline.manifest_blob_sha);
+  } else {
+    const runBytes=read('data/runs/engineer-osint-20260902-B103.json');
+    assert.equal(sha256(runBytes),auth.exact_candidate_file_sha256);
+    assert.equal(JSON.parse(runBytes.toString('utf8')).state.run_id,auth.candidate_run_id);
+  }
 
   assert.equal(auth.authorization.append_exact_candidate_only, true);
   assert.equal(auth.authorization.install_exact_b103_append_guard_successor, true);
