@@ -8,72 +8,125 @@ on:
       - .github/workflows/v4601-photo-acquire-temp.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   acquire:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
-      - name: Download exact reviewed Wikimedia Commons files
+      - name: Checkout isolated acquisition branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Install deterministic image encoder
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Acquire, verify and optimize all current READY_FOR_IMPORT photos
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p out/assets/photos/originals
           python3 - <<'PY'
           import hashlib, json, pathlib, subprocess, urllib.parse
+          from PIL import Image, ImageOps
 
-          items = [
-            ("ENG-TECH-0003", "UBIM Engineer Vehicle Army-2022 2022-08-20 2554.jpg", "eng-tech-0003-ubim.jpg"),
-            ("ENG-TECH-0004", "IMR-3M armoured engineering vehicle at Engineering Technologies 2012.jpg", "eng-tech-0004-imr-3m.jpg"),
-            ("ENG-TECH-0005", "NATO Bridging Operation In Germany MOD 45162595.jpg", "eng-tech-0005-m3-family.jpg"),
-            ("ENG-TECH-0006", "JGSDF Type 07 Mobility support bridge 20121021-02.JPG", "eng-tech-0006-jgsdf-07msb.jpg"),
-            ("ENG-TECH-0016", "JGSDF Type 07 Mobility support bridge.jpg", "eng-tech-0016-jgsdf-07msb.jpg"),
-            ("ENG-TECH-0017", "92式地雷原処理車 (8465401362).jpg", "eng-tech-0017-type-92-minefield-clearing.jpg"),
-            ("ENG-TECH-0022", "FNSS Kunduz.png", "eng-tech-0022-kunduz.png"),
-            ("ENG-TECH-0028", "Mostní automobil AM-50 pic2.JPG", "eng-tech-0028-am-50.jpg"),
-            ("ENG-TECH-0029", "MT-55A VS2.jpg", "eng-tech-0029-mt-55a.jpg"),
-          ]
+          root = pathlib.Path('docs/engineer-osint')
+          status = json.loads((root / 'photo-review-status.json').read_text(encoding='utf-8'))
+          review = {entry['card_id']: entry for entry in status['entries'] if entry.get('status') == 'READY_FOR_IMPORT'}
+
+          plan = {
+            'ENG-TECH-0003': ('UBIM Engineer Vehicle Army-2022 2022-08-20 2554.jpg', 'eng-tech-0003-ubim.webp', '6841148f25a98a2d6204577e46420e3028f74d4e3e3d82760cf725d926d7fb48'),
+            'ENG-TECH-0004': ('IMR-3M armoured engineering vehicle at Engineering Technologies 2012.jpg', 'eng-tech-0004-imr-3m.webp', '775a2068c4664d8be7205e9c8eed1f8eafad51571b3621f19c1529320c6f82ef'),
+            'ENG-TECH-0005': ('NATO Bridging Operation In Germany MOD 45162595.jpg', 'eng-tech-0005-m3-family.webp', '7dbcccaa11baa569ad6af9d8b54ca6129aa47f568b410d75c6aa04679d7327e4'),
+            'ENG-TECH-0006': ('JGSDF Type 07 Mobility support bridge 20121021-02.JPG', 'eng-tech-0006-jgsdf-07msb.webp', '9052dfc05418aeb54f1e2235bc2cddb69f420cb87f79aae0f0fcecfef0800a2d'),
+            'ENG-TECH-0016': ('JGSDF Type 07 Mobility support bridge.jpg', 'eng-tech-0016-jgsdf-07msb.webp', '8b323b8d7b72a7061650c33e0d628ee489cba5e40613cff22c1564305474b21c'),
+            'ENG-TECH-0017': ('92式地雷原処理車 (8465401362).jpg', 'eng-tech-0017-type-92-minefield-clearing.webp', '0b79f5e57e159bcc92178fb74a42c41c95c16d55ed42ff1abb5f9b1e2ba1633a'),
+            'ENG-TECH-0022': ('FNSS Kunduz.png', 'eng-tech-0022-kunduz.webp', '8d9050a5f125236712df335351cb20e303e6a94ee95e1a8e1a6e50a9c0ae2c60'),
+            'ENG-TECH-0028': ('Mostní automobil AM-50 pic2.JPG', 'eng-tech-0028-am-50.webp', '10ec8c3e0bde47439a4136e3fa603e239c5ebdb1142f304679a20aee30f7daf4'),
+            'ENG-TECH-0029': ('MT-55A VS2.jpg', 'eng-tech-0029-mt-55a.webp', 'ad7e8c5ba9936980b6e49c532ed96852d59825993432559d007753fc9391c50f'),
+          }
+
+          if set(review) != set(plan):
+            raise SystemExit(f'READY_FOR_IMPORT set changed: review={sorted(review)} plan={sorted(plan)}')
+
+          temp = pathlib.Path('/tmp/engineer-osint-photo-acquire')
+          temp.mkdir(parents=True, exist_ok=True)
+          out = root / 'assets' / 'photos'
+          out.mkdir(parents=True, exist_ok=True)
+          manifest_dir = root / 'photo-local-acquisitions'
+          manifest_dir.mkdir(parents=True, exist_ok=True)
 
           manifest = {
-            "schema_version": 1,
-            "batch": "v4.6.01",
-            "purpose": "Acquire exact binaries for the nine current READY_FOR_IMPORT photo-review entries. No canonical LOCAL_IMAGE claim is made by this temporary acquisition step.",
-            "entries": [],
+            'schema_version': 1,
+            'batch': 'v4.6.01',
+            'acquired_at': '2026-09-02',
+            'policy': 'Every photo-review entry that reaches READY_FOR_IMPORT should be archived locally as soon as practical; LOCAL_IMAGE remains a separate canonical-linkage state.',
+            'scope': 'All nine READY_FOR_IMPORT entries present on main cbdba629dd5fd2182a4c316029b993c1434781fb at slice start.',
+            'source_main_sha': 'cbdba629dd5fd2182a4c316029b993c1434781fb',
+            'review_acquisition_run_id': 33621978325,
+            'review_acquisition_artifact_id': 9843254315,
+            'review_acquisition_artifact_digest': 'sha256:b03faef268b5e4f55aa633acf1bf81e3f28fb415fa062aee31df6b4c7587763e',
+            'transformation': 'Exact Commons source binary verified first, then EXIF orientation normalized, resized only when the long edge exceeded 1600 px, and encoded as WebP quality 82 with no crop or editorial alteration.',
+            'entries': [],
           }
-          root = pathlib.Path("out/assets/photos/originals")
-          for card_id, source_file_name, local_name in items:
-            encoded = urllib.parse.quote(source_file_name, safe="")
-            requested_url = f"https://commons.wikimedia.org/wiki/Special:Redirect/file/{encoded}"
-            dest = root / local_name
-            subprocess.run([
-              "curl", "-L", "--fail", "--retry", "4", "--retry-all-errors",
-              "--connect-timeout", "20", "--max-time", "180",
-              "-A", "ENGINEER-OSINT/1.0 (GitHub Actions reviewed-media acquisition)",
-              "-o", str(dest), requested_url,
-            ], check=True)
-            payload = dest.read_bytes()
-            if not payload:
-              raise SystemExit(f"empty download for {card_id}")
-            manifest["entries"].append({
-              "card_id": card_id,
-              "source_file_name": source_file_name,
-              "requested_url": requested_url,
-              "artifact_path": f"assets/photos/originals/{local_name}",
-              "sha256": hashlib.sha256(payload).hexdigest(),
-              "bytes": len(payload),
-            })
 
-          pathlib.Path("out/acquisition.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
+          keep_fields = ['system_name','origin_url','source_title','source_type','author_rightsholder','license','license_url','attribution_requirement','identity_evidence','license_evidence','reviewed_at','review_batch']
+          for card_id in sorted(plan):
+            source_name, local_name, expected_source_sha = plan[card_id]
+            encoded = urllib.parse.quote(source_name, safe='')
+            acquisition_url = f'https://commons.wikimedia.org/wiki/Special:Redirect/file/{encoded}'
+            source_path = temp / source_name.replace('/', '_')
+            subprocess.run([
+              'curl','-L','--fail','--retry','4','--retry-all-errors','--connect-timeout','20','--max-time','180',
+              '-A','ENGINEER-OSINT/1.0 (GitHub Actions reviewed-media acquisition)','-o',str(source_path),acquisition_url
+            ], check=True)
+            source_bytes = source_path.read_bytes()
+            source_sha = hashlib.sha256(source_bytes).hexdigest()
+            if source_sha != expected_source_sha:
+              raise SystemExit(f'{card_id} source SHA changed: expected {expected_source_sha}, got {source_sha}')
+
+            with Image.open(source_path) as raw:
+              image = ImageOps.exif_transpose(raw)
+              source_dimensions = list(image.size)
+              if max(image.size) > 1600:
+                image.thumbnail((1600,1600), Image.Resampling.LANCZOS)
+              if image.mode not in ('RGB','RGBA'):
+                image = image.convert('RGBA' if 'A' in image.getbands() else 'RGB')
+              local_path = out / local_name
+              image.save(local_path, 'WEBP', quality=82, method=6, exact=True)
+              local_dimensions = list(image.size)
+
+            local_bytes = local_path.read_bytes()
+            entry = {'card_id': card_id}
+            entry.update({field: review[card_id].get(field) for field in keep_fields if review[card_id].get(field) is not None})
+            entry.update({
+              'source_file_name': source_name,
+              'source_acquisition_url': acquisition_url,
+              'source_sha256': source_sha,
+              'source_bytes': len(source_bytes),
+              'source_dimensions': source_dimensions,
+              'local_image_path': f'assets/photos/{local_name}',
+              'local_sha256': hashlib.sha256(local_bytes).hexdigest(),
+              'local_bytes': len(local_bytes),
+              'local_dimensions': local_dimensions,
+              'modifications': 'EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.'
+            })
+            manifest['entries'].append(entry)
+
+          (manifest_dir / 'v4601-ready-for-import.json').write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
           )
           PY
-      - name: Upload acquisition artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: v4601-ready-photo-binaries
-          path: out
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 3
+
+      - name: Commit archived photo assets and provenance only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'ENGINEER OSINT acquisition bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add docs/engineer-osint/assets/photos docs/engineer-osint/photo-local-acquisitions/v4601-ready-for-import.json
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" -eq 10
+          git diff --cached --name-only
+          git commit -m 'v4.6.01: archive all ready reviewed photos'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
