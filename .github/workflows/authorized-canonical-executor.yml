@@ -1,0 +1,50 @@
+name: ENGINEER OSINT authorized canonical executor
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'docs/engineer-osint/canonical-execution-requests/*.json'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: engineer-osint-canonical-executor-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  execute:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact same-repository PR head
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Resolve isolated execution request
+        id: request
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          mapfile -t requests < <(git diff --name-only "${BASE_SHA}...HEAD" -- 'docs/engineer-osint/canonical-execution-requests/*.json')
+          if [ "${#requests[@]}" -ne 1 ]; then
+            printf 'Expected exactly one canonical execution request, found %s\n' "${#requests[@]}" >&2
+            exit 1
+          fi
+          printf 'path=%s\n' "${requests[0]}" >> "$GITHUB_OUTPUT"
+      - name: Execute exact authorized canonical request to PR head only
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node docs/engineer-osint/authorized-canonical-executor.mjs '${{ steps.request.outputs.path }}' --execute
