@@ -1,0 +1,92 @@
+{
+  "schema_version": "engineer-osint-canonical-executor-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-02",
+  "reviewed_main_sha": "eedd4fc12a4f704ec7ee84955d3f2bc9e27ace5c",
+  "purpose": "Authorize one separate infrastructure-only slice that adds a reusable, fail-closed canonical executor capable of executing an already-reviewed exact append authorization on an isolated same-repository PR branch without direct main writes.",
+  "problem_statement": "The canonical pipeline can review and authorize exact candidates, but the current repository has no reusable write-capable executor available to the connected agent. B103 is authorized but must not be persisted by manual manifest/run-file edits.",
+  "protected_baseline": {
+    "append_run_blob_sha": "174cc646b8d3ecf6e338f6460b95335130154ffb",
+    "run_store_blob_sha": "a97184dbd825fab3e5485b72a760bde04749af0b",
+    "integrity_blob_sha": "8c9a9aa766e910e0bccdb9308acc8af5a3aadac7",
+    "manifest_blob_sha": "15d5b2ae11966ca8912ee062a5be4d520a913bef",
+    "b103_authorization_blob_sha": "7024735e648e6fe7642f178901e0787a743fa5d9",
+    "current_run_id": "engineer-osint-20260902-B102",
+    "current_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91"
+  },
+  "authorized_targets": {
+    "workflow_path": ".github/workflows/authorized-canonical-executor.yml",
+    "executor_path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+    "append_run_path": "docs/engineer-osint/append-run.mjs",
+    "test_prefix": "docs/engineer-osint/tests/v4606-authorized-canonical-executor",
+    "request_directory": "docs/engineer-osint/canonical-execution-requests"
+  },
+  "required_executor_properties": {
+    "same_repository_pull_request_only": true,
+    "isolated_execution_request_required": true,
+    "direct_main_write_forbidden": true,
+    "authorization_file_must_already_exist_on_base_main": true,
+    "candidate_file_must_already_exist_on_base_main": true,
+    "fresh_base_sha_required": true,
+    "exact_candidate_hash_required": true,
+    "exact_parent_run_required": true,
+    "exact_parent_canonical_sha_required": true,
+    "exact_resulting_canonical_sha_required": true,
+    "standard_append_run_write_required": true,
+    "post_write_run_store_validation_required": true,
+    "post_write_full_test_suite_required": true,
+    "post_write_canonical_validation_required": true,
+    "execution_output_committed_only_to_pr_head_branch": true,
+    "no_automatic_merge": true
+  },
+  "required_append_run_successor_properties": {
+    "preserve_exact_legacy_guards_b96_through_b102": true,
+    "new_or_unrecognized_write_run_must_fail_without_explicit_authorization": true,
+    "authorization_argument_must_be_explicit": true,
+    "authorization_status_must_be_ready": true,
+    "authorization_candidate_run_must_equal_run_id": true,
+    "authorization_parent_must_equal_current_store_parent": true,
+    "authorization_candidate_sha_must_equal_normalized_run_sha": true,
+    "authorization_resulting_canonical_sha_must_equal_computed_successor": true,
+    "authorization_must_require_standard_append_run_write": true,
+    "authorization_must_forbid_manual_manifest_or_hash_edit": true,
+    "wildcard_or_dynamic_current_state_acceptance_forbidden": true
+  },
+  "optional_lifecycle_successor_contract": {
+    "allowed_only_when_pinned_by_run_authorization": true,
+    "source_path_and_hash_must_match_authorization": true,
+    "successor_path_and_hash_must_match_authorization": true,
+    "successor_copy_must_occur_only_after_successful_canonical_append": true,
+    "arbitrary_lifecycle_edit_forbidden": true
+  },
+  "first_supported_execution": {
+    "run_id": "engineer-osint-20260902-B103",
+    "authorization_path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4603-b103-local-images.json",
+    "note": "This v4.6.05 slice authorizes executor implementation only. It does not authorize executing B103 in the same slice; B103 remains governed by V4604 and requires a later separate execution request after the executor implementation is merged and post-merge verified."
+  },
+  "implementation_authorization": {
+    "add_exact_executor_workflow": true,
+    "add_executor_script": true,
+    "modify_append_run_for_generic_fail_closed_authorization": true,
+    "add_executor_regression_tests": true,
+    "allow_workflow_change": true,
+    "allow_runtime_product_change": false,
+    "allow_candidate_mutation": false,
+    "allow_canonical_run_write": false,
+    "allow_manifest_change": false,
+    "allow_photo_status_change": false,
+    "allow_photo_binary_change": false,
+    "allow_b103_execution_same_slice": false,
+    "allow_direct_main_write": false,
+    "allow_automatic_merge": false,
+    "allow_unrelated_change": false
+  },
+  "implementation_state": {
+    "workflow_installed": false,
+    "executor_installed": false,
+    "append_run_successor_installed": false,
+    "tests_installed": false,
+    "b103_executed": false
+  }
+}
