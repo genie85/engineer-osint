@@ -9,7 +9,7 @@ const lifecycle=JSON.parse(readFileSync(`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_
 const wfRoot='.github/workflows';
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
-const b101IdentityWorkflowSha='0ae8604681f6aa4270a360e50b39ca4ddb4afd49';
+const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 
 const active=new Map(policy.active_workflows.map(x=>[x.file,x]));
 const successors=new Map(lifecycle.workflow_successors.map(x=>[x.file,x]));
@@ -45,7 +45,7 @@ test('v4.5.63 pins every active baseline and accepts only exact action/B100/B101
         assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current),`${file}: unauthorized successor blob`);
         if([b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current)){
           assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
-          if(current===b101IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260902-B101':'b31eededb9165bc19019f592bc4f9e58ea6f7f4fc86a0e189d6f5e34fb48d6e9'/);
+          if(current===b101IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
           assert.match(text,/no exact digest authorized for current run/);
         }
       }else assert.equal(current,successor.v4564_diagnostic_git_blob_sha,`${file}: unauthorized successor blob`);
