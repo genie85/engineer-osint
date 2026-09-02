@@ -2,10 +2,8 @@ name: ENGINEER OSINT temporary v4.6.02 visible-local-photo patcher
 
 on:
   push:
-    branches:
-      - chatgpt/engineer-osint-v4602-visible-local-photos
-    paths:
-      - .github/workflows/v4602-visible-local-photos-temp.yml
+    branches: [chatgpt/engineer-osint-v4602-visible-local-photos]
+    paths: [.github/workflows/v4602-visible-local-photos-temp.yml]
 
 permissions:
   contents: write
@@ -15,116 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 1
-      - name: Apply exact local-photo visibility and prompt patch
-        shell: bash
+      - name: Apply exact patch
+        run: python3 docs/engineer-osint/tools/v4602-patch-temp.py
+      - name: Verify focused tests
         run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-
-          def replace_once(path, old, new):
-              p=Path(path)
-              text=p.read_text(encoding='utf-8')
-              if text.count(old)!=1:
-                  raise SystemExit(f'{path}: expected exactly one replacement target, found {text.count(old)}')
-              p.write_text(text.replace(old,new,1),encoding='utf-8')
-
-          build='docs/engineer-osint/build-pages.mjs'
-          replace_once(build,
-              "import {readFileSync,writeFileSync,mkdirSync,cpSync} from 'node:fs';",
-              "import {readFileSync,writeFileSync,mkdirSync,cpSync,readdirSync} from 'node:fs';")
-          replace_once(build,
-              "validatePublicUrls(data);",
-              "const localPhotoDir=join(source,'photo-local-acquisitions');\nconst localPhotoEntries=readdirSync(localPhotoDir).filter(name=>name.endsWith('.json')).sort().flatMap(name=>{const batch=JSON.parse(readFileSync(join(localPhotoDir,name),'utf8'));return Array.isArray(batch.entries)?batch.entries:[]});\ndata.dashboard_patch_extras.local_photo_acquisitions=localPhotoEntries;\nvalidatePublicUrls(data);")
-          replace_once(build,
-              "entity_detail_sections=conditional-evidence-first\n",
-              "entity_detail_sections=conditional-evidence-first\nlocal_photo_card_visibility=enabled\nlocal_photo_acquisitions=${localPhotoEntries.length}\n")
-          replace_once(build,
-              "cpSync(join(source,'project'),join(output,'project'),{recursive:true});",
-              "cpSync(join(source,'assets'),join(output,'assets'),{recursive:true});\ncpSync(join(source,'project'),join(output,'project'),{recursive:true});")
-
-          ui='docs/engineer-osint/ui-v43-entity-detail.js'
-          replace_once(ui,
-              "  const media=()=>uniq([...arr(D.media_registry?.media),...arr(X().media)],x=>x?.media_id||x?.id);\n",
-              "  const media=()=>uniq([...arr(D.media_registry?.media),...arr(X().media)],x=>x?.media_id||x?.id);\n  const localPhotoAcquisitions=()=>arr(X().local_photo_acquisitions);\n")
-          replace_once(ui,
-              "  const fmt=v=>String(v||'').replaceAll('_',' ');\n",
-              "  const fmt=v=>String(v||'').replaceAll('_',' ');\n  const localPhotoFor=r=>localPhotoAcquisitions().filter(p=>p?.card_id===r?.id&&p?.local_image_path).at(-1)||null;\n")
-          replace_once(ui,
-              ".v43-asset img{max-width:100%;max-height:360px;object-fit:contain;border-radius:9px;background:#071019}@media(max-width:760px)",
-              ".v43-asset img{max-width:100%;max-height:360px;object-fit:contain;border-radius:9px;background:#071019}.v43-local-photo{margin:12px 0 10px;display:grid;gap:7px}.v43-local-photo img{display:block;width:100%;max-height:430px;object-fit:contain;border-radius:12px;background:#071019}.v43-local-photo figcaption{font-size:.78rem;color:#a9bed0}.v43-local-photo a{color:#9bc7f2}@media(max-width:760px)")
-          replace_once(ui,
-              "  function assetCard(a){",
-              "  function renderLocalPhoto(r){const p=localPhotoFor(r);if(!p)return'';const src=String(p.local_image_path||'').replace(/^\\/+/,''),credit=[p.author_rightsholder,p.license].filter(Boolean).join(' · '),origin=p.origin_url||p.source_acquisition_url||'';return `<figure class=\"v43-local-photo\" data-v43-local-photo=\"${esc(r.id)}\"><img loading=\"eager\" src=\"${esc(src)}\" alt=\"${esc(title(r))}\"><figcaption>${esc(cs('Lokálně archivovaný, licenčně ověřený obrázek','Locally archived, license-verified image'))}${credit?` · ${esc(credit)}`:''}${origin?` · <a href=\"${esc(origin)}\" target=\"_blank\" rel=\"noopener noreferrer\">${esc(cs('zdroj','source'))} ↗</a>`:''}</figcaption></figure>`}\n\n  function assetCard(a){")
-          replace_once(ui,
-              "<h2>${esc(title(r))}</h2>${sum?",
-              "<h2>${esc(title(r))}</h2>${renderLocalPhoto(r)}${sum?")
-          replace_once(ui,
-              "window.ENGINEER_V43_ENTITY_DETAIL={install,renderById,renderRecord,relatedEvidence,relatedRelations,relatedClaims};",
-              "window.ENGINEER_V43_ENTITY_DETAIL={install,renderById,renderRecord,relatedEvidence,relatedRelations,relatedClaims,localPhotoFor,renderLocalPhoto};")
-
-          prompt='docs/engineer-osint/MASTER_PROMPT.md'
-          old="- attribution requirement.\n\n## 13. ROADMAP A VALUE ROTATION"
-          new="""- attribution requirement.\n\n### Immediate local-photo completion rule\n\n`READY_FOR_IMPORT` je execution trigger, nikoli backlogový nebo cílový stav. Jakmile jsou redistribution rights a identita dostatečně ověřeny a binární acquisition je technicky dostupná, archivuj obrázek lokálně v nejbližším bezpečném write slice bez zbytečného odkladu.\n\nLokální archivace sama nestačí. Pro každou kartu s bezpečně archivovaným obrázkem co nejdříve dokonči také runtime/presentation linkage tak, aby byl obrázek skutečně viditelný při otevření odpovídající karty. Karta s ověřeným dostupným lokálním obrázkem nesmí zůstat bez zobrazeného obrázku jen proto, že canonical `LOCAL_IMAGE` linkage čeká na samostatný append-only slice. Prezentační fallback smí zobrazit pouze licenčně a identitně ověřený lokální acquisition a nesmí falešně měnit canonical lifecycle stav.\n\nPhoto/media slice je považován za produktově dokončený teprve když současně platí:\n\n- lokální soubor existuje;\n- SHA-256 a provenance odpovídají acquisition záznamu;\n- deployment artefakt obsahuje daný soubor;\n- detail odpovídající karty obrázek skutečně renderuje;\n- regresní test pokrývá všechny lokálně archivované karty;\n- canonical `LOCAL_IMAGE` se nastavuje až po řádném canonical linkage podle append-only pravidel.\n\nPokud existuje ověřený lokální acquisition, ale odpovídající karta obrázek nezobrazuje, považuj to za produkční UX/media defect a prioritně oprav root cause napříč všemi dotčenými kartami.\n\n## 13. ROADMAP A VALUE ROTATION"""
-          replace_once(prompt,old,new)
-
-          test=Path('docs/engineer-osint/tests/v4602-local-photo-card-visibility.test.mjs')
-          test.write_text(r'''import test from 'node:test';
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-
-const root='docs/engineer-osint';
-const ui=fs.readFileSync(path.join(root,'ui-v43-entity-detail.js'),'utf8');
-const build=fs.readFileSync(path.join(root,'build-pages.mjs'),'utf8');
-const prompt=fs.readFileSync(path.join(root,'MASTER_PROMPT.md'),'utf8');
-const dir=path.join(root,'photo-local-acquisitions');
-const manifests=fs.readdirSync(dir).filter(name=>name.endsWith('.json')).sort();
-const entries=manifests.flatMap(name=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8')).entries||[]);
-
-test('all locally acquired photos have deployable files',()=>{
-  assert.ok(entries.length>0);
-  for(const entry of entries){
-    assert.ok(entry.card_id,'missing card_id');
-    assert.ok(entry.local_image_path,'missing local_image_path');
-    assert.ok(fs.existsSync(path.join(root,entry.local_image_path)),`${entry.card_id} local image missing`);
-  }
-});
-
-test('build materializes every acquisition manifest and copies photo assets',()=>{
-  assert.match(build,/readdirSync\(localPhotoDir\)/);
-  assert.match(build,/local_photo_acquisitions=\$\{localPhotoEntries\.length\}/);
-  assert.match(build,/cpSync\(join\(source,'assets'\),join\(output,'assets'\),\{recursive:true\}\)/);
-});
-
-test('v4.3 detail renders a local photo for every matching card id',()=>{
-  assert.match(ui,/localPhotoAcquisitions/);
-  assert.match(ui,/localPhotoFor=r=>/);
-  assert.match(ui,/data-v43-local-photo/);
-  assert.match(ui,/\$\{renderLocalPhoto\(r\)\}/);
-  const entry=entries.find(x=>x.card_id==='ENG-TECH-0016');
-  assert.ok(entry,'ENG-TECH-0016 must have a local acquisition');
-  assert.equal(entry.local_image_path,'assets/photos/eng-tech-0016-jgsdf-07msb.webp');
-});
-
-test('master prompt requires visible card completion, not archive-only state',()=>{
-  assert.match(prompt,/READY_FOR_IMPORT` je execution trigger/);
-  assert.match(prompt,/detail odpovídající karty obrázek skutečně renderuje/);
-  assert.match(prompt,/produkční UX\/media defect/);
-});
-''',encoding='utf-8')
-          PY
-      - name: Verify focused syntax and tests before commit
-        run: |
-          set -euo pipefail
           node --check docs/engineer-osint/ui-v43-entity-detail.js
           node --check docs/engineer-osint/build-pages.mjs
           node --test docs/engineer-osint/tests/v4601-ready-photo-acquisition.test.mjs docs/engineer-osint/tests/v4602-local-photo-card-visibility.test.mjs
-      - name: Commit exact patch
+      - name: Commit patch
         run: |
-          set -euo pipefail
           git config user.name "ENGINEER OSINT patch bot"
           git config user.email "actions@users.noreply.github.com"
           git add docs/engineer-osint/build-pages.mjs docs/engineer-osint/ui-v43-entity-detail.js docs/engineer-osint/MASTER_PROMPT.md docs/engineer-osint/tests/v4602-local-photo-card-visibility.test.mjs
