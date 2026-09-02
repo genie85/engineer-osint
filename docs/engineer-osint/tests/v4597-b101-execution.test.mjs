@@ -20,9 +20,9 @@ const B100_CANONICAL_SHA='518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f
 const B101_APPEND_SUCCESSOR='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 
 test('v4.5.97 persists exactly the separately authorized B101 append as canonical head',()=>{
-  const store=loadCanonicalRunStore(root);
-  assert.equal(store.current_run_id,B101_RUN);
-  assert.equal(store.canonical_sha256,B101_CANONICAL_SHA);
+  const store=loadCanonicalRunStore({root});
+  assert.equal(store.report.current_run_id,B101_RUN);
+  assert.equal(store.report.canonical_sha256,B101_CANONICAL_SHA);
   assert.equal(sha256(persistedRaw),B101_FILE_SHA);
   assert.equal(persistedRaw,candidateRaw,'persisted B101 bytes drifted from the frozen reviewed candidate');
   const previous=manifest.runs.at(-2);
@@ -45,7 +45,8 @@ test('v4.5.97 installs only the exact B101 append guard successor',()=>{
   assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
   assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
   assert.match(appendRunRaw,/COMPLETE_NO_CANONICAL_MEDIA_ADDITION/);
-  assert.doesNotMatch(appendRunRaw,/wildcard_or_current_state/i);
+  assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);
+  assert.equal(authorization.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
   assert.equal(gitBlobSha(readFileSync(`${root}/lib/run-store.mjs`,'utf8')),authorization.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(readFileSync(`${root}/lib/integrity.mjs`,'utf8')),authorization.protected_baseline.integrity_blob_sha);
   assert.equal(gitBlobSha(readFileSync(`${root}/data/runs/engineer-osint-20260902-B100.json`,'utf8')),authorization.protected_baseline.b100_run_blob_sha);

@@ -14,6 +14,7 @@ const candidate=JSON.parse(raw);
 const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
 const appendRunRaw=readFileSync(appendRunPath,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const exactB101AppendSuccessor='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 
 test('v4.5.93 pins the exact frozen B100 candidate and deterministic canonical successor',()=>{
   assert.equal(gitBlobSha(raw),authorization.candidate_git_blob_sha);
@@ -32,7 +33,8 @@ test('v4.5.93 pins the exact frozen B100 candidate and deterministic canonical s
   }else{
     const persistedRaw=readFileSync(persistedPath,'utf8');
     assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),authorization.exact_candidate_file_sha256);
-    const entry=JSON.parse(readFileSync(manifestPath,'utf8')).runs.at(-1);
+    const entry=JSON.parse(readFileSync(manifestPath,'utf8')).runs.find(item=>item.run_id===authorization.candidate_run_id);
+    assert.ok(entry,'B100 manifest entry missing');
     assert.equal(entry.run_id,authorization.candidate_run_id);
     assert.equal(entry.parent_run_id,authorization.expected_parent_run_id);
     assert.equal(entry.parent_canonical_sha256,authorization.expected_parent_canonical_sha256);
@@ -62,13 +64,21 @@ test('v4.5.93 authorization stays exact-scope and immutable after execution',()=
   assert.deepEqual(authorization.execution_state,{append_run_successor_installed:false,canonical_write_performed:false,run_file_created:false,manifest_updated:false});
 });
 
-test('v4.5.93 authorization pins baseline in review stage and exact successor in execution stage',()=>{
+test('v4.5.93 preserves its exact B100 guard successor and permits only the exact later B101 guard successor',()=>{
   const currentBlob=gitBlobSha(appendRunRaw);
-  if(existsSync(persistedPath)) assert.equal(currentBlob,authorization.expected_append_run_successor_blob_sha);
-  else assert.equal(currentBlob,authorization.protected_baseline.append_run_blob_sha);
+  const allowed=new Set([
+    authorization.protected_baseline.append_run_blob_sha,
+    authorization.expected_append_run_successor_blob_sha,
+    exactB101AppendSuccessor
+  ]);
+  assert.ok(allowed.has(currentBlob),`unexpected append-run lifecycle blob ${currentBlob}`);
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'de2ead86f0d5967c6bf1db96915b6f1fbd996090');
   assert.equal(authorization.expected_append_run_successor_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.equal(authorization.expected_append_run_successor_derivation_commit,'b2cf78a47bdd5c6388a906a387191fc5ab8e42b4');
   assert.notEqual(authorization.expected_append_run_successor_blob_sha,authorization.protected_baseline.append_run_blob_sha);
   assert.equal(authorization.required_preconditions.authorization_stage_append_run_must_remain_baseline,true);
+  if(currentBlob===exactB101AppendSuccessor){
+    assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
+    assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
+  }
 });

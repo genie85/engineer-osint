@@ -46,12 +46,13 @@ test('v4.5.92 keeps exact variant and evidence relationships fail-closed',()=>{
   }
 });
 
-test('v4.5.92 reviewed B100 candidate remains byte-equivalent to the later persisted append',()=>{
+test('v4.5.92 reviewed B100 candidate remains byte-equivalent to its immutable persisted append',()=>{
   const persistedRaw=readFileSync(persistedPath,'utf8');
   assert.deepEqual(JSON.parse(persistedRaw),candidate);
   assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),'ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92');
   const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
-  assert.deepEqual(manifest.runs.at(-1),{
+  const entry=manifest.runs.find(item=>item.run_id==='engineer-osint-20260902-B100');
+  assert.deepEqual(entry,{
     run_id:'engineer-osint-20260902-B100',
     parent_run_id:'engineer-osint-20260830-B99',
     parent_canonical_sha256:'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30',
