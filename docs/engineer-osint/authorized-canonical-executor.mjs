@@ -26,7 +26,7 @@ const assertBaseIdentity=(baseSha,path)=>{
   if(current!==base)throw new Error(`Protected base file drifted on execution branch: ${path}`);
   return current;
 };
-const statusPaths=()=>git(['status','--porcelain=v1']).split('\n').filter(Boolean).map(line=>line.slice(3));
+const statusPaths=()=>gitRaw(['status','--porcelain=v1']).split('\n').filter(Boolean).map(line=>line.slice(3));
 
 export function validateAuthorizationContract({authorization,candidate,normalizedCandidate,store,authorizationPath,candidatePath,runId}){
   if(authorization.status!=='READY_FOR_APPEND')throw new Error(`Authorization is not READY_FOR_APPEND: ${authorization.status}`);
