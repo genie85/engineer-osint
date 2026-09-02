@@ -1,0 +1,122 @@
+{
+  "schema_version": "engineer-osint-b103-lifecycle-compatibility-authorization-v1",
+  "status": "READY_FOR_COMPATIBILITY_IMPLEMENTATION",
+  "reviewed_main_sha": "1eccd7f65d312a79c1d56616a496f18f7afdd723",
+  "blocked_execution_pr": 334,
+  "blocked_execution_head_sha": "7bf1eb5b0ca0c02b2be7a0fac932e2cdb7c75af8",
+  "canonical_objective": {
+    "run_id": "engineer-osint-20260902-B103",
+    "parent_run_id": "engineer-osint-20260902-B102",
+    "parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+    "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4603-b103-local-images.json",
+    "candidate_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+    "authorization_path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "expected_resulting_canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+    "expected_post_successor_photo_coverage_percent": 18,
+    "expected_post_successor_cards_with_local_image": 9,
+    "expected_post_successor_ready_for_import": 0
+  },
+  "observed_post_write_gate": {
+    "total_tests": 519,
+    "passed": 507,
+    "failed": 9,
+    "skipped": 3,
+    "canonical_materialization_was_committed": false,
+    "classification_scope_files": 7
+  },
+  "authorized_test_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4569-photo-research-batch-1.test.mjs",
+      "baseline_git_blob_sha": "9607620bccfd598c3acc09494580a5acc6e2881d",
+      "classification": "PERMANENT_TIP_BUG",
+      "authorized_change": "Decouple the synthetic READY_FOR_IMPORT accounting unit case from the mutable production photo-review registry while preserving the historical AM-50 and MT-55A provenance assertions exactly."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4571-photo-research-batch-2.test.mjs",
+      "baseline_git_blob_sha": "15d730406e8e580b79f4d57f82ccfd3d243ace2b",
+      "classification": "PERMANENT_TIP_BUG",
+      "authorized_change": "Preserve the v4.5.71 UBIM and Type 07 provenance as historical evidence without requiring READY_FOR_IMPORT to remain the permanent current lifecycle status after the exact B103 LOCAL_IMAGE successor."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4598-b102-publication-candidate.test.mjs",
+      "baseline_git_blob_sha": "32cec73a672c780dc085cea9890c6ebf5eb6ceda",
+      "classification": "PERMANENT_TIP_BUG",
+      "authorized_change": "Locate and verify the immutable B102 manifest entry by exact run_id instead of requiring B102 to remain runs.at(-1). All B102 hashes, parent identity and candidate bytes remain exact."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4599-b102-authorization-derivation.test.mjs",
+      "baseline_git_blob_sha": "c7b4933809f4fcd5c9e284314aad4bced093e4fd",
+      "classification": "PERMANENT_TIP_BUG",
+      "authorized_change": "Locate and verify the immutable B102 manifest entry by exact run_id instead of requiring B102 to remain runs.at(-1). Preserve every B102 authorization and protected-baseline hash assertion."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4601-ready-photo-acquisition.test.mjs",
+      "baseline_git_blob_sha": "57d93850aec5096c6c0cdee58cc24a9f4d3c09e2",
+      "classification": "CURRENT_STATE_ASSERTION",
+      "authorized_change": "Keep the invariant that every current READY_FOR_IMPORT entry must have matching archived provenance, but remove the stale requirement that the current registry must contain at least one READY_FOR_IMPORT entry. Zero is the exact authorized B103 successor state."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs",
+      "baseline_git_blob_sha": "47a51ad030bfd011b44a201f49a09d3de1c41feb",
+      "classification": "PERMANENT_TIP_BUG",
+      "authorized_change": "Preserve the v4.6.05 protected B102 baseline as immutable authorization evidence while allowing only the exact B102 pre-successor tip or exact B103 post-successor tip as current manifest state. Do not rewrite protected_baseline values."
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+      "baseline_git_blob_sha": "91adbd549b05e51087a9aa2c6d56143ece1e1fe8",
+      "classification": "CURRENT_STATE_ASSERTION",
+      "authorized_change": "Make executor regression semantics exact for both lifecycle states: before B103, validate the reviewed B103 authorization read-only against B102; after B103, verify exact persisted B103 identity instead of re-validating it as a future append. Preserve unrecognized-write rejection and workflow isolation assertions."
+    }
+  ],
+  "required_exact_states": {
+    "pre_successor": {
+      "current_run_id": "engineer-osint-20260902-B102",
+      "canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+      "b103_run_must_be_absent": true,
+      "photo_coverage_percent": 0
+    },
+    "post_successor": {
+      "current_run_id": "engineer-osint-20260902-B103",
+      "parent_run_id": "engineer-osint-20260902-B102",
+      "canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+      "b103_file_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+      "photo_coverage_percent": 18,
+      "cards_with_local_image": 9,
+      "ready_for_import": 0
+    }
+  },
+  "historical_invariants_must_remain_unchanged": [
+    "B96 through B99 historical evidence, audit hashes and snapshots",
+    "B100 through B102 persisted run bytes and manifest entries",
+    "B102 candidate file SHA256 5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a",
+    "B102 canonical SHA256 5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+    "V4604 B103 authorization bytes and candidate bytes",
+    "canonical append-only ordering and parent chain"
+  ],
+  "implementation_authorization": {
+    "modify_only_authorized_test_targets": true,
+    "tests_must_pass_on_pre_successor_main": true,
+    "tests_must_accept_only_exact_b103_post_successor": true,
+    "allow_wildcard_or_dynamic_current_state_acceptance": false,
+    "allow_historical_hash_rewrite": false,
+    "allow_canonical_write": false,
+    "allow_manifest_change": false,
+    "allow_run_file_change": false,
+    "allow_candidate_mutation": false,
+    "allow_photo_status_change": false,
+    "allow_photo_binary_change": false,
+    "allow_workflow_change": false,
+    "allow_executor_change": false,
+    "allow_append_run_change": false,
+    "allow_runtime_product_change": false,
+    "allow_unrelated_refactor": false,
+    "execution_requires_separate_slice": true
+  },
+  "authorization_stage": {
+    "compatibility_tests_modified": false,
+    "canonical_write_performed": false,
+    "manifest_updated": false,
+    "b103_run_created": false,
+    "photo_status_successor_applied": false
+  }
+}
