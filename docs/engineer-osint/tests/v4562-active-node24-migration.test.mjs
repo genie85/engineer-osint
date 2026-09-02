@@ -15,6 +15,7 @@ const successorPath = path.join(projectDir, 'V4565_ACTION_UPGRADE_LIFECYCLE_AUTH
 const migration = JSON.parse(fs.readFileSync(migrationPath, 'utf8'));
 const successorPolicy = JSON.parse(fs.readFileSync(successorPath, 'utf8'));
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
+const b101IdentityWorkflowSha='0ae8604681f6aa4270a360e50b39ca4ddb4afd49';
 
 function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8');
@@ -61,7 +62,7 @@ test('v4.5.62 contract covers every current workflow exactly once', () => {
   assert.equal(actual.length, 7);
 });
 
-test('v4.5.62 exact workflow history permits v4.5.65 successors plus the exact B100 identity browser successor', () => {
+test('v4.5.62 exact workflow history permits action successors plus exact B100/B101 identity successors', () => {
   for (const item of migration.workflows) {
     const workflowPath = path.join(workflowsDir, item.file);
     const content = fs.readFileSync(workflowPath, 'utf8');
@@ -72,10 +73,11 @@ test('v4.5.62 exact workflow history permits v4.5.65 successors plus the exact B
       assert.ok(successor, `${item.file}: missing exact action successor`);
       assert.equal(successor.v4562_git_blob_sha, item.git_blob_sha, `${item.file}: v4.5.62 historical anchor drift`);
       if(item.file==='identity-fix-retirement-regression.yml'){
-        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha].includes(currentSha),`${item.file}: unauthorized action/B100 successor blob`);
-        if(currentSha===b100IdentityWorkflowSha){
+        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(currentSha),`${item.file}: unauthorized action/publication successor blob`);
+        if([b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(currentSha)){
           assert.match(content,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
           assert.match(content,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
+          if(currentSha===b101IdentityWorkflowSha)assert.match(content,/'engineer-osint-20260902-B101':'b31eededb9165bc19019f592bc4f9e58ea6f7f4fc86a0e189d6f5e34fb48d6e9'/);
           assert.match(content,/no exact digest authorized for current run/);
         }
       }else assert.equal(currentSha, successor.v4564_diagnostic_git_blob_sha, `${item.file}: unauthorized action successor blob`);
