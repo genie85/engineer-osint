@@ -1,0 +1,29 @@
+name: ENGINEER OSINT temporary v4.6.02 digest fix
+
+on:
+  push:
+    branches: [chatgpt/engineer-osint-v4602-visible-local-photos]
+    paths: [.github/workflows/v4602-digest-fix-temp.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Apply digest-safe presentation patch
+        run: python3 docs/engineer-osint/tools/v4602-digest-fix-temp.py
+      - name: Verify focused tests
+        run: |
+          node --check docs/engineer-osint/ui-v43-entity-detail.js
+          node --test docs/engineer-osint/tests/v4602-local-photo-card-visibility.test.mjs
+      - name: Commit patch
+        run: |
+          git config user.name "ENGINEER OSINT patch bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/engineer-osint/ui-v43-entity-detail.js
+          git diff --cached --check
+          git commit -m "v4.6.02: keep initial browser DOM digest stable"
+          git push origin HEAD:chatgpt/engineer-osint-v4602-visible-local-photos
