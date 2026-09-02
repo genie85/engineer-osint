@@ -11,6 +11,7 @@ const read = (rel) => fs.readFileSync(path.join(root, rel));
 const json = (rel) => JSON.parse(read(rel).toString('utf8'));
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const gitBlobSha = (buf) => crypto.createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`), buf])).digest('hex');
+const exactAuthorizedAppendRunSuccessor = '3dedb6f383940bc58a175623ca8dcc60048cf9fb';
 
 const auth = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const readiness = json('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json');
@@ -85,13 +86,14 @@ test('v4.6.04 authorization pins all nine immutable repository-local WebP binari
   }
 });
 
-test('v4.6.04 authorization preserves canonical and execution boundaries', () => {
+test('v4.6.04 authorization preserves historical baseline and exact authorized execution successor', () => {
   const runs = manifest.runs;
   const current = runs[runs.length - 1];
   assert.equal(current.run_id, 'engineer-osint-20260902-B102');
   assert.equal(current.canonical_sha256, auth.expected_parent_canonical_sha256);
 
-  assert.equal(gitBlobSha(read('append-run.mjs')), auth.protected_baseline.append_run_blob_sha);
+  assert.equal(auth.protected_baseline.append_run_blob_sha, '174cc646b8d3ecf6e338f6460b95335130154ffb');
+  assert.equal(gitBlobSha(read('append-run.mjs')), exactAuthorizedAppendRunSuccessor);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
   assert.equal(gitBlobSha(read('data/run-store-manifest.json')), auth.protected_baseline.manifest_blob_sha);
