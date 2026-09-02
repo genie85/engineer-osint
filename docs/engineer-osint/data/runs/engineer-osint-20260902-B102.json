@@ -1,0 +1,244 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260902-B102",
+    "parent_run_id": "engineer-osint-20260902-B101",
+    "status": "SUCCESS",
+    "window_from": "2026-09-02T16:00:00+02:00",
+    "window_to": "2026-09-02T16:00:01+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 3,
+      "NEW": 3,
+      "UPDATE": 0,
+      "CONFIRMATION": 3,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 3,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN",
+    "reviewed_main_sha": "b75373ac4266701af6f29645ddc7dc7b3c46665b",
+    "reviewed_parent_canonical_sha256": "146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b",
+    "research_batches": [
+      "v4.5.91"
+    ],
+    "publication_write_authorized": false,
+    "canonical_write_performed": false,
+    "duplicate_audit": {
+      "LEGUAN": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "Dry Support Bridge": "NO_EXACT_CANONICAL_RECORD_MATCH",
+      "BOXER Bridgelayer": "NO_EXACT_CANONICAL_RECORD_MATCH"
+    },
+    "source_reverification_note": "Current KNDS product pages were reverified on 2026-09-02. Marketing user-count statements are intentionally excluded because current KNDS pages expose differing 19/20-country context depending on product page; only stable high-level capability claims are carried into this candidate.",
+    "configuration_scope_note": "LEGUAN is represented as a bridge-laying system family rather than one universal carrier configuration; BOXER bridge compatibility is configuration-bound and DSB performance figures remain manufacturer-attributed."
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 3
+  },
+  "new_records": [
+    {
+      "id": "ENG-TECH-0049",
+      "type": "ENG-TECH",
+      "country": "DEU",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "LEGUAN — modular military bridge-laying system",
+      "title_cs": "LEGUAN — modulární vojenský mostní systém",
+      "summary_en": "KNDS describes LEGUAN as a modular bridge-laying system adaptable to heavy tracked platforms and also available on wheeled carriers. The current product profile lists 14 m and 26 m bridge lengths with MLC 80 rated load capacity, while the KNDS bridge portfolio states that the 26 m bridge can be laid in less than five minutes.",
+      "summary_cs": "KNDS popisuje LEGUAN jako modulární mostní systém přizpůsobitelný těžkým pásovým platformám a dostupný také na kolových nosičích. Aktuální profil uvádí mosty délky 14 a 26 m s nosností MLC 80; portfolio KNDS zároveň uvádí položení 26m mostu za méně než pět minut.",
+      "fact_en": "Manufacturer-primary evidence confirms the LEGUAN family identity, 14 m and 26 m bridge options, MLC 80 baseline rating and rapid automated bridge-laying role.",
+      "fact_cs": "Primární podklad výrobce potvrzuje identitu rodiny LEGUAN, varianty mostů 14 a 26 m, základní zatížitelnost MLC 80 a úlohu rychlého automatizovaného pokládání mostů.",
+      "analysis_en": "Carrier-specific capabilities and optional MLC 100 configurations are not generalized to every LEGUAN installation.",
+      "analysis_cs": "Schopnosti konkrétních nosičů ani volitelné konfigurace MLC 100 nejsou zobecňovány na všechny instalace LEGUAN.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "confidence": "HIGH_FOR_SYSTEM_IDENTITY_BRIDGE_LENGTHS_BASELINE_LOAD_CLASS_AND_LAYING_ROLE",
+      "source_ids": [
+        "ENG-SRC-0534"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0222"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0050",
+      "type": "ENG-TECH",
+      "country": "GBR",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "Dry Support Bridge (DSB) — rapidly deployable support bridge",
+      "title_cs": "Dry Support Bridge (DSB) — rychle rozvinutelný podpůrný most",
+      "summary_en": "KNDS describes DSB as a rapidly deployable tactical bridge able to span a 46 m wet or dry gap using eight personnel and one launch vehicle in less than 90 minutes. The manufacturer lists an MLC 120 rating and identifies main supply routes as the primary mission, with a secondary role sustaining movement across gaps beyond assault-bridge capability.",
+      "summary_cs": "KNDS popisuje DSB jako rychle rozvinutelný taktický most schopný překlenout 46m mokrou nebo suchou překážku osmi osobami a jedním pokládacím vozidlem za méně než 90 minut. Výrobce uvádí MLC 120 a jako hlavní úlohu nasazení na hlavních zásobovacích trasách; sekundárně má systém udržovat pohyb přes překážky přesahující možnosti útočných mostů.",
+      "fact_en": "Manufacturer-primary evidence supports the DSB identity, 46 m maximum stated gap, eight-person crew, single launch vehicle, sub-90-minute deployment and MLC 120 manufacturer rating.",
+      "fact_cs": "Primární podklad výrobce podporuje identitu DSB, výrobcem uváděnou 46m překlenovací schopnost, osmičlennou obsluhu, jedno pokládací vozidlo, rozvinutí pod 90 minut a hodnocení MLC 120.",
+      "analysis_en": "Performance and load figures are retained as manufacturer-stated system characteristics, not universal guarantees for every site or operating condition.",
+      "analysis_cs": "Výkonnostní a zatěžovací údaje jsou vedeny jako výrobcem uváděné charakteristiky systému, nikoli jako univerzální záruka pro každé místo a podmínky.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "confidence": "HIGH_FOR_SYSTEM_IDENTITY_AND_MANUFACTURER_STATED_DEPLOYMENT_PROFILE",
+      "source_ids": [
+        "ENG-SRC-0535"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0223"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    },
+    {
+      "id": "ENG-TECH-0051",
+      "type": "ENG-TECH",
+      "country": "DEU",
+      "record_role": "ENTITY_TOPIC_ENRICHMENT",
+      "title_en": "BOXER Bridgelayer — modular wheeled bridge-laying vehicle",
+      "title_cs": "BOXER Bridgelayer — modulární kolové mostní vozidlo",
+      "summary_en": "KNDS positions BOXER Bridgelayer as an organic gap-crossing capability for medium forces, combining the BOXER 8x8 drive module with a fully automatic bridge-laying mission module. The current product profile lists a 22 m MLC 50 TEJU bridge, two 12 m MLC 50 TEJU bridges, or a 14 m MLC 100 LEGUAN bridge, all handled by the same module without technical adjustment.",
+      "summary_cs": "KNDS představuje BOXER Bridgelayer jako organickou schopnost překonávání překážek pro střední síly, která kombinuje podvozek BOXER 8x8 s plně automatickým mostním modulem. Aktuální profil uvádí 22m most TEJU MLC 50, dva 12m mosty TEJU MLC 50 nebo 14m most LEGUAN MLC 100; stejný modul je obsluhuje bez technické úpravy.",
+      "fact_en": "Manufacturer-primary evidence confirms BOXER Bridgelayer identity, fully automatic mission-module architecture and the listed TEJU/LEGUAN bridge compatibility.",
+      "fact_cs": "Primární podklad výrobce potvrzuje identitu BOXER Bridgelayer, architekturu plně automatického mostního modulu a uvedenou kompatibilitu s mosty TEJU a LEGUAN.",
+      "analysis_en": "Compatible bridge types remain configuration-specific; the record does not imply simultaneous carriage of all bridge sets or universal characteristics beyond the manufacturer profile.",
+      "analysis_cs": "Kompatibilní typy mostů zůstávají vázány na konfiguraci; záznam neimplikuje současnou přepravu všech sad ani univerzální vlastnosti nad rámec profilu výrobce.",
+      "temporal_status": "CURRENTLY_ACCESSIBLE_MANUFACTURER_PRODUCT_PROFILE",
+      "classification": "FACT_FROM_MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "confidence": "HIGH_FOR_PLATFORM_IDENTITY_MODULE_ARCHITECTURE_AND_LISTED_BRIDGE_COMPATIBILITY",
+      "source_ids": [
+        "ENG-SRC-0536"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0224"
+      ],
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_CAPABILITY_PROFILE"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0534",
+      "title": "LEGUAN",
+      "title_en": "LEGUAN",
+      "title_cs": "LEGUAN",
+      "publisher": "KNDS Deutschland",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://knds.com/en/products/systems/bridges/leguan",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_LEGUAN_SYSTEM_IDENTITY_BRIDGE_LENGTHS_AND_LOAD_PROFILE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0535",
+      "title": "DRY SUPPORT BRIDGE (DSB)",
+      "title_en": "DRY SUPPORT BRIDGE (DSB)",
+      "title_cs": "Dry Support Bridge (DSB)",
+      "publisher": "KNDS UK",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://knds.com/en/products/systems/bridges/dry-support-bridge-dsb",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_DSB_IDENTITY_DEPLOYMENT_LOAD_AND_MISSION_PROFILE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    },
+    {
+      "id": "ENG-SRC-0536",
+      "title": "BOXER Bridgelayer",
+      "title_en": "BOXER Bridgelayer",
+      "title_cs": "BOXER Bridgelayer",
+      "publisher": "KNDS Deutschland",
+      "publication_date": null,
+      "accessed_at": "2026-09-02",
+      "url": "https://knds.com/en/products/systems/boxer/boxer-bridgelayer",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "role": "PRIMARY_BOXER_BRIDGELAYER_IDENTITY_MODULE_AND_BRIDGE_COMPATIBILITY",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_WEB_TEXT_2026-09-02"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0222",
+      "evidence_id": "ENG-EVID-0222",
+      "evidence_type": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0049"
+      ],
+      "source_ids": [
+        "ENG-SRC-0534"
+      ],
+      "claim": "LEGUAN is a modular military bridge-laying family with 14 m and 26 m bridge options and an MLC 80 baseline product-profile rating.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-02"
+    },
+    {
+      "id": "ENG-EVID-0223",
+      "evidence_id": "ENG-EVID-0223",
+      "evidence_type": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0050"
+      ],
+      "source_ids": [
+        "ENG-SRC-0535"
+      ],
+      "claim": "DSB is manufacturer-rated to bridge a 46 m wet or dry gap with eight personnel and one launch vehicle in less than 90 minutes and is listed at MLC 120.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-02"
+    },
+    {
+      "id": "ENG-EVID-0224",
+      "evidence_id": "ENG-EVID-0224",
+      "evidence_type": "MANUFACTURER_PRIMARY_PRODUCT_PROFILE",
+      "evidence_status": "DIRECT_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0051"
+      ],
+      "source_ids": [
+        "ENG-SRC-0536"
+      ],
+      "claim": "BOXER Bridgelayer uses a fully automatic bridge-laying mission module compatible with listed TEJU MLC 50 and LEGUAN MLC 100 bridge configurations.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-02"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN_ONLY",
+    "publication_ready_candidate_count": 3,
+    "canonical_write_performed": false,
+    "requires_append_run_write_after_exact_review": true,
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}
