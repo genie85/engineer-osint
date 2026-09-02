@@ -332,6 +332,14 @@
       "path": "data/runs/engineer-osint-20260902-B101.json",
       "file_sha256": "e02c5b0c52a98c36da8db9bbfef9d429edc068ce18c825c791dc8c180e186aea",
       "canonical_sha256": "146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b"
+    },
+    {
+      "run_id": "engineer-osint-20260902-B102",
+      "parent_run_id": "engineer-osint-20260902-B101",
+      "parent_canonical_sha256": "146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b",
+      "path": "data/runs/engineer-osint-20260902-B102.json",
+      "file_sha256": "5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a",
+      "canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91"
     }
   ],
   "legacy_history": {
