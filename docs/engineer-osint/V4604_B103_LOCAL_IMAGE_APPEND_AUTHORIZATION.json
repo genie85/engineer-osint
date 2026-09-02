@@ -1,0 +1,123 @@
+{
+  "schema_version": "engineer-osint-b103-local-image-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-02",
+  "reviewed_main_sha": "4f57572d0f126646cddac344d72f4c7b16783541",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4603-b103-local-images.json",
+  "candidate_git_blob_sha": "cf5c270a18fbf9806ab5c0b250c855347826a27c",
+  "candidate_run_id": "engineer-osint-20260902-B103",
+  "expected_parent_run_id": "engineer-osint-20260902-B102",
+  "expected_parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+  "exact_candidate_file_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+  "expected_resulting_canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+  "expected_updated_record_count": 9,
+  "expected_new_visual_count": 9,
+  "expected_new_media_count": 0,
+  "expected_card_ids": [
+    "ENG-TECH-0003",
+    "ENG-TECH-0004",
+    "ENG-TECH-0005",
+    "ENG-TECH-0006",
+    "ENG-TECH-0016",
+    "ENG-TECH-0017",
+    "ENG-TECH-0022",
+    "ENG-TECH-0028",
+    "ENG-TECH-0029"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0003",
+    "ENG-VIS-LOCAL-0004",
+    "ENG-VIS-LOCAL-0005",
+    "ENG-VIS-LOCAL-0006",
+    "ENG-VIS-LOCAL-0016",
+    "ENG-VIS-LOCAL-0017",
+    "ENG-VIS-LOCAL-0022",
+    "ENG-VIS-LOCAL-0028",
+    "ENG-VIS-LOCAL-0029"
+  ],
+  "photo_review_status_successor": {
+    "source_path": "docs/engineer-osint/photo-review-status.json",
+    "source_git_blob_sha": "e0659bc6c26fb73fa88c6e2531f1c178e271f713",
+    "source_sha256": "bc923cb39a246c37cd6ecbfcbc0869ee18faa7e060206538214ccd596b71b100",
+    "successor_path": "docs/engineer-osint/photo-review-candidates/v4603-b103-local-image-status.json",
+    "successor_git_blob_sha": "8ce72c31ea76684a761865a14e5e0fdad409e80a",
+    "successor_sha256": "86b7694c3aee30ea421601c698b9eac3d6aa906958cab93c036e66037247e569",
+    "expected_cards_with_local_image": 9,
+    "expected_ready_for_import": 0,
+    "expected_photo_coverage_percent": 18
+  },
+  "source_acquisition_manifest": {
+    "path": "docs/engineer-osint/photo-local-acquisitions/v4601-ready-for-import.json",
+    "git_blob_sha": "b5a341795016ee690ea71d28d2dd3521c39b4543",
+    "sha256": "daa7f0233bee30cd6d30bbd7eec3262c426e7951ab49cb395cf2194bee44e104"
+  },
+  "local_files": [
+    {"card_id":"ENG-TECH-0003","path":"docs/engineer-osint/assets/photos/eng-tech-0003-ubim.webp","git_blob_sha":"70a7edfd006d6b2962837e868a24db53fa7ce41c","sha256":"9a626759bea615705972b56829f8b0acc611c926ee36fb42a12f1ac962555b4e"},
+    {"card_id":"ENG-TECH-0004","path":"docs/engineer-osint/assets/photos/eng-tech-0004-imr-3m.webp","git_blob_sha":"2a7f678d56a9ccab0e2703bef81a62dd38dfb298","sha256":"1a77d91151a89a29dc6041a60ddf11f19ca8146c52296ef1c09e7e60cf3de804"},
+    {"card_id":"ENG-TECH-0005","path":"docs/engineer-osint/assets/photos/eng-tech-0005-m3-family.webp","git_blob_sha":"c0c23a7e385bb67064a09f3ac0d9e581f72a681b","sha256":"9d45fc046f7cf98a57256b756c9ba67fd37649ef21c1672f680f7a8d410877fa"},
+    {"card_id":"ENG-TECH-0006","path":"docs/engineer-osint/assets/photos/eng-tech-0006-jgsdf-07msb.webp","git_blob_sha":"cd214b2209fd0c564492e1f2edd5fa6c911afa04","sha256":"71a1f1224c71e41358bbf3a4fca4b39da977716ba8a3caf752675b2b05b7695a"},
+    {"card_id":"ENG-TECH-0016","path":"docs/engineer-osint/assets/photos/eng-tech-0016-jgsdf-07msb.webp","git_blob_sha":"ae0aa241b38b7a731f41d6c8eff6f6365e6b2fb7","sha256":"2afa9dd9b48bd687e14f4d44e6ff61a31f8d385ce42f16332cc54b4424b40967"},
+    {"card_id":"ENG-TECH-0017","path":"docs/engineer-osint/assets/photos/eng-tech-0017-type-92-minefield-clearing.webp","git_blob_sha":"85475c5e0e879e3c1687f7a98d24c5307c0c0946","sha256":"f12a1c5453ea7320c7031d43f40656879af17782bf91b9ffe42dfeae18e15170"},
+    {"card_id":"ENG-TECH-0022","path":"docs/engineer-osint/assets/photos/eng-tech-0022-kunduz.webp","git_blob_sha":"126b6806adad1a9bfcb742d7eed3fee2d0024675","sha256":"0495bd15901f0edd7d4fcfecc84d8e6bc657ec3490edcf8db32f085bfc8f6b21"},
+    {"card_id":"ENG-TECH-0028","path":"docs/engineer-osint/assets/photos/eng-tech-0028-am-50.webp","git_blob_sha":"3b571d3708249857232e11443aaafc1f80471808","sha256":"8ecb6d98196c962599aee5ba5fd922af2e4922cd09782b2832cdff1f33ea53ef"},
+    {"card_id":"ENG-TECH-0029","path":"docs/engineer-osint/assets/photos/eng-tech-0029-mt-55a.webp","git_blob_sha":"a30d9f63ba776683bc43888162525124daa26a63","sha256":"2fd861d390e1d60c076ae96e5a31014d6f419fef58269a373e075ca0bdfca369"}
+  ],
+  "protected_baseline": {
+    "append_run_blob_sha": "174cc646b8d3ecf6e338f6460b95335130154ffb",
+    "run_store_blob_sha": "a97184dbd825fab3e5485b72a760bde04749af0b",
+    "integrity_blob_sha": "8c9a9aa766e910e0bccdb9308acc8af5a3aadac7",
+    "manifest_blob_sha": "15d5b2ae11966ca8912ee062a5be4d520a913bef",
+    "b102_run_blob_sha": "7cc65fe65d97a75408295963bc408a6107ece1a1",
+    "candidate_readiness_blob_sha": "d35fd4df7595de0d120c77898a6f12578fe6cc8a"
+  },
+  "required_preconditions": {
+    "v4603_exact_candidate_reviewed": true,
+    "v4603_candidate_dry_run_green": true,
+    "candidate_post_merge_gate_green": true,
+    "b102_is_current_run": true,
+    "all_nine_local_binary_hashes_pinned": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "photo_review_status_successor_applied_must_remain_false_before_execution": true,
+    "authorization_stage_append_run_must_remain_baseline": true
+  },
+  "authorized_guard_successor_contract": {
+    "guarded_run_id": "engineer-osint-20260902-B103",
+    "authorization_path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "schema_version": "engineer-osint-b103-local-image-append-authorization-v1",
+    "required_status": "READY_FOR_APPEND",
+    "require_exact_candidate_hashes": true,
+    "require_exact_collection_counts": true,
+    "require_exact_card_visual_ids": true,
+    "require_exact_local_binary_hashes": true,
+    "require_exact_photo_status_successor": true,
+    "require_candidate_no_write_flags": true,
+    "allow_wildcard_or_current_state_acceptance": false
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "install_exact_b103_append_guard_successor": true,
+    "standard_append_run_write_required": true,
+    "apply_exact_photo_review_status_successor": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_photo_binary_mutation": false,
+    "allow_photo_status_other_than_exact_successor": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_runtime_change": false,
+    "allow_workflow_change": false,
+    "allow_unrelated_content_change": false
+  },
+  "execution_state": {
+    "append_run_successor_installed": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  },
+  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.6.03 B103 local-image candidate. Execution must fresh-read all protected inputs, install only the deterministic B103 append guard successor, persist only B103 through standard append-run --write, and replace photo-review-status.json only with the exact pinned successor after the canonical append validates. This authorization slice performs no canonical or lifecycle write."
+}
