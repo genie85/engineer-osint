@@ -9,12 +9,13 @@ const v4563=JSON.parse(readFileSync(`${root}/V4563_ACTION_NODE24_AUTHORIZATION.j
 const v4566=JSON.parse(readFileSync(`${root}/V4566_SELF_SUCCESSOR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
+const b101IdentityWorkflowSha='0ae8604681f6aa4270a360e50b39ca4ddb4afd49';
 
 const expectedTests=new Map([
-  ['docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs',{historical:'3501017e228ac37a59c2b1ec115786550fb014fb',successor:'3149bc399f3e6e8faa4ee26d372c64cfe61cfe36',b100:'ff0c3db08ec48bebb352fdcd7c288d2481bc3528'}],
-  ['docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs',{historical:'2999eecf4b6f45a98e674d7e4529da763a11837c',successor:'238303bc0e6db4f1371a0f65f036f28a174a58cd',b100:'129d9162065b9c6aabcd4612b16656485783237e'}],
-  ['docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs',{historical:'8c8612c73f677064db2d59f013d3bfecd6dfbcfe',successor:'1f7770c3a7c1c7b912505012814841d1d06def1d',b100:'f0b0a62b569ed293391f53a786dbbb9e17df57d9'}],
-  ['docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs',{historical:'459c52e39ad732508bd8df8fa03793521803f04e',successor:'ee0132955b4a74c939ef3e57487b44b891dd90e3',b100:'9639e6040d9304c8659f2359e91d87eb11b7a310'}]
+  ['docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs',{historical:'3501017e228ac37a59c2b1ec115786550fb014fb',successor:'3149bc399f3e6e8faa4ee26d372c64cfe61cfe36',b100:'ff0c3db08ec48bebb352fdcd7c288d2481bc3528',b101:'c57c541a5b331e1c980aafb5767bdc0a57f8b460'}],
+  ['docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs',{historical:'2999eecf4b6f45a98e674d7e4529da763a11837c',successor:'238303bc0e6db4f1371a0f65f036f28a174a58cd',b100:'129d9162065b9c6aabcd4612b16656485783237e',b101:'b6c94a97df0643c7ee3edf365c621a81d9ba67c5'}],
+  ['docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs',{historical:'8c8612c73f677064db2d59f013d3bfecd6dfbcfe',successor:'1f7770c3a7c1c7b912505012814841d1d06def1d',b100:'f0b0a62b569ed293391f53a786dbbb9e17df57d9',b101:'a8755ac352a64bf0c4448555d8964d6eedff332f'}],
+  ['docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs',{historical:'459c52e39ad732508bd8df8fa03793521803f04e',successor:'ee0132955b4a74c939ef3e57487b44b891dd90e3',b100:'9639e6040d9304c8659f2359e91d87eb11b7a310',b101:'49f3ed627b5922c7a988788aa374f01428998e68'}]
 ]);
 
 const expectedSuccessors=[
@@ -29,10 +30,12 @@ const currentTestShas=new Map([...expectedTests].map(([file])=>[file,gitBlobSha(
 const baselineTestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.historical);
 const successorTestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.successor);
 const b100TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b100);
+const b101TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b101);
 const currentWorkflowShas=new Map(expectedSuccessors.map(([file])=>[file,gitBlobSha(readFileSync(`.github/workflows/${file}`,'utf8'))]));
 const baselineWorkflowMode=expectedSuccessors.every(([file,baseline])=>currentWorkflowShas.get(file)===baseline);
 const successorWorkflowMode=expectedSuccessors.every(([file,,successor])=>currentWorkflowShas.get(file)===successor);
 const b100WorkflowMode=expectedSuccessors.every(([file,,successor])=>currentWorkflowShas.get(file)===(file==='identity-fix-retirement-regression.yml'?b100IdentityWorkflowSha:successor));
+const b101WorkflowMode=expectedSuccessors.every(([file,,successor])=>currentWorkflowShas.get(file)===(file==='identity-fix-retirement-regression.yml'?b101IdentityWorkflowSha:successor));
 
 test('v4.5.65 is authorization-only and pinned to exact green v4.5.63 main',()=>{
   assert.equal(policy.schema_version,'engineer-osint-action-upgrade-lifecycle-authorization-v1');
@@ -50,7 +53,7 @@ test('v4.5.65 is authorization-only and pinned to exact green v4.5.63 main',()=>
   assert.equal(policy.diagnostic_execution.action_download_and_setup_success,true);
 });
 
-test('v4.5.65 preserves four immutable baselines and recognizes only pinned historical, action or B100 test successors',()=>{
+test('v4.5.65 preserves immutable baselines and recognizes only pinned historical/action/B100/B101 test successors',()=>{
   assert.equal(policy.authorized_test_files.length,4);
   assert.equal(new Set(policy.authorized_test_files.map(x=>x.file)).size,4);
   for(const item of policy.authorized_test_files){
@@ -59,24 +62,26 @@ test('v4.5.65 preserves four immutable baselines and recognizes only pinned hist
     assert.equal(exact.historical,item.historical_git_blob_sha,`${item.file}: authorization target mismatch`);
     assert.ok(item.allowed_change.length>40,`${item.file}: allowed change is not explicit`);
   }
-  assert.ok(baselineTestMode||successorTestMode||b100TestMode,'lifecycle tests are a mixed or unauthorized state');
+  assert.ok(baselineTestMode||successorTestMode||b100TestMode||b101TestMode,'lifecycle tests are a mixed or unauthorized state');
   assert.equal(v4566.authorized_test.historical_git_blob_sha,'bcc84c5536420fcc1be2b6fcf9060cca851e09b4');
   assert.equal(v4566.execution_boundary.v4565_test_self_successor_change_authorized,true);
   assert.equal(v4566.execution_boundary.wildcard_or_current_state_acceptance_authorized,false);
 });
 
-test('v4.5.65 keeps historical workflow successors immutable and permits only exact B100 browser successor on identity workflow',()=>{
+test('v4.5.65 keeps historical workflow successors immutable and permits only exact B100/B101 browser successors',()=>{
   assert.deepEqual(policy.workflow_successors.map(x=>[x.file,x.v4562_git_blob_sha,x.v4564_diagnostic_git_blob_sha]),expectedSuccessors);
-  assert.ok(baselineWorkflowMode||successorWorkflowMode||b100WorkflowMode,'workflows are a mixed or unauthorized lifecycle state');
+  assert.ok(baselineWorkflowMode||successorWorkflowMode||b100WorkflowMode||b101WorkflowMode,'workflows are a mixed or unauthorized lifecycle state');
   if(baselineWorkflowMode)assert.equal(baselineTestMode,true,'baseline workflow/test modes diverged');
   if(successorWorkflowMode)assert.equal(successorTestMode,true,'action workflow/test successor modes diverged');
   if(b100WorkflowMode)assert.equal(b100TestMode,true,'B100 workflow/test successor modes diverged');
+  if(b101WorkflowMode)assert.equal(b101TestMode,true,'B101 workflow/test successor modes diverged');
   const v4563Map=new Map(v4563.active_workflows.map(x=>[x.file,x.historical_git_blob_sha]));
   for(const [file,v4562Sha] of expectedSuccessors)assert.equal(v4563Map.get(file),v4562Sha,`${file}: v4.5.63 historical anchor drift`);
-  if(b100WorkflowMode){
+  if(b100WorkflowMode||b101WorkflowMode){
     const text=readFileSync('.github/workflows/identity-fix-retirement-regression.yml','utf8');
     assert.match(text,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
     assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
+    if(b101WorkflowMode)assert.match(text,/'engineer-osint-20260902-B101':'b31eededb9165bc19019f592bc4f9e58ea6f7f4fc86a0e189d6f5e34fb48d6e9'/);
     assert.match(text,/no exact digest authorized for current run/);
   }
 });
