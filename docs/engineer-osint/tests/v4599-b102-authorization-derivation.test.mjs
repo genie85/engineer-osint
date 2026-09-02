@@ -15,6 +15,7 @@ const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
 const appendRunRaw=readFileSync(appendRunPath,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const exactB102AppendSuccessor='174cc646b8d3ecf6e338f6460b95335130154ffb';
+const exactAuthorizedExecutorSuccessor='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 
 test('v4.5.99 pins the exact frozen B102 candidate and deterministic canonical successor',()=>{
   assert.equal(gitBlobSha(raw),authorization.candidate_git_blob_sha);
@@ -64,7 +65,7 @@ test('v4.5.99 authorization stays exact-scope and execution-separated',()=>{
   assert.deepEqual(authorization.execution_state,{append_run_successor_installed:false,canonical_write_performed:false,run_file_created:false,manifest_updated:false});
 });
 
-test('v4.5.99 freezes the B101-era append helper and permits only the exact B102 execution successor',()=>{
+test('v4.5.99 freezes the B101-era append helper and permits only the exact B102 or separately authorized executor successor',()=>{
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0');
   assert.equal(authorization.protected_baseline.run_store_blob_sha,'a97184dbd825fab3e5485b72a760bde04749af0b');
   assert.equal(authorization.protected_baseline.integrity_blob_sha,'8c9a9aa766e910e0bccdb9308acc8af5a3aadac7');
@@ -81,7 +82,8 @@ test('v4.5.99 freezes the B101-era append helper and permits only the exact B102
   assert.equal(authorization.authorized_guard_successor_contract.require_multimedia_status,'COMPLETE_NO_CANONICAL_MEDIA_ADDITION');
   assert.equal(authorization.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
   assert.equal(authorization.required_preconditions.authorization_stage_append_run_must_remain_baseline,true);
-  assert.equal(gitBlobSha(appendRunRaw),exactB102AppendSuccessor);
+  const current=gitBlobSha(appendRunRaw);
+  assert.ok(new Set([exactB102AppendSuccessor,exactAuthorizedExecutorSuccessor]).has(current),`unexpected append-run lifecycle blob ${current}`);
   assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
   assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
   assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);

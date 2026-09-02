@@ -8,7 +8,6 @@ const root='docs/engineer-osint';
 const authorization=JSON.parse(readFileSync(`${root}/V4596_B101_APPEND_AUTHORIZATION.json`,'utf8'));
 const candidateRaw=readFileSync(`${root}/osint-publication-candidates/v4595-b101.json`,'utf8');
 const persistedRaw=readFileSync(`${root}/data/runs/engineer-osint-20260902-B101.json`,'utf8');
-const manifest=JSON.parse(readFileSync(`${root}/data/run-store-manifest.json`,'utf8'));
 const appendRunRaw=readFileSync(`${root}/append-run.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const sha256=text=>createHash('sha256').update(text).digest('hex');
@@ -19,6 +18,7 @@ const B101_CANONICAL_SHA='146e5039705147f481499487a399f33fc537ecfca01f845b82f8e4
 const B100_CANONICAL_SHA='518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141';
 const B101_APPEND_SUCCESSOR='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 const B102_APPEND_SUCCESSOR='174cc646b8d3ecf6e338f6460b95335130154ffb';
+const EXECUTOR_APPEND_SUCCESSOR='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 
 test('v4.5.97 persists exactly the separately authorized B101 append as a canonical ancestor',()=>{
   const store=loadCanonicalRunStore({root});
@@ -41,15 +41,19 @@ test('v4.5.97 persists exactly the separately authorized B101 append as a canoni
   });
 });
 
-test('v4.5.97 preserves only exact B101/B102 append guard successors',()=>{
+test('v4.5.97 preserves only exact B101/B102/executor append guard successors',()=>{
   const current=gitBlobSha(appendRunRaw);
-  assert.ok(new Set([B101_APPEND_SUCCESSOR,B102_APPEND_SUCCESSOR]).has(current),`unexpected append-run lifecycle blob ${current}`);
+  assert.ok(new Set([B101_APPEND_SUCCESSOR,B102_APPEND_SUCCESSOR,EXECUTOR_APPEND_SUCCESSOR]).has(current),`unexpected append-run lifecycle blob ${current}`);
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
   assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
-  if(current===B102_APPEND_SUCCESSOR){
+  if(current===B102_APPEND_SUCCESSOR||current===EXECUTOR_APPEND_SUCCESSOR){
     assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
     assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
+  }
+  if(current===EXECUTOR_APPEND_SUCCESSOR){
+    assert.match(appendRunRaw,/Explicit append authorization required for unrecognized write run/);
+    assert.match(appendRunRaw,/--authorization requires an explicit repository path/);
   }
   assert.match(appendRunRaw,/COMPLETE_NO_CANONICAL_MEDIA_ADDITION/);
   assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);

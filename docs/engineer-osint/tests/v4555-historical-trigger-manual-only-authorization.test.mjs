@@ -8,6 +8,8 @@ const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-historical-trigger-manual-only-authorization.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.55 separately authorizes only the future manual-only trigger conversion',()=>{
   assert.equal(policy.schema_version,'engineer-osint-historical-trigger-manual-only-authorization-v1');
@@ -34,7 +36,7 @@ test('v4.5.55 target set remains the exact historical anchor for both v4.5.56 su
 
 test('v4.5.55 freezes all five active protections as historical anchors with only exact v4.5.57 browser-guard successor allowed',()=>{
   assert.equal(policy.required_unchanged_active_protections.length,5);
-  const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.equal(actual.length,7);
   for(const item of policy.required_unchanged_active_protections)assertActiveProtectionCurrentOrV4557(item);
 });

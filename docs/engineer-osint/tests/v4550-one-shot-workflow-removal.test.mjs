@@ -10,6 +10,8 @@ const policy=JSON.parse(readFileSync(`${root}/V4550_ONE_SHOT_WORKFLOW_REMOVAL.js
 const audit=readFileSync(`${root}/audit-one-shot-workflow-removal.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const targets=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.50 applies exactly the v4.5.49-authorized four-workflow deletion',()=>{
   assert.equal(policy.schema_version,'engineer-osint-one-shot-workflow-removal-v1');
@@ -22,7 +24,7 @@ test('v4.5.50 applies exactly the v4.5.49-authorized four-workflow deletion',()=
 
 test('v4.5.50 historical 14-workflow post-state remains pinned across authorized v4.5.53/v4.5.56/v4.5.57 lifecycle',()=>{
   const expected=Object.values(policy.required_remaining_workflows).flat();
-  const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.equal(expected.length,14);
   assert.equal(policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION.length,5);
   assert.equal(policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP.length,2);
@@ -71,7 +73,7 @@ test('v4.5.50 preserves exact B96-B99 historical anchors and canonical safety bo
 
 test('v4.5.50 post-removal audit is immutable and runs only before the v4.5.53 cleanup',()=>{
   assert.doesNotMatch(audit,/writeFileSync|appendFileSync|rmSync|unlinkSync/);
-  const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   if(actual.length===14){
     const output=execFileSync(process.execPath,[`${root}/audit-one-shot-workflow-removal.mjs`],{encoding:'utf8'});
     assert.match(output,/ONE_SHOT_WORKFLOW_REMOVAL=PASS/);

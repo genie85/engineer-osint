@@ -12,8 +12,11 @@ const workflowsDir = path.join(repoRoot, '.github', 'workflows');
 const migrationPath = path.join(projectDir, 'V4562_ACTIVE_NODE24_MIGRATION.json');
 const baselinePath = path.join(projectDir, 'V4561_CI_NODE_RUNTIME_INVENTORY.json');
 const successorPath = path.join(projectDir, 'V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json');
+const executorAuthPath = path.join(projectDir, 'V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json');
 const migration = JSON.parse(fs.readFileSync(migrationPath, 'utf8'));
 const successorPolicy = JSON.parse(fs.readFileSync(successorPath, 'utf8'));
+const executorAuth = JSON.parse(fs.readFileSync(executorAuthPath, 'utf8'));
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
 const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 const b102IdentityWorkflowSha='3a14efd69c46d464c50543431565b57b4517ae39';
@@ -41,13 +44,19 @@ test('v4.5.62 migration scope is Node-runtime-only and fail-closed', () => {
   assert.equal(migration.findings.ui_edit_performed, false);
 });
 
-test('v4.5.62 contract covers every current workflow exactly once', () => {
-  const actual = fs.readdirSync(workflowsDir).filter((name) => /\.ya?ml$/i.test(name)).sort();
+test('v4.5.62 contract covers its exact seven-workflow historical surface plus only the v4.6.06 authorized executor addition', () => {
+  const allCurrent = fs.readdirSync(workflowsDir).filter((name) => /\.ya?ml$/i.test(name)).sort();
+  const historicalCurrent=allCurrent.filter(name=>name!==laterAuthorizedWorkflow);
   const contracted = migration.workflows.map((item) => item.file).sort();
-  assert.deepEqual(contracted, actual);
-  assert.equal(actual.length, migration.workflow_count);
+  assert.deepEqual(contracted, historicalCurrent);
+  assert.equal(historicalCurrent.length, migration.workflow_count);
   assert.equal(new Set(contracted).size, contracted.length);
-  assert.equal(actual.length, 7);
+  assert.equal(historicalCurrent.length, 7);
+  assert.deepEqual(allCurrent,[...historicalCurrent,laterAuthorizedWorkflow].sort());
+  assert.equal(executorAuth.status,'READY_FOR_IMPLEMENTATION');
+  assert.equal(executorAuth.authorized_targets.workflow_path,`.github/workflows/${laterAuthorizedWorkflow}`);
+  const executorWorkflow=fs.readFileSync(path.join(workflowsDir,laterAuthorizedWorkflow),'utf8');
+  assert.equal(configuredNodeMajor(executorWorkflow),24);
 });
 
 test('v4.5.62 exact workflow history permits action successors plus exact B100/B101/B102 identity successors', () => {

@@ -8,6 +8,8 @@ const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4554_MINIMIZED_WORKFLOW_TRIGGER_COVERAGE.json`,'utf8'));
 const audit=readFileSync(`${root}/audit-minimized-workflow-trigger-coverage.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.54 is read-only trigger coverage review over exact v4.5.53 production',()=>{
   assert.equal(policy.schema_version,'engineer-osint-minimized-workflow-trigger-coverage-v1');
@@ -22,7 +24,7 @@ test('v4.5.54 is read-only trigger coverage review over exact v4.5.53 production
 test('v4.5.54 pins exactly seven historical workflow identities with 5 active and 2 later-authorized successors',()=>{
   assert.deepEqual(policy.workflow_inventory,{total:7,active_production_protection:5,historical_evidence_keep:2,migration_ci_debt_candidate:0});
   const expected=[...policy.active_production_protections,...policy.historical_evidence_workflows];
-  const actual=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.equal(expected.length,7);
   assert.deepEqual(actual,expected.map(x=>x.file).sort());
   for(const item of policy.active_production_protections)assertActiveProtectionCurrentOrV4557(item);

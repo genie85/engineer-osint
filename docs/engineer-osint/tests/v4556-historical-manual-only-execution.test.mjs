@@ -5,6 +5,8 @@ import {assertActiveProtectionCurrentOrV4557,assertV4556Applied,gitBlobSha,v4556
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json`,'utf8'));
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.56 consumes exactly the two v4.5.55 authorized historical anchors',()=>{
   assert.equal(v4556.reviewed_main_sha,'a3d6caf23b00a15a011ef5a1b954c900b006b844');
@@ -13,8 +15,8 @@ test('v4.5.56 consumes exactly the two v4.5.55 authorized historical anchors',()
   assertV4556Applied();
 });
 
-test('v4.5.56 keeps exactly five active protection anchors with only exact v4.5.57 browser-guard successor allowed',()=>{
-  const files=readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')).sort();
+test('v4.5.56 keeps exactly five active protection anchors in its seven-workflow historical surface',()=>{
+  const files=historicalWorkflowSurface();
   assert.equal(files.length,7);
   assert.equal(v4556.unchanged_active_protections.length,5);
   assert.deepEqual(v4556.unchanged_active_protections,auth.required_unchanged_active_protections);
