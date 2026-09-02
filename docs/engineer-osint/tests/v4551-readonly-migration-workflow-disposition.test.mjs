@@ -12,6 +12,8 @@ const audit=readFileSync(`${root}/audit-readonly-migration-workflow-disposition.
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const v4553Path=`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`;
 const v4553=existsSync(v4553Path)?JSON.parse(readFileSync(v4553Path,'utf8')):null;
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 const candidateFiles=[
   'b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml',
@@ -43,7 +45,7 @@ test('v4.5.51 historical 5/2/7 inventory remains pinned across the authorized v4
   assert.equal(candidates.length,7);
   if(!v4553){
     const expected=[...replacements,...historical,...candidates];
-    const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+    const actual=historicalWorkflowSurface();
     assert.equal(expected.length,14);
     assert.deepEqual(actual,expected.map(x=>x.file).sort());
     for(const item of expected)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
@@ -54,7 +56,7 @@ test('v4.5.51 historical 5/2/7 inventory remains pinned across the authorized v4
   assert.equal(v4553.classification_audit_git_blob_sha,'2890b5ce742aaf6a2c0e7bf2c8208a60266541c4');
   assert.deepEqual(v4553.removed_targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),candidates.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
   const remaining=[...replacements,...historical];
-  const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.deepEqual(actual,remaining.map(x=>x.file).sort());
   for(const item of candidates)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
   for(const item of replacements)assertActiveProtectionCurrentOrV4557(item);
