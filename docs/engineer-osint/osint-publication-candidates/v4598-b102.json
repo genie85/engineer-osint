@@ -10,11 +10,13 @@
   },
   "continuity": {
     "status": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN",
-    "reviewed_main_sha": "fc26d68b00f4a6db11f465ee6b0b57a5ab14ebff",
+    "reviewed_main_sha": "b75373ac4266701af6f29645ddc7dc7b3c46665b",
+    "reviewed_parent_canonical_sha256": "146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b",
     "research_batches": ["v4.5.91"],
     "publication_write_authorized": false,
     "canonical_write_performed": false,
     "duplicate_audit": {"LEGUAN":"NO_EXACT_CANONICAL_RECORD_MATCH","Dry Support Bridge":"NO_EXACT_CANONICAL_RECORD_MATCH","BOXER Bridgelayer":"NO_EXACT_CANONICAL_RECORD_MATCH"},
+    "source_reverification_note": "Current KNDS product pages were reverified on 2026-09-02. Marketing user-count statements are intentionally excluded because current KNDS pages expose differing 19/20-country context depending on product page; only stable high-level capability claims are carried into this candidate.",
     "configuration_scope_note": "LEGUAN is represented as a bridge-laying system family rather than one universal carrier configuration; BOXER bridge compatibility is configuration-bound and DSB performance figures remain manufacturer-attributed."
   },
   "true_delta": {"CURRENT_DELTA":0,"LATE_DISCOVERED_CURRENT":0,"HISTORICAL_BACKFILL":0,"ENTITY_ENRICHMENT":3},
@@ -62,6 +64,25 @@
     {"id":"ENG-EVID-0223","evidence_id":"ENG-EVID-0223","evidence_type":"MANUFACTURER_PRIMARY_PRODUCT_PROFILE","evidence_status":"DIRECT_PUBLIC_TEXT_VERIFIED","related_ids":["ENG-TECH-0050"],"source_ids":["ENG-SRC-0535"],"claim":"DSB is manufacturer-rated to bridge a 46 m wet or dry gap with eight personnel and one launch vehicle in less than 90 minutes and is listed at MLC 120.","confidence":"HIGH","observed_at":"2026-09-02"},
     {"id":"ENG-EVID-0224","evidence_id":"ENG-EVID-0224","evidence_type":"MANUFACTURER_PRIMARY_PRODUCT_PROFILE","evidence_status":"DIRECT_PUBLIC_TEXT_VERIFIED","related_ids":["ENG-TECH-0051"],"source_ids":["ENG-SRC-0536"],"claim":"BOXER Bridgelayer uses a fully automatic bridge-laying mission module compatible with listed TEJU MLC 50 and LEGUAN MLC 100 bridge configurations.","confidence":"HIGH","observed_at":"2026-09-02"}
   ],
-  "visual_registry": [],
-  "media_registry": []
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "PHASE_F_PUBLICATION_CANDIDATE_DRY_RUN_ONLY",
+    "publication_ready_candidate_count": 3,
+    "canonical_write_performed": false,
+    "requires_append_run_write_after_exact_review": true,
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
 }
