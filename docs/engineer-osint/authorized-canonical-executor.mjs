@@ -108,16 +108,20 @@ function assertBaseFileUnchanged(baseSha,path,label){
   if(!baseBytes.equals(current))throw new Error(`${label} differs from the reviewed base-main file`);
 }
 
-function validateLifecycleSuccessor(authorization){
+function validateLifecycleSuccessor(authorization,{executed=false}={}){
   const lifecycle=authorization.photo_review_status_successor;
   if(!lifecycle)return null;
   safeRepoPath(lifecycle.source_path,'lifecycle source path');
   safeRepoPath(lifecycle.successor_path,'lifecycle successor path');
   const sourceBytes=readFileSync(lifecycle.source_path),successorBytes=readFileSync(lifecycle.successor_path);
-  if(lifecycle.source_sha256&&sha256(sourceBytes)!==lifecycle.source_sha256)throw new Error('Lifecycle source SHA-256 drift');
-  if(lifecycle.source_git_blob_sha&&gitBlobSha(sourceBytes)!==lifecycle.source_git_blob_sha)throw new Error('Lifecycle source Git blob drift');
   if(lifecycle.successor_sha256&&sha256(successorBytes)!==lifecycle.successor_sha256)throw new Error('Lifecycle successor SHA-256 drift');
   if(lifecycle.successor_git_blob_sha&&gitBlobSha(successorBytes)!==lifecycle.successor_git_blob_sha)throw new Error('Lifecycle successor Git blob drift');
+  if(executed){
+    if(!sourceBytes.equals(successorBytes))throw new Error('Executed lifecycle source does not equal the exact authorized successor');
+  }else{
+    if(lifecycle.source_sha256&&sha256(sourceBytes)!==lifecycle.source_sha256)throw new Error('Lifecycle source SHA-256 drift');
+    if(lifecycle.source_git_blob_sha&&gitBlobSha(sourceBytes)!==lifecycle.source_git_blob_sha)throw new Error('Lifecycle source Git blob drift');
+  }
   if(authorization.authorization?.apply_exact_photo_review_status_successor!==true)throw new Error('Lifecycle successor is not explicitly authorized');
   if(authorization.authorization?.allow_photo_status_other_than_exact_successor!==false)throw new Error('Lifecycle authorization allows an unsafe alternative successor');
   return lifecycle;
@@ -155,10 +159,18 @@ export function executeAuthorizedCanonicalRequest(requestPath,{env=process.env}=
   if(authorization.candidate_run_id!==patch.state?.run_id)throw new Error('Request candidate run is not the authorized run');
 
   const store=loadCanonicalRunStore({root:ROOT});
-  if(store.report.current_run_id!==authorization.expected_parent_run_id||store.report.canonical_sha256!==authorization.expected_parent_canonical_sha256)throw new Error('Current canonical parent drifted from authorization');
-  const result=applyStrictPatchToCanonicalData(store.data,patch);
+  const alreadyExecuted=request.status==='EXECUTED';
+  if(!alreadyExecuted&&(store.report.current_run_id!==authorization.expected_parent_run_id||store.report.canonical_sha256!==authorization.expected_parent_canonical_sha256))throw new Error('Current canonical parent drifted from authorization');
+  const result=alreadyExecuted?null:applyStrictPatchToCanonicalData(store.data,patch);
   const normalized=JSON.stringify(patch,null,2)+'\n';
-  const entry={
+  const entry=alreadyExecuted?{
+    run_id:authorization.candidate_run_id,
+    parent_run_id:authorization.expected_parent_run_id,
+    parent_canonical_sha256:authorization.expected_parent_canonical_sha256,
+    path:`data/runs/${authorization.candidate_run_id}.json`,
+    file_sha256:authorization.exact_candidate_file_sha256,
+    canonical_sha256:authorization.expected_resulting_canonical_sha256
+  }:{
     run_id:patch.state.run_id,
     parent_run_id:store.report.current_run_id,
     parent_canonical_sha256:store.report.canonical_sha256,
@@ -167,18 +179,14 @@ export function executeAuthorizedCanonicalRequest(requestPath,{env=process.env}=
     canonical_sha256:canonicalDigest(result)
   };
   loadAndValidateGenericAppendAuthorization({authorizationPath:request.authorization_path,input:request.candidate_path,patch,entry});
-  const lifecycle=validateLifecycleSuccessor(authorization);
+  const lifecycle=validateLifecycleSuccessor(authorization,{executed:alreadyExecuted});
   const allowed=expectedExecutionFiles(requestPath,authorization);
   const committedDiff=git(['diff','--name-only',`${baseSha}...HEAD`]).split('\n').filter(Boolean);
 
-  if(request.status==='EXECUTED'){
+  if(alreadyExecuted){
     assertExactSet(committedDiff,allowed,'Executed request committed');
     const verified=loadCanonicalRunStore({root:ROOT});
     if(verified.report.current_run_id!==authorization.candidate_run_id||verified.report.canonical_sha256!==authorization.expected_resulting_canonical_sha256)throw new Error('Executed request canonical state no longer matches authorization');
-    if(lifecycle){
-      const sourceBytes=readFileSync(lifecycle.source_path),successorBytes=readFileSync(lifecycle.successor_path);
-      if(!sourceBytes.equals(successorBytes))throw new Error('Executed lifecycle source does not equal the exact authorized successor');
-    }
     return {status:'VERIFIED_ALREADY_EXECUTED',run_id:authorization.candidate_run_id,canonical_sha256:authorization.expected_resulting_canonical_sha256,allowed_files:allowed};
   }
 
@@ -190,7 +198,7 @@ export function executeAuthorizedCanonicalRequest(requestPath,{env=process.env}=
   const successor={...request,status:'EXECUTED',executed_run_id:authorization.candidate_run_id,resulting_canonical_sha256:authorization.expected_resulting_canonical_sha256,execution_base_sha:baseSha};
   writeFileSync(requestPath,JSON.stringify(successor,null,2)+'\n','utf8');
   const working=git(['status','--porcelain']).split('\n').filter(Boolean).map((line)=>line.slice(3));
-  const expectedWorking=allowed.filter((path)=>path!==requestPath||true);
+  const expectedWorking=allowed;
   assertExactSet(working,expectedWorking,'Executor working-tree');
   return {status:'EXECUTED',run_id:authorization.candidate_run_id,canonical_sha256:authorization.expected_resulting_canonical_sha256,allowed_files:allowed};
 }
