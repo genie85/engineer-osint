@@ -16,24 +16,14 @@ const migration = JSON.parse(fs.readFileSync(migrationPath, 'utf8'));
 const successorPolicy = JSON.parse(fs.readFileSync(successorPath, 'utf8'));
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
 const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
+const b102IdentityWorkflowSha='3a14efd69c46d464c50543431565b57b4517ae39';
 
 function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8');
-  return createHash('sha1')
-    .update(`blob ${bytes.length}\0`)
-    .update(bytes)
-    .digest('hex');
+  return createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 }
-
-function actionUses(content) {
-  return [...content.matchAll(/\buses:\s*([^\s,}\]#]+)/g)].map((match) => match[1]);
-}
-
-function configuredNodeMajor(content) {
-  const match = content.match(/^\s*node-version:\s*['"]?(\d+)['"]?\s*$/m);
-  return match ? Number(match[1]) : null;
-}
-
+function actionUses(content) {return [...content.matchAll(/\buses:\s*([^\s,}\]#]+)/g)].map((match) => match[1]);}
+function configuredNodeMajor(content) {const match = content.match(/^\s*node-version:\s*['"]?(\d+)['"]?\s*$/m);return match ? Number(match[1]) : null;}
 const substitutionMap = new Map(successorPolicy.authorized_action_substitutions);
 const workflowSuccessors = new Map(successorPolicy.workflow_successors.map((item) => [item.file, item]));
 
@@ -52,9 +42,7 @@ test('v4.5.62 migration scope is Node-runtime-only and fail-closed', () => {
 });
 
 test('v4.5.62 contract covers every current workflow exactly once', () => {
-  const actual = fs.readdirSync(workflowsDir)
-    .filter((name) => /\.ya?ml$/i.test(name))
-    .sort();
+  const actual = fs.readdirSync(workflowsDir).filter((name) => /\.ya?ml$/i.test(name)).sort();
   const contracted = migration.workflows.map((item) => item.file).sort();
   assert.deepEqual(contracted, actual);
   assert.equal(actual.length, migration.workflow_count);
@@ -62,7 +50,7 @@ test('v4.5.62 contract covers every current workflow exactly once', () => {
   assert.equal(actual.length, 7);
 });
 
-test('v4.5.62 exact workflow history permits action successors plus exact B100/B101 identity successors', () => {
+test('v4.5.62 exact workflow history permits action successors plus exact B100/B101/B102 identity successors', () => {
   for (const item of migration.workflows) {
     const workflowPath = path.join(workflowsDir, item.file);
     const content = fs.readFileSync(workflowPath, 'utf8');
@@ -73,11 +61,12 @@ test('v4.5.62 exact workflow history permits action successors plus exact B100/B
       assert.ok(successor, `${item.file}: missing exact action successor`);
       assert.equal(successor.v4562_git_blob_sha, item.git_blob_sha, `${item.file}: v4.5.62 historical anchor drift`);
       if(item.file==='identity-fix-retirement-regression.yml'){
-        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(currentSha),`${item.file}: unauthorized action/publication successor blob`);
-        if([b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(currentSha)){
+        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha].includes(currentSha),`${item.file}: unauthorized action/publication successor blob`);
+        if([b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha].includes(currentSha)){
           assert.match(content,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
           assert.match(content,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
-          if(currentSha===b101IdentityWorkflowSha)assert.match(content,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
+          if([b101IdentityWorkflowSha,b102IdentityWorkflowSha].includes(currentSha))assert.match(content,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
+          if(currentSha===b102IdentityWorkflowSha)assert.match(content,/'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7'/);
           assert.match(content,/no exact digest authorized for current run/);
         }
       }else assert.equal(currentSha, successor.v4564_diagnostic_git_blob_sha, `${item.file}: unauthorized action successor blob`);
@@ -93,16 +82,11 @@ test('v4.5.62 exact workflow history permits action successors plus exact B100/B
 test('v4.5.62 removes active Node 20 debt while preserving two historical manual-only workflows', () => {
   const active = migration.workflows.filter((item) => item.role === 'ACTIVE_PRODUCTION_PROTECTION');
   const historical = migration.workflows.filter((item) => item.role === 'HISTORICAL_EVIDENCE_KEEP');
-  const active20 = active.filter((item) => item.configured_node_major === 20);
-  const active24 = active.filter((item) => item.configured_node_major === 24);
-  const historical20 = historical.filter((item) => item.configured_node_major === 20);
-  const historical24 = historical.filter((item) => item.configured_node_major === 24);
-  assert.equal(active.length, 5);
-  assert.equal(historical.length, 2);
-  assert.equal(active20.length, 0);
-  assert.equal(active24.length, 5);
-  assert.equal(historical20.length, 2);
-  assert.equal(historical24.length, 0);
+  assert.equal(active.length, 5);assert.equal(historical.length, 2);
+  assert.equal(active.filter((item) => item.configured_node_major === 20).length, 0);
+  assert.equal(active.filter((item) => item.configured_node_major === 24).length, 5);
+  assert.equal(historical.filter((item) => item.configured_node_major === 20).length, 2);
+  assert.equal(historical.filter((item) => item.configured_node_major === 24).length, 0);
   assert.equal(migration.configured_node20_workflow_count, 2);
   assert.equal(migration.configured_node24_workflow_count, 5);
   assert.equal(migration.findings.active_node20_remaining, 0);
@@ -119,11 +103,7 @@ test('v4.5.62 preserves the exact v4.5.61 historical baseline artifact', () => {
 
 test('v4.5.62 keeps the upstream Pages deploy action warning as historical evidence only', () => {
   const pages = migration.workflows.find((item) => item.file === 'pages.yml');
-  assert.ok(pages);
-  assert.equal(pages.configured_node_major, 24);
-  assert.ok(pages.actions.includes('actions/deploy-pages@v4'));
+  assert.ok(pages);assert.equal(pages.configured_node_major, 24);assert.ok(pages.actions.includes('actions/deploy-pages@v4'));
   assert.equal(migration.findings.pages_deploy_action_upstream_node20_warning_expected_to_remain, true);
-  const successor = workflowSuccessors.get('pages.yml');
-  assert.ok(successor);
-  assert.equal(successor.v4562_git_blob_sha, pages.git_blob_sha);
+  const successor = workflowSuccessors.get('pages.yml');assert.ok(successor);assert.equal(successor.v4562_git_blob_sha, pages.git_blob_sha);
 });
