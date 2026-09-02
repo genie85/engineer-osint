@@ -1,0 +1,350 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260902-B103",
+    "parent_run_id": "engineer-osint-20260902-B102",
+    "status": "SUCCESS",
+    "window_from": "2026-09-02T16:00:01+02:00",
+    "window_to": "2026-09-02T16:00:02+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 9,
+      "NEW": 0,
+      "UPDATE": 9,
+      "CONFIRMATION": 9,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 9,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE",
+    "reviewed_main_sha": "b0477596edef24a0c20ce7b07438a10c7dc436de",
+    "reviewed_parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+    "source_acquisition_batch": "v4.6.01",
+    "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4601-ready-for-import.json",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "scope": "EXACT_NINE_REPOSITORY_LOCAL_LICENSED_IMAGES_ONLY"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 9
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-TECH-0003",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0003"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0004",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0004"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0005",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0005"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0006",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0006"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0016",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0016"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0017",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0017"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0022",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0022"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0028",
+      "visual_ids": [
+        "ENG-VIS-0057",
+        "ENG-VIS-LOCAL-0028"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0029",
+      "visual_ids": [
+        "ENG-VIS-0058",
+        "ENG-VIS-LOCAL-0029"
+      ]
+    }
+  ],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [
+    {
+      "asset_id": "ENG-VIS-LOCAL-0003",
+      "id": "ENG-VIS-LOCAL-0003",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "UBIM — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0003"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0003-ubim.webp",
+      "sha256": "9a626759bea615705972b56829f8b0acc611c926ee36fb42a12f1ac962555b4e",
+      "source_sha256": "6841148f25a98a2d6204577e46420e3028f74d4e3e3d82760cf725d926d7fb48",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:UBIM_Engineer_Vehicle_Army-2022_2022-08-20_2554.jpg",
+      "source_title": "UBIM Engineer Vehicle Army-2022 2022-08-20 2554.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Mike1979 Russia",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Mike1979 Russia, link the CC BY-SA 4.0 license, and indicate modifications; adaptations must remain under CC BY-SA 4.0 or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted vehicle as the universal armored engineer vehicle UBIM (УБИМ), and the file is categorized under UBIM engineer vehicle.",
+      "license_evidence": "The Wikimedia Commons file page states the image is Mike1979 Russia's own work and licenses it under Creative Commons Attribution-ShareAlike 4.0 International.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0004",
+      "id": "ENG-VIS-LOCAL-0004",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "IMR-3M armoured engineering / obstacle-clearing vehicle — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0004"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0004-imr-3m.webp",
+      "sha256": "1a77d91151a89a29dc6041a60ddf11f19ca8146c52296ef1c09e7e60cf3de804",
+      "source_sha256": "775a2068c4664d8be7205e9c8eed1f8eafad51571b3621f19c1529320c6f82ef",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:IMR-3M_armoured_engineering_vehicle_at_Engineering_Technologies_2012.jpg",
+      "source_title": "IMR-3M armoured engineering vehicle at Engineering Technologies 2012.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Mike1979 Russia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "attribution_requirement": "Credit Mike1979 Russia, link the CC BY-SA 3.0 license, indicate modifications, and distribute adaptations under the same or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file title and description explicitly identify the depicted platform as an IMR-3M armoured engineering vehicle and categorize the file under IMR-3M. Rostec's 21 January 2026 reporting independently identifies the current card subject as IMR-3M obstacle-clearing vehicles based on the T-90 platform. This historical 2012 image establishes platform identity only and is not claimed to depict the 2026 EW or additional anti-drone protection fit.",
+      "license_evidence": "Wikimedia Commons states that Mike1979 Russia created the photograph as own work and publishes it under Creative Commons Attribution-ShareAlike 3.0 Unported.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0005",
+      "id": "ENG-VIS-LOCAL-0005",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "UK-German Wide Wet Gap Crossing programme / M3 family — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0005"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0005-m3-family.webp",
+      "sha256": "9d45fc046f7cf98a57256b756c9ba67fd37649ef21c1672f680f7a8d410877fa",
+      "source_sha256": "7dbcccaa11baa569ad6af9d8b54ca6129aa47f568b410d75c6aa04679d7327e4",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:NATO_Bridging_Operation_In_Germany_MOD_45162595.jpg",
+      "source_title": "NATO Bridging Operation In Germany MOD 45162595.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Stuart A Hill AMS / UK Ministry of Defence, Crown copyright 2017",
+      "license": "Open Government Licence v1.0",
+      "license_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/",
+      "attribution_requirement": "Attribute the image to Stuart A Hill AMS / UK Ministry of Defence, retain Crown copyright and source provenance, and link the Open Government Licence v1.0.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies a UK M3 Amphibious Rig operated by a Corps of Royal Engineers crew during a joint UK/German bridging operation in Minden. The ENGINEER OSINT card ENG-TECH-0005 is the UK-German Wide Wet Gap Crossing programme. OCCAR's 30 October 2025 contract announcement identifies the programme's new M3 EVO capability, while Bundeswehr reporting identifies the existing UK-German M3 capability as Wide Wet Gap Crossing. This 2017 image therefore establishes the exact legacy M3 family and binational operational context only; it is not claimed to depict the new M3 EVO / Schwimmschnellbrücke 2 configuration.",
+      "license_evidence": "Wikimedia Commons states that the UK Ministry of Defence image is downloadable for reuse under the Open Government Licence and records Crown copyright 2017; the file's structured data records an Open Government Licence copyright licence.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0006",
+      "id": "ENG-VIS-LOCAL-0006",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "JGSDF Type 07 Mobility Support Bridge (07MSB) — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0006"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0006-jgsdf-07msb.webp",
+      "sha256": "71a1f1224c71e41358bbf3a4fca4b39da977716ba8a3caf752675b2b05b7695a",
+      "source_sha256": "9052dfc05418aeb54f1e2235bc2cddb69f420cb87f79aae0f0fcecfef0800a2d",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:JGSDF_Type_07_Mobility_support_bridge_20121021-02.JPG",
+      "source_title": "JGSDF Type 07 Mobility support bridge 20121021-02.JPG",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Los688",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_requirement": "None required by CC0; retain Los688 and Wikimedia Commons provenance metadata in ENGINEER OSINT.",
+      "identity_evidence": "The Wikimedia Commons description explicitly identifies the depicted equipment as the JGSDF Type 07 Mobility support bridge at Camp Katsuta, Engineer Training Unit (JGSDF Engineer School), and the file is categorized under JGSDF Type 07 Mobility support bridge.",
+      "license_evidence": "The uploader Los688 identifies the photograph as self-created and dedicated it to the public domain; Commons structured data records the Creative Commons CC0 License.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0016",
+      "id": "ENG-VIS-LOCAL-0016",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "JGSDF Type 07 Mobility Support Bridge (07MSB) — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0016"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0016-jgsdf-07msb.webp",
+      "sha256": "2afa9dd9b48bd687e14f4d44e6ff61a31f8d385ce42f16332cc54b4424b40967",
+      "source_sha256": "8b323b8d7b72a7061650c33e0d628ee489cba5e40613cff22c1564305474b21c",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:JGSDF_Type_07_Mobility_support_bridge.jpg",
+      "source_title": "JGSDF Type 07 Mobility support bridge.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution_requirement": "Credit Japan Ground Self-Defense Force, link the CC BY 2.0 license, and indicate modifications.",
+      "identity_evidence": "The official JGSDF engineer-equipment page explicitly labels the system as 07式機動支援橋 (07MSB) and links its original image to JGSDF Flickr photo 8465492238. The Wikimedia Commons file page for that exact Flickr image identifies it as the JGSDF Type 07 Mobility Support Bridge.",
+      "license_evidence": "Wikimedia Commons records that the exact JGSDF Flickr image 8465492238 was reviewed by FlickreviewR on 26 May 2013 and confirmed licensed under Creative Commons Attribution 2.0.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0017",
+      "id": "ENG-VIS-LOCAL-0017",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "JGSDF Type 92 Minefield Clearing Vehicle — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0017"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0017-type-92-minefield-clearing.webp",
+      "sha256": "f12a1c5453ea7320c7031d43f40656879af17782bf91b9ffe42dfeae18e15170",
+      "source_sha256": "0b79f5e57e159bcc92178fb74a42c41c95c16d55ed42ff1abb5f9b1e2ba1633a",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:92%E5%BC%8F%E5%9C%B0%E9%9B%B7%E5%8E%9F%E5%87%A6%E7%90%86%E8%BB%8A_%288465401362%29.jpg",
+      "source_title": "92式地雷原処理車 (8465401362).jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force (JGSDF)",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution_requirement": "Credit Japan Ground Self-Defense Force (JGSDF), link the CC BY 2.0 license, and indicate modifications.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted system as 92式地雷原処理車 (JGSDF Type 92 Minefield Clearing Vehicle), describes its Type 92 minefield-clearing rocket role, and categorizes the file under JGSDF Type 92 Mine Clearance Vehicle. The current ENGINEER OSINT canonical visual ENG-VIS-0028 independently links ENG-TECH-0017 to the official JGSDF Type 92 system.",
+      "license_evidence": "Wikimedia Commons records that this exact image was originally posted by JGSDF to Flickr as photo 8465401362 and that FlickreviewR confirmed on 29 March 2014 that it was licensed under Creative Commons Attribution 2.0.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0022",
+      "id": "ENG-VIS-LOCAL-0022",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "KUNDUZ / Armoured Amphibious Combat Earthmover (AACE) — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0022"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0022-kunduz.webp",
+      "sha256": "0495bd15901f0edd7d4fcfecc84d8e6bc657ec3490edcf8db32f085bfc8f6b21",
+      "source_sha256": "8d9050a5f125236712df335351cb20e303e6a94ee95e1a8e1a6e50a9c0ae2c60",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:FNSS_Kunduz.png",
+      "source_title": "FNSS Kunduz.png",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Muzo 573",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Muzo 573, link the CC BY-SA 4.0 license, indicate modifications, and distribute adaptations under CC BY-SA 4.0 or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted system as FNSS Kunduz. The official FNSS product page identifies AACE as the Armoured Amphibious Combat Earthmover, while current FNSS catalogue imagery labels the same AACE vehicle 'FNSS | KUNDUZ'. The current ENGINEER OSINT canonical visual ENG-VIS-0048 likewise links ENG-TECH-0022 to an FNSS KUNDUZ manufacturer image.",
+      "license_evidence": "The Wikimedia Commons file page states that uploader Muzo 573 created FNSS Kunduz.png as own work and publishes it under Creative Commons Attribution-ShareAlike 4.0 International.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0028",
+      "id": "ENG-VIS-LOCAL-0028",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "AM-50 — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0028"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0028-am-50.webp",
+      "sha256": "8ecb6d98196c962599aee5ba5fd922af2e4922cd09782b2832cdff1f33ea53ef",
+      "source_sha256": "10ec8c3e0bde47439a4136e3fa603e239c5ebdb1142f304679a20aee30f7daf4",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Mostn%C3%AD_automobil_AM-50_pic2.JPG",
+      "source_title": "Mostní automobil AM-50 pic2.JPG",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Alf van Beem",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_requirement": "None required by CC0; retain provenance metadata in ENGINEER OSINT.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies the depicted vehicle as 'Mostní automobil AM-50'; the file is categorized under AM-50.",
+      "license_evidence": "The Wikimedia Commons file page states this is the uploader's own work and is dedicated under Creative Commons CC0 1.0.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0029",
+      "id": "ENG-VIS-LOCAL-0029",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "MT-55A — repository-local licensed image",
+      "related_ids": [
+        "ENG-TECH-0029"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0029-mt-55a.webp",
+      "sha256": "2fd861d390e1d60c076ae96e5a31014d6f419fef58269a373e075ca0bdfca369",
+      "source_sha256": "ad7e8c5ba9936980b6e49c532ed96852d59825993432559d007753fc9391c50f",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:MT-55A_VS2.jpg",
+      "source_title": "MT-55A VS2.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Srđan Popović",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Srđan Popović, link the CC BY-SA 4.0 license, and indicate modifications; adaptations must remain under CC BY-SA 4.0 or a compatible license.",
+      "identity_evidence": "The Wikimedia Commons file description explicitly identifies a Serbian Army MT-55A bridgelayer tank; Commons categorizes the file under MT-55A in Serbian service.",
+      "license_evidence": "The Wikimedia Commons file page identifies the work as the uploader's own work and licenses it under CC BY-SA 4.0.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-02",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    }
+  ],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE_DRY_RUN_ONLY",
+    "multimedia_status": "COMPLETE_WITH_CANONICAL_MEDIA_ADDITION",
+    "local_image_count": 9,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "requires_separate_authorization_and_execution": true
+  }
+}
