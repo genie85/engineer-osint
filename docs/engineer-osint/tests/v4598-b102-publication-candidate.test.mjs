@@ -56,11 +56,12 @@ test('B102 preserves bridging configuration boundaries and excludes conflicting 
 test('B102 is a strict append-run dry-run candidate and exposes deterministic lineage', () => {
   const stdout = execFileSync(process.execPath, ['docs/engineer-osint/append-run.mjs', candidatePath], {encoding:'utf8'});
   const plan = JSON.parse(stdout);
+  const normalizedCandidate = JSON.stringify(p, null, 2) + '\n';
   assert.equal(plan.status, 'VALIDATED_DRY_RUN');
   assert.equal(plan.entry.run_id, 'engineer-osint-20260902-B102');
   assert.equal(plan.entry.parent_run_id, 'engineer-osint-20260902-B101');
   assert.equal(plan.entry.parent_canonical_sha256, '146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b');
-  assert.equal(plan.entry.file_sha256, createHash('sha256').update(candidateRaw).digest('hex'));
+  assert.equal(plan.entry.file_sha256, createHash('sha256').update(normalizedCandidate).digest('hex'));
   assert.match(plan.entry.canonical_sha256, /^[a-f0-9]{64}$/);
   assert.notEqual(plan.entry.canonical_sha256, plan.entry.parent_canonical_sha256);
   console.log('B102_DRY_RUN_PLAN', JSON.stringify(plan.entry));
