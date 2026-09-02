@@ -2,7 +2,7 @@ import {existsSync,readFileSync,renameSync,writeFileSync} from 'node:fs';
 import {basename,join} from 'node:path';
 import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
-import {assertGenericAuthorizedAppend} from './lib/authorized-append-guard.mjs';
+import {assertGenericAuthorizedAppend} from './authorized-canonical-executor.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
 const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99',guardedB100='engineer-osint-20260902-B100',guardedB101='engineer-osint-20260902-B101',guardedB102='engineer-osint-20260902-B102';
