@@ -9,13 +9,13 @@ const v4563=JSON.parse(readFileSync(`${root}/V4563_ACTION_NODE24_AUTHORIZATION.j
 const v4566=JSON.parse(readFileSync(`${root}/V4566_SELF_SUCCESSOR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
-const b101IdentityWorkflowSha='0ae8604681f6aa4270a360e50b39ca4ddb4afd49';
+const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 
 const expectedTests=new Map([
-  ['docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs',{historical:'3501017e228ac37a59c2b1ec115786550fb014fb',successor:'3149bc399f3e6e8faa4ee26d372c64cfe61cfe36',b100:'ff0c3db08ec48bebb352fdcd7c288d2481bc3528',b101:'c57c541a5b331e1c980aafb5767bdc0a57f8b460'}],
-  ['docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs',{historical:'2999eecf4b6f45a98e674d7e4529da763a11837c',successor:'238303bc0e6db4f1371a0f65f036f28a174a58cd',b100:'129d9162065b9c6aabcd4612b16656485783237e',b101:'b6c94a97df0643c7ee3edf365c621a81d9ba67c5'}],
-  ['docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs',{historical:'8c8612c73f677064db2d59f013d3bfecd6dfbcfe',successor:'1f7770c3a7c1c7b912505012814841d1d06def1d',b100:'f0b0a62b569ed293391f53a786dbbb9e17df57d9',b101:'a8755ac352a64bf0c4448555d8964d6eedff332f'}],
-  ['docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs',{historical:'459c52e39ad732508bd8df8fa03793521803f04e',successor:'ee0132955b4a74c939ef3e57487b44b891dd90e3',b100:'9639e6040d9304c8659f2359e91d87eb11b7a310',b101:'49f3ed627b5922c7a988788aa374f01428998e68'}]
+  ['docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs',{historical:'3501017e228ac37a59c2b1ec115786550fb014fb',successor:'3149bc399f3e6e8faa4ee26d372c64cfe61cfe36',b100:'ff0c3db08ec48bebb352fdcd7c288d2481bc3528',b101:'5ad0a2ded7984574ecc558f3cbaee6fff956896f'}],
+  ['docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs',{historical:'2999eecf4b6f45a98e674d7e4529da763a11837c',successor:'238303bc0e6db4f1371a0f65f036f28a174a58cd',b100:'129d9162065b9c6aabcd4612b16656485783237e',b101:'67153092b32919d6dc3989f7c790860f0651ddf0'}],
+  ['docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs',{historical:'8c8612c73f677064db2d59f013d3bfecd6dfbcfe',successor:'1f7770c3a7c1c7b912505012814841d1d06def1d',b100:'f0b0a62b569ed293391f53a786dbbb9e17df57d9',b101:'2a895ff2f26e1b6ec7c52360b3dfadc67031f5f9'}],
+  ['docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs',{historical:'459c52e39ad732508bd8df8fa03793521803f04e',successor:'ee0132955b4a74c939ef3e57487b44b891dd90e3',b100:'9639e6040d9304c8659f2359e91d87eb11b7a310',b101:'a11d350f80efa8fdf223dcca2fb881ac049d21d1'}]
 ]);
 
 const expectedSuccessors=[
@@ -81,7 +81,7 @@ test('v4.5.65 keeps historical workflow successors immutable and permits only ex
     const text=readFileSync('.github/workflows/identity-fix-retirement-regression.yml','utf8');
     assert.match(text,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
     assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
-    if(b101WorkflowMode)assert.match(text,/'engineer-osint-20260902-B101':'b31eededb9165bc19019f592bc4f9e58ea6f7f4fc86a0e189d6f5e34fb48d6e9'/);
+    if(b101WorkflowMode)assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
     assert.match(text,/no exact digest authorized for current run/);
   }
 });
