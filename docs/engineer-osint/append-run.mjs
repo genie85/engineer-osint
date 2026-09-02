@@ -2,10 +2,11 @@ import {existsSync,readFileSync,renameSync,writeFileSync} from 'node:fs';
 import {basename,join} from 'node:path';
 import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
+import {assertGenericAuthorizedAppend} from './lib/authorized-append-guard.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
 const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99',guardedB100='engineer-osint-20260902-B100',guardedB101='engineer-osint-20260902-B101',guardedB102='engineer-osint-20260902-B102';
-if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write]');
+if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write] [--authorization <authorization.json>]');
 const raw=readFileSync(input,'utf8'),patch=parseJsonStrict(raw,{source:input});
 validatePatchOperations(patch);
 const store=loadCanonicalRunStore({root:source});
@@ -20,6 +21,8 @@ const entry={
 };
 const manifest={...store.manifest,runs:[...store.manifest.runs,entry]};
 const plan={status:write?'APPENDED':'VALIDATED_DRY_RUN',input:basename(input),entry};
+const legacyGuardedRuns=new Set([guardedB96,guardedB97,guardedB98,guardedB99,guardedB100,guardedB101,guardedB102]);
+if(write&&!legacyGuardedRuns.has(runId))assertGenericAuthorizedAppend({input,patch,entry});
 
 if(write&&runId===guardedB96){
   const authorizationPath=join(source,'V4511_B96_APPEND_AUTHORIZATION.json');
