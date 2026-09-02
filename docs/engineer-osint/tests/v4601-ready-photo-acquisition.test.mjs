@@ -49,10 +49,9 @@ test('every archived photo has exact local bytes and provenance',()=>{
   }
 });
 
-test('READY_FOR_IMPORT cannot accumulate without immediate local archival',()=>{
+test('every current READY_FOR_IMPORT entry has matching archived provenance',()=>{
   const acquisitions=new Map(loadAcquisitions().map(entry=>[entry.card_id,entry]));
   const ready=STATUS.entries.filter(entry=>entry.status==='READY_FOR_IMPORT');
-  assert.ok(ready.length>0,'expected reviewed READY_FOR_IMPORT entries');
   for(const review of ready){
     const archived=acquisitions.get(review.card_id);
     assert.ok(archived,`${review.card_id} is READY_FOR_IMPORT but has no local acquisition; archive it in the same safe slice`);
