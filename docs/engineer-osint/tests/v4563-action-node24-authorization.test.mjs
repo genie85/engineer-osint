@@ -9,6 +9,7 @@ const lifecycle=JSON.parse(readFileSync(`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_
 const wfRoot='.github/workflows';
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
+const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 
 const active=new Map(policy.active_workflows.map(x=>[x.file,x]));
 const successors=new Map(lifecycle.workflow_successors.map(x=>[x.file,x]));
@@ -20,7 +21,7 @@ const successorMode=[...active].every(([file,item])=>{
   const successor=successors.get(file);
   if(successor?.v4562_git_blob_sha!==item.historical_git_blob_sha)return false;
   const current=currentShas.get(file);
-  return current===successor.v4564_diagnostic_git_blob_sha||(file==='identity-fix-retirement-regression.yml'&&current===b100IdentityWorkflowSha);
+  return current===successor.v4564_diagnostic_git_blob_sha||(file==='identity-fix-retirement-regression.yml'&&[b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current));
 });
 
 test('v4.5.63 authorization is review-only and pinned to exact v4.5.62 production',()=>{
@@ -31,7 +32,7 @@ test('v4.5.63 authorization is review-only and pinned to exact v4.5.62 productio
   for(const value of Object.values(policy.safety_boundary))assert.equal(value,false);
 });
 
-test('v4.5.63 pins every active baseline and accepts only exact action successors plus exact B100 identity successor',()=>{
+test('v4.5.63 pins every active baseline and accepts only exact action/B100/B101 successors',()=>{
   assert.ok(baselineMode||successorMode,'active workflows are neither the exact v4.5.63 baseline nor exact permitted successor set');
   for(const [file,item] of active){
     const text=texts.get(file);
@@ -41,9 +42,10 @@ test('v4.5.63 pins every active baseline and accepts only exact action successor
       assert.ok(successor,`${file}: missing successor contract`);
       assert.equal(successor.v4562_git_blob_sha,item.historical_git_blob_sha,`${file}: historical anchor drift`);
       if(file==='identity-fix-retirement-regression.yml'){
-        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha].includes(current),`${file}: unauthorized successor blob`);
-        if(current===b100IdentityWorkflowSha){
+        assert.ok([successor.v4564_diagnostic_git_blob_sha,b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current),`${file}: unauthorized successor blob`);
+        if([b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current)){
           assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
+          if(current===b101IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
           assert.match(text,/no exact digest authorized for current run/);
         }
       }else assert.equal(current,successor.v4564_diagnostic_git_blob_sha,`${file}: unauthorized successor blob`);
@@ -53,7 +55,7 @@ test('v4.5.63 pins every active baseline and accepts only exact action successor
   assert.equal(lifecycle.execution_boundary.wildcard_or_current_state_acceptance_authorized,false);
 });
 
-test('v4.5.63 action reference counts stay exact under baseline, action-successor or B100 browser-successor mode',()=>{
+test('v4.5.63 action reference counts stay exact under baseline or pinned successor modes',()=>{
   if(baselineMode){
     for(const [ref,count] of Object.entries(policy.expected_baseline_reference_counts)){
       const escaped=ref.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');

@@ -119,7 +119,8 @@ jobs:
           current=json.loads(Path('docs/engineer-osint-dist/persistent-b99-identity-audit.json').read_text())['current_run_id']
           expected_by_run={
               'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31',
-              'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'
+              'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d',
+              'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'
           }
           expected=expected_by_run.get(current)
           if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
@@ -137,7 +138,8 @@ jobs:
           const b=JSON.parse(fs.readFileSync('docs/engineer-osint-dist/persistent-b99-identity-audit.json','utf8'));
           const expectedByRun={
             'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31',
-            'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'
+            'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d',
+            'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'
           };
           const expected=expectedByRun[b.current_run_id];
           if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);

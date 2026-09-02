@@ -9,6 +9,7 @@ const node20BaselinePath=`${root}/V4561_CI_NODE_RUNTIME_INVENTORY.json`;
 const node24MigrationPath=`${root}/V4562_ACTIVE_NODE24_MIGRATION.json`;
 const actionUpgradePath=`${root}/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json`;
 const b100IdentityWorkflowSha='1113c9388e69abea0b9b14a029b68a906befdb31';
+const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 export const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 export const v4556=existsSync(executionPath)?JSON.parse(readFileSync(executionPath,'utf8')):null;
 export const v4557=existsSync(hotfixPath)?JSON.parse(readFileSync(hotfixPath,'utf8')):null;
@@ -91,8 +92,8 @@ function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   const successor=v4565.workflow_successors?.find(x=>x.file===item.file);
   if(!successor)return false;
   const exactHistorical=current===successor.v4564_diagnostic_git_blob_sha;
-  const exactB100=item.file==='identity-fix-retirement-regression.yml'&&current===b100IdentityWorkflowSha;
-  if(!exactHistorical&&!exactB100)return false;
+  const exactPublishedDescendant=item.file==='identity-fix-retirement-regression.yml'&&[b100IdentityWorkflowSha,b101IdentityWorkflowSha].includes(current);
+  if(!exactHistorical&&!exactPublishedDescendant)return false;
   assert.equal(v4565.schema_version,'engineer-osint-action-upgrade-lifecycle-authorization-v1');
   assert.equal(v4565.status,'AUTHORIZED_EXACT_ACTION_UPGRADE_LIFECYCLE_SUCCESSOR_HANDLING_NOT_EXECUTED');
   assert.ok(v4562,`${item.file}: v4.5.62 migration record missing for action successor`);
@@ -103,9 +104,10 @@ function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   assert.equal(v4565.execution_boundary.wildcard_or_current_state_acceptance_authorized,false);
   assert.equal(v4565.required_unchanged.browser_digest,'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31');
   assert.match(text,/^\s*node-version:\s*['"]?24['"]?\s*$/m,`${item.file}: Node 24 configuration missing after action successor`);
-  if(exactB100){
+  if(exactPublishedDescendant){
     assert.match(text,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/,'B99 historical digest anchor missing');
     assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/,'B100 exact digest anchor missing');
+    if(current===b101IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/,'B101 exact digest anchor missing');
     assert.match(text,/no exact digest authorized for current run/,'unknown descendant fail-closed guard missing');
   }
   return true;
