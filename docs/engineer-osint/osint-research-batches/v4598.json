@@ -1,0 +1,52 @@
+{
+  "schema_version": "engineer-osint-osint-research-batch-v1",
+  "batch_id": "v4.5.98",
+  "phase": "F",
+  "reviewed_at": "2026-09-02",
+  "publication_authorized": false,
+  "canonical_write_authorized": false,
+  "candidates": [
+    {
+      "candidate_id": "PHASE-F-0010",
+      "proposed_title": "Keiler Next Generation (Keiler NG)",
+      "country_scope": ["DEU", "NATO"],
+      "category": "mine_breaching",
+      "canonical_absence_check": {
+        "query": "Keiler NG",
+        "result": "NO_MATCH_ON_MAIN",
+        "checked_main_sha": "fc26d68b00f4a6db11f465ee6b0b57a5ab14ebff"
+      },
+      "claims": [
+        {
+          "claim": "Rheinmetall describes Keiler Next Generation as a Leopard 2-chassis armoured mine-clearing system for tactical breaching of mine barriers, combining mechanical and explosive clearing methods.",
+          "evidence": "Rheinmetall's current Keiler NG product page identifies a Leopard 2-based MLC 80 chassis and lists a mine plough, magnetic-field duplicator, Plofadder MICLIC system and integrated lane-marking system among the principal features.",
+          "source_url": "https://www.rheinmetall.com/de/produkte/gepanzerte-kettenfahrzeuge/minenraeumsystem-keiler",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": null,
+          "reviewed_at": "2026-09-02",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "At a Rheinmetall live demonstration on 14 August 2024, Keiler NG used a Pearson mine plough and the Plofadder rocket-supported detonation-cord system; Rheinmetall states that Plofadder can create a breach 160 m long and 9 m wide.",
+          "evidence": "Rheinmetall's 19 August 2024 demonstration release reports the 14 August event at Bergen training area, describes the Pearson plough demonstration, and gives the manufacturer-stated Plofadder breach dimensions of 160 metres by nine metres while also describing the magnetic signature duplicator and lane-marking system.",
+          "source_url": "https://www.rheinmetall.com/en/media/news-watch/news/2024/08/2024-08-19-keiler-ng-demonstration",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2024-08-19",
+          "reviewed_at": "2026-09-02",
+          "confidence": "HIGH"
+        },
+        {
+          "claim": "Rheinmetall states that Keiler NG replaces the Kodiak excavator arm with an integrated crane and uses ROSY smoke protection and a Natter 12.7 remote weapon station for self-protection.",
+          "evidence": "Rheinmetall's 6 March 2025 Kodiak demonstration release explicitly contrasts the Keiler NG configuration with Kodiak, stating that Keiler NG has an integrated crane instead of the excavator arm and that both vehicles use ROSY and the Natter 12.7 remote weapon station.",
+          "source_url": "https://www.rheinmetall.com/de/media/news-watch/news/2025/03/2025-03-06-kodiak-vorfuehrung-in-polen",
+          "source_type": "MANUFACTURER_PRIMARY",
+          "source_date": "2025-03-06",
+          "reviewed_at": "2026-09-02",
+          "confidence": "HIGH"
+        }
+      ],
+      "disposition": "RESEARCHED_CANDIDATE",
+      "notes": "Research candidate only. All capability and performance statements are explicitly attributed to Rheinmetall. No independent Bundeswehr/BMVg source confirming Keiler NG performance or procurement status was identified in the 2026-09-02 review, so this batch does not infer Bundeswehr adoption, fielding or operational use and does not authorize canonical publication."
+    }
+  ]
+}
