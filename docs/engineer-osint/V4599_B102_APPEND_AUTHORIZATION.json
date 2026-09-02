@@ -1,0 +1,73 @@
+{
+  "schema_version": "engineer-osint-b102-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-02",
+  "reviewed_main_sha": "ab48fe462efbad89eabe8cc48f6cb913b4617ae0",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4598-b102.json",
+  "candidate_git_blob_sha": "19e6c251708250db1aa294d5e1364be37b7bb008",
+  "candidate_run_id": "engineer-osint-20260902-B102",
+  "expected_parent_run_id": "engineer-osint-20260902-B101",
+  "expected_parent_canonical_sha256": "146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b",
+  "exact_candidate_file_sha256": "5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a",
+  "expected_resulting_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+  "expected_new_record_count": 3,
+  "expected_new_source_count": 3,
+  "expected_new_evidence_count": 3,
+  "expected_new_relation_count": 0,
+  "expected_updated_record_count": 0,
+  "expected_record_ids": ["ENG-TECH-0049", "ENG-TECH-0050", "ENG-TECH-0051"],
+  "expected_source_ids": ["ENG-SRC-0534", "ENG-SRC-0535", "ENG-SRC-0536"],
+  "expected_evidence_ids": ["ENG-EVID-0222", "ENG-EVID-0223", "ENG-EVID-0224"],
+  "expected_multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+  "protected_baseline": {
+    "append_run_blob_sha": "6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0",
+    "run_store_blob_sha": "a97184dbd825fab3e5485b72a760bde04749af0b",
+    "integrity_blob_sha": "8c9a9aa766e910e0bccdb9308acc8af5a3aadac7",
+    "manifest_blob_sha": "74abe383deed939b8560d59b303cc2d0091ea26e",
+    "b101_run_blob_sha": "89d5981b5e85c0b913a5ad856f0ab3953c968345"
+  },
+  "required_preconditions": {
+    "v4598_exact_candidate_reviewed": true,
+    "v4598_candidate_dry_run_green": true,
+    "current_main_push_checks_green": true,
+    "b101_is_current_run": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "authorization_stage_append_run_must_remain_baseline": true,
+    "explicit_multimedia_status_must_remain_complete_no_addition": true
+  },
+  "authorized_guard_successor_contract": {
+    "guarded_run_id": "engineer-osint-20260902-B102",
+    "authorization_path": "docs/engineer-osint/V4599_B102_APPEND_AUTHORIZATION.json",
+    "schema_version": "engineer-osint-b102-append-authorization-v1",
+    "required_status": "READY_FOR_APPEND",
+    "require_exact_candidate_hashes": true,
+    "require_exact_collection_counts": true,
+    "require_exact_record_source_evidence_ids": true,
+    "require_candidate_no_write_flags": true,
+    "require_multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "allow_wildcard_or_current_state_acceptance": false
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "install_exact_b102_append_guard_successor": true,
+    "standard_append_run_write_required": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_runtime_change": false,
+    "allow_workflow_change": false,
+    "allow_photo_or_media_change": false
+  },
+  "execution_state": {
+    "append_run_successor_installed": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false
+  },
+  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.5.98 B102 bridging candidate. The execution slice must first install a deterministic B102 guard successor derived from the protected append-run baseline and this exact contract, then persist only this B102 candidate through the standard append-run --write mechanism. This authorization slice itself performs no canonical write."
+}
