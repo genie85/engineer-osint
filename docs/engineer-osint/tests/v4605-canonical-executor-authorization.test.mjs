@@ -15,6 +15,7 @@ const auth = json('V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json');
 const manifest = json('data/run-store-manifest.json');
 const b103 = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const IMPLEMENTED_APPEND_RUN_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
+const EXACT_V4605_MANIFEST_BASELINE_SHA='15d5b2ae11966ca8912ee062a5be4d520a913bef';
 const EXACT_B103_RUN_ID='engineer-osint-20260902-B103';
 const EXACT_B103_CANONICAL_SHA='5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066';
 
@@ -23,6 +24,7 @@ test('v4.6.05 preserves the exact pre-implementation baseline and admits only th
   assert.equal(auth.status, 'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.reviewed_main_sha, 'eedd4fc12a4f704ec7ee84955d3f2bc9e27ace5c');
   assert.equal(auth.protected_baseline.append_run_blob_sha,'174cc646b8d3ecf6e338f6460b95335130154ffb');
+  assert.equal(auth.protected_baseline.manifest_blob_sha,EXACT_V4605_MANIFEST_BASELINE_SHA);
   assert.equal(gitBlobSha(read('append-run.mjs')), IMPLEMENTED_APPEND_RUN_SHA);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
