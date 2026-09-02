@@ -10,10 +10,12 @@ const audit=readFileSync(`${root}/audit-migration-workflow-classification.mjs`,'
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const removedOneShots=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
 const removedReadOnly=['b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml','identity-fix-b99-candidate-readiness.yml','identity-fix-b99-mirror-sync-candidate-readiness.yml','identity-fix-readiness.yml','identity-mirror-parity-readiness.yml'];
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(name=>name.endsWith('.yml')&&name!==laterAuthorizedWorkflow).sort();
 const byClass=name=>policy.workflows.filter(item=>item.classification===name);
 
 test('v4.5.48 preserves its exact 18-workflow historical classification across authorized v4.5.50/v4.5.53 lifecycle',()=>{
-  const actual=readdirSync('.github/workflows').filter(name=>name.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   const classified=policy.workflows.map(item=>item.file).sort();
   assert.equal(policy.schema_version,'engineer-osint-migration-workflow-classification-v1');
   assert.equal(policy.status,'CLASSIFIED_NO_REMOVAL_AUTHORIZED');
@@ -21,6 +23,11 @@ test('v4.5.48 preserves its exact 18-workflow historical classification across a
   assert.equal(policy.inventory_count,18);
   assert.equal(policy.removal_authorized,false);
   assert.equal(policy.workflow_deactivation_authorized,false);
+  if(existsSync(`.github/workflows/${laterAuthorizedWorkflow}`)){
+    const v4605=JSON.parse(readFileSync(`${root}/V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json`,'utf8'));
+    assert.equal(v4605.status,'READY_FOR_IMPLEMENTATION');
+    assert.equal(v4605.authorized_targets.workflow_path,`.github/workflows/${laterAuthorizedWorkflow}`);
+  }
   if(actual.length===18){
     assert.deepEqual(classified,actual);
     return;
