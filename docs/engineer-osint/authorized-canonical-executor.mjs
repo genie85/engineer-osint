@@ -28,25 +28,34 @@ const assertBaseIdentity=(baseSha,path)=>{
 };
 const statusPaths=()=>gitRaw(['status','--porcelain=v1']).split('\n').filter(Boolean).map(line=>line.slice(3));
 
-export function validateAuthorizationContract({authorization,candidate,normalizedCandidate,store,authorizationPath,candidatePath,runId}){
+export function validateAuthorizationStaticContract({authorization,candidate,normalizedCandidate,authorizationPath,candidatePath,runId}){
   if(authorization.status!=='READY_FOR_APPEND')throw new Error(`Authorization is not READY_FOR_APPEND: ${authorization.status}`);
   if(authorization.candidate_run_id!==runId||candidate.state?.run_id!==runId)throw new Error('Authorization/candidate run identity mismatch');
   if(authorization.candidate_path!==candidatePath)throw new Error('Authorization candidate path mismatch');
-  if(authorization.expected_parent_run_id!==store.report.current_run_id||candidate.state?.parent_run_id!==store.report.current_run_id)throw new Error('Authorization/candidate parent run mismatch');
-  if(authorization.expected_parent_canonical_sha256!==store.report.canonical_sha256)throw new Error('Authorization parent canonical SHA mismatch');
+  if(authorization.expected_parent_run_id!==candidate.state?.parent_run_id)throw new Error('Authorization/candidate parent run identity mismatch');
   if(authorization.exact_candidate_file_sha256!==sha256Text(normalizedCandidate))throw new Error('Authorization candidate SHA256 mismatch');
   if(authorization.candidate_git_blob_sha&&authorization.candidate_git_blob_sha!==sha1GitBlob(readRepo(candidatePath)))throw new Error('Authorization candidate Git blob SHA mismatch');
   validatePatchOperations(candidate);
-  const result=applyStrictPatchToCanonicalData(store.data,candidate);
-  const resultingCanonical=canonicalDigest(result);
-  if(authorization.expected_resulting_canonical_sha256!==resultingCanonical)throw new Error('Authorization resulting canonical SHA mismatch');
   if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true||authorization.authorization?.execution_requires_separate_slice!==true)throw new Error('Authorization does not permit isolated exact standard append execution');
   if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_canonical_history_rewrite!==false)throw new Error('Authorization manual/history protections are incomplete');
   const guard=authorization.authorized_guard_successor_contract;
   if(!guard||guard.guarded_run_id!==runId||guard.authorization_path!==authorizationPath||guard.allow_wildcard_or_current_state_acceptance!==false)throw new Error('Authorization guard successor contract mismatch');
   if(guard.schema_version&&guard.schema_version!==authorization.schema_version)throw new Error('Authorization guard schema mismatch');
   if(guard.required_status&&guard.required_status!==authorization.status)throw new Error('Authorization guard status mismatch');
+}
+
+export function validateAuthorizationPreAppendContract({authorization,candidate,store}){
+  if(authorization.expected_parent_run_id!==store.report.current_run_id||candidate.state?.parent_run_id!==store.report.current_run_id)throw new Error('Authorization/candidate parent run mismatch');
+  if(authorization.expected_parent_canonical_sha256!==store.report.canonical_sha256)throw new Error('Authorization parent canonical SHA mismatch');
+  const result=applyStrictPatchToCanonicalData(store.data,candidate);
+  const resultingCanonical=canonicalDigest(result);
+  if(authorization.expected_resulting_canonical_sha256!==resultingCanonical)throw new Error('Authorization resulting canonical SHA mismatch');
   return {resultingCanonical};
+}
+
+export function validateAuthorizationContract({authorization,candidate,normalizedCandidate,store,authorizationPath,candidatePath,runId}){
+  validateAuthorizationStaticContract({authorization,candidate,normalizedCandidate,authorizationPath,candidatePath,runId});
+  return validateAuthorizationPreAppendContract({authorization,candidate,store});
 }
 
 function eventContext(){
@@ -76,9 +85,21 @@ function lifecyclePlan(authorization,baseSha){
   return {sourcePath,successorPath,successorRaw};
 }
 
+export function validatePersistedStoreContract({authorization,store,runId}){
+  if(store.report.current_run_id!==runId||store.report.canonical_sha256!==authorization.expected_resulting_canonical_sha256)throw new Error('Persisted canonical head does not match authorization');
+  const entry=store.manifest.runs.find(item=>item.run_id===runId);
+  if(!entry)throw new Error('Persisted manifest entry is missing');
+  if(entry.parent_run_id!==authorization.expected_parent_run_id)throw new Error('Persisted manifest parent does not match authorization');
+  if(entry.file_sha256!==authorization.exact_candidate_file_sha256)throw new Error('Persisted manifest candidate SHA does not match authorization');
+  if(entry.canonical_sha256!==authorization.expected_resulting_canonical_sha256)throw new Error('Persisted manifest canonical SHA does not match authorization');
+  const parentEntry=store.manifest.runs.find(item=>item.run_id===authorization.expected_parent_run_id);
+  if(!parentEntry||parentEntry.canonical_sha256!==authorization.expected_parent_canonical_sha256)throw new Error('Persisted authorized parent canonical SHA mismatch');
+  return {entry,parentEntry};
+}
+
 function verifyPersisted({authorization,runId,lifecycle}){
   const store=loadCanonicalRunStore({root:resolve(repoRoot,osintRoot)});
-  if(store.report.current_run_id!==runId||store.report.canonical_sha256!==authorization.expected_resulting_canonical_sha256)throw new Error('Persisted canonical head does not match authorization');
+  validatePersistedStoreContract({authorization,store,runId});
   const runPath=`${osintRoot}/data/runs/${runId}.json`;
   if(!existsSync(resolve(repoRoot,runPath)))throw new Error('Authorized run file is missing');
   if(sha256Text(readRepo(runPath))!==authorization.exact_candidate_file_sha256)throw new Error('Persisted run file SHA mismatch');
@@ -108,8 +129,7 @@ export function executeRequest(requestPath,{execute=false}={}){
   const authorization=parseJsonStrict(authorizationRaw,{source:authorizationPath});
   const candidate=parseJsonStrict(candidateRaw,{source:candidatePath});
   const normalizedCandidate=JSON.stringify(candidate,null,2)+'\n';
-  const store=loadCanonicalRunStore({root:resolve(repoRoot,osintRoot)});
-  validateAuthorizationContract({authorization,candidate,normalizedCandidate,store,authorizationPath,candidatePath,runId});
+  validateAuthorizationStaticContract({authorization,candidate,normalizedCandidate,authorizationPath,candidatePath,runId});
   const lifecycle=lifecyclePlan(authorization,baseSha);
   const runPath=`${osintRoot}/data/runs/${runId}.json`;
   const expectedChanged=new Set([requestPath,`${osintRoot}/data/run-store-manifest.json`,runPath,...(lifecycle?[lifecycle.sourcePath]:[])]);
@@ -121,6 +141,8 @@ export function executeRequest(requestPath,{execute=false}={}){
     return {status:'ALREADY_MATERIALIZED',runId};
   }
 
+  const store=loadCanonicalRunStore({root:resolve(repoRoot,osintRoot)});
+  validateAuthorizationPreAppendContract({authorization,candidate,store});
   const initialDiff=git(['diff','--name-only',`${baseSha}...HEAD`]).split('\n').filter(Boolean);
   if(initialDiff.length!==1||initialDiff[0]!==requestPath)throw new Error(`Execution request PR must be isolated before write; changed paths: ${initialDiff.join(', ')}`);
   if(!execute)return {status:'VALIDATED',runId};

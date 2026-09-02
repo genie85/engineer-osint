@@ -6,7 +6,7 @@ import {cpSync,existsSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'n
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {loadCanonicalRunStore} from '../lib/run-store.mjs';
-import {validateAuthorizationContract} from '../authorized-canonical-executor.mjs';
+import {validateAuthorizationContract,validateAuthorizationPreAppendContract,validateAuthorizationStaticContract,validatePersistedStoreContract} from '../authorized-canonical-executor.mjs';
 
 const root='docs/engineer-osint';
 const authPath=`${root}/V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json`;
@@ -65,6 +65,36 @@ test('v4.6.06 validates B103 read-only before append or verifies exact persisted
   assert.equal(entry.parent_run_id,B102_RUN_ID);
   assert.equal(entry.file_sha256,b103Auth.exact_candidate_file_sha256);
   assert.equal(entry.canonical_sha256,B103_CANONICAL_SHA);
+});
+
+test('v4.6.17 separates static authorization, pre-append parent checks and exact persisted rerun verification',()=>{
+  const normalizedCandidate=JSON.stringify(candidate,null,2)+'\n';
+  assert.doesNotThrow(()=>validateAuthorizationStaticContract({authorization:b103Auth,candidate,normalizedCandidate,authorizationPath:b103AuthPath,candidatePath,runId:B103_RUN_ID}));
+
+  const live=loadCanonicalRunStore({root});
+  const persisted=live.report.current_run_id===B103_RUN_ID
+    ?live
+    :{
+      report:{...live.report,current_run_id:B103_RUN_ID,canonical_sha256:B103_CANONICAL_SHA},
+      manifest:{...structuredClone(live.manifest),runs:[...structuredClone(live.manifest.runs),{run_id:B103_RUN_ID,parent_run_id:B102_RUN_ID,file_sha256:b103Auth.exact_candidate_file_sha256,canonical_sha256:B103_CANONICAL_SHA}]}
+    };
+
+  assert.throws(()=>validateAuthorizationPreAppendContract({authorization:b103Auth,candidate,store:persisted}),/parent run mismatch/);
+  assert.doesNotThrow(()=>validatePersistedStoreContract({authorization:b103Auth,store:persisted,runId:B103_RUN_ID}));
+
+  const wrongParent=structuredClone(persisted);
+  wrongParent.manifest.runs.find(item=>item.run_id===B103_RUN_ID).parent_run_id='engineer-osint-invalid-parent';
+  assert.throws(()=>validatePersistedStoreContract({authorization:b103Auth,store:wrongParent,runId:B103_RUN_ID}),/manifest parent/);
+
+  const wrongCandidate=structuredClone(persisted);
+  wrongCandidate.manifest.runs.find(item=>item.run_id===B103_RUN_ID).file_sha256='0'.repeat(64);
+  assert.throws(()=>validatePersistedStoreContract({authorization:b103Auth,store:wrongCandidate,runId:B103_RUN_ID}),/candidate SHA/);
+
+  const wrongCanonical=structuredClone(persisted);
+  wrongCanonical.report.canonical_sha256='0'.repeat(64);
+  assert.throws(()=>validatePersistedStoreContract({authorization:b103Auth,store:wrongCanonical,runId:B103_RUN_ID}),/canonical head/);
+
+  assert.match(executorRaw,/validateAuthorizationStaticContract\([\s\S]*if\(existsSync\(resolve\(repoRoot,runPath\)\)\)[\s\S]*validateAuthorizationPreAppendContract/);
 });
 
 test('v4.6.06 rejects an unrecognized canonical write without explicit authorization before any write',()=>{
