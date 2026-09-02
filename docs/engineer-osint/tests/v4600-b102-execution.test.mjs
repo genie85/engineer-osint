@@ -6,6 +6,7 @@ import {loadCanonicalRunStore} from '../lib/run-store.mjs';
 
 const root='docs/engineer-osint';
 const authorization=JSON.parse(readFileSync(`${root}/V4599_B102_APPEND_AUTHORIZATION.json`,'utf8'));
+const b103Authorization=JSON.parse(readFileSync(`${root}/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`,'utf8'));
 const candidateRaw=readFileSync(`${root}/osint-publication-candidates/v4598-b102.json`,'utf8');
 const persistedRaw=readFileSync(`${root}/data/runs/engineer-osint-20260902-B102.json`,'utf8');
 const appendRunRaw=readFileSync(`${root}/append-run.mjs`,'utf8');
@@ -14,15 +15,13 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const RUN='engineer-osint-20260902-B102';
 const FILE_SHA='5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a';
 const CANONICAL_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
-const APPEND_SHA='174cc646b8d3ecf6e338f6460b95335130154ffb';
+const HISTORICAL_APPEND_SHA='174cc646b8d3ecf6e338f6460b95335130154ffb';
+const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 
-test('v4.6.00 persists the exact authorized B102 standard append',()=>{
+test('v4.6.00 persists the exact authorized B102 standard append across the exact B103 lifecycle successor',()=>{
   const store=loadCanonicalRunStore({root});
-  assert.equal(store.report.current_run_id,RUN);
-  assert.equal(store.report.canonical_sha256,CANONICAL_SHA);
-  assert.equal(sha256(persistedRaw),FILE_SHA);
-  assert.deepEqual(JSON.parse(persistedRaw),JSON.parse(candidateRaw));
-  assert.deepEqual(store.manifest.runs.at(-1),{
+  const b102Entry=store.manifest.runs.find(item=>item.run_id===RUN);
+  assert.deepEqual(b102Entry,{
     run_id:RUN,
     parent_run_id:'engineer-osint-20260902-B101',
     parent_canonical_sha256:'146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b',
@@ -30,6 +29,13 @@ test('v4.6.00 persists the exact authorized B102 standard append',()=>{
     file_sha256:FILE_SHA,
     canonical_sha256:CANONICAL_SHA
   });
+  assert.equal(sha256(persistedRaw),FILE_SHA);
+  assert.deepEqual(JSON.parse(persistedRaw),JSON.parse(candidateRaw));
+  const allowedHeads=new Map([
+    [RUN,CANONICAL_SHA],
+    [b103Authorization.candidate_run_id,b103Authorization.expected_resulting_canonical_sha256]
+  ]);
+  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→B103 lifecycle');
 });
 
 test('v4.6.00 publishes exactly three reviewed bridging systems with exact provenance',()=>{
@@ -65,8 +71,9 @@ test('v4.6.00 keeps B102 no-media scope and immutable authorization evidence',()
   assert.equal(authorization.authorization.allow_future_run_same_slice,false);
 });
 
-test('v4.6.00 installs only the exact authorized B102 append guard successor',()=>{
-  assert.equal(gitBlobSha(appendRunRaw),APPEND_SHA);
+test('v4.6.00 preserves the exact historical B102 guard under the exact authorized executor successor',()=>{
+  assert.equal(HISTORICAL_APPEND_SHA,authorization.protected_baseline.append_run_blob_sha);
+  assert.equal(gitBlobSha(appendRunRaw),EXECUTOR_APPEND_SHA);
   assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
   assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
   assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);
