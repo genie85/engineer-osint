@@ -1,0 +1,79 @@
+name: ENGINEER OSINT temporary v4.6.01 reviewed-photo acquisition
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4601-ready-photo-acquisition
+    paths:
+      - .github/workflows/v4601-photo-acquire-temp.yml
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download exact reviewed Wikimedia Commons files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out/assets/photos/originals
+          python3 - <<'PY'
+          import hashlib, json, pathlib, subprocess, urllib.parse
+
+          items = [
+            ("ENG-TECH-0003", "UBIM Engineer Vehicle Army-2022 2022-08-20 2554.jpg", "eng-tech-0003-ubim.jpg"),
+            ("ENG-TECH-0004", "IMR-3M armoured engineering vehicle at Engineering Technologies 2012.jpg", "eng-tech-0004-imr-3m.jpg"),
+            ("ENG-TECH-0005", "NATO Bridging Operation In Germany MOD 45162595.jpg", "eng-tech-0005-m3-family.jpg"),
+            ("ENG-TECH-0006", "JGSDF Type 07 Mobility support bridge 20121021-02.JPG", "eng-tech-0006-jgsdf-07msb.jpg"),
+            ("ENG-TECH-0016", "JGSDF Type 07 Mobility support bridge.jpg", "eng-tech-0016-jgsdf-07msb.jpg"),
+            ("ENG-TECH-0017", "92式地雷原処理車 (8465401362).jpg", "eng-tech-0017-type-92-minefield-clearing.jpg"),
+            ("ENG-TECH-0022", "FNSS Kunduz.png", "eng-tech-0022-kunduz.png"),
+            ("ENG-TECH-0028", "Mostní automobil AM-50 pic2.JPG", "eng-tech-0028-am-50.jpg"),
+            ("ENG-TECH-0029", "MT-55A VS2.jpg", "eng-tech-0029-mt-55a.jpg"),
+          ]
+
+          manifest = {
+            "schema_version": 1,
+            "batch": "v4.6.01",
+            "purpose": "Acquire exact binaries for the nine current READY_FOR_IMPORT photo-review entries. No canonical LOCAL_IMAGE claim is made by this temporary acquisition step.",
+            "entries": [],
+          }
+          root = pathlib.Path("out/assets/photos/originals")
+          for card_id, source_file_name, local_name in items:
+            encoded = urllib.parse.quote(source_file_name, safe="")
+            requested_url = f"https://commons.wikimedia.org/wiki/Special:Redirect/file/{encoded}"
+            dest = root / local_name
+            subprocess.run([
+              "curl", "-L", "--fail", "--retry", "4", "--retry-all-errors",
+              "--connect-timeout", "20", "--max-time", "180",
+              "-A", "ENGINEER-OSINT/1.0 (GitHub Actions reviewed-media acquisition)",
+              "-o", str(dest), requested_url,
+            ], check=True)
+            payload = dest.read_bytes()
+            if not payload:
+              raise SystemExit(f"empty download for {card_id}")
+            manifest["entries"].append({
+              "card_id": card_id,
+              "source_file_name": source_file_name,
+              "requested_url": requested_url,
+              "artifact_path": f"assets/photos/originals/{local_name}",
+              "sha256": hashlib.sha256(payload).hexdigest(),
+              "bytes": len(payload),
+            })
+
+          pathlib.Path("out/acquisition.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+          )
+          PY
+      - name: Upload acquisition artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v4601-ready-photo-binaries
+          path: out
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 3
