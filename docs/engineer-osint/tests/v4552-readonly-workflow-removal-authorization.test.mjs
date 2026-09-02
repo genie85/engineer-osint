@@ -12,6 +12,8 @@ const policy=JSON.parse(policyText);
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const v4553Path=`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`;
 const v4553=existsSync(v4553Path)?JSON.parse(readFileSync(v4553Path,'utf8')):null;
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 const targetFiles=[
   'b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml',
@@ -46,7 +48,7 @@ test('v4.5.52 repinned all fourteen blobs; later authorized lifecycle may only c
   assert.deepEqual([...active,...historical].map(x=>x.file).sort(),remainingFiles);
   if(!v4553){
     const expected=[...policy.targets,...active,...historical];
-    const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+    const actual=historicalWorkflowSurface();
     assert.equal(expected.length,14);
     assert.deepEqual(actual,expected.map(x=>x.file).sort());
     for(const item of expected)assert.equal(gitBlobSha(readFileSync(`${workflowsDir}/${item.file}`,'utf8')),item.git_blob_sha,item.file);
@@ -55,7 +57,7 @@ test('v4.5.52 repinned all fourteen blobs; later authorized lifecycle may only c
   assert.equal(v4553.status,'AUTHORIZED_EXACT_SEVEN_READONLY_WORKFLOWS_REMOVED');
   assert.equal(v4553.authorization_policy_git_blob_sha,'9394a1f6a4749b12c127128b8555ac358e751f4c');
   assert.deepEqual(v4553.removed_targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])),policy.targets.map(x=>[x.file,x.git_blob_sha]).sort((a,b)=>a[0].localeCompare(b[0])));
-  const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.deepEqual(actual,remainingFiles);
   for(const item of policy.targets)assert.equal(existsSync(`${workflowsDir}/${item.file}`),false,item.file);
   for(const item of active)assertActiveProtectionCurrentOrV4557(item);
