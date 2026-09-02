@@ -8,6 +8,8 @@ const root='docs/engineer-osint';
 const workflowsDir='.github/workflows';
 const policy=JSON.parse(readFileSync(`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`,'utf8'));
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
+const historicalWorkflowSurface=()=>readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 const removed=[
   'b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml',
@@ -29,12 +31,12 @@ test('v4.5.53 applies exactly the v4.5.52 all-seven authorization',()=>{
   for(const file of removed)assert.equal(existsSync(`${workflowsDir}/${file}`),false,file);
 });
 
-test('v4.5.53 leaves exactly five active protections and two historical-evidence anchors',()=>{
+test('v4.5.53 leaves exactly five active protections and two historical-evidence anchors in its historical surface',()=>{
   const active=policy.required_remaining_workflows.ACTIVE_PRODUCTION_PROTECTION;
   const historical=policy.required_remaining_workflows.HISTORICAL_EVIDENCE_KEEP;
   assert.equal(active.length,5);
   assert.equal(historical.length,2);
-  const actual=readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')).sort();
+  const actual=historicalWorkflowSurface();
   assert.deepEqual(actual,remaining);
   assert.deepEqual([...active,...historical].map(x=>x.file).sort(),remaining);
   for(const item of active)assertActiveProtectionCurrentOrV4557(item);
