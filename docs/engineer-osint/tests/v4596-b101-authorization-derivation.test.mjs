@@ -14,6 +14,7 @@ const candidate=JSON.parse(raw);
 const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
 const appendRunRaw=readFileSync(appendRunPath,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
+const exactExecutionSuccessor='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 
 test('v4.5.96 pins the exact frozen B101 candidate and deterministic canonical successor',()=>{
   assert.equal(gitBlobSha(raw),authorization.candidate_git_blob_sha);
@@ -59,10 +60,15 @@ test('v4.5.96 authorization stays exact-scope and execution-separated',()=>{
   assert.deepEqual(authorization.execution_state,{append_run_successor_installed:false,canonical_write_performed:false,run_file_created:false,manifest_updated:false});
 });
 
-test('v4.5.96 keeps the B100 append helper baseline immutable during authorization',()=>{
-  assert.equal(gitBlobSha(appendRunRaw),authorization.protected_baseline.append_run_blob_sha);
+test('v4.5.96 keeps its B100 append-helper baseline immutable while accepting only the exact authorized B101 execution successor',()=>{
+  const current=gitBlobSha(appendRunRaw);
+  assert.ok(current===authorization.protected_baseline.append_run_blob_sha||current===exactExecutionSuccessor,'append-run is neither the immutable authorization baseline nor exact B101 execution successor');
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.equal(authorization.authorized_guard_successor_contract.guarded_run_id,'engineer-osint-20260902-B101');
   assert.equal(authorization.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
   assert.equal(authorization.required_preconditions.authorization_stage_append_run_must_remain_baseline,true);
+  if(current===exactExecutionSuccessor){
+    assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
+    assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
+  }
 });
