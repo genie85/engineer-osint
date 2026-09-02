@@ -5,6 +5,7 @@ import {assertV4557Applied,gitBlobSha,v4557,v4561,v4562,v4565} from './v4556-wor
 
 const workflow=readFileSync('.github/workflows/identity-fix-retirement-regression.yml','utf8');
 const b100Successor='1113c9388e69abea0b9b14a029b68a906befdb31';
+const b101Successor='0ae8604681f6aa4270a360e50b39ca4ddb4afd49';
 
 test('v4.5.57 records the exact red-main browser failure and one semantic-equivalent label case drift',()=>{
   assert.equal(v4557.reviewed_main_sha,'418802da8c46e26588dfb9fc56cbdef95bc7c317');
@@ -21,7 +22,7 @@ test('v4.5.57 records the exact red-main browser failure and one semantic-equiva
   });
 });
 
-test('v4.5.57 historical browser successor remains pinned while B100 has one exact descendant successor',()=>{
+test('v4.5.57 historical browser successor remains pinned while B100/B101 have exact descendants',()=>{
   assert.equal(v4557.target.historical_git_blob_sha,'272c85272137c256484b831be98f7340cbe6db8e');
   assert.equal(v4557.target.successor_git_blob_sha,'7e11d0d3c5b314c08ca9ea9ec36c5421d917fe44');
   const baseline=v4561.workflows.find(item=>item.file==='identity-fix-retirement-regression.yml');
@@ -36,14 +37,15 @@ test('v4.5.57 historical browser successor remains pinned while B100 has one exa
   assert.equal(successor.configured_node_major,24);
   assert.equal(actionSuccessor.v4562_git_blob_sha,successor.git_blob_sha);
   assert.equal(actionSuccessor.v4564_diagnostic_git_blob_sha,'6b93ce6ffe25b74a661f2326f20adb11d31a19f7');
-  assert.equal(gitBlobSha(workflow),b100Successor);
+  assert.ok([b100Successor,b101Successor].includes(gitBlobSha(workflow)));
   assertV4557Applied();
 });
 
-test('v4.5.57 keeps historical digest and B100 adds one exact fail-closed descendant digest',()=>{
+test('v4.5.57 keeps historical digest and exact B100/B101 fail-closed descendant digests',()=>{
   assert.match(workflow,/text\.casefold\(\) in \{cs\.casefold\(\),en\.casefold\(\)\}/);
   assert.match(workflow,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/);
   assert.match(workflow,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
+  if(gitBlobSha(workflow)===b101Successor)assert.match(workflow,/'engineer-osint-20260902-B101':'b31eededb9165bc19019f592bc4f9e58ea6f7f4fc86a0e189d6f5e34fb48d6e9'/);
   assert.match(workflow,/no exact digest authorized for current run/);
   assert.equal(v4557.target.expected_browser_sha256_unchanged,'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31');
   assert.equal(v4557.safety_boundary.arbitrary_text_drift_normalized,false);
