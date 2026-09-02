@@ -33,3 +33,4 @@ jobs:
           git diff --cached --check
           git commit -m "v4.6.03: stage exact B103 local-image canonical candidate"
           git push origin HEAD:chatgpt/engineer-osint-v4603-b103-local-image-candidate
+# rerun after local_sha256 contract correction
