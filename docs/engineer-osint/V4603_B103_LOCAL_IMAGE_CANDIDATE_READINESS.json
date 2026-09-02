@@ -1,0 +1,117 @@
+{
+  "schema_version": "engineer-osint-b103-local-image-candidate-readiness-v1",
+  "status": "READY_FOR_EXACT_REVIEW",
+  "reviewed_main_sha": "b0477596edef24a0c20ce7b07438a10c7dc436de",
+  "parent_run_id": "engineer-osint-20260902-B102",
+  "parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+  "candidate_run_id": "engineer-osint-20260902-B103",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4603-b103-local-images.json",
+  "candidate_file_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+  "expected_resulting_canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+  "status_successor_path": "docs/engineer-osint/photo-review-candidates/v4603-b103-local-image-status.json",
+  "status_successor_sha256": "86b7694c3aee30ea421601c698b9eac3d6aa906958cab93c036e66037247e569",
+  "source_photo_review_status_sha256": "bc923cb39a246c37cd6ecbfcbc0869ee18faa7e060206538214ccd596b71b100",
+  "source_acquisition_manifest_sha256": "daa7f0233bee30cd6d30bbd7eec3262c426e7951ab49cb395cf2194bee44e104",
+  "expected_card_ids": [
+    "ENG-TECH-0003",
+    "ENG-TECH-0004",
+    "ENG-TECH-0005",
+    "ENG-TECH-0006",
+    "ENG-TECH-0016",
+    "ENG-TECH-0017",
+    "ENG-TECH-0022",
+    "ENG-TECH-0028",
+    "ENG-TECH-0029"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0003",
+    "ENG-VIS-LOCAL-0004",
+    "ENG-VIS-LOCAL-0005",
+    "ENG-VIS-LOCAL-0006",
+    "ENG-VIS-LOCAL-0016",
+    "ENG-VIS-LOCAL-0017",
+    "ENG-VIS-LOCAL-0022",
+    "ENG-VIS-LOCAL-0028",
+    "ENG-VIS-LOCAL-0029"
+  ],
+  "expected_updated_record_count": 9,
+  "expected_new_visual_count": 9,
+  "expected_new_media_count": 0,
+  "resulting_photo_baseline": {
+    "cards_with_local_image": 9,
+    "ready_for_import": 0,
+    "photo_coverage_percent": 18
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0003",
+      "local_image_path": "assets/photos/eng-tech-0003-ubim.webp",
+      "local_sha256": "9a626759bea615705972b56829f8b0acc611c926ee36fb42a12f1ac962555b4e",
+      "source_sha256": "6841148f25a98a2d6204577e46420e3028f74d4e3e3d82760cf725d926d7fb48",
+      "git_blob_sha": "70a7edfd006d6b2962837e868a24db53fa7ce41c"
+    },
+    {
+      "card_id": "ENG-TECH-0004",
+      "local_image_path": "assets/photos/eng-tech-0004-imr-3m.webp",
+      "local_sha256": "1a77d91151a89a29dc6041a60ddf11f19ca8146c52296ef1c09e7e60cf3de804",
+      "source_sha256": "775a2068c4664d8be7205e9c8eed1f8eafad51571b3621f19c1529320c6f82ef",
+      "git_blob_sha": "2a7f678d56a9ccab0e2703bef81a62dd38dfb298"
+    },
+    {
+      "card_id": "ENG-TECH-0005",
+      "local_image_path": "assets/photos/eng-tech-0005-m3-family.webp",
+      "local_sha256": "9d45fc046f7cf98a57256b756c9ba67fd37649ef21c1672f680f7a8d410877fa",
+      "source_sha256": "7dbcccaa11baa569ad6af9d8b54ca6129aa47f568b410d75c6aa04679d7327e4",
+      "git_blob_sha": "c0c23a7e385bb67064a09f3ac0d9e581f72a681b"
+    },
+    {
+      "card_id": "ENG-TECH-0006",
+      "local_image_path": "assets/photos/eng-tech-0006-jgsdf-07msb.webp",
+      "local_sha256": "71a1f1224c71e41358bbf3a4fca4b39da977716ba8a3caf752675b2b05b7695a",
+      "source_sha256": "9052dfc05418aeb54f1e2235bc2cddb69f420cb87f79aae0f0fcecfef0800a2d",
+      "git_blob_sha": "cd214b2209fd0c564492e1f2edd5fa6c911afa04"
+    },
+    {
+      "card_id": "ENG-TECH-0016",
+      "local_image_path": "assets/photos/eng-tech-0016-jgsdf-07msb.webp",
+      "local_sha256": "2afa9dd9b48bd687e14f4d44e6ff61a31f8d385ce42f16332cc54b4424b40967",
+      "source_sha256": "8b323b8d7b72a7061650c33e0d628ee489cba5e40613cff22c1564305474b21c",
+      "git_blob_sha": "ae0aa241b38b7a731f41d6c8eff6f6365e6b2fb7"
+    },
+    {
+      "card_id": "ENG-TECH-0017",
+      "local_image_path": "assets/photos/eng-tech-0017-type-92-minefield-clearing.webp",
+      "local_sha256": "f12a1c5453ea7320c7031d43f40656879af17782bf91b9ffe42dfeae18e15170",
+      "source_sha256": "0b79f5e57e159bcc92178fb74a42c41c95c16d55ed42ff1abb5f9b1e2ba1633a",
+      "git_blob_sha": "85475c5e0e879e3c1687f7a98d24c5307c0c0946"
+    },
+    {
+      "card_id": "ENG-TECH-0022",
+      "local_image_path": "assets/photos/eng-tech-0022-kunduz.webp",
+      "local_sha256": "0495bd15901f0edd7d4fcfecc84d8e6bc657ec3490edcf8db32f085bfc8f6b21",
+      "source_sha256": "8d9050a5f125236712df335351cb20e303e6a94ee95e1a8e1a6e50a9c0ae2c60",
+      "git_blob_sha": "126b6806adad1a9bfcb742d7eed3fee2d0024675"
+    },
+    {
+      "card_id": "ENG-TECH-0028",
+      "local_image_path": "assets/photos/eng-tech-0028-am-50.webp",
+      "local_sha256": "8ecb6d98196c962599aee5ba5fd922af2e4922cd09782b2832cdff1f33ea53ef",
+      "source_sha256": "10ec8c3e0bde47439a4136e3fa603e239c5ebdb1142f304679a20aee30f7daf4",
+      "git_blob_sha": "3b571d3708249857232e11443aaafc1f80471808"
+    },
+    {
+      "card_id": "ENG-TECH-0029",
+      "local_image_path": "assets/photos/eng-tech-0029-mt-55a.webp",
+      "local_sha256": "2fd861d390e1d60c076ae96e5a31014d6f419fef58269a373e075ca0bdfca369",
+      "source_sha256": "ad7e8c5ba9936980b6e49c532ed96852d59825993432559d007753fc9391c50f",
+      "git_blob_sha": "a30d9f63ba776683bc43888162525124daa26a63"
+    }
+  ],
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  },
+  "authorization_required": true
+}
