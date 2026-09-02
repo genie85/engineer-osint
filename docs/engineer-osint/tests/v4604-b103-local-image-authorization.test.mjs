@@ -68,7 +68,7 @@ test('v4.6.04 authorization pins the exact photo lifecycle successor and acquisi
 
   const successorJson = JSON.parse(successor.toString('utf8'));
   for (const cardId of expectedCards) {
-    const item = successorJson.items.find((entry) => entry.id === cardId || entry.card_id === cardId);
+    const item = successorJson.entries.find((entry) => entry.card_id === cardId);
     assert.ok(item, `missing successor lifecycle entry for ${cardId}`);
     assert.equal(item.status, 'LOCAL_IMAGE', `${cardId} must become LOCAL_IMAGE`);
   }
