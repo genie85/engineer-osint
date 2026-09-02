@@ -390,6 +390,23 @@ U importovaného media zachovej provenance minimálně:
 - SHA-256;
 - attribution requirement.
 
+### Immediate local-photo completion rule
+
+`READY_FOR_IMPORT` je execution trigger, nikoli backlogový nebo cílový stav. Jakmile jsou redistribution rights a identita dostatečně ověřeny a binární acquisition je technicky dostupná, archivuj obrázek lokálně v nejbližším bezpečném write slice bez zbytečného odkladu.
+
+Lokální archivace sama nestačí. Pro každou kartu s bezpečně archivovaným obrázkem co nejdříve dokonči také runtime/presentation linkage tak, aby byl obrázek skutečně viditelný při otevření odpovídající karty. Karta s ověřeným dostupným lokálním obrázkem nesmí zůstat bez zobrazeného obrázku jen proto, že canonical `LOCAL_IMAGE` linkage čeká na samostatný append-only slice. Prezentační fallback smí zobrazit pouze licenčně a identitně ověřený lokální acquisition a nesmí falešně měnit canonical lifecycle stav.
+
+Photo/media slice je považován za produktově dokončený teprve když současně platí:
+
+- lokální soubor existuje;
+- SHA-256 a provenance odpovídají acquisition záznamu;
+- deployment artefakt obsahuje daný soubor;
+- detail odpovídající karty obrázek skutečně renderuje;
+- regresní test pokrývá všechny lokálně archivované karty;
+- canonical `LOCAL_IMAGE` se nastavuje až po řádném canonical linkage podle append-only pravidel.
+
+Pokud existuje ověřený lokální acquisition, ale odpovídající karta obrázek nezobrazuje, považuj to za produkční UX/media defect a prioritně oprav root cause napříč všemi dotčenými kartami.
+
 ## 13. ROADMAP A VALUE ROTATION
 
 P0 a unfinished/open related slice mají přednost.
