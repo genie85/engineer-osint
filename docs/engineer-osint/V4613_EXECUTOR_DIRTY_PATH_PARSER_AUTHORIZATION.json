@@ -1,0 +1,92 @@
+{
+  "schema_version": "engineer-osint-executor-dirty-path-parser-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-02",
+  "reviewed_main_sha": "842497c6acfecd4e79f8c3a3f769015dc186fa79",
+  "blocker": {
+    "execution_pr": 339,
+    "executor_run_id": 33671490698,
+    "executor_job_id": 100385915073,
+    "classification": "EXECUTOR_SAFETY_IMPLEMENTATION_BUG",
+    "canonical_regression": false,
+    "post_write_test_result": {
+      "tests": 519,
+      "pass": 516,
+      "fail": 0,
+      "skip": 3
+    },
+    "temporary_b103_result": {
+      "authoritative": false,
+      "run_id": "engineer-osint-20260902-B103",
+      "file_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+      "canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066"
+    },
+    "observed_failure": "Executor produced unrelated working-tree change: ocs/engineer-osint/data/run-store-manifest.json",
+    "root_cause": "statusPaths calls the trimming git() helper on git status --porcelain=v1 output. String.trim() removes the leading status-column space from the first modified entry before line.slice(3), so the first path loses its first character."
+  },
+  "authorized_targets": {
+    "executor_path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+    "executor_baseline_git_blob_sha": "17ec273df22888524513f7580953b8566caddd8c",
+    "regression_test_path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+    "regression_test_baseline_git_blob_sha": "22f35601b2dfc9e7888a51fe8ea9741ced2422b6",
+    "workflow_path": ".github/workflows/authorized-canonical-executor.yml",
+    "workflow_baseline_git_blob_sha": "a0c390755bbd38bfbe5d1329155606bb84dc4a93"
+  },
+  "exact_successor_contract": {
+    "executor_allowed_replacement": {
+      "old": "const statusPaths=()=>git(['status','--porcelain=v1']).split('\\n').filter(Boolean).map(line=>line.slice(3));",
+      "new": "const statusPaths=()=>gitRaw(['status','--porcelain=v1']).split('\\n').filter(Boolean).map(line=>line.slice(3));"
+    },
+    "regression_test_allowed_change": "Add a narrow assertion proving the executor statusPaths implementation reads raw porcelain output rather than the trimming git helper, while preserving all existing same-repository, no-main, authorization, post-write and push-isolation assertions.",
+    "expected_behavior": {
+      "modified_porcelain_entry": " M docs/engineer-osint/data/run-store-manifest.json",
+      "parsed_path": "docs/engineer-osint/data/run-store-manifest.json",
+      "untracked_porcelain_entry": "?? docs/engineer-osint/data/runs/engineer-osint-20260902-B103.json",
+      "untracked_parsed_path": "docs/engineer-osint/data/runs/engineer-osint-20260902-B103.json"
+    }
+  },
+  "immutable_invariants": {
+    "b96_b99_historical_evidence": "UNCHANGED",
+    "b100_b102_run_and_manifest_history": "UNCHANGED",
+    "current_pre_execution_run_id": "engineer-osint-20260902-B102",
+    "current_pre_execution_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+    "b103_authorization_path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "b103_candidate_sha256": "f085ba8acf6448cd96d093bb65effa70d64af4495ef90cc138b53fb0a71eb329",
+    "b103_expected_canonical_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+    "workflow_must_remain_byte_identical": true,
+    "execution_request_isolation_must_remain_unchanged": true,
+    "full_post_write_test_gate_must_remain_unchanged": true,
+    "dirty_path_allowlist_must_remain_fail_closed": true,
+    "direct_main_execution_must_remain_forbidden": true
+  },
+  "implementation_authorization": {
+    "execution_requires_separate_slice": true,
+    "allow_executor_change": true,
+    "allow_regression_test_change": true,
+    "allow_workflow_change": false,
+    "allow_append_run_change": false,
+    "allow_authorization_contract_change": false,
+    "allow_candidate_change": false,
+    "allow_manifest_change": false,
+    "allow_run_file_change": false,
+    "allow_photo_status_change": false,
+    "allow_photo_binary_change": false,
+    "allow_runtime_change": false,
+    "allow_historical_change": false,
+    "allow_canonical_write": false,
+    "allow_guard_weakening": false,
+    "allow_wildcard_or_dynamic_current_acceptance": false,
+    "allow_unrelated_refactor": false
+  },
+  "required_validation": {
+    "current_b102_pre_state_green": true,
+    "executor_and_test_baseline_blobs_must_match": true,
+    "workflow_blob_must_match_and_remain_unchanged": true,
+    "only_exact_parser_replacement_allowed": true,
+    "regression_must_cover_leading_space_modified_status": true,
+    "all_existing_executor_security_assertions_must_pass": true,
+    "full_repository_pr_ci_must_pass": true,
+    "b103_execution_must_remain_separate_after_merge": true
+  },
+  "note": "This authorization fixes only the executor's parsing of raw git porcelain status paths. It does not authorize B103 execution, canonical mutation, workflow mutation, allowlist broadening, guard weakening, or any historical rewrite."
+}
