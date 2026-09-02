@@ -15,6 +15,7 @@ const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
 const appendRunRaw=readFileSync(appendRunPath,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const exactB101AppendSuccessor='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
+const exactB102AppendSuccessor='174cc646b8d3ecf6e338f6460b95335130154ffb';
 
 test('v4.5.93 pins the exact frozen B100 candidate and deterministic canonical successor',()=>{
   assert.equal(gitBlobSha(raw),authorization.candidate_git_blob_sha);
@@ -64,12 +65,13 @@ test('v4.5.93 authorization stays exact-scope and immutable after execution',()=
   assert.deepEqual(authorization.execution_state,{append_run_successor_installed:false,canonical_write_performed:false,run_file_created:false,manifest_updated:false});
 });
 
-test('v4.5.93 preserves its exact B100 guard successor and permits only the exact later B101 guard successor',()=>{
+test('v4.5.93 preserves its exact B100 guard successor and permits only exact later B101/B102 guard successors',()=>{
   const currentBlob=gitBlobSha(appendRunRaw);
   const allowed=new Set([
     authorization.protected_baseline.append_run_blob_sha,
     authorization.expected_append_run_successor_blob_sha,
-    exactB101AppendSuccessor
+    exactB101AppendSuccessor,
+    exactB102AppendSuccessor
   ]);
   assert.ok(allowed.has(currentBlob),`unexpected append-run lifecycle blob ${currentBlob}`);
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'de2ead86f0d5967c6bf1db96915b6f1fbd996090');
@@ -80,5 +82,9 @@ test('v4.5.93 preserves its exact B100 guard successor and permits only the exac
   if(currentBlob===exactB101AppendSuccessor){
     assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
     assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
+  }
+  if(currentBlob===exactB102AppendSuccessor){
+    assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
+    assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
   }
 });
