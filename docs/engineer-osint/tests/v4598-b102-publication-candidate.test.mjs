@@ -73,7 +73,7 @@ test('B102 exposes deterministic lineage in both pre-append and persisted lifecy
     const persistedRaw=fs.readFileSync(persistedPath,'utf8');
     assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),expectedFileSha);
     assert.deepEqual(JSON.parse(persistedRaw),p);
-    const entry=JSON.parse(fs.readFileSync(manifestPath,'utf8')).runs.at(-1);
+    const entry=JSON.parse(fs.readFileSync(manifestPath,'utf8')).runs.find(item=>item.run_id===p.state.run_id);
     assert.deepEqual(entry,{
       run_id:p.state.run_id,
       parent_run_id:p.state.parent_run_id,

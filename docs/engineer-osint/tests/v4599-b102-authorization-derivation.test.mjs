@@ -35,7 +35,8 @@ test('v4.5.99 pins the exact frozen B102 candidate and deterministic canonical s
   }else{
     const persistedRaw=readFileSync(persistedPath,'utf8');
     assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),authorization.exact_candidate_file_sha256);
-    const entry=JSON.parse(readFileSync(manifestPath,'utf8')).runs.at(-1);
+    const entry=JSON.parse(readFileSync(manifestPath,'utf8')).runs.find(item=>item.run_id===authorization.candidate_run_id);
+    assert.ok(entry,'immutable B102 manifest entry missing');
     assert.equal(entry.run_id,authorization.candidate_run_id);
     assert.equal(entry.parent_run_id,authorization.expected_parent_run_id);
     assert.equal(entry.file_sha256,authorization.exact_candidate_file_sha256);

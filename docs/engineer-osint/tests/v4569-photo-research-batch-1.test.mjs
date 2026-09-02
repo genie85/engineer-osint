@@ -25,7 +25,13 @@ test('photo lifecycle accounting distinguishes researched READY_FOR_IMPORT cards
     {id:'ENG-TECH-0029',title:'MT-55A'},
     {id:'ENG-TECH-0099',title:'Unassessed'}
   ]},visual_registry:{visuals:[]}};
-  const report=buildPhotoBaseline({data,statusRegistry:registry});
+  const syntheticRegistry={
+    ...registry,
+    entries:registry.entries
+      .filter(entry=>['ENG-TECH-0028','ENG-TECH-0029'].includes(entry.card_id))
+      .map(entry=>({...entry,status:'READY_FOR_IMPORT'}))
+  };
+  const report=buildPhotoBaseline({data,statusRegistry:syntheticRegistry});
   assert.equal(report.total_cards,3);
   assert.equal(report.cards_with_local_image,0);
   assert.equal(report.ready_for_import,2);

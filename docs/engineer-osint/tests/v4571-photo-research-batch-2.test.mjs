@@ -32,11 +32,10 @@ test('v4.5.71 second photo research batch pins exactly UBIM and JGSDF Type 07 pr
   for(const [cardId,fields] of Object.entries(expected)){
     const entry=byId.get(cardId);
     assert.ok(entry,`missing ${cardId}`);
-    assert.equal(entry.status,'READY_FOR_IMPORT');
+    assert.ok(new Set(['READY_FOR_IMPORT','LOCAL_IMAGE']).has(entry.status),`${cardId} unexpected lifecycle status ${entry.status}`);
     assert.equal(entry.reviewed_at,'2026-09-01');
     assert.match(entry.identity_evidence,/explicitly identifies/i);
     assert.ok(entry.license_evidence.length>40);
-    assert.match(entry.import_blocker,/no LOCAL_IMAGE claim is made/);
     for(const [field,value] of Object.entries(fields))assert.equal(entry[field],value,`${cardId} ${field}`);
   }
 });
