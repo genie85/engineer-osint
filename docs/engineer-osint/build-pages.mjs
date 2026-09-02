@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,mkdirSync,cpSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,cpSync,readdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -37,6 +37,9 @@ data.dashboard_materialization={
   snapshot_run_id:report.snapshot_run_id,
   patch_run_ids:data.dashboard_patch_extras.patch_history_runs||[]
 };
+const localPhotoDir=join(source,'photo-local-acquisitions');
+const localPhotoEntries=readdirSync(localPhotoDir).filter(name=>name.endsWith('.json')).sort().flatMap(name=>{const batch=JSON.parse(readFileSync(join(localPhotoDir,name),'utf8'));return Array.isArray(batch.entries)?batch.entries:[]});
+data.dashboard_patch_extras.local_photo_acquisitions=localPhotoEntries;
 validatePublicUrls(data);
 html=html.slice(0,start+marker.length)+safeInlineJson(data)+html.slice(end);
 
@@ -82,6 +85,8 @@ analysis_nav_mode=core-plus-tools
 entity_detail_v43=enabled
 entity_detail_source=canonical-readonly
 entity_detail_sections=conditional-evidence-first
+local_photo_card_visibility=enabled
+local_photo_acquisitions=${localPhotoEntries.length}
 evidence_explorer_v44=enabled
 evidence_explorer_link_policy=explicit-direct-or-entity-context
 evidence_explorer_source=canonical-readonly
@@ -91,6 +96,7 @@ presentation_bootstrap_pb_overlay=retired
 mobile_menu_fix=enabled
 bytes=${Buffer.byteLength(html)}
 `,'utf8');
+cpSync(join(source,'assets'),join(output,'assets'),{recursive:true});
 cpSync(join(source,'project'),join(output,'project'),{recursive:true});
 writeFileSync(join(output,'.nojekyll'),'','utf8');
 execFileSync(process.execPath,[join(source,'postprocess-ui.mjs')],{stdio:'inherit'});
