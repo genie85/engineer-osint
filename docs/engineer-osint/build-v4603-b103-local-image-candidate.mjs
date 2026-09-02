@@ -24,6 +24,7 @@ const store=loadCanonicalRunStore({root:ROOT});
 if(store.report.current_run_id!=='engineer-osint-20260902-B102')throw new Error(`B103 requires B102 parent, got ${store.report.current_run_id}`);
 if(store.report.canonical_sha256!=='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91')throw new Error(`B103 parent canonical drift: ${store.report.canonical_sha256}`);
 const acquisitions=readJson(ACQUISITION_PATH);
+if(typeof acquisitions.acquired_at!=='string'||!acquisitions.acquired_at)throw new Error('Acquisition batch is missing acquired_at');
 const selected=asArray(acquisitions.entries).filter(item=>EXPECTED_IDS.includes(item.card_id)).sort((a,b)=>a.card_id.localeCompare(b.card_id));
 if(JSON.stringify(selected.map(item=>item.card_id))!==JSON.stringify(EXPECTED_IDS))throw new Error('Acquisition manifest does not contain the exact nine-card B103 scope');
 const currentStatus=validatePhotoReviewRegistry(readJson(STATUS_PATH));
@@ -73,13 +74,13 @@ for(const acquisition of selected){
     identity_evidence:acquisition.identity_evidence,
     license_evidence:acquisition.license_evidence,
     reviewed_at:review.reviewed_at,
-    acquired_at:acquisition.acquired_at,
+    acquired_at:acquisitions.acquired_at,
     modifications:acquisition.modifications,
     verification_status:'LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED'
   });
   const successor=successorById.get(acquisition.card_id);
   successor.status='LOCAL_IMAGE';
-  successor.acquired_at=acquisition.acquired_at;
+  successor.acquired_at=acquisitions.acquired_at;
   successor.local_image_path=acquisition.local_image_path;
   successor.sha256=acquisition.local_sha256;
   successor.local_acquisition_batch=acquisitions.batch;
