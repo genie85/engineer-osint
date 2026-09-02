@@ -18,18 +18,20 @@ const B101_FILE_SHA='e02c5b0c52a98c36da8db9bbfef9d429edc068ce18c825c791dc8c180e1
 const B101_CANONICAL_SHA='146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b';
 const B100_CANONICAL_SHA='518b497c7754666807b6d9ac47eca335457f3ef43ecd15b96c554f6c12c9d141';
 const B101_APPEND_SUCCESSOR='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
+const B102_APPEND_SUCCESSOR='174cc646b8d3ecf6e338f6460b95335130154ffb';
 
-test('v4.5.97 persists exactly the separately authorized B101 append as canonical head',()=>{
+test('v4.5.97 persists exactly the separately authorized B101 append as a canonical ancestor',()=>{
   const store=loadCanonicalRunStore({root});
-  assert.equal(store.report.current_run_id,B101_RUN);
-  assert.equal(store.report.canonical_sha256,B101_CANONICAL_SHA);
+  const entry=store.manifest.runs.find(item=>item.run_id===B101_RUN);
+  assert.ok(entry,'B101 manifest entry missing');
+  assert.equal(entry.canonical_sha256,B101_CANONICAL_SHA);
   assert.equal(sha256(persistedRaw),B101_FILE_SHA);
   assert.equal(persistedRaw,candidateRaw,'persisted B101 bytes drifted from the frozen reviewed candidate');
-  const previous=manifest.runs.at(-2);
-  const current=manifest.runs.at(-1);
+  const index=store.manifest.runs.findIndex(item=>item.run_id===B101_RUN);
+  const previous=store.manifest.runs[index-1];
   assert.equal(previous.run_id,'engineer-osint-20260902-B100');
   assert.equal(previous.canonical_sha256,B100_CANONICAL_SHA);
-  assert.deepEqual(current,{
+  assert.deepEqual(entry,{
     run_id:B101_RUN,
     parent_run_id:'engineer-osint-20260902-B100',
     parent_canonical_sha256:B100_CANONICAL_SHA,
@@ -39,11 +41,16 @@ test('v4.5.97 persists exactly the separately authorized B101 append as canonica
   });
 });
 
-test('v4.5.97 installs only the exact B101 append guard successor',()=>{
-  assert.equal(gitBlobSha(appendRunRaw),B101_APPEND_SUCCESSOR);
+test('v4.5.97 preserves only exact B101/B102 append guard successors',()=>{
+  const current=gitBlobSha(appendRunRaw);
+  assert.ok(new Set([B101_APPEND_SUCCESSOR,B102_APPEND_SUCCESSOR]).has(current),`unexpected append-run lifecycle blob ${current}`);
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);
   assert.match(appendRunRaw,/V4596_B101_APPEND_AUTHORIZATION\.json/);
+  if(current===B102_APPEND_SUCCESSOR){
+    assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
+    assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
+  }
   assert.match(appendRunRaw,/COMPLETE_NO_CANONICAL_MEDIA_ADDITION/);
   assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);
   assert.equal(authorization.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);

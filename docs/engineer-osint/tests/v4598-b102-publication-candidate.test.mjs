@@ -5,8 +5,12 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
 const candidatePath = 'docs/engineer-osint/osint-publication-candidates/v4598-b102.json';
+const persistedPath = 'docs/engineer-osint/data/runs/engineer-osint-20260902-B102.json';
+const manifestPath = 'docs/engineer-osint/data/run-store-manifest.json';
 const candidateRaw = fs.readFileSync(new URL('../osint-publication-candidates/v4598-b102.json', import.meta.url), 'utf8');
 const p = JSON.parse(candidateRaw);
+const expectedFileSha='5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a';
+const expectedCanonicalSha='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
 
 test('v4.5.98 stages exactly three publication candidates without canonical write authorization', () => {
   assert.equal(p.schema_version, 'engineer-osint-patch-v1');
@@ -53,16 +57,30 @@ test('B102 preserves bridging configuration boundaries and excludes conflicting 
   assert.match(p.continuity.source_reverification_note, /differing 19\/20-country context/i);
 });
 
-test('B102 is a strict append-run dry-run candidate and exposes deterministic lineage', () => {
-  const stdout = execFileSync(process.execPath, ['docs/engineer-osint/append-run.mjs', candidatePath], {encoding:'utf8'});
-  const plan = JSON.parse(stdout);
+test('B102 exposes deterministic lineage in both pre-append and persisted lifecycle states', () => {
   const normalizedCandidate = JSON.stringify(p, null, 2) + '\n';
-  assert.equal(plan.status, 'VALIDATED_DRY_RUN');
-  assert.equal(plan.entry.run_id, 'engineer-osint-20260902-B102');
-  assert.equal(plan.entry.parent_run_id, 'engineer-osint-20260902-B101');
-  assert.equal(plan.entry.parent_canonical_sha256, '146e5039705147f481499487a399f33fc537ecfca01f845b82f8e44306231b6b');
-  assert.equal(plan.entry.file_sha256, createHash('sha256').update(normalizedCandidate).digest('hex'));
-  assert.match(plan.entry.canonical_sha256, /^[a-f0-9]{64}$/);
-  assert.notEqual(plan.entry.canonical_sha256, plan.entry.parent_canonical_sha256);
-  console.log('B102_DRY_RUN_PLAN', JSON.stringify(plan.entry));
+  assert.equal(createHash('sha256').update(normalizedCandidate).digest('hex'),expectedFileSha);
+  if(!fs.existsSync(persistedPath)){
+    const stdout = execFileSync(process.execPath, ['docs/engineer-osint/append-run.mjs', candidatePath], {encoding:'utf8'});
+    const plan = JSON.parse(stdout);
+    assert.equal(plan.status, 'VALIDATED_DRY_RUN');
+    assert.equal(plan.entry.run_id, p.state.run_id);
+    assert.equal(plan.entry.parent_run_id, p.state.parent_run_id);
+    assert.equal(plan.entry.parent_canonical_sha256, p.continuity.reviewed_parent_canonical_sha256);
+    assert.equal(plan.entry.file_sha256, expectedFileSha);
+    assert.equal(plan.entry.canonical_sha256, expectedCanonicalSha);
+  } else {
+    const persistedRaw=fs.readFileSync(persistedPath,'utf8');
+    assert.equal(createHash('sha256').update(persistedRaw).digest('hex'),expectedFileSha);
+    assert.deepEqual(JSON.parse(persistedRaw),p);
+    const entry=JSON.parse(fs.readFileSync(manifestPath,'utf8')).runs.at(-1);
+    assert.deepEqual(entry,{
+      run_id:p.state.run_id,
+      parent_run_id:p.state.parent_run_id,
+      parent_canonical_sha256:p.continuity.reviewed_parent_canonical_sha256,
+      path:'data/runs/engineer-osint-20260902-B102.json',
+      file_sha256:expectedFileSha,
+      canonical_sha256:expectedCanonicalSha
+    });
+  }
 });

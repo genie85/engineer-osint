@@ -9,6 +9,7 @@ const expectedRecords=['ENG-TECH-0043','ENG-TECH-0044','ENG-TECH-0045'];
 const expectedSources=['ENG-SRC-0527','ENG-SRC-0528','ENG-SRC-0529'];
 const expectedEvidence=['ENG-EVID-0215','ENG-EVID-0216','ENG-EVID-0217'];
 const exactB101AppendSuccessor='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
+const exactB102AppendSuccessor='174cc646b8d3ecf6e338f6460b95335130154ffb';
 
 test('v4.5.94 preserves the separately authorized B100 append as an immutable canonical ancestor',()=>{
   const store=loadCanonicalRunStore();
@@ -28,14 +29,15 @@ test('v4.5.94 preserves the separately authorized B100 append as an immutable ca
   assert.equal(store.manifest.runs[b100Index-1]?.run_id,'engineer-osint-20260830-B99');
 });
 
-test('v4.5.94 preserves the exact B100 guard while permitting only the exact B101 successor',()=>{
+test('v4.5.94 preserves the exact B100 guard while permitting only exact B101/B102 successors',()=>{
   const current=gitBlobSha(readFileSync('docs/engineer-osint/append-run.mjs','utf8'));
-  assert.ok(new Set(['7edb68db4950d011b18de0ca7bf1e2655bdbdbf0',exactB101AppendSuccessor]).has(current),`unexpected append-run successor ${current}`);
+  assert.ok(new Set(['7edb68db4950d011b18de0ca7bf1e2655bdbdbf0',exactB101AppendSuccessor,exactB102AppendSuccessor]).has(current),`unexpected append-run successor ${current}`);
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/lib/run-store.mjs','utf8')),'a97184dbd825fab3e5485b72a760bde04749af0b');
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/lib/integrity.mjs','utf8')),'8c9a9aa766e910e0bccdb9308acc8af5a3aadac7');
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/data/runs/engineer-osint-20260830-B99.json','utf8')),'a629f94b68b926faf7226fe5d7df60eb1c888a51');
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/osint-publication-candidates/v4592-b100.json','utf8')),'a2563118ce95c969c37acc45d666a2f8e419df3a');
   if(current===exactB101AppendSuccessor) assert.match(readFileSync('docs/engineer-osint/append-run.mjs','utf8'),/guardedB101='engineer-osint-20260902-B101'/);
+  if(current===exactB102AppendSuccessor) assert.match(readFileSync('docs/engineer-osint/append-run.mjs','utf8'),/guardedB102='engineer-osint-20260902-B102'/);
 });
 
 test('v4.5.94 publishes the three reviewed systems with exact evidence provenance',()=>{
