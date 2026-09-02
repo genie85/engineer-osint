@@ -112,6 +112,14 @@ test('v4.6.06 workflow is same-repository PR-only and cannot merge or target mai
   assert.match(executorRaw,/HEAD:\$\{headRef\}/);
 });
 
+test('v4.6.14 reads raw porcelain status so leading-space modified paths stay intact',()=>{
+  assert.match(executorRaw,/const statusPaths=\(\)=>gitRaw\(\['status','--porcelain=v1'\]\)\.split\('\\n'\)\.filter\(Boolean\)\.map\(line=>line\.slice\(3\)\);/);
+  assert.doesNotMatch(executorRaw,/const statusPaths=\(\)=>git\(\['status','--porcelain=v1'\]\)/);
+  const parse=line=>line.slice(3);
+  assert.equal(parse(' M docs/engineer-osint/data/run-store-manifest.json'),'docs/engineer-osint/data/run-store-manifest.json');
+  assert.equal(parse('?? docs/engineer-osint/data/runs/engineer-osint-20260902-B103.json'),'docs/engineer-osint/data/runs/engineer-osint-20260902-B103.json');
+});
+
 function requireExists(path){
   try{readFileSync(path);return true;}catch(error){if(error?.code==='ENOENT')return false;throw error;}
 }
