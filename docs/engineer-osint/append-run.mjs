@@ -4,8 +4,12 @@ import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
 
 const source='docs/engineer-osint',input=process.argv[2],write=process.argv.includes('--write');
+const authorizationFlagIndex=process.argv.indexOf('--authorization');
+const explicitAuthorizationPath=authorizationFlagIndex>=0?process.argv[authorizationFlagIndex+1]:null;
+if(authorizationFlagIndex>=0&&!explicitAuthorizationPath)throw new Error('--authorization requires an explicit repository path');
 const guardedB96='engineer-osint-20260829-B96',guardedB97='engineer-osint-20260830-B97',guardedB98='engineer-osint-20260830-B98',guardedB99='engineer-osint-20260830-B99',guardedB100='engineer-osint-20260902-B100',guardedB101='engineer-osint-20260902-B101',guardedB102='engineer-osint-20260902-B102';
-if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write]');
+const legacyGuardedRuns=new Set([guardedB96,guardedB97,guardedB98,guardedB99,guardedB100,guardedB101,guardedB102]);
+if(!input)throw new Error('Usage: node docs/engineer-osint/append-run.mjs <fresh-patch.json> [--write] [--authorization <authorization.json>]');
 const raw=readFileSync(input,'utf8'),patch=parseJsonStrict(raw,{source:input});
 validatePatchOperations(patch);
 const store=loadCanonicalRunStore({root:source});
@@ -161,6 +165,26 @@ if(write&&runId===guardedB102){
   if(authorization.authorized_guard_successor_contract?.guarded_run_id!==runId||authorization.authorized_guard_successor_contract?.authorization_path!==authorizationPath||authorization.authorized_guard_successor_contract?.schema_version!=='engineer-osint-b102-append-authorization-v1'||authorization.authorized_guard_successor_contract?.required_status!=='READY_FOR_APPEND'||authorization.authorized_guard_successor_contract?.require_exact_candidate_hashes!==true||authorization.authorized_guard_successor_contract?.require_exact_collection_counts!==true||authorization.authorized_guard_successor_contract?.require_exact_record_source_evidence_ids!==true||authorization.authorized_guard_successor_contract?.require_candidate_no_write_flags!==true||authorization.authorized_guard_successor_contract?.require_multimedia_status!=='COMPLETE_NO_CANONICAL_MEDIA_ADDITION'||authorization.authorized_guard_successor_contract?.allow_wildcard_or_current_state_acceptance!==false)throw new Error('B102 append guard successor contract mismatch');
   if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.install_exact_b102_append_guard_successor!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true||authorization.authorization?.execution_requires_separate_slice!==true)throw new Error('B102 append authorization is incomplete');
   if(authorization.authorization?.allow_candidate_mutation!==false||authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_canonical_history_rewrite!==false||authorization.authorization?.allow_runtime_change!==false||authorization.authorization?.allow_workflow_change!==false||authorization.authorization?.allow_photo_or_media_change!==false)throw new Error('B102 append authorization scope is unsafe');
+}
+
+if(write&&!legacyGuardedRuns.has(runId)){
+  if(!explicitAuthorizationPath)throw new Error(`Explicit append authorization required for unrecognized write run ${runId}`);
+  const authorizationPath=explicitAuthorizationPath.replaceAll('\\','/');
+  if(!authorizationPath.startsWith(`${source}/`)||authorizationPath.split('/').includes('..'))throw new Error('Explicit append authorization path is outside docs/engineer-osint');
+  const authorization=parseJsonStrict(readFileSync(authorizationPath,'utf8'),{source:`explicit append authorization ${authorizationPath}`});
+  const normalizedInput=input.replaceAll('\\','/');
+  const guard=authorization.authorized_guard_successor_contract;
+  if(authorization.status!=='READY_FOR_APPEND')throw new Error(`Explicit append authorization is not READY_FOR_APPEND: ${authorization.status}`);
+  if(authorization.candidate_run_id!==runId||authorization.expected_parent_run_id!==entry.parent_run_id)throw new Error('Explicit append authorization identity/parent mismatch');
+  if(authorization.expected_parent_canonical_sha256!==entry.parent_canonical_sha256)throw new Error('Explicit append authorization parent canonical SHA mismatch');
+  if(authorization.candidate_path!==normalizedInput)throw new Error('Explicit append authorization candidate path mismatch');
+  if(authorization.exact_candidate_file_sha256!==entry.file_sha256)throw new Error('Explicit append authorization candidate SHA mismatch');
+  if(authorization.expected_resulting_canonical_sha256!==entry.canonical_sha256)throw new Error('Explicit append authorization resulting canonical SHA mismatch');
+  if(!guard||guard.guarded_run_id!==runId||guard.authorization_path!==authorizationPath||guard.require_exact_candidate_hashes!==true||guard.allow_wildcard_or_current_state_acceptance!==false)throw new Error('Explicit append authorization guard successor contract mismatch');
+  if(guard.schema_version&&guard.schema_version!==authorization.schema_version)throw new Error('Explicit append authorization schema contract mismatch');
+  if(guard.required_status&&guard.required_status!==authorization.status)throw new Error('Explicit append authorization status contract mismatch');
+  if(authorization.authorization?.append_exact_candidate_only!==true||authorization.authorization?.standard_append_run_write_required!==true||authorization.authorization?.one_run_only!==true||authorization.authorization?.isolated_review_branch_required!==true||authorization.authorization?.execution_requires_separate_slice!==true)throw new Error('Explicit append authorization is incomplete');
+  if(authorization.authorization?.allow_manual_manifest_or_hash_edit!==false||authorization.authorization?.allow_future_run_same_slice!==false||authorization.authorization?.allow_canonical_history_rewrite!==false)throw new Error('Explicit append authorization scope is unsafe');
 }
 
 if(write){
