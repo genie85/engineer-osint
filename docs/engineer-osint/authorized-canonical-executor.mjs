@@ -1,7 +1,7 @@
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {existsSync,readFileSync,writeFileSync,copyFileSync} from 'node:fs';
-import {dirname,resolve,relative,isAbsolute} from 'node:path';
+import {copyFileSync,existsSync,readFileSync,readdirSync} from 'node:fs';
+import {dirname,isAbsolute,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore,validatePatchOperations} from './lib/run-store.mjs';
 import {canonicalDigest,parseJsonStrict,sha256Text} from './lib/integrity.mjs';
@@ -11,7 +11,8 @@ const repoRoot=resolve(here,'../..');
 const osintRoot='docs/engineer-osint';
 const requestPrefix=`${osintRoot}/canonical-execution-requests/`;
 
-const git=(args,options={})=>execFileSync('git',args,{cwd:repoRoot,encoding:'utf8',stdio:['ignore','pipe','pipe'],...options}).trim();
+const gitRaw=(args,options={})=>execFileSync('git',args,{cwd:repoRoot,encoding:'utf8',stdio:['ignore','pipe','pipe'],...options});
+const git=(args,options={})=>gitRaw(args,options).trim();
 const sha1GitBlob=raw=>createHash('sha1').update(`blob ${Buffer.byteLength(raw)}\0`).update(raw).digest('hex');
 const safeRepoPath=value=>{
   if(typeof value!=='string'||!value||isAbsolute(value)||value.includes('\\')||value.split('/').includes('..'))throw new Error(`Unsafe repository path: ${String(value)}`);
@@ -19,7 +20,7 @@ const safeRepoPath=value=>{
 };
 const readRepo=path=>readFileSync(resolve(repoRoot,safeRepoPath(path)),'utf8');
 const readJson=path=>parseJsonStrict(readRepo(path),{source:path});
-const readBase=(baseSha,path)=>git(['show',`${baseSha}:${safeRepoPath(path)}`]);
+const readBase=(baseSha,path)=>gitRaw(['show',`${baseSha}:${safeRepoPath(path)}`]);
 const assertBaseIdentity=(baseSha,path)=>{
   const current=readRepo(path),base=readBase(baseSha,path);
   if(current!==base)throw new Error(`Protected base file drifted on execution branch: ${path}`);
@@ -86,7 +87,10 @@ function verifyPersisted({authorization,runId,lifecycle}){
 }
 
 function runPostWriteGates(){
-  execFileSync(process.execPath,['--test',`${osintRoot}/tests/*.test.mjs`],{cwd:repoRoot,encoding:'utf8',stdio:'inherit',shell:true});
+  const testsDir=resolve(repoRoot,`${osintRoot}/tests`);
+  const testFiles=readdirSync(testsDir).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>`${osintRoot}/tests/${name}`);
+  if(testFiles.length===0)throw new Error('No regression tests found for post-write gate');
+  execFileSync(process.execPath,['--test',...testFiles],{cwd:repoRoot,encoding:'utf8',stdio:'inherit'});
   execFileSync(process.execPath,[`${osintRoot}/validate-patch.mjs`],{cwd:repoRoot,encoding:'utf8',stdio:'inherit'});
 }
 
