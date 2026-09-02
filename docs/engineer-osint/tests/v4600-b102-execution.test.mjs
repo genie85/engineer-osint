@@ -15,7 +15,7 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const RUN='engineer-osint-20260902-B102';
 const FILE_SHA='5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a';
 const CANONICAL_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
-const HISTORICAL_APPEND_SHA='174cc646b8d3ecf6e338f6460b95335130154ffb';
+const HISTORICAL_APPEND_SHA='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 
 test('v4.6.00 persists the exact authorized B102 standard append across the exact B103 lifecycle successor',()=>{
