@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {cpSync,existsSync,mkdtempSync,readFileSync,rmSync} from 'node:fs';
+import {cpSync,existsSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {loadCanonicalRunStore} from '../lib/run-store.mjs';
@@ -50,15 +50,7 @@ test('v4.6.06 validates B103 read-only before append or verifies exact persisted
   const store=loadCanonicalRunStore({root});
   if(store.report.current_run_id===B102_RUN_ID){
     const normalizedCandidate=JSON.stringify(candidate,null,2)+'\n';
-    const result=validateAuthorizationContract({
-      authorization:b103Auth,
-      candidate,
-      normalizedCandidate,
-      store,
-      authorizationPath:b103AuthPath,
-      candidatePath,
-      runId:b103Auth.candidate_run_id
-    });
+    const result=validateAuthorizationContract({authorization:b103Auth,candidate,normalizedCandidate,store,authorizationPath:b103AuthPath,candidatePath,runId:b103Auth.candidate_run_id});
     assert.equal(result.resultingCanonical,b103Auth.expected_resulting_canonical_sha256);
     return;
   }
@@ -81,13 +73,21 @@ test('v4.6.06 rejects an unrecognized canonical write without explicit authoriza
     cpSync(root,join(temp,root),{recursive:true});
     const tempManifest=join(temp,root,'data/run-store-manifest.json');
     const before=readFileSync(tempManifest,'utf8');
-    assert.throws(()=>execFileSync(process.execPath,[
-      `${root}/append-run.mjs`,
-      `${root}/osint-publication-candidates/v4603-b103-local-images.json`,
-      '--write'
-    ],{cwd:temp,encoding:'utf8',stdio:['ignore','pipe','pipe']}),/Explicit append authorization required for unrecognized write run engineer-osint-20260902-B103/);
+    const current=loadCanonicalRunStore({root}).report.current_run_id;
+    let attemptedPath=`${root}/osint-publication-candidates/v4603-b103-local-images.json`;
+    let attemptedRun=B103_RUN_ID;
+    if(current===B103_RUN_ID){
+      attemptedRun='engineer-osint-20260902-B104-UNAUTHORIZED';
+      const synthetic=structuredClone(candidate);
+      synthetic.state.run_id=attemptedRun;
+      synthetic.state.parent_run_id=B103_RUN_ID;
+      synthetic.continuity.reviewed_parent_canonical_sha256=B103_CANONICAL_SHA;
+      attemptedPath=`${root}/osint-publication-candidates/v4606-unauthorized-successor.json`;
+      writeFileSync(join(temp,attemptedPath),JSON.stringify(synthetic,null,2)+'\n');
+    }
+    assert.throws(()=>execFileSync(process.execPath,[`${root}/append-run.mjs`,attemptedPath,'--write'],{cwd:temp,encoding:'utf8',stdio:['ignore','pipe','pipe']}),new RegExp(`Explicit append authorization required for unrecognized write run ${attemptedRun}`));
     assert.equal(readFileSync(tempManifest,'utf8'),before);
-    assert.equal(requireExists(join(temp,root,'data/runs/engineer-osint-20260902-B103.json')),existsSync(b103PersistedPath));
+    assert.equal(requireExists(join(temp,root,`data/runs/${attemptedRun}.json`)),false);
   } finally {
     rmSync(temp,{recursive:true,force:true});
   }
