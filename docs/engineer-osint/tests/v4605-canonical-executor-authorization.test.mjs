@@ -10,16 +10,18 @@ const root = path.resolve(here, '..');
 const read = (rel) => fs.readFileSync(path.join(root, rel));
 const json = (rel) => JSON.parse(read(rel).toString('utf8'));
 const gitBlobSha = (buf) => crypto.createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`), buf])).digest('hex');
+const exactAuthorizedAppendRunSuccessor = '3dedb6f383940bc58a175623ca8dcc60048cf9fb';
 
 const auth = json('V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json');
 const manifest = json('data/run-store-manifest.json');
 const b103 = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 
-test('v4.6.05 pins the exact pre-implementation canonical baseline', () => {
+test('v4.6.05 preserves the exact pre-implementation baseline and pins its deterministic successor', () => {
   assert.equal(auth.schema_version, 'engineer-osint-canonical-executor-authorization-v1');
   assert.equal(auth.status, 'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.reviewed_main_sha, 'eedd4fc12a4f704ec7ee84955d3f2bc9e27ace5c');
-  assert.equal(gitBlobSha(read('append-run.mjs')), auth.protected_baseline.append_run_blob_sha);
+  assert.equal(auth.protected_baseline.append_run_blob_sha, '174cc646b8d3ecf6e338f6460b95335130154ffb');
+  assert.equal(gitBlobSha(read('append-run.mjs')), exactAuthorizedAppendRunSuccessor);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
   assert.equal(gitBlobSha(read('data/run-store-manifest.json')), auth.protected_baseline.manifest_blob_sha);
