@@ -71,23 +71,27 @@ test('v4.6.06 rejects an unrecognized canonical write without explicit authoriza
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4606-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
-    const tempManifest=join(temp,root,'data/run-store-manifest.json');
-    const before=readFileSync(tempManifest,'utf8');
+    const tempRoot=join(temp,root);
+    const tempManifest=join(tempRoot,'data/run-store-manifest.json');
     const current=loadCanonicalRunStore({root}).report.current_run_id;
-    let attemptedPath=`${root}/osint-publication-candidates/v4603-b103-local-images.json`;
-    let attemptedRun=B103_RUN_ID;
     if(current===B103_RUN_ID){
-      attemptedRun='engineer-osint-20260902-B104-UNAUTHORIZED';
-      const synthetic=structuredClone(candidate);
-      synthetic.state.run_id=attemptedRun;
-      synthetic.state.parent_run_id=B103_RUN_ID;
-      synthetic.continuity.reviewed_parent_canonical_sha256=B103_CANONICAL_SHA;
-      attemptedPath=`${root}/osint-publication-candidates/v4606-unauthorized-successor.json`;
-      writeFileSync(join(temp,attemptedPath),JSON.stringify(synthetic,null,2)+'\n');
+      const manifest=JSON.parse(readFileSync(tempManifest,'utf8'));
+      const b103Index=manifest.runs.findIndex(item=>item.run_id===B103_RUN_ID);
+      assert.equal(b103Index,manifest.runs.length-1,'exact B103 must be the current manifest tip before reconstructing pre-B103 fixture');
+      const [entry]=manifest.runs.splice(b103Index,1);
+      assert.equal(entry.parent_run_id,B102_RUN_ID);
+      assert.equal(entry.file_sha256,b103Auth.exact_candidate_file_sha256);
+      assert.equal(entry.canonical_sha256,B103_CANONICAL_SHA);
+      writeFileSync(tempManifest,JSON.stringify(manifest,null,2)+'\n');
+      rmSync(join(temp,b103PersistedPath));
+      const reconstructed=loadCanonicalRunStore({root:tempRoot});
+      assert.equal(reconstructed.report.current_run_id,B102_RUN_ID);
+      assert.equal(reconstructed.report.canonical_sha256,B102_CANONICAL_SHA);
     }
-    assert.throws(()=>execFileSync(process.execPath,[`${root}/append-run.mjs`,attemptedPath,'--write'],{cwd:temp,encoding:'utf8',stdio:['ignore','pipe','pipe']}),new RegExp(`Explicit append authorization required for unrecognized write run ${attemptedRun}`));
+    const before=readFileSync(tempManifest,'utf8');
+    assert.throws(()=>execFileSync(process.execPath,[`${root}/append-run.mjs`,candidatePath,'--write'],{cwd:temp,encoding:'utf8',stdio:['ignore','pipe','pipe']}),new RegExp(`Explicit append authorization required for unrecognized write run ${B103_RUN_ID}`));
     assert.equal(readFileSync(tempManifest,'utf8'),before);
-    assert.equal(requireExists(join(temp,root,`data/runs/${attemptedRun}.json`)),false);
+    assert.equal(requireExists(join(temp,b103PersistedPath)),false);
   } finally {
     rmSync(temp,{recursive:true,force:true});
   }
