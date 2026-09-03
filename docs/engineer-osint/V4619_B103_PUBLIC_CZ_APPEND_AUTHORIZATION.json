@@ -1,0 +1,121 @@
+{
+  "schema_version": "engineer-osint-b103-public-cz-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-03",
+  "reviewed_main_sha": "a4fbf729e51c4acfb7681f2e32a5ec4e41f9b05a",
+  "supersedes_for_execution": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4616-b103-local-images-public-cz.json",
+  "candidate_git_blob_sha": "db8fe7d8161a21f7be71d3b525f5f56e6ae8f862",
+  "candidate_run_id": "engineer-osint-20260902-B103",
+  "expected_parent_run_id": "engineer-osint-20260902-B102",
+  "expected_parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+  "exact_candidate_file_sha256": "d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b",
+  "expected_resulting_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+  "expected_updated_record_count": 9,
+  "expected_new_visual_count": 9,
+  "expected_new_media_count": 0,
+  "expected_card_ids": [
+    "ENG-TECH-0003",
+    "ENG-TECH-0004",
+    "ENG-TECH-0005",
+    "ENG-TECH-0006",
+    "ENG-TECH-0016",
+    "ENG-TECH-0017",
+    "ENG-TECH-0022",
+    "ENG-TECH-0028",
+    "ENG-TECH-0029"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0003",
+    "ENG-VIS-LOCAL-0004",
+    "ENG-VIS-LOCAL-0005",
+    "ENG-VIS-LOCAL-0006",
+    "ENG-VIS-LOCAL-0016",
+    "ENG-VIS-LOCAL-0017",
+    "ENG-VIS-LOCAL-0022",
+    "ENG-VIS-LOCAL-0028",
+    "ENG-VIS-LOCAL-0029"
+  ],
+  "photo_review_status_successor": {
+    "source_path": "docs/engineer-osint/photo-review-status.json",
+    "source_git_blob_sha": "e0659bc6c26fb73fa88c6e2531f1c178e271f713",
+    "source_sha256": "bc923cb39a246c37cd6ecbfcbc0869ee18faa7e060206538214ccd596b71b100",
+    "successor_path": "docs/engineer-osint/photo-review-candidates/v4603-b103-local-image-status.json",
+    "successor_git_blob_sha": "8ce72c31ea76684a761865a14e5e0fdad409e80a",
+    "successor_sha256": "86b7694c3aee30ea421601c698b9eac3d6aa906958cab93c036e66037247e569",
+    "expected_cards_with_local_image": 9,
+    "expected_ready_for_import": 0,
+    "expected_photo_coverage_percent": 18
+  },
+  "source_acquisition_manifest": {
+    "path": "docs/engineer-osint/photo-local-acquisitions/v4601-ready-for-import.json",
+    "git_blob_sha": "b5a341795016ee690ea71d28d2dd3521c39b4543",
+    "sha256": "daa7f0233bee30cd6d30bbd7eec3262c426e7951ab49cb395cf2194bee44e104"
+  },
+  "protected_baseline": {
+    "append_run_blob_sha": "376bdf810c47c3bf934d0cadeacff3b1f61e1115",
+    "run_store_blob_sha": "a97184dbd825fab3e5485b72a760bde04749af0b",
+    "integrity_blob_sha": "8c9a9aa766e910e0bccdb9308acc8af5a3aadac7",
+    "manifest_blob_sha": "15d5b2ae11966ca8912ee062a5be4d520a913bef",
+    "b102_run_blob_sha": "7cc65fe65d97a75408295963bc408a6107ece1a1",
+    "v4616_candidate_test_blob_sha": "f03cd6f964cc6cdae31b827eaadafde21765eeaa",
+    "v4618_preauthorization_simulation_test_blob_sha": "b87d548011ada834cfd017e9b31e1b974038543e",
+    "identity_fix_retirement_workflow_blob_sha": "3a14efd69c46d464c50543431565b57b4517ae39"
+  },
+  "required_preconditions": {
+    "v4616_exact_candidate_reviewed": true,
+    "v4618_real_public_cz_simulation_green": true,
+    "b102_is_current_run": true,
+    "all_nine_local_binary_hashes_remain_pinned_by_v4604": true,
+    "historical_v4604_authorization_must_remain_unchanged": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "photo_review_status_successor_applied_must_remain_false_before_execution": true
+  },
+  "execution_dependencies": {
+    "identity_fix_retirement_b103_browser_digest_successor_required": true,
+    "identity_fix_retirement_workflow_path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "current_workflow_accepts_only_through_run": "engineer-osint-20260902-B102",
+    "workflow_successor_must_be_separately_authorized_and_implemented_before_b103_execution": true,
+    "this_authorization_does_not_authorize_workflow_mutation": true
+  },
+  "authorized_guard_successor_contract": {
+    "guarded_run_id": "engineer-osint-20260902-B103",
+    "authorization_path": "docs/engineer-osint/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json",
+    "schema_version": "engineer-osint-b103-public-cz-append-authorization-v1",
+    "required_status": "READY_FOR_APPEND",
+    "require_exact_candidate_hashes": true,
+    "require_exact_collection_counts": true,
+    "require_exact_card_visual_ids": true,
+    "require_exact_photo_status_successor": true,
+    "require_candidate_no_write_flags": true,
+    "allow_wildcard_or_current_state_acceptance": false
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "install_exact_b103_append_guard_successor": true,
+    "standard_append_run_write_required": true,
+    "apply_exact_photo_review_status_successor": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_photo_binary_mutation": false,
+    "allow_photo_status_other_than_exact_successor": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_historical_authorization_rewrite": false,
+    "allow_runtime_change": false,
+    "allow_workflow_change": false,
+    "allow_unrelated_content_change": false
+  },
+  "execution_state": {
+    "append_run_successor_installed": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  },
+  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.6.16 PUBLIC-CZ-safe B103 local-image candidate validated by the v4.6.18 production simulation. The earlier v4.6.04 authorization remains immutable historical evidence and is not rewritten. Execution is additionally blocked until the exact B103 browser-digest successor for identity-fix-retirement-regression.yml is separately authorized, implemented and green; this file does not authorize that workflow mutation. After that dependency is complete, execution must fresh-read all protected inputs, install only the deterministic B103 guard successor for this authorization, persist only B103 through standard append-run --write, apply only the exact pinned photo-review successor after canonical validation, and use exact deterministic lifecycle test successors where current-state assertions still pin the superseded v4.6.03 B103 hash. This authorization slice performs no canonical, lifecycle, runtime or workflow write."
+}
