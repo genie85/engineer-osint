@@ -13,6 +13,10 @@ const raw=readFileSync(candidatePath,'utf8');
 const candidate=JSON.parse(raw);
 const expectedIds=['ENG-VIS-LOCAL-0003','ENG-VIS-LOCAL-0004','ENG-VIS-LOCAL-0005','ENG-VIS-LOCAL-0006','ENG-VIS-LOCAL-0016','ENG-VIS-LOCAL-0017','ENG-VIS-LOCAL-0022','ENG-VIS-LOCAL-0028','ENG-VIS-LOCAL-0029'];
 const sha256=text=>createHash('sha256').update(text).digest('hex');
+const B102='engineer-osint-20260902-B102';
+const B102_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
+const B103='engineer-osint-20260902-B103';
+const B103_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 
 test('v4.6.16 changes V4603 only by adding nine explicit Czech visual titles',()=>{
   const stripped=structuredClone(candidate);
@@ -28,16 +32,23 @@ test('v4.6.16 changes V4603 only by adding nine explicit Czech visual titles',()
 });
 
 test('v4.6.16 remains a read-only exact B103 patch and materializes deterministically from B102',()=>{
-  assert.equal(candidate.state.run_id,'engineer-osint-20260902-B103');
-  assert.equal(candidate.state.parent_run_id,'engineer-osint-20260902-B102');
+  assert.equal(candidate.state.run_id,B103);
+  assert.equal(candidate.state.parent_run_id,B102);
   assert.equal(candidate.continuity.canonical_write_authorized,false);
   assert.equal(candidate.continuity.canonical_write_performed,false);
   validatePatchOperations(candidate);
   const store=loadCanonicalRunStore({root});
-  assert.equal(store.report.current_run_id,'engineer-osint-20260902-B102');
-  assert.equal(store.report.canonical_sha256,'5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91');
-  const result=applyStrictPatchToCanonicalData(store.data,candidate);
-  const resultingCanonical=canonicalDigest(result);
-  assert.match(resultingCanonical,/^[a-f0-9]{64}$/);
-  console.log('V4616_B103_PUBLIC_CZ_CANDIDATE',JSON.stringify({candidate_sha256:sha256(raw),expected_resulting_canonical_sha256:resultingCanonical,visuals_with_title_cs:candidate.visuals.filter(x=>x.title_cs).length}));
+  if(store.report.current_run_id===B102){
+    assert.equal(store.report.canonical_sha256,B102_SHA);
+    const result=applyStrictPatchToCanonicalData(store.data,candidate);
+    const resultingCanonical=canonicalDigest(result);
+    assert.equal(resultingCanonical,B103_SHA);
+    console.log('V4616_B103_PUBLIC_CZ_CANDIDATE',JSON.stringify({candidate_sha256:sha256(raw),expected_resulting_canonical_sha256:resultingCanonical,visuals_with_title_cs:candidate.visuals.filter(x=>x.title_cs).length}));
+    return;
+  }
+  assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103 lifecycle');
+  assert.equal(store.report.canonical_sha256,B103_SHA);
+  const persisted=readFileSync(`${root}/data/runs/${B103}.json`,'utf8');
+  assert.equal(sha256(persisted),sha256(raw));
+  assert.deepEqual(JSON.parse(persisted),candidate);
 });

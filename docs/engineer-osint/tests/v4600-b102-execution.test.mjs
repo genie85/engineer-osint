@@ -6,7 +6,8 @@ import {loadCanonicalRunStore} from '../lib/run-store.mjs';
 
 const root='docs/engineer-osint';
 const authorization=JSON.parse(readFileSync(`${root}/V4599_B102_APPEND_AUTHORIZATION.json`,'utf8'));
-const b103Authorization=JSON.parse(readFileSync(`${root}/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`,'utf8'));
+const historicalB103Authorization=JSON.parse(readFileSync(`${root}/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`,'utf8'));
+const currentB103Authorization=JSON.parse(readFileSync(`${root}/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json`,'utf8'));
 const candidateRaw=readFileSync(`${root}/osint-publication-candidates/v4598-b102.json`,'utf8');
 const persistedRaw=readFileSync(`${root}/data/runs/engineer-osint-20260902-B102.json`,'utf8');
 const appendRunRaw=readFileSync(`${root}/append-run.mjs`,'utf8');
@@ -31,11 +32,12 @@ test('v4.6.00 persists the exact authorized B102 standard append across the exac
   });
   assert.equal(sha256(persistedRaw),FILE_SHA);
   assert.deepEqual(JSON.parse(persistedRaw),JSON.parse(candidateRaw));
+  assert.equal(historicalB103Authorization.expected_resulting_canonical_sha256,'5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066');
   const allowedHeads=new Map([
     [RUN,CANONICAL_SHA],
-    [b103Authorization.candidate_run_id,b103Authorization.expected_resulting_canonical_sha256]
+    [currentB103Authorization.candidate_run_id,currentB103Authorization.expected_resulting_canonical_sha256]
   ]);
-  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→B103 lifecycle');
+  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→V4619 B103 lifecycle');
 });
 
 test('v4.6.00 publishes exactly three reviewed bridging systems with exact provenance',()=>{
