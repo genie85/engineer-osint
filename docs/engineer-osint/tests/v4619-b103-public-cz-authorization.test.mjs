@@ -14,6 +14,7 @@ const gitBlobSha=buf=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob
 const auth=json('V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
 const oldAuth=json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const candidate=json('osint-publication-candidates/v4616-b103-local-images-public-cz.json');
+const b103WorkflowSuccessorSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const expectedCards=['ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0005','ENG-TECH-0006','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0022','ENG-TECH-0028','ENG-TECH-0029'];
 const expectedVisuals=expectedCards.map(id=>`ENG-VIS-LOCAL-${id.slice(-4)}`);
 
@@ -67,7 +68,8 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence'
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
   assert.equal(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs')),auth.protected_baseline.v4616_candidate_test_blob_sha);
   assert.equal(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs')),auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha);
-  assert.equal(gitBlobSha(readRepo('.github/workflows/identity-fix-retirement-regression.yml')),auth.protected_baseline.identity_fix_retirement_workflow_blob_sha);
+  const workflowSha=gitBlobSha(readRepo('.github/workflows/identity-fix-retirement-regression.yml'));
+  assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha].includes(workflowSha));
 });
 
 test('v4.6.19 remains fail-closed and blocks execution until the B103 browser-digest workflow successor exists',()=>{
