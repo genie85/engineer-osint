@@ -1,0 +1,43 @@
+{
+  "schema_version": "engineer-osint-b103-workflow-compatibility-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-03",
+  "reviewed_main_sha": "076ef802c19391e30acd8ac300f03f958432a68a",
+  "failed_execution_pr": 350,
+  "failed_execution_head_sha": "e815b75f2374259ea7374c1f9e74a5d74262e31a",
+  "failed_execution_workflow_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f",
+  "failed_exact_head_run_id": 33731263046,
+  "failed_test_count": 13,
+  "authorized_successor": {
+    "workflow_path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "predecessor_blob_sha": "3a14efd69c46d464c50543431565b57b4517ae39",
+    "successor_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f",
+    "guarded_run_id": "engineer-osint-20260902-B103",
+    "exact_normalized_dom_sha256": "68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a",
+    "authorization_path": "docs/engineer-osint/V4621_B103_BROWSER_DIGEST_WORKFLOW_AUTHORIZATION.json"
+  },
+  "authorized_test_files": [
+    "docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs",
+    "docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs",
+    "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+    "docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs",
+    "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+    "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs"
+  ],
+  "authorized_change": {
+    "purpose": "Permit only the exact V4621-authorized B103 browser-digest workflow successor in historical lifecycle compatibility tests that currently fail solely because they pin an earlier workflow blob.",
+    "allow_exact_successor_blob_only": true,
+    "preserve_predecessor_and_historical_blobs": true,
+    "preserve_b99_b102_digests": true,
+    "allow_wildcard_or_current_state_acceptance": false,
+    "allow_workflow_mutation_in_this_slice": false,
+    "allow_canonical_or_run_store_change": false,
+    "allow_runtime_source_change": false,
+    "allow_deployment_change": false,
+    "allow_unrelated_test_relaxation": false,
+    "implementation_requires_separate_slice": true,
+    "workflow_retry_requires_separate_slice": true,
+    "b103_execution_requires_separate_slice": true
+  },
+  "failure_summary": "PR #350 made the exact authorized workflow change, but 13 existing historical lifecycle tests rejected the new exact workflow blob. No canonical or workflow change reached main. This authorization permits a narrow compatibility successor only; it does not authorize broadening lifecycle acceptance semantics."
+}
