@@ -1,0 +1,56 @@
+{
+  "schema_version": "engineer-osint-photo-research-v1",
+  "batch": "v4.6.35",
+  "reviewed_main_sha": "c6ad12154157e146b01b3372637df1e99ffa69f7",
+  "purpose": "Fast read-only research batch for the next local-photo wave after B103. This file does not claim repository-local acquisition, does not mutate canonical data, and does not authorize canonical execution.",
+  "status": "RESEARCH_CANDIDATES",
+  "candidates": [
+    {
+      "card_id": "ENG-TECH-0045",
+      "system_name": "M1074 Joint Assault Bridge",
+      "source_url": "https://commons.wikimedia.org/wiki/Category:Joint_Assault_Bridge",
+      "source_type": "WIKIMEDIA_COMMONS_CATEGORY",
+      "identity_evidence": "Wikimedia Commons identifies the category as M1074 Joint Assault Bridge, a United States armored vehicle-launched bridge, and exposes multiple exact-system files.",
+      "license_state": "FILE_LEVEL_REVIEW_REQUIRED",
+      "next_action": "Select one exact-system file, verify its file-page redistribution license and author attribution, then acquire/optimize only if compatible."
+    },
+    {
+      "card_id": "ENG-TECH-0048",
+      "system_name": "M1150 Assault Breacher Vehicle",
+      "source_url": "https://commons.wikimedia.org/wiki/File:M1150_Assault_Breacher_Vehicle_at_the_Drawsko_Pomorskie_Training_Area.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Spc. Javan Johnson / U.S. Army",
+      "license": "Public domain — U.S. Army work",
+      "identity_evidence": "The file is categorized as Assault Breacher Vehicle and depicts an M1150 Assault Breacher Vehicle during Defender Europe 2020 at Drawsko Pomorskie Training Area.",
+      "license_evidence": "The Commons file page places the file in the PD US Army hidden category and attributes it to a U.S. Army photographer.",
+      "next_action": "Acquire and optimize the exact file, retain U.S. Army provenance, compute SHA-256, and stage as a local-photo candidate."
+    },
+    {
+      "card_id": "ENG-TECH-0049",
+      "system_name": "LEGUAN",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Dutch Ministry of Defence",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "identity_evidence": "The Commons file description explicitly identifies a side view of a LEGUAN bridge layer.",
+      "license_evidence": "The Commons file page states that the Dutch Ministry of Defence work is licensed under Creative Commons Attribution-ShareAlike 4.0 International.",
+      "next_action": "Acquire and optimize the exact file, retain attribution/share-alike metadata, compute SHA-256, and stage as a local-photo candidate."
+    },
+    {
+      "card_id": "ENG-TECH-0044",
+      "system_name": "Keiler Next Generation",
+      "source_url": "https://commons.wikimedia.org/wiki/File:DEU_Mountain_Engineers_mine_clearing_tank_%22Keiler%22_on_its_way_to_clear_the_minefield,_Trident_Juncture_15_(22247738160).jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "identity_evidence": "The file explicitly depicts the legacy German Keiler mine-clearing tank during Trident Juncture 2015.",
+      "license_state": "FAMILY_ONLY_NOT_EXACT_NEXT_GENERATION",
+      "next_action": "Do not import for ENG-TECH-0044 yet. Use only as a family-reference lead while searching for an openly redistributable exact Keiler Next Generation image."
+    }
+  ],
+  "summary": {
+    "exact_high_value_candidates": 3,
+    "family_only_leads": 1,
+    "canonical_changes": 0,
+    "local_image_claims": 0
+  }
+}
