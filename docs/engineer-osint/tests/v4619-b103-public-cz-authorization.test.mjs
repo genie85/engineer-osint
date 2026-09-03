@@ -7,6 +7,7 @@ import {canonicalDigest} from '../lib/integrity.mjs';
 
 const root='docs/engineer-osint';
 const read=rel=>readFileSync(`${root}/${rel}`);
+const readRepo=rel=>readFileSync(rel);
 const json=rel=>JSON.parse(read(rel).toString('utf8'));
 const sha256=buf=>createHash('sha256').update(buf).digest('hex');
 const gitBlobSha=buf=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`),buf])).digest('hex');
@@ -66,11 +67,16 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence'
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
   assert.equal(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs')),auth.protected_baseline.v4616_candidate_test_blob_sha);
   assert.equal(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs')),auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha);
+  assert.equal(gitBlobSha(readRepo('.github/workflows/identity-fix-retirement-regression.yml')),auth.protected_baseline.identity_fix_retirement_workflow_blob_sha);
 });
 
-test('v4.6.19 remains fail-closed and execution is explicitly separate',()=>{
+test('v4.6.19 remains fail-closed and blocks execution until the B103 browser-digest workflow successor exists',()=>{
   assert.equal(auth.authorized_guard_successor_contract.authorization_path,'docs/engineer-osint/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
   assert.equal(auth.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
+  assert.equal(auth.execution_dependencies.identity_fix_retirement_b103_browser_digest_successor_required,true);
+  assert.equal(auth.execution_dependencies.current_workflow_accepts_only_through_run,'engineer-osint-20260902-B102');
+  assert.equal(auth.execution_dependencies.workflow_successor_must_be_separately_authorized_and_implemented_before_b103_execution,true);
+  assert.equal(auth.execution_dependencies.this_authorization_does_not_authorize_workflow_mutation,true);
   assert.equal(auth.authorization.append_exact_candidate_only,true);
   assert.equal(auth.authorization.standard_append_run_write_required,true);
   assert.equal(auth.authorization.apply_exact_photo_review_status_successor,true);
