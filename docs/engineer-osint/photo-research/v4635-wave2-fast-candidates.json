@@ -21,8 +21,8 @@
       "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
       "author_rightsholder": "Spc. Javan Johnson / U.S. Army",
       "license": "Public domain — U.S. Army work",
-      "identity_evidence": "The file is categorized as Assault Breacher Vehicle and depicts an M1150 Assault Breacher Vehicle during Defender Europe 2020 at Drawsko Pomorskie Training Area.",
-      "license_evidence": "The Commons file page places the file in the PD US Army hidden category and attributes it to a U.S. Army photographer.",
+      "identity_evidence": "The Commons file is titled as an M1150 Assault Breacher Vehicle image, is categorized/used as an Assault Breacher Vehicle image, and is attributed to a U.S. Army photographer during Defender Europe 2020 at Drawsko Pomorskie Training Area.",
+      "license_evidence": "The Commons file page states that the file is a work of a U.S. Army soldier or employee made as part of official duties and is public domain in the United States.",
       "next_action": "Acquire and optimize the exact file, retain U.S. Army provenance, compute SHA-256, and stage as a local-photo candidate."
     },
     {
@@ -31,11 +31,11 @@
       "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
       "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
       "author_rightsholder": "Dutch Ministry of Defence",
-      "license": "CC BY-SA 4.0",
-      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "license": "CC0 1.0 Universal Public Domain Dedication",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "identity_evidence": "The Commons file description explicitly identifies a side view of a LEGUAN bridge layer.",
-      "license_evidence": "The Commons file page states that the Dutch Ministry of Defence work is licensed under Creative Commons Attribution-ShareAlike 4.0 International.",
-      "next_action": "Acquire and optimize the exact file, retain attribution/share-alike metadata, compute SHA-256, and stage as a local-photo candidate."
+      "license_evidence": "The Commons file page states that the work is made available under the Creative Commons CC0 1.0 Universal Public Domain Dedication and records Dutch Ministry of Defence VRT permission.",
+      "next_action": "Acquire and optimize the exact file, retain source/provenance metadata, compute SHA-256, and stage as a local-photo candidate."
     },
     {
       "card_id": "ENG-TECH-0044",
