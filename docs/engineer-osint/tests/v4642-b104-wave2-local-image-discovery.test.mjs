@@ -13,6 +13,7 @@ const candidatePath=`${root}/osint-publication-candidates/v4642-b104-wave2-local
 const successorPath=`${root}/photo-review-candidates/v4642-b104-v4639-local-image-status.json`;
 const lifecycleSourcePath=`${root}/photo-review-batches/v4639.json`;
 const acquisitionPath=`${root}/photo-local-acquisitions/v4641-wave2-ready-for-import.json`;
+const readinessPath=`${root}/V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json`;
 const executorPath=`${root}/authorized-canonical-executor.mjs`;
 const runId='engineer-osint-20260903-B104';
 const parentRunId='engineer-osint-20260902-B103';
@@ -74,6 +75,51 @@ test('v4.6.42 lifecycle successor advances exactly v4639 READY_FOR_IMPORT entrie
     assert.ok(!('import_blocker' in entry));
   }
   assert.equal(successor.entries.find(item=>item.card_id==='ENG-TECH-0049').license,'CC BY-SA 4.0');
+});
+
+test('v4.6.42 readiness pins the exact discovered candidate, canonical and lifecycle identities',()=>{
+  const readiness=JSON.parse(readFileSync(readinessPath,'utf8'));
+  const candidateRaw=readFileSync(candidatePath,'utf8');
+  const successorRaw=readFileSync(successorPath,'utf8');
+  const sourceRaw=readFileSync(lifecycleSourcePath,'utf8');
+  const live=loadCanonicalRunStore({root});
+  const candidate=JSON.parse(candidateRaw);
+  const resultingCanonicalSha=canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate));
+
+  assert.equal(readiness.status,'READY_FOR_EXACT_REVIEW');
+  assert.equal(readiness.reviewed_main_sha,'c2ad3befded2b69f4490b1778f5e2535f690ab08');
+  assert.equal(readiness.parent_run_id,parentRunId);
+  assert.equal(readiness.parent_canonical_sha256,parentCanonicalSha);
+  assert.equal(readiness.candidate_run_id,runId);
+  assert.equal(readiness.candidate_path,candidatePath);
+  assert.equal(readiness.candidate_file_sha256,sha256(candidateRaw));
+  assert.equal(readiness.expected_resulting_canonical_sha256,resultingCanonicalSha);
+  assert.equal(readiness.lifecycle_source_path,lifecycleSourcePath);
+  assert.equal(readiness.lifecycle_source_sha256,sha256(sourceRaw));
+  assert.equal(readiness.lifecycle_successor_path,successorPath);
+  assert.equal(readiness.lifecycle_successor_sha256,sha256(successorRaw));
+  assert.deepEqual(readiness.expected_card_ids,expectedCards);
+  assert.deepEqual(readiness.expected_visual_ids,expectedVisuals);
+  assert.equal(readiness.expected_updated_record_count,3);
+  assert.equal(readiness.expected_new_visual_count,3);
+  assert.equal(readiness.expected_new_media_count,0);
+  assert.deepEqual(readiness.resulting_photo_baseline,{cards_with_local_image:12,ready_for_import:7,photo_coverage_percent:24});
+  assert.equal(readiness.execution_state.canonical_write_performed,false);
+  assert.equal(readiness.execution_state.run_file_created,false);
+  assert.equal(readiness.execution_state.manifest_updated,false);
+  assert.equal(readiness.execution_state.lifecycle_successor_applied,false);
+  assert.equal(readiness.authorization_required,true);
+
+  const acquisition=JSON.parse(readFileSync(acquisitionPath,'utf8'));
+  const acquisitionByCard=new Map(acquisition.entries.map(item=>[item.card_id,item]));
+  for(const file of readiness.local_files){
+    const archived=acquisitionByCard.get(file.card_id);
+    assert.ok(archived,`readiness local file missing acquisition: ${file.card_id}`);
+    assert.equal(file.local_image_path,archived.local_image_path);
+    assert.equal(file.local_sha256,archived.local_sha256);
+    assert.equal(file.source_sha256,archived.source_sha256);
+    assert.equal(sha256(readFileSync(join(root,file.local_image_path))),file.local_sha256);
+  }
 });
 
 test('current canonical executor supports an exact pinned lifecycle source path without code changes',()=>{
