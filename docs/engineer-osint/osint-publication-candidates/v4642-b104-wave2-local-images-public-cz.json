@@ -1,0 +1,167 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260903-B104",
+    "parent_run_id": "engineer-osint-20260902-B103",
+    "status": "SUCCESS",
+    "window_from": "2026-09-03T23:13:01+02:00",
+    "window_to": "2026-09-03T23:13:02+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 3,
+      "NEW": 0,
+      "UPDATE": 3,
+      "CONFIRMATION": 3,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 3,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE",
+    "reviewed_main_sha": "c2ad3befded2b69f4490b1778f5e2535f690ab08",
+    "reviewed_parent_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+    "source_acquisition_batch": "v4.6.41",
+    "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
+    "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4639.json",
+    "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4642-b104-v4639-local-image-status.json",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "scope": "EXACT_THREE_REPOSITORY_LOCAL_LICENSED_IMAGES_ONLY"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 3
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-TECH-0045",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0045"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0048",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0048"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0049",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0049"
+      ]
+    }
+  ],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [
+    {
+      "asset_id": "ENG-VIS-LOCAL-0045",
+      "id": "ENG-VIS-LOCAL-0045",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "M1074 Joint Assault Bridge — repository-local public-domain image",
+      "title_cs": "M1074 Joint Assault Bridge — obrázek ve veřejné doméně uložený v repozitáři",
+      "related_ids": [
+        "ENG-TECH-0045"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0045-m1074-jab.webp",
+      "sha256": "9fd505a28107b3657226bc660b8d8b210a83a3e1c2eb5c049778956d96462055",
+      "source_sha256": "f97be7c72078f6a3bf06493a2628fb1c2e9240d64b9729c97c56baae7c71b3c9",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Joint_Assault_Bridge_Vehicle_during_Winter_Shield_2021_(2).jpg",
+      "source_title": "Joint Assault Bridge Vehicle during Winter Shield 2021 (2).jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Spc. Michael Baumberger / U.S. Army",
+      "license": "Public domain — U.S. Army work",
+      "license_url": "https://commons.wikimedia.org/wiki/Template:PD-USGov-Military-Army",
+      "attribution_requirement": "No copyright attribution is legally required for this U.S. Army public-domain work; retain Spc. Michael Baumberger / U.S. Army and Commons source provenance in ENGINEER OSINT metadata for auditability.",
+      "identity_evidence": "The Commons file description explicitly states that Pfc. Mikylo Parker uses an M1074 Joint Assault Bridge Vehicle to lay a Heavy Assault Scissor Bridge during Winter Shield 2021, establishing exact platform identity.",
+      "license_evidence": "The Commons file-page licensing section states that the image is a work of a U.S. Army soldier or employee made as part of official duties and is public domain in the United States.",
+      "reviewed_at": "2026-09-03",
+      "acquired_at": "2026-09-03",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0048",
+      "id": "ENG-VIS-LOCAL-0048",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "M1150 Assault Breacher Vehicle — repository-local public-domain image",
+      "title_cs": "M1150 Assault Breacher Vehicle — obrázek ve veřejné doméně uložený v repozitáři",
+      "related_ids": [
+        "ENG-TECH-0048"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0048-m1150-abv.webp",
+      "sha256": "584b86075ce8b1bb729fe3f4bd155daeb435145607411bd68938972464efc1dd",
+      "source_sha256": "715c1ebd37b7890078c003490493a43f97a0503289fa212d916f253926edf47a",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:M1150_Assault_Breacher_Vehicle_at_the_Drawsko_Pomorskie_Training_Area.jpg",
+      "source_title": "M1150 Assault Breacher Vehicle at the Drawsko Pomorskie Training Area.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Spc. Javan Johnson / U.S. Army",
+      "license": "Public domain — U.S. Army work",
+      "license_url": "https://commons.wikimedia.org/wiki/Template:PD-USGov-Military-Army",
+      "attribution_requirement": "No copyright attribution is legally required for this U.S. Army public-domain work; retain Spc. Javan Johnson / U.S. Army and Commons source provenance in ENGINEER OSINT metadata for auditability.",
+      "identity_evidence": "The Commons file is explicitly titled as an M1150 Assault Breacher Vehicle image, is categorized as Assault Breacher Vehicle, and is attributed to a U.S. Army photographer during Defender Europe 2020 at Drawsko Pomorskie Training Area, establishing exact platform identity.",
+      "license_evidence": "The Commons file-page licensing section states that the file is a work of a U.S. Army soldier or employee made as part of official duties and is public domain in the United States.",
+      "reviewed_at": "2026-09-03",
+      "acquired_at": "2026-09-03",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0049",
+      "id": "ENG-VIS-LOCAL-0049",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "LEGUAN bridge-laying system — repository-local licensed image",
+      "title_cs": "Mostní systém LEGUAN — licencovaný obrázek uložený v repozitáři",
+      "related_ids": [
+        "ENG-TECH-0049"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0049-leguan.webp",
+      "sha256": "c75b51d731060a179da3379ddf0791a28a9f58903d63ded6dee3cc85777d81ea",
+      "source_sha256": "8219b9965194fc791067bd416177034d2df8bff2da87196faf3e8c529ae6e216",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+      "source_title": "Leguan bridge layer.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Dutch Ministry of Defence",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution_requirement": "Credit Dutch Ministry of Defence, identify the Wikimedia Commons source and VRT ticket 2010120610018876, link the CC BY-SA 4.0 licence, indicate modifications, and distribute adaptations under the same or a compatible licence.",
+      "identity_evidence": "The Commons file description explicitly identifies the image as a side view of a LEGUAN bridge layer, establishing exact system identity.",
+      "license_evidence": "The Commons file-page Licensing section states that this media file is licensed under Creative Commons Attribution-ShareAlike 4.0 International and records Dutch Ministry of Defence VRT permission under ticket 2010120610018876. The separate structured-data CC0 statement applies to file-namespace structured metadata, not the media-file licence.",
+      "reviewed_at": "2026-09-03",
+      "acquired_at": "2026-09-03",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop or editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    }
+  ],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE_DRY_RUN_ONLY",
+    "multimedia_status": "COMPLETE_WITH_CANONICAL_MEDIA_ADDITION",
+    "local_image_count": 3,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "requires_separate_authorization_and_execution": true
+  }
+}
