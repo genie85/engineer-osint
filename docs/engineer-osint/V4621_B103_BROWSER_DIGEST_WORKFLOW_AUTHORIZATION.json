@@ -1,0 +1,36 @@
+{
+  "schema_version": "engineer-osint-b103-browser-digest-workflow-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-03",
+  "reviewed_main_sha": "43fd7aacf60dd6335a102e02437c69a3f5c72cde",
+  "target_workflow_path": ".github/workflows/identity-fix-retirement-regression.yml",
+  "target_workflow_git_blob_sha": "3a14efd69c46d464c50543431565b57b4517ae39",
+  "guarded_run_id": "engineer-osint-20260902-B103",
+  "exact_normalized_dom_sha256": "68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a",
+  "evidence": {
+    "discovery_test_path": "docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs",
+    "discovery_pr": 348,
+    "discovery_merge_sha": "43fd7aacf60dd6335a102e02437c69a3f5c72cde",
+    "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4616-b103-local-images-public-cz.json",
+    "candidate_sha256": "d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b",
+    "expected_resulting_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+    "b103_authorization_path": "docs/engineer-osint/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json"
+  },
+  "authorized_change": {
+    "add_exact_b103_key_to_python_expected_by_run": true,
+    "add_exact_b103_key_to_node_expectedByRun": true,
+    "required_key": "engineer-osint-20260902-B103",
+    "required_value": "68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a",
+    "preserve_all_existing_b99_b102_entries_byte_semantically": true,
+    "allow_wildcard_or_current_state_digest": false,
+    "allow_browser_command_change": false,
+    "allow_normalization_semantics_change": false,
+    "allow_trigger_permission_job_or_step_change": false,
+    "allow_canonical_or_run_store_change": false,
+    "allow_runtime_source_change": false,
+    "allow_deployment_change": false,
+    "implementation_requires_separate_slice": true,
+    "b103_execution_requires_separate_slice": true
+  },
+  "note": "Authorization is limited to a future isolated workflow implementation that adds the exact V4620-discovered B103 normalized DOM digest to both existing exact per-run maps in identity-fix-retirement-regression.yml. No other workflow semantics or repository state are authorized to change."
+}
