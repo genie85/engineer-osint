@@ -5,6 +5,7 @@ import {cpSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {loadCanonicalRunStore} from '../lib/run-store.mjs';
 
 const root='docs/engineer-osint';
 const candidatePath=`${root}/osint-publication-candidates/v4616-b103-local-images-public-cz.json`;
@@ -40,6 +41,22 @@ const normalizeDom=source=>{
   return s.replace(/\s+/g,' ').trim();
 };
 
+const reconstructB102=(temp)=>{
+  const tempRoot=join(temp,root);
+  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  if(manifest.runs.at(-1)?.run_id!==runId)return;
+  const entry=manifest.runs.pop();
+  assert.equal(entry.run_id,runId);
+  assert.equal(entry.parent_run_id,parentRunId);
+  assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+  writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+  const restored=loadCanonicalRunStore({root:tempRoot});
+  assert.equal(restored.report.current_run_id,parentRunId);
+  assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
+};
+
 test('v4.6.20 discovers the exact normalized browser DOM digest for simulated PUBLIC-CZ-safe B103 without authoritative writes',()=>{
   const browser=findBrowser();
   assert.ok(browser,'B103 browser-digest discovery requires Chrome/Chromium');
@@ -49,6 +66,7 @@ test('v4.6.20 discovers the exact normalized browser DOM digest for simulated PU
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4620-browser-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
+    reconstructB102(temp);
     const authRel=`${root}/.v4620-b103-browser-discovery-authorization.json`;
     const auth={
       schema_version:'engineer-osint-b103-browser-digest-discovery-v1',
@@ -107,7 +125,7 @@ test('v4.6.20 discovers the exact normalized browser DOM digest for simulated PU
     assert.ok(dom.includes('engineer-overlay-transition-runtime-guard-module'));
     const normalized=normalizeDom(dom);
     const digest=sha256(normalized);
-    assert.match(digest,/^[a-f0-9]{64}$/);
+    assert.equal(digest,'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a');
     console.log('V4620_B103_BROWSER_DIGEST_DISCOVERY',JSON.stringify({run_id:runId,normalized_dom_sha256:digest,candidate_sha256:expectedCandidateSha,canonical_sha256:expectedCanonicalSha}));
   } finally {
     rmSync(temp,{recursive:true,force:true});
