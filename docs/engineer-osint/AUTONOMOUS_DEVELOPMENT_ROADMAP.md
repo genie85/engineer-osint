@@ -11,6 +11,23 @@ This file is an operational roadmap for the hourly autonomous-development task. 
 - No image is copied into the repository unless redistribution rights are documented.
 - Historical migration evidence is retained unless a dedicated regression-tested retirement explicitly authorizes removal.
 
+## Operational optimization rule — consolidated read-only preparation
+
+When several read-only steps serve the same future authorization and do not mutate canonical state, history, workflow permissions or another protected state, combine them into one read-only slice/PR when practical instead of creating separate sequential discovery PRs.
+
+The combined read-only slice may include:
+
+- discovery and source/contract inspection;
+- deterministic candidate simulation;
+- readiness evidence;
+- exact candidate, successor, lifecycle and browser/DOM hash or digest discovery;
+- downstream compatibility review;
+- expected-successor precomputation.
+
+Use this consolidation only when all included steps share the same logical target and future authorization boundary, remain independently auditable, preserve the one-active-write-slice rule, and do not weaken fail-closed or exact-head CI. Pin deterministic outputs explicitly where useful.
+
+If any included step requires a protected mutation, expands write authority, changes safety semantics or belongs to a materially different authorization boundary, split it into a separate slice.
+
 ## Phase A — post-v4.5.46 consolidation
 
 Goal: reduce migration-era technical debt without weakening the proven v4.5.46 production contract.
