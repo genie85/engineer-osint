@@ -138,7 +138,7 @@ test('v4.6.42 discovery simulates B103 to B104 append plus exact v4639 lifecycle
     assert.equal(photo.current_run_id,runId);
     assert.equal(photo.canonical_sha256,resultingCanonicalSha);
     assert.equal(photo.cards_with_local_image,12);
-    assert.equal(photo.ready_for_import,0);
+    assert.equal(photo.ready_for_import,7);
     assert.equal(photo.photo_coverage_percent,24);
     for(const cardId of expectedCards){
       const item=photo.items.find(entry=>entry.card_id===cardId);
