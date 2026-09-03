@@ -73,11 +73,11 @@ function eventContext(){
   return {event,repository,baseSha,headRef};
 }
 
-function lifecyclePlan(authorization,baseSha){
+function lifecyclePlan(authorization,baseSha,{alreadyMaterialized=false}={}){
   const item=authorization.photo_review_status_successor;
   if(!item)return null;
   const sourcePath=safeRepoPath(item.source_path),successorPath=safeRepoPath(item.successor_path);
-  const sourceRaw=assertBaseIdentity(baseSha,sourcePath);
+  const sourceRaw=alreadyMaterialized?readBase(baseSha,sourcePath):assertBaseIdentity(baseSha,sourcePath);
   const successorRaw=assertBaseIdentity(baseSha,successorPath);
   if(item.source_git_blob_sha!==sha1GitBlob(sourceRaw)||item.source_sha256!==sha256Text(sourceRaw))throw new Error('Lifecycle source hash mismatch');
   if(item.successor_git_blob_sha!==sha1GitBlob(successorRaw)||item.successor_sha256!==sha256Text(successorRaw))throw new Error('Lifecycle successor hash mismatch');
@@ -130,11 +130,12 @@ export function executeRequest(requestPath,{execute=false}={}){
   const candidate=parseJsonStrict(candidateRaw,{source:candidatePath});
   const normalizedCandidate=JSON.stringify(candidate,null,2)+'\n';
   validateAuthorizationStaticContract({authorization,candidate,normalizedCandidate,authorizationPath,candidatePath,runId});
-  const lifecycle=lifecyclePlan(authorization,baseSha);
   const runPath=`${osintRoot}/data/runs/${runId}.json`;
+  const alreadyMaterialized=existsSync(resolve(repoRoot,runPath));
+  const lifecycle=lifecyclePlan(authorization,baseSha,{alreadyMaterialized});
   const expectedChanged=new Set([requestPath,`${osintRoot}/data/run-store-manifest.json`,runPath,...(lifecycle?[lifecycle.sourcePath]:[])]);
 
-  if(existsSync(resolve(repoRoot,runPath))){
+  if(alreadyMaterialized){
     verifyPersisted({authorization,runId,lifecycle});
     const diff=git(['diff','--name-only',`${baseSha}...HEAD`]).split('\n').filter(Boolean);
     for(const path of diff)if(!expectedChanged.has(path))throw new Error(`Execution PR contains unrelated path after materialization: ${path}`);

@@ -98,7 +98,7 @@ test('v4.6.17 separates static authorization, pre-append parent checks and exact
   wrongCanonical.report.canonical_sha256='0'.repeat(64);
   assert.throws(()=>validatePersistedStoreContract({authorization:b103Auth,store:wrongCanonical,runId:B103_RUN_ID}),/canonical head/);
 
-  assert.match(executorRaw,/validateAuthorizationStaticContract\([\s\S]*if\(existsSync\(resolve\(repoRoot,runPath\)\)\)[\s\S]*validateAuthorizationPreAppendContract/);
+  assert.match(executorRaw,/validateAuthorizationStaticContract\([\s\S]*const alreadyMaterialized=existsSync\(resolve\(repoRoot,runPath\)\)[\s\S]*if\(alreadyMaterialized\)[\s\S]*validateAuthorizationPreAppendContract/);
 });
 
 test('v4.6.06 rejects an unrecognized canonical write without explicit authorization before any write',()=>{
