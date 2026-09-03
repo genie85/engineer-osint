@@ -59,7 +59,8 @@
     "manifest_blob_sha": "15d5b2ae11966ca8912ee062a5be4d520a913bef",
     "b102_run_blob_sha": "7cc65fe65d97a75408295963bc408a6107ece1a1",
     "v4616_candidate_test_blob_sha": "f03cd6f964cc6cdae31b827eaadafde21765eeaa",
-    "v4618_preauthorization_simulation_test_blob_sha": "b87d548011ada834cfd017e9b31e1b974038543e"
+    "v4618_preauthorization_simulation_test_blob_sha": "b87d548011ada834cfd017e9b31e1b974038543e",
+    "identity_fix_retirement_workflow_blob_sha": "3a14efd69c46d464c50543431565b57b4517ae39"
   },
   "required_preconditions": {
     "v4616_exact_candidate_reviewed": true,
@@ -70,6 +71,13 @@
     "candidate_self_authorization_must_remain_false": true,
     "canonical_write_performed_must_remain_false_before_execution": true,
     "photo_review_status_successor_applied_must_remain_false_before_execution": true
+  },
+  "execution_dependencies": {
+    "identity_fix_retirement_b103_browser_digest_successor_required": true,
+    "identity_fix_retirement_workflow_path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "current_workflow_accepts_only_through_run": "engineer-osint-20260902-B102",
+    "workflow_successor_must_be_separately_authorized_and_implemented_before_b103_execution": true,
+    "this_authorization_does_not_authorize_workflow_mutation": true
   },
   "authorized_guard_successor_contract": {
     "guarded_run_id": "engineer-osint-20260902-B103",
@@ -109,5 +117,5 @@
     "manifest_updated": false,
     "photo_review_status_successor_applied": false
   },
-  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.6.16 PUBLIC-CZ-safe B103 local-image candidate validated by the v4.6.18 production simulation. The earlier v4.6.04 authorization remains immutable historical evidence and is not rewritten. Execution must fresh-read all protected inputs, install only the deterministic B103 guard successor for this authorization, persist only B103 through standard append-run --write, apply only the exact pinned photo-review successor after canonical validation, and use exact deterministic lifecycle test successors where current-state assertions still pin the superseded v4.6.03 B103 hash. This authorization slice performs no canonical, lifecycle, runtime or workflow write."
+  "note": "Authorization is limited to a future separate execution slice for the exact frozen v4.6.16 PUBLIC-CZ-safe B103 local-image candidate validated by the v4.6.18 production simulation. The earlier v4.6.04 authorization remains immutable historical evidence and is not rewritten. Execution is additionally blocked until the exact B103 browser-digest successor for identity-fix-retirement-regression.yml is separately authorized, implemented and green; this file does not authorize that workflow mutation. After that dependency is complete, execution must fresh-read all protected inputs, install only the deterministic B103 guard successor for this authorization, persist only B103 through standard append-run --write, apply only the exact pinned photo-review successor after canonical validation, and use exact deterministic lifecycle test successors where current-state assertions still pin the superseded v4.6.03 B103 hash. This authorization slice performs no canonical, lifecycle, runtime or workflow write."
 }
