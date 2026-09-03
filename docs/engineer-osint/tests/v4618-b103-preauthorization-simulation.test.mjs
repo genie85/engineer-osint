@@ -21,6 +21,22 @@ const expectedVisualIds=['ENG-VIS-LOCAL-0003','ENG-VIS-LOCAL-0004','ENG-VIS-LOCA
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const run=(cwd,script,...args)=>execFileSync(process.execPath,[script,...args],{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']});
 
+const reconstructB102=(temp)=>{
+  const tempRoot=join(temp,root);
+  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  if(manifest.runs.at(-1)?.run_id!==runId)return;
+  const entry=manifest.runs.pop();
+  assert.equal(entry.run_id,runId);
+  assert.equal(entry.parent_run_id,parentRunId);
+  assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+  writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+  const restored=loadCanonicalRunStore({root:tempRoot});
+  assert.equal(restored.report.current_run_id,parentRunId);
+  assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
+};
+
 test('v4.6.18 pre-authorization simulation materializes exact V4616 B103 and passes the real PUBLIC-CZ ratchet',()=>{
   const raw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(raw);
@@ -32,13 +48,18 @@ test('v4.6.18 pre-authorization simulation materializes exact V4616 B103 and pas
   assert.ok(candidate.visuals.every(item=>typeof item.title_cs==='string'&&item.title_cs.trim()));
 
   const live=loadCanonicalRunStore({root});
-  assert.equal(live.report.current_run_id,parentRunId);
-  assert.equal(live.report.canonical_sha256,parentCanonicalSha);
-  assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate)),expectedCanonicalSha);
+  if(live.report.current_run_id===parentRunId){
+    assert.equal(live.report.canonical_sha256,parentCanonicalSha);
+    assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate)),expectedCanonicalSha);
+  } else {
+    assert.equal(live.report.current_run_id,runId,'canonical head is outside exact B102→B103 lifecycle');
+    assert.equal(live.report.canonical_sha256,expectedCanonicalSha);
+  }
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4618-preauth-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
+    reconstructB102(temp);
     const authRel=`${root}/.v4618-b103-preauth-simulation-authorization.json`;
     const auth={
       schema_version:'engineer-osint-b103-preauthorization-simulation-v1',
