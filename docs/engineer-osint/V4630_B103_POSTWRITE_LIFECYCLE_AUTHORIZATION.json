@@ -1,0 +1,51 @@
+{
+  "schema_version": "engineer-osint-b103-postwrite-lifecycle-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-03",
+  "reviewed_main_sha": "9e78d310c443cf35ab86f78657f4d9bd9957f3b8",
+  "failed_execution_pr": 357,
+  "failed_execution_head_sha": "ae8781441a387936bd140e11c5fdfb1408f49677",
+  "failed_exact_head_run_id": 33748366489,
+  "failed_test_count": 14,
+  "executor_observed_exact_result": {
+    "run_id": "engineer-osint-20260902-B103",
+    "parent_run_id": "engineer-osint-20260902-B102",
+    "candidate_sha256": "d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b",
+    "canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+    "photo_review_status_sha256": "86b7694c3aee30ea421601c698b9eac3d6aa906958cab93c036e66037247e569",
+    "workflow_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f",
+    "published_to_pr_branch": false
+  },
+  "authorized_test_files": [
+    "docs/engineer-osint/tests/v4600-b102-execution.test.mjs",
+    "docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs",
+    "docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs",
+    "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+    "docs/engineer-osint/tests/v4616-b103-public-cz-candidate.test.mjs",
+    "docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs",
+    "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs",
+    "docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs"
+  ],
+  "authorized_change": {
+    "purpose": "Allow the listed historical and pre-publication tests to recognize only the exact V4619 PUBLIC-CZ B103 persisted lifecycle state observed by the fail-closed executor in PR #357, while preserving their original B102/pre-B103 assertions when B103 is not materialized.",
+    "allow_exact_persisted_b103_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+    "allow_exact_persisted_b103_run_id": "engineer-osint-20260902-B103",
+    "allow_exact_persisted_photo_status_sha256": "86b7694c3aee30ea421601c698b9eac3d6aa906958cab93c036e66037247e569",
+    "preserve_historical_v4603_b103_sha256": "5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066",
+    "preserve_b102_parent_canonical_sha256": "5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91",
+    "preserve_candidate_sha256": "d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b",
+    "preserve_b103_browser_digest_sha256": "68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a",
+    "allow_wildcard_or_current_state_acceptance": false,
+    "allow_authorization_rewrite": false,
+    "allow_executor_or_append_run_change": false,
+    "allow_workflow_change": false,
+    "allow_canonical_or_run_store_change": false,
+    "allow_photo_status_change": false,
+    "allow_runtime_source_change": false,
+    "allow_deployment_change": false,
+    "allow_source_data_or_ui_change": false,
+    "implementation_requires_separate_slice": true,
+    "b103_execution_retry_requires_separate_slice": true
+  },
+  "failure_summary": "PR #357 proved that the authorized executor can deterministically materialize the exact V4619 B103 successor, but its post-write suite still contains 14 assertions tied to the obsolete V4603 B103 hash or to B102/pre-B103 lifecycle state. The executor failed before commit/push, so no canonical change reached the PR branch or main. This authorization permits only narrow exact-lifecycle compatibility updates to the eight listed test files."
+}
