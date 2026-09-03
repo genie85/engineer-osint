@@ -1,0 +1,73 @@
+{
+  "schema_version": "engineer-osint-b104-wave2-local-image-readiness-v1",
+  "status": "READY_FOR_EXACT_REVIEW",
+  "reviewed_main_sha": "c2ad3befded2b69f4490b1778f5e2535f690ab08",
+  "parent_run_id": "engineer-osint-20260902-B103",
+  "parent_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+  "candidate_run_id": "engineer-osint-20260903-B104",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4642-b104-wave2-local-images-public-cz.json",
+  "candidate_file_sha256": "1bd425cde9cab4f4c454b9b3b635acc61a172883fb3618c3d871c630ac11fcad",
+  "expected_resulting_canonical_sha256": "34479f18aac998b8ee5feae6b28276fc1fb3f2dcd90f95c60b656ae1d3eb21e0",
+  "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4639.json",
+  "lifecycle_source_sha256": "acb2021c7f04cc5387d8c8c320e0d5f724559b18742da05368a2d14954e2a841",
+  "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4642-b104-v4639-local-image-status.json",
+  "lifecycle_successor_sha256": "179c77d37f933368013a2e74f0c237109168c0abeca92167f5b08ae4b663b978",
+  "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
+  "source_acquisition_git_blob_sha": "67eed0e5ce9af77d8e407aeff42dc04501bfad26",
+  "discovery_ci": {
+    "head_sha": "ee017072fd4ba224a9da072dc50c72a3bc5d2498",
+    "workflow_run_id": 33808365545,
+    "workflow": "ENGINEER OSINT final identity-fix retirement regression",
+    "p0_p1_status": "PASS",
+    "public_cz_ratchet": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0
+  },
+  "expected_card_ids": [
+    "ENG-TECH-0045",
+    "ENG-TECH-0048",
+    "ENG-TECH-0049"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0045",
+    "ENG-VIS-LOCAL-0048",
+    "ENG-VIS-LOCAL-0049"
+  ],
+  "expected_updated_record_count": 3,
+  "expected_new_visual_count": 3,
+  "expected_new_media_count": 0,
+  "resulting_photo_baseline": {
+    "cards_with_local_image": 12,
+    "ready_for_import": 7,
+    "photo_coverage_percent": 24
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0045",
+      "local_image_path": "assets/photos/eng-tech-0045-m1074-jab.webp",
+      "local_sha256": "9fd505a28107b3657226bc660b8d8b210a83a3e1c2eb5c049778956d96462055",
+      "source_sha256": "f97be7c72078f6a3bf06493a2628fb1c2e9240d64b9729c97c56baae7c71b3c9",
+      "git_blob_sha": "2b32891f7c0f34823435152efd5723c243fbaac5"
+    },
+    {
+      "card_id": "ENG-TECH-0048",
+      "local_image_path": "assets/photos/eng-tech-0048-m1150-abv.webp",
+      "local_sha256": "584b86075ce8b1bb729fe3f4bd155daeb435145607411bd68938972464efc1dd",
+      "source_sha256": "715c1ebd37b7890078c003490493a43f97a0503289fa212d916f253926edf47a",
+      "git_blob_sha": "51ba4b4241d02c1d44bce98213a96c8bdd1a0ed9"
+    },
+    {
+      "card_id": "ENG-TECH-0049",
+      "local_image_path": "assets/photos/eng-tech-0049-leguan.webp",
+      "local_sha256": "c75b51d731060a179da3379ddf0791a28a9f58903d63ded6dee3cc85777d81ea",
+      "source_sha256": "8219b9965194fc791067bd416177034d2df8bff2da87196faf3e8c529ae6e216",
+      "git_blob_sha": "394a325117edd2269ac16d455ae8bd15dbb60068"
+    }
+  ],
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "lifecycle_successor_applied": false
+  },
+  "authorization_required": true
+}
