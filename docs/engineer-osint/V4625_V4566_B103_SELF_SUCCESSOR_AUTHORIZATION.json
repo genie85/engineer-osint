@@ -1,0 +1,42 @@
+{
+  "schema_version": "engineer-osint-v4566-b103-self-successor-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-03",
+  "reviewed_main_sha": "749bc9d2886547c90378966f442b31154c16c99a",
+  "failed_compatibility_pr": 352,
+  "failed_compatibility_head_sha": "f1c119f6c312c06327cf474ba65944d1b32d5212",
+  "failed_exact_head_run_id": 33740906132,
+  "failed_test_count": 1,
+  "remaining_failure": {
+    "test_path": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+    "current_test_git_blob_sha": "1fc36280e1cd44b0c48239822d192b7570469bbc",
+    "failure_message": "v4.5.65 test is outside the exact pinned lifecycle states",
+    "required_exact_v4565_test_successor_git_blob_sha": "c20250619fd3dfc95fefc5717fcc1fcd083231a4"
+  },
+  "authorized_change": {
+    "authorized_test_file": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+    "purpose": "Permit only the exact B103 successor of v4565-action-upgrade-lifecycle-authorization.test.mjs that was produced in PR #352 after the V4623-authorized compatibility updates.",
+    "add_exact_b103_v4565_test_successor_only": true,
+    "exact_b103_v4565_test_successor_git_blob_sha": "c20250619fd3dfc95fefc5717fcc1fcd083231a4",
+    "preserve_all_existing_exact_lifecycle_successors": true,
+    "preserve_v4566_policy_blob": true,
+    "allow_wildcard_or_current_state_acceptance": false,
+    "allow_other_test_file_change": false,
+    "allow_workflow_change": false,
+    "allow_canonical_or_run_store_change": false,
+    "allow_runtime_source_change": false,
+    "allow_deployment_change": false,
+    "allow_source_data_or_ui_change": false,
+    "implementation_requires_separate_slice": true,
+    "compatibility_retry_requires_separate_slice": true,
+    "workflow_retry_requires_separate_slice": true,
+    "b103_execution_requires_separate_slice": true
+  },
+  "required_unchanged": {
+    "workflow_b102_blob_sha": "3a14efd69c46d464c50543431565b57b4517ae39",
+    "future_workflow_b103_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f",
+    "b103_normalized_dom_sha256": "68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a",
+    "canonical_tip_run_id": "engineer-osint-20260902-B102"
+  },
+  "failure_summary": "The V4624 compatibility retry reached 525 pass, 1 fail, 3 skip. The sole failure is the historical V4566 self-successor guard, which correctly rejects the newly changed exact V4565 test blob because V4623 did not authorize V4566. PR #352 was closed unmerged. This authorization permits only that exact self-successor compatibility update."
+}
