@@ -82,7 +82,7 @@ test('v4.5.65 keeps historical workflow successors immutable and permits only ex
   if(successorWorkflowMode)assert.equal(successorTestMode,true,'action workflow/test successor modes diverged');
   if(b100WorkflowMode)assert.equal(b100TestMode,true,'B100 workflow/test successor modes diverged');
   if(b101WorkflowMode)assert.equal(b101TestMode,true,'B101 workflow/test successor modes diverged');
-  if(b102WorkflowMode)assert.equal(b102TestMode||executorTestMode,true,'B102 workflow/test executor successor modes diverged');
+  if(b102WorkflowMode)assert.equal(b102TestMode||executorTestMode||b103TestMode,true,'B102 workflow/test pre-B103 compatibility modes diverged');
   if(b103WorkflowMode)assert.equal(b103TestMode,true,'B103 workflow/test successor modes diverged');
   const v4563Map=new Map(v4563.active_workflows.map(x=>[x.file,x.historical_git_blob_sha]));
   for(const [file,v4562Sha] of expectedSuccessors)assert.equal(v4563Map.get(file),v4562Sha,`${file}: v4.5.63 historical anchor drift`);
