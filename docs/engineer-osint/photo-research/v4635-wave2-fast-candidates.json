@@ -33,12 +33,12 @@
       "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
       "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
       "author_rightsholder": "Dutch Ministry of Defence",
-      "license": "CC0 1.0 Universal Public Domain Dedication",
-      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "identity_evidence": "The Commons file description explicitly identifies a side view of a LEGUAN bridge layer.",
-      "license_evidence": "A fresh live read of the Commons file-page Licensing section states that the file is made available under the Creative Commons CC0 1.0 Universal Public Domain Dedication; the same section records Dutch Ministry of Defence VRT permission (ticket 2010120610018876).",
-      "license_verification_note": "This supersedes the erroneous CC BY-SA 4.0 assertion introduced in v4.6.37. The prior reading conflated Commons site-text licensing with the media file's own Licensing section.",
-      "next_action": "Acquire and optimize the exact file, retain source/provenance metadata, compute SHA-256, and stage as a local-photo candidate."
+      "license_evidence": "The Commons file-page Licensing section states that this media file is licensed under Creative Commons Attribution-ShareAlike 4.0 International and records Dutch Ministry of Defence VRT permission under ticket 2010120610018876. The separate structured-data CC0 statement applies to file-namespace structured metadata, not the media-file licence.",
+      "license_verification_note": "v4.6.41 correction: the prior CC0 assertion conflated Commons structured-data licensing with the image licence. The file-page Licensing section is CC BY-SA 4.0.",
+      "next_action": "Exact file archived locally with SHA-256 and attribution/share-alike provenance; canonical LOCAL_IMAGE linkage remains a separate protected step."
     },
     {
       "card_id": "ENG-TECH-0044",
