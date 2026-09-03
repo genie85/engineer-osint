@@ -13,6 +13,7 @@ const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const gitBlobSha = (buf) => crypto.createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`), buf])).digest('hex');
 
 const auth = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
+const currentAuth = json('V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
 const readiness = json('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json');
 const candidate = json('osint-publication-candidates/v4603-b103-local-images.json');
 const manifest = json('data/run-store-manifest.json');
@@ -30,8 +31,8 @@ const assertExactLifecycleHead=()=>{
     assert.equal(current.canonical_sha256,auth.expected_parent_canonical_sha256);
     return 'PRE_EXECUTION';
   }
-  assert.equal(current.run_id,auth.candidate_run_id,'canonical head is outside exact B102→B103 lifecycle');
-  assert.equal(current.canonical_sha256,auth.expected_resulting_canonical_sha256);
+  assert.equal(current.run_id,currentAuth.candidate_run_id,'canonical head is outside exact B102→V4619 B103 lifecycle');
+  assert.equal(current.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
   return 'POST_EXECUTION';
 };
 
@@ -43,6 +44,7 @@ test('v4.6.04 authorization pins the exact B103 local-image candidate and canoni
   assert.equal(auth.expected_parent_run_id, 'engineer-osint-20260902-B102');
   assert.equal(auth.expected_parent_canonical_sha256, '5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91');
   assert.equal(auth.expected_resulting_canonical_sha256, '5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066');
+  assert.equal(currentAuth.expected_resulting_canonical_sha256,'d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c');
   assert.deepEqual(auth.expected_card_ids, expectedCards);
   assert.deepEqual(auth.expected_visual_ids, expectedVisuals);
   assert.equal(auth.expected_updated_record_count, 9);
@@ -77,8 +79,8 @@ test('v4.6.04 authorization pins the exact photo lifecycle predecessor and succe
     assert.equal(gitBlobSha(sourceStatus), auth.photo_review_status_successor.source_git_blob_sha);
   } else {
     assert.equal(sourceStatus.toString('utf8'),successor.toString('utf8'));
-    assert.equal(sha256(sourceStatus), auth.photo_review_status_successor.successor_sha256);
-    assert.equal(gitBlobSha(sourceStatus), auth.photo_review_status_successor.successor_git_blob_sha);
+    assert.equal(sha256(sourceStatus), currentAuth.photo_review_status_successor.successor_sha256);
+    assert.equal(gitBlobSha(sourceStatus), currentAuth.photo_review_status_successor.successor_git_blob_sha);
   }
   assert.equal(sha256(successor), auth.photo_review_status_successor.successor_sha256);
   assert.equal(gitBlobSha(successor), auth.photo_review_status_successor.successor_git_blob_sha);
@@ -117,8 +119,8 @@ test('v4.6.04 authorization preserves canonical boundaries and admits only exact
     assert.equal(gitBlobSha(read('data/run-store-manifest.json')), auth.protected_baseline.manifest_blob_sha);
   } else {
     const runBytes=read('data/runs/engineer-osint-20260902-B103.json');
-    assert.equal(sha256(runBytes),auth.exact_candidate_file_sha256);
-    assert.equal(JSON.parse(runBytes.toString('utf8')).state.run_id,auth.candidate_run_id);
+    assert.equal(sha256(runBytes),currentAuth.exact_candidate_file_sha256);
+    assert.equal(JSON.parse(runBytes.toString('utf8')).state.run_id,currentAuth.candidate_run_id);
   }
 
   assert.equal(auth.authorization.append_exact_candidate_only, true);
