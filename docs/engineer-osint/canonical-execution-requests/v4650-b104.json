@@ -1,0 +1,7 @@
+{
+  "schema_version": "engineer-osint-canonical-execution-request-v1",
+  "base_sha": "b865351845514321fca01bbb44ca584b70d0e793",
+  "authorization_path": "docs/engineer-osint/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4645-b104-wave2-local-images-cc0-public-cz.json",
+  "run_id": "engineer-osint-20260903-B104"
+}
