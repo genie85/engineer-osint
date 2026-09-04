@@ -50,17 +50,17 @@
       "source_title": "Leguan bridge layer.jpg",
       "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
       "author_rightsholder": "Dutch Ministry of Defence",
-      "license": "CC BY-SA 4.0",
-      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "attribution_requirement": "Credit Dutch Ministry of Defence, identify the Wikimedia Commons source and VRT ticket 2010120610018876, link the CC BY-SA 4.0 licence, indicate modifications, and distribute adaptations under the same or a compatible licence.",
+      "license": "CC0 1.0 Universal Public Domain Dedication",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_requirement": "No copyright attribution is required under CC0; retain Dutch Ministry of Defence, the Wikimedia Commons source and VRT ticket 2010120610018876 as provenance for auditability.",
       "identity_evidence": "The Commons file description explicitly identifies the image as a side view of a LEGUAN bridge layer, establishing exact system identity.",
-      "license_evidence": "The Commons file-page Licensing section states that this media file is licensed under Creative Commons Attribution-ShareAlike 4.0 International and records Dutch Ministry of Defence VRT permission under ticket 2010120610018876. The separate structured-data CC0 statement applies to file-namespace structured metadata, not the media-file licence.",
+      "license_evidence": "A fresh live read of the Commons file-page Licensing section on 2026-09-04 states that this file is made available under the Creative Commons CC0 1.0 Universal Public Domain Dedication and records Dutch Ministry of Defence VRT permission under ticket 2010120610018876.",
       "reviewed_at": "2026-09-03",
       "acquired_at": "2026-09-03",
       "local_image_path": "assets/photos/eng-tech-0049-leguan.webp",
       "sha256": "c75b51d731060a179da3379ddf0791a28a9f58903d63ded6dee3cc85777d81ea",
       "local_acquisition_batch": "v4.6.41",
-      "provenance_correction": "The v4.6.39 READY_FOR_IMPORT entry incorrectly treated the Commons structured-data CC0 statement as the media-file licence. This exact lifecycle successor uses the file-page Licensing section, which licenses the image under CC BY-SA 4.0."
+      "provenance_correction": "v4.6.44 source-authority correction: the prior CC BY-SA 4.0 assertion conflated Commons site-text licensing with the media file's own Licensing section. This successor restores the file-level CC0 1.0 licence verified from the live file page."
     }
   ]
 }
