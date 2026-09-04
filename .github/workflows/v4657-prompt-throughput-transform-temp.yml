@@ -33,7 +33,7 @@ jobs:
           test "$(git hash-object docs/engineer-osint/tests/v4656-prompt-modular-architecture.test.mjs)" = d206a3cce0530fab6a4fb0e800eb4da09e716acc
 
       - name: Transform prompt set
-        run: python3 docs/engineer-osint/v4657-prompt-transform-temp.py
+        run: python3 docs/engineer-osint/v4657-prompt-transform-wrapper-temp.py
 
       - name: Targeted prompt regression
         shell: bash
@@ -57,7 +57,7 @@ jobs:
             'docs/engineer-osint/tests/v4657-prompt-high-throughput.test.mjs',
           }
           rows=subprocess.check_output(['git','status','--porcelain=v1'],text=True).splitlines()
-          changed={row[3:] for row in rows if row.strip() and row[3:] != 'docs/engineer-osint/v4657-prompt-transform-temp.py'}
+          changed={row[3:] for row in rows if row.strip()}
           if changed != expected:
               raise SystemExit(f'V4657_SCOPE_MISMATCH expected={sorted(expected)} got={sorted(changed)}')
           print('V4657_SCOPE_PASS',sorted(changed))
