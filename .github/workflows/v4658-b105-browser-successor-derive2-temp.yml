@@ -1,0 +1,41 @@
+name: v4.6.58 B105 browser successor derivation 2 temp
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4658-b105-browser-successor-authorization
+    paths:
+      - .github/workflows/v4658-b105-browser-successor-derive2-temp.yml
+
+permissions:
+  contents: read
+
+jobs:
+  derive:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Guard exact predecessor identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object .github/workflows/identity-fix-retirement-regression.yml)" = cb7e4d186ff3a79675ace8c48754317ffdede233
+          test "$(git hash-object docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs)" = 7e9480f421cdd811c2660033e4539f926ce5ad7b
+          test "$(git hash-object docs/engineer-osint/v4658-b105-successor-derive-temp.py)" = 2c41779470d15cebb13eafc02b28c7c4944b7cc1
+      - name: Derive exact successors without repository writes
+        run: python3 docs/engineer-osint/v4658-b105-successor-derive-temp.py
+      - name: Confirm repository remained unmodified
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          git status --porcelain
+      - name: Upload read-only derivation evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: v4658-b105-browser-successor-derivation-2
+          path: /tmp/v4658-successor-hashes.json
+          if-no-files-found: error
