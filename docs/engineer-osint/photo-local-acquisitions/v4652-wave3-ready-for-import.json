@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "batch": "v4.6.52",
+  "acquired_at": "2026-09-04",
+  "policy": "Archive exact reviewed reusable media locally before any separate canonical LOCAL_IMAGE linkage.",
+  "scope": "Exact authorized wave-3 acquisition for the seven READY_FOR_IMPORT cards pinned by V4651.",
+  "source_main_sha": "d8567ed7d3b2d06818bf320f26e538ee6cc533f7",
+  "authorization_path": "docs/engineer-osint/V4651_WAVE3_PHOTO_ACQUISITION_WORKFLOW_AUTHORIZATION.json",
+  "read_only_discovery_run_id": 33893570868,
+  "read_only_discovery_artifact_id": 9944818259,
+  "read_only_discovery_artifact_digest": "sha256:124c4baf3a3d12ae5d063db09ce93bf473581d39ffee0db23fb84e26be5ad224",
+  "execution_run_id": 33894383028,
+  "transformation": "Exact Commons source binary verified first, then EXIF orientation normalized, resized only when the long edge exceeded 1600 px, and encoded as WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration.",
+  "entries": [
+    {
+      "card_id": "ENG-TECH-0014",
+      "system_name": "BLT Arjun",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:BLT-ARJUN.jpg",
+      "source_title": "BLT-ARJUN.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "DRDO / Government of India",
+      "license": "Government Open Data License – India (GODL)",
+      "license_url": "https://data.gov.in/sites/default/files/Gazette_Notification_OGDL.pdf",
+      "attribution_requirement": "Credit DRDO / Government of India, identify the source, and reference the Government Open Data License – India; do not imply endorsement.",
+      "identity_evidence": "The Wikimedia Commons file page explicitly identifies the image as Bridge Layer Tank (BLT) Arjun and traces it to the official DRDO BLT Arjun product page. DRDO independently describes BLT Arjun as a bridge-laying system on the MBT Arjun chassis capable of launching a 24 m bridge, matching the ENGINEER OSINT card identity.",
+      "license_evidence": "The Commons file page states that the Government of India work is licensed under the Government Open Data License – India and records DRDO as author/source. The licence permits reuse and adaptation subject to attribution and stated exclusions.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.84",
+      "source_file_name": "BLT-ARJUN.jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/BLT-ARJUN.jpg",
+      "source_sha256": "2c2a65c086bc3ad5e22e3b638f6c1f51eb93fd2a8712d033afb6d71180d474f1",
+      "source_bytes": 676769,
+      "source_dimensions": [
+        2032,
+        1354
+      ],
+      "local_image_path": "assets/photos/eng-tech-0014-blt-arjun.webp",
+      "local_sha256": "564eb0b37ad6c68614f2ed8029b93431d3ae672bdafacb21220f4292ea98ffd9",
+      "local_bytes": 205090,
+      "local_dimensions": [
+        1600,
+        1066
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    },
+    {
+      "card_id": "ENG-TECH-0015",
+      "system_name": "Short Span Bridge 10 m",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:10M_Short_Span_Bridge_Republic_Day_Parade_2025.jpg",
+      "source_title": "10M Short Span Bridge Republic Day Parade 2025.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Government of India",
+      "license": "Government Open Data License – India (GODL)",
+      "license_url": "https://data.gov.in/sites/default/files/Gazette_Notification_OGDL.pdf",
+      "attribution_requirement": "Credit Government of India and the PIB source, identify the Government Open Data License – India, and do not imply endorsement.",
+      "identity_evidence": "The Commons file is explicitly titled '10M Short Span Bridge Republic Day Parade 2025' and records its Government of India / PIB source from the 26 January 2025 Republic Day parade. This exact system identity matches the ENGINEER OSINT Short Span Bridge 10 m card.",
+      "license_evidence": "The Commons file page states that the Government of India image is licensed under the Government Open Data License – India and records a licence review confirming source availability. The licence permits lawful commercial and non-commercial reuse and adaptation subject to attribution and exclusions.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.84",
+      "source_file_name": "10M Short Span Bridge Republic Day Parade 2025.jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/10M%20Short%20Span%20Bridge%20Republic%20Day%20Parade%202025.jpg",
+      "source_sha256": "75b60768b0df0e604afc98aa8f4f73fcb9602953ef09121371afd10c7ee6e70b",
+      "source_bytes": 1325000,
+      "source_dimensions": [
+        2200,
+        1181
+      ],
+      "local_image_path": "assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "local_sha256": "095849af5876c5f370dda75e37bdd99bcde584be3a4a34e709bf8f0551fbb672",
+      "local_bytes": 399240,
+      "local_dimensions": [
+        1600,
+        859
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    },
+    {
+      "card_id": "ENG-TECH-0018",
+      "system_name": "施設作業車 / JGSDF Combat Engineer Vehicle",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:JGSDF_Combat_engineering_vehicle_003.JPG",
+      "source_title": "JGSDF Combat engineering vehicle 003.JPG",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Los688",
+      "license": "Public domain (PD-self)",
+      "license_url": "https://commons.wikimedia.org/wiki/Template:PD-self",
+      "attribution_requirement": "No copyright attribution is legally required by the PD-self release; retain source/author provenance in ENGINEER OSINT metadata for auditability.",
+      "identity_evidence": "The Commons file description explicitly identifies the depicted vehicle as the JGSDF combat engineering vehicle / 施設作業車 photographed at Camp Katsuta. The current official JGSDF engineering-equipment page independently identifies 施設作業車 as the protected tracked engineer work vehicle that succeeded the Type 75 dozer, confirming exact platform identity.",
+      "license_evidence": "The Commons file page states that photographer Los688 released the work into the public domain worldwide under PD-self.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.84",
+      "source_file_name": "JGSDF Combat engineering vehicle 003.JPG",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/JGSDF%20Combat%20engineering%20vehicle%20003.JPG",
+      "source_sha256": "a120a0916287c4388fd9bab5143ee2a2e6468be2387c2af8d53c8622b6cb4481",
+      "source_bytes": 471195,
+      "source_dimensions": [
+        2400,
+        1595
+      ],
+      "local_image_path": "assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "local_sha256": "deb995b184fad5789baa985dc0cc6c3d468627a07b7c5368152a29c46dcfc56b",
+      "local_bytes": 257844,
+      "local_dimensions": [
+        1600,
+        1063
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    },
+    {
+      "card_id": "ENG-TECH-0019",
+      "system_name": "92式浮橋 / Type 92 Floating Bridge",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:92%E5%BC%8F%E6%B5%AE%E6%A9%8B_(8464316361).jpg",
+      "source_title": "92式浮橋 (8464316361).jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force (JGSDF)",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution_requirement": "Credit JGSDF, link the CC BY 2.0 licence, identify the source, and indicate modifications if any.",
+      "identity_evidence": "The Commons file description identifies the image as 92式浮橋 and records JGSDF as author and original Flickr source. The current official JGSDF engineering-equipment page separately describes 92式浮橋 as the modular floating bridge/ferry system used to cross heavy vehicles, confirming exact platform identity.",
+      "license_evidence": "The Commons file page states that the JGSDF Flickr image is licensed under Creative Commons Attribution 2.0 Generic.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.84",
+      "source_file_name": "92式浮橋 (8464316361).jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/92%E5%BC%8F%E6%B5%AE%E6%A9%8B%20%288464316361%29.jpg",
+      "source_sha256": "9cdbc98e20bbfe545ed694b4139a52a4c54d7885b811e4f2c14b68ae2aad5bd0",
+      "source_bytes": 40183,
+      "source_dimensions": [
+        350,
+        262
+      ],
+      "local_image_path": "assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "local_sha256": "05cb7608d2995887eec3c83178d41c097dd2c67b83d91d8a4b51887c6c9fbd7b",
+      "local_bytes": 10996,
+      "local_dimensions": [
+        350,
+        262
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration.",
+      "quality_limitation": "Native source is 350x262 px and must not be upscaled in the acquisition slice."
+    },
+    {
+      "card_id": "ENG-TECH-0020",
+      "system_name": "83式地雷敷設装置 / Type 83 Mine-Laying System",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:%EF%BC%98%EF%BC%93%E5%BC%8F%E5%9C%B0%E9%9B%B7%E6%95%B7%E8%A8%AD%E8%A3%85%E7%BD%AE%EF%BC%88%E7%AC%AC%EF%BC%92%E6%96%BD%E8%A8%AD%E5%A4%A7%E9%9A%8A%EF%BC%89.jpg",
+      "source_title": "８３式地雷敷設装置（第２施設大隊）.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_FILE_PAGE",
+      "author_rightsholder": "Japan Ground Self-Defense Force / Government of Japan",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution_requirement": "Credit Japan Ground Self-Defense Force / Government of Japan, link the CC BY 4.0 licence, identify the source, and indicate modifications if any.",
+      "identity_evidence": "The Commons file description explicitly identifies the depicted equipment as ８３式地雷敷設装置 of the 2nd Engineer Battalion and traces the image to the JGSDF equipment gallery. The current official JGSDF engineering-equipment page separately identifies 83式地雷敷設装置 and describes its antitank-mine laying role, confirming exact platform identity.",
+      "license_evidence": "The Commons file page states that the official JGSDF image is available under Government of Japan Standard Terms compatible with Creative Commons Attribution 4.0 and explicitly lists CC BY 4.0.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.84",
+      "source_file_name": "８３式地雷敷設装置（第２施設大隊）.jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%EF%BC%98%EF%BC%93%E5%BC%8F%E5%9C%B0%E9%9B%B7%E6%95%B7%E8%A8%AD%E8%A3%85%E7%BD%AE%EF%BC%88%E7%AC%AC%EF%BC%92%E6%96%BD%E8%A8%AD%E5%A4%A7%E9%9A%8A%EF%BC%89.jpg",
+      "source_sha256": "3190bfe826a9fbccb01fd6748eda96e3bddcf4968e68f80208a02a55a5af2eef",
+      "source_bytes": 794693,
+      "source_dimensions": [
+        2048,
+        1360
+      ],
+      "local_image_path": "assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "local_sha256": "41b47d91edf66a634f1b9a64a987a3a1755d7db4d4a4aa0e52785acacced5e75",
+      "local_bytes": 378096,
+      "local_dimensions": [
+        1600,
+        1063
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    },
+    {
+      "card_id": "ENG-TECH-0038",
+      "system_name": "DOK-ING MV-10 — těžký dálkově řízený systém mechanizovaného odminování na Ukrajině",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:UA-made_MV-10_01.jpg",
+      "source_title": "UA-made MV-10 01.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_OFFICIAL_UKRAINIAN_PROVENANCE",
+      "author_rightsholder": "Міністерство економіки України",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution_requirement": "Credit Міністерство економіки України, identify the Wikimedia Commons source, link the CC BY 4.0 licence, and indicate modifications.",
+      "identity_evidence": "The Wikimedia Commons file explicitly describes the image as a localized A3tech unmanned demining machine MV-10, dates it 13 June 2024, and traces it to archived Ministry of Economy of Ukraine news pages. The current Ukrainian state certification list independently identifies MV-10 as a remote-controlled/heavy-duty robotic demining system, supporting exact platform identity without visual-only inference.",
+      "license_evidence": "The Commons file page explicitly licenses the exact photograph under Creative Commons Attribution 4.0 International, identifies the Ministry of Economy of Ukraine as author, and preserves official Ukrainian source provenance. This satisfies the open-licence provenance threshold for READY_FOR_IMPORT; the binary is not yet stored in the repository.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.88",
+      "source_file_name": "UA-made MV-10 01.jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/UA-made%20MV-10%2001.jpg",
+      "source_sha256": "b7eaab69ad4d70f2da1dc1bd6d01cf83b7f2ff1a38d9142f0d734c153b91e1df",
+      "source_bytes": 262144,
+      "source_dimensions": [
+        1200,
+        800
+      ],
+      "local_image_path": "assets/photos/eng-tech-0038-mv-10.webp",
+      "local_sha256": "7113afc3b4ddfbdb466bc509191747659012705cb6833cdd8cc5ff525cbf9caa",
+      "local_bytes": 266416,
+      "local_dimensions": [
+        1200,
+        800
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    },
+    {
+      "card_id": "ENG-TECH-0041",
+      "system_name": "Uran-6 — veřejný státní exportní technický profil dálkově řízeného odminovacího UGV",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Uran-6.jpg",
+      "source_title": "Uran-6.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_RUSSIAN_MOD_PROVENANCE",
+      "author_rightsholder": "Ministry of Defence of the Russian Federation; attribution Mil.ru",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution_requirement": "Credit Ministry of Defence of the Russian Federation / Mil.ru, identify the Wikimedia Commons source, link the CC BY 4.0 licence, and indicate modifications.",
+      "identity_evidence": "The Commons file page explicitly identifies the system as Uran-6 and describes it in an engineer-unit exercise context. It records the original source as the Russian Ministry of Defence multimedia gallery and the author as the Ministry of Defence of the Russian Federation. Commons also maintains a dedicated Uran-6 category identifying the platform as a demining robot, so the identity is source-explicit rather than inferred from appearance.",
+      "license_evidence": "The exact Commons file page states that the Russian Ministry of Defence image is licensed under Creative Commons Attribution 4.0 and requires attribution to Mil.ru. The file page supplies the original military source, author and explicit CC BY 4.0 terms, satisfying the READY_FOR_IMPORT licence/provenance contract while no repository binary is yet claimed.",
+      "reviewed_at": "2026-09-01",
+      "review_batch": "v4.5.88",
+      "source_file_name": "Uran-6.jpg",
+      "source_acquisition_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Uran-6.jpg",
+      "source_sha256": "8afbf76953e0565805c249140e7b330def958379cc4b23e4b65ed434e4052cb5",
+      "source_bytes": 1087482,
+      "source_dimensions": [
+        1200,
+        800
+      ],
+      "local_image_path": "assets/photos/eng-tech-0041-uran-6.webp",
+      "local_sha256": "debf811805bbd54cd8bf4eb6aa6978c5b1a5dc78669e1a99b2e087759d035797",
+      "local_bytes": 197306,
+      "local_dimensions": [
+        1200,
+        800
+      ],
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration."
+    }
+  ]
+}
