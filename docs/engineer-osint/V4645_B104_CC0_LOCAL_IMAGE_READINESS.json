@@ -1,0 +1,90 @@
+{
+  "schema_version": "engineer-osint-b104-cc0-local-image-readiness-v1",
+  "status": "READY_FOR_EXACT_REVIEW",
+  "reviewed_main_sha": "d2336831802af1f04fd797b313db0a34d9644900",
+  "parent_run_id": "engineer-osint-20260902-B103",
+  "parent_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+  "candidate_run_id": "engineer-osint-20260903-B104",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4645-b104-wave2-local-images-cc0-public-cz.json",
+  "candidate_file_sha256": "0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9",
+  "expected_resulting_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+  "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4639.json",
+  "lifecycle_source_sha256": "acb2021c7f04cc5387d8c8c320e0d5f724559b18742da05368a2d14954e2a841",
+  "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4645-b104-v4639-local-image-status-cc0.json",
+  "lifecycle_successor_sha256": "016de834e7261c9678d7415d07be932347fae9e6f8ca644661a7994393ded3c6",
+  "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
+  "source_license_correction_path": "docs/engineer-osint/photo-research/v4644-leguan-license-authority-correction.json",
+  "license_authority": {
+    "card_id": "ENG-TECH-0049",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+    "license": "CC0 1.0 Universal Public Domain Dedication",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "vrt_ticket": "2010120610018876",
+    "historical_acquisition_license_assertion_superseded": true
+  },
+  "discovery_ci": {
+    "head_sha": "7bde2609910fa0076a46f57019d612f4ed6a4b1e",
+    "workflow_run_id": 33833409269,
+    "job_id": 100900943536,
+    "workflow": "ENGINEER OSINT final identity-fix retirement regression",
+    "conclusion": "success",
+    "test_total": 544,
+    "test_pass": 541,
+    "test_fail": 0,
+    "test_skipped": 3,
+    "public_cz_ratchet": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0,
+    "normalized_dom_sha256": "5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c"
+  },
+  "supporting_ci": [
+    {
+      "workflow_run_id": 33833409256,
+      "workflow": "ENGINEER OSINT runtime audit snapshot",
+      "conclusion": "success"
+    },
+    {
+      "workflow_run_id": 33833409250,
+      "workflow": "ENGINEER OSINT first-three overlay retirement regression",
+      "conclusion": "success"
+    },
+    {
+      "workflow_run_id": 33833409254,
+      "workflow": "Deploy ENGINEER OSINT to GitHub Pages",
+      "conclusion": "success"
+    }
+  ],
+  "expected_card_ids": [
+    "ENG-TECH-0045",
+    "ENG-TECH-0048",
+    "ENG-TECH-0049"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0045",
+    "ENG-VIS-LOCAL-0048",
+    "ENG-VIS-LOCAL-0049"
+  ],
+  "expected_updated_record_count": 3,
+  "expected_new_visual_count": 3,
+  "expected_new_media_count": 0,
+  "resulting_photo_baseline": {
+    "total_cards": 50,
+    "cards_with_local_image": 12,
+    "ready_for_import": 7,
+    "photo_coverage_percent": 24
+  },
+  "stale_authorization": {
+    "path": "docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "superseded": true,
+    "execution_permitted": false,
+    "reason": "It pins the superseded CC BY-SA 4.0 candidate/lifecycle identities and does not match the corrected CC0 candidate or lifecycle successor."
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "lifecycle_successor_applied": false,
+    "workflow_successor_applied": false
+  },
+  "authorization_required": true,
+  "execution_permitted_by_this_artifact": false
+}
