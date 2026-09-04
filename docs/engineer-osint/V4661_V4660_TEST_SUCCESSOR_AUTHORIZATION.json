@@ -1,0 +1,71 @@
+{
+  "schema_version": "engineer-osint-v4661-v4660-test-successor-authorization-v1",
+  "authorization_id": "V4661_V4660_TEST_SUCCESSOR_AUTHORIZATION",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "authorized_at": "2026-09-04",
+  "purpose": "Authorize only the exact successor of the v4.6.60 compatibility authorization test so the future B105 workflow compatibility retry can transition atomically from the exact predecessor set to the exact successor set without creating a predictable post-authorization test failure.",
+  "reviewed_dynamic_state": {
+    "main_sha": "bb0bde6165610b3c42adf62e72ad43f137f6b872",
+    "open_pull_request_count": 0,
+    "canonical_current_run_id": "engineer-osint-20260903-B104",
+    "canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca"
+  },
+  "target_test": {
+    "path": "docs/engineer-osint/tests/v4660-b105-workflow-postwrite-compatibility-authorization.test.mjs",
+    "source_git_blob_sha": "e6bd4b89b9f7802103c092c2c67d2da594c32e81",
+    "successor_git_blob_sha": "001a6625e2bdc2fa20f5f0d97b5eb23c29bb4388",
+    "implementation_requires_separate_slice": true
+  },
+  "exact_transition_contract": {
+    "workflow_predecessor_git_blob_sha": "cb7e4d186ff3a79675ace8c48754317ffdede233",
+    "workflow_successor_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "helper_predecessor_git_blob_sha": "7e9480f421cdd811c2660033e4539f926ce5ad7b",
+    "helper_successor_git_blob_sha": "c7527860a5f175000b634a25d170698d70569b53",
+    "historical_test_source_and_successor_blobs": [
+      ["docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs","9939fbcbf9c7f09f61a9a5c82c795873bddd0a61","7fbe5e37d92e53a7c7425844add443ae0e20cf54"],
+      ["docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs","c61540fa8c9be9cb21129e46fe488391502102dd","c1611a3de4b54a17e7ceeb127ca7d3ab271af05f"],
+      ["docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs","558b54212ff856a01be7c1a5dedfaa871e5c820c","f755fc73525db951d84c8880976047f2358c02b7"],
+      ["docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs","a74bdbbf767cdc986862da828ee394cfc09b3334","1b889cd96fb1a057dc374af269a44601bf920444"],
+      ["docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs","9bd857b2f9bb785fd4fcb75be3697bb18712fdd1","0bee343905a8de962d4c105351cf8e124f219c2d"],
+      ["docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs","0d73c824951f3eade09b24f5b59a389fb67b6d33","be37f8ad1a6a31d0c4214d00fe1c28e856632692"],
+      ["docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs","87656fdd7ceccdf55bdb2ceac23093a694165a3b","7a6b45ea97299ffe15643f22c17f6679cdca18f9"],
+      ["docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs","233793d6acb49931b52f56d1543a7b92e9e3b3f6","b16234c3b58a1a829a86cfb66931bc70355ead83"]
+    ],
+    "allowed_repository_modes": [
+      "all eight historical tests at exact source blobs + workflow/helper exact predecessor pair + target test source blob",
+      "all eight historical tests at exact B105 successor blobs + workflow/helper exact successor pair + target test exact successor blob"
+    ],
+    "partial_or_mixed_state_authorized": false,
+    "wildcard_or_current_state_acceptance_authorized": false
+  },
+  "implementation_authorization": {
+    "authorized": true,
+    "class": "CLASS_A_TEST_COMPATIBILITY",
+    "authorized_path": "docs/engineer-osint/tests/v4660-b105-workflow-postwrite-compatibility-authorization.test.mjs",
+    "implementation_requires_separate_slice": true,
+    "may_bundle_with_exact_v4660_eight_test_retry_and_v4658_workflow_helper_successors": true,
+    "canonical_write_authorized": false,
+    "run_store_edit_authorized": false,
+    "photo_review_status_write_authorized": false,
+    "executor_change_authorized": false,
+    "runtime_or_ui_change_authorized": false,
+    "deployment_change_authorized": false,
+    "permission_change_authorized": false,
+    "b105_canonical_execution_authorized": false,
+    "b106_candidate_or_authorization_authorized": false
+  },
+  "forbidden_changes": [
+    "any change to the v4.6.60 authorization JSON",
+    "any target-test state other than exact source blob or exact successor blob",
+    "any acceptance of a mixed eight-test set or partial workflow/helper pair",
+    "any wildcard, current-state, dynamically learned or unknown descendant acceptance",
+    "any canonical, run-store, photo lifecycle, executor, runtime, UI, deployment, trigger, permission, action-version, browser-command or DOM-normalization mutation",
+    "any B105 canonical execution or B106 persistence before the workflow compatibility retry is merged green and B105 is freshly revalidated"
+  ],
+  "execution_state": {
+    "target_test_successor_implemented": false,
+    "workflow_successor_merged": false,
+    "helper_successor_merged": false,
+    "canonical_write_performed": false
+  }
+}
