@@ -1,0 +1,116 @@
+name: ENGINEER OSINT v4.6.56 additive prompt amendment
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4656-modular-prompt-handoff
+    paths:
+      - '.github/workflows/v4656-prompt-master-amendment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  amend-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v5
+        with:
+          ref: chatgpt/engineer-osint-v4656-modular-prompt-handoff
+          fetch-depth: 0
+
+      - name: Verify exact additive baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "chatgpt/engineer-osint-v4656-modular-prompt-handoff"
+          test "$(git hash-object docs/engineer-osint/MASTER_PROMPT.md)" = "0d8792b80c4cce2c00c16185a0ca8b3bccb21324"
+          test -f docs/engineer-osint/PROMPT_CORE.md
+          test -f docs/engineer-osint/PROMPT_RESEARCH.md
+          test -f docs/engineer-osint/PROMPT_DEVELOPMENT.md
+          test -f docs/engineer-osint/PROMPT_HANDOFF_CONTRACT.md
+          test -f docs/engineer-osint/prompt-handoff.schema.json
+
+      - name: Apply exact additive v3.6 amendments
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/engineer-osint/MASTER_PROMPT.md')
+          s=p.read_text()
+
+          def once(old,new,label):
+              global s
+              n=s.count(old)
+              if n!=1:
+                  raise SystemExit(f'{label}: expected exactly one anchor, found {n}')
+              s=s.replace(old,new,1)
+
+          once(
+              '# ENGINEER OSINT — AUTONOMOUS DEVELOPMENT MASTER PROMPT v3.5',
+              '# ENGINEER OSINT — AUTONOMOUS DEVELOPMENT MASTER PROMPT v3.6',
+              'header'
+          )
+          once(
+              'v3.5 je evoluce předchozího ENGINEER OSINT master promptu. Zachovává existující projektové, safety, canonical, OSINT, photo/media, CI a deployment kontrakty, pokud je tato verze výslovně nemění nebo nezpřesňuje.',
+              'v3.6 je kompatibilní evoluce v3.5. Zachovává existující projektové, safety, canonical, OSINT, photo/media, CI, deployment, autonomy, anti-loop a prompt-self-amendment kontrakty a zpřesňuje je o modulární execution views, explicitní RESEARCH → DEVELOPMENT handoff a deterministickou autonomní opravu vlastních chyb.',
+              'intro'
+          )
+
+          architecture='''\n## 1A. PROMPT ARCHITECTURE A ROUTING\n\n`MASTER_PROMPT.md` je jediná kanonická prompt autorita a zůstává plně samostatně spustitelný pro scheduled/legacy wrapper, který neumí selektivní načítání.\n\nOdvozené execution views:\n\n- `PROMPT_CORE.md` — vždy aktivní univerzální safety/GitHub/canonical/CI/autonomy/self-correction kontrakt;\n- `PROMPT_RESEARCH.md` — discovery, aktualizace informací, source/evidence/freshness/provenance, media licence/identity a factual candidate semantics;\n- `PROMPT_DEVELOPMENT.md` — web/UI/runtime/build/schema/tooling/tests/workflows/deployment mechanics, performance a technické opravy;\n- `PROMPT_HANDOFF_CONTRACT.md` + `prompt-handoff.schema.json` — strojově jednoznačný RESEARCH → DEVELOPMENT handoff.\n\nExecution views nejsou nezávislé autority. MASTER_PROMPT a `P0_AUTONOMY_POLICY.md` mají při konfliktu vždy přednost.\n\n### Selective loading\n\nPokud wrapper umí selektivní loading:\n\n- research-only úloha: `CORE + RESEARCH`;\n- development-only úloha: `CORE + DEVELOPMENT`;\n- cross-domain úloha: `CORE + RESEARCH + DEVELOPMENT` pouze pokud je skutečně potřeba factual handoff nebo cross-domain validace.\n\nNačtení doménového modulu bez CORE, rozdílná semantic version nebo konflikt pravidel = fail closed pro write operace.\n\nPrompt set jednoho běhu je immutable. Self-improvement nesmí hot-swapnout pravidla aktuálního běhu; nová prompt revision se aktivuje až v následujícím runu.\n\n### Ownership boundary\n\nRESEARCH vlastní význam faktů, claims, evidence, sources, dates/freshness, provenance, confidence, conflicts, media licence a identity.\n\nDEVELOPMENT vlastní implementaci, UI/runtime, build, schemas, tooling, tests, CI/workflow mechanics, deployment mechanics a technické root-cause opravy.\n\nDEVELOPMENT nesmí měnit factual meaning/licenci/confidence jen proto, aby prošel test nebo UI. RESEARCH nesmí oslabit technický guard/workflow/permission jen proto, aby se candidate publikoval.\n'''
+          once(
+              '**SAFETY FIRST, BUT CEREMONY ONLY WHERE IT BUYS SAFETY.**\n\n## 2. GITHUB JE AUTORITA',
+              '**SAFETY FIRST, BUT CEREMONY ONLY WHERE IT BUYS SAFETY.**\n'+architecture+'\n## 2. GITHUB JE AUTORITA',
+              'architecture'
+          )
+
+          handoff='''## 15A. RESEARCH → DEVELOPMENT HANDOFF\n\nCross-domain factual-dependent vývoj používá `PROMPT_HANDOFF_CONTRACT.md` a `prompt-handoff.schema.json`.\n\nRESEARCH předává minimálně status, base/parent, factual scope, claims, sources, evidence, conflicts, unresolved, safety classification, media, expected effect, invariants, required downstream validations, deterministic hashes, forbidden mutations a freshness.\n\nDEVELOPMENT smí factual-dependent implementaci provést pouze při `status=READY_FOR_DEVELOPMENT` a validním fresh handoffu. `BLOCKED_RESEARCH` nebo `REVIEW_REQUIRED` nesmí downstream agent svévolně převést na READY.\n\nStale base/parent/hash/freshness = `STALE_HANDOFF` a návrat k RESEARCH. Factual/evidence/media rozpor = `HANDOFF_REJECTED` s observed/intended layer a potřebnou research změnou; DEVELOPMENT přitom ponechá factual scope nezměněný.\n\nPlatný fresh handoff je důvod neopakovat celý research. Cílenou revalidaci proveď pouze při stale/freshness/material-contradiction podmínce.\n\n'''
+          once(
+              '- lessons learned.\n\n## 16. PHOTOS / MEDIA',
+              '- lessons learned.\n\n'+handoff+'## 16. PHOTOS / MEDIA',
+              'handoff'
+          )
+
+          correction='''## 17A. AUTONOMOUS SELF-CORRECTION LOOP\n\nPři vlastní chybě, red CI, stale assumption nebo blockeru použij:\n\n**DETECT → CLASSIFY → ISOLATE → FIX → VERIFY → GENERALIZE → PREVENT → CONTINUE**\n\n1. DETECT — zachyť přesný symptom a první failing layer.\n2. CLASSIFY — rozliš vlastní chybu postupu, stale state, research/evidence problém, implementation bug, stale lifecycle/test assertion, executor/publication bug nebo safety-boundary problém.\n3. ISOLATE — minimalizuj scope a určuj `intended failure/rejection layer` versus `observed layer`.\n4. FIX — pokud je oprava bezpečná v existujícím scope, autonomně ji proveď bez zbytečného čekání.\n5. VERIFY — nejprve targeted kontrola, potom required exact-head CI.\n6. GENERALIZE — zjisti, zda jde o opakovatelnou třídu chyby.\n7. PREVENT — přidej dřívější guard/test/validator/prompt rule, pokud je bezpečný a přiměřený.\n8. CONTINUE — po fresh readu pokračuj nejbližším bezpečným krokem.\n\nZakázané pseudo-opravy:\n\n- změnit expected hodnotu bez důkazu;\n- wildcardnout historical/lifecycle guard;\n- skrýt nebo odstranit evidence/conflict;\n- změnit factual meaning/licenci/confidence kvůli testu;\n- zmenšit test surface jen proto, aby build prošel;\n- rozšířit authority/permissions/scope jako workaround.\n\nPokud fix vyžaduje změnu canonical/history, safety boundary, authorization scope nebo permissions, zastav běžnou opravu a použij správný CLASS A proces.\n\nStejná třída blockeru podruhé automaticky aktivuje ANTI-LOOP meta-analýzu.\n\n'''
+          once(
+              'Například pokud nový veřejný vizuál selže kvůli chybějícímu českému názvu, neoprav pouze daný záznam; zajisti automatickou kontrolu budoucích relevantních kandidátů před authorization.\n\n## 18. ROADMAP A VALUE ROTATION',
+              'Například pokud nový veřejný vizuál selže kvůli chybějícímu českému názvu, neoprav pouze daný záznam; zajisti automatickou kontrolu budoucích relevantních kandidátů před authorization.\n\n'+correction+'## 18. ROADMAP A VALUE ROTATION',
+              'self-correction'
+          )
+
+          immutability='''### v3.6 Prompt-set immutability clarification\n\nToto pravidlo zpřesňuje starší self-amendment formulace: agent smí bezpečnou prompt změnu během běhu navrhnout, repository implementovat a regression-validovat, ale **nesmí ji použít ke zpětné změně pravidel právě probíhajícího běhu**. Aktivace nové prompt revision nastává až v následujícím runu.\n\nProto se v3.6 proces interpretuje jako:\n\n**NAVRHNI → INTERNĚ VALIDUJ → IMPLEMENTUJ → REGRESSION VALIDUJ → AKTIVUJ V DALŠÍM RUNU → REPORTUJ**\n\nMASTER/CORE/RESEARCH/DEVELOPMENT aktivního prompt setu musí mít shodnou semantic version. Mismatch = fail closed pro write operace.\n\n'''
+          once(
+              'bez čekání na další potvrzení uživatele.\n\n### Prompt Compatibility Rule',
+              'bez čekání na další potvrzení uživatele.\n\n'+immutability+'### Prompt Compatibility Rule',
+              'prompt-immutability'
+          )
+
+          changelog='''\n## CHANGELOG\n\n### v3.6 — modular routing, exact handoff, autonomous self-correction\n\n- zachovává celý v3.5 safety/product contract a jeden kanonický `MASTER_PROMPT.md`;\n- přidává odvozené CORE/RESEARCH/DEVELOPMENT execution views;\n- formalizuje RESEARCH → DEVELOPMENT handoff v prose i JSON Schema;\n- zavádí stale/rejection routing bez downstream factual mutation;\n- zavádí `DETECT → CLASSIFY → ISOLATE → FIX → VERIFY → GENERALIZE → PREVENT → CONTINUE`;\n- zachovává autonomní opravu vlastních bezpečně opravitelných chyb, ale zakazuje rozšíření authority/safety scope jako workaround;\n- prompt self-improvement je repository-validovatelný během běhu, ale aktivuje se až v následujícím runu.\n'''
+          s=s.rstrip()+"\n"+changelog
+          p.write_text(s)
+          PY
+
+      - name: Verify scope and preserved contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git diff --name-only | sort)" = "docs/engineer-osint/MASTER_PROMPT.md"
+          grep -Fq '# ENGINEER OSINT — AUTONOMOUS DEVELOPMENT MASTER PROMPT v3.6' docs/engineer-osint/MASTER_PROMPT.md
+          grep -Fq '`READY_FOR_IMPORT` je execution trigger' docs/engineer-osint/MASTER_PROMPT.md
+          grep -Fq 'detail odpovídající karty obrázek skutečně renderuje' docs/engineer-osint/MASTER_PROMPT.md
+          grep -Fq 'produkční UX/media defect' docs/engineer-osint/MASTER_PROMPT.md
+          grep -Fq 'DETECT → CLASSIFY → ISOLATE → FIX → VERIFY → GENERALIZE → PREVENT → CONTINUE' docs/engineer-osint/MASTER_PROMPT.md
+          grep -Fq 'AKTIVUJ V DALŠÍM RUNU' docs/engineer-osint/MASTER_PROMPT.md
+
+      - name: Commit only amended master prompt
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/engineer-osint/MASTER_PROMPT.md
+          test "$(git diff --cached --name-only)" = "docs/engineer-osint/MASTER_PROMPT.md"
+          git commit -m 'v4.6.56: apply additive v3.6 master prompt amendments'
+          git push origin HEAD:chatgpt/engineer-osint-v4656-modular-prompt-handoff
