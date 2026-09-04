@@ -20,6 +20,8 @@ const runId='engineer-osint-20260903-B104';
 const parentRunId='engineer-osint-20260902-B103';
 const parentCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 const reviewedMainSha='d2336831802af1f04fd797b313db0a34d9644900';
+const expectedCandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
+const expectedCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');
@@ -46,6 +48,16 @@ const normalizeDom=source=>{
   return s.replace(/\s+/g,' ').trim();
 };
 
+const exactPhase=store=>{
+  if(store.report.current_run_id===parentRunId){
+    assert.equal(store.report.canonical_sha256,parentCanonicalSha);
+    return 'PRE_EXECUTION';
+  }
+  assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→corrected B104 lifecycle');
+  assert.equal(store.report.canonical_sha256,expectedCanonicalSha);
+  return 'POST_EXECUTION';
+};
+
 test('v4.6.45 corrected B104 candidate is exact three-card enrichment and supersedes stale authorization inputs',()=>{
   const raw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(raw);
@@ -56,6 +68,7 @@ test('v4.6.45 corrected B104 candidate is exact three-card enrichment and supers
   const staleReadiness=JSON.parse(readFileSync(staleReadinessPath,'utf8'));
   const acquisitionByCard=new Map(acquisition.entries.map(item=>[item.card_id,item]));
 
+  assert.equal(sha256(raw),expectedCandidateSha);
   assert.equal(candidate.state.run_id,runId);
   assert.equal(candidate.state.parent_run_id,parentRunId);
   assert.equal(candidate.continuity.reviewed_main_sha,reviewedMainSha);
@@ -106,60 +119,77 @@ test('v4.6.45 corrected B104 candidate is exact three-card enrichment and supers
   assert.equal(archivedLeguan.license,'CC BY-SA 4.0','historical acquisition metadata remains immutable evidence of the superseded assertion');
 });
 
-test('v4.6.45 discovers corrected B104 canonical hash, PUBLIC-CZ result and normalized browser DOM digest without authoritative writes',()=>{
+test('v4.6.45 discovers or verifies corrected B104 canonical hash, PUBLIC-CZ result and normalized browser DOM digest without authoritative writes',()=>{
   const browser=findBrowser();
   assert.ok(browser,'v4.6.45 browser discovery requires Chrome/Chromium');
   const candidateRaw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(candidateRaw);
   const candidateSha=sha256(candidateRaw);
+  assert.equal(candidateSha,expectedCandidateSha);
   const successorRaw=readFileSync(successorPath,'utf8');
   const successorSha=sha256(successorRaw);
   const lifecycleSourceSha=sha256(readFileSync(lifecycleSourcePath,'utf8'));
   const live=loadCanonicalRunStore({root});
-  assert.equal(live.report.current_run_id,parentRunId);
-  assert.equal(live.report.canonical_sha256,parentCanonicalSha);
-  const resultingCanonicalSha=canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate));
+  const phase=exactPhase(live);
+  const resultingCanonicalSha=phase==='PRE_EXECUTION'
+    ?canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate))
+    :expectedCanonicalSha;
+  assert.equal(resultingCanonicalSha,expectedCanonicalSha);
+  if(phase==='POST_EXECUTION'){
+    const persistedRaw=readFileSync(`${root}/data/runs/${runId}.json`,'utf8');
+    assert.equal(sha256(persistedRaw),candidateSha);
+    assert.deepEqual(JSON.parse(persistedRaw),candidate);
+    assert.equal(sha256(readFileSync(lifecycleSourcePath)),successorSha);
+  }
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4645-b104-cc0-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
-    const authRel=`${root}/.v4645-b104-cc0-discovery-authorization.json`;
-    const auth={
-      schema_version:'engineer-osint-b104-cc0-discovery-simulation-v1',
-      status:'READY_FOR_APPEND',
-      candidate_path:candidatePath,
-      candidate_run_id:runId,
-      expected_parent_run_id:parentRunId,
-      expected_parent_canonical_sha256:parentCanonicalSha,
-      exact_candidate_file_sha256:candidateSha,
-      expected_resulting_canonical_sha256:resultingCanonicalSha,
-      authorized_guard_successor_contract:{
-        guarded_run_id:runId,
-        authorization_path:authRel,
+    if(phase==='PRE_EXECUTION'){
+      const authRel=`${root}/.v4645-b104-cc0-discovery-authorization.json`;
+      const auth={
         schema_version:'engineer-osint-b104-cc0-discovery-simulation-v1',
-        required_status:'READY_FOR_APPEND',
-        require_exact_candidate_hashes:true,
-        allow_wildcard_or_current_state_acceptance:false
-      },
-      authorization:{
-        append_exact_candidate_only:true,
-        standard_append_run_write_required:true,
-        one_run_only:true,
-        isolated_review_branch_required:true,
-        execution_requires_separate_slice:true,
-        allow_manual_manifest_or_hash_edit:false,
-        allow_future_run_same_slice:false,
-        allow_canonical_history_rewrite:false
-      }
-    };
-    writeFileSync(join(temp,authRel),JSON.stringify(auth,null,2)+'\n');
-    const append=JSON.parse(run(temp,`${root}/append-run.mjs`,candidatePath,'--write','--authorization',authRel));
-    assert.equal(append.status,'APPENDED');
-    assert.equal(append.entry.run_id,runId);
-    assert.equal(append.entry.parent_run_id,parentRunId);
-    assert.equal(append.entry.canonical_sha256,resultingCanonicalSha);
+        status:'READY_FOR_APPEND',
+        candidate_path:candidatePath,
+        candidate_run_id:runId,
+        expected_parent_run_id:parentRunId,
+        expected_parent_canonical_sha256:parentCanonicalSha,
+        exact_candidate_file_sha256:candidateSha,
+        expected_resulting_canonical_sha256:resultingCanonicalSha,
+        authorized_guard_successor_contract:{
+          guarded_run_id:runId,
+          authorization_path:authRel,
+          schema_version:'engineer-osint-b104-cc0-discovery-simulation-v1',
+          required_status:'READY_FOR_APPEND',
+          require_exact_candidate_hashes:true,
+          allow_wildcard_or_current_state_acceptance:false
+        },
+        authorization:{
+          append_exact_candidate_only:true,
+          standard_append_run_write_required:true,
+          one_run_only:true,
+          isolated_review_branch_required:true,
+          execution_requires_separate_slice:true,
+          allow_manual_manifest_or_hash_edit:false,
+          allow_future_run_same_slice:false,
+          allow_canonical_history_rewrite:false
+        }
+      };
+      writeFileSync(join(temp,authRel),JSON.stringify(auth,null,2)+'\n');
+      const append=JSON.parse(run(temp,`${root}/append-run.mjs`,candidatePath,'--write','--authorization',authRel));
+      assert.equal(append.status,'APPENDED');
+      assert.equal(append.entry.run_id,runId);
+      assert.equal(append.entry.parent_run_id,parentRunId);
+      assert.equal(append.entry.canonical_sha256,resultingCanonicalSha);
+      cpSync(join(temp,successorPath),join(temp,lifecycleSourcePath));
+    } else {
+      const copied=loadCanonicalRunStore({root:join(temp,root)});
+      assert.equal(copied.report.current_run_id,runId);
+      assert.equal(copied.report.canonical_sha256,expectedCanonicalSha);
+      assert.equal(sha256(readFileSync(join(temp,`${root}/data/runs/${runId}.json`))),candidateSha);
+      assert.equal(sha256(readFileSync(join(temp,lifecycleSourcePath))),successorSha);
+    }
 
-    cpSync(join(temp,successorPath),join(temp,lifecycleSourcePath));
     const photo=JSON.parse(run(temp,`${root}/audit-photo-baseline.mjs`));
     assert.equal(photo.current_run_id,runId);
     assert.equal(photo.canonical_sha256,resultingCanonicalSha);
@@ -200,6 +230,7 @@ test('v4.6.45 discovers corrected B104 canonical hash, PUBLIC-CZ result and norm
 
     console.log('V4645_B104_CC0_REDISCOVERY',JSON.stringify({
       reviewed_main_sha:reviewedMainSha,
+      phase,
       candidate_sha256:candidateSha,
       expected_resulting_canonical_sha256:resultingCanonicalSha,
       lifecycle_source_sha256:lifecycleSourceSha,
