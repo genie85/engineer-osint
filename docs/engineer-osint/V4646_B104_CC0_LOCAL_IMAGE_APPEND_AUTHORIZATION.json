@@ -1,0 +1,193 @@
+{
+  "schema_version": "engineer-osint-b104-cc0-local-image-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-04",
+  "reviewed_main_sha": "8d6912ac7bc5929d9eb30b87d4ee77a8668fd2ff",
+  "readiness_path": "docs/engineer-osint/V4645_B104_CC0_LOCAL_IMAGE_READINESS.json",
+  "readiness_git_blob_sha": "9d383edc70036edd9ba5410408479f974d78d65c",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4645-b104-wave2-local-images-cc0-public-cz.json",
+  "candidate_git_blob_sha": "471c749fae5ed92fc56250efd26d292f0aeac3e0",
+  "candidate_run_id": "engineer-osint-20260903-B104",
+  "expected_parent_run_id": "engineer-osint-20260902-B103",
+  "expected_parent_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
+  "exact_candidate_file_sha256": "0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9",
+  "expected_resulting_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+  "expected_updated_record_count": 3,
+  "expected_new_visual_count": 3,
+  "expected_new_media_count": 0,
+  "expected_card_ids": [
+    "ENG-TECH-0045",
+    "ENG-TECH-0048",
+    "ENG-TECH-0049"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0045",
+    "ENG-VIS-LOCAL-0048",
+    "ENG-VIS-LOCAL-0049"
+  ],
+  "photo_review_status_successor": {
+    "source_path": "docs/engineer-osint/photo-review-batches/v4639.json",
+    "source_git_blob_sha": "61216a9b4293f3f8b22887699048f63923a3a4a6",
+    "source_sha256": "acb2021c7f04cc5387d8c8c320e0d5f724559b18742da05368a2d14954e2a841",
+    "successor_path": "docs/engineer-osint/photo-review-candidates/v4645-b104-v4639-local-image-status-cc0.json",
+    "successor_git_blob_sha": "1672c828c2a36594e9e8833615d03e1652c318db",
+    "successor_sha256": "016de834e7261c9678d7415d07be932347fae9e6f8ca644661a7994393ded3c6",
+    "expected_cards_with_local_image": 12,
+    "expected_ready_for_import": 7,
+    "expected_photo_coverage_percent": 24
+  },
+  "source_acquisition_manifest": {
+    "path": "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
+    "git_blob_sha": "67eed0e5ce9af77d8e407aeff42dc04501bfad26",
+    "historical_leguan_license_assertion_superseded": true
+  },
+  "source_license_authority": {
+    "path": "docs/engineer-osint/photo-research/v4644-leguan-license-authority-correction.json",
+    "git_blob_sha": "6e814efb5ccbad4ebfa84baeb8b522a5ea51587b",
+    "card_id": "ENG-TECH-0049",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+    "author_rightsholder": "Dutch Ministry of Defence",
+    "license": "CC0 1.0 Universal Public Domain Dedication",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "vrt_ticket": "2010120610018876"
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0045",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0045-m1074-jab.webp",
+      "sha256": "9fd505a28107b3657226bc660b8d8b210a83a3e1c2eb5c049778956d96462055",
+      "git_blob_sha": "2b32891f7c0f34823435152efd5723c243fbaac5"
+    },
+    {
+      "card_id": "ENG-TECH-0048",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0048-m1150-abv.webp",
+      "sha256": "584b86075ce8b1bb729fe3f4bd155daeb435145607411bd68938972464efc1dd",
+      "git_blob_sha": "51ba4b4241d02c1d44bce98213a96c8bdd1a0ed9"
+    },
+    {
+      "card_id": "ENG-TECH-0049",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0049-leguan.webp",
+      "sha256": "c75b51d731060a179da3379ddf0791a28a9f58903d63ded6dee3cc85777d81ea",
+      "git_blob_sha": "394a325117edd2269ac16d455ae8bd15dbb60068"
+    }
+  ],
+  "preauthorization_evidence": {
+    "discovery_head_sha": "7bde2609910fa0076a46f57019d612f4ed6a4b1e",
+    "discovery_workflow_run_id": 33833409269,
+    "discovery_job_id": 100900943536,
+    "workflow": "ENGINEER OSINT final identity-fix retirement regression",
+    "workflow_conclusion": "success",
+    "test_total": 544,
+    "test_pass": 541,
+    "test_skipped": 3,
+    "test_fail": 0,
+    "public_cz_ratchet": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0,
+    "expected_b104_browser_normalized_dom_sha256": "5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c",
+    "readiness_validation_head_sha": "ecb44d31fc1d58d63963b943b0be4d7cb0e65324",
+    "readiness_validation_runs": [
+      {
+        "workflow_run_id": 33833694200,
+        "job_id": 100901814157,
+        "workflow": "ENGINEER OSINT final identity-fix retirement regression",
+        "conclusion": "success"
+      },
+      {
+        "workflow_run_id": 33833694194,
+        "workflow": "ENGINEER OSINT runtime audit snapshot",
+        "conclusion": "success"
+      },
+      {
+        "workflow_run_id": 33833694230,
+        "workflow": "ENGINEER OSINT first-three overlay retirement regression",
+        "conclusion": "success"
+      },
+      {
+        "workflow_run_id": 33833694222,
+        "workflow": "Deploy ENGINEER OSINT to GitHub Pages",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "browser_workflow_successor": {
+    "path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "source_git_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f",
+    "guarded_run_id": "engineer-osint-20260903-B104",
+    "normalized_dom_sha256": "5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c",
+    "required_exact_change": "Add exactly the B104 run-to-digest pair to both expected browser-digest maps and make no other workflow semantic change.",
+    "require_both_expected_digest_maps": true,
+    "allow_only_exact_b104_pair_addition": true,
+    "implementation_requires_separate_slice": true,
+    "must_be_merged_and_green_before_canonical_execution": true
+  },
+  "protected_baseline": {
+    "authorized_executor_path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+    "authorized_executor_git_blob_sha": "306f6aefc969d95d8dcb71373ea2d99f6cdb114f",
+    "authorized_executor_workflow_path": ".github/workflows/authorized-canonical-executor.yml",
+    "authorized_executor_workflow_git_blob_sha": "a0c390755bbd38bfbe5d1329155606bb84dc4a93",
+    "identity_fix_retirement_workflow_git_blob_sha": "ba0517693b06a0360e1254f47e8b9004942bba0f"
+  },
+  "authorized_guard_successor_contract": {
+    "guarded_run_id": "engineer-osint-20260903-B104",
+    "authorization_path": "docs/engineer-osint/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "schema_version": "engineer-osint-b104-cc0-local-image-append-authorization-v1",
+    "required_status": "READY_FOR_APPEND",
+    "require_exact_candidate_hashes": true,
+    "require_exact_collection_counts": true,
+    "require_exact_card_visual_ids": true,
+    "require_exact_photo_status_successor": true,
+    "require_candidate_no_write_flags": true,
+    "require_corrected_leguan_cc0_authority": true,
+    "allow_wildcard_or_current_state_acceptance": false
+  },
+  "required_preconditions": {
+    "b103_is_current_run": true,
+    "exact_corrected_b104_candidate_reviewed": true,
+    "real_public_cz_simulation_green": true,
+    "exact_b104_browser_digest_discovered": true,
+    "all_three_local_binary_hashes_pinned": true,
+    "leguan_file_license_is_cc0": true,
+    "historical_cc_by_sa_assertion_is_superseded": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "photo_review_status_successor_applied_must_remain_false_before_execution": true,
+    "browser_workflow_successor_must_be_implemented_and_green_before_execution": true
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "standard_append_run_write_required": true,
+    "apply_exact_photo_review_status_successor": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "browser_workflow_successor_authorized": true,
+    "browser_workflow_successor_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_photo_binary_mutation": false,
+    "allow_photo_status_other_than_exact_successor": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_historical_authorization_rewrite": false,
+    "allow_executor_change": false,
+    "allow_other_workflow_change": false,
+    "allow_runtime_change": false,
+    "allow_unrelated_content_change": false
+  },
+  "supersedes_authorization": {
+    "path": "docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "reason": "The v4.6.43 authorization pins a superseded CC BY-SA 4.0 B104 candidate/lifecycle identity and is non-executable after the v4.6.44 correction."
+  },
+  "execution_order": [
+    "Implement only the exact B104 browser-digest successor in the pinned identity-fix retirement workflow in a separate write slice; require exact-head CI and green merged main.",
+    "Only after that successor is on green main, create a separate isolated canonical execution-request PR for B104 and let the existing authorized executor materialize the exact corrected candidate plus exact corrected lifecycle successor."
+  ],
+  "execution_state": {
+    "browser_workflow_successor_applied": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  },
+  "note": "This authorization replaces the stale v4.6.43 decision with the corrected CC0 B104 identity. It performs no canonical, lifecycle, runtime or workflow mutation. LEGUAN media authority is the v4.6.44 correction: the file-level licence is CC0 1.0, while the older acquisition manifest is retained only as immutable binary/provenance history. The exact browser successor and canonical execution remain separate protected write slices."
+}
