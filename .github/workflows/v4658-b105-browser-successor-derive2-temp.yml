@@ -24,7 +24,7 @@ jobs:
           set -euo pipefail
           test "$(git hash-object .github/workflows/identity-fix-retirement-regression.yml)" = cb7e4d186ff3a79675ace8c48754317ffdede233
           test "$(git hash-object docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs)" = 7e9480f421cdd811c2660033e4539f926ce5ad7b
-          test "$(git hash-object docs/engineer-osint/v4658-b105-successor-derive-temp.py)" = 2c41779470d15cebb13eafc02b28c7c4944b7cc1
+          test "$(git hash-object docs/engineer-osint/v4658-b105-successor-derive-temp.py)" = 09850a29b5e3299f5ce75da3707d4e85a5876a22
       - name: Derive exact successors without repository writes
         run: python3 docs/engineer-osint/v4658-b105-successor-derive-temp.py
       - name: Confirm repository remained unmodified
