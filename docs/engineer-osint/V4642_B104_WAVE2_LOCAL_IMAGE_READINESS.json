@@ -1,6 +1,6 @@
 {
   "schema_version": "engineer-osint-b104-wave2-local-image-readiness-v1",
-  "status": "READY_FOR_EXACT_REVIEW",
+  "status": "BLOCKED_SOURCE_LICENSE_CORRECTION",
   "reviewed_main_sha": "c2ad3befded2b69f4490b1778f5e2535f690ab08",
   "parent_run_id": "engineer-osint-20260902-B103",
   "parent_canonical_sha256": "d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c",
@@ -14,6 +14,19 @@
   "lifecycle_successor_sha256": "179c77d37f933368013a2e74f0c237109168c0abeca92167f5b08ae4b663b978",
   "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
   "source_acquisition_git_blob_sha": "67eed0e5ce9af77d8e407aeff42dc04501bfad26",
+  "blocking_correction": {
+    "card_id": "ENG-TECH-0049",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+    "authoritative_license": "CC0 1.0 Universal Public Domain Dedication",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "vrt_ticket": "2010120610018876",
+    "verified_on": "2026-09-04",
+    "reason": "The current Wikimedia Commons file-page Licensing section explicitly states CC0 1.0. The v4.6.42 lifecycle successor and v4.6.43 authorization were derived from an incorrect CC BY-SA 4.0 assertion and must not be executed.",
+    "stale_authorization_path": "docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "execution_permitted": false,
+    "requires_fresh_corrected_discovery": true,
+    "requires_new_authorization": true
+  },
   "discovery_ci": {
     "head_sha": "ee017072fd4ba224a9da072dc50c72a3bc5d2498",
     "workflow_run_id": 33808365545,
