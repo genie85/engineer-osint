@@ -1,0 +1,297 @@
+from pathlib import Path
+
+root=Path('docs/engineer-osint')
+
+
+def replace_once(text, old, new, label):
+    count=text.count(old)
+    if count != 1:
+        raise SystemExit(f'{label}: expected exactly one anchor, found {count}')
+    return text.replace(old,new,1)
+
+
+master_path=root/'MASTER_PROMPT.md'
+master=master_path.read_text()
+master=replace_once(
+    master,
+    '# ENGINEER OSINT — AUTONOMOUS DEVELOPMENT MASTER PROMPT v3.6',
+    '# ENGINEER OSINT — AUTONOMOUS DEVELOPMENT MASTER PROMPT v3.7',
+    'master header',
+)
+master=replace_once(
+    master,
+    'v3.6 je kompatibilní evoluce v3.5. Zachovává existující projektové, safety, canonical, OSINT, photo/media, CI, deployment, autonomy, anti-loop a prompt-self-amendment kontrakty a zpřesňuje je o modulární execution views, explicitní RESEARCH → DEVELOPMENT handoff a deterministickou autonomní opravu vlastních chyb.',
+    'v3.7 je kompatibilní evoluce v3.6. Zachovává celý v3.6 safety/product/modular/handoff/self-correction kontrakt a přidává high-throughput/no-quality-loss orchestration: batch read-only snapshoty, reuse immutable exact Git objektů, safe runway, CLASS B/C mutation bundles, final-head-first CI, coalescing známých oprav a efektivní CI observability.',
+    'master intro',
+)
+
+throughput='''## 2A. HIGH-THROUGHPUT / NO-QUALITY-LOSS EXECUTION
+
+Rychlost zvyšuj změnou orchestrace, nikoli snížením kvality nebo odstraněním bezpečnostní kontroly.
+
+### Dynamic versus immutable state
+
+Rozlišuj dvě kategorie:
+
+- **DYNAMIC STATE** — `main`, branch head, PR state, diff/mergeability, CI status, canonical tip/current run, authorization applicability, deployment/Pages stav a jiné mutable reference. Tyto hodnoty znovu fresh-readni na každém kritickém gate, kde mohou změnit rozhodnutí.
+- **IMMUTABLE EXACT OBJECT** — exact Git commit SHA, Git blob SHA, exact hash-pinned immutable run, candidate, authorization nebo evidence artefakt. Pokud byl takový objekt v aktuálním runu ověřen podle své exact identity, jeho obsah lze znovu použít bez opakovaného fetch. Změní-li se deklarovaná identity nebo se pracuje s mutable ref místo exact objektu, proveď nový read.
+
+Reuse immutable objektu nikdy nenahrazuje fresh verification dynamického reference, který rozhoduje o write/merge/execution.
+
+### Batch-first fresh snapshot
+
+Nezávislé read-only dotazy prováděj podle možností v jednom batch/parallel roundu. Typicky lze současně zjistit `main`, relevantní PR/branches, CI surface a potřebné exact soubory/metadata. Serializuj pouze kroky, jejichž správný vstup skutečně závisí na výsledku předchozího kroku.
+
+Paralelizace read-only získávání dat nesmí měnit jejich individuální validaci nebo autoritu.
+
+### Safe runway
+
+Po fresh state pokračuj autonomně přes všechny jednoznačně povolené reverzibilní kroky stejného slice až k prvnímu skutečnému external/safety gate. Nezastavuj pouze proto, že vznikla branch, commit, PR nebo targeted test, pokud je další krok již povolený a jeho vstupy jsou známé.
+
+V jednom uživatelském kole lze dokončit více navazujících slices pouze sekvenčně: předchozí slice musí být plně uzavřen včetně proporcionálního post-merge gate a před dalším slice musí proběhnout nový fresh state/collision check. Pravidlo **ONE ACTIVE WRITE SLICE** zůstává beze změny.
+
+### CLASS B/C mutation bundle
+
+Pro CLASS B nebo CLASS C lze použít mutation bundle:
+
+1. jeden fresh preflight;
+2. předem vymezený účel, branch a explicitní path/scope set;
+3. několik souvisejících mutací uvnitř stejného slice bez opakovaného full fresh-readu mezi každým souborem;
+4. jeden exact final diff/read-back před PR nebo dalším kritickým gate.
+
+Mutation bundle okamžitě končí a vyžaduje nový fresh read, pokud se objeví external state dependency, scope expansion, neočekávaný diff nebo kolize.
+
+Mutation bundle je zakázán pro CLASS A canonical/history mutation, authorization/execution, permission/security-boundary změnu nebo jinou operaci, kde každý jednotlivý protected write vyžaduje vlastní exact guard.
+
+### Validate early, full CI on finalized head
+
+Před drahým full-CI cyklem proveď všechny bezpečně dostupné targeted/static/deterministic kontroly, preflighty, simulace a self-review. Pokud jedna analýza identifikuje několik oprav stejného root cause a všechny jsou uvnitř stejného povoleného scope, coalescuj je před dalším full-CI během.
+
+Required exact-head CI se tím nesnižuje: celý požadovaný CI surface musí projít na finalizovaném PR headu. Jakákoli následná změna headu zneplatní předchozí exact-head CI a vyžaduje nový relevantní full-CI průchod.
+
+### Efficient CI observability
+
+Při čekání na CI nejprve čti agregovaný workflow/check status. Detail jobu, stepů nebo logů načítej až při `FAILURE`, `CANCELLED`, nejasnosti, nondeterminismu nebo když je detail explicitně potřebný jako důkaz. Green workflow bez takového důvodu znovu nerozebírej po jednotlivých stepech.
+
+### No-quality-trade rule
+
+Optimalizace je zakázána, pokud by snížila evidence quality, freshness, counter-evidence/conflict search, media licence/identity jistotu, required test surface, exact-head semantics, fail-closed, auditovatelnost, canonical/historical ochranu nebo deployment/security boundary.
+
+**DĚLEJ STEJNÉ NEBO SILNĚJŠÍ KONTROLY CHYTŘEJI, NE MÉNĚ KONTROL.**
+
+'''
+anchor='Externí změnu nikdy nepřepisuj naslepo.\n\n## 3. ONE ACTIVE WRITE SLICE'
+master=replace_once(
+    master,
+    anchor,
+    'Externí změnu nikdy nepřepisuj naslepo.\n\n'+throughput+'## 3. ONE ACTIVE WRITE SLICE',
+    'master throughput insertion',
+)
+
+changelog='''
+
+### v3.7 — high-throughput / no-quality-loss execution
+
+- zachovává v3.6 modular routing, exact handoff, self-correction a celé Safety Constitution;
+- rozlišuje dynamic state od immutable exact Git/hash objektů a dovoluje jejich bezpečný reuse v rámci jednoho runu;
+- zavádí batch-first paralelizaci nezávislých read-only dotazů;
+- zavádí safe runway přes reverzibilní mezikroky až k reálnému gate;
+- dovoluje úzký CLASS B/C mutation bundle, ale výslovně jej zakazuje pro CLASS A canonical/history/authorization/permissions/security boundary;
+- přesouvá targeted/deterministic validation před drahý full-CI cyklus a coalescuje známé in-scope opravy stejného root cause;
+- required exact-head CI na finalizovaném headu zůstává povinný a změna headu starý CI důkaz zneplatní;
+- CI observability používá agregovaný stav jako první vrstvu a detailní logy jen při failure/cancel/ambiguity nebo explicitní důkazní potřebě;
+- research discovery může běžet paralelně, ale factual/conflict/licence/identity adjudication zůstává individuální;
+- jakýkoli speed optimization, který by snížil kvalitu, freshness, evidence, required test surface, exactness, fail-closed nebo auditovatelnost, je zakázán.
+'''
+if '### v3.7 — high-throughput / no-quality-loss execution' in master:
+    raise SystemExit('master already contains v3.7 changelog')
+master=master.rstrip()+changelog+'\n'
+master_path.write_text(master)
+
+core_path=root/'PROMPT_CORE.md'
+core=core_path.read_text()
+if core.count('v3.6') != 3:
+    raise SystemExit(f'core: expected 3 v3.6 markers, found {core.count("v3.6")}')
+core=core.replace('v3.6','v3.7')
+core_block='''## 8A. High-throughput / no-quality-loss orchestration
+
+- Nezávislé read-only fresh-state dotazy batchuj/paralelizuj; serializuj pouze skutečné dependency.
+- Dynamic state (`main`, head, PR/CI, canonical tip, deployment) fresh-readni na kritických gates. Exact immutable commit/blob/hash objekt ověřený v tomto runu můžeš bezpečně reuse bez redundantního fetch, dokud se jeho identity nezmění.
+- Použij safe runway: autonomně pokračuj přes povolené reverzibilní mezikroky stejného slice až k prvnímu skutečnému external/safety gate.
+- CLASS B/C může použít mutation bundle po jednom fresh preflightu pouze pro předem vymezený path/scope set; zakonči jej exact final diff/read-backem. CLASS A canonical/history/authorization/permissions/security-boundary operace bundle používat nesmějí.
+- Před full CI proveď dostupné targeted/static/deterministic kontroly a coalescuj známé stejno-root-cause opravy uvnitř stejného scope. Required exact-head CI na finalizovaném headu zůstává povinný; změna headu starý CI důkaz zneplatní.
+- CI sleduj agregovaně jako první vrstvu; detail jobu/stepu/logu čti při failure, cancel, ambiguity, nondeterminismu nebo explicitní důkazní potřebě.
+- Optimalizace nesmí snížit evidence/freshness, required test surface, exactness, fail-closed, auditovatelnost ani canonical/historical/security ochranu.
+
+'''
+core=replace_once(core,'## 9. Autonomous self-correction',core_block+'## 9. Autonomous self-correction','core throughput insertion')
+core_path.write_text(core)
+
+research_path=root/'PROMPT_RESEARCH.md'
+research=research_path.read_text()
+if research.count('v3.6') != 3:
+    raise SystemExit(f'research: expected 3 v3.6 markers, found {research.count("v3.6")}')
+research=research.replace('v3.6','v3.7')
+research_block='''## 8A. Parallel discovery, individual adjudication
+
+Nezávislé source/card/claim discovery dotazy lze batchovat a paralelizovat. Stejný exact source retrieval lze v rámci runu reuse napříč více claims, pokud jeho source identity, datum/freshness a případný content hash zůstávají explicitní a beze změny.
+
+Paralelizace se týká získávání podkladů, nikoli zkratky v rozhodování. Každý claim, conflict, confidence, media licence a identity classification musí být vyhodnocen individuálně podle vlastních evidence vztahů.
+
+Batch similarity, společný výrobce, stejná doména nebo vizuální podobnost nikdy samy automaticky nezvyšují `FACT`, confidence, licence ani identity status. Counter-evidence search, freshness a provenance se kvůli throughputu nesmí omezit.
+
+'''
+research=replace_once(research,'## 9. Boundaries',research_block+'## 9. Boundaries','research throughput insertion')
+research_path.write_text(research)
+
+dev_path=root/'PROMPT_DEVELOPMENT.md'
+dev=dev_path.read_text()
+if dev.count('v3.6') != 3:
+    raise SystemExit(f'development: expected 3 v3.6 markers, found {dev.count("v3.6")}')
+dev=dev.replace('v3.6','v3.7')
+dev_block='''## 5A. High-throughput technical execution
+
+1. Před drahým full-CI během proveď všechny dostupné targeted/static/deterministic preflighty a self-review.
+2. Pokud jedna root-cause analýza odhalí více oprav a všechny patří do stejného povoleného scope, coalescuj je před dalším full-CI cyklem místo předvídatelných postupných red headů.
+3. Pro CLASS B/C lze po jednom fresh preflightu použít mutation bundle s explicitním branch/path/scope setem a jedním exact final diff/read-backem. Scope expansion, external dependency nebo unexpected diff bundle ukončí a vyžádá nový fresh read.
+4. Mutation bundle nikdy nepoužívej pro CLASS A canonical/history, authorization/execution, permissions nebo security-boundary změny.
+5. Safe runway dovoluje pokračovat přes branch → implementaci → targeted test → PR → gate bez zbytečného zastavení, pokud jsou všechny kroky povolené a vstupy stále fresh pro jejich rozhodovací hranici.
+6. CI nejprve sleduj agregovaně; detail jobu/stepů/logů načítej při failure, cancel, ambiguity, nondeterminismu nebo explicitní proof potřebě.
+7. Required exact-head CI na finalizovaném headu zůstává povinný. Jakákoli změna headu zneplatní předchozí exact-head výsledek a vyžaduje nový relevantní full-CI průchod.
+8. Žádná throughput optimalizace nesmí snížit test surface, exactness, fail-closed, auditovatelnost nebo factual/safety boundary.
+
+'''
+dev=replace_once(dev,'## 6. Candidate and canonical boundary',dev_block+'## 6. Candidate and canonical boundary','development throughput insertion')
+dev_path.write_text(dev)
+
+handoff_path=root/'PROMPT_HANDOFF_CONTRACT.md'
+handoff=handoff_path.read_text()
+handoff=replace_once(handoff,'Prompt semantic version: 3.6','Prompt semantic version: 3.7','handoff semantic version')
+handoff_path.write_text(handoff)
+
+test56_path=root/'tests/v4656-prompt-modular-architecture.test.mjs'
+test56=test56_path.read_text()
+test56=replace_once(
+    test56,
+    "assert.match(master,/MASTER PROMPT v3\\.6/);",
+    "assert.match(master,/MASTER PROMPT v3\\.(?:6|7)/);",
+    'v4656 master version successor',
+)
+test56=replace_once(
+    test56,
+    "assert.match(text,/v3\\.6/);",
+    "assert.match(text,/v3\\.(?:6|7)/);",
+    'v4656 module version successor',
+)
+test56_path.write_text(test56)
+
+test57='''import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+const root='docs/engineer-osint';
+const read=name=>readFileSync(`${root}/${name}`,'utf8');
+const master=read('MASTER_PROMPT.md');
+const core=read('PROMPT_CORE.md');
+const research=read('PROMPT_RESEARCH.md');
+const development=read('PROMPT_DEVELOPMENT.md');
+const handoff=read('PROMPT_HANDOFF_CONTRACT.md');
+
+const moduleVersion=text=>text.match(/\\bv(3\\.\\d+)\\b/)?.[1]??null;
+
+test('v4.6.57 activates exact prompt semantic version 3.7 across the modular execution set',()=>{
+  assert.match(master,/MASTER PROMPT v3\\.7/);
+  assert.equal(moduleVersion(master),'3.7');
+  assert.equal(moduleVersion(core),'3.7');
+  assert.equal(moduleVersion(research),'3.7');
+  assert.equal(moduleVersion(development),'3.7');
+  assert.match(handoff,/Prompt semantic version: 3\\.7/);
+});
+
+test('v4.6.57 adds high-throughput orchestration without weakening the safety constitution',()=>{
+  for(const phrase of [
+    'HIGH-THROUGHPUT / NO-QUALITY-LOSS EXECUTION',
+    'ONE ACTIVE WRITE SLICE',
+    'FAIL CLOSED',
+    'authorization → execution',
+    'EXACT-HEAD CI',
+    'SAFETY CONSTITUTION',
+    'Canonical history nikdy nepřepisuj'
+  ]) assert.ok(master.includes(phrase),`missing protected contract: ${phrase}`);
+  assert.match(master,/DĚLEJ STEJNÉ NEBO SILNĚJŠÍ KONTROLY CHYTŘEJI, NE MÉNĚ KONTROL/);
+});
+
+test('v4.6.57 distinguishes dynamic fresh state from reusable exact immutable objects',()=>{
+  assert.match(master,/DYNAMIC STATE/);
+  assert.match(master,/IMMUTABLE EXACT OBJECT/);
+  assert.match(master,/`main`, branch head, PR state/);
+  assert.match(master,/canonical tip\\/current run/);
+  assert.match(master,/deployment\\/Pages stav/);
+  assert.match(master,/exact Git commit SHA, Git blob SHA/);
+  assert.match(master,/aktuálním runu ověřen podle své exact identity/);
+  assert.match(master,/Reuse immutable objektu nikdy nenahrazuje fresh verification dynamického reference/);
+  assert.match(core,/Exact immutable commit\\/blob\\/hash objekt ověřený v tomto runu můžeš bezpečně reuse/);
+});
+
+test('v4.6.57 batches independent reads but serializes true dependencies',()=>{
+  assert.match(master,/Batch-first fresh snapshot/);
+  assert.match(master,/Nezávislé read-only dotazy prováděj podle možností v jednom batch\\/parallel roundu/);
+  assert.match(master,/Serializuj pouze kroky, jejichž správný vstup skutečně závisí na výsledku předchozího kroku/);
+  assert.match(core,/Nezávislé read-only fresh-state dotazy batchuj\\/paralelizuj/);
+});
+
+test('v4.6.57 safe runway accelerates reversible work but preserves one active write slice and fresh sequential boundaries',()=>{
+  assert.match(master,/### Safe runway/);
+  assert.match(master,/Nezastavuj pouze proto, že vznikla branch, commit, PR nebo targeted test/);
+  assert.match(master,/více navazujících slices pouze sekvenčně/);
+  assert.match(master,/předchozí slice musí být plně uzavřen/);
+  assert.match(master,/ONE ACTIVE WRITE SLICE/);
+  assert.match(development,/Safe runway dovoluje pokračovat přes branch → implementaci → targeted test → PR → gate/);
+});
+
+test('v4.6.57 mutation bundles are strictly CLASS B/C and excluded from protected CLASS A writes',()=>{
+  assert.match(master,/CLASS B\\/C mutation bundle/);
+  assert.match(master,/Pro CLASS B nebo CLASS C lze použít mutation bundle/);
+  assert.match(master,/předem vymezený účel, branch a explicitní path\\/scope set/);
+  assert.match(master,/Mutation bundle je zakázán pro CLASS A canonical\\/history mutation, authorization\\/execution, permission\\/security-boundary změnu/);
+  assert.match(core,/CLASS A canonical\\/history\\/authorization\\/permissions\\/security-boundary operace bundle používat nesmějí/);
+  assert.match(development,/Mutation bundle nikdy nepoužívej pro CLASS A canonical\\/history, authorization\\/execution, permissions nebo security-boundary změny/);
+});
+
+test('v4.6.57 validates early and coalesces known fixes while keeping final exact-head full CI mandatory',()=>{
+  assert.match(master,/Validate early, full CI on finalized head/);
+  assert.match(master,/targeted\\/static\\/deterministic kontroly/);
+  assert.match(master,/coalescuj je před dalším full-CI během/);
+  assert.match(master,/celý požadovaný CI surface musí projít na finalizovaném PR headu/);
+  assert.match(master,/Jakákoli následná změna headu zneplatní předchozí exact-head CI/);
+  assert.match(development,/Jakákoli změna headu zneplatní předchozí exact-head výsledek/);
+});
+
+test('v4.6.57 observes CI efficiently without treating reduced observability as reduced validation',()=>{
+  assert.match(master,/Efficient CI observability/);
+  assert.match(master,/nejprve čti agregovaný workflow\\/check status/);
+  assert.match(master,/Detail jobu, stepů nebo logů načítej až při `FAILURE`, `CANCELLED`, nejasnosti, nondeterminismu/);
+  assert.match(development,/CI nejprve sleduj agregovaně/);
+  assert.match(development,/explicitní proof potřebě/);
+});
+
+test('v4.6.57 parallelizes research acquisition but keeps factual and media adjudication individual',()=>{
+  assert.match(research,/Parallel discovery, individual adjudication/);
+  assert.match(research,/source\\/card\\/claim discovery dotazy lze batchovat a paralelizovat/);
+  assert.match(research,/Každý claim, conflict, confidence, media licence a identity classification musí být vyhodnocen individuálně/);
+  assert.match(research,/nikdy samy automaticky nezvyšují `FACT`, confidence, licence ani identity status/);
+  assert.match(research,/Counter-evidence search, freshness a provenance se kvůli throughputu nesmí omezit/);
+});
+
+test('v4.6.57 has an explicit no-quality-trade gate across master and domain views',()=>{
+  for(const phrase of ['evidence quality','freshness','counter-evidence/conflict search','required test surface','exact-head semantics','fail-closed','auditovatelnost','canonical/historical ochranu']){
+    assert.ok(master.includes(phrase),`master no-quality rule missing: ${phrase}`);
+  }
+  assert.match(core,/Optimalizace nesmí snížit evidence\\/freshness, required test surface, exactness, fail-closed, auditovatelnost/);
+  assert.match(development,/Žádná throughput optimalizace nesmí snížit test surface, exactness, fail-closed, auditovatelnost/);
+});
+'''
+test57_path=root/'tests/v4657-prompt-high-throughput.test.mjs'
+if test57_path.exists():
+    raise SystemExit('v4657 test already exists')
+test57_path.write_text(test57)
