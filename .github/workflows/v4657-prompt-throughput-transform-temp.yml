@@ -1,0 +1,75 @@
+name: v4.6.57 prompt throughput transform temp
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4657-prompt-high-throughput
+    paths:
+      - .github/workflows/v4657-prompt-throughput-transform-temp.yml
+
+permissions:
+  contents: write
+
+jobs:
+  transform:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Guard exact v3.6 inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=20edd3c22d4ed0fee2041914c0ae1452376b0133
+          git merge-base --is-ancestor "$base" HEAD
+          test "$(git hash-object docs/engineer-osint/MASTER_PROMPT.md)" = 61dae78811ac5e09625fcd3d1ea82120b2bf3994
+          test "$(git hash-object docs/engineer-osint/PROMPT_CORE.md)" = 1b8fac4a9b331d1526bd8d1aac2d0d82ae75e677
+          test "$(git hash-object docs/engineer-osint/PROMPT_RESEARCH.md)" = 555bd6d9495190e36bebbb0b870b04e895252876
+          test "$(git hash-object docs/engineer-osint/PROMPT_DEVELOPMENT.md)" = 90b37a56e7412999ccfb4127950de89666ccd578
+          test "$(git hash-object docs/engineer-osint/PROMPT_HANDOFF_CONTRACT.md)" = 32e2dcc021828ef75c582ad3e61c2d1066496303
+          test "$(git hash-object docs/engineer-osint/tests/v4656-prompt-modular-architecture.test.mjs)" = d206a3cce0530fab6a4fb0e800eb4da09e716acc
+
+      - name: Transform prompt set
+        run: python3 docs/engineer-osint/v4657-prompt-transform-temp.py
+
+      - name: Targeted prompt regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test docs/engineer-osint/tests/v4656-prompt-modular-architecture.test.mjs docs/engineer-osint/tests/v4657-prompt-high-throughput.test.mjs
+
+      - name: Guard exact persistent scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import subprocess
+          expected={
+            'docs/engineer-osint/MASTER_PROMPT.md',
+            'docs/engineer-osint/PROMPT_CORE.md',
+            'docs/engineer-osint/PROMPT_RESEARCH.md',
+            'docs/engineer-osint/PROMPT_DEVELOPMENT.md',
+            'docs/engineer-osint/PROMPT_HANDOFF_CONTRACT.md',
+            'docs/engineer-osint/tests/v4656-prompt-modular-architecture.test.mjs',
+            'docs/engineer-osint/tests/v4657-prompt-high-throughput.test.mjs',
+          }
+          rows=subprocess.check_output(['git','status','--porcelain=v1'],text=True).splitlines()
+          changed={row[3:] for row in rows if row.strip() and row[3:] != 'docs/engineer-osint/v4657-prompt-transform-temp.py'}
+          if changed != expected:
+              raise SystemExit(f'V4657_SCOPE_MISMATCH expected={sorted(expected)} got={sorted(changed)}')
+          print('V4657_SCOPE_PASS',sorted(changed))
+          PY
+
+      - name: Commit exact v3.7 prompt revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/engineer-osint/MASTER_PROMPT.md docs/engineer-osint/PROMPT_CORE.md docs/engineer-osint/PROMPT_RESEARCH.md docs/engineer-osint/PROMPT_DEVELOPMENT.md docs/engineer-osint/PROMPT_HANDOFF_CONTRACT.md docs/engineer-osint/tests/v4656-prompt-modular-architecture.test.mjs docs/engineer-osint/tests/v4657-prompt-high-throughput.test.mjs
+          git diff --cached --check
+          git commit -m 'v4.6.57: add no-quality-loss high-throughput prompt rules'
+          git push origin HEAD:chatgpt/engineer-osint-v4657-prompt-high-throughput
