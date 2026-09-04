@@ -1,0 +1,31 @@
+{
+  "schema_version": "engineer-osint-photo-source-correction-v1",
+  "correction_id": "V4644-LEGUAN-LICENSE-AUTHORITY",
+  "status": "AUTHORITATIVE_SOURCE_CORRECTION",
+  "verified_on": "2026-09-04",
+  "card_id": "ENG-TECH-0049",
+  "system_name": "LEGUAN",
+  "source_url": "https://commons.wikimedia.org/wiki/File:Leguan_bridge_layer.jpg",
+  "source_title": "Leguan bridge layer.jpg",
+  "author_rightsholder": "Dutch Ministry of Defence",
+  "authoritative_license": "CC0 1.0 Universal Public Domain Dedication",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "vrt_ticket": "2010120610018876",
+  "file_page_evidence": "The Wikimedia Commons file-page Licensing section explicitly states that the file is made available under the Creative Commons CC0 1.0 Universal Public Domain Dedication and records Dutch Ministry of Defence VRT permission under ticket 2010120610018876.",
+  "error_explanation": "The later CC BY-SA 4.0 assertion incorrectly treated Commons site-text licensing as the media file licence. The file page itself identifies the media licence as CC0 1.0.",
+  "supersedes_assertions_in": [
+    "docs/engineer-osint/photo-research/v4635-wave2-fast-candidates.json",
+    "docs/engineer-osint/photo-local-acquisitions/v4641-wave2-ready-for-import.json",
+    "docs/engineer-osint/osint-publication-candidates/v4642-b104-wave2-local-images-public-cz.json",
+    "docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json"
+  ],
+  "corrected_lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4642-b104-v4639-local-image-status.json",
+  "blocked_readiness_path": "docs/engineer-osint/V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json",
+  "execution_effect": {
+    "old_authorization_must_not_execute": true,
+    "canonical_write_performed": false,
+    "requires_fresh_corrected_candidate": true,
+    "requires_fresh_browser_digest": true,
+    "requires_new_exact_authorization": true
+  }
+}
