@@ -1,0 +1,74 @@
+{
+  "schema_version": "engineer-osint-v4663-v4566-b105-self-successor-authorization-v1",
+  "authorization_id": "V4663_V4566_B105_SELF_SUCCESSOR_AUTHORIZATION",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "authorized_at": "2026-09-05",
+  "purpose": "Authorize only the exact B105 lifecycle successor handling in the historical v4.5.66 self-successor guard after PR #392 failed closed because the separately authorized B105 successor of v4565-action-upgrade-lifecycle-authorization.test.mjs was outside the guard's exact pinned lifecycle states.",
+  "reviewed_dynamic_state": {
+    "main_sha": "db4989546d49b8222829736dcdd84f1acdddd0de",
+    "open_pull_request_count": 0,
+    "canonical_current_run_id": "engineer-osint-20260903-B104",
+    "canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca"
+  },
+  "failed_exact_implementation": {
+    "pull_request": 392,
+    "head_sha": "32d478e525567f3ee475ed3c2406a5bbb6c4f135",
+    "audit_workflow_run_id": 33923487411,
+    "test_summary": {"total": 580, "pass": 576, "fail": 1, "skip": 3},
+    "failing_test_path": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+    "failing_test_git_blob_sha": "78472bc727d9b11a3a0258ee180f4dcfbcb290f1",
+    "failure_message": "v4.5.65 test is outside the exact pinned lifecycle states",
+    "canonical_write_performed": false,
+    "pull_request_merged": false
+  },
+  "upstream_exact_authorizations": [
+    ["docs/engineer-osint/V4658_B105_BROWSER_WORKFLOW_SUCCESSOR_AUTHORIZATION.json", "75ae100621413d4673461407f1267f9970cdbfe8"],
+    ["docs/engineer-osint/V4660_B105_WORKFLOW_POSTWRITE_COMPATIBILITY_AUTHORIZATION.json", "74f2dc91584cb6b8b3c4e0f678f41756a391d273"],
+    ["docs/engineer-osint/V4661_V4660_TEST_SUCCESSOR_AUTHORIZATION.json", "5cf4ec70c6e942313f2c9d8aa0bf98706af35f3d"]
+  ],
+  "target_transition": {
+    "guard_path": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+    "guard_source_git_blob_sha": "78472bc727d9b11a3a0258ee180f4dcfbcb290f1",
+    "observed_dependency_path": "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+    "exact_b104_dependency_git_blob_sha": "a74bdbbf767cdc986862da828ee394cfc09b3334",
+    "exact_b105_dependency_git_blob_sha": "1b889cd96fb1a057dc374af269a44601bf920444"
+  },
+  "authorized_change": {
+    "authorized": true,
+    "class": "CLASS_A_TEST_COMPATIBILITY",
+    "authorized_test_file": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+    "add_exact_b105_v4565_test_successor_only": true,
+    "exact_b105_v4565_test_successor_git_blob_sha": "1b889cd96fb1a057dc374af269a44601bf920444",
+    "preserve_all_existing_exact_lifecycle_successors": true,
+    "preserve_v4566_policy_blob": true,
+    "allow_wildcard_or_current_state_acceptance": false,
+    "allow_other_test_file_change": false,
+    "allow_canonical_or_run_store_change": false,
+    "allow_runtime_or_ui_change": false,
+    "allow_deployment_or_permission_change": false,
+    "implementation_requires_separate_slice": true,
+    "may_bundle_with_exact_v4658_v4660_v4661_b105_retry": true,
+    "b105_canonical_execution_authorized": false,
+    "b106_candidate_or_authorization_authorized": false
+  },
+  "required_future_implementation": [
+    "fresh-read main, open PRs, canonical tip, this authorization, the exact v4566 guard source blob and the exact B105 v4565 dependency blob",
+    "derive one deterministic v4566 guard successor that only adds the exact B105 dependency state while preserving every historical state and fail-closed rejection",
+    "precompute and pin the resulting v4566 successor Git blob SHA before push",
+    "in a separate isolated retry, atomically materialize that successor together with only the already-authorized exact V4658/V4660/V4661 B105 successor set",
+    "run the full required exact-head CI surface and merge only under the applicable repository policy",
+    "perform fresh post-merge verification before any separate B105 canonical revalidation or authorization"
+  ],
+  "forbidden_changes": [
+    "any wildcard, dynamically learned, current-state or unknown lifecycle acceptance",
+    "removal or weakening of any previously accepted exact historical lifecycle state",
+    "any change to V4566_SELF_SUCCESSOR_AUTHORIZATION.json",
+    "any canonical, run-store, photo lifecycle, executor, runtime, UI, deployment, trigger, permission, action-version, browser-command or DOM-normalization mutation",
+    "any B105 canonical execution or B106 persistence from this authorization"
+  ],
+  "execution_state": {
+    "v4566_b105_successor_implemented": false,
+    "b105_workflow_compatibility_merged": false,
+    "canonical_write_performed": false
+  }
+}
