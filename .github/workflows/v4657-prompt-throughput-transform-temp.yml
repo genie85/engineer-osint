@@ -35,6 +35,21 @@ jobs:
       - name: Transform prompt set
         run: python3 docs/engineer-osint/v4657-prompt-transform-wrapper-temp.py
 
+      - name: Normalize text EOF
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for name in [
+            'MASTER_PROMPT.md','PROMPT_CORE.md','PROMPT_RESEARCH.md','PROMPT_DEVELOPMENT.md','PROMPT_HANDOFF_CONTRACT.md'
+          ]:
+            p=Path('docs/engineer-osint')/name
+            p.write_text(p.read_text().rstrip()+'\n')
+          for name in ['v4656-prompt-modular-architecture.test.mjs','v4657-prompt-high-throughput.test.mjs']:
+            p=Path('docs/engineer-osint/tests')/name
+            p.write_text(p.read_text().rstrip()+'\n')
+          PY
+
       - name: Targeted prompt regression
         shell: bash
         run: |
