@@ -1,0 +1,128 @@
+{
+  "schema_version": "engineer-osint-v4653-b105-b106-local-image-discovery-v1",
+  "status": "PASS",
+  "discovered_at": "2026-09-04",
+  "source_main_sha": "58a2cb5547d9b8292056cddf1fb1cde0d245e8e4",
+  "starting_canonical": {
+    "run_id": "engineer-osint-20260903-B104",
+    "canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+    "photo_baseline": {
+      "cards_with_local_image": 12,
+      "ready_for_import": 7,
+      "photo_coverage_percent": 24
+    }
+  },
+  "acquisition_manifest": {
+    "path": "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json",
+    "git_blob_sha": "91afbe68fa1247aeab914f062368572987feeb7a",
+    "sha256": "615e0555104e34979e676a39a0cf2a704a532d3e8e57fbb45e639a43208510be",
+    "batch": "v4.6.52"
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0014",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0014-blt-arjun.webp",
+      "sha256": "564eb0b37ad6c68614f2ed8029b93431d3ae672bdafacb21220f4292ea98ffd9",
+      "git_blob_sha": "20e9a6268501f30a88359ace913793eac363e789",
+      "bytes": 205090,
+      "dimensions": [1600,1066]
+    },
+    {
+      "card_id": "ENG-TECH-0015",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "sha256": "095849af5876c5f370dda75e37bdd99bcde584be3a4a34e709bf8f0551fbb672",
+      "git_blob_sha": "e5cf11e9b060da56875d5b3ef7e632c3acaa4c89",
+      "bytes": 399240,
+      "dimensions": [1600,859]
+    },
+    {
+      "card_id": "ENG-TECH-0018",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "sha256": "deb995b184fad5789baa985dc0cc6c3d468627a07b7c5368152a29c46dcfc56b",
+      "git_blob_sha": "dc18d1f94c1b2b4191df3e650cb757a08d12fd8a",
+      "bytes": 257844,
+      "dimensions": [1600,1063]
+    },
+    {
+      "card_id": "ENG-TECH-0019",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "sha256": "05cb7608d2995887eec3c83178d41c097dd2c67b83d91d8a4b51887c6c9fbd7b",
+      "git_blob_sha": "d5fabf1f04562e741321b9c755102bdfc914e121",
+      "bytes": 10996,
+      "dimensions": [350,262]
+    },
+    {
+      "card_id": "ENG-TECH-0020",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "sha256": "41b47d91edf66a634f1b9a64a987a3a1755d7db4d4a4aa0e52785acacced5e75",
+      "git_blob_sha": "83f40d9ecf88b6abbcdede5cef6879f91eb6f4d9",
+      "bytes": 378096,
+      "dimensions": [1600,1063]
+    },
+    {
+      "card_id": "ENG-TECH-0038",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0038-mv-10.webp",
+      "sha256": "7113afc3b4ddfbdb466bc509191747659012705cb6833cdd8cc5ff525cbf9caa",
+      "git_blob_sha": "da2a351168bc8d7f8c9ddaa17757471ff6211bb3",
+      "bytes": 266416,
+      "dimensions": [1200,800]
+    },
+    {
+      "card_id": "ENG-TECH-0041",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0041-uran-6.webp",
+      "sha256": "debf811805bbd54cd8bf4eb6aa6978c5b1a5dc78669e1a99b2e087759d035797",
+      "git_blob_sha": "f5a000db3a7e9ded188606ecc2dc2965a97c9f62",
+      "bytes": 197306,
+      "dimensions": [1200,800]
+    }
+  ],
+  "b105": {
+    "run_id": "engineer-osint-20260904-B105",
+    "parent_run_id": "engineer-osint-20260903-B104",
+    "parent_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+    "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b105-wave3-v4584-local-images-public-cz.json",
+    "candidate_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+    "candidate_git_blob_sha": "6dc5e42dfebef1601a061a289b3a078ddaf786ae",
+    "resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "card_ids": ["ENG-TECH-0014","ENG-TECH-0015","ENG-TECH-0018","ENG-TECH-0019","ENG-TECH-0020"],
+    "visual_ids": ["ENG-VIS-LOCAL-0014","ENG-VIS-LOCAL-0015","ENG-VIS-LOCAL-0018","ENG-VIS-LOCAL-0019","ENG-VIS-LOCAL-0020"],
+    "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4584.json",
+    "lifecycle_source_git_blob_sha": "391b4c21493000576f4136f4dd78b8eb80a6265c",
+    "lifecycle_source_sha256": "8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9",
+    "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b105-v4584-local-image-status.json",
+    "lifecycle_successor_sha256": "2714585c0f31a9e85de476fb34539a28f2a12dd48c7370873384a93689a86207",
+    "lifecycle_successor_git_blob_sha": "35bc012c9364cd257dd75666a6749a698a2e228b",
+    "photo_baseline": {"cards_with_local_image":17,"ready_for_import":2,"photo_coverage_percent":34},
+    "ratchet_status": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0,
+    "normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7"
+  },
+  "b106": {
+    "run_id": "engineer-osint-20260904-B106",
+    "parent_run_id": "engineer-osint-20260904-B105",
+    "parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json",
+    "candidate_sha256": "56b4896445fd48d201c38a6d807a6600f7fc407f5a1d880c969f579029b6fc76",
+    "candidate_git_blob_sha": "e578ed3ea06ed0e67dfec7a1b2b979a0b2c418b1",
+    "resulting_canonical_sha256": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+    "card_ids": ["ENG-TECH-0038","ENG-TECH-0041"],
+    "visual_ids": ["ENG-VIS-LOCAL-0038","ENG-VIS-LOCAL-0041"],
+    "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4588.json",
+    "lifecycle_source_git_blob_sha": "9bc5162a34a4d43292732c3e603669b28fab4338",
+    "lifecycle_source_sha256": "91deb584722586892c3fbc316cd35cc08cfd9dec2cee563754b4787307173eff",
+    "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b106-v4588-local-image-status.json",
+    "lifecycle_successor_sha256": "5bab8bd462fe27bafcc36d7cc244287ec7de5ceacc143067110c31fbb94314da",
+    "lifecycle_successor_git_blob_sha": "87205d41d6169d9ef646fd7dcbc6c912366ca36c",
+    "preserved_terminal_card": {"card_id":"ENG-TECH-0042","status":"NOT_FOUND","unchanged":true},
+    "photo_baseline": {"cards_with_local_image":19,"ready_for_import":0,"photo_coverage_percent":38},
+    "ratchet_status": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0,
+    "normalized_dom_sha256": "52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c"
+  },
+  "architecture": {
+    "canonical_executor_lifecycle_successor_cardinality": 1,
+    "recommended_execution_order": ["B105","B106"],
+    "executor_change_required": false,
+    "authoritative_write_performed": false
+  }
+}
