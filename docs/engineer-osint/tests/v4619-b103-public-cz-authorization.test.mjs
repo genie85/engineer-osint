@@ -13,15 +13,33 @@ const sha256=buf=>createHash('sha256').update(buf).digest('hex');
 const gitBlobSha=buf=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`),buf])).digest('hex');
 const auth=json('V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
 const oldAuth=json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
+const b104Auth=json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const candidate=json('osint-publication-candidates/v4616-b103-local-images-public-cz.json');
 const b103WorkflowSuccessorSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104WorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
 const v4616LifecycleSuccessorSha='52cdd53dbc247b0c887725fea160b89066e9ddb4';
 const v4618LifecycleSuccessorSha='31a7112cb443014e717bdbd8c0c408997bda0d73';
+const v4649V4616CompatibilitySha='d275bc42de7f636d88646124c2adef3d16cc21ad';
+const v4649V4618CompatibilitySha='43384369ea70755792eaf37f4a05f37e10bb53c1';
 const expectedCards=['ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0005','ENG-TECH-0006','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0022','ENG-TECH-0028','ENG-TECH-0029'];
 const expectedVisuals=expectedCards.map(id=>`ENG-VIS-LOCAL-${id.slice(-4)}`);
 const B102='engineer-osint-20260902-B102';
 const B103='engineer-osint-20260902-B103';
+const B104='engineer-osint-20260903-B104';
+const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+
+const assertB103OrB104Tip=store=>{
+  if(store.report.current_run_id===B103){
+    assert.equal(store.report.canonical_sha256,auth.expected_resulting_canonical_sha256);
+    return B103;
+  }
+  assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B102→B103→B104 lifecycle');
+  assert.equal(store.report.canonical_sha256,B104_SHA);
+  assert.equal(b104Auth.expected_parent_run_id,B103);
+  assert.equal(b104Auth.expected_parent_canonical_sha256,auth.expected_resulting_canonical_sha256);
+  assert.equal(b104Auth.expected_resulting_canonical_sha256,B104_SHA);
+  return B104;
+};
 
 test('v4.6.19 authorizes only the exact PUBLIC-CZ-safe B103 successor',()=>{
   assert.equal(auth.schema_version,'engineer-osint-b103-public-cz-append-authorization-v1');
@@ -49,8 +67,12 @@ test('v4.6.19 authorizes only the exact PUBLIC-CZ-safe B103 successor',()=>{
     assert.equal(store.report.canonical_sha256,auth.expected_parent_canonical_sha256);
     assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),auth.expected_resulting_canonical_sha256);
   } else {
-    assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103 lifecycle');
-    assert.equal(store.report.canonical_sha256,auth.expected_resulting_canonical_sha256);
+    assertB103OrB104Tip(store);
+    const entry=store.manifest.runs.find(item=>item.run_id===B103);
+    assert.ok(entry,'exact B103 manifest ancestor missing');
+    assert.equal(entry.parent_run_id,B102);
+    assert.equal(entry.file_sha256,auth.exact_candidate_file_sha256);
+    assert.equal(entry.canonical_sha256,auth.expected_resulting_canonical_sha256);
     const persisted=read('data/runs/engineer-osint-20260902-B103.json');
     assert.equal(sha256(persisted),auth.exact_candidate_file_sha256);
     assert.deepEqual(JSON.parse(persisted.toString('utf8')),candidate);
@@ -65,7 +87,7 @@ test('v4.6.19 pins the exact photo lifecycle successor and preserves all nine bi
     assert.equal(sha256(source),auth.photo_review_status_successor.source_sha256);
     assert.equal(gitBlobSha(source),auth.photo_review_status_successor.source_git_blob_sha);
   } else {
-    assert.equal(store.report.current_run_id,B103);
+    assertB103OrB104Tip(store);
     assert.equal(source.toString('utf8'),successor.toString('utf8'));
     assert.equal(sha256(source),auth.photo_review_status_successor.successor_sha256);
     assert.equal(gitBlobSha(source),auth.photo_review_status_successor.successor_git_blob_sha);
@@ -80,7 +102,7 @@ test('v4.6.19 pins the exact photo lifecycle successor and preserves all nine bi
   }
 });
 
-test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence across exact B103/B104 browser successors',()=>{
+test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence across exact B103/B104 successors',()=>{
   assert.equal(gitBlobSha(read('append-run.mjs')),auth.protected_baseline.append_run_blob_sha);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')),auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')),auth.protected_baseline.integrity_blob_sha);
@@ -88,17 +110,17 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence 
   if(store.report.current_run_id===B102){
     assert.equal(gitBlobSha(read('data/run-store-manifest.json')),auth.protected_baseline.manifest_blob_sha);
   } else {
-    assert.equal(store.report.current_run_id,B103);
-    assert.equal(store.report.canonical_sha256,auth.expected_resulting_canonical_sha256);
-    const entry=store.manifest.runs.at(-1);
+    assertB103OrB104Tip(store);
+    const entry=store.manifest.runs.find(item=>item.run_id===B103);
+    assert.ok(entry,'exact B103 manifest ancestor missing');
     assert.equal(entry.run_id,B103);
     assert.equal(entry.parent_run_id,B102);
     assert.equal(entry.file_sha256,auth.exact_candidate_file_sha256);
     assert.equal(entry.canonical_sha256,auth.expected_resulting_canonical_sha256);
   }
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
-  assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
-  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
+  assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha,v4649V4616CompatibilitySha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
+  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
   const workflowSha=gitBlobSha(readRepo('.github/workflows/identity-fix-retirement-regression.yml'));
   assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha,b104WorkflowSuccessorSha].includes(workflowSha));
   if(workflowSha===b104WorkflowSuccessorSha){
@@ -107,7 +129,7 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence 
   }
 });
 
-test('v4.6.19 remains fail-closed and blocks execution until the B103 browser-digest workflow successor exists',()=>{
+test('v4.6.19 remains fail-closed and preserves its historical execution dependency evidence',()=>{
   assert.equal(auth.authorized_guard_successor_contract.authorization_path,'docs/engineer-osint/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
   assert.equal(auth.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
   assert.equal(auth.execution_dependencies.identity_fix_retirement_b103_browser_digest_successor_required,true);

@@ -53,13 +53,23 @@ test('v4.6.47 workflow successor reduces byte-for-byte to the authorized predece
   assert.equal(predecessor.includes(digest),false);
 });
 
-test('v4.6.47 changes browser acceptance only and leaves canonical execution pending',()=>{
+test('v4.6.47 changes browser acceptance only and preserves its historical pending-execution evidence across exact later B104 execution',()=>{
   const authorization=JSON.parse(readFileSync(authorizationPath,'utf8'));
   const workflow=readFileSync(workflowPath,'utf8');
   const store=loadCanonicalRunStore({root});
 
-  assert.equal(store.report.current_run_id,'engineer-osint-20260902-B103');
-  assert.equal(store.report.canonical_sha256,authorization.expected_parent_canonical_sha256);
+  if(store.report.current_run_id===b103Run){
+    assert.equal(store.report.canonical_sha256,authorization.expected_parent_canonical_sha256);
+  } else {
+    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
+    assert.equal(store.report.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+    const entry=store.manifest.runs.find(item=>item.run_id===runId);
+    assert.ok(entry,'exact B104 manifest entry missing');
+    assert.equal(entry.parent_run_id,b103Run);
+    assert.equal(entry.parent_canonical_sha256,authorization.expected_parent_canonical_sha256);
+    assert.equal(entry.file_sha256,authorization.exact_candidate_file_sha256);
+    assert.equal(entry.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+  }
   assert.equal(authorization.execution_state.canonical_write_performed,false);
   assert.equal(authorization.execution_state.run_file_created,false);
   assert.equal(authorization.execution_state.manifest_updated,false);

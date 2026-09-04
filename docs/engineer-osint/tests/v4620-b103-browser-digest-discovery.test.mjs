@@ -16,6 +16,9 @@ const parentRunId='engineer-osint-20260902-B102';
 const parentCanonicalSha='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
 const expectedCandidateSha='d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b';
 const expectedCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
+const b104RunId='engineer-osint-20260903-B104';
+const b104CanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const b104CandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const runNode=(cwd,script,...args)=>execFileSync(process.execPath,[script,...args],{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']});
 const findBrowser=()=>{
@@ -45,13 +48,24 @@ const reconstructB102=(temp)=>{
   const tempRoot=join(temp,root);
   const manifestPath=join(tempRoot,'data/run-store-manifest.json');
   const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
-  if(manifest.runs.at(-1)?.run_id!==runId)return;
-  const entry=manifest.runs.pop();
-  assert.equal(entry.run_id,runId);
-  assert.equal(entry.parent_run_id,parentRunId);
-  assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+  if(manifest.runs.at(-1)?.run_id===b104RunId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.run_id,b104RunId);
+    assert.equal(entry.parent_run_id,runId);
+    assert.equal(entry.parent_canonical_sha256,expectedCanonicalSha);
+    assert.equal(entry.file_sha256,b104CandidateSha);
+    assert.equal(entry.canonical_sha256,b104CanonicalSha);
+    rmSync(join(tempRoot,'data/runs',`${b104RunId}.json`),{force:true});
+  }
+  if(manifest.runs.at(-1)?.run_id===runId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.run_id,runId);
+    assert.equal(entry.parent_run_id,parentRunId);
+    assert.equal(entry.file_sha256,expectedCandidateSha);
+    assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+    rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+  }
   writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
-  rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
   const restored=loadCanonicalRunStore({root:tempRoot});
   assert.equal(restored.report.current_run_id,parentRunId);
   assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
@@ -62,6 +76,10 @@ test('v4.6.20 discovers the exact normalized browser DOM digest for simulated PU
   assert.ok(browser,'B103 browser-digest discovery requires Chrome/Chromium');
   const candidateRaw=readFileSync(candidatePath,'utf8');
   assert.equal(sha256(candidateRaw),expectedCandidateSha);
+
+  const live=loadCanonicalRunStore({root});
+  if(live.report.current_run_id===b104RunId)assert.equal(live.report.canonical_sha256,b104CanonicalSha);
+  else assert.ok([parentRunId,runId].includes(live.report.current_run_id),`unexpected live run ${live.report.current_run_id}`);
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4620-browser-'));
   try{

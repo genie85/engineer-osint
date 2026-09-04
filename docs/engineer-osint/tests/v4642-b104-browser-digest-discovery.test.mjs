@@ -16,6 +16,8 @@ const parentRunId='engineer-osint-20260902-B103';
 const parentCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 const expectedCandidateSha='1bd425cde9cab4f4c454b9b3b635acc61a172883fb3618c3d871c630ac11fcad';
 const expectedCanonicalSha='34479f18aac998b8ee5feae6b28276fc1fb3f2dcd90f95c60b656ae1d3eb21e0';
+const correctedCandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
+const correctedCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const runNode=(cwd,script,...args)=>execFileSync(process.execPath,[script,...args],{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']});
 const findBrowser=()=>{
@@ -40,18 +42,43 @@ const normalizeDom=source=>{
   return s.replace(/\s+/g,' ').trim();
 };
 
-test('v4.6.42 discovers exact normalized browser DOM digest for simulated B104 without authoritative writes',()=>{
+const reconstructB103=(temp)=>{
+  const tempRoot=join(temp,root);
+  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  if(manifest.runs.at(-1)?.run_id===runId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.parent_run_id,parentRunId);
+    assert.equal(entry.parent_canonical_sha256,parentCanonicalSha);
+    assert.equal(entry.file_sha256,correctedCandidateSha);
+    assert.equal(entry.canonical_sha256,correctedCanonicalSha);
+    rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+    writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  }
+  const restored=loadCanonicalRunStore({root:tempRoot});
+  assert.equal(restored.report.current_run_id,parentRunId);
+  assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
+};
+
+test('v4.6.42 discovers exact normalized browser DOM digest for simulated historical B104 without authoritative writes',()=>{
   const browser=findBrowser();
   assert.ok(browser,'B104 browser-digest discovery requires Chrome/Chromium');
   const candidateRaw=readFileSync(candidatePath,'utf8');
   assert.equal(sha256(candidateRaw),expectedCandidateSha);
   const live=loadCanonicalRunStore({root});
-  assert.equal(live.report.current_run_id,parentRunId);
-  assert.equal(live.report.canonical_sha256,parentCanonicalSha);
+  if(live.report.current_run_id===parentRunId){
+    assert.equal(live.report.canonical_sha256,parentCanonicalSha);
+  } else {
+    assert.equal(live.report.current_run_id,runId,'canonical head is outside exact B103→corrected B104 lifecycle');
+    assert.equal(live.report.canonical_sha256,correctedCanonicalSha);
+    const persisted=readFileSync(`${root}/data/runs/${runId}.json`,'utf8');
+    assert.equal(sha256(persisted),correctedCandidateSha);
+  }
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4642-b104-browser-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
+    reconstructB103(temp);
     const authRel=`${root}/.v4642-b104-browser-discovery-authorization.json`;
     const auth={
       schema_version:'engineer-osint-b104-browser-digest-discovery-v1',

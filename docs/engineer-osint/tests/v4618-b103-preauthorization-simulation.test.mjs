@@ -17,6 +17,9 @@ const parentRunId='engineer-osint-20260902-B102';
 const parentCanonicalSha='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
 const expectedCandidateSha='d2888d1023502d4a4be3ae014810e3ea63877a392a35860e858831c827744a8b';
 const expectedCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
+const b104RunId='engineer-osint-20260903-B104';
+const b104CanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const b104CandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
 const expectedVisualIds=['ENG-VIS-LOCAL-0003','ENG-VIS-LOCAL-0004','ENG-VIS-LOCAL-0005','ENG-VIS-LOCAL-0006','ENG-VIS-LOCAL-0016','ENG-VIS-LOCAL-0017','ENG-VIS-LOCAL-0022','ENG-VIS-LOCAL-0028','ENG-VIS-LOCAL-0029'];
 const sha256=text=>createHash('sha256').update(text).digest('hex');
 const run=(cwd,script,...args)=>execFileSync(process.execPath,[script,...args],{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']});
@@ -25,13 +28,24 @@ const reconstructB102=(temp)=>{
   const tempRoot=join(temp,root);
   const manifestPath=join(tempRoot,'data/run-store-manifest.json');
   const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
-  if(manifest.runs.at(-1)?.run_id!==runId)return;
-  const entry=manifest.runs.pop();
-  assert.equal(entry.run_id,runId);
-  assert.equal(entry.parent_run_id,parentRunId);
-  assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+  if(manifest.runs.at(-1)?.run_id===b104RunId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.run_id,b104RunId);
+    assert.equal(entry.parent_run_id,runId);
+    assert.equal(entry.parent_canonical_sha256,expectedCanonicalSha);
+    assert.equal(entry.file_sha256,b104CandidateSha);
+    assert.equal(entry.canonical_sha256,b104CanonicalSha);
+    rmSync(join(tempRoot,'data/runs',`${b104RunId}.json`),{force:true});
+  }
+  if(manifest.runs.at(-1)?.run_id===runId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.run_id,runId);
+    assert.equal(entry.parent_run_id,parentRunId);
+    assert.equal(entry.canonical_sha256,expectedCanonicalSha);
+    assert.equal(entry.file_sha256,expectedCandidateSha);
+    rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+  }
   writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
-  rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
   const restored=loadCanonicalRunStore({root:tempRoot});
   assert.equal(restored.report.current_run_id,parentRunId);
   assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
@@ -51,9 +65,15 @@ test('v4.6.18 pre-authorization simulation materializes exact V4616 B103 and pas
   if(live.report.current_run_id===parentRunId){
     assert.equal(live.report.canonical_sha256,parentCanonicalSha);
     assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate)),expectedCanonicalSha);
-  } else {
-    assert.equal(live.report.current_run_id,runId,'canonical head is outside exact B102→B103 lifecycle');
+  } else if(live.report.current_run_id===runId){
     assert.equal(live.report.canonical_sha256,expectedCanonicalSha);
+  } else {
+    assert.equal(live.report.current_run_id,b104RunId,'canonical head is outside exact B102→B103→B104 lifecycle');
+    assert.equal(live.report.canonical_sha256,b104CanonicalSha);
+    const b103Entry=live.manifest.runs.find(item=>item.run_id===runId);
+    assert.ok(b103Entry,'exact B103 ancestor missing beneath B104');
+    assert.equal(b103Entry.file_sha256,expectedCandidateSha);
+    assert.equal(b103Entry.canonical_sha256,expectedCanonicalSha);
   }
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4618-preauth-'));

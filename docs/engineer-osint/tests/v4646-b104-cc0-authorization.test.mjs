@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {canonicalDigest} from '../lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore} from '../lib/run-store.mjs';
-import {validateAuthorizationContract} from '../authorized-canonical-executor.mjs';
+import {validateAuthorizationContract,validateAuthorizationStaticContract,validatePersistedStoreContract} from '../authorized-canonical-executor.mjs';
 
 const root='docs/engineer-osint';
 const authorizationPath=`${root}/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`;
@@ -43,7 +43,7 @@ function assertAuthorizedWorkflowLifecycle(authorization,workflowRaw){
   return true;
 }
 
-test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecycle successor',()=>{
+test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecycle successor before and after execution',()=>{
   const authorization=json(authorizationPath);
   const readiness=json(readinessPath);
   const candidateRaw=readFileSync(candidatePath,'utf8');
@@ -54,6 +54,7 @@ test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecyc
   const correction=json(correctionPath);
   const acquisition=json(acquisitionPath);
   const staleAuthorization=json(staleAuthorizationPath);
+  const store=loadCanonicalRunStore({root});
 
   assert.equal(authorization.schema_version,'engineer-osint-b104-cc0-local-image-append-authorization-v1');
   assert.equal(authorization.status,'READY_FOR_APPEND');
@@ -83,11 +84,20 @@ test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecyc
   assert.deepEqual(candidate.visuals.map(item=>item.id),expectedVisuals);
 
   assert.equal(authorization.photo_review_status_successor.source_path,lifecycleSourcePath);
-  assert.equal(authorization.photo_review_status_successor.source_git_blob_sha,gitBlobSha(lifecycleSourceRaw));
-  assert.equal(authorization.photo_review_status_successor.source_sha256,sha256(lifecycleSourceRaw));
   assert.equal(authorization.photo_review_status_successor.successor_path,successorPath);
   assert.equal(authorization.photo_review_status_successor.successor_git_blob_sha,gitBlobSha(successorRaw));
   assert.equal(authorization.photo_review_status_successor.successor_sha256,sha256(successorRaw));
+  if(store.report.current_run_id===parentRunId){
+    assert.equal(store.report.canonical_sha256,parentCanonicalSha);
+    assert.equal(authorization.photo_review_status_successor.source_git_blob_sha,gitBlobSha(lifecycleSourceRaw));
+    assert.equal(authorization.photo_review_status_successor.source_sha256,sha256(lifecycleSourceRaw));
+  } else {
+    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
+    assert.equal(store.report.canonical_sha256,resultingCanonicalSha);
+    assert.equal(lifecycleSourceRaw,successorRaw);
+    assert.equal(gitBlobSha(lifecycleSourceRaw),authorization.photo_review_status_successor.successor_git_blob_sha);
+    assert.equal(sha256(lifecycleSourceRaw),authorization.photo_review_status_successor.successor_sha256);
+  }
   assert.deepEqual(successor.entries.map(item=>item.card_id),expectedCards);
   assert.ok(successor.entries.every(item=>item.status==='LOCAL_IMAGE'));
 
@@ -126,26 +136,43 @@ test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecyc
   assert.equal(authorization.authorization.allow_runtime_change,false);
 });
 
-test('v4.6.46 is accepted by the existing exact canonical executor contract without writing',()=>{
+test('v4.6.46 is accepted by the existing exact canonical executor contract before append or as an exact persisted rerun',()=>{
   const authorization=json(authorizationPath);
   const candidateRaw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(candidateRaw);
   const normalizedCandidate=JSON.stringify(candidate,null,2)+'\n';
   const store=loadCanonicalRunStore({root});
 
-  assert.equal(store.report.current_run_id,parentRunId);
-  assert.equal(store.report.canonical_sha256,parentCanonicalSha);
-  const validation=validateAuthorizationContract({
+  assert.doesNotThrow(()=>validateAuthorizationStaticContract({
     authorization,
     candidate,
     normalizedCandidate,
-    store,
     authorizationPath,
     candidatePath,
     runId
-  });
-  assert.equal(validation.resultingCanonical,resultingCanonicalSha);
-  assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),resultingCanonicalSha);
+  }));
+
+  if(store.report.current_run_id===parentRunId){
+    assert.equal(store.report.canonical_sha256,parentCanonicalSha);
+    const validation=validateAuthorizationContract({
+      authorization,
+      candidate,
+      normalizedCandidate,
+      store,
+      authorizationPath,
+      candidatePath,
+      runId
+    });
+    assert.equal(validation.resultingCanonical,resultingCanonicalSha);
+    assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),resultingCanonicalSha);
+  } else {
+    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
+    assert.equal(store.report.canonical_sha256,resultingCanonicalSha);
+    assert.doesNotThrow(()=>validatePersistedStoreContract({authorization,store,runId}));
+    const persistedRaw=readFileSync(`${root}/data/runs/${runId}.json`,'utf8');
+    assert.equal(sha256(persistedRaw),authorization.exact_candidate_file_sha256);
+    assert.deepEqual(JSON.parse(persistedRaw),candidate);
+  }
 });
 
 test('v4.6.46 keeps the browser workflow successor exact across its separately authorized v4.6.47 lifecycle and pins protected executor baselines',()=>{
