@@ -11,16 +11,19 @@ const expectedEvidence=['ENG-EVID-0215','ENG-EVID-0216','ENG-EVID-0217'];
 const exactB101AppendSuccessor='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 const exactB102AppendSuccessor='174cc646b8d3ecf6e338f6460b95335130154ffb';
 const exactExecutorAppendSuccessor='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
+const B100_RUN='engineer-osint-20260902-B100';
+const B104_RUN='engineer-osint-20260903-B104';
+const B104_CANONICAL_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 
 test('v4.5.94 preserves the separately authorized B100 append as an immutable canonical ancestor',()=>{
   const store=loadCanonicalRunStore();
   const b99=store.manifest.runs.find(item=>item.run_id==='engineer-osint-20260830-B99');
-  const b100=store.manifest.runs.find(item=>item.run_id==='engineer-osint-20260902-B100');
+  const b100=store.manifest.runs.find(item=>item.run_id===B100_RUN);
   assert.ok(b99);
   assert.ok(b100);
   assert.equal(b99.canonical_sha256,'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30');
   assert.deepEqual(b100,{
-    run_id:'engineer-osint-20260902-B100',parent_run_id:'engineer-osint-20260830-B99',
+    run_id:B100_RUN,parent_run_id:'engineer-osint-20260830-B99',
     parent_canonical_sha256:'754b42bae6205aff71a8f5fdcaf3217313ccdd9089145219314d8b9497f84a30',
     path:'data/runs/engineer-osint-20260902-B100.json',
     file_sha256:'ef6d592306a213d22fee36aa32e5eca2f0673dde8773eeda1c444eef55af7b92',
@@ -44,7 +47,10 @@ test('v4.5.94 preserves the exact B100 guard while permitting only exact B101/B1
 });
 
 test('v4.5.94 publishes the three reviewed systems with exact evidence provenance',()=>{
-  const {data}=loadCanonicalRunStore();
+  const store=loadCanonicalRunStore();
+  const {data}=store;
+  const exactB104=store.report.current_run_id===B104_RUN;
+  if(exactB104)assert.equal(store.report.canonical_sha256,B104_CANONICAL_SHA);
   const records=data.records.records.filter(item=>expectedRecords.includes(item.id));
   const sources=data.sources.sources.filter(item=>expectedSources.includes(item.id));
   const evidence=data.evidence.evidence.filter(item=>expectedEvidence.includes(item.evidence_id||item.id));
@@ -52,8 +58,9 @@ test('v4.5.94 publishes the three reviewed systems with exact evidence provenanc
   assert.deepEqual(sources.map(item=>item.id),expectedSources);
   assert.deepEqual(evidence.map(item=>item.evidence_id||item.id),expectedEvidence);
   for(const record of records){
-    assert.equal(record.first_seen_run,'engineer-osint-20260902-B100');
-    assert.equal(record.last_update_run,'engineer-osint-20260902-B100');
+    assert.equal(record.first_seen_run,B100_RUN);
+    const expectedLastUpdate=exactB104&&record.id==='ENG-TECH-0045'?B104_RUN:B100_RUN;
+    assert.equal(record.last_update_run,expectedLastUpdate);
     assert.equal(record.source_ids.length,1);
     assert.equal(record.evidence_ids.length,1);
     const item=evidence.find(candidate=>(candidate.evidence_id||candidate.id)===record.evidence_ids[0]);
