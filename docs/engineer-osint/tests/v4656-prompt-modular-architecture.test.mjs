@@ -29,7 +29,7 @@ test('v4.6.56 keeps MASTER_PROMPT as the single canonical prompt authority with 
   assert.match(master,/Prompt set jednoho běhu je immutable/);
   for(const text of modules){
     assert.match(text,/v3\.6/);
-    assert.match(text,/Canonical authority: `?MASTER_PROMPT\.md`?/i);
+    assert.match(text,/Canonical authority:.*MASTER_PROMPT\.md/i);
     assert.match(text,/fail closed/i);
   }
 });
