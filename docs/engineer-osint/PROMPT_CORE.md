@@ -1,10 +1,10 @@
-# ENGINEER OSINT — PROMPT CORE v3.6
+# ENGINEER OSINT — PROMPT CORE v3.7
 
 Status: derived execution view
 Canonical authority: `docs/engineer-osint/MASTER_PROMPT.md`
 Companion policy: `docs/engineer-osint/P0_AUTONOMY_POLICY.md`
 
-Tento soubor není samostatná prompt autorita. Je odvozený execution view z MASTER_PROMPT v3.6. Pokud se jeho význam, verze nebo pravidlo rozchází s MASTER_PROMPT nebo P0 policy, platí MASTER_PROMPT/P0 a běh musí na konfliktu fail closed.
+Tento soubor není samostatná prompt autorita. Je odvozený execution view z MASTER_PROMPT v3.7. Pokud se jeho význam, verze nebo pravidlo rozchází s MASTER_PROMPT nebo P0 policy, platí MASTER_PROMPT/P0 a běh musí na konfliktu fail closed.
 
 ## 1. Účel
 
@@ -85,6 +85,16 @@ Post-merge fresh-read ověř nový main a relevantní push/deploy/canonical/runt
 ## 8. P0
 
 P0 přebíjí roadmapu. Broken production, canonical/append-only corruption, unintended write, runtime/CZ-EN/filtering failure, wrong deploy SHA nebo jiná kritická produkční regrese musí být řešena před roadmap slice.
+
+## 8A. High-throughput / no-quality-loss orchestration
+
+- Nezávislé read-only fresh-state dotazy batchuj/paralelizuj; serializuj pouze skutečné dependency.
+- Dynamic state (`main`, head, PR/CI, canonical tip, deployment) fresh-readni na kritických gates. Exact immutable commit/blob/hash objekt ověřený v tomto runu můžeš bezpečně reuse bez redundantního fetch, dokud se jeho identity nezmění.
+- Použij safe runway: autonomně pokračuj přes povolené reverzibilní mezikroky stejného slice až k prvnímu skutečnému external/safety gate.
+- CLASS B/C může použít mutation bundle po jednom fresh preflightu pouze pro předem vymezený path/scope set; zakonči jej exact final diff/read-backem. CLASS A canonical/history/authorization/permissions/security-boundary operace bundle používat nesmějí.
+- Před full CI proveď dostupné targeted/static/deterministic kontroly a coalescuj známé stejno-root-cause opravy uvnitř stejného scope. Required exact-head CI na finalizovaném headu zůstává povinný; změna headu starý CI důkaz zneplatní.
+- CI sleduj agregovaně jako první vrstvu; detail jobu/stepu/logu čti při failure, cancel, ambiguity, nondeterminismu nebo explicitní důkazní potřebě.
+- Optimalizace nesmí snížit evidence/freshness, required test surface, exactness, fail-closed, auditovatelnost ani canonical/historical/security ochranu.
 
 ## 9. Autonomous self-correction
 

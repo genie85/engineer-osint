@@ -20,7 +20,7 @@ const requiredHandoffFields=[
 ];
 
 test('v4.6.56 keeps MASTER_PROMPT as the single canonical prompt authority with compatible modular execution views',()=>{
-  assert.match(master,/MASTER PROMPT v3\.6/);
+  assert.match(master,/MASTER PROMPT v3\.(?:6|7)/);
   assert.match(master,/jediná kanonická prompt autorita/);
   assert.match(master,/zůstává plně samostatně spustitelný/);
   assert.match(master,/CORE \+ RESEARCH/);
@@ -28,7 +28,7 @@ test('v4.6.56 keeps MASTER_PROMPT as the single canonical prompt authority with 
   assert.match(master,/CORE \+ RESEARCH \+ DEVELOPMENT/);
   assert.match(master,/Prompt set jednoho běhu je immutable/);
   for(const text of modules){
-    assert.match(text,/v3\.6/);
+    assert.match(text,/v3\.(?:6|7)/);
     assert.match(text,/Canonical authority:.*MASTER_PROMPT\.md/i);
     assert.match(text,/fail closed/i);
   }

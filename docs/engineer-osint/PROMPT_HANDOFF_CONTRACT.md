@@ -1,6 +1,6 @@
 # ENGINEER OSINT — RESEARCH → DEVELOPMENT HANDOFF CONTRACT v1
 
-Prompt semantic version: 3.6
+Prompt semantic version: 3.7
 Canonical prompt authority: `MASTER_PROMPT.md`
 Machine schema: `prompt-handoff.schema.json`
 
