@@ -1,0 +1,121 @@
+{
+  "schema_version": "engineer-osint-v4658-b105-browser-workflow-successor-authorization-v1",
+  "authorization_id": "V4658_B105_BROWSER_WORKFLOW_SUCCESSOR_AUTHORIZATION",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "authorized_at": "2026-09-04",
+  "purpose": "Authorize the exact B105 browser-digest workflow successor together with the exact historical workflow-lifecycle helper successor required to keep already-published B100-B104 regression semantics valid without wildcard acceptance.",
+  "reviewed_dynamic_state": {
+    "main_sha": "f5fbd18dd9d8fed683ebbe3c17df2a6d023f677a",
+    "open_pull_request_count": 0,
+    "canonical_current_run_id": "engineer-osint-20260903-B104",
+    "canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca"
+  },
+  "b105_readiness": {
+    "path": "docs/engineer-osint/V4654_B105_WAVE3_LOCAL_IMAGE_READINESS.json",
+    "git_blob_sha": "16a4cab3aab5644285c4de62cd413abf5252e33c",
+    "status": "READY_FOR_EXACT_REVIEW",
+    "browser_successor_must_be_merged_and_green_before_canonical_execution": true
+  },
+  "b105_discovery": {
+    "path": "docs/engineer-osint/V4654_B105_B106_LOCAL_IMAGE_DISCOVERY.json",
+    "git_blob_sha": "a884c478860d025eeae02d0207cce356d35e7506",
+    "status": "PASS"
+  },
+  "b105_candidate": {
+    "run_id": "engineer-osint-20260904-B105",
+    "parent_run_id": "engineer-osint-20260903-B104",
+    "path": "docs/engineer-osint/osint-publication-candidates/v4653-b105-wave3-v4584-local-images-public-cz.json",
+    "git_blob_sha": "6dc5e42dfebef1601a061a289b3a078ddaf786ae",
+    "sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+    "expected_resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "expected_local_image_count_after_b105": 17,
+    "expected_ready_for_import_count_after_b105": 2,
+    "expected_photo_coverage_percent_after_b105": 34
+  },
+  "browser_workflow_successor": {
+    "path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "source_git_blob_sha": "cb7e4d186ff3a79675ace8c48754317ffdede233",
+    "successor_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "successor_sha256": "e66ab5aa718b01e7ebd374eb2fd424fdf6276e0f0842453c33ed494b314664f7",
+    "guarded_run_id": "engineer-osint-20260904-B105",
+    "normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "required_exact_pair_occurrences": 2,
+    "require_both_expected_digest_maps": true,
+    "allow_only_exact_b105_pair_addition": true,
+    "reverse_to_source_blob_proof_required": true,
+    "preserve_permissions_contents_read": true,
+    "preserve_triggers_jobs_steps_browser_command_and_normalization": true,
+    "implementation_requires_separate_slice": true
+  },
+  "workflow_lifecycle_helper_successor": {
+    "path": "docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs",
+    "source_git_blob_sha": "7e9480f421cdd811c2660033e4539f926ce5ad7b",
+    "successor_git_blob_sha": "c7527860a5f175000b634a25d170698d70569b53",
+    "successor_sha256": "6cfcab850f4c7ddb5a052dcb27719768dfc46f017675ec6ff1dc15a0427111f5",
+    "authorized_semantics": [
+      "define the exact B105 workflow successor blob as an additional immutable published descendant",
+      "extend the exact published workflow-blob allowlist from B100-B104 to B100-B105",
+      "preserve B101, B102 and B103 digest assertions for the B105 descendant",
+      "preserve the B104 digest assertion for the B105 descendant",
+      "require the exact B105 run/digest anchor only when the current workflow blob is the exact B105 successor"
+    ],
+    "preserve_all_prior_published_workflow_blobs": true,
+    "forbid_wildcard_or_unknown_descendant_acceptance": true,
+    "reverse_to_source_blob_proof_required": true,
+    "implementation_requires_separate_slice": true
+  },
+  "read_only_derivation_evidence": {
+    "workflow_run_id": 33912128979,
+    "workflow_job_id": 101150731983,
+    "artifact_id": 9951752282,
+    "artifact_name": "v4658-b105-browser-successor-derivation-2",
+    "artifact_sha256": "e6ce81630fb0485caadab80c89f5cbcf2da50add7e582eccc1a174a93972a510",
+    "status": "PASS_READ_ONLY",
+    "repository_diff_after_derivation": "CLEAN",
+    "workflow_reverse_proof": true,
+    "helper_reverse_proof": true
+  },
+  "authorization": {
+    "authorized": true,
+    "class": "CLASS_A_WORKFLOW_COMPATIBILITY",
+    "implementation_requires_separate_slice": true,
+    "authorized_implementation_paths": [
+      ".github/workflows/identity-fix-retirement-regression.yml",
+      "docs/engineer-osint/tests/v4556-workflow-lifecycle-helper.mjs"
+    ],
+    "authorization_slice_must_not_modify_implementation_paths": true,
+    "canonical_write_authorized": false,
+    "run_store_edit_authorized": false,
+    "photo_review_status_write_authorized": false,
+    "executor_change_authorized": false,
+    "deployment_change_authorized": false,
+    "permission_change_authorized": false,
+    "b105_canonical_execution_authorized": false,
+    "b106_candidate_or_authorization_authorized": false
+  },
+  "forbidden_changes": [
+    "any canonical data or run-store mutation",
+    "any photo-review lifecycle mutation",
+    "any authorized-canonical-executor or executor-workflow mutation",
+    "any workflow trigger, permissions, action version, job, step, browser command or DOM-normalization change beyond the exact B105 pair addition",
+    "any helper acceptance of a workflow blob other than the explicitly enumerated B100-B105 blobs",
+    "any wildcard, current-state, unknown-run or dynamically learned digest acceptance",
+    "any runtime/UI/content/publication/deployment/security-boundary change",
+    "any B106 persistence, authorization or execution before actual B105 canonical merge and fresh revalidation"
+  ],
+  "required_sequence_after_merge": [
+    "fresh-read main, open PRs and the exact two predecessor implementation blobs",
+    "implement exactly the authorized workflow and helper successors in one isolated slice",
+    "run the complete required exact-head CI surface and merge only if green",
+    "verify post-merge workflow regression on the new main",
+    "only then fresh-revalidate B105 canonical readiness before a separate B105 append authorization"
+  ],
+  "execution_state": {
+    "workflow_successor_implemented": false,
+    "helper_successor_implemented": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  }
+}
