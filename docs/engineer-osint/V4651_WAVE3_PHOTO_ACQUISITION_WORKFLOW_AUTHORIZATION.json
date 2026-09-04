@@ -1,0 +1,164 @@
+{
+  "schema_version": "engineer-osint-wave3-photo-acquisition-workflow-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-04",
+  "reviewed_main_sha": "535c5513da945674b70ce127e0982576b0040825",
+  "purpose": "Authorize one isolated temporary write-enabled acquisition workflow to archive seven already-reviewed READY_FOR_IMPORT photo binaries with exact deterministic hashes. This authorization does not permit canonical linkage or lifecycle promotion to LOCAL_IMAGE.",
+  "evidence": {
+    "read_only_acquisition_branch": "chatgpt/engineer-osint-v4651-wave3-photo-acquisition",
+    "read_only_acquisition_head_sha": "877b33e9daaaeaa52d6944f02ba7c844569bf7df",
+    "read_only_workflow_run_id": 33893570868,
+    "read_only_artifact_id": 9944818259,
+    "read_only_artifact_name": "v4651-wave3-photo-binaries",
+    "read_only_artifact_digest": "sha256:124c4baf3a3d12ae5d063db09ce93bf473581d39ffee0db23fb84e26be5ad224",
+    "source_review_batches": [
+      {
+        "path": "docs/engineer-osint/photo-review-batches/v4584.json",
+        "git_blob_sha": "391b4c21493000576f4136f4dd78b8eb80a6265c"
+      },
+      {
+        "path": "docs/engineer-osint/photo-review-batches/v4588.json",
+        "git_blob_sha": "9bc5162a34a4d43292732c3e603669b28fab4338"
+      }
+    ],
+    "ready_for_import_card_ids": [
+      "ENG-TECH-0014",
+      "ENG-TECH-0015",
+      "ENG-TECH-0018",
+      "ENG-TECH-0019",
+      "ENG-TECH-0020",
+      "ENG-TECH-0038",
+      "ENG-TECH-0041"
+    ],
+    "quality_note": "ENG-TECH-0019 source is natively 350x262 px. The deterministic transformation does not upscale it. This is an explicit quality limitation, not an identity or licence failure; no minimum pixel dimension gate exists in the current LOCAL_IMAGE contract."
+  },
+  "exact_media": [
+    {
+      "card_id": "ENG-TECH-0014",
+      "system_name": "BLT Arjun",
+      "source_file_name": "BLT-ARJUN.jpg",
+      "source_sha256": "2c2a65c086bc3ad5e22e3b638f6c1f51eb93fd2a8712d033afb6d71180d474f1",
+      "source_bytes": 676769,
+      "source_dimensions": [2032, 1354],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0014-blt-arjun.webp",
+      "expected_local_sha256": "564eb0b37ad6c68614f2ed8029b93431d3ae672bdafacb21220f4292ea98ffd9",
+      "expected_local_bytes": 205090,
+      "expected_local_dimensions": [1600, 1066],
+      "licence": "Government Open Data License – India (GODL)"
+    },
+    {
+      "card_id": "ENG-TECH-0015",
+      "system_name": "Short Span Bridge 10 m",
+      "source_file_name": "10M Short Span Bridge Republic Day Parade 2025.jpg",
+      "source_sha256": "75b60768b0df0e604afc98aa8f4f73fcb9602953ef09121371afd10c7ee6e70b",
+      "source_bytes": 1325000,
+      "source_dimensions": [2200, 1181],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "expected_local_sha256": "095849af5876c5f370dda75e37bdd99bcde584be3a4a34e709bf8f0551fbb672",
+      "expected_local_bytes": 399240,
+      "expected_local_dimensions": [1600, 859],
+      "licence": "Government Open Data License – India (GODL)"
+    },
+    {
+      "card_id": "ENG-TECH-0018",
+      "system_name": "JGSDF Combat Engineer Vehicle",
+      "source_file_name": "JGSDF Combat engineering vehicle 003.JPG",
+      "source_sha256": "a120a0916287c4388fd9bab5143ee2a2e6468be2387c2af8d53c8622b6cb4481",
+      "source_bytes": 471195,
+      "source_dimensions": [2400, 1595],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "expected_local_sha256": "deb995b184fad5789baa985dc0cc6c3d468627a07b7c5368152a29c46dcfc56b",
+      "expected_local_bytes": 257844,
+      "expected_local_dimensions": [1600, 1063],
+      "licence": "Public domain (PD-self)"
+    },
+    {
+      "card_id": "ENG-TECH-0019",
+      "system_name": "Type 92 Floating Bridge",
+      "source_file_name": "92式浮橋 (8464316361).jpg",
+      "source_sha256": "9cdbc98e20bbfe545ed694b4139a52a4c54d7885b811e4f2c14b68ae2aad5bd0",
+      "source_bytes": 40183,
+      "source_dimensions": [350, 262],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "expected_local_sha256": "05cb7608d2995887eec3c83178d41c097dd2c67b83d91d8a4b51887c6c9fbd7b",
+      "expected_local_bytes": 10996,
+      "expected_local_dimensions": [350, 262],
+      "licence": "CC BY 2.0",
+      "quality_limitation": "Native source is 350x262 px and must not be upscaled in the acquisition slice."
+    },
+    {
+      "card_id": "ENG-TECH-0020",
+      "system_name": "Type 83 Mine-Laying System",
+      "source_file_name": "８３式地雷敷設装置（第２施設大隊）.jpg",
+      "source_sha256": "3190bfe826a9fbccb01fd6748eda96e3bddcf4968e68f80208a02a55a5af2eef",
+      "source_bytes": 794693,
+      "source_dimensions": [2048, 1360],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "expected_local_sha256": "41b47d91edf66a634f1b9a64a987a3a1755d7db4d4a4aa0e52785acacced5e75",
+      "expected_local_bytes": 378096,
+      "expected_local_dimensions": [1600, 1063],
+      "licence": "CC BY 4.0"
+    },
+    {
+      "card_id": "ENG-TECH-0038",
+      "system_name": "DOK-ING MV-10",
+      "source_file_name": "UA-made MV-10 01.jpg",
+      "source_sha256": "b7eaab69ad4d70f2da1dc1bd6d01cf83b7f2ff1a38d9142f0d734c153b91e1df",
+      "source_bytes": 262144,
+      "source_dimensions": [1200, 800],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0038-mv-10.webp",
+      "expected_local_sha256": "7113afc3b4ddfbdb466bc509191747659012705cb6833cdd8cc5ff525cbf9caa",
+      "expected_local_bytes": 266416,
+      "expected_local_dimensions": [1200, 800],
+      "licence": "CC BY 4.0"
+    },
+    {
+      "card_id": "ENG-TECH-0041",
+      "system_name": "Uran-6",
+      "source_file_name": "Uran-6.jpg",
+      "source_sha256": "8afbf76953e0565805c249140e7b330def958379cc4b23e4b65ed434e4052cb5",
+      "source_bytes": 1087482,
+      "source_dimensions": [1200, 800],
+      "expected_local_path": "docs/engineer-osint/assets/photos/eng-tech-0041-uran-6.webp",
+      "expected_local_sha256": "debf811805bbd54cd8bf4eb6aa6978c5b1a5dc78669e1a99b2e087759d035797",
+      "expected_local_bytes": 197306,
+      "expected_local_dimensions": [1200, 800],
+      "licence": "CC BY 4.0"
+    }
+  ],
+  "authorized_change": {
+    "implementation_requires_separate_slice": true,
+    "temporary_workflow_path": ".github/workflows/v4652-photo-acquire-write-temp.yml",
+    "temporary_workflow_permissions": {
+      "contents": "write"
+    },
+    "temporary_workflow_must_be_branch_scoped": true,
+    "temporary_workflow_must_fail_on_source_sha_mismatch": true,
+    "temporary_workflow_must_fail_on_local_sha_mismatch": true,
+    "temporary_workflow_must_use_pillow_version": "11.3.0",
+    "temporary_workflow_transformation": "EXIF orientation normalized; resize only if long edge >1600 px; WebP quality 82, method 6, exact=True; no crop, no upscale and no editorial alteration.",
+    "allowed_persistent_paths": [
+      "docs/engineer-osint/assets/photos/eng-tech-0014-blt-arjun.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0038-mv-10.webp",
+      "docs/engineer-osint/assets/photos/eng-tech-0041-uran-6.webp",
+      "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json"
+    ],
+    "temporary_workflow_must_remove_itself_before_final_pr": true,
+    "final_pr_must_not_change_github_workflows": true,
+    "allow_canonical_change": false,
+    "allow_run_store_change": false,
+    "allow_historical_run_change": false,
+    "allow_photo_review_status_change": false,
+    "allow_existing_review_batch_change": false,
+    "allow_executor_change": false,
+    "allow_deployment_workflow_change": false,
+    "allow_other_permissions_change": false,
+    "allow_local_image_canonical_claim": false,
+    "allow_source_or_output_hash_drift": false
+  },
+  "note": "This authorization changes no production state. It only permits a future isolated implementation to use contents:write temporarily on its own branch to materialize the exact seven already-reviewed binaries and one acquisition manifest listed above. The temporary workflow must be absent from the final PR diff. Canonical visual linkage and READY_FOR_IMPORT to LOCAL_IMAGE lifecycle promotion remain separate future CLASS A slices."
+}
