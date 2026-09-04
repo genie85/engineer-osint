@@ -1,0 +1,144 @@
+{
+  "schema_version": "engineer-osint-b105-wave3-local-image-readiness-v1",
+  "status": "READY_FOR_EXACT_REVIEW",
+  "reviewed_main_sha": "58a2cb5547d9b8292056cddf1fb1cde0d245e8e4",
+  "parent_run_id": "engineer-osint-20260903-B104",
+  "parent_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+  "candidate_run_id": "engineer-osint-20260904-B105",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b105-wave3-v4584-local-images-public-cz.json",
+  "candidate_file_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+  "candidate_git_blob_sha": "6dc5e42dfebef1601a061a289b3a078ddaf786ae",
+  "expected_resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+  "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4584.json",
+  "lifecycle_source_git_blob_sha": "391b4c21493000576f4136f4dd78b8eb80a6265c",
+  "lifecycle_source_sha256": "8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9",
+  "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b105-v4584-local-image-status.json",
+  "lifecycle_successor_git_blob_sha": "35bc012c9364cd257dd75666a6749a698a2e228b",
+  "lifecycle_successor_sha256": "2714585c0f31a9e85de476fb34539a28f2a12dd48c7370873384a93689a86207",
+  "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json",
+  "source_acquisition_git_blob_sha": "91afbe68fa1247aeab914f062368572987feeb7a",
+  "source_acquisition_sha256": "615e0555104e34979e676a39a0cf2a704a532d3e8e57fbb45e639a43208510be",
+  "discovery_evidence": {
+    "source_branch_head_sha": "2e33c88e1118fc8363d5f98093a482b784dc5da3",
+    "workflow_run_id": 33897655705,
+    "job_id": 101103989981,
+    "artifact_id": 9946396080,
+    "artifact_name": "v4653-b105-b106-local-image-discovery",
+    "artifact_digest": "sha256:f7304348345d73a1541719f90c5ae51e3cac7bddd460349a58dd2e96285d842c",
+    "workflow": "ENGINEER OSINT temporary v4.6.53 B105 B106 local-image discovery",
+    "conclusion": "success",
+    "permissions": {
+      "contents": "read"
+    },
+    "authoritative_write_performed": false,
+    "repository_remained_read_only": true,
+    "public_cz_ratchet": "PUBLIC_CZ_RATCHET_PASS",
+    "new_missing_fields": 0,
+    "normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "exact_artifact_discovery_json_sha256": "e4ff90926f658ee3e5e018369a936214667a489de474f1ae471f038f9984279d"
+  },
+  "repository_discovery_copy": {
+    "path": "docs/engineer-osint/V4654_B105_B106_LOCAL_IMAGE_DISCOVERY.json",
+    "git_blob_sha": "a884c478860d025eeae02d0207cce356d35e7506",
+    "byte_identical_to_artifact": false,
+    "representation": "SEMANTICALLY_EQUIVALENT_NORMALIZED_JSON_COPY",
+    "note": "The workflow artifact identified above remains the authoritative byte-exact discovery evidence. This repository copy preserves the discovered values but uses normalized compact JSON formatting for selected arrays/objects."
+  },
+  "expected_card_ids": [
+    "ENG-TECH-0014",
+    "ENG-TECH-0015",
+    "ENG-TECH-0018",
+    "ENG-TECH-0019",
+    "ENG-TECH-0020"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0014",
+    "ENG-VIS-LOCAL-0015",
+    "ENG-VIS-LOCAL-0018",
+    "ENG-VIS-LOCAL-0019",
+    "ENG-VIS-LOCAL-0020"
+  ],
+  "expected_updated_record_count": 5,
+  "expected_new_visual_count": 5,
+  "expected_new_media_count": 0,
+  "resulting_photo_baseline": {
+    "total_cards": 50,
+    "cards_with_local_image": 17,
+    "ready_for_import": 2,
+    "photo_coverage_percent": 34
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0014",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0014-blt-arjun.webp",
+      "sha256": "564eb0b37ad6c68614f2ed8029b93431d3ae672bdafacb21220f4292ea98ffd9",
+      "git_blob_sha": "20e9a6268501f30a88359ace913793eac363e789"
+    },
+    {
+      "card_id": "ENG-TECH-0015",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "sha256": "095849af5876c5f370dda75e37bdd99bcde584be3a4a34e709bf8f0551fbb672",
+      "git_blob_sha": "e5cf11e9b060da56875d5b3ef7e632c3acaa4c89"
+    },
+    {
+      "card_id": "ENG-TECH-0018",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "sha256": "deb995b184fad5789baa985dc0cc6c3d468627a07b7c5368152a29c46dcfc56b",
+      "git_blob_sha": "dc18d1f94c1b2b4191df3e650cb757a08d12fd8a"
+    },
+    {
+      "card_id": "ENG-TECH-0019",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "sha256": "05cb7608d2995887eec3c83178d41c097dd2c67b83d91d8a4b51887c6c9fbd7b",
+      "git_blob_sha": "d5fabf1f04562e741321b9c755102bdfc914e121",
+      "quality_limitation": "Native source is 350x262 px and must not be upscaled."
+    },
+    {
+      "card_id": "ENG-TECH-0020",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "sha256": "41b47d91edf66a634f1b9a64a987a3a1755d7db4d4a4aa0e52785acacced5e75",
+      "git_blob_sha": "83f40d9ecf88b6abbcdede5cef6879f91eb6f4d9"
+    }
+  ],
+  "browser_workflow_successor_required": {
+    "path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "current_git_blob_sha": "cb7e4d186ff3a79675ace8c48754317ffdede233",
+    "required_run_id": "engineer-osint-20260904-B105",
+    "required_normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "must_update_both_exact_digest_maps": true,
+    "separate_slice_required": true,
+    "must_be_merged_and_green_before_canonical_execution": true
+  },
+  "protected_executor": {
+    "executor_path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+    "executor_git_blob_sha": "306f6aefc969d95d8dcb71373ea2d99f6cdb114f",
+    "executor_workflow_path": ".github/workflows/authorized-canonical-executor.yml",
+    "executor_workflow_git_blob_sha": "a0c390755bbd38bfbe5d1329155606bb84dc4a93",
+    "executor_change_required": false,
+    "supported_lifecycle_successor_cardinality": 1
+  },
+  "b106_deferred": {
+    "run_id": "engineer-osint-20260904-B106",
+    "parent_run_id": "engineer-osint-20260904-B105",
+    "discovered_parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "discovered_resulting_canonical_sha256": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+    "discovered_normalized_dom_sha256": "52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c",
+    "preserved_terminal_card": {
+      "card_id": "ENG-TECH-0042",
+      "status": "NOT_FOUND",
+      "unchanged": true
+    },
+    "authoritative_candidate_staged": false,
+    "authorization_permitted_now": false,
+    "reason": "B106 must be revalidated against the actual merged B105 main/canonical head before a separate readiness, authorization and execution sequence."
+  },
+  "execution_state": {
+    "browser_workflow_successor_applied": false,
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "lifecycle_successor_applied": false
+  },
+  "authorization_required": true,
+  "execution_permitted_by_this_artifact": false
+}
