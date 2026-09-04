@@ -81,8 +81,24 @@ test('v4.6.56 handoff schema is strict, machine-readable and requires all resear
   assert.equal(schema.properties.consumer.const,'DEVELOPMENT');
   assert.deepEqual(schema.properties.status.enum,['READY_FOR_DEVELOPMENT','BLOCKED_RESEARCH','REVIEW_REQUIRED']);
   assert.deepEqual(schema.properties.claims.items.properties.classification.enum,['FACT','INFERENCE','CONFLICT','UNVERIFIED']);
+  assert.equal(schema.properties.factual_scope.minItems,1);
+  assert.equal(schema.properties.expected_effect.minItems,1);
+  assert.equal(schema.properties.invariants_to_preserve.minItems,1);
+  assert.equal(schema.properties.required_downstream_validations.minItems,1);
   assert.equal(schema.properties.forbidden_mutations.minItems,1);
   assert.deepEqual(schema.properties.freshness.required,['parent_sensitive','revalidate_on_main_change','valid_until']);
+});
+
+test('v4.6.56 READY handoff condition forbids blocking unresolved conflicts and unresolved media authority',()=>{
+  assert.equal(schema.allOf.length,1);
+  const rule=schema.allOf[0];
+  assert.equal(rule.if.properties.status.const,'READY_FOR_DEVELOPMENT');
+  assert.equal(rule.then.properties.unresolved.items.properties.blocking.const,false);
+  assert.deepEqual(rule.then.properties.conflicts.items.properties.resolution_status.enum,['RESOLVED','ACCEPTED_AMBIGUITY']);
+  assert.deepEqual(rule.then.properties.media.items.properties.identity_confidence.enum,['MEDIUM','HIGH']);
+  assert.equal(rule.then.properties.media.items.properties.license.type,'string');
+  assert.equal(rule.then.properties.media.items.properties.license.minLength,1);
+  assert.equal(rule.then.properties.media.items.properties.origin.type,'string');
 });
 
 test('v4.6.56 handoff contract fails closed on blocked, stale, conflict and media uncertainty instead of letting development reinterpret facts',()=>{
