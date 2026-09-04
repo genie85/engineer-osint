@@ -14,6 +14,7 @@ const gitBlobSha = (buf) => crypto.createHash('sha1').update(Buffer.concat([Buff
 
 const auth = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const currentAuth = json('V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
+const b104Auth = json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const readiness = json('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json');
 const candidate = json('osint-publication-candidates/v4603-b103-local-images.json');
 const manifest = json('data/run-store-manifest.json');
@@ -31,8 +32,18 @@ const assertExactLifecycleHead=()=>{
     assert.equal(current.canonical_sha256,auth.expected_parent_canonical_sha256);
     return 'PRE_EXECUTION';
   }
-  assert.equal(current.run_id,currentAuth.candidate_run_id,'canonical head is outside exact B102→V4619 B103 lifecycle');
-  assert.equal(current.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
+  if(current.run_id===currentAuth.candidate_run_id){
+    assert.equal(current.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
+    return 'POST_EXECUTION';
+  }
+  assert.equal(current.run_id,b104Auth.candidate_run_id,'canonical head is outside exact B102→V4619 B103→V4646 B104 lifecycle');
+  assert.equal(current.canonical_sha256,b104Auth.expected_resulting_canonical_sha256);
+  assert.equal(b104Auth.expected_parent_run_id,currentAuth.candidate_run_id);
+  assert.equal(b104Auth.expected_parent_canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
+  const b103Entry=manifest.runs.find(item=>item.run_id===currentAuth.candidate_run_id);
+  assert.ok(b103Entry,'exact V4619 B103 ancestor missing under B104');
+  assert.equal(b103Entry.file_sha256,currentAuth.exact_candidate_file_sha256);
+  assert.equal(b103Entry.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
   return 'POST_EXECUTION';
 };
 
@@ -106,7 +117,7 @@ test('v4.6.04 authorization pins all nine immutable repository-local WebP binari
   }
 });
 
-test('v4.6.04 authorization preserves canonical boundaries and admits only exact executor/B103 successors', () => {
+test('v4.6.04 authorization preserves canonical boundaries and admits only exact executor/B103/B104 successors', () => {
   const phase=assertExactLifecycleHead();
   assert.equal(auth.protected_baseline.append_run_blob_sha,'174cc646b8d3ecf6e338f6460b95335130154ffb');
   assert.equal(gitBlobSha(read('append-run.mjs')),EXECUTOR_APPEND_SHA);
