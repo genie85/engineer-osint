@@ -17,6 +17,8 @@ const B102='engineer-osint-20260902-B102';
 const B102_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
 const B103='engineer-osint-20260902-B103';
 const B103_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
+const B104='engineer-osint-20260903-B104';
+const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 
 test('v4.6.16 changes V4603 only by adding nine explicit Czech visual titles',()=>{
   const stripped=structuredClone(candidate);
@@ -31,7 +33,7 @@ test('v4.6.16 changes V4603 only by adding nine explicit Czech visual titles',()
   assert.deepEqual(stripped,original);
 });
 
-test('v4.6.16 remains a read-only exact B103 patch and materializes deterministically from B102',()=>{
+test('v4.6.16 remains a read-only exact B103 patch and materializes deterministically from B102 or persists as an exact ancestor',()=>{
   assert.equal(candidate.state.run_id,B103);
   assert.equal(candidate.state.parent_run_id,B102);
   assert.equal(candidate.continuity.canonical_write_authorized,false);
@@ -46,8 +48,16 @@ test('v4.6.16 remains a read-only exact B103 patch and materializes deterministi
     console.log('V4616_B103_PUBLIC_CZ_CANDIDATE',JSON.stringify({candidate_sha256:sha256(raw),expected_resulting_canonical_sha256:resultingCanonical,visuals_with_title_cs:candidate.visuals.filter(x=>x.title_cs).length}));
     return;
   }
-  assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103 lifecycle');
-  assert.equal(store.report.canonical_sha256,B103_SHA);
+  if(store.report.current_run_id===B104)assert.equal(store.report.canonical_sha256,B104_SHA);
+  else {
+    assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103→B104 lifecycle');
+    assert.equal(store.report.canonical_sha256,B103_SHA);
+  }
+  const entry=store.manifest.runs.find(item=>item.run_id===B103);
+  assert.ok(entry,'exact B103 manifest ancestor missing');
+  assert.equal(entry.parent_run_id,B102);
+  assert.equal(entry.file_sha256,sha256(raw));
+  assert.equal(entry.canonical_sha256,B103_SHA);
   const persisted=readFileSync(`${root}/data/runs/${B103}.json`,'utf8');
   assert.equal(sha256(persisted),sha256(raw));
   assert.deepEqual(JSON.parse(persisted),candidate);
