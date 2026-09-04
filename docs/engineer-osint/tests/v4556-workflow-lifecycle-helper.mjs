@@ -13,6 +13,7 @@ const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 const b102IdentityWorkflowSha='3a14efd69c46d464c50543431565b57b4517ae39';
 const b103IdentityWorkflowSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104IdentityWorkflowSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const b105IdentityWorkflowSha='0aded293ae69be3844c73f6613f0a70b05320156';
 export const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 export const v4556=existsSync(executionPath)?JSON.parse(readFileSync(executionPath,'utf8')):null;
 export const v4557=existsSync(hotfixPath)?JSON.parse(readFileSync(hotfixPath,'utf8')):null;
@@ -95,7 +96,7 @@ function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   const successor=v4565.workflow_successors?.find(x=>x.file===item.file);
   if(!successor)return false;
   const exactHistorical=current===successor.v4564_diagnostic_git_blob_sha;
-  const published=[b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha];
+  const published=[b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha];
   const exactPublishedDescendant=item.file==='identity-fix-retirement-regression.yml'&&published.includes(current);
   if(!exactHistorical&&!exactPublishedDescendant)return false;
   assert.equal(v4565.schema_version,'engineer-osint-action-upgrade-lifecycle-authorization-v1');
@@ -111,10 +112,11 @@ function assertExactV4565ActionUpgradeSuccessor(item,text,current){
   if(exactPublishedDescendant){
     assert.match(text,/'engineer-osint-20260830-B99':'6c9b0c027e77f8063d6fc56f7bcecedf7f197479b777a399f741427094c27b31'/,'B99 historical digest anchor missing');
     assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/,'B100 exact digest anchor missing');
-    if([b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/,'B101 exact digest anchor missing');
-    if([b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7'/,'B102 exact digest anchor missing');
-    if([b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a'/,'B103 exact digest anchor missing');
-    if(current===b104IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'/,'B104 exact digest anchor missing');
+    if([b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/,'B101 exact digest anchor missing');
+    if([b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7'/,'B102 exact digest anchor missing');
+    if([b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a'/,'B103 exact digest anchor missing');
+    if([b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'/,'B104 exact digest anchor missing');
+    if(current===b105IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'/,'B105 exact digest anchor missing');
     assert.match(text,/no exact digest authorized for current run/,'unknown descendant fail-closed guard missing');
   }
   return true;
