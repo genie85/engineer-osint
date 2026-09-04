@@ -15,13 +15,51 @@ const lifecycleSourcePath=`${root}/photo-review-batches/v4639.json`;
 const acquisitionPath=`${root}/photo-local-acquisitions/v4641-wave2-ready-for-import.json`;
 const readinessPath=`${root}/V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json`;
 const executorPath=`${root}/authorized-canonical-executor.mjs`;
+const correctedAuthorizationPath=`${root}/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`;
+const correctedSuccessorPath=`${root}/photo-review-candidates/v4645-b104-v4639-local-image-status-cc0.json`;
 const runId='engineer-osint-20260903-B104';
 const parentRunId='engineer-osint-20260902-B103';
 const parentCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
+const staleExpectedCanonicalSha='34479f18aac998b8ee5feae6b28276fc1fb3f2dcd90f95c60b656ae1d3eb21e0';
+const correctedCandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
+const correctedCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=buffer=>createHash('sha256').update(buffer).digest('hex');
 const run=(cwd,script,...args)=>execFileSync(process.execPath,[script,...args],{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']});
+const correctedAuthorization=JSON.parse(readFileSync(correctedAuthorizationPath,'utf8'));
+
+const assertLivePhase=store=>{
+  if(store.report.current_run_id===parentRunId){
+    assert.equal(store.report.canonical_sha256,parentCanonicalSha);
+    return 'PRE_CORRECTED_B104';
+  }
+  assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→corrected B104 lifecycle');
+  assert.equal(store.report.canonical_sha256,correctedCanonicalSha);
+  assert.equal(correctedAuthorization.exact_candidate_file_sha256,correctedCandidateSha);
+  assert.equal(correctedAuthorization.expected_parent_run_id,parentRunId);
+  assert.equal(correctedAuthorization.expected_parent_canonical_sha256,parentCanonicalSha);
+  assert.equal(correctedAuthorization.expected_resulting_canonical_sha256,correctedCanonicalSha);
+  return 'POST_CORRECTED_B104';
+};
+
+const reconstructB103=temp=>{
+  const tempRoot=join(temp,root);
+  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  if(manifest.runs.at(-1)?.run_id===runId){
+    const entry=manifest.runs.pop();
+    assert.equal(entry.parent_run_id,parentRunId);
+    assert.equal(entry.parent_canonical_sha256,parentCanonicalSha);
+    assert.equal(entry.file_sha256,correctedCandidateSha);
+    assert.equal(entry.canonical_sha256,correctedCanonicalSha);
+    rmSync(join(tempRoot,'data/runs',`${runId}.json`),{force:true});
+    writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  }
+  const restored=loadCanonicalRunStore({root:tempRoot});
+  assert.equal(restored.report.current_run_id,parentRunId);
+  assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
+};
 
 test('v4.6.42 B104 candidate is exact three-card local-image enrichment with pinned local bytes',()=>{
   const raw=readFileSync(candidatePath,'utf8');
@@ -58,13 +96,25 @@ test('v4.6.42 B104 candidate is exact three-card local-image enrichment with pin
   }
 });
 
-test('v4.6.42 lifecycle successor is source-corrected and therefore invalidates the stale exact authorization',()=>{
-  const source=JSON.parse(readFileSync(lifecycleSourcePath,'utf8'));
+test('v4.6.42 lifecycle successor remains source-corrected while exact live source may be pre- or post-corrected-B104',()=>{
+  const sourceRaw=readFileSync(lifecycleSourcePath);
+  const source=JSON.parse(sourceRaw);
   const successor=JSON.parse(readFileSync(successorPath,'utf8'));
   const acquisition=JSON.parse(readFileSync(acquisitionPath,'utf8'));
   const acquisitionByCard=new Map(acquisition.entries.map(item=>[item.card_id,item]));
+  const live=loadCanonicalRunStore({root});
+  const phase=assertLivePhase(live);
+
   assert.deepEqual(source.entries.map(item=>item.card_id),expectedCards);
-  assert.ok(source.entries.every(item=>item.status==='READY_FOR_IMPORT'));
+  if(phase==='PRE_CORRECTED_B104'){
+    assert.ok(source.entries.every(item=>item.status==='READY_FOR_IMPORT'));
+    assert.equal(sha256(sourceRaw),correctedAuthorization.photo_review_status_successor.source_sha256);
+  } else {
+    const correctedSuccessorRaw=readFileSync(correctedSuccessorPath);
+    assert.equal(sourceRaw.toString('utf8'),correctedSuccessorRaw.toString('utf8'));
+    assert.equal(sha256(sourceRaw),correctedAuthorization.photo_review_status_successor.successor_sha256);
+    assert.ok(source.entries.every(item=>item.status==='LOCAL_IMAGE'));
+  }
   assert.deepEqual(successor.entries.map(item=>item.card_id),expectedCards);
   assert.ok(successor.entries.every(item=>item.status==='LOCAL_IMAGE'));
   for(const entry of successor.entries){
@@ -81,14 +131,17 @@ test('v4.6.42 lifecycle successor is source-corrected and therefore invalidates 
   assert.match(leguan.provenance_correction,/file-level CC0 1\.0/i);
 });
 
-test('v4.6.42 readiness is blocked because its frozen lifecycle successor hash was superseded by source correction',()=>{
+test('v4.6.42 readiness remains frozen and blocked after corrected B104 publication',()=>{
   const readiness=JSON.parse(readFileSync(readinessPath,'utf8'));
   const candidateRaw=readFileSync(candidatePath,'utf8');
   const successorRaw=readFileSync(successorPath,'utf8');
   const sourceRaw=readFileSync(lifecycleSourcePath,'utf8');
   const live=loadCanonicalRunStore({root});
+  const phase=assertLivePhase(live);
   const candidate=JSON.parse(candidateRaw);
-  const resultingCanonicalSha=canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate));
+  const resultingCanonicalSha=phase==='PRE_CORRECTED_B104'
+    ?canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate))
+    :staleExpectedCanonicalSha;
 
   assert.equal(readiness.status,'BLOCKED_SOURCE_LICENSE_CORRECTION');
   assert.equal(readiness.reviewed_main_sha,'c2ad3befded2b69f4490b1778f5e2535f690ab08');
@@ -98,8 +151,13 @@ test('v4.6.42 readiness is blocked because its frozen lifecycle successor hash w
   assert.equal(readiness.candidate_path,candidatePath);
   assert.equal(readiness.candidate_file_sha256,sha256(candidateRaw));
   assert.equal(readiness.expected_resulting_canonical_sha256,resultingCanonicalSha);
+  assert.equal(readiness.expected_resulting_canonical_sha256,staleExpectedCanonicalSha);
   assert.equal(readiness.lifecycle_source_path,lifecycleSourcePath);
-  assert.equal(readiness.lifecycle_source_sha256,sha256(sourceRaw));
+  if(phase==='PRE_CORRECTED_B104')assert.equal(readiness.lifecycle_source_sha256,sha256(sourceRaw));
+  else {
+    assert.equal(sha256(sourceRaw),correctedAuthorization.photo_review_status_successor.successor_sha256);
+    assert.notEqual(readiness.lifecycle_source_sha256,sha256(sourceRaw));
+  }
   assert.equal(readiness.lifecycle_successor_path,successorPath);
   assert.notEqual(readiness.lifecycle_successor_sha256,sha256(successorRaw));
   assert.equal(readiness.blocking_correction.card_id,'ENG-TECH-0049');
@@ -138,20 +196,23 @@ test('current canonical executor supports an exact pinned lifecycle source path 
   assert.match(source,/expectedChanged=new Set\(\[requestPath,`\$\{osintRoot\}\/data\/run-store-manifest\.json`,runPath,\.\.\.\(lifecycle\?\[lifecycle\.sourcePath\]:\[\]\)\]\)/);
 });
 
-test('v4.6.42 discovery simulates B103 to B104 append plus current lifecycle successor and PUBLIC-CZ gates',()=>{
+test('v4.6.42 discovery reconstructs B103 and simulates the historical B104 append plus corrected stale successor',()=>{
   const raw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(raw);
   const candidateSha=sha256(raw);
   const successorRaw=readFileSync(successorPath,'utf8');
   const successorSha=sha256(successorRaw);
   const live=loadCanonicalRunStore({root});
-  assert.equal(live.report.current_run_id,parentRunId);
-  assert.equal(live.report.canonical_sha256,parentCanonicalSha);
-  const resultingCanonicalSha=canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate));
+  const phase=assertLivePhase(live);
+  const resultingCanonicalSha=phase==='PRE_CORRECTED_B104'
+    ?canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate))
+    :staleExpectedCanonicalSha;
+  assert.equal(resultingCanonicalSha,staleExpectedCanonicalSha);
 
   const temp=mkdtempSync(join(tmpdir(),'engineer-osint-v4642-b104-'));
   try{
     cpSync(root,join(temp,root),{recursive:true});
+    reconstructB103(temp);
     const authRel=`${root}/.v4642-b104-discovery-authorization.json`;
     const auth={
       schema_version:'engineer-osint-b104-discovery-simulation-v1',
