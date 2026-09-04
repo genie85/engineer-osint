@@ -1,0 +1,122 @@
+{
+  "schema_version": "engineer-osint-v4660-b105-workflow-postwrite-compatibility-authorization-v1",
+  "authorization_id": "V4660_B105_WORKFLOW_POSTWRITE_COMPATIBILITY_AUTHORIZATION",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "authorized_at": "2026-09-04",
+  "purpose": "Authorize only the exact historical test compatibility updates required for the already-authorized B105 browser-workflow successor, after the v4.6.59 implementation attempt failed closed on B104-only descendant allowlists.",
+  "reviewed_dynamic_state": {
+    "main_sha": "cbd217197c6bd13f76253e0f953ffe2beda92529",
+    "open_pull_request_count": 0,
+    "canonical_current_run_id": "engineer-osint-20260903-B104",
+    "canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca"
+  },
+  "upstream_authorization": {
+    "path": "docs/engineer-osint/V4658_B105_BROWSER_WORKFLOW_SUCCESSOR_AUTHORIZATION.json",
+    "git_blob_sha": "75ae100621413d4673461407f1267f9970cdbfe8",
+    "workflow_successor_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "helper_successor_git_blob_sha": "c7527860a5f175000b634a25d170698d70569b53",
+    "b105_run_id": "engineer-osint-20260904-B105",
+    "b105_normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7"
+  },
+  "failed_exact_implementation": {
+    "pull_request": 389,
+    "head_sha": "1d89a5f891d14dcfa8924f71ce03d8170410eedf",
+    "workflow_run_id": 33913644099,
+    "failing_stage": "Test complete P0/P1 contract",
+    "failed_test_count": 12,
+    "affected_test_file_count": 8,
+    "classification": "HISTORICAL_EXACT_DESCENDANT_COMPATIBILITY",
+    "workflow_or_digest_mismatch_detected": false,
+    "canonical_write_performed": false,
+    "pull_request_merged": false
+  },
+  "authorized_test_successors": [
+    {
+      "path": "docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs",
+      "source_git_blob_sha": "9939fbcbf9c7f09f61a9a5c82c795873bddd0a61"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+      "source_git_blob_sha": "c61540fa8c9be9cb21129e46fe488391502102dd"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs",
+      "source_git_blob_sha": "558b54212ff856a01be7c1a5dedfaa871e5c820c"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+      "source_git_blob_sha": "a74bdbbf767cdc986862da828ee394cfc09b3334"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs",
+      "source_git_blob_sha": "9bd857b2f9bb785fd4fcb75be3697bb18712fdd1"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs",
+      "source_git_blob_sha": "0d73c824951f3eade09b24f5b59a389fb67b6d33"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs",
+      "source_git_blob_sha": "87656fdd7ceccdf55bdb2ceac23093a694165a3b"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs",
+      "source_git_blob_sha": "233793d6acb49931b52f56d1543a7b92e9e3b3f6"
+    }
+  ],
+  "authorized_semantics": [
+    "recognize only workflow blob 0aded293ae69be3844c73f6613f0a70b05320156 as the exact B105 descendant where a test currently enumerates exact published B100-B104 workflow descendants",
+    "preserve every previously accepted historical workflow blob and every B99-B104 exact digest or authorization invariant",
+    "where a B104-only branch asserts the B104 digest for the current latest exact descendant, extend that branch to B104-or-B105 and preserve the exact B104 assertion",
+    "where the test validates the current latest workflow content, require the exact B105 run/digest anchor only for the exact B105 workflow blob",
+    "preserve fail-closed rejection of wildcard, unknown, dynamically learned, current-state or unenumerated workflow descendants",
+    "do not weaken trigger, permission, action-version, job, step, browser-command, normalization, canonical, history, runtime or deployment assertions"
+  ],
+  "implementation_authorization": {
+    "authorized": true,
+    "class": "CLASS_A_TEST_COMPATIBILITY",
+    "implementation_requires_separate_slice": true,
+    "authorized_paths": [
+      "docs/engineer-osint/tests/v4557-browser-digest-normalization-hotfix.test.mjs",
+      "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+      "docs/engineer-osint/tests/v4563-action-node24-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs"
+    ],
+    "retry_may_bundle_already_authorized_v4658_workflow_and_helper_successors": true,
+    "retry_bundle_requires_exact_v4658_predecessor_blobs": true,
+    "canonical_write_authorized": false,
+    "run_store_edit_authorized": false,
+    "photo_review_status_write_authorized": false,
+    "executor_change_authorized": false,
+    "deployment_change_authorized": false,
+    "permission_change_authorized": false,
+    "runtime_or_ui_change_authorized": false,
+    "b105_canonical_execution_authorized": false,
+    "b106_candidate_or_authorization_authorized": false
+  },
+  "forbidden_changes": [
+    "any wildcard/current-state/unknown-descendant workflow acceptance",
+    "removal or weakening of any B99-B104 historical digest or workflow identity assertion",
+    "changes outside the exact eight authorized test files in the compatibility implementation, except the separately authorized V4658 workflow and helper successors when bundled in the retry",
+    "any canonical, run-store, photo lifecycle, executor, runtime, UI, deployment, trigger, permission, action-version, browser-command or DOM-normalization mutation",
+    "any B105 canonical execution or B106 persistence before successful workflow compatibility merge and fresh B105 revalidation"
+  ],
+  "required_sequence_after_merge": [
+    "fresh-read main, open PRs, the eight exact source test blobs, and V4658 workflow/helper predecessor blobs",
+    "derive exact test successors without wildcard relaxation and verify the historical invariants are preserved",
+    "in one isolated retry implementation slice, materialize the exact V4658 workflow/helper successors plus only the eight authorized test successors",
+    "run full required exact-head CI and merge only if every required gate is green",
+    "verify post-merge workflow regression on the new main",
+    "only then fresh-revalidate B105 canonical readiness before a separate B105 append authorization"
+  ],
+  "execution_state": {
+    "test_compatibility_implemented": false,
+    "workflow_successor_merged": false,
+    "helper_successor_merged": false,
+    "canonical_write_performed": false
+  }
+}
