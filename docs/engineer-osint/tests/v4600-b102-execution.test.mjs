@@ -8,6 +8,7 @@ const root='docs/engineer-osint';
 const authorization=JSON.parse(readFileSync(`${root}/V4599_B102_APPEND_AUTHORIZATION.json`,'utf8'));
 const historicalB103Authorization=JSON.parse(readFileSync(`${root}/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`,'utf8'));
 const currentB103Authorization=JSON.parse(readFileSync(`${root}/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json`,'utf8'));
+const b104Authorization=JSON.parse(readFileSync(`${root}/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json`,'utf8'));
 const candidateRaw=readFileSync(`${root}/osint-publication-candidates/v4598-b102.json`,'utf8');
 const persistedRaw=readFileSync(`${root}/data/runs/engineer-osint-20260902-B102.json`,'utf8');
 const appendRunRaw=readFileSync(`${root}/append-run.mjs`,'utf8');
@@ -18,8 +19,9 @@ const FILE_SHA='5a24a0cf6fece6dbf61d9224dddefb6d711b5ab9cbd9690f1c13c963c413781a
 const CANONICAL_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95fb7f91';
 const HISTORICAL_APPEND_SHA='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
+const B104_RUN='engineer-osint-20260903-B104';
 
-test('v4.6.00 persists the exact authorized B102 standard append across the exact B103 lifecycle successor',()=>{
+test('v4.6.00 persists the exact authorized B102 standard append across the exact B103/B104 lifecycle successors',()=>{
   const store=loadCanonicalRunStore({root});
   const b102Entry=store.manifest.runs.find(item=>item.run_id===RUN);
   assert.deepEqual(b102Entry,{
@@ -35,13 +37,17 @@ test('v4.6.00 persists the exact authorized B102 standard append across the exac
   assert.equal(historicalB103Authorization.expected_resulting_canonical_sha256,'5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066');
   const allowedHeads=new Map([
     [RUN,CANONICAL_SHA],
-    [currentB103Authorization.candidate_run_id,currentB103Authorization.expected_resulting_canonical_sha256]
+    [currentB103Authorization.candidate_run_id,currentB103Authorization.expected_resulting_canonical_sha256],
+    [b104Authorization.candidate_run_id,b104Authorization.expected_resulting_canonical_sha256]
   ]);
-  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→V4619 B103 lifecycle');
+  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→V4619 B103→V4646 B104 lifecycle');
 });
 
 test('v4.6.00 publishes exactly three reviewed bridging systems with exact provenance',()=>{
-  const {data}=loadCanonicalRunStore({root});
+  const store=loadCanonicalRunStore({root});
+  const {data}=store;
+  const exactB104=store.report.current_run_id===B104_RUN;
+  if(exactB104)assert.equal(store.report.canonical_sha256,b104Authorization.expected_resulting_canonical_sha256);
   const ids=['ENG-TECH-0049','ENG-TECH-0050','ENG-TECH-0051'];
   const sourceIds=['ENG-SRC-0534','ENG-SRC-0535','ENG-SRC-0536'];
   const evidenceIds=['ENG-EVID-0222','ENG-EVID-0223','ENG-EVID-0224'];
@@ -53,7 +59,8 @@ test('v4.6.00 publishes exactly three reviewed bridging systems with exact prove
   assert.deepEqual(evidence.map(x=>x.evidence_id||x.id),evidenceIds);
   for(const record of records){
     assert.equal(record.first_seen_run,RUN);
-    assert.equal(record.last_update_run,RUN);
+    const expectedLastUpdate=exactB104&&record.id==='ENG-TECH-0049'?B104_RUN:RUN;
+    assert.equal(record.last_update_run,expectedLastUpdate);
     assert.equal(record.source_ids.length,1);
     assert.equal(record.evidence_ids.length,1);
   }
