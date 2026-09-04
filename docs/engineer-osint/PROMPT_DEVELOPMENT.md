@@ -1,8 +1,8 @@
-# ENGINEER OSINT — PROMPT DEVELOPMENT v3.6
+# ENGINEER OSINT — PROMPT DEVELOPMENT v3.7
 
 Status: derived execution view
-Requires: `PROMPT_CORE.md` v3.6
-Canonical authority: `MASTER_PROMPT.md` v3.6
+Requires: `PROMPT_CORE.md` v3.7
+Canonical authority: `MASTER_PROMPT.md` v3.7
 
 Tento modul řídí implementaci webu, runtime, UI/UX, build, tooling, schemas, tests, CI/workflows, deployment mechanics, performance a technické opravy. Není samostatnou autoritou. Konflikt s CORE/MASTER/P0 nebo version mismatch = fail closed pro write operace.
 
@@ -85,6 +85,17 @@ Při red CI nebo lokálním failure:
 7. opakovatelnou chybu přesuň do dřívějšího preflightu/regression guardu.
 
 Stejná třída chyby podruhé = povinná meta-analýza a anti-loop změna procesu.
+
+## 5A. High-throughput technical execution
+
+1. Před drahým full-CI během proveď všechny dostupné targeted/static/deterministic preflighty a self-review.
+2. Pokud jedna root-cause analýza odhalí více oprav a všechny patří do stejného povoleného scope, coalescuj je před dalším full-CI cyklem místo předvídatelných postupných red headů.
+3. Pro CLASS B/C lze po jednom fresh preflightu použít mutation bundle s explicitním branch/path/scope setem a jedním exact final diff/read-backem. Scope expansion, external dependency nebo unexpected diff bundle ukončí a vyžádá nový fresh read.
+4. Mutation bundle nikdy nepoužívej pro CLASS A canonical/history, authorization/execution, permissions nebo security-boundary změny.
+5. Safe runway dovoluje pokračovat přes branch → implementaci → targeted test → PR → gate bez zbytečného zastavení, pokud jsou všechny kroky povolené a vstupy stále fresh pro jejich rozhodovací hranici.
+6. CI nejprve sleduj agregovaně; detail jobu/stepů/logů načítej při failure, cancel, ambiguity, nondeterminismu nebo explicitní proof potřebě.
+7. Required exact-head CI na finalizovaném headu zůstává povinný. Jakákoli změna headu zneplatní předchozí exact-head výsledek a vyžaduje nový relevantní full-CI průchod.
+8. Žádná throughput optimalizace nesmí snížit test surface, exactness, fail-closed, auditovatelnost nebo factual/safety boundary.
 
 ## 6. Candidate and canonical boundary
 

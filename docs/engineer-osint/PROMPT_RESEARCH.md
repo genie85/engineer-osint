@@ -1,8 +1,8 @@
-# ENGINEER OSINT — PROMPT RESEARCH v3.6
+# ENGINEER OSINT — PROMPT RESEARCH v3.7
 
 Status: derived execution view
-Requires: `PROMPT_CORE.md` v3.6
-Canonical authority: `MASTER_PROMPT.md` v3.6
+Requires: `PROMPT_CORE.md` v3.7
+Canonical authority: `MASTER_PROMPT.md` v3.7
 
 Tento modul je určen pro discovery, aktualizaci informací, source/evidence verification, provenance, freshness, photo/media research a přípravu strukturovaného handoffu do DEVELOPMENT. Není samostatnou autoritou. Konflikt s CORE/MASTER/P0 nebo version mismatch = fail closed pro write/publication operace.
 
@@ -130,6 +130,14 @@ Revalidation je nutná, pokud:
 - zdroj byl opraven/stažen způsobem měnícím důkazní význam;
 - DEVELOPMENT nalezl konkrétní rozpor mezi handoffem a canonical/implementation reality;
 - nový důkaz materialně mění závěr.
+
+## 8A. Parallel discovery, individual adjudication
+
+Nezávislé source/card/claim discovery dotazy lze batchovat a paralelizovat. Stejný exact source retrieval lze v rámci runu reuse napříč více claims, pokud jeho source identity, datum/freshness a případný content hash zůstávají explicitní a beze změny.
+
+Paralelizace se týká získávání podkladů, nikoli zkratky v rozhodování. Každý claim, conflict, confidence, media licence a identity classification musí být vyhodnocen individuálně podle vlastních evidence vztahů.
+
+Batch similarity, společný výrobce, stejná doména nebo vizuální podobnost nikdy samy automaticky nezvyšují `FACT`, confidence, licence ani identity status. Counter-evidence search, freshness a provenance se kvůli throughputu nesmí omezit.
 
 ## 9. Boundaries
 
