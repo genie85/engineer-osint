@@ -20,7 +20,7 @@ const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const expectedBrowserDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 
-test('v4.6.43 authorizes only the exact frozen B104 wave 2 candidate',()=>{
+test('v4.6.43 historical authorization still pins the original frozen B104 candidate',()=>{
   assert.equal(auth.schema_version,'engineer-osint-b104-wave2-local-image-append-authorization-v1');
   assert.equal(auth.status,'READY_FOR_APPEND');
   assert.equal(auth.reviewed_main_sha,'79a925a3c812f2798e3652021be351407d6d0318');
@@ -53,19 +53,19 @@ test('v4.6.43 authorizes only the exact frozen B104 wave 2 candidate',()=>{
   assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),auth.expected_resulting_canonical_sha256);
 });
 
-test('v4.6.43 pins exact lifecycle predecessor, successor and three immutable local binaries',()=>{
+test('v4.6.44 source correction makes the v4.6.43 exact lifecycle successor non-executable',()=>{
   const source=read('photo-review-batches/v4639.json');
   const successor=read('photo-review-candidates/v4642-b104-v4639-local-image-status.json');
   assert.equal(sha256(source),auth.photo_review_status_successor.source_sha256);
   assert.equal(gitBlobSha(source),auth.photo_review_status_successor.source_git_blob_sha);
-  assert.equal(sha256(successor),auth.photo_review_status_successor.successor_sha256);
-  assert.equal(gitBlobSha(successor),auth.photo_review_status_successor.successor_git_blob_sha);
+  assert.notEqual(sha256(successor),auth.photo_review_status_successor.successor_sha256);
+  assert.notEqual(gitBlobSha(successor),auth.photo_review_status_successor.successor_git_blob_sha);
   const successorJson=JSON.parse(successor.toString('utf8'));
   assert.deepEqual(successorJson.entries.map(item=>item.card_id),expectedCards);
   assert.ok(successorJson.entries.every(item=>item.status==='LOCAL_IMAGE'));
   const leguan=successorJson.entries.find(item=>item.card_id==='ENG-TECH-0049');
-  assert.equal(leguan.license,'CC BY-SA 4.0');
-  assert.match(leguan.provenance_correction,/structured-data CC0/i);
+  assert.equal(leguan.license,'CC0 1.0 Universal Public Domain Dedication');
+  assert.match(leguan.provenance_correction,/file-level CC0 1\.0/i);
 
   assert.equal(auth.local_files.length,3);
   for(const entry of auth.local_files){
@@ -79,14 +79,18 @@ test('v4.6.43 pins exact lifecycle predecessor, successor and three immutable lo
   assert.equal(auth.photo_review_status_successor.expected_photo_coverage_percent,24);
 });
 
-test('v4.6.43 pins consolidated B104 discovery evidence including exact browser digest',()=>{
-  assert.equal(gitBlobSha(read('V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json')),auth.readiness_git_blob_sha);
-  assert.equal(readiness.status,'READY_FOR_EXACT_REVIEW');
+test('v4.6.44 blocks the old readiness while retaining its frozen historical evidence',()=>{
+  assert.notEqual(gitBlobSha(read('V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json')),auth.readiness_git_blob_sha);
+  assert.equal(readiness.status,'BLOCKED_SOURCE_LICENSE_CORRECTION');
   assert.equal(readiness.candidate_file_sha256,auth.exact_candidate_file_sha256);
   assert.equal(readiness.expected_resulting_canonical_sha256,auth.expected_resulting_canonical_sha256);
   assert.equal(readiness.lifecycle_source_sha256,auth.photo_review_status_successor.source_sha256);
   assert.equal(readiness.lifecycle_successor_sha256,auth.photo_review_status_successor.successor_sha256);
   assert.equal(readiness.authorization_required,true);
+  assert.equal(readiness.blocking_correction.authoritative_license,'CC0 1.0 Universal Public Domain Dedication');
+  assert.equal(readiness.blocking_correction.execution_permitted,false);
+  assert.equal(readiness.blocking_correction.requires_fresh_corrected_discovery,true);
+  assert.equal(readiness.blocking_correction.requires_new_authorization,true);
 
   const evidence=auth.preauthorization_evidence;
   assert.equal(evidence.discovery_head_sha,'2ee57990e0cc50e53b73e13d9db66f84a28a8424');
@@ -102,7 +106,7 @@ test('v4.6.43 pins consolidated B104 discovery evidence including exact browser 
   assert.equal(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs')),evidence.browser_discovery_test_git_blob_sha);
 });
 
-test('v4.6.43 authorizes only the exact B104 browser workflow successor before canonical execution',()=>{
+test('v4.6.43 historical workflow authorization boundary remains unchanged and unapplied',()=>{
   const workflow=readRepo('.github/workflows/identity-fix-retirement-regression.yml');
   assert.equal(gitBlobSha(workflow),auth.browser_workflow_successor.source_git_blob_sha);
   const text=workflow.toString('utf8');

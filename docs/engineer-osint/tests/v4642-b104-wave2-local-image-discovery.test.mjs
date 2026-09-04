@@ -58,7 +58,7 @@ test('v4.6.42 B104 candidate is exact three-card local-image enrichment with pin
   }
 });
 
-test('v4.6.42 lifecycle successor advances exactly v4639 READY_FOR_IMPORT entries to LOCAL_IMAGE without duplicate registry entries',()=>{
+test('v4.6.42 lifecycle successor is source-corrected and therefore invalidates the stale exact authorization',()=>{
   const source=JSON.parse(readFileSync(lifecycleSourcePath,'utf8'));
   const successor=JSON.parse(readFileSync(successorPath,'utf8'));
   const acquisition=JSON.parse(readFileSync(acquisitionPath,'utf8'));
@@ -71,13 +71,17 @@ test('v4.6.42 lifecycle successor advances exactly v4639 READY_FOR_IMPORT entrie
     const archived=acquisitionByCard.get(entry.card_id);
     assert.equal(entry.local_image_path,archived.local_image_path);
     assert.equal(entry.sha256,archived.local_sha256);
-    assert.equal(entry.license,archived.license);
+    if(entry.card_id!=='ENG-TECH-0049')assert.equal(entry.license,archived.license);
     assert.ok(!('import_blocker' in entry));
   }
-  assert.equal(successor.entries.find(item=>item.card_id==='ENG-TECH-0049').license,'CC BY-SA 4.0');
+  const leguan=successor.entries.find(item=>item.card_id==='ENG-TECH-0049');
+  const archivedLeguan=acquisitionByCard.get('ENG-TECH-0049');
+  assert.equal(leguan.license,'CC0 1.0 Universal Public Domain Dedication');
+  assert.equal(archivedLeguan.license,'CC BY-SA 4.0');
+  assert.match(leguan.provenance_correction,/file-level CC0 1\.0/i);
 });
 
-test('v4.6.42 readiness pins the exact discovered candidate, canonical and lifecycle identities',()=>{
+test('v4.6.42 readiness is blocked because its frozen lifecycle successor hash was superseded by source correction',()=>{
   const readiness=JSON.parse(readFileSync(readinessPath,'utf8'));
   const candidateRaw=readFileSync(candidatePath,'utf8');
   const successorRaw=readFileSync(successorPath,'utf8');
@@ -86,7 +90,7 @@ test('v4.6.42 readiness pins the exact discovered candidate, canonical and lifec
   const candidate=JSON.parse(candidateRaw);
   const resultingCanonicalSha=canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate));
 
-  assert.equal(readiness.status,'READY_FOR_EXACT_REVIEW');
+  assert.equal(readiness.status,'BLOCKED_SOURCE_LICENSE_CORRECTION');
   assert.equal(readiness.reviewed_main_sha,'c2ad3befded2b69f4490b1778f5e2535f690ab08');
   assert.equal(readiness.parent_run_id,parentRunId);
   assert.equal(readiness.parent_canonical_sha256,parentCanonicalSha);
@@ -97,7 +101,12 @@ test('v4.6.42 readiness pins the exact discovered candidate, canonical and lifec
   assert.equal(readiness.lifecycle_source_path,lifecycleSourcePath);
   assert.equal(readiness.lifecycle_source_sha256,sha256(sourceRaw));
   assert.equal(readiness.lifecycle_successor_path,successorPath);
-  assert.equal(readiness.lifecycle_successor_sha256,sha256(successorRaw));
+  assert.notEqual(readiness.lifecycle_successor_sha256,sha256(successorRaw));
+  assert.equal(readiness.blocking_correction.card_id,'ENG-TECH-0049');
+  assert.equal(readiness.blocking_correction.authoritative_license,'CC0 1.0 Universal Public Domain Dedication');
+  assert.equal(readiness.blocking_correction.execution_permitted,false);
+  assert.equal(readiness.blocking_correction.requires_fresh_corrected_discovery,true);
+  assert.equal(readiness.blocking_correction.requires_new_authorization,true);
   assert.deepEqual(readiness.expected_card_ids,expectedCards);
   assert.deepEqual(readiness.expected_visual_ids,expectedVisuals);
   assert.equal(readiness.expected_updated_record_count,3);
@@ -129,7 +138,7 @@ test('current canonical executor supports an exact pinned lifecycle source path 
   assert.match(source,/expectedChanged=new Set\(\[requestPath,`\$\{osintRoot\}\/data\/run-store-manifest\.json`,runPath,\.\.\.\(lifecycle\?\[lifecycle\.sourcePath\]:\[\]\)\]\)/);
 });
 
-test('v4.6.42 discovery simulates B103 to B104 append plus exact v4639 lifecycle successor and PUBLIC-CZ gates',()=>{
+test('v4.6.42 discovery simulates B103 to B104 append plus current lifecycle successor and PUBLIC-CZ gates',()=>{
   const raw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(raw);
   const candidateSha=sha256(raw);
