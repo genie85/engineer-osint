@@ -15,12 +15,15 @@ const auth = json('V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json');
 const manifest = json('data/run-store-manifest.json');
 const historicalB103 = json('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const currentB103 = json('V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json');
+const b104 = json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const IMPLEMENTED_APPEND_RUN_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 const EXACT_V4605_MANIFEST_BASELINE_SHA='15d5b2ae11966ca8912ee062a5be4d520a913bef';
 const EXACT_B103_RUN_ID='engineer-osint-20260902-B103';
 const EXACT_B103_CANONICAL_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
+const EXACT_B104_RUN_ID='engineer-osint-20260903-B104';
+const EXACT_B104_CANONICAL_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 
-test('v4.6.05 preserves the exact pre-implementation baseline and admits only the v4.6.06 append-run successor', () => {
+test('v4.6.05 preserves the exact pre-implementation baseline and admits only exact authorized lifecycle successors', () => {
   assert.equal(auth.schema_version, 'engineer-osint-canonical-executor-authorization-v1');
   assert.equal(auth.status, 'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.reviewed_main_sha, 'eedd4fc12a4f704ec7ee84955d3f2bc9e27ace5c');
@@ -32,11 +35,15 @@ test('v4.6.05 preserves the exact pre-implementation baseline and admits only th
   assert.equal(gitBlobSha(read('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json')), auth.protected_baseline.b103_authorization_blob_sha);
   assert.equal(historicalB103.expected_resulting_canonical_sha256,'5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066');
   assert.equal(currentB103.expected_resulting_canonical_sha256,EXACT_B103_CANONICAL_SHA);
+  assert.equal(b104.expected_parent_run_id,EXACT_B103_RUN_ID);
+  assert.equal(b104.expected_parent_canonical_sha256,EXACT_B103_CANONICAL_SHA);
+  assert.equal(b104.expected_resulting_canonical_sha256,EXACT_B104_CANONICAL_SHA);
 
   const current = manifest.runs.at(-1);
   const exactAllowedTips=new Map([
     [auth.protected_baseline.current_run_id,auth.protected_baseline.current_canonical_sha256],
-    [EXACT_B103_RUN_ID,EXACT_B103_CANONICAL_SHA]
+    [EXACT_B103_RUN_ID,EXACT_B103_CANONICAL_SHA],
+    [EXACT_B104_RUN_ID,EXACT_B104_CANONICAL_SHA]
   ]);
   assert.ok(exactAllowedTips.has(current.run_id),`unexpected current run ${current.run_id}`);
   assert.equal(current.canonical_sha256,exactAllowedTips.get(current.run_id));
