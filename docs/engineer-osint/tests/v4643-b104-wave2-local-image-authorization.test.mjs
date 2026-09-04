@@ -13,13 +13,16 @@ const sha256=buf=>createHash('sha256').update(buf).digest('hex');
 const gitBlobSha=buf=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${buf.length}\0`),buf])).digest('hex');
 const auth=json('V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const readiness=json('V4642_B104_WAVE2_LOCAL_IMAGE_READINESS.json');
+const correctedAuth=json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const candidate=json('osint-publication-candidates/v4642-b104-wave2-local-images-public-cz.json');
 const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
+const correctedB104CanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const expectedBrowserDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 const exactB104WorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const exactV4649BrowserDiscoverySha='868159b7ea8a104db962989280bb2953ef9b04f9';
 const exactB104Pair=`'${B104}':'${expectedBrowserDigest}'`;
 
 function assertHistoricalOrExactB104Workflow(workflow){
@@ -33,6 +36,19 @@ function assertHistoricalOrExactB104Workflow(workflow){
     .replace(`,\n            ${exactB104Pair}`, '');
   assert.equal(gitBlobSha(Buffer.from(predecessor)),auth.browser_workflow_successor.source_git_blob_sha,'v4.6.47 does not reduce to v4.6.43 protected workflow baseline');
   return true;
+}
+
+function assertLivePreOrCorrectedB104(store){
+  if(store.report.current_run_id===B103){
+    assert.equal(store.report.canonical_sha256,auth.expected_parent_canonical_sha256);
+    return 'PRE_CORRECTED_B104';
+  }
+  assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B103→corrected B104 lifecycle');
+  assert.equal(store.report.canonical_sha256,correctedB104CanonicalSha);
+  assert.equal(correctedAuth.expected_parent_run_id,B103);
+  assert.equal(correctedAuth.expected_parent_canonical_sha256,auth.expected_parent_canonical_sha256);
+  assert.equal(correctedAuth.expected_resulting_canonical_sha256,correctedB104CanonicalSha);
+  return 'POST_CORRECTED_B104';
 }
 
 test('v4.6.43 historical authorization still pins the original frozen B104 candidate',()=>{
@@ -63,16 +79,31 @@ test('v4.6.43 historical authorization still pins the original frozen B104 candi
   assert.deepEqual(candidate.visuals.map(item=>item.id),expectedVisuals);
 
   const store=loadCanonicalRunStore({root});
-  assert.equal(store.report.current_run_id,B103);
-  assert.equal(store.report.canonical_sha256,auth.expected_parent_canonical_sha256);
-  assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),auth.expected_resulting_canonical_sha256);
+  const phase=assertLivePreOrCorrectedB104(store);
+  if(phase==='PRE_CORRECTED_B104'){
+    assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),auth.expected_resulting_canonical_sha256);
+  } else {
+    const persisted=read(`data/runs/${B104}.json`);
+    assert.equal(sha256(persisted),correctedAuth.exact_candidate_file_sha256);
+    assert.notEqual(correctedAuth.exact_candidate_file_sha256,auth.exact_candidate_file_sha256);
+    assert.notEqual(correctedAuth.expected_resulting_canonical_sha256,auth.expected_resulting_canonical_sha256);
+  }
 });
 
-test('v4.6.44 source correction makes the v4.6.43 exact lifecycle successor non-executable',()=>{
+test('v4.6.44 source correction makes the v4.6.43 exact lifecycle successor non-executable and remains historical after corrected B104',()=>{
   const source=read('photo-review-batches/v4639.json');
   const successor=read('photo-review-candidates/v4642-b104-v4639-local-image-status.json');
-  assert.equal(sha256(source),auth.photo_review_status_successor.source_sha256);
-  assert.equal(gitBlobSha(source),auth.photo_review_status_successor.source_git_blob_sha);
+  const store=loadCanonicalRunStore({root});
+  const phase=assertLivePreOrCorrectedB104(store);
+  if(phase==='PRE_CORRECTED_B104'){
+    assert.equal(sha256(source),auth.photo_review_status_successor.source_sha256);
+    assert.equal(gitBlobSha(source),auth.photo_review_status_successor.source_git_blob_sha);
+  } else {
+    const correctedSuccessor=read('photo-review-candidates/v4645-b104-v4639-local-image-status-cc0.json');
+    assert.equal(source.toString('utf8'),correctedSuccessor.toString('utf8'));
+    assert.equal(sha256(source),correctedAuth.photo_review_status_successor.successor_sha256);
+    assert.equal(gitBlobSha(source),correctedAuth.photo_review_status_successor.successor_git_blob_sha);
+  }
   assert.notEqual(sha256(successor),auth.photo_review_status_successor.successor_sha256);
   assert.notEqual(gitBlobSha(successor),auth.photo_review_status_successor.successor_git_blob_sha);
   const successorJson=JSON.parse(successor.toString('utf8'));
@@ -118,7 +149,7 @@ test('v4.6.44 blocks the old readiness while retaining its frozen historical evi
   assert.equal(evidence.public_cz_ratchet,'PUBLIC_CZ_RATCHET_PASS');
   assert.equal(evidence.new_missing_fields,0);
   assert.equal(evidence.expected_b104_browser_normalized_dom_sha256,expectedBrowserDigest);
-  assert.equal(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs')),evidence.browser_discovery_test_git_blob_sha);
+  assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha].includes(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs'))));
 });
 
 test('v4.6.43 historical workflow authorization boundary remains pinned across exact v4.6.47 successor',()=>{
