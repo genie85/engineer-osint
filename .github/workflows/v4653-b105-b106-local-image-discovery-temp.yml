@@ -1,0 +1,47 @@
+name: ENGINEER OSINT temporary v4.6.53 B105 B106 local-image discovery
+
+on:
+  push:
+    branches:
+      - chatgpt/engineer-osint-v4653-b105-b106-local-image-discovery
+    paths:
+      - .github/workflows/v4653-b105-b106-local-image-discovery-temp.yml
+      - docs/engineer-osint/v4653-b105-b106-local-image-discovery.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact discovery branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Simulate B105 then B106 without authoritative writes
+        env:
+          DISCOVERY_OUT: ${{ runner.temp }}/v4653-b105-b106-discovery
+        run: node docs/engineer-osint/v4653-b105-b106-local-image-discovery.mjs
+
+      - name: Assert repository remained read-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain=v1)"
+
+      - name: Upload exact discovery evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: v4653-b105-b106-local-image-discovery
+          path: ${{ runner.temp }}/v4653-b105-b106-discovery
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 5
