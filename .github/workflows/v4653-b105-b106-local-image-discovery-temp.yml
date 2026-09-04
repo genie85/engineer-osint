@@ -19,17 +19,27 @@ jobs:
       - name: Checkout exact discovery branch
         uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
+      - name: Verify exact main ancestry and isolated discovery diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=58a2cb5547d9b8292056cddf1fb1cde0d245e8e4
+          git merge-base --is-ancestor "$BASE" HEAD
+          actual="$(git diff --name-only "$BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' '.github/workflows/v4653-b105-b106-local-image-discovery-temp.yml' 'docs/engineer-osint/v4653-b105-b106-local-image-discovery.mjs' | sort)"
+          test "$actual" = "$expected"
+
       - name: Simulate B105 then B106 without authoritative writes
         env:
           DISCOVERY_OUT: ${{ runner.temp }}/v4653-b105-b106-discovery
-        run: node docs/engineer-osint/v4653-b105-b106-local-image-discovery.mjs
+        run: env -u GITHUB_SHA node docs/engineer-osint/v4653-b105-b106-local-image-discovery.mjs
 
       - name: Assert repository remained read-only
         shell: bash
