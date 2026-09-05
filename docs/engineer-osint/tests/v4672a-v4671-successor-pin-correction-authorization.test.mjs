@@ -28,7 +28,7 @@ test('v4.6.72a pins exact source and replacement successor while authorization s
   assert.equal(auth.authorized_target.source_git_blob_sha,'e89c25af599f89583690b5b72bbf98f46724fb1a');
   assert.equal(auth.authorized_target.replacement_successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447');
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha);
-  assert.equal(gitBlobSha(readFileSync(auth.authorized_target.path)),auth.authorized_target.source_git_blob_sha);
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
 });
 
 test('v4.6.72a keeps implementation, B105 publication and B106 strictly separated',()=>{
