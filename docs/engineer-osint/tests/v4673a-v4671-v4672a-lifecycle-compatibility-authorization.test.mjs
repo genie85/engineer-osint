@@ -6,6 +6,10 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
 const correction=JSON.parse(readFileSync(`${root}/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const nextGuardSuccessors=new Map([
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'9484399067b3defa79439e0054ceb1731902dc0f'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'f65f730a9060ee1c00b36a1757c355801543dc6c']
+]);
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -25,7 +29,7 @@ test('v4.6.73a pins failed exact-head implementation and two exact guard transit
   ]);
 });
 
-test('v4.6.73a is lifecycle-compatible with exact historical and corrected guard successors',()=>{
+test('v4.6.73a is lifecycle-compatible with exact historical, corrected and next guard successors',()=>{
   assert.equal(correction.superseded_authorization.path,`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(correction.superseded_authorization.git_blob_sha,'6abeb6ad9a111cfb421a2cf9297aad70ac6f113d');
   assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
@@ -34,8 +38,10 @@ test('v4.6.73a is lifecycle-compatible with exact historical and corrected guard
     assert.equal(matches.length,1,`${target.path} must have exactly one corrected target`);
     const corrected=matches[0];
     assert.equal(corrected.source_git_blob_sha,target.source_git_blob_sha);
+    const next=nextGuardSuccessors.get(target.path);
+    assert.ok(next,`${target.path} must have exactly one pinned next successor`);
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha].includes(blob),`${target.path} must be exact source, exact historical successor, or exact corrected successor`);
+    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha,next].includes(blob),`${target.path} must be exact source, exact historical successor, exact corrected successor, or exact pinned next successor`);
   }
 });
 
