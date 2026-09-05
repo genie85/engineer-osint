@@ -1,0 +1,61 @@
+{
+  "schema_version": "engineer-osint-v4671-v4672a-lifecycle-compatibility-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "7ae96c484e2561950737efba41074991ef5d2413",
+  "failed_implementation": {
+    "pr_number": 406,
+    "head_sha": "fa8c814792ef223f082b0335361927c905e4ab82",
+    "exact_head_workflow_runs": [33960104147,33960104097,33960104093,33960104096],
+    "failure_class": "AUTHORIZATION_TEST_LIFECYCLE_COMPATIBILITY_BLOCKER"
+  },
+  "authorized_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "328471797d7a421769c706d6913c5bcaa7cf0c59",
+      "successor_git_blob_sha": "2e2941a782162d1a74fa61bb9f2e1ad73de04dac"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "cb71fdd36081fa6b17cd5a560d1303354ec41660",
+      "successor_git_blob_sha": "bb7b82ff8d4a86f430cb1df36a223d3bb6a7b183"
+    }
+  ],
+  "authorized_semantics": [
+    "v4671 may accept only exact original source, exact original authorized successor, or exact corrected authorized successor 0e17237a65876cabe8ee14a9b333ddc28d053447",
+    "v4672a may accept only exact source or exact corrected authorized successor 0e17237a65876cabe8ee14a9b333ddc28d053447",
+    "no wildcard, dynamic-current-state, partial, mixed or unknown identity acceptance",
+    "change exactly the two regression guard tests in a separate implementation slice",
+    "do not change v4670 target in the same slice",
+    "after both guard successors are merged, retry the exact v4670 successor as a separate implementation slice"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "change_exactly_two_guard_tests": true,
+    "exact_source_required": true,
+    "exact_successor_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_v4670_implementation_retry_required": true
+  },
+  "forbidden": {
+    "change_v4670_same_slice": true,
+    "change_v4669a_same_slice": true,
+    "change_v4667_guard_target": true,
+    "change_v4668a_guard_target": true,
+    "change_any_of_17_targets": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "two_guard_successors_permitted": true,
+    "v4670_same_slice": false,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
