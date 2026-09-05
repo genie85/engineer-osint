@@ -1,0 +1,82 @@
+{
+  "schema_version": "engineer-osint-b105-postwrite-lifecycle-compatibility-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "7c4d5673a7abe2e8a358a0769a2c02d27499ada6",
+  "failed_execution": {
+    "pull_request": 396,
+    "head_sha": "10779f63bd1af6c7b4109dfd24a2c36a4778d5ac",
+    "executor_run_id": 33948225697,
+    "executor_conclusion": "failure",
+    "postwrite_test_total": 588,
+    "postwrite_test_pass": 557,
+    "postwrite_test_fail": 28,
+    "postwrite_test_skip": 3,
+    "materialization_status_before_postwrite_gate": "APPENDED"
+  },
+  "exact_b105_state": {
+    "run_id": "engineer-osint-20260904-B105",
+    "parent_run_id": "engineer-osint-20260903-B104",
+    "parent_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+    "candidate_file_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+    "resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "photo_lifecycle_successor_git_blob_sha": "35bc012c9364cd257dd75666a6749a698a2e228b",
+    "expected_cards_with_local_image": 17,
+    "expected_ready_for_import": 2,
+    "expected_photo_coverage_percent": 34
+  },
+  "authorized_test_targets": [
+    {"path":"docs/engineer-osint/tests/v4584-open-photo-batch.test.mjs","source_git_blob_sha":"c7eac8f5eec0cb546d1cb9d50ee1c77f8902eeb7"},
+    {"path":"docs/engineer-osint/tests/v4594-b100-execution.test.mjs","source_git_blob_sha":"70be8516aa41f2160098a49ab4dcfa9d1fb0c165"},
+    {"path":"docs/engineer-osint/tests/v4600-b102-execution.test.mjs","source_git_blob_sha":"cd31bdeb4ea9ef855c605fe83b80f219ed5f2f26"},
+    {"path":"docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs","source_git_blob_sha":"6eb824d4665af54c975256c4ec8bc4fe5dbd865f"},
+    {"path":"docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs","source_git_blob_sha":"5bbbddeaf8c3717e8e6d9636082a57c2b7d01c38"},
+    {"path":"docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs","source_git_blob_sha":"5db22e504ac82efed5def412e96335e46b8da892"},
+    {"path":"docs/engineer-osint/tests/v4616-b103-public-cz-candidate.test.mjs","source_git_blob_sha":"d275bc42de7f636d88646124c2adef3d16cc21ad"},
+    {"path":"docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs","source_git_blob_sha":"43384369ea70755792eaf37f4a05f37e10bb53c1"},
+    {"path":"docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs","source_git_blob_sha":"0bee343905a8de962d4c105351cf8e124f219c2d"},
+    {"path":"docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs","source_git_blob_sha":"0e2d3e0985bc91df60007eaa5fe5b43e071f1996"},
+    {"path":"docs/engineer-osint/tests/v4642-b104-browser-digest-discovery.test.mjs","source_git_blob_sha":"868159b7ea8a104db962989280bb2953ef9b04f9"},
+    {"path":"docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs","source_git_blob_sha":"f66576506e7fc3e77d6bab7156e2c7cb559d8dba"},
+    {"path":"docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs","source_git_blob_sha":"be37f8ad1a6a31d0c4214d00fe1c28e856632692"},
+    {"path":"docs/engineer-osint/tests/v4645-b104-cc0-readiness.test.mjs","source_git_blob_sha":"eb04e8aa7250302b1f67a12c13e7f581f2773eae"},
+    {"path":"docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs","source_git_blob_sha":"15a37bdb88117729ade343cd09f22a4de646a601"},
+    {"path":"docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs","source_git_blob_sha":"7a6b45ea97299ffe15643f22c17f6679cdca18f9"},
+    {"path":"docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs","source_git_blob_sha":"b16234c3b58a1a829a86cfb66931bc70355ead83"}
+  ],
+  "authorized_change_semantics": [
+    "accept only the exact persisted B105 run and canonical hash as the next append-only descendant of the already pinned B104 state",
+    "accept only the exact v4584 LOCAL_IMAGE successor already authorized by v4.6.65",
+    "preserve every historical B100-B104 identity, hash, provenance and fail-closed assertion",
+    "for v4584 photo lifecycle assertions, allow READY_FOR_IMPORT in the B104 predecessor state or LOCAL_IMAGE only in the exact B105 persisted state",
+    "where tests inspect current canonical tip, extend explicit lifecycle branching to B105 rather than replacing historical expectations",
+    "derive and record exact successor Git blob identities before any new B105 execution retry"
+  ],
+  "forbidden": {
+    "wildcard_or_current_state_acceptance": true,
+    "executor_change": true,
+    "executor_workflow_change": true,
+    "canonical_or_run_store_write": true,
+    "candidate_change": true,
+    "photo_binary_change": true,
+    "photo_lifecycle_data_change": true,
+    "historical_hash_rewrite": true,
+    "historical_provenance_weakening": true,
+    "test_removal_or_skip": true,
+    "unrelated_runtime_or_ui_change": true,
+    "b106_authorization_or_execution": true
+  },
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "only_authorized_test_targets_may_change": true,
+    "exact_successor_blob_inventory_required_before_merge": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_b105_execution_retry_required": true
+  },
+  "authorization": {
+    "implementation_permitted": true,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
