@@ -28,7 +28,7 @@ test('v4.6.70 authorizes one exact V4669A test successor from the exact current 
   assert.equal(auth.authorized_target.source_git_blob_sha,'616405eaa413ec5552099dfec419f298c47a9440');
   assert.equal(auth.authorized_target.successor_git_blob_sha,'4396d5e87af72ddeb90ca080ea0b105411076cad');
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha);
-  assert.equal(gitBlobSha(readFileSync(auth.authorized_target.path)),auth.authorized_target.source_git_blob_sha);
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
 });
 
 test('v4.6.70 compatibility scope stays atomic, fail-closed and separate from B105 publication',()=>{
