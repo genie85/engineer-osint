@@ -1,0 +1,87 @@
+{
+  "schema_version": "engineer-osint-b105-successor-inventory-correction-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "20ae89f1975dd458701956206210a5676bee8904",
+  "historical_v4668a_authorization": {
+    "path": "docs/engineer-osint/V4668A_V4667_TEST_SUCCESSOR_AUTHORIZATION.json",
+    "git_blob_sha": "2007457061ea4815064db7cfbf8ca9d4fda6d8ff",
+    "immutable_historical_evidence": true,
+    "rewrite_forbidden": true
+  },
+  "correction_reason": {
+    "class": "MANUAL_SHA_TRANSCRIPTION_ERROR",
+    "description": "Two successor Git blob SHAs were transcribed incorrectly into the later guard inventory even though the derived test contents were correct.",
+    "invalid_entries": [
+      {
+        "path": "docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs",
+        "incorrect_successor_git_blob_sha": "c12146e366eb4c1f28f5ec4c911433176b70f7df",
+        "correct_successor_git_blob_sha": "c12146e71a4af724748904739ac4ddaaf7abafdd"
+      },
+      {
+        "path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+        "incorrect_successor_git_blob_sha": "89354a2af0439cb5b68563ef3f4c929821205407",
+        "correct_successor_git_blob_sha": "89354a2ec0ae6c213dec0df203ca8ec5ba748d3b"
+      }
+    ],
+    "validated_successor_tree_sha": "424023597322a092ac7da6908799405696e24342",
+    "validated_against_base_tree_sha": "9793811154da2f20b4f78353bd330426f16a6f0f"
+  },
+  "validated_successor_tree_sha": "424023597322a092ac7da6908799405696e24342",
+  "corrected_guard_targets": {
+    "v4667_test": {
+      "path": "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "source_git_blob_sha": "2e032f86c83e405a7bc341c8b7aa57c9edb854b3",
+      "successor_git_blob_sha": "ff4c40de42c7675c0b7f3701b142fee9c7fc989d"
+    },
+    "v4668a_test": {
+      "path": "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs",
+      "source_git_blob_sha": "5daa7909237801497f11870a898c7398c43f4dd2",
+      "successor_git_blob_sha": "f2cd9e4663cbb8cdb83140a89dde624f3cfa8f95"
+    }
+  },
+  "corrected_exact_test_state_pairs": [
+    ["docs/engineer-osint/tests/v4584-open-photo-batch.test.mjs","c7eac8f5eec0cb546d1cb9d50ee1c77f8902eeb7","f7040026d29c0110d12fd5304959359a6eedefc2"],
+    ["docs/engineer-osint/tests/v4594-b100-execution.test.mjs","70be8516aa41f2160098a49ab4dcfa9d1fb0c165","60d10d3a255ddc22600a2db85a3cb89212318b6f"],
+    ["docs/engineer-osint/tests/v4600-b102-execution.test.mjs","cd31bdeb4ea9ef855c605fe83b80f219ed5f2f26","c93ecce95fa927fd5fe47e5982c5dfafd46c4973"],
+    ["docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs","6eb824d4665af54c975256c4ec8bc4fe5dbd865f","b56aa561f2271c5feac39ceb0b463cacb927da84"],
+    ["docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs","5bbbddeaf8c3717e8e6d9636082a57c2b7d01c38","c12146e71a4af724748904739ac4ddaaf7abafdd"],
+    ["docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs","5db22e504ac82efed5def412e96335e46b8da892","89354a2ec0ae6c213dec0df203ca8ec5ba748d3b"],
+    ["docs/engineer-osint/tests/v4616-b103-public-cz-candidate.test.mjs","d275bc42de7f636d88646124c2adef3d16cc21ad","4e812347b7a69c522d9857f6367a816254964c87"],
+    ["docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs","43384369ea70755792eaf37f4a05f37e10bb53c1","abfc216575e1a372faa5ebc0982ee7f4bb52ae30"],
+    ["docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs","0bee343905a8de962d4c105351cf8e124f219c2d","c51f6a756a2b4cd86de302a47a93b582e3b6996b"],
+    ["docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs","0e2d3e0985bc91df60007eaa5fe5b43e071f1996","97637327b84932cfa3debcb7eb8f819cdf2ed392"],
+    ["docs/engineer-osint/tests/v4642-b104-browser-digest-discovery.test.mjs","868159b7ea8a104db962989280bb2953ef9b04f9","558bee8f3c599ff4afa5bb1f58e009b69b43903f"],
+    ["docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs","f66576506e7fc3e77d6bab7156e2c7cb559d8dba","86ec36b718eb1437effefb414b386891c4b87858"],
+    ["docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs","be37f8ad1a6a31d0c4214d00fe1c28e856632692","acc1c241f42bc71dbb3638ac117d8317520aa83f"],
+    ["docs/engineer-osint/tests/v4645-b104-cc0-readiness.test.mjs","eb04e8aa7250302b1f67a12c13e7f581f2773eae","62502ae22d405e3e0e8c57afda80151aff569b29"],
+    ["docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs","15a37bdb88117729ade343cd09f22a4de646a601","bd4a242f6f910f8cd54dc0a0aad9a020fd336e47"],
+    ["docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs","7a6b45ea97299ffe15643f22c17f6679cdca18f9","44ee3ea62eaee274bfaeebac5fab6478f9bcc019"],
+    ["docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs","b16234c3b58a1a829a86cfb66931bc70355ead83","cfa7ec4573761379758babac3b2e71959aa8b1ba"]
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "change_exactly_two_guard_tests": true,
+    "use_exact_successor_blobs": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_17_target_implementation_slice_required": true
+  },
+  "forbidden": {
+    "rewrite_historical_v4668a_authorization": true,
+    "change_any_of_17_targets_in_guard_correction_slice": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "candidate_or_photo_lifecycle_change": true,
+    "test_removal_or_skip": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "guard_test_correction_permitted": true,
+    "change_17_targets_same_slice": false,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
