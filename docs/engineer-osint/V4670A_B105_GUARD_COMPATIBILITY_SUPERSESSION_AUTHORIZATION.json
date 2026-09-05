@@ -1,0 +1,65 @@
+{
+  "schema_version": "engineer-osint-b105-guard-compatibility-supersession-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "a77faab3db9b9b52b16f0699f89617985d6a570f",
+  "supersedes": {
+    "authorization_path": "docs/engineer-osint/V4669A_B105_SUCCESSOR_INVENTORY_CORRECTION_AUTHORIZATION.json",
+    "authorization_git_blob_sha": "9fbdd5a65816aace6be15700f36d4fa807641ef6",
+    "failed_pull_request": 401,
+    "failed_head_sha": "98ff5969a8270a4192d33c5116c1980f9cc9b1c0",
+    "supersession_reason": "The authorized two-guard successor transition is blocked by the v4.6.69a authorization regression test itself, which requires both guard files to remain on their source blobs."
+  },
+  "root_cause": {
+    "class": "AUTHORIZATION_TEST_LIFECYCLE_COMPATIBILITY_BLOCKER",
+    "blocked_test_path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+    "blocked_test_source_git_blob_sha": "616405eaa413ec5552099dfec419f298c47a9440",
+    "required_successor_git_blob_sha": "de25e77c83b51d818e0043412d2b0eac4aba80cf",
+    "semantics": "Replace source-only assertions for the two already-authorized guard targets with one atomic exact-state assertion: both source or both exact successor; mixed and unknown states remain rejected."
+  },
+  "authorized_guard_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "source_git_blob_sha": "2e032f86c83e405a7bc341c8b7aa57c9edb854b3",
+      "successor_git_blob_sha": "ff4c40de42c7675c0b7f3701b142fee9c7fc989d"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs",
+      "source_git_blob_sha": "5daa7909237801497f11870a898c7398c43f4dd2",
+      "successor_git_blob_sha": "f2cd9e4663cbb8cdb83140a89dde624f3cfa8f95"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "source_git_blob_sha": "616405eaa413ec5552099dfec419f298c47a9440",
+      "successor_git_blob_sha": "de25e77c83b51d818e0043412d2b0eac4aba80cf"
+    }
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "change_exactly_three_guard_tests": true,
+    "use_exact_successor_blobs": true,
+    "atomic_source_or_successor_state_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_17_target_implementation_slice_required": true
+  },
+  "forbidden": {
+    "rewrite_v4669a_authorization": true,
+    "change_any_of_17_targets_in_guard_compatibility_slice": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "candidate_or_photo_lifecycle_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "three_guard_compatibility_implementation_permitted": true,
+    "change_17_targets_same_slice": false,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
