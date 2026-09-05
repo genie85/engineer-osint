@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
+const correction=JSON.parse(readFileSync(`${root}/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -24,10 +25,17 @@ test('v4.6.73a pins failed exact-head implementation and two exact guard transit
   ]);
 });
 
-test('v4.6.73a is lifecycle-compatible with both exact authorized guard successors',()=>{
+test('v4.6.73a is lifecycle-compatible with exact historical and corrected guard successors',()=>{
+  assert.equal(correction.superseded_authorization.path,`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
+  assert.equal(correction.superseded_authorization.git_blob_sha,'6abeb6ad9a111cfb421a2cf9297aad70ac6f113d');
+  assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
   for(const target of auth.authorized_targets){
+    const matches=correction.authorized_targets.filter(value=>value.path===target.path);
+    assert.equal(matches.length,1,`${target.path} must have exactly one corrected target`);
+    const corrected=matches[0];
+    assert.equal(corrected.source_git_blob_sha,target.source_git_blob_sha);
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha].includes(blob),`${target.path} must be exact source or exact authorized successor`);
+    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha].includes(blob),`${target.path} must be exact source, exact historical successor, or exact corrected successor`);
   }
 });
 
