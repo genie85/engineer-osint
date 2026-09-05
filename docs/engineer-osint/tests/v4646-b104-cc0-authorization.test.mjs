@@ -24,6 +24,9 @@ const parentCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba
 const resultingCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const expectedDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 const exactWorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const b105RunId='engineer-osint-20260904-B105';
+const b105Digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
+const exactB105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');
@@ -33,13 +36,23 @@ const json=path=>JSON.parse(readFileSync(path,'utf8'));
 function assertAuthorizedWorkflowLifecycle(authorization,workflowRaw){
   const current=gitBlobSha(workflowRaw);
   if(current===authorization.browser_workflow_successor.source_git_blob_sha)return false;
-  assert.equal(current,exactWorkflowSuccessorSha,'only exact v4.6.47 browser workflow successor is permitted');
   const pair=`'${runId}':'${expectedDigest}'`;
-  assert.equal(workflowRaw.split(pair).length-1,2,'B104 pair must occur exactly twice');
-  const predecessor=workflowRaw
+  const b105Pair=`'${b105RunId}':'${b105Digest}'`;
+  let b104Workflow=workflowRaw;
+  if(current===exactB105WorkflowSuccessorSha){
+    assert.equal(workflowRaw.split(b105Pair).length-1,2,'B105 pair must occur exactly twice');
+    b104Workflow=workflowRaw
+      .replace(`,\n              ${b105Pair}`, '')
+      .replace(`,\n            ${b105Pair}`, '');
+    assert.equal(gitBlobSha(b104Workflow),exactWorkflowSuccessorSha,'B105 workflow does not reduce to exact B104 successor');
+  }else{
+    assert.equal(current,exactWorkflowSuccessorSha,'only exact v4.6.47/B105 browser workflow successors are permitted');
+  }
+  assert.equal(b104Workflow.split(pair).length-1,2,'B104 pair must occur exactly twice');
+  const predecessor=b104Workflow
     .replace(`,\n              ${pair}`, '')
     .replace(`,\n            ${pair}`, '');
-  assert.equal(gitBlobSha(predecessor),authorization.browser_workflow_successor.source_git_blob_sha,'v4.6.47 workflow does not reduce to authorized predecessor');
+  assert.equal(gitBlobSha(predecessor),authorization.browser_workflow_successor.source_git_blob_sha,'authorized workflow chain does not reduce to predecessor');
   return true;
 }
 
@@ -175,7 +188,7 @@ test('v4.6.46 is accepted by the existing exact canonical executor contract befo
   }
 });
 
-test('v4.6.46 keeps the browser workflow successor exact across its separately authorized v4.6.47 lifecycle and pins protected executor baselines',()=>{
+test('v4.6.46 keeps the browser workflow successor exact across its separately authorized v4.6.47/B105 lifecycle and pins protected executor baselines',()=>{
   const authorization=json(authorizationPath);
   const workflowRaw=readFileSync(workflowPath,'utf8');
   const executorRaw=readFileSync(executorPath,'utf8');
@@ -193,6 +206,7 @@ test('v4.6.46 keeps the browser workflow successor exact across its separately a
   assert.equal(authorization.browser_workflow_successor.must_be_merged_and_green_before_canonical_execution,true);
 
   assert.equal(workflowRaw.includes(`'${runId}':'${expectedDigest}'`),successorApplied);
+  if(gitBlobSha(workflowRaw)===exactB105WorkflowSuccessorSha)assert.equal(workflowRaw.split(`'${b105RunId}':'${b105Digest}'`).length-1,2);
   assert.equal(authorization.execution_state.browser_workflow_successor_applied,false,'historical authorization execution_state remains immutable evidence');
   assert.equal(authorization.execution_state.canonical_write_performed,false);
   assert.equal(authorization.execution_state.run_file_created,false);

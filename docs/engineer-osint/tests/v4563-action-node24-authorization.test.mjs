@@ -13,6 +13,7 @@ const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 const b102IdentityWorkflowSha='3a14efd69c46d464c50543431565b57b4517ae39';
 const b103IdentityWorkflowSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104IdentityWorkflowSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const b105IdentityWorkflowSha='0aded293ae69be3844c73f6613f0a70b05320156';
 
 const active=new Map(policy.active_workflows.map(x=>[x.file,x]));
 const successors=new Map(lifecycle.workflow_successors.map(x=>[x.file,x]));
@@ -20,7 +21,7 @@ const texts=new Map([...active.keys()].map(file=>[file,readFileSync(`${wfRoot}/$
 const all=[...texts.values()].join('\n');
 const currentShas=new Map([...texts].map(([file,text])=>[file,gitBlobSha(text)]));
 const baselineMode=[...active].every(([file,item])=>currentShas.get(file)===item.historical_git_blob_sha);
-const published=[b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha];
+const published=[b100IdentityWorkflowSha,b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha];
 const successorMode=[...active].every(([file,item])=>{
   const successor=successors.get(file);
   if(successor?.v4562_git_blob_sha!==item.historical_git_blob_sha)return false;
@@ -36,7 +37,7 @@ test('v4.5.63 authorization is review-only and pinned to exact v4.5.62 productio
   for(const value of Object.values(policy.safety_boundary))assert.equal(value,false);
 });
 
-test('v4.5.63 pins every active baseline and accepts only exact action/B100/B101/B102/B103/B104 successors',()=>{
+test('v4.5.63 pins every active baseline and accepts only exact action/B100/B101/B102/B103/B104/B105 successors',()=>{
   assert.ok(baselineMode||successorMode,'active workflows are neither the exact v4.5.63 baseline nor exact permitted successor set');
   for(const [file,item] of active){
     const text=texts.get(file);
@@ -49,10 +50,11 @@ test('v4.5.63 pins every active baseline and accepts only exact action/B100/B101
         assert.ok([successor.v4564_diagnostic_git_blob_sha,...published].includes(current),`${file}: unauthorized successor blob`);
         if(published.includes(current)){
           assert.match(text,/'engineer-osint-20260902-B100':'58f9d08fa884fd49638f0f57a52dde993c3a22fafc5233c13e4e14d90e30e85d'/);
-          if([b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
-          if([b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7'/);
-          if([b103IdentityWorkflowSha,b104IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a'/);
-          if(current===b104IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'/);
+          if([b101IdentityWorkflowSha,b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B101':'c8c134daff25a15b3825680f5e033d83a833f87910e2c94421adf634ee7a7acd'/);
+          if([b102IdentityWorkflowSha,b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7'/);
+          if([b103IdentityWorkflowSha,b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a'/);
+          if([b104IdentityWorkflowSha,b105IdentityWorkflowSha].includes(current))assert.match(text,/'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'/);
+          if(current===b105IdentityWorkflowSha)assert.match(text,/'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'/);
           assert.match(text,/no exact digest authorized for current run/);
         }
       }else assert.equal(current,successor.v4564_diagnostic_git_blob_sha,`${file}: unauthorized successor blob`);
