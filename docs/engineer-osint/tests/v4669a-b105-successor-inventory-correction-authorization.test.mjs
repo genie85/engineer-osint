@@ -42,8 +42,10 @@ test('v4.6.69a pins all 17 corrected successor identities while the authorizatio
 test('v4.6.69a authorizes only two exact guard successors and forbids publication in the same slice',()=>{
   const v4667=auth.corrected_guard_targets.v4667_test;
   const v4668a=auth.corrected_guard_targets.v4668a_test;
-  assert.equal(gitBlobSha(readFileSync(v4667.path)),v4667.source_git_blob_sha);
-  assert.equal(gitBlobSha(readFileSync(v4668a.path)),v4668a.source_git_blob_sha);
+  const current=[gitBlobSha(readFileSync(v4667.path)),gitBlobSha(readFileSync(v4668a.path))];
+  const source=[v4667.source_git_blob_sha,v4668a.source_git_blob_sha];
+  const successor=[v4667.successor_git_blob_sha,v4668a.successor_git_blob_sha];
+  assert.ok(current.every((blob,index)=>blob===source[index])||current.every((blob,index)=>blob===successor[index]),'guard state must be exact atomic source pair or exact atomic authorized successor pair');
   assert.equal(v4667.source_git_blob_sha,'2e032f86c83e405a7bc341c8b7aa57c9edb854b3');
   assert.equal(v4667.successor_git_blob_sha,'ff4c40de42c7675c0b7f3701b142fee9c7fc989d');
   assert.equal(v4668a.source_git_blob_sha,'5daa7909237801497f11870a898c7398c43f4dd2');
