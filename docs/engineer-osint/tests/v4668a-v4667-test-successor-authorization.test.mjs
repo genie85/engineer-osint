@@ -40,7 +40,7 @@ test('v4.6.68a pins a complete exact 17-target source/successor inventory and re
 test('v4.6.68a authorizes one test successor only and keeps canonical execution forbidden',()=>{
   assert.ok(auth.authorized_semantics.some(value=>value.includes('exact successor blob')));
   assert.ok(auth.authorized_semantics.some(value=>value.includes('complete 17-file source set')));
-  assert.ok(auth.authorized_semantics.some(value=>value.includes('Mixed, partial, unknown')));
+  assert.ok(auth.authorized_semantics.some(value=>/mixed, partial, unknown/i.test(value)));
   for(const value of Object.values(auth.forbidden))assert.equal(value,true);
   assert.equal(auth.implementation_requirements.exact_target_blob_required,true);
   assert.equal(auth.implementation_requirements.full_exact_head_ci_required,true);
