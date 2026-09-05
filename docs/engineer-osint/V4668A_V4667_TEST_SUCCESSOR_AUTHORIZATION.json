@@ -1,0 +1,68 @@
+{
+  "schema_version": "engineer-osint-v4667-test-successor-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "dc392e96ecaf498a528e98ea29c941c072d46ca3",
+  "upstream_authorization": {
+    "path": "docs/engineer-osint/V4667_B105_POSTWRITE_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+    "git_blob_sha": "c156bfbf536e34a59b7e4b149615605892818f76"
+  },
+  "authorized_target": {
+    "path": "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+    "source_git_blob_sha": "e9171f0997d659fcb6be99d23994a0ab9f80833f",
+    "successor_git_blob_sha": "2e032f86c83e405a7bc341c8b7aa57c9edb854b3"
+  },
+  "b105_identity": {
+    "run_id": "engineer-osint-20260904-B105",
+    "canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "candidate_file_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+    "lifecycle_successor_git_blob_sha": "35bc012c9364cd257dd75666a6749a698a2e228b"
+  },
+  "exact_test_state_pairs": [
+    ["docs/engineer-osint/tests/v4584-open-photo-batch.test.mjs","c7eac8f5eec0cb546d1cb9d50ee1c77f8902eeb7","f7040026d29c0110d12fd5304959359a6eedefc2"],
+    ["docs/engineer-osint/tests/v4594-b100-execution.test.mjs","70be8516aa41f2160098a49ab4dcfa9d1fb0c165","60d10d3a255ddc22600a2db85a3cb89212318b6f"],
+    ["docs/engineer-osint/tests/v4600-b102-execution.test.mjs","cd31bdeb4ea9ef855c605fe83b80f219ed5f2f26","c93ecce95fa927fd5fe47e5982c5dfafd46c4973"],
+    ["docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs","6eb824d4665af54c975256c4ec8bc4fe5dbd865f","b56aa561f2271c5feac39ceb0b463cacb927da84"],
+    ["docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs","5bbbddeaf8c3717e8e6d9636082a57c2b7d01c38","c12146e366eb4c1f28f5ec4c911433176b70f7df"],
+    ["docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs","5db22e504ac82efed5def412e96335e46b8da892","89354a2af0439cb5b68563ef3f4c929821205407"],
+    ["docs/engineer-osint/tests/v4616-b103-public-cz-candidate.test.mjs","d275bc42de7f636d88646124c2adef3d16cc21ad","4e812347b7a69c522d9857f6367a816254964c87"],
+    ["docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs","43384369ea70755792eaf37f4a05f37e10bb53c1","abfc216575e1a372faa5ebc0982ee7f4bb52ae30"],
+    ["docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs","0bee343905a8de962d4c105351cf8e124f219c2d","c51f6a756a2b4cd86de302a47a93b582e3b6996b"],
+    ["docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs","0e2d3e0985bc91df60007eaa5fe5b43e071f1996","97637327b84932cfa3debcb7eb8f819cdf2ed392"],
+    ["docs/engineer-osint/tests/v4642-b104-browser-digest-discovery.test.mjs","868159b7ea8a104db962989280bb2953ef9b04f9","558bee8f3c599ff4afa5bb1f58e009b69b43903f"],
+    ["docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs","f66576506e7fc3e77d6bab7156e2c7cb559d8dba","86ec36b718eb1437effefb414b386891c4b87858"],
+    ["docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs","be37f8ad1a6a31d0c4214d00fe1c28e856632692","acc1c241f42bc71dbb3638ac117d8317520aa83f"],
+    ["docs/engineer-osint/tests/v4645-b104-cc0-readiness.test.mjs","eb04e8aa7250302b1f67a12c13e7f581f2773eae","62502ae22d405e3e0e8c57afda80151aff569b29"],
+    ["docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs","15a37bdb88117729ade343cd09f22a4de646a601","bd4a242f6f910f8cd54dc0a0aad9a020fd336e47"],
+    ["docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs","7a6b45ea97299ffe15643f22c17f6679cdca18f9","44ee3ea62eaee274bfaeebac5fab6478f9bcc019"],
+    ["docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs","b16234c3b58a1a829a86cfb66931bc70355ead83","cfa7ec4573761379758babac3b2e71959aa8b1ba"]
+  ],
+  "authorized_semantics": [
+    "replace exactly one source-pinned v4667 regression test with the exact successor blob",
+    "successor may accept only the complete 17-file source set or the complete exact 17-file B105 successor set",
+    "mixed, partial, unknown or dynamically current target states remain forbidden",
+    "no historical B100-B104 identity, hash or provenance assertion may be weakened"
+  ],
+  "forbidden": {
+    "change_any_of_17_targets_in_this_slice": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "candidate_or_photo_lifecycle_change": true,
+    "test_removal_or_skip": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "exact_target_blob_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_17_target_implementation_slice_required": true
+  },
+  "authorization": {
+    "target_test_successor_permitted": true,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
