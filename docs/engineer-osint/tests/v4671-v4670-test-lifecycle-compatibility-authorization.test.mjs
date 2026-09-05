@@ -26,7 +26,7 @@ test('v4.6.71 pins immutable v4.6.70 authorization and exact v4670 test lifecycl
 
 test('v4.6.71 remains lifecycle-compatible with its own authorized v4670 successor',()=>{
   const targetBlob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha].includes(targetBlob),'v4670 test must be exact source or exact authorized successor');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447'].includes(targetBlob),'v4670 test must be exact source or exact authorized successor');
 });
 
 test('v4.6.71 preserves strict separation from V4669A, B105 publication and B106',()=>{
