@@ -1,0 +1,70 @@
+{
+  "schema_version": "engineer-osint-v4673-successor-pin-correction-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "52629a9f4574245b6d84b3a2fde4cb4b2b363abb",
+  "superseded_authorization": {
+    "path": "docs/engineer-osint/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+    "git_blob_sha": "6abeb6ad9a111cfb421a2cf9297aad70ac6f113d",
+    "immutable_historical_evidence": true,
+    "rewrite_forbidden": true
+  },
+  "correction_reason": {
+    "class": "UNMATERIALIZED_GUARD_SUCCESSOR_OBJECTS",
+    "description": "V4673A pins two successor Git blobs that are not retrievable as repository Git objects and whose byte-for-byte contents cannot be safely inferred from semantic prose alone; implementation must fail closed until explicit replacement exact successors are authorized.",
+    "unavailable_successor_git_blob_shas": [
+      "2e2941a782162d1a74fa61bb9f2e1ad73de04dac",
+      "bb7b82ff8d4a86f430cb1df36a223d3bb6a7b183"
+    ]
+  },
+  "authorized_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "328471797d7a421769c706d6913c5bcaa7cf0c59",
+      "replacement_successor_git_blob_sha": "aabab65b8717966d93359561f54203e1d498ae99"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "cb71fdd36081fa6b17cd5a560d1303354ec41660",
+      "replacement_successor_git_blob_sha": "491307796f1737e5dd7f002017b66f81f21c22fa"
+    }
+  ],
+  "replacement_semantics": [
+    "v4671 successor preserves the existing exact source and original successor identities and additionally accepts only the exact corrected v4670 successor 0e17237a65876cabe8ee14a9b333ddc28d053447",
+    "v4672a successor replaces the source-only target assertion with exact source-or-exact replacement-successor membership using its already pinned source and replacement successor fields",
+    "no wildcard, dynamic-current-state, partial, mixed or unknown identity acceptance",
+    "change exactly the two regression guard tests in a later separate implementation slice",
+    "do not change v4670 target in the same slice",
+    "after both corrected guard successors are merged, retry the exact v4670 successor as a separate implementation slice"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "change_exactly_two_guard_tests": true,
+    "exact_source_required": true,
+    "exact_replacement_successor_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_v4670_implementation_retry_required": true
+  },
+  "forbidden": {
+    "rewrite_v4673a_authorization": true,
+    "change_v4670_same_slice": true,
+    "change_v4669a_same_slice": true,
+    "change_v4667_guard_target": true,
+    "change_v4668a_guard_target": true,
+    "change_any_of_17_targets": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "corrected_two_guard_successors_permitted": true,
+    "v4670_same_slice": false,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
