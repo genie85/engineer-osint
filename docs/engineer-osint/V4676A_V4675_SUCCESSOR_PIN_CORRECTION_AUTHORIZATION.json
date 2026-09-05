@@ -1,0 +1,63 @@
+{
+  "schema_version": "engineer-osint-v4675-successor-pin-correction-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "b4f77f32d62aead5049515da9b57d7feb7688047",
+  "superseded_authorization": {
+    "path": "docs/engineer-osint/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+    "git_blob_sha": "586686a0569c93b0024b9ce1b420df0f1885d7bc",
+    "immutable_historical_evidence": true,
+    "rewrite_forbidden": true
+  },
+  "correction_reason": {
+    "class": "UNMATERIALIZED_SUCCESSOR_OBJECT",
+    "description": "V4675A pins an exact successor Git blob that is not retrievable as a repository object. A deterministic reconstruction from the immutable V4674A correction authorization produces a different exact blob, so implementation must fail closed until that reachable replacement is explicitly authorized.",
+    "unavailable_successor_git_blob_sha": "36816faa5823d4887caf66b296fcae9a3411b186"
+  },
+  "authorized_target": {
+    "path": "docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs",
+    "source_git_blob_sha": "112f904f14be43f9bafcba26035a92df2d09d203",
+    "replacement_successor_git_blob_sha": "c635f0f1c671c0fa51561da6742160da8f1bea3b"
+  },
+  "replacement_semantics": [
+    "load immutable V4674A correction authorization alongside V4673A authorization",
+    "require the V4674A superseded authorization path and exact blob identity",
+    "require exactly one corrected mapping for each V4673A target path and matching source identity",
+    "accept only exact V4673A source, exact historical V4673A successor, or exact V4674A replacement successor for each guard target",
+    "reject missing mapping, wildcard, dynamic-current-state, partial, mixed or unknown identity",
+    "change exactly the V4673A regression test in a later separate implementation slice",
+    "after that successor is merged, retry the exact V4674A two-guard implementation as a separate slice"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "change_exactly_one_test": true,
+    "exact_source_required": true,
+    "exact_replacement_successor_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true,
+    "separate_two_guard_retry_required": true
+  },
+  "forbidden": {
+    "rewrite_v4675a_authorization": true,
+    "rewrite_v4674a_authorization": true,
+    "change_v4671_guard_same_slice": true,
+    "change_v4672a_guard_same_slice": true,
+    "change_v4670_same_slice": true,
+    "change_v4669a_same_slice": true,
+    "change_v4667_or_v4668a_same_slice": true,
+    "change_any_of_17_targets": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "corrected_v4673a_test_successor_permitted": true,
+    "two_guard_retry_same_slice": false,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
