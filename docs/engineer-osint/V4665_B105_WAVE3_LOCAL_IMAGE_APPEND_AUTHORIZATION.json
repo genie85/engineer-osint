@@ -1,0 +1,199 @@
+{
+  "schema_version": "engineer-osint-b105-wave3-local-image-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "920420c413a7a392869edd1fd2915a743af0d859",
+  "readiness_path": "docs/engineer-osint/V4654_B105_WAVE3_LOCAL_IMAGE_READINESS.json",
+  "readiness_git_blob_sha": "16a4cab3aab5644285c4de62cd413abf5252e33c",
+  "discovery_path": "docs/engineer-osint/V4654_B105_B106_LOCAL_IMAGE_DISCOVERY.json",
+  "discovery_git_blob_sha": "a884c478860d025eeae02d0207cce356d35e7506",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b105-wave3-v4584-local-images-public-cz.json",
+  "candidate_git_blob_sha": "6dc5e42dfebef1601a061a289b3a078ddaf786ae",
+  "candidate_run_id": "engineer-osint-20260904-B105",
+  "expected_parent_run_id": "engineer-osint-20260903-B104",
+  "expected_parent_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+  "exact_candidate_file_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+  "expected_resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+  "expected_updated_record_count": 5,
+  "expected_new_visual_count": 5,
+  "expected_new_media_count": 0,
+  "expected_card_ids": [
+    "ENG-TECH-0014",
+    "ENG-TECH-0015",
+    "ENG-TECH-0018",
+    "ENG-TECH-0019",
+    "ENG-TECH-0020"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0014",
+    "ENG-VIS-LOCAL-0015",
+    "ENG-VIS-LOCAL-0018",
+    "ENG-VIS-LOCAL-0019",
+    "ENG-VIS-LOCAL-0020"
+  ],
+  "photo_review_status_successor": {
+    "source_path": "docs/engineer-osint/photo-review-batches/v4584.json",
+    "source_git_blob_sha": "391b4c21493000576f4136f4dd78b8eb80a6265c",
+    "source_sha256": "8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9",
+    "successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b105-v4584-local-image-status.json",
+    "successor_git_blob_sha": "35bc012c9364cd257dd75666a6749a698a2e228b",
+    "successor_sha256": "2714585c0f31a9e85de476fb34539a28f2a12dd48c7370873384a93689a86207",
+    "expected_cards_with_local_image": 17,
+    "expected_ready_for_import": 2,
+    "expected_photo_coverage_percent": 34
+  },
+  "source_acquisition_manifest": {
+    "path": "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json",
+    "git_blob_sha": "91afbe68fa1247aeab914f062368572987feeb7a",
+    "sha256": "615e0555104e34979e676a39a0cf2a704a532d3e8e57fbb45e639a43208510be",
+    "batch": "v4.6.52"
+  },
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0014",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0014-blt-arjun.webp",
+      "sha256": "564eb0b37ad6c68614f2ed8029b93431d3ae672bdafacb21220f4292ea98ffd9",
+      "git_blob_sha": "20e9a6268501f30a88359ace913793eac363e789"
+    },
+    {
+      "card_id": "ENG-TECH-0015",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0015-short-span-bridge-10m.webp",
+      "sha256": "095849af5876c5f370dda75e37bdd99bcde584be3a4a34e709bf8f0551fbb672",
+      "git_blob_sha": "e5cf11e9b060da56875d5b3ef7e632c3acaa4c89"
+    },
+    {
+      "card_id": "ENG-TECH-0018",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0018-jgsdf-combat-engineer-vehicle.webp",
+      "sha256": "deb995b184fad5789baa985dc0cc6c3d468627a07b7c5368152a29c46dcfc56b",
+      "git_blob_sha": "dc18d1f94c1b2b4191df3e650cb757a08d12fd8a"
+    },
+    {
+      "card_id": "ENG-TECH-0019",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0019-type-92-floating-bridge.webp",
+      "sha256": "05cb7608d2995887eec3c83178d41c097dd2c67b83d91d8a4b51887c6c9fbd7b",
+      "git_blob_sha": "d5fabf1f04562e741321b9c755102bdfc914e121",
+      "quality_limitation": "Native source is 350x262 px and must not be upscaled."
+    },
+    {
+      "card_id": "ENG-TECH-0020",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0020-type-83-mine-laying-system.webp",
+      "sha256": "41b47d91edf66a634f1b9a64a987a3a1755d7db4d4a4aa0e52785acacced5e75",
+      "git_blob_sha": "83f40d9ecf88b6abbcdede5cef6879f91eb6f4d9"
+    }
+  ],
+  "fresh_revalidation": {
+    "main_sha": "920420c413a7a392869edd1fd2915a743af0d859",
+    "canonical_head_unchanged": true,
+    "candidate_blob_unchanged": true,
+    "lifecycle_source_blob_unchanged": true,
+    "lifecycle_successor_blob_unchanged": true,
+    "acquisition_manifest_blob_unchanged": true,
+    "all_five_local_binary_blobs_unchanged": true,
+    "executor_blob_unchanged": true,
+    "executor_workflow_blob_unchanged": true,
+    "original_read_only_discovery": {
+      "workflow_run_id": 33897655705,
+      "job_id": 101103989981,
+      "artifact_id": 9946396080,
+      "artifact_digest": "sha256:f7304348345d73a1541719f90c5ae51e3cac7bddd460349a58dd2e96285d842c",
+      "repository_remained_read_only": true,
+      "public_cz_ratchet": "PUBLIC_CZ_RATCHET_PASS",
+      "new_missing_fields": 0
+    },
+    "browser_successor_merge": {
+      "pull_request": 394,
+      "implementation_head_sha": "a433d320fcdeab85150f4379c8a5ce39c429d0d6",
+      "merged_main_sha": "920420c413a7a392869edd1fd2915a743af0d859",
+      "workflow_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+      "required_run_id": "engineer-osint-20260904-B105",
+      "required_normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+      "exact_head_runtime_audit_run_id": 33947522606,
+      "exact_head_runtime_audit_conclusion": "success",
+      "post_merge_final_retirement_run_id": 33947648010,
+      "post_merge_final_retirement_conclusion": "success",
+      "post_merge_first_three_run_id": 33947647947,
+      "post_merge_first_three_conclusion": "success",
+      "post_merge_pages_run_id": 33947647939,
+      "post_merge_pages_conclusion": "success"
+    }
+  },
+  "browser_workflow_successor": {
+    "path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "predecessor_git_blob_sha": "cb7e4d186ff3a79675ace8c48754317ffdede233",
+    "installed_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "guarded_run_id": "engineer-osint-20260904-B105",
+    "normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "require_both_expected_digest_maps": true,
+    "exact_successor_merged_and_green": true
+  },
+  "protected_baseline": {
+    "authorized_executor_path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+    "authorized_executor_git_blob_sha": "306f6aefc969d95d8dcb71373ea2d99f6cdb114f",
+    "authorized_executor_workflow_path": ".github/workflows/authorized-canonical-executor.yml",
+    "authorized_executor_workflow_git_blob_sha": "a0c390755bbd38bfbe5d1329155606bb84dc4a93",
+    "identity_fix_retirement_workflow_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156"
+  },
+  "authorized_guard_successor_contract": {
+    "guarded_run_id": "engineer-osint-20260904-B105",
+    "authorization_path": "docs/engineer-osint/V4665_B105_WAVE3_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+    "schema_version": "engineer-osint-b105-wave3-local-image-append-authorization-v1",
+    "required_status": "READY_FOR_APPEND",
+    "require_exact_candidate_hashes": true,
+    "require_exact_collection_counts": true,
+    "require_exact_card_visual_ids": true,
+    "require_exact_photo_status_successor": true,
+    "require_candidate_no_write_flags": true,
+    "allow_wildcard_or_current_state_acceptance": false
+  },
+  "required_preconditions": {
+    "b104_is_current_run": true,
+    "b104_parent_canonical_hash_exact": true,
+    "exact_b105_candidate_reviewed": true,
+    "exact_b105_lifecycle_successor_reviewed": true,
+    "all_five_local_binary_hashes_pinned": true,
+    "original_read_only_b105_simulation_green": true,
+    "public_cz_ratchet_green": true,
+    "candidate_self_authorization_must_remain_false": true,
+    "canonical_write_performed_must_remain_false_before_execution": true,
+    "photo_review_status_successor_applied_must_remain_false_before_execution": true,
+    "browser_workflow_successor_merged_and_green": true,
+    "authorized_executor_unchanged": true
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "standard_append_run_write_required": true,
+    "apply_exact_photo_review_status_successor": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_candidate_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_photo_binary_mutation": false,
+    "allow_photo_status_other_than_exact_successor": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_historical_authorization_rewrite": false,
+    "allow_executor_change": false,
+    "allow_other_workflow_change": false,
+    "allow_runtime_change": false,
+    "allow_unrelated_content_change": false
+  },
+  "b106_deferred": {
+    "run_id": "engineer-osint-20260904-B106",
+    "authorization_permitted_in_this_slice": false,
+    "execution_permitted_in_this_slice": false,
+    "fresh_revalidation_after_actual_b105_merge_required": true
+  },
+  "execution_order": [
+    "Merge this exact B105 authorization-only slice after full exact-head CI.",
+    "Create a separate isolated canonical execution-request PR pinned to that merged main SHA and let the existing authorized executor materialize only B105 plus the exact v4584 lifecycle successor.",
+    "After actual B105 canonical merge and green post-merge validation, perform fresh B106 discovery/readiness/authorization as a separate sequence."
+  ],
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false
+  },
+  "note": "Fresh v4.6.65 authorization revalidates the unchanged v4.6.54 B105 transaction against main after the exact B105 browser-workflow compatibility successor set was merged and green. No canonical, lifecycle source, candidate, binary, executor, runtime or workflow mutation is performed by this authorization artifact."
+}
