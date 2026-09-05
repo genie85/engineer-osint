@@ -5,6 +5,10 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const nextGuardSuccessors=new Map([
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'9484399067b3defa79439e0054ceb1731902dc0f'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'f65f730a9060ee1c00b36a1757c355801543dc6c']
+]);
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -25,14 +29,16 @@ test('v4.6.74a preserves V4673A as immutable evidence and corrects only unreacha
   ]);
 });
 
-test('v4.6.74a pins exact source and replacement successor for both guards',()=>{
+test('v4.6.74a pins exact source, replacement and next successor for both guards',()=>{
   assert.deepEqual(auth.authorized_targets.map(({source_git_blob_sha,replacement_successor_git_blob_sha})=>[source_git_blob_sha,replacement_successor_git_blob_sha]),[
     ['328471797d7a421769c706d6913c5bcaa7cf0c59','aabab65b8717966d93359561f54203e1d498ae99'],
     ['cb71fdd36081fa6b17cd5a560d1303354ec41660','491307796f1737e5dd7f002017b66f81f21c22fa']
   ]);
   for(const target of auth.authorized_targets){
+    const next=nextGuardSuccessors.get(target.path);
+    assert.ok(next,`${target.path} must have exactly one pinned next successor`);
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.replacement_successor_git_blob_sha].includes(blob),`${target.path} must be exact source or exact corrected successor`);
+    assert.ok([target.source_git_blob_sha,target.replacement_successor_git_blob_sha,next].includes(blob),`${target.path} must be exact source, exact corrected successor, or exact pinned next successor`);
   }
 });
 

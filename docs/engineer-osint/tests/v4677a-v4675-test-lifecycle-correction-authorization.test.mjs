@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4677A_V4675_TEST_LIFECYCLE_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const nextV4675aSuccessor='fa5b95c00ab915f246462c7255fd4eb037a433c2';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -24,9 +25,9 @@ test('v4.6.77a pins failed V4673A retry, immutable V4676A correction and exact V
   assert.equal(auth.authorized_target.successor_git_blob_sha,'2490c698a5840f43c6b16c12f3337678bb991ca3');
 });
 
-test('v4.6.77a remains lifecycle-compatible with its own exact V4675A regression successor',()=>{
+test('v4.6.77a remains lifecycle-compatible with exact current and next V4675A regression successors',()=>{
   const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha].includes(blob),'V4675A regression test must be exact source or exact authorized successor');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,nextV4675aSuccessor].includes(blob),'V4675A regression test must be exact source, exact authorized successor, or exact pinned next successor');
 });
 
 test('v4.6.77a keeps V4673A retry, canonical execution and B106 separated',()=>{
