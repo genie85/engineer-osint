@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
+const correction=JSON.parse(readFileSync(`${root}/V4676A_V4675_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -25,9 +26,14 @@ test('v4.6.75a pins failed exact-head retry, immutable V4674A correction and exa
   assert.equal(auth.authorized_target.successor_git_blob_sha,'36816faa5823d4887caf66b296fcae9a3411b186');
 });
 
-test('v4.6.75a remains lifecycle-compatible with its own exact V4673A successor',()=>{
+test('v4.6.75a remains lifecycle-compatible with exact historical and corrected V4673A successors',()=>{
+  assert.equal(correction.superseded_authorization.path,`${root}/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
+  assert.equal(correction.superseded_authorization.git_blob_sha,'586686a0569c93b0024b9ce1b420df0f1885d7bc');
+  assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
+  assert.equal(correction.authorized_target.path,auth.authorized_target.path);
+  assert.equal(correction.authorized_target.source_git_blob_sha,auth.authorized_target.source_git_blob_sha);
   const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha].includes(blob),'V4673A regression test must be exact source or exact authorized successor');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_target.replacement_successor_git_blob_sha].includes(blob),'V4673A regression test must be exact source, exact historical successor, or exact corrected successor');
 });
 
 test('v4.6.75a preserves strict separation from guard retry, v4670, canonical execution and B106',()=>{
