@@ -1,0 +1,73 @@
+{
+  "schema_version": "engineer-osint-v4669a-successor-materialization-correction-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "b944d1946b0e0b0c7650ca709c367d31a0e52029",
+  "upstream_authorization": {
+    "path": "docs/engineer-osint/V4670_V4669A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+    "git_blob_sha": "5ab11a756d1e1636cf79f7b9eac348067e538013",
+    "immutable_historical_evidence": true,
+    "rewrite_forbidden": true
+  },
+  "correction_reason": {
+    "class": "UNMATERIALIZED_SUCCESSOR_OBJECT_WITH_TRANSITIVE_LIFECYCLE_DEPENDENCY",
+    "unavailable_successor_git_blob_sha": "4396d5e87af72ddeb90ca080ea0b105411076cad",
+    "description": "V4670 pins a V4669A future successor that is not retrievable as a Git object. The already-merged V4670 lifecycle guard also accepts only the source or that unavailable historical successor, so a corrected V4669A replacement requires a lifecycle-compatible V4670 successor first. Both replacement blobs were materialized and read back before this authorization."
+  },
+  "materialization_evidence": {
+    "v4670_lifecycle_successor": {
+      "git_blob_sha": "8d5b111911b39f7fee30e00f6f833b262561e701",
+      "materialized": true,
+      "read_back_verified": true
+    },
+    "v4669a_replacement_successor": {
+      "git_blob_sha": "58d5281ad101f3da6920399659f3d6222483a429",
+      "materialized": true,
+      "read_back_verified": true
+    }
+  },
+  "authorized_targets": {
+    "v4670_test": {
+      "path": "docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "0e17237a65876cabe8ee14a9b333ddc28d053447",
+      "replacement_successor_git_blob_sha": "8d5b111911b39f7fee30e00f6f833b262561e701"
+    },
+    "v4669a_test": {
+      "path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "source_git_blob_sha": "616405eaa413ec5552099dfec419f298c47a9440",
+      "unavailable_successor_git_blob_sha": "4396d5e87af72ddeb90ca080ea0b105411076cad",
+      "replacement_successor_git_blob_sha": "58d5281ad101f3da6920399659f3d6222483a429"
+    }
+  },
+  "implementation_sequence": [
+    "step_1_change_only_v4670_test_to_exact_materialized_replacement_successor",
+    "step_2_after_step_1_is_merged_and_green_change_only_v4669a_test_to_exact_materialized_replacement_successor",
+    "step_3_only_after_step_2_is_merged_and_green_retry_the_original_two_guard_implementation_as_a_separate_slice"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "separate_ordered_implementation_slices": true,
+    "exact_source_required": true,
+    "exact_materialized_successor_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true
+  },
+  "forbidden": {
+    "rewrite_upstream_authorization": true,
+    "combine_v4670_and_v4669a_implementation": true,
+    "change_original_two_guard_targets_same_slice": true,
+    "change_any_of_17_targets": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "ordered_materialized_successor_correction_permitted": true,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
