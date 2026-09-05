@@ -1,0 +1,128 @@
+{
+  "schema_version": "engineer-osint-v4678a-transitive-dependency-closure-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-05",
+  "reviewed_main_sha": "8710d56861b4294a5c5eb27a92a65fdb11cc6678",
+  "upstream_authorization": {
+    "path": "docs/engineer-osint/V4678A_V4669A_SUCCESSOR_MATERIALIZATION_CORRECTION_AUTHORIZATION.json",
+    "git_blob_sha": "c2c46171a3fec6f757a7a6473ffc3fd8c7f01afe",
+    "immutable_historical_evidence": true,
+    "rewrite_forbidden": true
+  },
+  "blocked_implementation": {
+    "pr_number": 419,
+    "head_sha": "20f7bf2216696b8ff3dd5d156b5aa0ffa4994632",
+    "exact_head_workflow_runs": [33984685516,33984685204,33984685090,33984685079],
+    "closed_unmerged": true,
+    "root_cause": "PREDICTABLE_TRANSITIVE_LIFECYCLE_DEPENDENCY_CLOSURE_BLOCKER"
+  },
+  "dependency_closure": {
+    "description": "The V4678A v4670 successor 8d5b111911b39f7fee30e00f6f833b262561e701 is exact and materialized, but V4671 and V4672A reject it. Advancing those guards would in turn be rejected by V4673A and V4674A; advancing V4673A would be rejected by V4675A and V4676A; advancing V4675A would be rejected by V4677A. All predictable successor bytes in this closure were materialized and read back before authorization.",
+    "closed_over_known_exact_dependencies": true,
+    "wildcard_or_dynamic_acceptance": false
+  },
+  "compatibility_prep_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "c635f0f1c671c0fa51561da6742160da8f1bea3b",
+      "successor_git_blob_sha": "6f93795d7522d8c182cc69affe0e3c5139b785c0"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "75a50dbe195e5167e99ce84b085187bfe0a5d104",
+      "successor_git_blob_sha": "f31ce7285dafef2e1773eac9cc39f7080143b220"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "2490c698a5840f43c6b16c12f3337678bb991ca3",
+      "successor_git_blob_sha": "fa5b95c00ab915f246462c7255fd4eb037a433c2"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "9b8d9e0b43c1bc2f5cb86cffb1631a16a702cc06",
+      "successor_git_blob_sha": "624f2e5a6afe1752dabdc7bd660d3c99520a62bc"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs",
+      "source_git_blob_sha": "33a350166cc569b28d399a8fe17621f91dc2b721",
+      "successor_git_blob_sha": "d207b9916cbce694f81bc8346351ba93668301af"
+    }
+  ],
+  "guard_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "aabab65b8717966d93359561f54203e1d498ae99",
+      "successor_git_blob_sha": "9484399067b3defa79439e0054ceb1731902dc0f"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "491307796f1737e5dd7f002017b66f81f21c22fa",
+      "successor_git_blob_sha": "f65f730a9060ee1c00b36a1757c355801543dc6c"
+    }
+  ],
+  "downstream_exact_transitions": {
+    "v4670_test": {
+      "path": "docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "0e17237a65876cabe8ee14a9b333ddc28d053447",
+      "successor_git_blob_sha": "8d5b111911b39f7fee30e00f6f833b262561e701",
+      "authorized_by_v4678a": true
+    },
+    "v4669a_test": {
+      "path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "source_git_blob_sha": "616405eaa413ec5552099dfec419f298c47a9440",
+      "successor_git_blob_sha": "58d5281ad101f3da6920399659f3d6222483a429",
+      "authorized_by_v4678a": true
+    }
+  },
+  "materialization_evidence": {
+    "all_successor_git_blobs_materialized": true,
+    "all_successor_git_blobs_read_back_verified": true,
+    "successor_git_blob_shas": [
+      "6f93795d7522d8c182cc69affe0e3c5139b785c0",
+      "f31ce7285dafef2e1773eac9cc39f7080143b220",
+      "fa5b95c00ab915f246462c7255fd4eb037a433c2",
+      "624f2e5a6afe1752dabdc7bd660d3c99520a62bc",
+      "d207b9916cbce694f81bc8346351ba93668301af",
+      "9484399067b3defa79439e0054ceb1731902dc0f",
+      "f65f730a9060ee1c00b36a1757c355801543dc6c",
+      "8d5b111911b39f7fee30e00f6f833b262561e701",
+      "58d5281ad101f3da6920399659f3d6222483a429"
+    ]
+  },
+  "implementation_sequence": [
+    "step_1_change_exactly_five_compatibility_prep_tests_to_their_exact_materialized_successors",
+    "step_2_after_step_1_is_merged_and_green_change_exactly_two_guard_tests_to_their_exact_materialized_successors",
+    "step_3_after_step_2_is_merged_and_green_retry_v4678a_v4670_exact_successor_as_one_file_slice",
+    "step_4_after_step_3_is_merged_and_green_apply_v4678a_v4669a_exact_successor_as_one_file_slice",
+    "step_5_only_after_step_4_is_merged_and_green_resume_the_existing_original_b105_guard_chain"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "separate_ordered_implementation_slices": true,
+    "exact_source_required": true,
+    "exact_materialized_successor_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_required_before_merge": true
+  },
+  "forbidden": {
+    "rewrite_v4678a_or_historical_authorization": true,
+    "combine_compatibility_prep_and_guard_transition": true,
+    "combine_guard_transition_and_v4670": true,
+    "combine_v4670_and_v4669a": true,
+    "change_any_of_17_b105_targets": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "canonical_or_run_store_write": true,
+    "executor_or_workflow_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution": true,
+    "b106_authorization_or_execution": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "five_test_compatibility_prep_permitted": true,
+    "two_guard_transition_after_green_prep_permitted": true,
+    "resume_v4678a_only_after_green_guard_transition": true,
+    "canonical_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
