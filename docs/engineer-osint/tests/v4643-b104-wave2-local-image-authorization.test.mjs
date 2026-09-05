@@ -17,24 +17,38 @@ const correctedAuth=json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json')
 const candidate=json('osint-publication-candidates/v4642-b104-wave2-local-images-public-cz.json');
 const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
+const B105='engineer-osint-20260904-B105';
 const correctedB104CanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const expectedBrowserDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
+const expectedB105BrowserDigest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 const exactB104WorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const exactB105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
 const exactV4649BrowserDiscoverySha='868159b7ea8a104db962989280bb2953ef9b04f9';
 const exactB104Pair=`'${B104}':'${expectedBrowserDigest}'`;
+const exactB105Pair=`'${B105}':'${expectedB105BrowserDigest}'`;
 
 function assertHistoricalOrExactB104Workflow(workflow){
   const current=gitBlobSha(workflow);
   if(current===auth.browser_workflow_successor.source_git_blob_sha)return false;
-  assert.equal(current,exactB104WorkflowSuccessorSha,'historical authorization may only be followed by the exact separately authorized v4.6.47 successor');
   const text=workflow.toString('utf8');
+  if(current===exactB105WorkflowSuccessorSha){
+    assert.equal(text.split(exactB105Pair).length-1,2,'B105 pair must exist in exactly both digest maps');
+    const b104Text=text
+      .replace(`,\n              ${exactB105Pair}`, '')
+      .replace(`,\n            ${exactB105Pair}`, '');
+    assert.equal(gitBlobSha(Buffer.from(b104Text)),exactB104WorkflowSuccessorSha,'B105 successor does not reduce to exact B104 workflow');
+  }else{
+    assert.equal(current,exactB104WorkflowSuccessorSha,'historical authorization may only be followed by the exact separately authorized B104/B105 successors');
+  }
   assert.equal(text.split(exactB104Pair).length-1,2,'B104 pair must exist in exactly both digest maps');
   const predecessor=text
+    .replace(`,\n              ${exactB105Pair}`, '')
+    .replace(`,\n            ${exactB105Pair}`, '')
     .replace(`,\n              ${exactB104Pair}`, '')
     .replace(`,\n            ${exactB104Pair}`, '');
-  assert.equal(gitBlobSha(Buffer.from(predecessor)),auth.browser_workflow_successor.source_git_blob_sha,'v4.6.47 does not reduce to v4.6.43 protected workflow baseline');
+  assert.equal(gitBlobSha(Buffer.from(predecessor)),auth.browser_workflow_successor.source_git_blob_sha,'authorized successor chain does not reduce to v4.6.43 protected workflow baseline');
   return true;
 }
 
@@ -152,12 +166,13 @@ test('v4.6.44 blocks the old readiness while retaining its frozen historical evi
   assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha].includes(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs'))));
 });
 
-test('v4.6.43 historical workflow authorization boundary remains pinned across exact v4.6.47 successor',()=>{
+test('v4.6.43 historical workflow authorization boundary remains pinned across exact v4.6.47/B105 successors',()=>{
   const workflow=readRepo('.github/workflows/identity-fix-retirement-regression.yml');
   const successorApplied=assertHistoricalOrExactB104Workflow(workflow);
   const text=workflow.toString('utf8');
   assert.ok(text.includes("'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a'"));
   assert.equal(text.includes(exactB104Pair),successorApplied);
+  if(gitBlobSha(workflow)===exactB105WorkflowSuccessorSha)assert.equal(text.includes(exactB105Pair),true);
   assert.equal(auth.browser_workflow_successor.guarded_run_id,B104);
   assert.equal(auth.browser_workflow_successor.normalized_dom_sha256,expectedBrowserDigest);
   assert.equal(auth.browser_workflow_successor.require_both_expected_digest_maps,true);
@@ -170,7 +185,7 @@ test('v4.6.43 historical workflow authorization boundary remains pinned across e
   assert.equal(auth.authorization.allow_runtime_change,false);
 });
 
-test('v4.6.43 preserves executor isolation across exact later browser successor and all fail-closed publication boundaries',()=>{
+test('v4.6.43 preserves executor isolation across exact later browser successors and all fail-closed publication boundaries',()=>{
   assert.equal(gitBlobSha(read('authorized-canonical-executor.mjs')),auth.protected_baseline.authorized_executor_git_blob_sha);
   assert.equal(gitBlobSha(readRepo('.github/workflows/authorized-canonical-executor.yml')),auth.protected_baseline.authorized_executor_workflow_git_blob_sha);
   assertHistoricalOrExactB104Workflow(readRepo('.github/workflows/identity-fix-retirement-regression.yml'));

@@ -17,6 +17,7 @@ const b104Auth=json('V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
 const candidate=json('osint-publication-candidates/v4616-b103-local-images-public-cz.json');
 const b103WorkflowSuccessorSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104WorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
+const b105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
 const v4616LifecycleSuccessorSha='52cdd53dbc247b0c887725fea160b89066e9ddb4';
 const v4618LifecycleSuccessorSha='31a7112cb443014e717bdbd8c0c408997bda0d73';
 const v4649V4616CompatibilitySha='d275bc42de7f636d88646124c2adef3d16cc21ad';
@@ -26,7 +27,10 @@ const expectedVisuals=expectedCards.map(id=>`ENG-VIS-LOCAL-${id.slice(-4)}`);
 const B102='engineer-osint-20260902-B102';
 const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
+const B105='engineer-osint-20260904-B105';
 const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B104_DIGEST='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
+const B105_DIGEST='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 
 const assertB103OrB104Tip=store=>{
   if(store.report.current_run_id===B103){
@@ -102,7 +106,7 @@ test('v4.6.19 pins the exact photo lifecycle successor and preserves all nine bi
   }
 });
 
-test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence across exact B103/B104 successors',()=>{
+test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence across exact B103/B104/B105 workflow successors',()=>{
   assert.equal(gitBlobSha(read('append-run.mjs')),auth.protected_baseline.append_run_blob_sha);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')),auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')),auth.protected_baseline.integrity_blob_sha);
@@ -121,11 +125,16 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence 
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
   assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha,v4649V4616CompatibilitySha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
   assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
-  const workflowSha=gitBlobSha(readRepo('.github/workflows/identity-fix-retirement-regression.yml'));
-  assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha,b104WorkflowSuccessorSha].includes(workflowSha));
-  if(workflowSha===b104WorkflowSuccessorSha){
-    const text=readRepo('.github/workflows/identity-fix-retirement-regression.yml').toString('utf8');
-    assert.equal(text.split("'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'").length-1,2);
+  const workflowRaw=readRepo('.github/workflows/identity-fix-retirement-regression.yml');
+  const workflowSha=gitBlobSha(workflowRaw);
+  assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha,b104WorkflowSuccessorSha,b105WorkflowSuccessorSha].includes(workflowSha));
+  if([b104WorkflowSuccessorSha,b105WorkflowSuccessorSha].includes(workflowSha)){
+    const text=workflowRaw.toString('utf8');
+    assert.equal(text.split(`'${B104}':'${B104_DIGEST}'`).length-1,2);
+  }
+  if(workflowSha===b105WorkflowSuccessorSha){
+    const text=workflowRaw.toString('utf8');
+    assert.equal(text.split(`'${B105}':'${B105_DIGEST}'`).length-1,2);
   }
 });
 

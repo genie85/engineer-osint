@@ -15,6 +15,7 @@ const exactB102V4565TestSuccessor='560be7e8e60c82a6742e1c39519397fc9ebdefd6';
 const exactExecutorV4565TestSuccessor='df7fc02c0ea38e13beff10781414f31cd6e51a6a';
 const exactB103V4565TestSuccessor='c20250619fd3dfc95fefc5717fcc1fcd083231a4';
 const exactB104V4565TestSuccessor='a74bdbbf767cdc986862da828ee394cfc09b3334';
+const exactB105V4565TestSuccessor='1b889cd96fb1a057dc374af269a44601bf920444';
 
 test('v4.5.66 is authorization-only and pinned to exact v4.5.65 main',()=>{
   assert.equal(policy.schema_version,'engineer-osint-self-successor-authorization-v1');
@@ -23,12 +24,12 @@ test('v4.5.66 is authorization-only and pinned to exact v4.5.65 main',()=>{
   assert.equal(policy.reviewed_main_sha,'6f1b36ba60b258e42b193935248439c6f6d44fb2');
 });
 
-test('v4.5.66 keeps immutable policy and recognizes only baseline/action/B100/B101/B102/executor/B103/B104 lifecycle successors',()=>{
+test('v4.5.66 keeps immutable policy and recognizes only baseline/action/B100/B101/B102/executor/B103/B104/B105 lifecycle successors',()=>{
   assert.equal(policy.v4565_policy.git_blob_sha,'1a04438e8a8541adc0ea426ee2d7c623446e9244');
   assert.equal(gitBlobSha(v4565Text),policy.v4565_policy.git_blob_sha);
   assert.equal(policy.authorized_test.historical_git_blob_sha,'bcc84c5536420fcc1be2b6fcf9060cca851e09b4');
   const current=gitBlobSha(v4565TestText);
-  assert.ok([policy.authorized_test.historical_git_blob_sha,exactV4565TestSuccessor,exactB100V4565TestSuccessor,exactB101V4565TestSuccessor,exactB102V4565TestSuccessor,exactExecutorV4565TestSuccessor,exactB103V4565TestSuccessor,exactB104V4565TestSuccessor].includes(current),'v4.5.65 test is outside the exact pinned lifecycle states');
+  assert.ok([policy.authorized_test.historical_git_blob_sha,exactV4565TestSuccessor,exactB100V4565TestSuccessor,exactB101V4565TestSuccessor,exactB102V4565TestSuccessor,exactExecutorV4565TestSuccessor,exactB103V4565TestSuccessor,exactB104V4565TestSuccessor,exactB105V4565TestSuccessor].includes(current),'v4.5.65 test is outside the exact pinned lifecycle states');
   if(current===exactV4565TestSuccessor){
     for(const sha of [
       '3149bc399f3e6e8faa4ee26d372c64cfe61cfe36','238303bc0e6db4f1371a0f65f036f28a174a58cd','1f7770c3a7c1c7b912505012814841d1d06def1d','ee0132955b4a74c939ef3e57487b44b891dd90e3','a0a1586824981f3154c78e24656d3cd19e1d7609','c616f37d870b93b428f652a284a3dc5de13df609','6b93ce6ffe25b74a661f2326f20adb11d31a19f7','47102c7d9481beaeedbdf03532ffaad72675af43','9cffd58764aa5ed02aa11dcbe7745772077f06c7'
@@ -61,6 +62,12 @@ test('v4.5.66 keeps immutable policy and recognizes only baseline/action/B100/B1
     for(const sha of ['7e9480f421cdd811c2660033e4539f926ce5ad7b','9939fbcbf9c7f09f61a9a5c82c795873bddd0a61','c61540fa8c9be9cb21129e46fe488391502102dd','558b54212ff856a01be7c1a5dedfaa871e5c820c','cb7e4d186ff3a79675ace8c48754317ffdede233','5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c'])assert.match(v4565TestText,new RegExp(sha),`exact B104 lifecycle evidence missing ${sha}`);
     assert.match(v4565TestText,/b104TestMode/);
     assert.match(v4565TestText,/b104WorkflowMode/);
+    assert.match(v4565TestText,/no exact digest authorized for current run/);
+  }
+  if(current===exactB105V4565TestSuccessor){
+    for(const sha of ['c7527860a5f175000b634a25d170698d70569b53','7fbe5e37d92e53a7c7425844add443ae0e20cf54','c1611a3de4b54a17e7ceeb127ca7d3ab271af05f','f755fc73525db951d84c8880976047f2358c02b7','0aded293ae69be3844c73f6613f0a70b05320156','25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'])assert.match(v4565TestText,new RegExp(sha),`exact B105 lifecycle evidence missing ${sha}`);
+    assert.match(v4565TestText,/b105TestMode/);
+    assert.match(v4565TestText,/b105WorkflowMode/);
     assert.match(v4565TestText,/no exact digest authorized for current run/);
   }
 });
