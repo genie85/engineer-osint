@@ -1,8 +1,8 @@
-# ENGINEER OSINT — PROMPT DEVELOPMENT v3.7
+# ENGINEER OSINT — PROMPT DEVELOPMENT v3.8
 
 Status: derived execution view
-Requires: `PROMPT_CORE.md` v3.7
-Canonical authority: `MASTER_PROMPT.md` v3.7
+Requires: `PROMPT_CORE.md` v3.8
+Canonical authority: `MASTER_PROMPT.md` v3.8
 
 Tento modul řídí implementaci webu, runtime, UI/UX, build, tooling, schemas, tests, CI/workflows, deployment mechanics, performance a technické opravy. Není samostatnou autoritou. Konflikt s CORE/MASTER/P0 nebo version mismatch = fail closed pro write operace.
 
@@ -84,7 +84,7 @@ Při red CI nebo lokálním failure:
 6. po fixu spusť targeted test a následně celý required exact-head surface;
 7. opakovatelnou chybu přesuň do dřívějšího preflightu/regression guardu.
 
-Stejná třída chyby podruhé = povinná meta-analýza a anti-loop změna procesu.
+Stejná třída chyby podruhé = povinná meta-analýza a anti-loop změna procesu. Preferované prevention pořadí je `deterministic preflight/test/validator → orchestration/process rule → prompt repair`; jednotlivý red CI sám o sobě prompt revision neodůvodňuje.
 
 ## 5A. High-throughput technical execution
 
@@ -96,6 +96,16 @@ Stejná třída chyby podruhé = povinná meta-analýza a anti-loop změna proce
 6. CI nejprve sleduj agregovaně; detail jobu/stepů/logů načítej při failure, cancel, ambiguity, nondeterminismu nebo explicitní proof potřebě.
 7. Required exact-head CI na finalizovaném headu zůstává povinný. Jakákoli změna headu zneplatní předchozí exact-head výsledek a vyžaduje nový relevantní full-CI průchod.
 8. Žádná throughput optimalizace nesmí snížit test surface, exactness, fail-closed, auditovatelnost nebo factual/safety boundary.
+
+## 5B. Lifecycle dependency-closure preflight
+
+Před authorization nebo implementation PR, který mění exact lifecycle/current-state successor, zmapuj transitivní dependency closure relevantních testů a guardů. Zahrň nejen přímo měněný target, ale i regression vrstvy, které pinují jeho source/successor nebo jiný stav odvozený z této identity.
+
+Pro vícefázovou migraci explicitně modeluj `S0 → S1 → ... → Sn` a deterministicky simuluj každý bezpečně simulovatelný phase boundary proti relevantním guardům ještě před prvním drahým CI cyklem.
+
+Pokud nový authorization/regression guard sám pinningem vytváří budoucí blocker, oprav self-consistency dříve, než autorizuje downstream implementation. Povolené stavy musí být konečný explicitní set exact identit, nikoli wildcard nebo dynamické `current`.
+
+Budoucí exact Git successor, který lze bezpečně vytvořit bez protected execution, před authorization pre-materializuj, Git read-back ověř a až poté pinuj jeho SHA. Pre-materializovaný objekt je non-authoritative do okamžiku autorizované instalace.
 
 ## 6. Candidate and canonical boundary
 
@@ -111,7 +121,10 @@ Před CLASS A authorization podle relevance simuluj:
 - browser digest;
 - dirty paths;
 - executor allowlist/staging;
-- required CI compatibility.
+- required CI compatibility;
+- transitivní lifecycle dependency closure;
+- všechny plánované exact phase-boundary stavy;
+- authorization self-consistency.
 
 Předvídatelný red CI nepoužívej jako kalkulačku hodnot, které lze vypočítat read-only předem.
 
@@ -136,11 +149,15 @@ Negative safety test musí dosáhnout zamýšlené rejection layer. Pád na dř�
 
 Historical invariant zůstává immutable. Lifecycle/current-state assertion může přijmout pouze explicitní exact successor.
 
+U podezření na nondeterministický browser/DOM test neměň expected hodnotu po jednom náhodném běhu. Pokud head a inputs zůstaly stejné a nejde o safety/canonical integrity failure, je přípustný nejvýše jeden diagnostický rerun stejného failed workflow/jobu. PASS po rerunu = `SUSPECTED_FLAKY`, opakovaný FAIL = reprodukovatelný blocker. Nikdy `rerun until green`.
+
 ## 9. Workflow and deployment
 
 Permissions, write scope, direct-main boundary, authorization model a deployment security jsou CLASS A, pokud se mění jejich význam.
 
 Workflow-only změna, která pouze přidává exact již objevený lifecycle/browser successor, může být úzká, ale musí projít historical compatibility surface. Pokud historické testy nový blob odmítnou, neoslabuj je uvnitř deklarovaně jednosouborového successor slice bez samostatného posouzení scope.
+
+Pokud connector/platform safety vrstva odmítne merge nebo jiný write před potvrzenou mutací, nepoužívej slabší mechanismus jako bypass. Fresh-readni stav, zachovej aktivní slice a operaci opakuj jen tehdy, když po fresh gate zůstává validní se stejnou nebo silnější exact ochranou.
 
 Merge není deploy. Po relevantní produkční změně ověř exact-main build/deployment lineage a browser/runtime state.
 
