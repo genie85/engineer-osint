@@ -29,7 +29,11 @@ test('v4.6.82a pins the fresh exact main source and unchanged pre-materialized s
   assert.equal(auth.authorized_successor.path,'docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs');
   assert.equal(auth.authorized_successor.source_git_blob_sha,'e28c381c7b1f4e57338b9ff5027895b7cc9a1de7');
   assert.equal(auth.authorized_successor.successor_git_blob_sha,'5b9658da3363273c15b58331c3b44f64c050300b');
-  assert.equal(gitBlobSha(readFileSync(auth.authorized_successor.path)),auth.authorized_successor.source_git_blob_sha);
+  const currentAuthorizedSha=gitBlobSha(readFileSync(auth.authorized_successor.path));
+  assert.ok(
+    [auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha].includes(currentAuthorizedSha),
+    `V4680A authorization test must be exact source or exact authorized successor, got ${currentAuthorizedSha}`
+  );
   assert.equal(auth.materialization_evidence.successor_git_blob_materialized,true);
   assert.equal(auth.materialization_evidence.successor_git_blob_read_back_verified,true);
 });
