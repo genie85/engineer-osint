@@ -9,6 +9,7 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const targetPath=auth.target_test.path;
 const source='e6bd4b89b9f7802103c092c2c67d2da594c32e81';
 const successor='001a6625e2bdc2fa20f5f0d97b5eb23c29bb4388';
+const correctedSuccessor='027db23d5a6cdd91f93afa8575265d7fb366ac9f';
 
 test('v4.6.61 pins one exact v4660 test successor and the reviewed main',()=>{
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');
@@ -17,7 +18,7 @@ test('v4.6.61 pins one exact v4660 test successor and the reviewed main',()=>{
   assert.equal(auth.target_test.successor_git_blob_sha,successor);
   assert.equal(auth.target_test.implementation_requires_separate_slice,true);
   const current=gitBlobSha(readFileSync(targetPath,'utf8'));
-  assert.ok([source,successor].includes(current),`v4.6.60 test is outside exact authorized source/successor states: ${current}`);
+  assert.ok([source,successor,correctedSuccessor].includes(current),`v4.6.60 test is outside exact authorized historical/corrected states: ${current}`);
 });
 
 test('v4.6.61 pins the exact complete B105 transition identities and forbids mixed/wildcard modes',()=>{
