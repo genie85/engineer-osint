@@ -10,18 +10,28 @@ const root = path.resolve(here, '..');
 const batchDir = path.join(root, 'photo-review-batches');
 const batch = JSON.parse(fs.readFileSync(path.join(batchDir, 'v4584.json'), 'utf8'));
 const expectedIds = ['ENG-TECH-0014', 'ENG-TECH-0015', 'ENG-TECH-0018', 'ENG-TECH-0019', 'ENG-TECH-0020'];
+const statuses = new Set(batch.entries.map((entry) => entry.status));
+assert.ok(statuses.size === 1 && (statuses.has('READY_FOR_IMPORT') || statuses.has('LOCAL_IMAGE')), 'v4.5.84 lifecycle must be exact pre-B105 READY_FOR_IMPORT or exact B105 LOCAL_IMAGE');
+const localImagePhase = statuses.has('LOCAL_IMAGE');
 
 assert.deepEqual(batch.entries.map((entry) => entry.card_id), expectedIds, 'v4.5.84 batch must contain the deterministic next five unassessed cards');
 for (const entry of batch.entries) {
-  assert.equal(entry.status, 'READY_FOR_IMPORT', `${entry.card_id} must be READY_FOR_IMPORT after exact identity and reusable licence verification`);
+  assert.equal(entry.status, localImagePhase ? 'LOCAL_IMAGE' : 'READY_FOR_IMPORT', `${entry.card_id} must follow the exact v4.5.84→B105 photo lifecycle`);
   assert.equal(entry.review_batch, 'v4.5.84');
   assert.match(entry.origin_url, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
   assert.match(entry.license_url, /^https:\/\//);
   assert.ok(String(entry.identity_evidence || '').trim().length > 40, `${entry.card_id} must retain substantive identity evidence`);
   assert.ok(String(entry.license_evidence || '').trim().length > 40, `${entry.card_id} must retain substantive licence evidence`);
-  assert.equal(entry.local_image_path, undefined);
-  assert.equal(entry.sha256, undefined);
-  assert.equal(entry.acquired_at, undefined);
+  if (localImagePhase) {
+    assert.match(entry.local_image_path, /^assets\/photos\/eng-tech-/);
+    assert.match(entry.sha256, /^[0-9a-f]{64}$/);
+    assert.equal(entry.acquired_at, '2026-09-04');
+    assert.equal(entry.local_acquisition_batch, 'v4.6.52');
+  } else {
+    assert.equal(entry.local_image_path, undefined);
+    assert.equal(entry.sha256, undefined);
+    assert.equal(entry.acquired_at, undefined);
+  }
 }
 
 const byId = new Map(batch.entries.map((entry) => [entry.card_id, entry]));
@@ -56,7 +66,7 @@ const queueReport = {
   current_run_id: 'fixture',
   canonical_sha256: 'fixture',
   items: [
-    ...expectedIds.map((card_id) => ({ card_id, title: card_id, local_images: [], remote_visual_count: 0, review_status: 'READY_FOR_IMPORT' })),
+    ...expectedIds.map((card_id) => ({ card_id, title: card_id, local_images: [], remote_visual_count: 0, review_status: localImagePhase ? 'LOCAL_IMAGE' : 'READY_FOR_IMPORT' })),
     { card_id: 'ENG-TECH-0021', title: 'next unassessed fixture', local_images: [], remote_visual_count: 0, review_status: null }
   ]
 };

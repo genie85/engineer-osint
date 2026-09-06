@@ -22,6 +22,8 @@ const EXACT_B103_RUN_ID='engineer-osint-20260902-B103';
 const EXACT_B103_CANONICAL_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 const EXACT_B104_RUN_ID='engineer-osint-20260903-B104';
 const EXACT_B104_CANONICAL_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const EXACT_B105_RUN_ID='engineer-osint-20260904-B105';
+const EXACT_B105_CANONICAL_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 test('v4.6.05 preserves the exact pre-implementation baseline and admits only exact authorized lifecycle successors', () => {
   assert.equal(auth.schema_version, 'engineer-osint-canonical-executor-authorization-v1');
@@ -43,7 +45,8 @@ test('v4.6.05 preserves the exact pre-implementation baseline and admits only ex
   const exactAllowedTips=new Map([
     [auth.protected_baseline.current_run_id,auth.protected_baseline.current_canonical_sha256],
     [EXACT_B103_RUN_ID,EXACT_B103_CANONICAL_SHA],
-    [EXACT_B104_RUN_ID,EXACT_B104_CANONICAL_SHA]
+    [EXACT_B104_RUN_ID,EXACT_B104_CANONICAL_SHA],
+    [EXACT_B105_RUN_ID,EXACT_B105_CANONICAL_SHA]
   ]);
   assert.ok(exactAllowedTips.has(current.run_id),`unexpected current run ${current.run_id}`);
   assert.equal(current.canonical_sha256,exactAllowedTips.get(current.run_id));

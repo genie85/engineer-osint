@@ -19,6 +19,7 @@ const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
 const B105='engineer-osint-20260904-B105';
 const correctedB104CanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105_CANONICAL_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const expectedBrowserDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
@@ -26,6 +27,7 @@ const expectedB105BrowserDigest='25157418735741c5deec91f8ced48a920fd2086bf20d38d
 const exactB104WorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
 const exactB105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
 const exactV4649BrowserDiscoverySha='868159b7ea8a104db962989280bb2953ef9b04f9';
+const exactV4668BrowserDiscoverySha='558bee8f3c599ff4afa5bb1f58e009b69b43903f';
 const exactB104Pair=`'${B104}':'${expectedBrowserDigest}'`;
 const exactB105Pair=`'${B105}':'${expectedB105BrowserDigest}'`;
 
@@ -57,8 +59,15 @@ function assertLivePreOrCorrectedB104(store){
     assert.equal(store.report.canonical_sha256,auth.expected_parent_canonical_sha256);
     return 'PRE_CORRECTED_B104';
   }
-  assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B103→corrected B104 lifecycle');
-  assert.equal(store.report.canonical_sha256,correctedB104CanonicalSha);
+  if(store.report.current_run_id===B105){
+    assert.equal(store.report.canonical_sha256,B105_CANONICAL_SHA);
+    const b104Entry=store.manifest.runs.find(item=>item.run_id===B104);
+    assert.ok(b104Entry,'exact corrected B104 ancestor missing under B105');
+    assert.equal(b104Entry.canonical_sha256,correctedB104CanonicalSha);
+  } else {
+    assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B103→corrected B104→B105 lifecycle');
+    assert.equal(store.report.canonical_sha256,correctedB104CanonicalSha);
+  }
   assert.equal(correctedAuth.expected_parent_run_id,B103);
   assert.equal(correctedAuth.expected_parent_canonical_sha256,auth.expected_parent_canonical_sha256);
   assert.equal(correctedAuth.expected_resulting_canonical_sha256,correctedB104CanonicalSha);
@@ -163,7 +172,7 @@ test('v4.6.44 blocks the old readiness while retaining its frozen historical evi
   assert.equal(evidence.public_cz_ratchet,'PUBLIC_CZ_RATCHET_PASS');
   assert.equal(evidence.new_missing_fields,0);
   assert.equal(evidence.expected_b104_browser_normalized_dom_sha256,expectedBrowserDigest);
-  assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha].includes(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs'))));
+  assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha,exactV4668BrowserDiscoverySha].includes(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs'))));
 });
 
 test('v4.6.43 historical workflow authorization boundary remains pinned across exact v4.6.47/B105 successors',()=>{

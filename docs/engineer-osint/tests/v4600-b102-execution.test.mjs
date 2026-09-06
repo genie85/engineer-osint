@@ -20,6 +20,8 @@ const CANONICAL_SHA='5621cee336a11959903cca3d0ad40fe54d6eac52482ff0f4db373e3d95f
 const HISTORICAL_APPEND_SHA='6ba92129fb4b4f8f2a7e69755c02b2d0cee5fbd0';
 const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 const B104_RUN='engineer-osint-20260903-B104';
+const B105_RUN='engineer-osint-20260904-B105';
+const B105_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 test('v4.6.00 persists the exact authorized B102 standard append across the exact B103/B104 lifecycle successors',()=>{
   const store=loadCanonicalRunStore({root});
@@ -38,16 +40,19 @@ test('v4.6.00 persists the exact authorized B102 standard append across the exac
   const allowedHeads=new Map([
     [RUN,CANONICAL_SHA],
     [currentB103Authorization.candidate_run_id,currentB103Authorization.expected_resulting_canonical_sha256],
-    [b104Authorization.candidate_run_id,b104Authorization.expected_resulting_canonical_sha256]
+    [b104Authorization.candidate_run_id,b104Authorization.expected_resulting_canonical_sha256],
+    [B105_RUN,B105_SHA]
   ]);
-  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→V4619 B103→V4646 B104 lifecycle');
+  assert.equal(allowedHeads.get(store.report.current_run_id),store.report.canonical_sha256,'canonical head is outside exact B102→V4619 B103→V4646 B104→B105 lifecycle');
 });
 
 test('v4.6.00 publishes exactly three reviewed bridging systems with exact provenance',()=>{
   const store=loadCanonicalRunStore({root});
   const {data}=store;
   const exactB104=store.report.current_run_id===B104_RUN;
+  const exactB105=store.report.current_run_id===B105_RUN;
   if(exactB104)assert.equal(store.report.canonical_sha256,b104Authorization.expected_resulting_canonical_sha256);
+  if(exactB105)assert.equal(store.report.canonical_sha256,B105_SHA);
   const ids=['ENG-TECH-0049','ENG-TECH-0050','ENG-TECH-0051'];
   const sourceIds=['ENG-SRC-0534','ENG-SRC-0535','ENG-SRC-0536'];
   const evidenceIds=['ENG-EVID-0222','ENG-EVID-0223','ENG-EVID-0224'];
@@ -59,7 +64,7 @@ test('v4.6.00 publishes exactly three reviewed bridging systems with exact prove
   assert.deepEqual(evidence.map(x=>x.evidence_id||x.id),evidenceIds);
   for(const record of records){
     assert.equal(record.first_seen_run,RUN);
-    const expectedLastUpdate=exactB104&&record.id==='ENG-TECH-0049'?B104_RUN:RUN;
+    const expectedLastUpdate=(exactB104||exactB105)&&record.id==='ENG-TECH-0049'?B104_RUN:RUN;
     assert.equal(record.last_update_run,expectedLastUpdate);
     assert.equal(record.source_ids.length,1);
     assert.equal(record.evidence_ids.length,1);

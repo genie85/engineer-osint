@@ -19,6 +19,8 @@ const B103='engineer-osint-20260902-B103';
 const B103_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 const B104='engineer-osint-20260903-B104';
 const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105='engineer-osint-20260904-B105';
+const B105_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 test('v4.6.16 changes V4603 only by adding nine explicit Czech visual titles',()=>{
   const stripped=structuredClone(candidate);
@@ -48,9 +50,10 @@ test('v4.6.16 remains a read-only exact B103 patch and materializes deterministi
     console.log('V4616_B103_PUBLIC_CZ_CANDIDATE',JSON.stringify({candidate_sha256:sha256(raw),expected_resulting_canonical_sha256:resultingCanonical,visuals_with_title_cs:candidate.visuals.filter(x=>x.title_cs).length}));
     return;
   }
-  if(store.report.current_run_id===B104)assert.equal(store.report.canonical_sha256,B104_SHA);
+  if(store.report.current_run_id===B105)assert.equal(store.report.canonical_sha256,B105_SHA);
+  else if(store.report.current_run_id===B104)assert.equal(store.report.canonical_sha256,B104_SHA);
   else {
-    assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103→B104 lifecycle');
+    assert.equal(store.report.current_run_id,B103,'canonical head is outside exact B102→B103→B104→B105 lifecycle');
     assert.equal(store.report.canonical_sha256,B103_SHA);
   }
   const entry=store.manifest.runs.find(item=>item.run_id===B103);
