@@ -18,15 +18,16 @@ const expectedTests=new Map([
   [`${root}/tests/v4562-active-node24-migration.test.mjs`,{source:'c61540fa8c9be9cb21129e46fe488391502102dd',successor:'c1611a3de4b54a17e7ceeb127ca7d3ab271af05f'}],
   [`${root}/tests/v4563-action-node24-authorization.test.mjs`,{source:'558b54212ff856a01be7c1a5dedfaa871e5c820c',successor:'f755fc73525db951d84c8880976047f2358c02b7'}],
   [`${root}/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs`,{source:'a74bdbbf767cdc986862da828ee394cfc09b3334',successor:'1b889cd96fb1a057dc374af269a44601bf920444'}],
-  [`${root}/tests/v4619-b103-public-cz-authorization.test.mjs`,{source:'9bd857b2f9bb785fd4fcb75be3697bb18712fdd1',successor:'0bee343905a8de962d4c105351cf8e124f219c2d'}],
-  [`${root}/tests/v4643-b104-wave2-local-image-authorization.test.mjs`,{source:'0d73c824951f3eade09b24f5b59a389fb67b6d33',successor:'be37f8ad1a6a31d0c4214d00fe1c28e856632692'}],
-  [`${root}/tests/v4646-b104-cc0-authorization.test.mjs`,{source:'87656fdd7ceccdf55bdb2ceac23093a694165a3b',successor:'7a6b45ea97299ffe15643f22c17f6679cdca18f9'}],
-  [`${root}/tests/v4647-b104-browser-digest-successor.test.mjs`,{source:'233793d6acb49931b52f56d1543a7b92e9e3b3f6',successor:'b16234c3b58a1a829a86cfb66931bc70355ead83'}]
+  [`${root}/tests/v4619-b103-public-cz-authorization.test.mjs`,{source:'9bd857b2f9bb785fd4fcb75be3697bb18712fdd1',successor:'0bee343905a8de962d4c105351cf8e124f219c2d',corrected:'c51f6a756a2b4cd86de302a47a93b582e3b6996b'}],
+  [`${root}/tests/v4643-b104-wave2-local-image-authorization.test.mjs`,{source:'0d73c824951f3eade09b24f5b59a389fb67b6d33',successor:'be37f8ad1a6a31d0c4214d00fe1c28e856632692',corrected:'acc1c241f42bc71dbb3638ac117d8317520aa83f'}],
+  [`${root}/tests/v4646-b104-cc0-authorization.test.mjs`,{source:'87656fdd7ceccdf55bdb2ceac23093a694165a3b',successor:'7a6b45ea97299ffe15643f22c17f6679cdca18f9',corrected:'44ee3ea62eaee274bfaeebac5fab6478f9bcc019'}],
+  [`${root}/tests/v4647-b104-browser-digest-successor.test.mjs`,{source:'233793d6acb49931b52f56d1543a7b92e9e3b3f6',successor:'b16234c3b58a1a829a86cfb66931bc70355ead83',corrected:'cfa7ec4573761379758babac3b2e71959aa8b1ba'}]
 ]);
 
 const currentTestShas=new Map([...expectedTests].map(([path])=>[path,gitBlobSha(readFileSync(path,'utf8'))]));
 const sourceMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===ids.source);
 const successorMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===ids.successor);
+const correctedMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===(ids.corrected||ids.successor));
 const currentWorkflow=gitBlobSha(readFileSync(workflowPath,'utf8'));
 const currentHelper=gitBlobSha(readFileSync(helperPath,'utf8'));
 const predecessorPair=currentWorkflow===workflowPre&&currentHelper===helperPre;
@@ -46,18 +47,18 @@ test('v4.6.60 pins the exact failed B105 implementation and upstream authorizati
   assert.equal(auth.upstream_authorization.b105_normalized_dom_sha256,'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7');
 });
 
-test('v4.6.60 recognizes only the exact eight-file source set or the exact eight-file B105 successor set',()=>{
+test('v4.6.60 recognizes only exact historical source, historical successor, or corrected B105 descendant sets',()=>{
   assert.equal(auth.authorized_test_successors.length,8);
   assert.deepEqual(new Set(auth.authorized_test_successors.map(x=>x.path)),new Set(expectedTests.keys()));
   for(const item of auth.authorized_test_successors){
     assert.equal(item.source_git_blob_sha,expectedTests.get(item.path).source,item.path);
   }
-  assert.ok(sourceMode||successorMode,'eight historical tests are in a mixed or unauthorized state');
+  assert.ok(sourceMode||successorMode||correctedMode,'eight historical tests are in a mixed or unauthorized state');
 });
 
-test('v4.6.60 repository transition is atomic: predecessor source set or exact authorized successor set, never partial',()=>{
+test('v4.6.60 repository transition remains atomic across exact corrected B105 descendants',()=>{
   assert.ok(predecessorPair||successorPair,`unauthorized or partial workflow/helper state: ${currentWorkflow} / ${currentHelper}`);
-  assert.ok((sourceMode&&predecessorPair)||(successorMode&&successorPair),'workflow/helper and eight-test compatibility modes diverged');
+  assert.ok((sourceMode&&predecessorPair)||((successorMode||correctedMode)&&successorPair),'workflow/helper and eight-test compatibility modes diverged');
   const impl=auth.implementation_authorization;
   assert.equal(impl.implementation_requires_separate_slice,true);
   assert.equal(impl.authorized_paths.length,8);
