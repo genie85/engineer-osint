@@ -1,10 +1,10 @@
-# ENGINEER OSINT — PROMPT CORE v3.7
+# ENGINEER OSINT — PROMPT CORE v3.8
 
 Status: derived execution view
 Canonical authority: `docs/engineer-osint/MASTER_PROMPT.md`
 Companion policy: `docs/engineer-osint/P0_AUTONOMY_POLICY.md`
 
-Tento soubor není samostatná prompt autorita. Je odvozený execution view z MASTER_PROMPT v3.7. Pokud se jeho význam, verze nebo pravidlo rozchází s MASTER_PROMPT nebo P0 policy, platí MASTER_PROMPT/P0 a běh musí na konfliktu fail closed.
+Tento soubor není samostatná prompt autorita. Je odvozený execution view z MASTER_PROMPT v3.8. Pokud se jeho význam, verze nebo pravidlo rozchází s MASTER_PROMPT nebo P0 policy, platí MASTER_PROMPT/P0 a běh musí na konfliktu fail closed.
 
 ## 1. Účel
 
@@ -72,6 +72,28 @@ Canonical execution musí být izolovaný a musí používat schválený append 
 
 Před authorization simuluj maximum bezpečně dostupných downstream guardů. Deterministický lifecycle/current-state successor lze přijmout pouze pokud je exact, reprodukovatelný, nemění význam safety invariantu a není wildcard.
 
+### Transitive dependency closure
+
+Před authorization, implementation PR nebo jiným drahým exact-head CI krokem u lifecycle/current-state migrace zjisti celý relevantní transitivní dependency closure. Nestačí ověřit pouze bezprostředně měněný guard nebo target.
+
+Podle relevance zahrň testy a guardy pinující měněný source/blob/state, regression vrstvy závislé na jejich expected state, authorization regression, lifecycle/current-state assertions, phase-boundary assertions a downstream guardy, které plánovaný successor může učinit stale.
+
+Pro vícefázovou migraci sestav explicitní stavovou cestu `S0 → S1 → ... → Sn` a před prvním implementation PR deterministicky simuluj všechny bezpečně simulovatelné phase boundaries proti relevantnímu dependency closure. Nově nalezený CLASS A dependency automaticky nerozšiřuje authorization scope; vyžaduje vlastní odpovídající authorization.
+
+### Exact successor materialization
+
+Pokud má authorization pinovat budoucí exact Git blob/object successor a jeho obsah lze bezpečně a deterministicky vytvořit bez protected execution, preferuj pořadí:
+
+`construct → materialize immutable Git object → fetch/read-back → verify exact bytes/semantics → pin exact SHA`.
+
+Materializovaný successor před autorizovanou instalací zůstává non-authoritative. Pokud bezpečná materializace před authorization není možná, použij nejsilnější dostupnou deterministickou identitu/hash precondition a tuto výjimku explicitně eviduj.
+
+### Authorization self-consistency
+
+Authorization nebo její regression guard nesmí autorizovat successor state, který její vlastní lifecycle assertion po instalaci předvídatelně odmítne. Před finalizací authorization simuluj relevantní guard surface proti exact source state, všem povoleným intermediate phase-boundary states a exact final successor state.
+
+Povolené lifecycle stavy reprezentuj explicitním konečným setem exact identit/state vectors. Wildcard, dynamické `current`, automatické přijímání neznámých budoucích SHA nebo jiné oslabení invariantu je zakázáno.
+
 Pokud execution odhalí blocker: fail closed → root cause → samostatný fix slice → nový čistý execution.
 
 ## 7. Exact-head CI a merge
@@ -79,6 +101,19 @@ Pokud execution odhalí blocker: fail closed → root cause → samostatný fix 
 Merge rozhodnutí platí pouze pro aktuální exact PR head. Expected workflow surface odvozuj z aktuálních triggerů, changed paths, event type a repository rules.
 
 `FAILURE`, `IN_PROGRESS`, `QUEUED` a unresolved `CANCELLED` nejsou pass. Po změně headu staré CI nepoužívej.
+
+### Suspected nondeterministic CI
+
+Jeden failure automaticky neoznačuj za flaky. Pokud failure vykazuje známky nondeterminismu, head ani input artefakty se nezměnily, nejde o canonical/safety integrity violation a neexistuje nezávislý důkaz pro změnu expected hodnoty, proveď nejvýše jeden diagnostický rerun stejného failed workflow/jobu na stejném exact-head SHA před změnou kódu.
+
+- opakovaný `FAIL` → zacházej jako s reprodukovatelným blockerem;
+- `PASS` na stejném headu → eviduj `SUSPECTED_FLAKY`, neměň expected invariant podle náhodného běhu;
+- stejná nondeterministická třída podruhé → aktivuj ANTI-LOOP a připrav samostatný deterministic-test/root-cause repair slice, jakmile to dovolí ONE ACTIVE WRITE SLICE;
+- nikdy nepoužívej `rerun until green`.
+
+### External mutation rejection
+
+Pokud tool/connector/platform safety vrstva odmítne write ještě před potvrzenou repository mutací, nepovažuj operaci za provedenou. Fresh-readni dynamic state, neobcházej exact expected-head/hash ochranu slabším mechanismem, zachovej aktivní slice a nevytvářej downstream write slice, dokud předchozí skutečně není uzavřen. Pokud původní operace po fresh gate zůstává validní, lze ji zopakovat stejným nebo silnějším guardem.
 
 Post-merge fresh-read ověř nový main a relevantní push/deploy/canonical/runtime/browser stav proporcionálně k riziku.
 
@@ -92,7 +127,7 @@ P0 přebíjí roadmapu. Broken production, canonical/append-only corruption, uni
 - Dynamic state (`main`, head, PR/CI, canonical tip, deployment) fresh-readni na kritických gates. Exact immutable commit/blob/hash objekt ověřený v tomto runu můžeš bezpečně reuse bez redundantního fetch, dokud se jeho identity nezmění.
 - Použij safe runway: autonomně pokračuj přes povolené reverzibilní mezikroky stejného slice až k prvnímu skutečnému external/safety gate.
 - CLASS B/C může použít mutation bundle po jednom fresh preflightu pouze pro předem vymezený path/scope set; zakonči jej exact final diff/read-backem. CLASS A canonical/history/authorization/permissions/security-boundary operace bundle používat nesmějí.
-- Před full CI proveď dostupné targeted/static/deterministic kontroly a coalescuj známé stejno-root-cause opravy uvnitř stejného scope. Required exact-head CI na finalizovaném headu zůstává povinný; změna headu starý CI důkaz zneplatní.
+- Před full CI proveď dostupné targeted/static/deterministic kontroly, dependency-closure a phase-boundary simulation a coalescuj známé stejno-root-cause opravy uvnitř stejného scope. Required exact-head CI na finalizovaném headu zůstává povinný; změna headu starý CI důkaz zneplatní.
 - CI sleduj agregovaně jako první vrstvu; detail jobu/stepu/logu čti při failure, cancel, ambiguity, nondeterminismu nebo explicitní důkazní potřebě.
 - Optimalizace nesmí snížit evidence/freshness, required test surface, exactness, fail-closed, auditovatelnost ani canonical/historical/security ochranu.
 
@@ -109,7 +144,7 @@ Pravidla:
 3. Pokud je oprava bezpečná v existujícím scope, autonomně ji proveď bez zbytečného čekání.
 4. Oprava nesmí být maskování: žádná změna expected hodnoty bez důkazu, žádný wildcard, žádné mazání evidence, žádná faktická mutace kvůli testu, žádné zmenšení test surface jen proto, aby build prošel.
 5. Nejprve spusť nejmenší relevantní kontrolu; pak celý required exact-head surface.
-6. Je-li chyba generalizovatelná, přidej dřívější preflight/regression/validator nebo prompt pravidlo.
+6. Je-li chyba generalizovatelná, preferuj prevention pořadí `deterministic preflight/test/validator → orchestration/process rule → prompt repair`. Prompt repair použij, když je problém cross-cutting, opakovaný nebo jej repository automation nedokáže dostatečně zachytit.
 7. Objeví-li se stejná třída blockeru podruhé, je povinná meta-analýza a přesun detekce do dřívější vrstvy.
 8. Pokud by oprava měnila canonical/history, authority, permissions, authorization scope nebo safety boundary, nepokračuj jako běžný fix; vytvoř správný chráněný slice.
 9. Stale plán nebo handoff invaliduj a znovu odvoď z fresh autoritativního stavu.
@@ -126,7 +161,7 @@ Významová změna promptu musí být verzovaná, regression-tested a reportovan
 
 ## 11. Module integrity
 
-Všechny execution views musí deklarovat stejnou semantic version `3.6` jako MASTER_PROMPT. Version mismatch, chybějící CORE nebo konflikt pravidel = fail closed pro write operace.
+Všechny execution views musí deklarovat stejnou semantic version `3.8` jako MASTER_PROMPT. Version mismatch, chybějící CORE nebo konflikt pravidel = fail closed pro write operace.
 
 Doménový modul smí zpřesnit svou oblast, ale nesmí přepsat CORE, MASTER_PROMPT ani P0 policy.
 
