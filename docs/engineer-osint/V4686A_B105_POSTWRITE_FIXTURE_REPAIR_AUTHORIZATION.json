@@ -1,0 +1,181 @@
+{
+  "schema_version": "engineer-osint-v4686a-b105-postwrite-fixture-repair-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-07",
+  "reviewed_main_sha": "c4a7347a674bc8667c2634ba807c8e89ae0e5a09",
+  "reviewed_main_tree_sha": "7b523d1ec70c653643ad4111cb5d98f2483e1806",
+  "blocked_execution": {
+    "pr_number": 443,
+    "head_sha": "e66205fd6c2a0fa8e98cd05cdc79b4e4867987df",
+    "workflow_run_id": 34061868783,
+    "job_id": 101563699821,
+    "closed_unmerged": true,
+    "canonical_persisted_to_pr_or_main": false,
+    "temporary_resulting_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "root_cause": "DETERMINISTIC_POSTWRITE_HISTORICAL_FIXTURE_RECONSTRUCTION_DRIFT"
+  },
+  "root_cause": {
+    "v4642": "B103 reconstruction removed B105/B104 run state but did not restore the exact pre-B105 v4584 photo-review metadata before historical photo-baseline validation.",
+    "v4645": "B104 reconstruction removed B105 acquisition fields but did not restore the exact original import_blocker values, so the predecessor bytes no longer matched the pinned historical SHA-256.",
+    "expected_historical_hash_change_permitted": false,
+    "browser_flake_root_cause": false,
+    "canonical_candidate_changed": false,
+    "wildcard_or_dynamic_acceptance_permitted": false,
+    "historical_authorizations_rewritten": false
+  },
+  "historical_fixture": {
+    "pre_b105_v4584_sha256": "8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9",
+    "b105_candidate_file_sha256": "94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f",
+    "b104_canonical_sha256": "0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca",
+    "b105_expected_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9"
+  },
+  "exact_repair_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs",
+      "source_git_blob_sha": "86ec36b718eb1437effefb414b386891c4b87858",
+      "successor_git_blob_sha": "238caca505c322d3641021293466b1e309b80a39",
+      "role": "historical_fixture_reconstruction"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs",
+      "source_git_blob_sha": "bd4a242f6f910f8cd54dc0a0aad9a020fd336e47",
+      "successor_git_blob_sha": "ecdc22f8a15c76eac33264adfa421678aa544f2c",
+      "role": "historical_fixture_reconstruction"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "source_git_blob_sha": "5b5e323951608a6a92fa058fa02f8282e4134c09",
+      "successor_git_blob_sha": "c9e2cc2fa21042c0e9cebbf92cf8ce67df0371d9",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "4761fa6a89494c18b5d297ed9c728508050efdcb",
+      "successor_git_blob_sha": "4f3dcf405d6064313978e7c3d131edcb68be5ddd",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "eba6a60c87541d4b3c2efd2adc58737716dd19cb",
+      "successor_git_blob_sha": "dbcbfe67351e792d2a361e67cd9ff815ae1eb6fa",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec",
+      "successor_git_blob_sha": "84a71a5dfaa593bf2f79e1f0679898d11a5397aa",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39",
+      "successor_git_blob_sha": "fd1cab64cf501e3a133f78be0b86d170654d3b88",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "a9244f43d2461c64ecf732554b67b837233935d8",
+      "successor_git_blob_sha": "701c2534abd5123c46be1adb188a5e279d1dc6ff",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs",
+      "source_git_blob_sha": "b67f5450e044f595a0520ddf10e72b6f632e8e79",
+      "successor_git_blob_sha": "4c6ceeb27abaf429a6c9ab7f75d9b59685a044ce",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "5071912d053c00518621fdaf86ca162a11f5e22b",
+      "successor_git_blob_sha": "5765e92c00aaac04851bf04e56863945bc544dd2",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs",
+      "source_git_blob_sha": "7648ed46091c37512c7e2e01066cc8f1184335d9",
+      "successor_git_blob_sha": "ab836c133121e6af25ce589996c84d66c6e334f7",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs",
+      "source_git_blob_sha": "43a03c23bde2cf2fae5ea74968aebee8aabca18b",
+      "successor_git_blob_sha": "93ed8b225aba1636486a77a63780c80940cd43aa",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs",
+      "source_git_blob_sha": "b2905a9cf701ff56054e0d9828db86c88480ce9d",
+      "successor_git_blob_sha": "fb0962961a913232062dd63e58e1c5f5e2ed435e",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs",
+      "source_git_blob_sha": "5b9658da3363273c15b58331c3b44f64c050300b",
+      "successor_git_blob_sha": "26ea3a68bce1aa4da46228c118d3f594f67403d3",
+      "role": "phase_boundary_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "8cff3e7fd5519ff827472baa17a0971538ef80ee",
+      "successor_git_blob_sha": "d118c6679b2e5261239bf77d4aca3b962be1dbfc",
+      "role": "finite_state_guard"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4683a-v4682a-lifecycle-self-pin-correction-authorization.test.mjs",
+      "source_git_blob_sha": "de4f5461a2721be477cdb62f9a9a4fbdc920434f",
+      "successor_git_blob_sha": "2a4662db03d98e8b176a9bf1918a3538d45f8e0f",
+      "role": "finite_state_guard"
+    }
+  ],
+  "state_vectors": {
+    "source_state": "all sixteen exact source_git_blob_sha values",
+    "final_state": "all sixteen exact successor_git_blob_sha values",
+    "intermediate_states_permitted": false,
+    "partial_or_mixed_state_permitted": false
+  },
+  "materialization_evidence": {
+    "all_successor_git_blobs_materialized": true,
+    "all_successor_git_blobs_read_back_verified": true,
+    "successor_count": 16,
+    "preauthorization_candidate_tree_sha": "e8b7334f5fccc9a0263dc6adce2939e5d8271abc",
+    "preauthorization_candidate_tree_base_sha": "7b523d1ec70c653643ad4111cb5d98f2483e1806",
+    "preauthorization_candidate_tree_read_back_verified": true,
+    "candidate_tree_is_authoritative": false,
+    "candidate_tree_note": "Content-addressed pre-authorization evidence only. The implementation tree/commit must be constructed fresh after this authorization is merged because the authorization artifacts themselves will then exist on main."
+  },
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "authorization_merged_before_implementation": true,
+    "atomic_exact_tree_required": true,
+    "exact_source_vector_required": true,
+    "exact_successor_vector_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_collision_gate_required": true,
+    "fresh_main_and_pr_gate_before_merge": true,
+    "expected_head_sha_required": true,
+    "postmerge_verification_required": true,
+    "failed_execution_rerun_forbidden": true,
+    "new_clean_b105_execution_only_after_green_repair_merge": true,
+    "b105_retry_requires_separate_trusted_executor_gate": true
+  },
+  "forbidden": {
+    "combine_authorization_with_implementation": true,
+    "rewrite_historical_authorization": true,
+    "change_expected_historical_hashes": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "partial_or_mixed_installation": true,
+    "test_removal_or_skip": true,
+    "workflow_or_permission_change": true,
+    "manual_canonical_or_run_store_write": true,
+    "b105_execution_in_authorization_or_repair_implementation_slice": true,
+    "b106_authorization_or_execution_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "exact_atomic_postwrite_fixture_repair_permitted": true,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted_in_same_slice": false,
+    "b105_retry_permitted_before_trusted_executor_gate": false,
+    "b106_permitted": false
+  }
+}
