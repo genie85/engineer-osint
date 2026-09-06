@@ -5,7 +5,8 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4676A_V4675_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
-const nextV4673aSuccessor='6f93795d7522d8c182cc69affe0e3c5139b785c0';
+const historicalNextV4673aSuccessor='6f93795d7522d8c182cc69affe0e3c5139b785c0';
+const correctedB105V4673aSuccessor='ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -25,9 +26,9 @@ test('v4.6.76a pins immutable V4675A evidence and exact corrected V4673A lifecyc
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha);
 });
 
-test('v4.6.76a is lifecycle-compatible with exact corrected and next target transitions',()=>{
+test('v4.6.76a is lifecycle-compatible with exact corrected and corrected-B105 target transitions',()=>{
   const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,nextV4673aSuccessor].includes(blob),'V4673A regression must be exact source, exact corrected successor, or exact pinned next successor');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor].includes(blob),'V4673A regression must be an exact pinned lifecycle state');
 });
 
 test('v4.6.76a preserves fail-closed separation from guard retry, publication and B106',()=>{

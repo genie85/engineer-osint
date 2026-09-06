@@ -5,6 +5,17 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4679A_V4678A_TRANSITIVE_DEPENDENCY_CLOSURE_AUTHORIZATION.json`,'utf8'));
+const correctedB105Successors=new Map([
+  [`${root}/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs`,'ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39'],
+  [`${root}/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs`,'a9244f43d2461c64ecf732554b67b837233935d8'],
+  [`${root}/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs`,'b67f5450e044f595a0520ddf10e72b6f632e8e79'],
+  [`${root}/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs`,'5071912d053c00518621fdaf86ca162a11f5e22b'],
+  [`${root}/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs`,'7648ed46091c37512c7e2e01066cc8f1184335d9'],
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'eba6a60c87541d4b3c2efd2adc58737716dd19cb'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec'],
+  [`${root}/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs`,'4761fa6a89494c18b5d297ed9c728508050efdcb'],
+  [`${root}/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs`,'5b5e323951608a6a92fa058fa02f8282e4134c09']
+]);
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -26,21 +37,25 @@ test('v4.6.79a pins failed #419, immutable V4678A and a closed exact dependency 
   assert.equal(auth.dependency_closure.wildcard_or_dynamic_acceptance,false);
 });
 
-test('v4.6.79a compatibility preparation is exact and lifecycle-compatible before and after each transition',()=>{
+test('v4.6.79a compatibility preparation stays exact through corrected-B105 descendant transitions',()=>{
   assert.equal(auth.compatibility_prep_targets.length,5);
   assert.equal(auth.guard_targets.length,2);
   for(const target of [...auth.compatibility_prep_targets,...auth.guard_targets]){
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha].includes(blob),`${target.path} must be exact source or exact materialized successor`);
+    const corrected=correctedB105Successors.get(target.path);
+    assert.ok(corrected,`${target.path} must have one exact corrected-B105 successor`);
+    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
   for(const target of Object.values(auth.downstream_exact_transitions)){
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha].includes(blob),`${target.path} must be exact source or exact V4678A successor`);
+    const corrected=correctedB105Successors.get(target.path);
+    assert.ok(corrected,`${target.path} must have one exact corrected-B105 successor`);
+    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
     assert.equal(target.authorized_by_v4678a,true);
   }
 });
 
-test('v4.6.79a pins only materialized/read-back successors and an ordered fail-closed implementation',()=>{
+test('v4.6.79a preserves historical materialization evidence and ordered fail-closed implementation',()=>{
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_materialized,true);
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_read_back_verified,true);
   assert.equal(auth.materialization_evidence.successor_git_blob_shas.length,9);
