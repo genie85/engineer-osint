@@ -23,7 +23,7 @@ test('v4.6.80a pins failed #426 and closes the second-generation exact dependenc
   assert.equal(auth.root_cause.historical_authorizations_rewritten,false);
 });
 
-test('v4.6.80a pins thirteen materialized successors while authorization stays at exact source state',()=>{
+test('v4.6.80a pins thirteen materialized successors and accepts only exact ordered phase-boundary states',()=>{
   assert.equal(auth.materialized_successors.length,13);
   assert.equal(new Set(auth.materialized_successors.map(item=>item.path)).size,13);
   assert.equal(new Set(auth.materialized_successors.map(item=>item.successor_git_blob_sha)).size,13);
@@ -31,9 +31,15 @@ test('v4.6.80a pins thirteen materialized successors while authorization stays a
     assert.match(item.source_git_blob_sha,/^[0-9a-f]{40}$/);
     assert.match(item.successor_git_blob_sha,/^[0-9a-f]{40}$/);
     assert.notEqual(item.source_git_blob_sha,item.successor_git_blob_sha,item.path);
-    assert.equal(gitBlobSha(readFileSync(item.path)),item.source_git_blob_sha,`${item.path} authorization slice must remain on exact source`);
     assert.ok(Number.isInteger(item.phase)&&item.phase>=1&&item.phase<=6,item.path);
   }
+  const actual=new Map(auth.materialized_successors.map(item=>[item.path,gitBlobSha(readFileSync(item.path))]));
+  const exactBoundaryMatches=[];
+  for(let completedPhase=0;completedPhase<=6;completedPhase++){
+    const matches=auth.materialized_successors.every(item=>actual.get(item.path)===(item.phase<=completedPhase?item.successor_git_blob_sha:item.source_git_blob_sha));
+    if(matches)exactBoundaryMatches.push(completedPhase);
+  }
+  assert.equal(exactBoundaryMatches.length,1,`repository must match exactly one authorized ordered phase boundary; matched=${JSON.stringify(exactBoundaryMatches)}`);
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_materialized,true);
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_read_back_verified,true);
   assert.equal(auth.materialization_evidence.successor_count,13);
