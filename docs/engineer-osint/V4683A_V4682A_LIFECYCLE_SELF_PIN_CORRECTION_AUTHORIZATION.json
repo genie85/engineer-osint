@@ -1,0 +1,56 @@
+{
+  "schema_version": "engineer-osint-v4683a-v4682a-lifecycle-self-pin-correction-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-06",
+  "reviewed_main_sha": "a3c85a7ff931c37b084f672c2b8d81a951781dbe",
+  "failed_implementation": {
+    "pr_number": 431,
+    "head_sha": "fe87b508285f6ff536c495be1ed159e80233dc09",
+    "exact_head_workflow_runs": [34017163352,34017163398,34017163361,34017163360],
+    "closed_unmerged": true,
+    "root_cause": "AUTHORIZATION_REGRESSION_SOURCE_ONLY_SELF_PIN"
+  },
+  "root_cause": {
+    "summary": "V4682A correctly authorizes the exact V4680A regression-test successor, but its own regression test requires that authorized target to remain at the exact source SHA. The authorized implementation therefore deterministically makes the authorizing regression red. This is a repeated lifecycle self-pin pattern, not a canonical, executor, browser, or runtime defect.",
+    "repeated_generalizable_pattern": true,
+    "wildcard_or_dynamic_acceptance_permitted": false,
+    "historical_authorization_rewritten": false
+  },
+  "authorized_successor": {
+    "path": "docs/engineer-osint/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs",
+    "source_git_blob_sha": "1bfbffd2348634fd9126eeffbb878142c5e57624",
+    "successor_git_blob_sha": "8cff3e7fd5519ff827472baa17a0971538ef80ee",
+    "successor_semantics": "accept_only_exact_authorized_v4680a_source_or_exact_authorized_v4680a_successor"
+  },
+  "materialization_evidence": {
+    "successor_git_blob_materialized": true,
+    "successor_git_blob_read_back_verified": true
+  },
+  "implementation_sequence": [
+    "install_exact_v4682a_regression_successor_only",
+    "after_green_merge_retry_exact_v4680a_regression_successor",
+    "after_that_green_merge_retry_v4680a_phase_1",
+    "continue_remaining_v4680a_phases_only_after_each_prior_phase_green_merge",
+    "allow_separately_authorized_b105_executor_retry_only_after_all_required_implementation_phases_green_merge"
+  ],
+  "forbidden": {
+    "combine_authorization_with_implementation": true,
+    "change_v4682a_json": true,
+    "change_v4680a_json": true,
+    "install_v4680a_test_successor_in_this_slice": true,
+    "install_any_v4680a_phase_target_in_this_slice": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "test_removal_or_skip": true,
+    "workflow_or_permission_change": true,
+    "manual_canonical_or_run_store_write": true,
+    "b105_execution_in_this_slice": true,
+    "b106_authorization_or_execution_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "exact_v4682a_test_successor_permitted": true,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
