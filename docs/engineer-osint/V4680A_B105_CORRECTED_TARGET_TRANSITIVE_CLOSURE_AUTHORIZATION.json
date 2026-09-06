@@ -1,0 +1,81 @@
+{
+  "schema_version": "engineer-osint-v4680a-b105-corrected-target-transitive-closure-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-06",
+  "reviewed_main_sha": "29f903b23b958b325e46128ede29293063eaa04d",
+  "blocked_implementation": {
+    "pr_number": 426,
+    "head_sha": "872e3bbece7951fb3bebcedb0ff1cf46a9fc89a5",
+    "exact_head_workflow_runs": [34004520505,34004520542,34004520540,34004520526],
+    "closed_unmerged": true,
+    "root_cause": "PREDICTABLE_SECOND_GENERATION_TRANSITIVE_LIFECYCLE_DEPENDENCY_BLOCKER"
+  },
+  "root_cause": {
+    "summary": "The exact corrected 17-target B105 successor set is valid, but historical lifecycle regression tests V4660 and V4669A still admit only pre-transition states. Advancing those tests creates deterministic downstream exact-pin dependencies through V4661 and V4670-V4679.",
+    "first_failing_layers": [
+      "docs/engineer-osint/tests/v4660-b105-workflow-postwrite-compatibility-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs"
+    ],
+    "wildcard_or_dynamic_acceptance_permitted": false,
+    "historical_authorizations_rewritten": false
+  },
+  "materialized_successors": [
+    {"path":"docs/engineer-osint/tests/v4661-v4660-test-successor-authorization.test.mjs","source_git_blob_sha":"0be1fd458728beb1143cdf0bd7561b4a052dbfca","successor_git_blob_sha":"81a290e30e65d6ab9dc391c6958a2bea2c891ca1","phase":1},
+    {"path":"docs/engineer-osint/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"fa5b95c00ab915f246462c7255fd4eb037a433c2","successor_git_blob_sha":"b67f5450e044f595a0520ddf10e72b6f632e8e79","phase":1},
+    {"path":"docs/engineer-osint/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"624f2e5a6afe1752dabdc7bd660d3c99520a62bc","successor_git_blob_sha":"5071912d053c00518621fdaf86ca162a11f5e22b","phase":1},
+    {"path":"docs/engineer-osint/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs","source_git_blob_sha":"d207b9916cbce694f81bc8346351ba93668301af","successor_git_blob_sha":"7648ed46091c37512c7e2e01066cc8f1184335d9","phase":1},
+    {"path":"docs/engineer-osint/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs","source_git_blob_sha":"deb4320d6aa016c5f7b6a8fc42429c60a3b07377","successor_git_blob_sha":"43a03c23bde2cf2fae5ea74968aebee8aabca18b","phase":1},
+    {"path":"docs/engineer-osint/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs","source_git_blob_sha":"b06ad9ce07dfc8ea74c8109151ebc9f3fa8c9f94","successor_git_blob_sha":"b2905a9cf701ff56054e0d9828db86c88480ce9d","phase":1},
+    {"path":"docs/engineer-osint/tests/v4660-b105-workflow-postwrite-compatibility-authorization.test.mjs","source_git_blob_sha":"001a6625e2bdc2fa20f5f0d97b5eb23c29bb4388","successor_git_blob_sha":"027db23d5a6cdd91f93afa8575265d7fb366ac9f","phase":2},
+    {"path":"docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"6f93795d7522d8c182cc69affe0e3c5139b785c0","successor_git_blob_sha":"ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39","phase":3},
+    {"path":"docs/engineer-osint/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"f31ce7285dafef2e1773eac9cc39f7080143b220","successor_git_blob_sha":"a9244f43d2461c64ecf732554b67b837233935d8","phase":3},
+    {"path":"docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"9484399067b3defa79439e0054ceb1731902dc0f","successor_git_blob_sha":"eba6a60c87541d4b3c2efd2adc58737716dd19cb","phase":4},
+    {"path":"docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"f65f730a9060ee1c00b36a1757c355801543dc6c","successor_git_blob_sha":"4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec","phase":4},
+    {"path":"docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"8d5b111911b39f7fee30e00f6f833b262561e701","successor_git_blob_sha":"4761fa6a89494c18b5d297ed9c728508050efdcb","phase":5},
+    {"path":"docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs","source_git_blob_sha":"58d5281ad101f3da6920399659f3d6222483a429","successor_git_blob_sha":"5b5e323951608a6a92fa058fa02f8282e4134c09","phase":6}
+  ],
+  "materialization_evidence": {
+    "all_successor_git_blobs_materialized": true,
+    "all_successor_git_blobs_read_back_verified": true,
+    "successor_count": 13
+  },
+  "implementation_sequence": [
+    "phase_1_install_exact_compatibility_envelope_successors_for_v4661_v4675_v4676_v4677_v4678_v4679_only",
+    "phase_2_after_phase_1_green_merge_install_exact_v4660_successor_only",
+    "phase_3_after_phase_2_green_merge_install_exact_v4673_and_v4674_successors_only",
+    "phase_4_after_phase_3_green_merge_install_exact_v4671_and_v4672a_successors_only",
+    "phase_5_after_phase_4_green_merge_install_exact_v4670_successor_only",
+    "phase_6_after_phase_5_green_merge_install_exact_v4669a_successor_only",
+    "phase_7_only_after_phase_6_green_merge_retry_the_exact_17_corrected_b105_target_successors",
+    "phase_8_only_after_phase_7_green_merge_allow_a_separately_authorized_b105_executor_retry"
+  ],
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "separate_ordered_phases": true,
+    "exact_source_required": true,
+    "exact_materialized_successor_required": true,
+    "full_exact_head_ci_each_phase": true,
+    "fresh_main_and_pr_gate_before_each_merge": true,
+    "expected_head_sha_required": true
+  },
+  "forbidden": {
+    "combine_authorization_with_implementation": true,
+    "skip_or_reorder_dependency_phases": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "rewrite_historical_authorization": true,
+    "manual_canonical_or_run_store_write": true,
+    "executor_change_in_phases_1_through_7": true,
+    "workflow_or_permission_change": true,
+    "test_removal_or_skip": true,
+    "b105_execution_before_green_merged_phase_7": true,
+    "b106_authorization_or_execution_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "ordered_exact_lifecycle_repair_permitted": true,
+    "exact_17_target_retry_after_phase_6_permitted": true,
+    "canonical_execution_permitted_in_this_authorization_slice": false,
+    "b105_execution_permitted_before_phase_7_green_merge": false,
+    "b106_permitted": false
+  }
+}
