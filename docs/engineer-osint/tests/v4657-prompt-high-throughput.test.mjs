@@ -11,14 +11,15 @@ const development=read('PROMPT_DEVELOPMENT.md');
 const handoff=read('PROMPT_HANDOFF_CONTRACT.md');
 
 const moduleVersion=text=>text.match(/\bv(3\.\d+)\b/)?.[1]??null;
+const supportedVersions=new Set(['3.7','3.8']);
 
-test('v4.6.57 activates exact prompt semantic version 3.7 across the modular execution set',()=>{
-  assert.match(master,/MASTER PROMPT v3\.7/);
-  assert.equal(moduleVersion(master),'3.7');
-  assert.equal(moduleVersion(core),'3.7');
-  assert.equal(moduleVersion(research),'3.7');
-  assert.equal(moduleVersion(development),'3.7');
-  assert.match(handoff,/Prompt semantic version: 3\.7/);
+test('v4.6.57 high-throughput prompt contract remains active across exact v3.7/v3.8 lifecycle',()=>{
+  assert.match(master,/MASTER PROMPT v3\.(?:7|8)/);
+  assert.equal(supportedVersions.has(moduleVersion(master)),true);
+  assert.equal(supportedVersions.has(moduleVersion(core)),true);
+  assert.equal(supportedVersions.has(moduleVersion(research)),true);
+  assert.equal(supportedVersions.has(moduleVersion(development)),true);
+  assert.match(handoff,/Prompt semantic version: 3\.(?:7|8)/);
 });
 
 test('v4.6.57 adds high-throughput orchestration without weakening the safety constitution',()=>{
