@@ -16,6 +16,8 @@ const staleAuthPath=`${root}/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.j
 const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
 const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105='engineer-osint-20260904-B105';
+const B105_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 test('v4.6.45 readiness pins exact corrected B104 discovery evidence before and after its separately authorized execution',()=>{
   const store=loadCanonicalRunStore({root});
@@ -42,8 +44,15 @@ test('v4.6.45 readiness pins exact corrected B104 discovery evidence before and 
     assert.equal(store.report.canonical_sha256,readiness.parent_canonical_sha256);
     assert.equal(readiness.lifecycle_source_sha256,sha256(sourcePath));
   } else {
-    assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B103→B104 lifecycle');
-    assert.equal(store.report.canonical_sha256,B104_SHA);
+    if(store.report.current_run_id===B105){
+      assert.equal(store.report.canonical_sha256,B105_SHA);
+      const b104Entry=store.manifest.runs.find(item=>item.run_id===B104);
+      assert.ok(b104Entry,'exact corrected B104 ancestor missing under B105');
+      assert.equal(b104Entry.canonical_sha256,B104_SHA);
+    } else {
+      assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B103→B104→B105 lifecycle');
+      assert.equal(store.report.canonical_sha256,B104_SHA);
+    }
     assert.equal(authorization.expected_parent_run_id,B103);
     assert.equal(authorization.expected_parent_canonical_sha256,readiness.parent_canonical_sha256);
     assert.equal(authorization.exact_candidate_file_sha256,readiness.candidate_file_sha256);

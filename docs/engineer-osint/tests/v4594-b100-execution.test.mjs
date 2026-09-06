@@ -14,6 +14,8 @@ const exactExecutorAppendSuccessor='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
 const B100_RUN='engineer-osint-20260902-B100';
 const B104_RUN='engineer-osint-20260903-B104';
 const B104_CANONICAL_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105_RUN='engineer-osint-20260904-B105';
+const B105_CANONICAL_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 test('v4.5.94 preserves the separately authorized B100 append as an immutable canonical ancestor',()=>{
   const store=loadCanonicalRunStore();
@@ -50,7 +52,10 @@ test('v4.5.94 publishes the three reviewed systems with exact evidence provenanc
   const store=loadCanonicalRunStore();
   const {data}=store;
   const exactB104=store.report.current_run_id===B104_RUN;
+  const exactB105=store.report.current_run_id===B105_RUN;
   if(exactB104)assert.equal(store.report.canonical_sha256,B104_CANONICAL_SHA);
+  if(exactB105)assert.equal(store.report.canonical_sha256,B105_CANONICAL_SHA);
+  assert.ok(exactB104||exactB105,`unexpected current run ${store.report.current_run_id}`);
   const records=data.records.records.filter(item=>expectedRecords.includes(item.id));
   const sources=data.sources.sources.filter(item=>expectedSources.includes(item.id));
   const evidence=data.evidence.evidence.filter(item=>expectedEvidence.includes(item.evidence_id||item.id));
@@ -59,7 +64,7 @@ test('v4.5.94 publishes the three reviewed systems with exact evidence provenanc
   assert.deepEqual(evidence.map(item=>item.evidence_id||item.id),expectedEvidence);
   for(const record of records){
     assert.equal(record.first_seen_run,B100_RUN);
-    const expectedLastUpdate=exactB104&&record.id==='ENG-TECH-0045'?B104_RUN:B100_RUN;
+    const expectedLastUpdate=(exactB104||exactB105)&&record.id==='ENG-TECH-0045'?B104_RUN:B100_RUN;
     assert.equal(record.last_update_run,expectedLastUpdate);
     assert.equal(record.source_ids.length,1);
     assert.equal(record.evidence_ids.length,1);

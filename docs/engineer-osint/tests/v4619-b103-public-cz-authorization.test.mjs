@@ -22,6 +22,8 @@ const v4616LifecycleSuccessorSha='52cdd53dbc247b0c887725fea160b89066e9ddb4';
 const v4618LifecycleSuccessorSha='31a7112cb443014e717bdbd8c0c408997bda0d73';
 const v4649V4616CompatibilitySha='d275bc42de7f636d88646124c2adef3d16cc21ad';
 const v4649V4618CompatibilitySha='43384369ea70755792eaf37f4a05f37e10bb53c1';
+const v4668V4616CompatibilitySha='4e812347b7a69c522d9857f6367a816254964c87';
+const v4668V4618CompatibilitySha='abfc216575e1a372faa5ebc0982ee7f4bb52ae30';
 const expectedCards=['ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0005','ENG-TECH-0006','ENG-TECH-0016','ENG-TECH-0017','ENG-TECH-0022','ENG-TECH-0028','ENG-TECH-0029'];
 const expectedVisuals=expectedCards.map(id=>`ENG-VIS-LOCAL-${id.slice(-4)}`);
 const B102='engineer-osint-20260902-B102';
@@ -29,6 +31,7 @@ const B103='engineer-osint-20260902-B103';
 const B104='engineer-osint-20260903-B104';
 const B105='engineer-osint-20260904-B105';
 const B104_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const B104_DIGEST='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 const B105_DIGEST='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 
@@ -37,7 +40,15 @@ const assertB103OrB104Tip=store=>{
     assert.equal(store.report.canonical_sha256,auth.expected_resulting_canonical_sha256);
     return B103;
   }
-  assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B102→B103→B104 lifecycle');
+  if(store.report.current_run_id===B105){
+    assert.equal(store.report.canonical_sha256,B105_SHA);
+    const b104Entry=store.manifest.runs.find(item=>item.run_id===B104);
+    assert.ok(b104Entry,'exact B104 ancestor missing under B105');
+    assert.equal(b104Entry.canonical_sha256,B104_SHA);
+    assert.equal(b104Entry.parent_run_id,B103);
+    return B105;
+  }
+  assert.equal(store.report.current_run_id,B104,'canonical head is outside exact B102→B103→B104→B105 lifecycle');
   assert.equal(store.report.canonical_sha256,B104_SHA);
   assert.equal(b104Auth.expected_parent_run_id,B103);
   assert.equal(b104Auth.expected_parent_canonical_sha256,auth.expected_resulting_canonical_sha256);
@@ -123,8 +134,8 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence 
     assert.equal(entry.canonical_sha256,auth.expected_resulting_canonical_sha256);
   }
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
-  assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha,v4649V4616CompatibilitySha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
-  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
+  assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha,v4649V4616CompatibilitySha,v4668V4616CompatibilitySha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
+  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha,v4668V4618CompatibilitySha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
   const workflowRaw=readRepo('.github/workflows/identity-fix-retirement-regression.yml');
   const workflowSha=gitBlobSha(workflowRaw);
   assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha,b104WorkflowSuccessorSha,b105WorkflowSuccessorSha].includes(workflowSha));

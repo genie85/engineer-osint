@@ -25,6 +25,7 @@ const resultingCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07
 const expectedDigest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 const exactWorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
 const b105RunId='engineer-osint-20260904-B105';
+const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const b105Digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 const exactB105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
@@ -55,6 +56,20 @@ function assertAuthorizedWorkflowLifecycle(authorization,workflowRaw){
   assert.equal(gitBlobSha(predecessor),authorization.browser_workflow_successor.source_git_blob_sha,'authorized workflow chain does not reduce to predecessor');
   return true;
 }
+
+const assertB104OrB105=store=>{
+  if(store.report.current_run_id===b105RunId){
+    assert.equal(store.report.canonical_sha256,b105CanonicalSha);
+    const b104Entry=store.manifest.runs.find(item=>item.run_id===runId);
+    assert.ok(b104Entry,'exact corrected B104 ancestor missing under B105');
+    assert.equal(b104Entry.file_sha256,json(authorizationPath).exact_candidate_file_sha256);
+    assert.equal(b104Entry.canonical_sha256,resultingCanonicalSha);
+    return 'B105_DESCENDANT';
+  }
+  assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104→B105 lifecycle');
+  assert.equal(store.report.canonical_sha256,resultingCanonicalSha);
+  return 'B104_TIP';
+};
 
 test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecycle successor before and after execution',()=>{
   const authorization=json(authorizationPath);
@@ -105,8 +120,7 @@ test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecyc
     assert.equal(authorization.photo_review_status_successor.source_git_blob_sha,gitBlobSha(lifecycleSourceRaw));
     assert.equal(authorization.photo_review_status_successor.source_sha256,sha256(lifecycleSourceRaw));
   } else {
-    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
-    assert.equal(store.report.canonical_sha256,resultingCanonicalSha);
+    assertB104OrB105(store);
     assert.equal(lifecycleSourceRaw,successorRaw);
     assert.equal(gitBlobSha(lifecycleSourceRaw),authorization.photo_review_status_successor.successor_git_blob_sha);
     assert.equal(sha256(lifecycleSourceRaw),authorization.photo_review_status_successor.successor_sha256);
@@ -179,9 +193,17 @@ test('v4.6.46 is accepted by the existing exact canonical executor contract befo
     assert.equal(validation.resultingCanonical,resultingCanonicalSha);
     assert.equal(canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate)),resultingCanonicalSha);
   } else {
-    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
-    assert.equal(store.report.canonical_sha256,resultingCanonicalSha);
-    assert.doesNotThrow(()=>validatePersistedStoreContract({authorization,store,runId}));
+    const phase=assertB104OrB105(store);
+    let persistedStore=store;
+    if(phase==='B105_DESCENDANT'){
+      const b104Index=store.manifest.runs.findIndex(item=>item.run_id===runId);
+      assert.ok(b104Index>=0,'exact B104 ancestor missing under B105');
+      persistedStore={
+        report:{...structuredClone(store.report),current_run_id:runId,canonical_sha256:resultingCanonicalSha},
+        manifest:{...structuredClone(store.manifest),runs:structuredClone(store.manifest.runs.slice(0,b104Index+1))}
+      };
+    }
+    assert.doesNotThrow(()=>validatePersistedStoreContract({authorization,store:persistedStore,runId}));
     const persistedRaw=readFileSync(`${root}/data/runs/${runId}.json`,'utf8');
     assert.equal(sha256(persistedRaw),authorization.exact_candidate_file_sha256);
     assert.deepEqual(JSON.parse(persistedRaw),candidate);
