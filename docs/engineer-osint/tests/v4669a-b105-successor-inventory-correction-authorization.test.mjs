@@ -28,15 +28,23 @@ test('v4.6.69a pins the historical authorization and exact two-entry transcripti
   assert.equal(auth.validated_successor_tree_sha,'424023597322a092ac7da6908799405696e24342');
 });
 
-test('v4.6.69a pins all 17 corrected successor identities while the authorization slice remains exact source state',()=>{
+test('v4.6.69a pins all 17 corrected successor identities and accepts only atomic source or corrected-successor state',()=>{
   assert.equal(auth.corrected_exact_test_state_pairs.length,17);
   assert.equal(new Set(auth.corrected_exact_test_state_pairs.map(([path])=>path)).size,17);
+  const current=[];
+  const sources=[];
+  const successors=[];
   for(const [path,source,successor] of auth.corrected_exact_test_state_pairs){
     assert.match(source,/^[0-9a-f]{40}$/);
     assert.match(successor,/^[0-9a-f]{40}$/);
     assert.notEqual(source,successor,`${path}: source and successor must differ`);
-    assert.equal(gitBlobSha(readFileSync(path)),source,`${path}: authorization slice must remain on exact source blob`);
+    current.push(gitBlobSha(readFileSync(path)));
+    sources.push(source);
+    successors.push(successor);
   }
+  const sourceMode=current.every((blob,index)=>blob===sources[index]);
+  const successorMode=current.every((blob,index)=>blob===successors[index]);
+  assert.ok(sourceMode||successorMode,'17-target state must be exact atomic source set or exact corrected-successor set');
 });
 
 test('v4.6.69a authorizes only two exact guard successors and forbids publication in the same slice',()=>{
