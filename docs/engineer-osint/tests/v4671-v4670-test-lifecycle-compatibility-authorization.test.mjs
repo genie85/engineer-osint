@@ -9,6 +9,7 @@ const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
+const correctedB105V4670Successor='4761fa6a89494c18b5d297ed9c728508050efdcb';
 
 test('v4.6.71 pins immutable v4.6.70 authorization and exact v4670 test lifecycle',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4670-test-lifecycle-compatibility-authorization-v1');
@@ -24,9 +25,9 @@ test('v4.6.71 pins immutable v4.6.70 authorization and exact v4670 test lifecycl
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha);
 });
 
-test('v4.6.71 remains lifecycle-compatible with its own authorized v4670 successor',()=>{
+test('v4.6.71 remains lifecycle-compatible with exact historical, corrected and corrected-B105 v4670 successors',()=>{
   const targetBlob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447','8d5b111911b39f7fee30e00f6f833b262561e701'].includes(targetBlob),'v4670 test must be exact source or exact authorized successor');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447','8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor].includes(targetBlob),'v4670 test must be an exact pinned lifecycle state');
 });
 
 test('v4.6.71 preserves strict separation from V4669A, B105 publication and B106',()=>{
