@@ -10,6 +10,7 @@ const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
+const correctedB105Successor='5b5e323951608a6a92fa058fa02f8282e4134c09';
 
 test('v4.6.70 pins the exact red V4669B implementation and immutable V4669A authorization',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4669a-lifecycle-compatibility-authorization-v1');
@@ -24,7 +25,7 @@ test('v4.6.70 pins the exact red V4669B implementation and immutable V4669A auth
   assert.equal(auth.upstream_authorization.immutable,true);
 });
 
-test('v4.6.70 authorizes one exact V4669A test successor from the exact current source',()=>{
+test('v4.6.70 accepts only exact historical, materialized replacement, or corrected-B105 V4669A test state',()=>{
   assert.equal(auth.authorized_target.path,`${root}/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs`);
   assert.equal(auth.authorized_target.source_git_blob_sha,'616405eaa413ec5552099dfec419f298c47a9440');
   assert.equal(auth.authorized_target.successor_git_blob_sha,'4396d5e87af72ddeb90ca080ea0b105411076cad');
@@ -32,7 +33,7 @@ test('v4.6.70 authorizes one exact V4669A test successor from the exact current 
   assert.equal(correction.authorized_targets.v4669a_test.path,auth.authorized_target.path);
   assert.equal(correction.authorized_targets.v4669a_test.source_git_blob_sha,auth.authorized_target.source_git_blob_sha);
   assert.equal(correction.authorized_targets.v4669a_test.unavailable_successor_git_blob_sha,auth.authorized_target.successor_git_blob_sha);
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_targets.v4669a_test.replacement_successor_git_blob_sha].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_targets.v4669a_test.replacement_successor_git_blob_sha,correctedB105Successor].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
 });
 
 test('v4.6.70 compatibility scope stays atomic, fail-closed and separate from B105 publication',()=>{
