@@ -1,0 +1,53 @@
+{
+  "schema_version": "engineer-osint-v4681a-v4680a-phase-boundary-successor-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-06",
+  "reviewed_main_sha": "d4078fc4957e2fb661f97024bfe3915f8c161c36",
+  "blocked_implementation": {
+    "pr_number": 428,
+    "head_sha": "f0e931206a20fc3fca67dd8b8f66f90b1d64cc2a",
+    "exact_head_workflow_runs": [34009898389,34009898377,34009898425,34009898410],
+    "closed_unmerged": true,
+    "root_cause": "V4680A_AUTHORIZATION_TEST_NOT_LIFECYCLE_AWARE_FOR_ITS_OWN_ORDERED_PHASES"
+  },
+  "root_cause": {
+    "summary": "V4680A correctly authorizes six ordered implementation phases, but its regression test requires every one of the thirteen authorized targets to remain at source state forever. Therefore phase 1 deterministically fails after installing its exact authorized successors. The correction must preserve exact SHA pinning and accept only complete ordered phase-boundary vectors, never mixed or wildcard state.",
+    "browser_flake_root_cause": false,
+    "wildcard_or_dynamic_acceptance_permitted": false,
+    "historical_v4680a_authorization_rewritten": false
+  },
+  "authorized_successor": {
+    "path": "docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs",
+    "source_git_blob_sha": "e28c381c92bcb597c713239453567009d4e78c19",
+    "successor_git_blob_sha": "5b9658da3363273c15b58331c3b44f64c050300b",
+    "successor_semantics": "accept_exactly_one_of_seven_ordered_phase_boundary_vectors_source_through_phase_6"
+  },
+  "materialization_evidence": {
+    "successor_git_blob_materialized": true,
+    "successor_git_blob_read_back_verified": true
+  },
+  "implementation_sequence": [
+    "install_exact_v4680a_test_successor_only",
+    "after_green_merge_retry_v4680a_phase_1_exact_six_successors",
+    "continue_v4680a_phases_2_through_7_only_after_each_prior_phase_green_merge",
+    "allow_separately_authorized_b105_executor_retry_only_after_phase_7_green_merge"
+  ],
+  "forbidden": {
+    "combine_authorization_with_implementation": true,
+    "change_v4680a_json": true,
+    "install_any_of_the_thirteen_v4680a_target_successors_in_this_slice": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "test_removal_or_skip": true,
+    "workflow_or_permission_change": true,
+    "manual_canonical_or_run_store_write": true,
+    "b105_execution_in_this_slice": true,
+    "b106_authorization_or_execution_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "exact_v4680a_test_successor_permitted": true,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted": false,
+    "b106_permitted": false
+  }
+}
