@@ -1,8 +1,8 @@
-# ENGINEER OSINT — PROMPT RESEARCH v3.7
+# ENGINEER OSINT — PROMPT RESEARCH v3.8
 
 Status: derived execution view
-Requires: `PROMPT_CORE.md` v3.7
-Canonical authority: `MASTER_PROMPT.md` v3.7
+Requires: `PROMPT_CORE.md` v3.8
+Canonical authority: `MASTER_PROMPT.md` v3.8
 
 Tento modul je určen pro discovery, aktualizaci informací, source/evidence verification, provenance, freshness, photo/media research a přípravu strukturovaného handoffu do DEVELOPMENT. Není samostatnou autoritou. Konflikt s CORE/MASTER/P0 nebo version mismatch = fail closed pro write/publication operace.
 
