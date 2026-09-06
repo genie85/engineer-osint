@@ -12,6 +12,7 @@ const digest='5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c';
 const b103Run='engineer-osint-20260902-B103';
 const b103Digest='68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a';
 const b105Run='engineer-osint-20260904-B105';
+const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const b105Digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 const expectedPredecessorBlob='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const expectedSuccessorBlob='cb7e4d186ff3a79675ace8c48754317ffdede233';
@@ -85,14 +86,24 @@ test('v4.6.47 changes browser acceptance only and preserves its historical pendi
   if(store.report.current_run_id===b103Run){
     assert.equal(store.report.canonical_sha256,authorization.expected_parent_canonical_sha256);
   } else {
-    assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104 lifecycle');
-    assert.equal(store.report.canonical_sha256,authorization.expected_resulting_canonical_sha256);
-    const entry=store.manifest.runs.find(item=>item.run_id===runId);
-    assert.ok(entry,'exact B104 manifest entry missing');
-    assert.equal(entry.parent_run_id,b103Run);
-    assert.equal(entry.parent_canonical_sha256,authorization.expected_parent_canonical_sha256);
-    assert.equal(entry.file_sha256,authorization.exact_candidate_file_sha256);
-    assert.equal(entry.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+    if(store.report.current_run_id===b105Run){
+      assert.equal(store.report.canonical_sha256,b105CanonicalSha);
+      const b104Entry=store.manifest.runs.find(item=>item.run_id===runId);
+      assert.ok(b104Entry,'exact B104 manifest ancestor missing under B105');
+      assert.equal(b104Entry.parent_run_id,b103Run);
+      assert.equal(b104Entry.parent_canonical_sha256,authorization.expected_parent_canonical_sha256);
+      assert.equal(b104Entry.file_sha256,authorization.exact_candidate_file_sha256);
+      assert.equal(b104Entry.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+    } else {
+      assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→B104→B105 lifecycle');
+      assert.equal(store.report.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+      const entry=store.manifest.runs.find(item=>item.run_id===runId);
+      assert.ok(entry,'exact B104 manifest entry missing');
+      assert.equal(entry.parent_run_id,b103Run);
+      assert.equal(entry.parent_canonical_sha256,authorization.expected_parent_canonical_sha256);
+      assert.equal(entry.file_sha256,authorization.exact_candidate_file_sha256);
+      assert.equal(entry.canonical_sha256,authorization.expected_resulting_canonical_sha256);
+    }
   }
   assert.equal(authorization.execution_state.canonical_write_performed,false);
   assert.equal(authorization.execution_state.run_file_created,false);

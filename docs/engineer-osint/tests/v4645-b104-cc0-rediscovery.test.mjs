@@ -22,6 +22,10 @@ const parentCanonicalSha='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba
 const reviewedMainSha='d2336831802af1f04fd797b313db0a34d9644900';
 const expectedCandidateSha='0ee11a836cd5b60bd969caf0a2591d94be66eaf24bbc9de25993f0490850e4e9';
 const expectedCanonicalSha='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const b105RunId='engineer-osint-20260904-B105';
+const b105CandidateSha='94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f';
+const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
+const preB105V4584Sha='8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');
@@ -53,9 +57,49 @@ const exactPhase=store=>{
     assert.equal(store.report.canonical_sha256,parentCanonicalSha);
     return 'PRE_EXECUTION';
   }
-  assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→corrected B104 lifecycle');
+  if(store.report.current_run_id===b105RunId){
+    assert.equal(store.report.canonical_sha256,b105CanonicalSha);
+    const b104Entry=store.manifest.runs.find(item=>item.run_id===runId);
+    assert.ok(b104Entry,'exact corrected B104 ancestor missing under B105');
+    assert.equal(b104Entry.file_sha256,expectedCandidateSha);
+    assert.equal(b104Entry.canonical_sha256,expectedCanonicalSha);
+    return 'POST_EXECUTION_B105_DESCENDANT';
+  }
+  assert.equal(store.report.current_run_id,runId,'canonical head is outside exact B103→corrected B104→B105 lifecycle');
   assert.equal(store.report.canonical_sha256,expectedCanonicalSha);
   return 'POST_EXECUTION';
+};
+
+const reconstructExactB104FromB105=temp=>{
+  const tempRoot=join(temp,root);
+  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
+  if(manifest.runs.at(-1)?.run_id!==b105RunId)return;
+  const entry=manifest.runs.pop();
+  assert.equal(entry.parent_run_id,runId);
+  assert.equal(entry.parent_canonical_sha256,expectedCanonicalSha);
+  assert.equal(entry.file_sha256,b105CandidateSha);
+  assert.equal(entry.canonical_sha256,b105CanonicalSha);
+  writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  rmSync(join(tempRoot,'data/runs',`${b105RunId}.json`),{force:true});
+
+  const v4584Path=join(tempRoot,'photo-review-batches/v4584.json');
+  const v4584=JSON.parse(readFileSync(v4584Path,'utf8'));
+  for(const item of v4584.entries){
+    assert.equal(item.status,'LOCAL_IMAGE',`${item.card_id}: exact B105 fixture must be LOCAL_IMAGE before historical restoration`);
+    item.status='READY_FOR_IMPORT';
+    delete item.acquired_at;
+    delete item.local_image_path;
+    delete item.sha256;
+    delete item.local_acquisition_batch;
+  }
+  const restoredV4584=JSON.stringify(v4584,null,2)+'\n';
+  assert.equal(sha256(restoredV4584),preB105V4584Sha,'deterministic v4584 predecessor reconstruction drift');
+  writeFileSync(v4584Path,restoredV4584);
+
+  const restored=loadCanonicalRunStore({root:tempRoot});
+  assert.equal(restored.report.current_run_id,runId);
+  assert.equal(restored.report.canonical_sha256,expectedCanonicalSha);
 };
 
 test('v4.6.45 corrected B104 candidate is exact three-card enrichment and supersedes stale authorization inputs',()=>{
@@ -135,7 +179,7 @@ test('v4.6.45 discovers or verifies corrected B104 canonical hash, PUBLIC-CZ res
     ?canonicalDigest(applyStrictPatchToCanonicalData(live.data,candidate))
     :expectedCanonicalSha;
   assert.equal(resultingCanonicalSha,expectedCanonicalSha);
-  if(phase==='POST_EXECUTION'){
+  if(phase!=='PRE_EXECUTION'){
     const persistedRaw=readFileSync(`${root}/data/runs/${runId}.json`,'utf8');
     assert.equal(sha256(persistedRaw),candidateSha);
     assert.deepEqual(JSON.parse(persistedRaw),candidate);
@@ -183,6 +227,7 @@ test('v4.6.45 discovers or verifies corrected B104 canonical hash, PUBLIC-CZ res
       assert.equal(append.entry.canonical_sha256,resultingCanonicalSha);
       cpSync(join(temp,successorPath),join(temp,lifecycleSourcePath));
     } else {
+      if(phase==='POST_EXECUTION_B105_DESCENDANT')reconstructExactB104FromB105(temp);
       const copied=loadCanonicalRunStore({root:join(temp,root)});
       assert.equal(copied.report.current_run_id,runId);
       assert.equal(copied.report.canonical_sha256,expectedCanonicalSha);

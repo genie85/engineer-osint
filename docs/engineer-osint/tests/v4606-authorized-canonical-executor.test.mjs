@@ -16,6 +16,7 @@ const b104AuthPath=`${root}/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json
 const candidatePath=`${root}/osint-publication-candidates/v4616-b103-local-images-public-cz.json`;
 const b103PersistedPath=`${root}/data/runs/engineer-osint-20260902-B103.json`;
 const b104PersistedPath=`${root}/data/runs/engineer-osint-20260903-B104.json`;
+const b105PersistedPath=`${root}/data/runs/engineer-osint-20260904-B105.json`;
 const workflowPath='.github/workflows/authorized-canonical-executor.yml';
 const appendRunPath=`${root}/append-run.mjs`;
 const executorPath=`${root}/authorized-canonical-executor.mjs`;
@@ -37,6 +38,9 @@ const B103_RUN_ID='engineer-osint-20260902-B103';
 const B103_CANONICAL_SHA='d0cb1692bc105feacb75563dc6c5426e1a7238b3ddff76da5740ba90226d423c';
 const B104_RUN_ID='engineer-osint-20260903-B104';
 const B104_CANONICAL_SHA='0a71da742be00282d4f286bff689c8662fa5e36aca2a68c3e07180a92ae67bca';
+const B105_RUN_ID='engineer-osint-20260904-B105';
+const B105_CANONICAL_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
+const B105_FILE_SHA='94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f';
 
 test('v4.6.06 installs the exact authorized executor surface across the exact B102/B103/B104 lifecycle',()=>{
   assert.equal(implementationAuth.status,'READY_FOR_IMPLEMENTATION');
@@ -53,9 +57,15 @@ test('v4.6.06 installs the exact authorized executor surface across the exact B1
   assert.equal(b104Auth.expected_parent_canonical_sha256,B103_CANONICAL_SHA);
   assert.equal(b104Auth.expected_resulting_canonical_sha256,B104_CANONICAL_SHA);
   const store=loadCanonicalRunStore({root});
-  const exactStates=new Map([[B102_RUN_ID,B102_CANONICAL_SHA],[B103_RUN_ID,B103_CANONICAL_SHA],[B104_RUN_ID,B104_CANONICAL_SHA]]);
+  const exactStates=new Map([[B102_RUN_ID,B102_CANONICAL_SHA],[B103_RUN_ID,B103_CANONICAL_SHA],[B104_RUN_ID,B104_CANONICAL_SHA],[B105_RUN_ID,B105_CANONICAL_SHA]]);
   assert.ok(exactStates.has(store.report.current_run_id),`unexpected current run ${store.report.current_run_id}`);
   assert.equal(store.report.canonical_sha256,exactStates.get(store.report.current_run_id));
+  if(store.report.current_run_id===B105_RUN_ID){
+    const entry=store.manifest.runs.at(-1);
+    assert.equal(entry.parent_run_id,B104_RUN_ID);
+    assert.equal(entry.parent_canonical_sha256,B104_CANONICAL_SHA);
+    assert.equal(entry.file_sha256,B105_FILE_SHA);
+  }
 });
 
 test('v4.6.06 validates B103 read-only before append or verifies exact persisted B103 after later exact successors',()=>{
@@ -66,7 +76,12 @@ test('v4.6.06 validates B103 read-only before append or verifies exact persisted
     assert.equal(result.resultingCanonical,b103Auth.expected_resulting_canonical_sha256);
     return;
   }
-  if(store.report.current_run_id===B104_RUN_ID){
+  if(store.report.current_run_id===B105_RUN_ID){
+    assert.equal(store.report.canonical_sha256,B105_CANONICAL_SHA);
+    const b104Entry=store.manifest.runs.find(item=>item.run_id===B104_RUN_ID);
+    assert.ok(b104Entry,'B104 ancestor missing under exact B105');
+    assert.equal(b104Entry.canonical_sha256,B104_CANONICAL_SHA);
+  } else if(store.report.current_run_id===B104_RUN_ID){
     assert.equal(store.report.canonical_sha256,B104_CANONICAL_SHA);
     assert.equal(b104Auth.expected_parent_run_id,B103_RUN_ID);
     assert.equal(b104Auth.expected_parent_canonical_sha256,B103_CANONICAL_SHA);
@@ -97,7 +112,8 @@ test('v4.6.17 separates static authorization, pre-append parent checks and exact
       manifest:{...structuredClone(live.manifest),runs:[...structuredClone(live.manifest.runs),{run_id:B103_RUN_ID,parent_run_id:B102_RUN_ID,file_sha256:b103Auth.exact_candidate_file_sha256,canonical_sha256:B103_CANONICAL_SHA}]}
     };
   } else {
-    if(live.report.current_run_id===B104_RUN_ID)assert.equal(live.report.canonical_sha256,B104_CANONICAL_SHA);
+    if(live.report.current_run_id===B105_RUN_ID)assert.equal(live.report.canonical_sha256,B105_CANONICAL_SHA);
+    else if(live.report.current_run_id===B104_RUN_ID)assert.equal(live.report.canonical_sha256,B104_CANONICAL_SHA);
     else {
       assert.equal(live.report.current_run_id,B103_RUN_ID);
       assert.equal(live.report.canonical_sha256,B103_CANONICAL_SHA);
@@ -135,6 +151,22 @@ test('v4.6.06 rejects an unrecognized canonical write without explicit authoriza
     const tempRoot=join(temp,root);
     const tempManifest=join(tempRoot,'data/run-store-manifest.json');
     let reconstructed=loadCanonicalRunStore({root:tempRoot});
+    if(reconstructed.report.current_run_id===B105_RUN_ID){
+      assert.equal(reconstructed.report.canonical_sha256,B105_CANONICAL_SHA);
+      const manifest=JSON.parse(readFileSync(tempManifest,'utf8'));
+      const b105Index=manifest.runs.findIndex(item=>item.run_id===B105_RUN_ID);
+      assert.equal(b105Index,manifest.runs.length-1,'exact B105 must be the current manifest tip before reconstructing B104 fixture');
+      const [entry]=manifest.runs.splice(b105Index,1);
+      assert.equal(entry.parent_run_id,B104_RUN_ID);
+      assert.equal(entry.parent_canonical_sha256,B104_CANONICAL_SHA);
+      assert.equal(entry.file_sha256,B105_FILE_SHA);
+      assert.equal(entry.canonical_sha256,B105_CANONICAL_SHA);
+      writeFileSync(tempManifest,JSON.stringify(manifest,null,2)+'\n');
+      rmSync(join(temp,b105PersistedPath),{force:true});
+      reconstructed=loadCanonicalRunStore({root:tempRoot});
+      assert.equal(reconstructed.report.current_run_id,B104_RUN_ID);
+      assert.equal(reconstructed.report.canonical_sha256,B104_CANONICAL_SHA);
+    }
     if(reconstructed.report.current_run_id===B104_RUN_ID){
       assert.equal(reconstructed.report.canonical_sha256,B104_CANONICAL_SHA);
       const manifest=JSON.parse(readFileSync(tempManifest,'utf8'));

@@ -19,6 +19,8 @@ const readiness = json('V4603_B103_LOCAL_IMAGE_CANDIDATE_READINESS.json');
 const candidate = json('osint-publication-candidates/v4603-b103-local-images.json');
 const manifest = json('data/run-store-manifest.json');
 const EXECUTOR_APPEND_SHA='376bdf810c47c3bf934d0cadeacff3b1f61e1115';
+const B105_RUN='engineer-osint-20260904-B105';
+const B105_SHA='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 
 const expectedCards = [
   'ENG-TECH-0003','ENG-TECH-0004','ENG-TECH-0005','ENG-TECH-0006','ENG-TECH-0016',
@@ -36,12 +38,19 @@ const assertExactLifecycleHead=()=>{
     assert.equal(current.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
     return 'POST_EXECUTION';
   }
-  assert.equal(current.run_id,b104Auth.candidate_run_id,'canonical head is outside exact B102→V4619 B103→V4646 B104 lifecycle');
-  assert.equal(current.canonical_sha256,b104Auth.expected_resulting_canonical_sha256);
+  if(current.run_id===B105_RUN){
+    assert.equal(current.canonical_sha256,B105_SHA);
+    const b104Entry=manifest.runs.find(item=>item.run_id===b104Auth.candidate_run_id);
+    assert.ok(b104Entry,'exact B104 ancestor missing under B105');
+    assert.equal(b104Entry.canonical_sha256,b104Auth.expected_resulting_canonical_sha256);
+  } else {
+    assert.equal(current.run_id,b104Auth.candidate_run_id,'canonical head is outside exact B102→V4619 B103→V4646 B104→B105 lifecycle');
+    assert.equal(current.canonical_sha256,b104Auth.expected_resulting_canonical_sha256);
+  }
   assert.equal(b104Auth.expected_parent_run_id,currentAuth.candidate_run_id);
   assert.equal(b104Auth.expected_parent_canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
   const b103Entry=manifest.runs.find(item=>item.run_id===currentAuth.candidate_run_id);
-  assert.ok(b103Entry,'exact V4619 B103 ancestor missing under B104');
+  assert.ok(b103Entry,'exact V4619 B103 ancestor missing under B104/B105');
   assert.equal(b103Entry.file_sha256,currentAuth.exact_candidate_file_sha256);
   assert.equal(b103Entry.canonical_sha256,currentAuth.expected_resulting_canonical_sha256);
   return 'POST_EXECUTION';
