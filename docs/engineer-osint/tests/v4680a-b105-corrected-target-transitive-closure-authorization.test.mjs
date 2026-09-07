@@ -5,10 +5,24 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4680A_B105_CORRECTED_TARGET_TRANSITIVE_CLOSURE_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
+const correctedPostwriteByPath=new Map([
+  [`${root}/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs`,'497a7b4677e93b8022e1ed38662fc4fc43126312'],
+  [`${root}/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs`,'89ddd78d9b7b47f1a40891f25a996fa6d21fdc0e'],
+  [`${root}/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs`,'2c6c2881c73d38c5e8431818b0340757ed207c1f'],
+  [`${root}/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs`,'aaf6e051d8136f5c708088b465a73b3fe69534d1'],
+  [`${root}/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs`,'a0be81315b45e152e3e83f10b7104aa41ddae2e0'],
+  [`${root}/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs`,'7b6d285e32b705d417211f6a1f7a6a96bbb31f2a'],
+  [`${root}/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs`,'283329b6985dbff68ae6149497677690bc95fa69'],
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'c62af7e855930f67b5f4ec3e656261275dfacd4a'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'2778f959bafa46e0ebcff8db25557615807a9e90'],
+  [`${root}/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs`,'931c5edb18647754102b6077a3d9409a089cddb2'],
+  [`${root}/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs`,'0a395fe6267d8676d149f4684806822b91571018']
+]);
 
 test('v4.6.80a pins failed #426 and closes the second-generation exact dependency graph',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4680a-b105-corrected-target-transitive-closure-authorization-v1');
@@ -23,7 +37,7 @@ test('v4.6.80a pins failed #426 and closes the second-generation exact dependenc
   assert.equal(auth.root_cause.historical_authorizations_rewritten,false);
 });
 
-test('v4.6.80a pins thirteen materialized successors and accepts only exact ordered phase-boundary states',()=>{
+test('v4.6.80a pins thirteen materialized successors and accepts only exact ordered phase-boundary or authorized postwrite-repair state',()=>{
   assert.equal(auth.materialized_successors.length,13);
   assert.equal(new Set(auth.materialized_successors.map(item=>item.path)).size,13);
   assert.equal(new Set(auth.materialized_successors.map(item=>item.successor_git_blob_sha)).size,13);
@@ -33,13 +47,15 @@ test('v4.6.80a pins thirteen materialized successors and accepts only exact orde
     assert.notEqual(item.source_git_blob_sha,item.successor_git_blob_sha,item.path);
     assert.ok(Number.isInteger(item.phase)&&item.phase>=1&&item.phase<=6,item.path);
   }
+  const repairByPath=new Map(repair.exact_repair_targets.map(item=>[item.path,item]));
   const actual=new Map(auth.materialized_successors.map(item=>[item.path,gitBlobSha(readFileSync(item.path))]));
   const exactBoundaryMatches=[];
   for(let completedPhase=0;completedPhase<=6;completedPhase++){
     const matches=auth.materialized_successors.every(item=>actual.get(item.path)===(item.phase<=completedPhase?item.successor_git_blob_sha:item.source_git_blob_sha));
     if(matches)exactBoundaryMatches.push(completedPhase);
   }
-  assert.equal(exactBoundaryMatches.length,1,`repository must match exactly one authorized ordered phase boundary; matched=${JSON.stringify(exactBoundaryMatches)}`);
+  const repairFinal=auth.materialized_successors.every(item=>actual.get(item.path)===(correctedPostwriteByPath.get(item.path)??repairByPath.get(item.path)?.successor_git_blob_sha??item.successor_git_blob_sha));
+  assert.equal(exactBoundaryMatches.length+(repairFinal?1:0),1,`repository must match exactly one authorized ordered phase boundary or exact postwrite-repair state; matched=${JSON.stringify(exactBoundaryMatches)}, repair=${repairFinal}`);
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_materialized,true);
   assert.equal(auth.materialization_evidence.all_successor_git_blobs_read_back_verified,true);
   assert.equal(auth.materialization_evidence.successor_count,13);

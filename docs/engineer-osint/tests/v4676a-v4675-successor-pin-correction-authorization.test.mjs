@@ -5,8 +5,10 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4676A_V4675_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextV4673aSuccessor='6f93795d7522d8c182cc69affe0e3c5139b785c0';
 const correctedB105V4673aSuccessor='ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39';
+const correctedPostwriteV4673aSuccessor='7b6d285e32b705d417211f6a1f7a6a96bbb31f2a';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -26,9 +28,11 @@ test('v4.6.76a pins immutable V4675A evidence and exact corrected V4673A lifecyc
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha);
 });
 
-test('v4.6.76a is lifecycle-compatible with exact corrected and corrected-B105 target transitions',()=>{
+test('v4.6.76a is lifecycle-compatible with exact corrected, corrected-B105 and authorized postwrite-repair target transitions',()=>{
+  const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
+  assert.ok(repairTarget,'postwrite repair must pin V4673A target');
   const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor].includes(blob),'V4673A regression must be an exact pinned lifecycle state');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor,repairTarget.successor_git_blob_sha,correctedPostwriteV4673aSuccessor].includes(blob),'V4673A regression must be an exact pinned lifecycle state');
 });
 
 test('v4.6.76a preserves fail-closed separation from guard retry, publication and B106',()=>{

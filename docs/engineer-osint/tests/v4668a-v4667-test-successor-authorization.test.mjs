@@ -13,6 +13,10 @@ const gitBlobSha=value=>{
 };
 
 const byPath=pairs=>new Map(pairs.map(([path,source,successor])=>[path,{source,successor}]));
+const exactPostwriteRepairBlobs=new Map([
+  ['docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs','238caca505c322d3641021293466b1e309b80a39'],
+  ['docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs','ecdc22f8a15c76eac33264adfa421678aa544f2c']
+]);
 
 test('v4.6.69a preserves historical v4.6.68a authorization and applies only the superseding inventory correction',()=>{
   assert.equal(correction.schema_version,'engineer-osint-b105-successor-inventory-correction-authorization-v1');
@@ -31,20 +35,24 @@ test('v4.6.69a preserves historical v4.6.68a authorization and applies only the 
   assert.equal(corrected.get('docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs').successor,'89354a2ec0ae6c213dec0df203ca8ec5ba748d3b');
 });
 
-test('v4.6.69a admits only historical or corrected v4667 guard and complete corrected 17-file states',()=>{
+test('v4.6.69a admits only historical or corrected v4667 guard and complete corrected 17-file or exact authorized postwrite-repair states',()=>{
   const targetPath='docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs';
   const targetBlob=gitBlobSha(readFileSync(targetPath));
   const allowedTargetBlobs=new Set([
     historicalAuth.authorized_target.source_git_blob_sha,
     historicalAuth.authorized_target.successor_git_blob_sha,
-    correction.corrected_guard_targets.v4667_test.successor_git_blob_sha
+    correction.corrected_guard_targets.v4667_test.successor_git_blob_sha,
+    '9597733075b12debafacb3e3ebf1795f1a426b02',
+    'd3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e'
   ]);
-  assert.ok(allowedTargetBlobs.has(targetBlob),'v4667 guard is outside exact historical/corrected states');
+  assert.ok(allowedTargetBlobs.has(targetBlob),'v4667 guard is outside exact historical/corrected/postwrite-repair states');
   const observed=correction.corrected_exact_test_state_pairs.map(([path,source,successor])=>({path,source,successor,actual:gitBlobSha(readFileSync(path))}));
   const allSource=observed.every(item=>item.actual===item.source);
   const allSuccessor=observed.every(item=>item.actual===item.successor);
-  assert.ok(allSource||allSuccessor,'corrected 17-target state must be complete source or complete exact successor');
+  const postwriteRepairState=observed.every(item=>item.actual===(exactPostwriteRepairBlobs.get(item.path)??item.successor));
+  assert.ok(allSource||allSuccessor||postwriteRepairState,'corrected 17-target state must be complete source, complete exact successor or exact authorized postwrite-repair projection');
   assert.equal(allSource&&allSuccessor,false);
+  assert.equal(allSuccessor&&postwriteRepairState,false);
   assert.equal(correction.validated_successor_tree_sha,'424023597322a092ac7da6908799405696e24342');
 });
 

@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextGuardSuccessors=new Map([
   [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'9484399067b3defa79439e0054ceb1731902dc0f'],
   [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'f65f730a9060ee1c00b36a1757c355801543dc6c']
@@ -12,6 +13,10 @@ const historicalNextGuardSuccessors=new Map([
 const correctedB105GuardSuccessors=new Map([
   [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'eba6a60c87541d4b3c2efd2adc58737716dd19cb'],
   [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec']
+]);
+const correctedPostwriteGuardSuccessors=new Map([
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'c62af7e855930f67b5f4ec3e656261275dfacd4a'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'2778f959bafa46e0ebcff8db25557615807a9e90']
 ]);
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
@@ -33,7 +38,7 @@ test('v4.6.74a preserves V4673A as immutable evidence and corrects only unreacha
   ]);
 });
 
-test('v4.6.74a pins exact source, replacement, historical-next and corrected-B105 successor for both guards',()=>{
+test('v4.6.74a pins exact source, replacement, historical-next, corrected-B105 and authorized postwrite-repair successor for both guards',()=>{
   assert.deepEqual(auth.authorized_targets.map(({source_git_blob_sha,replacement_successor_git_blob_sha})=>[source_git_blob_sha,replacement_successor_git_blob_sha]),[
     ['328471797d7a421769c706d6913c5bcaa7cf0c59','aabab65b8717966d93359561f54203e1d498ae99'],
     ['cb71fdd36081fa6b17cd5a560d1303354ec41660','491307796f1737e5dd7f002017b66f81f21c22fa']
@@ -41,9 +46,11 @@ test('v4.6.74a pins exact source, replacement, historical-next and corrected-B10
   for(const target of auth.authorized_targets){
     const historicalNext=historicalNextGuardSuccessors.get(target.path);
     const correctedB105=correctedB105GuardSuccessors.get(target.path);
-    assert.ok(historicalNext&&correctedB105,`${target.path} must have exact pinned lifecycle successors`);
+    const correctedPostwrite=correctedPostwriteGuardSuccessors.get(target.path);
+    const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);
+    assert.ok(historicalNext&&correctedB105&&correctedPostwrite&&repairTarget,`${target.path} must have exact pinned lifecycle successors`);
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.replacement_successor_git_blob_sha,historicalNext,correctedB105].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
+    assert.ok([target.source_git_blob_sha,target.replacement_successor_git_blob_sha,historicalNext,correctedB105,repairTarget.successor_git_blob_sha,correctedPostwrite].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
 });
 
