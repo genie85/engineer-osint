@@ -1,0 +1,90 @@
+{
+  "schema_version": "engineer-osint-v4687a-b105-postwrite-repair-closure-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-08",
+  "reviewed_main_sha": "de0cb288f11c37e76d7023e057d850e1a3560540",
+  "reviewed_main_tree_sha": "7fb4989d272006a99504cfc66df07028aa3aa35e",
+  "supersedes_no_history": true,
+  "blocked_implementation": {
+    "pull_request": 445,
+    "head_sha": "09c2ad6fa49e28072d693ae7aefd4c93badfa422",
+    "implementation_tree_sha": "777b3228328eeb31844bf8b321ceec961b3816b2",
+    "closed_unmerged": true,
+    "canonical_persisted": false,
+    "exact_head_workflow_runs": [34165977343, 34165977314, 34165977334, 34165977322],
+    "shared_failing_step": "Test P0/P1 integrity contract",
+    "failing_tests": [
+      "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs"
+    ],
+    "root_cause": "V4686A dependency closure omitted two historical finite-state guards that reject the exact V4686A postwrite-repair projection"
+  },
+  "upstream_authorization": {
+    "path": "docs/engineer-osint/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json",
+    "git_blob_sha": "2f934e4c7e37e8277d4dde6f06eed0d001dce5f4",
+    "exact_repair_target_count": 16,
+    "must_remain_immutable": true
+  },
+  "compatibility_guard_targets": [
+    {
+      "path": "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "source_git_blob_sha": "ff4c40de42c7675c0b7f3701b142fee9c7fc989d",
+      "successor_git_blob_sha": "9597733075b12debafacb3e3ebf1795f1a426b02",
+      "semantic_change": "admit only the exact V4686A postwrite-repair projection in addition to the previously exact source and B105 successor states"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs",
+      "source_git_blob_sha": "f2cd9e4663cbb8cdb83140a89dde624f3cfa8f95",
+      "successor_git_blob_sha": "29b096b0d5332497788a8d7d1215b3aed0b143b3",
+      "semantic_change": "admit the exact new v4667 guard successor and only the exact V4686A postwrite-repair projection"
+    }
+  ],
+  "exact_postwrite_projection": {
+    "docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs": "238caca505c322d3641021293466b1e309b80a39",
+    "docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs": "ecdc22f8a15c76eac33264adfa421678aa544f2c"
+  },
+  "materialization_evidence": {
+    "compatibility_successor_blobs_materialized": true,
+    "compatibility_successor_blobs_read_back_verified": true,
+    "combined_target_count": 18,
+    "preauthorization_candidate_tree_sha": "9f6fe757afd1ede9896ed4707bb44a5151ea3732",
+    "preauthorization_candidate_tree_base_sha": "7fb4989d272006a99504cfc66df07028aa3aa35e",
+    "preauthorization_candidate_tree_read_back_verified": true,
+    "candidate_tree_is_authoritative": false,
+    "note": "The future implementation tree must be constructed fresh after this authorization is merged because this authorization itself will then exist on main."
+  },
+  "combined_implementation_requirements": {
+    "one_active_write_slice": true,
+    "authorization_merged_before_implementation": true,
+    "atomic_exact_18_file_tree_required": true,
+    "all_v4686a_sixteen_successors_required": true,
+    "both_compatibility_guard_successors_required": true,
+    "partial_or_mixed_state_permitted": false,
+    "fresh_main_and_collision_gate_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_green_gate_before_merge": true,
+    "expected_head_sha_required": true,
+    "postmerge_verification_required": true,
+    "b105_execution_requires_separate_trusted_executor_slice": true
+  },
+  "forbidden": {
+    "rewrite_v4686a_or_older_authorizations": true,
+    "broaden_to_wildcard_or_dynamic_state_acceptance": true,
+    "change_expected_historical_hashes": true,
+    "partial_16_or_18_file_installation": true,
+    "test_removal_or_skip": true,
+    "workflow_or_permission_change": true,
+    "prompt_change": true,
+    "manual_canonical_or_run_store_write": true,
+    "b105_execution_in_authorization_or_repair_implementation_slice": true,
+    "b106_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "exact_two_guard_compatibility_change_permitted": true,
+    "combined_atomic_18_file_implementation_permitted_after_merge": true,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted_in_same_slice": false,
+    "b106_permitted": false
+  }
+}
