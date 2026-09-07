@@ -1,0 +1,117 @@
+{
+  "schema_version": "engineer-osint-v4688a-b105-postwrite-final-state-closure-authorization-v1",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "reviewed_on": "2026-09-08",
+  "reviewed_main_sha": "6f7abbca949aba4f3fe2f9ff1e3bf761593e7aa4",
+  "reviewed_main_tree_sha": "0247887bc8be9280aeea729a6397157c91a47e47",
+  "blocked_implementation": {
+    "pull_request": 447,
+    "head_sha": "b75056978b108fa14cf8392a7781fee3caea8597",
+    "implementation_tree_sha": "d962c4b0f391005ad1a5ccd5d80de6bc2438c7cc",
+    "closed_unmerged": true,
+    "canonical_persisted": false,
+    "exact_head_workflow_runs": [34167420907,34167421035,34167420961,34167420933],
+    "all_four_workflows_failed": true,
+    "failing_tests": [
+      "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "docs/engineer-osint/tests/v4687a-b105-postwrite-repair-closure-authorization.test.mjs"
+    ]
+  },
+  "root_cause": {
+    "class": "POSTWRITE_FINAL_STATE_BASELINE_AND_TRANSITIVE_SELF_PIN_CLOSURE_OMISSION",
+    "summary": "V4687A modeled the two-file postwrite repair projection over the historical V4667 source vector, while current main already equals the exact complete B105 successor vector. It also omitted V4669A acceptance of the V4687A guard pair, V4687A's own source-only regression self-pin, and the deterministic downstream exact-hash chain through V4670-V4683 plus the V4686A outer atomic-state guard.",
+    "current_17_file_baseline": "EXACT_COMPLETE_B105_SUCCESSOR_VECTOR",
+    "correct_postwrite_projection": "EXACT_COMPLETE_B105_SUCCESSOR_VECTOR_WITH_ONLY_V4642_AND_V4645_REPLACED_BY_THEIR_V4686A_REPAIR_SUCCESSORS",
+    "browser_or_ci_flake": false,
+    "wildcard_or_dynamic_acceptance_permitted": false,
+    "historical_authorizations_rewritten": false,
+    "canonical_candidate_changed": false
+  },
+  "upstream_authorizations": {
+    "v4686a_path": "docs/engineer-osint/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json",
+    "v4686a_git_blob_sha": "2f934e4c7e37e8277d4dde6f06eed0d001dce5f4",
+    "v4687a_path": "docs/engineer-osint/V4687A_B105_POSTWRITE_REPAIR_CLOSURE_AUTHORIZATION.json",
+    "v4687a_git_blob_sha": "874d4c4cca9b598be772f9377be9c3da3b29c9a9",
+    "must_remain_immutable": true
+  },
+  "exact_final_targets": [
+    {"path":"docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs","source_git_blob_sha":"86ec36b718eb1437effefb414b386891c4b87858","successor_git_blob_sha":"238caca505c322d3641021293466b1e309b80a39"},
+    {"path":"docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs","source_git_blob_sha":"bd4a242f6f910f8cd54dc0a0aad9a020fd336e47","successor_git_blob_sha":"ecdc22f8a15c76eac33264adfa421678aa544f2c"},
+    {"path":"docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs","source_git_blob_sha":"ff4c40de42c7675c0b7f3701b142fee9c7fc989d","successor_git_blob_sha":"d3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e"},
+    {"path":"docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs","source_git_blob_sha":"f2cd9e4663cbb8cdb83140a89dde624f3cfa8f95","successor_git_blob_sha":"090a0b41cd9ca3c42efd216569aaa698f37f80c0"},
+    {"path":"docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs","source_git_blob_sha":"5b5e323951608a6a92fa058fa02f8282e4134c09","successor_git_blob_sha":"0a395fe6267d8676d149f4684806822b91571018"},
+    {"path":"docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"4761fa6a89494c18b5d297ed9c728508050efdcb","successor_git_blob_sha":"931c5edb18647754102b6077a3d9409a089cddb2"},
+    {"path":"docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"eba6a60c87541d4b3c2efd2adc58737716dd19cb","successor_git_blob_sha":"c62af7e855930f67b5f4ec3e656261275dfacd4a"},
+    {"path":"docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec","successor_git_blob_sha":"2778f959bafa46e0ebcff8db25557615807a9e90"},
+    {"path":"docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39","successor_git_blob_sha":"7b6d285e32b705d417211f6a1f7a6a96bbb31f2a"},
+    {"path":"docs/engineer-osint/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"a9244f43d2461c64ecf732554b67b837233935d8","successor_git_blob_sha":"283329b6985dbff68ae6149497677690bc95fa69"},
+    {"path":"docs/engineer-osint/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs","source_git_blob_sha":"b67f5450e044f595a0520ddf10e72b6f632e8e79","successor_git_blob_sha":"497a7b4677e93b8022e1ed38662fc4fc43126312"},
+    {"path":"docs/engineer-osint/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs","source_git_blob_sha":"5071912d053c00518621fdaf86ca162a11f5e22b","successor_git_blob_sha":"89ddd78d9b7b47f1a40891f25a996fa6d21fdc0e"},
+    {"path":"docs/engineer-osint/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs","source_git_blob_sha":"7648ed46091c37512c7e2e01066cc8f1184335d9","successor_git_blob_sha":"2c6c2881c73d38c5e8431818b0340757ed207c1f"},
+    {"path":"docs/engineer-osint/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs","source_git_blob_sha":"43a03c23bde2cf2fae5ea74968aebee8aabca18b","successor_git_blob_sha":"aaf6e051d8136f5c708088b465a73b3fe69534d1"},
+    {"path":"docs/engineer-osint/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs","source_git_blob_sha":"b2905a9cf701ff56054e0d9828db86c88480ce9d","successor_git_blob_sha":"a0be81315b45e152e3e83f10b7104aa41ddae2e0"},
+    {"path":"docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs","source_git_blob_sha":"5b9658da3363273c15b58331c3b44f64c050300b","successor_git_blob_sha":"c00415c34a903d38813064835276aa29c56a7419"},
+    {"path":"docs/engineer-osint/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs","source_git_blob_sha":"8cff3e7fd5519ff827472baa17a0971538ef80ee","successor_git_blob_sha":"00e15a66c6c6e12e71ea61d2fe6e1ddef2e52fb4"},
+    {"path":"docs/engineer-osint/tests/v4683a-v4682a-lifecycle-self-pin-correction-authorization.test.mjs","source_git_blob_sha":"de4f5461a2721be477cdb62f9a9a4fbdc920434f","successor_git_blob_sha":"319e8ef3d85b8f7a8ee64e81e84d85d6d8a9e85c"},
+    {"path":"docs/engineer-osint/tests/v4686a-b105-postwrite-fixture-repair-authorization.test.mjs","source_git_blob_sha":"316c1125bbc5a5de14b35b1ac8b424bd4f3bedd4","successor_git_blob_sha":"94b2c0e3e12835fa33e5c40b80d9fa317ccbd6ae"},
+    {"path":"docs/engineer-osint/tests/v4687a-b105-postwrite-repair-closure-authorization.test.mjs","source_git_blob_sha":"715a21d7724e450a4460051e5317abb29fd034b2","successor_git_blob_sha":"bf91115c6a90fd83f6f6825d4f7c4f48f7de63a4"}
+  ],
+  "state_vectors": {
+    "source_state": "all twenty exact source_git_blob_sha values",
+    "final_state": "all twenty exact successor_git_blob_sha values",
+    "intermediate_states_permitted": false,
+    "partial_or_mixed_state_permitted": false
+  },
+  "materialization_evidence": {
+    "all_final_successor_git_blobs_materialized": true,
+    "all_final_successor_git_blobs_read_back_verified": true,
+    "successor_count": 20,
+    "preauthorization_candidate_tree_sha": "6ebcc386ae2cece55ecb66e0692f8a80d8eb57ae",
+    "preauthorization_candidate_tree_base_sha": "0247887bc8be9280aeea729a6397157c91a47e47",
+    "preauthorization_candidate_tree_read_back_verified": true,
+    "candidate_tree_is_authoritative": false
+  },
+  "deterministic_simulation": {
+    "v4660_current_git_blob_sha": "027db23d5a6cdd91f93afa8575265d7fb366ac9f",
+    "v4661_current_git_blob_sha": "81a290e30e65d6ab9dc391c6958a2bea2c891ca1",
+    "v4680_phase_boundary_baseline_verified": true,
+    "final_guard_chain_closed_over_known_exact_dependencies": true,
+    "outer_v4686a_atomic_guard_included": true,
+    "v4687a_regression_self_pin_included": true
+  },
+  "implementation_requirements": {
+    "one_active_write_slice": true,
+    "authorization_merged_before_implementation": true,
+    "atomic_exact_20_file_tree_required": true,
+    "exact_source_vector_required": true,
+    "exact_successor_vector_required": true,
+    "fresh_main_and_collision_gate_required": true,
+    "full_exact_head_ci_required": true,
+    "fresh_main_and_pr_gate_before_merge": true,
+    "fresh_green_gate_before_merge": true,
+    "expected_head_sha_required": true,
+    "postmerge_verification_required": true,
+    "b105_execution_requires_separate_trusted_executor_slice": true
+  },
+  "forbidden": {
+    "combine_authorization_with_implementation": true,
+    "rewrite_v4686a_or_v4687a_or_older_authorization": true,
+    "wildcard_or_dynamic_current_state_acceptance": true,
+    "partial_or_mixed_installation": true,
+    "test_removal_or_skip": true,
+    "workflow_or_permission_change": true,
+    "prompt_change_in_this_slice": true,
+    "manual_canonical_or_run_store_write": true,
+    "b105_execution_in_authorization_or_implementation_slice": true,
+    "b106_authorization_or_execution_before_b105_canonical_main": true,
+    "unrelated_change": true
+  },
+  "authorization": {
+    "exact_atomic_20_file_final_state_closure_permitted_after_merge": true,
+    "canonical_execution_permitted": false,
+    "b105_execution_permitted_in_same_slice": false,
+    "b106_permitted": false
+  }
+}
