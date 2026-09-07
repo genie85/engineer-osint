@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4672A_V4671_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -24,12 +25,14 @@ test('v4.6.72a preserves V4671 as immutable evidence and records the unavailable
   assert.equal(auth.correction_reason.unavailable_successor_git_blob_sha,'02cefca0a160221c0f8545115d32da7b2c6ad032');
 });
 
-test('v4.6.72a pins exact historical and corrected v4670 lifecycle states',()=>{
+test('v4.6.72a pins exact historical, corrected, corrected-B105 and authorized postwrite-repair v4670 lifecycle states',()=>{
   assert.equal(auth.authorized_target.path,`${root}/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs`);
   assert.equal(auth.authorized_target.source_git_blob_sha,'e89c25af599f89583690b5b72bbf98f46724fb1a');
   assert.equal(auth.authorized_target.replacement_successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447');
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha);
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
+  const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
+  assert.ok(repairTarget,'postwrite repair must pin V4670 target');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor,repairTarget.successor_git_blob_sha].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
 });
 
 test('v4.6.72a keeps implementation, B105 publication and B106 strictly separated',()=>{

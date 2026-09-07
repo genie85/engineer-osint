@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4669A_B105_SUCCESSOR_INVENTORY_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -28,12 +29,14 @@ test('v4.6.69a pins the historical authorization and exact two-entry transcripti
   assert.equal(auth.validated_successor_tree_sha,'424023597322a092ac7da6908799405696e24342');
 });
 
-test('v4.6.69a pins all 17 corrected successor identities and accepts only atomic source or corrected-successor state',()=>{
+test('v4.6.69a pins all 17 corrected successor identities and accepts only exact source, corrected-successor or authorized postwrite-repair state',()=>{
   assert.equal(auth.corrected_exact_test_state_pairs.length,17);
   assert.equal(new Set(auth.corrected_exact_test_state_pairs.map(([path])=>path)).size,17);
+  const repairByPath=new Map(repair.exact_repair_targets.map(item=>[item.path,item]));
   const current=[];
   const sources=[];
   const successors=[];
+  const repaired=[];
   for(const [path,source,successor] of auth.corrected_exact_test_state_pairs){
     assert.match(source,/^[0-9a-f]{40}$/);
     assert.match(successor,/^[0-9a-f]{40}$/);
@@ -41,10 +44,12 @@ test('v4.6.69a pins all 17 corrected successor identities and accepts only atomi
     current.push(gitBlobSha(readFileSync(path)));
     sources.push(source);
     successors.push(successor);
+    repaired.push(repairByPath.get(path)?.successor_git_blob_sha??successor);
   }
   const sourceMode=current.every((blob,index)=>blob===sources[index]);
   const successorMode=current.every((blob,index)=>blob===successors[index]);
-  assert.ok(sourceMode||successorMode,'17-target state must be exact atomic source set or exact corrected-successor set');
+  const repairMode=current.every((blob,index)=>blob===repaired[index]);
+  assert.ok(sourceMode||successorMode||repairMode,'17-target state must be exact atomic source, corrected-successor, or authorized postwrite-repair set');
 });
 
 test('v4.6.69a authorizes only two exact guard successors and forbids publication in the same slice',()=>{
