@@ -26,6 +26,13 @@ const b105RunId='engineer-osint-20260904-B105';
 const b105CandidateSha='94fcedd0590f75428b7c85e3056c52e7624afab4f920ff4053f39929b3afab0f';
 const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const preB105V4584Sha='8a417c5e647758a584613ebbb657be922a4739b920b84bef84a3a2f5f23192c9';
+const preB105ImportBlockers=new Map([
+  ['ENG-TECH-0014','Reusable exact-identity source and licence are verified; repository-local binary acquisition, optimization, attribution materialization and SHA-256 are still required before LOCAL_IMAGE.'],
+  ['ENG-TECH-0015','Reusable exact-identity source and licence are verified; repository-local binary acquisition, optimization, attribution materialization and SHA-256 are still required before LOCAL_IMAGE.'],
+  ['ENG-TECH-0018','Reusable exact-identity public-domain source is verified; repository-local binary acquisition, optimization, provenance materialization and SHA-256 are still required before LOCAL_IMAGE.'],
+  ['ENG-TECH-0019','Reusable exact-identity CC BY 2.0 source is verified; repository-local binary acquisition, optimization, attribution materialization and SHA-256 are still required before LOCAL_IMAGE.'],
+  ['ENG-TECH-0020','Reusable exact-identity CC BY 4.0 source is verified; repository-local binary acquisition, optimization, attribution materialization and SHA-256 are still required before LOCAL_IMAGE.']
+]);
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');
@@ -85,9 +92,13 @@ const reconstructExactB104FromB105=temp=>{
 
   const v4584Path=join(tempRoot,'photo-review-batches/v4584.json');
   const v4584=JSON.parse(readFileSync(v4584Path,'utf8'));
+  assert.equal(v4584.entries.length,preB105ImportBlockers.size,'exact B105 fixture entry count drift');
   for(const item of v4584.entries){
     assert.equal(item.status,'LOCAL_IMAGE',`${item.card_id}: exact B105 fixture must be LOCAL_IMAGE before historical restoration`);
+    const blocker=preB105ImportBlockers.get(item.card_id);
+    assert.ok(blocker,`${item.card_id}: missing exact pre-B105 import_blocker fixture`);
     item.status='READY_FOR_IMPORT';
+    item.import_blocker=blocker;
     delete item.acquired_at;
     delete item.local_image_path;
     delete item.sha256;

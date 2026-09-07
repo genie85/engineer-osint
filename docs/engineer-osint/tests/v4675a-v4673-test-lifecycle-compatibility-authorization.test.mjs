@@ -6,8 +6,10 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
 const correction=JSON.parse(readFileSync(`${root}/V4676A_V4675_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextV4673aSuccessor='6f93795d7522d8c182cc69affe0e3c5139b785c0';
 const correctedB105V4673aSuccessor='ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39';
+const correctedPostwriteV4673aSuccessor='7b6d285e32b705d417211f6a1f7a6a96bbb31f2a';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -28,14 +30,16 @@ test('v4.6.75a pins failed exact-head retry, immutable V4674A correction and exa
   assert.equal(auth.authorized_target.successor_git_blob_sha,'36816faa5823d4887caf66b296fcae9a3411b186');
 });
 
-test('v4.6.75a remains lifecycle-compatible with exact historical, corrected and corrected-B105 V4673A successors',()=>{
+test('v4.6.75a remains lifecycle-compatible with exact historical, corrected, corrected-B105 and authorized postwrite-repair V4673A successors',()=>{
   assert.equal(correction.superseded_authorization.path,`${root}/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(correction.superseded_authorization.git_blob_sha,'586686a0569c93b0024b9ce1b420df0f1885d7bc');
   assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
   assert.equal(correction.authorized_target.path,auth.authorized_target.path);
   assert.equal(correction.authorized_target.source_git_blob_sha,auth.authorized_target.source_git_blob_sha);
+  const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
+  assert.ok(repairTarget,'postwrite repair must pin V4673A target');
   const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor].includes(blob),'V4673A regression test must be an exact pinned lifecycle state');
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor,repairTarget.successor_git_blob_sha,correctedPostwriteV4673aSuccessor].includes(blob),'V4673A regression test must be an exact pinned lifecycle state');
 });
 
 test('v4.6.75a preserves strict separation from guard retry, v4670, canonical execution and B106',()=>{

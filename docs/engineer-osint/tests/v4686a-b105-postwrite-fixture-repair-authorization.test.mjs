@@ -9,6 +9,24 @@ const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
+const correctedFinalByPath=new Map([
+  [`${root}/tests/v4642-b104-wave2-local-image-discovery.test.mjs`,'238caca505c322d3641021293466b1e309b80a39'],
+  [`${root}/tests/v4645-b104-cc0-rediscovery.test.mjs`,'ecdc22f8a15c76eac33264adfa421678aa544f2c'],
+  [`${root}/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs`,'0a395fe6267d8676d149f4684806822b91571018'],
+  [`${root}/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs`,'931c5edb18647754102b6077a3d9409a089cddb2'],
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'c62af7e855930f67b5f4ec3e656261275dfacd4a'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'2778f959bafa46e0ebcff8db25557615807a9e90'],
+  [`${root}/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs`,'7b6d285e32b705d417211f6a1f7a6a96bbb31f2a'],
+  [`${root}/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs`,'283329b6985dbff68ae6149497677690bc95fa69'],
+  [`${root}/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs`,'497a7b4677e93b8022e1ed38662fc4fc43126312'],
+  [`${root}/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs`,'89ddd78d9b7b47f1a40891f25a996fa6d21fdc0e'],
+  [`${root}/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs`,'2c6c2881c73d38c5e8431818b0340757ed207c1f'],
+  [`${root}/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs`,'aaf6e051d8136f5c708088b465a73b3fe69534d1'],
+  [`${root}/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs`,'a0be81315b45e152e3e83f10b7104aa41ddae2e0'],
+  [`${root}/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs`,'c00415c34a903d38813064835276aa29c56a7419'],
+  [`${root}/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs`,'00e15a66c6c6e12e71ea61d2fe6e1ddef2e52fb4'],
+  [`${root}/tests/v4683a-v4682a-lifecycle-self-pin-correction-authorization.test.mjs`,'319e8ef3d85b8f7a8ee64e81e84d85d6d8a9e85c']
+]);
 
 test('v4.6.86a pins failed #443 and preserves the exact B104/B105 canonical identities',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4686a-b105-postwrite-fixture-repair-authorization-v1');
@@ -30,22 +48,26 @@ test('v4.6.86a pins failed #443 and preserves the exact B104/B105 canonical iden
   assert.equal(auth.root_cause.canonical_candidate_changed,false);
 });
 
-test('v4.6.86a permits only the exact atomic source or exact atomic repaired sixteen-target state',()=>{
+test('v4.6.86a permits only the exact atomic source, original repaired sixteen-target state, or exact corrected final repair state',()=>{
   assert.equal(auth.exact_repair_targets.length,16);
   assert.equal(new Set(auth.exact_repair_targets.map(item=>item.path)).size,16);
   assert.equal(new Set(auth.exact_repair_targets.map(item=>item.source_git_blob_sha)).size,16);
   assert.equal(new Set(auth.exact_repair_targets.map(item=>item.successor_git_blob_sha)).size,16);
+  assert.equal(correctedFinalByPath.size,16);
   const actual=auth.exact_repair_targets.map(item=>gitBlobSha(readFileSync(item.path)));
   const source=auth.exact_repair_targets.map(item=>item.source_git_blob_sha);
   const successor=auth.exact_repair_targets.map(item=>item.successor_git_blob_sha);
+  const correctedFinal=auth.exact_repair_targets.map(item=>correctedFinalByPath.get(item.path));
   for(const item of auth.exact_repair_targets){
     assert.match(item.source_git_blob_sha,/^[0-9a-f]{40}$/);
     assert.match(item.successor_git_blob_sha,/^[0-9a-f]{40}$/);
+    assert.match(correctedFinalByPath.get(item.path),/^[0-9a-f]{40}$/);
     assert.notEqual(item.source_git_blob_sha,item.successor_git_blob_sha,item.path);
   }
   const sourceMode=actual.every((blob,index)=>blob===source[index]);
   const successorMode=actual.every((blob,index)=>blob===successor[index]);
-  assert.ok(sourceMode||successorMode,'repair target set must be exact atomic source or exact atomic successor state; mixed state is forbidden');
+  const correctedFinalMode=actual.every((blob,index)=>blob===correctedFinal[index]);
+  assert.ok(sourceMode||successorMode||correctedFinalMode,'repair target set must be one exact atomic authorized state; mixed state is forbidden');
   assert.equal(auth.state_vectors.intermediate_states_permitted,false);
   assert.equal(auth.state_vectors.partial_or_mixed_state_permitted,false);
 });

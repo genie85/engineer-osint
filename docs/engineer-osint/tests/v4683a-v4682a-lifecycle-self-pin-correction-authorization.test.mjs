@@ -5,6 +5,8 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4683A_V4682A_LIFECYCLE_SELF_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
+const correctedPostwriteV4682aSuccessor='00e15a66c6c6e12e71ea61d2fe6e1ddef2e52fb4';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -24,15 +26,17 @@ test('v4.6.83a pins the exact failed V4682A-authorized implementation and repeat
   assert.equal(auth.root_cause.historical_authorization_rewritten,false);
 });
 
-test('v4.6.83a pins one pre-materialized exact V4682A test successor and permits only lifecycle endpoints',()=>{
+test('v4.6.83a pins one pre-materialized exact V4682A test successor and permits only exact lifecycle endpoints including authorized postwrite repair',()=>{
   assert.equal(auth.authorized_successor.path,'docs/engineer-osint/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs');
   assert.equal(auth.authorized_successor.source_git_blob_sha,'1bfbffd2348634fd9126eeffbb878142c5e57624');
   assert.equal(auth.authorized_successor.successor_git_blob_sha,'8cff3e7fd5519ff827472baa17a0971538ef80ee');
   assert.notEqual(auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha);
   assert.match(auth.authorized_successor.source_git_blob_sha,/^[0-9a-f]{40}$/);
   assert.match(auth.authorized_successor.successor_git_blob_sha,/^[0-9a-f]{40}$/);
+  const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_successor.path);
+  assert.ok(repairTarget,'postwrite repair must pin V4682A target');
   const currentSha=gitBlobSha(readFileSync(auth.authorized_successor.path));
-  assert.ok([auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha].includes(currentSha));
+  assert.ok([auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha,repairTarget.successor_git_blob_sha,correctedPostwriteV4682aSuccessor].includes(currentSha));
   assert.equal(auth.materialization_evidence.successor_git_blob_materialized,true);
   assert.equal(auth.materialization_evidence.successor_git_blob_read_back_verified,true);
 });

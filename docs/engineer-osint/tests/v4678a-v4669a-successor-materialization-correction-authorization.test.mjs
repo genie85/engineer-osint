@@ -5,12 +5,15 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4678A_V4669A_SUCCESSOR_MATERIALIZATION_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
 const correctedB105V4670Successor='4761fa6a89494c18b5d297ed9c728508050efdcb';
 const correctedB105V4669aSuccessor='5b5e323951608a6a92fa058fa02f8282e4134c09';
+const correctedPostwriteV4670Successor='931c5edb18647754102b6077a3d9409a089cddb2';
+const correctedPostwriteV4669aSuccessor='0a395fe6267d8676d149f4684806822b91571018';
 
 test('v4.6.78a pins immutable upstream and two pre-materialized replacement successors',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4669a-successor-materialization-correction-authorization-v1');
@@ -27,11 +30,14 @@ test('v4.6.78a pins immutable upstream and two pre-materialized replacement succ
   }
 });
 
-test('v4.6.78a remains lifecycle-compatible with each ordered exact transition and corrected-B105 descendants',()=>{
+test('v4.6.78a remains lifecycle-compatible with each ordered exact transition, corrected-B105 descendants and authorized postwrite-repair states',()=>{
   const v4670=auth.authorized_targets.v4670_test;
   const v4669a=auth.authorized_targets.v4669a_test;
-  assert.ok([v4670.source_git_blob_sha,v4670.replacement_successor_git_blob_sha,correctedB105V4670Successor].includes(gitBlobSha(readFileSync(v4670.path))));
-  assert.ok([v4669a.source_git_blob_sha,v4669a.replacement_successor_git_blob_sha,correctedB105V4669aSuccessor].includes(gitBlobSha(readFileSync(v4669a.path))));
+  const repairV4670=repair.exact_repair_targets.find(item=>item.path===v4670.path);
+  const repairV4669a=repair.exact_repair_targets.find(item=>item.path===v4669a.path);
+  assert.ok(repairV4670&&repairV4669a,'postwrite repair must pin V4670 and V4669A targets');
+  assert.ok([v4670.source_git_blob_sha,v4670.replacement_successor_git_blob_sha,correctedB105V4670Successor,repairV4670.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(gitBlobSha(readFileSync(v4670.path))));
+  assert.ok([v4669a.source_git_blob_sha,v4669a.replacement_successor_git_blob_sha,correctedB105V4669aSuccessor,repairV4669a.successor_git_blob_sha,correctedPostwriteV4669aSuccessor].includes(gitBlobSha(readFileSync(v4669a.path))));
   assert.equal(v4670.source_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447');
   assert.equal(v4670.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701');
   assert.equal(v4669a.source_git_blob_sha,'616405eaa413ec5552099dfec419f298c47a9440');
