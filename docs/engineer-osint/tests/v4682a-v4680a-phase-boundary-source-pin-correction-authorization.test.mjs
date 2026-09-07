@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4682A_V4680A_PHASE_BOUNDARY_SOURCE_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
@@ -25,14 +26,16 @@ test('v4.6.82a pins the exact failed authorization attempt and deterministic sou
   assert.equal(auth.root_cause.historical_authorization_rewritten,false);
 });
 
-test('v4.6.82a pins the fresh exact main source and unchanged pre-materialized successor',()=>{
+test('v4.6.82a pins the fresh exact main source, unchanged pre-materialized successor and authorized postwrite-repair successor',()=>{
   assert.equal(auth.authorized_successor.path,'docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs');
   assert.equal(auth.authorized_successor.source_git_blob_sha,'e28c381c7b1f4e57338b9ff5027895b7cc9a1de7');
   assert.equal(auth.authorized_successor.successor_git_blob_sha,'5b9658da3363273c15b58331c3b44f64c050300b');
+  const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_successor.path);
+  assert.ok(repairTarget,'postwrite repair must pin V4680A target');
   const currentAuthorizedSha=gitBlobSha(readFileSync(auth.authorized_successor.path));
   assert.ok(
-    [auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha].includes(currentAuthorizedSha),
-    `V4680A authorization test must be exact source or exact authorized successor, got ${currentAuthorizedSha}`
+    [auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha,repairTarget.successor_git_blob_sha].includes(currentAuthorizedSha),
+    `V4680A authorization test must be exact source, exact authorized successor or exact postwrite-repair successor, got ${currentAuthorizedSha}`
   );
   assert.equal(auth.materialization_evidence.successor_git_blob_materialized,true);
   assert.equal(auth.materialization_evidence.successor_git_blob_read_back_verified,true);

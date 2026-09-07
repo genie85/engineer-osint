@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
 const correction=JSON.parse(readFileSync(`${root}/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
+const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextGuardSuccessors=new Map([
   [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'9484399067b3defa79439e0054ceb1731902dc0f'],
   [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'f65f730a9060ee1c00b36a1757c355801543dc6c']
@@ -33,7 +34,7 @@ test('v4.6.73a pins failed exact-head implementation and two exact guard transit
   ]);
 });
 
-test('v4.6.73a is lifecycle-compatible with exact historical, corrected and corrected-B105 guard successors',()=>{
+test('v4.6.73a is lifecycle-compatible with exact historical, corrected, corrected-B105 and authorized postwrite-repair guard successors',()=>{
   assert.equal(correction.superseded_authorization.path,`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(correction.superseded_authorization.git_blob_sha,'6abeb6ad9a111cfb421a2cf9297aad70ac6f113d');
   assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
@@ -44,9 +45,10 @@ test('v4.6.73a is lifecycle-compatible with exact historical, corrected and corr
     assert.equal(corrected.source_git_blob_sha,target.source_git_blob_sha);
     const historicalNext=historicalNextGuardSuccessors.get(target.path);
     const correctedB105=correctedB105GuardSuccessors.get(target.path);
-    assert.ok(historicalNext&&correctedB105,`${target.path} must have exact pinned lifecycle successors`);
+    const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);
+    assert.ok(historicalNext&&correctedB105&&repairTarget,`${target.path} must have exact pinned lifecycle successors`);
     const blob=gitBlobSha(readFileSync(target.path));
-    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha,historicalNext,correctedB105].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
+    assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha,historicalNext,correctedB105,repairTarget.successor_git_blob_sha].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
 });
 

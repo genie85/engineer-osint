@@ -48,6 +48,10 @@ const exactSuccessorBlobs=new Map([
   ['docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs','44ee3ea62eaee274bfaeebac5fab6478f9bcc019'],
   ['docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs','cfa7ec4573761379758babac3b2e71959aa8b1ba']
 ]);
+const exactPostwriteRepairBlobs=new Map([
+  ['docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs','238caca505c322d3641021293466b1e309b80a39'],
+  ['docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs','ecdc22f8a15c76eac33264adfa421678aa544f2c']
+]);
 
 test('v4.6.67 pins the exact failed B105 postwrite evidence and exact canonical successor',()=>{
   assert.equal(auth.schema_version,'engineer-osint-b105-postwrite-lifecycle-compatibility-authorization-v1');
@@ -65,17 +69,20 @@ test('v4.6.67 pins the exact failed B105 postwrite evidence and exact canonical 
   assert.equal(auth.exact_b105_state.photo_lifecycle_successor_git_blob_sha,'35bc012c9364cd257dd75666a6749a698a2e228b');
 });
 
-test('v4.6.67 recognizes only the complete 17-file source set or the exact complete B105 successor set',()=>{
+test('v4.6.67 recognizes only the complete 17-file source set, exact complete B105 successor set or exact authorized postwrite-repair projection',()=>{
   assert.equal(auth.authorized_test_targets.length,17);
   assert.deepEqual(auth.authorized_test_targets.map(item=>item.path),expectedPaths);
   assert.equal(new Set(auth.authorized_test_targets.map(item=>item.path)).size,17);
   assert.equal(exactSuccessorBlobs.size,17);
+  assert.equal(exactPostwriteRepairBlobs.size,2);
   const observed=auth.authorized_test_targets.map(item=>({path:item.path,actual:gitBlobSha(readFileSync(item.path)),source:item.source_git_blob_sha,successor:exactSuccessorBlobs.get(item.path)}));
   assert.ok(observed.every(item=>item.successor), 'exact successor inventory must cover all 17 targets');
   const sourceState=observed.every(item=>item.actual===item.source);
   const successorState=observed.every(item=>item.actual===item.successor);
-  assert.ok(sourceState||successorState,'17-file lifecycle must be complete source state or complete exact B105 successor state; mixed/unknown state rejected');
+  const postwriteRepairState=observed.every(item=>item.actual===(exactPostwriteRepairBlobs.get(item.path)??item.source));
+  assert.ok(sourceState||successorState||postwriteRepairState,'17-file lifecycle must be complete source, complete exact B105 successor or exact authorized postwrite-repair projection; mixed/unknown state rejected');
   assert.equal(sourceState&&successorState,false,'source and successor state must remain distinct');
+  assert.equal(successorState&&postwriteRepairState,false,'B105 successor and postwrite-repair projection must remain distinct');
 });
 
 test('v4.6.67 permits only exact B105 descendant compatibility and preserves historical fail-closed semantics',()=>{
