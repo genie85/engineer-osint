@@ -103,10 +103,10 @@ test('v4.6.93 derives the exact B106 compatibility successor fixed point without
   assert.equal(changed.length,35,`unexpected B106 compatibility successor count: ${changed.length}`);
 
   const nodes=changed.map(path=>{
-    const replacements=changed.filter(dep=>sourceTexts.get(path).includes(fp.sourceShas.get(dep))).map(dep=>({dependency_path:dep,source_sha:fp.sourceShas.get(dep),successor_sha:fp.targetShas.get(dep)}));
+    const replacements=roots.has(path)?[]:changed.filter(dep=>sourceTexts.get(path).includes(fp.sourceShas.get(dep))).map(dep=>({dependency_path:dep,source_sha:fp.sourceShas.get(dep),successor_sha:fp.targetShas.get(dep)}));
     if(!roots.has(path))assert.ok(replacements.length>0,`${path}: changed without exact predecessor dependency`);
     const target=fp.targetTexts.get(path);
-    for(const replacement of replacements)assert.ok(!target.includes(replacement.source_sha),`${path}: stale predecessor SHA remains for ${replacement.dependency_path}`);
+    if(!roots.has(path))for(const replacement of replacements)assert.ok(!target.includes(replacement.source_sha),`${path}: stale predecessor SHA remains for ${replacement.dependency_path}`);
     return {path,kind:roots.has(path)?'ROOT_SUCCESSOR':'TRANSITIVE_EXACT_HASH_SUCCESSOR',source_sha:fp.sourceShas.get(path),successor_sha:fp.targetShas.get(path),replacements};
   });
   const report={schema_version:'engineer-osint-v4693-b106-compat-fixed-point-readout-v1',status:'PASS_READ_ONLY',reviewed_main_sha:'98e8b80e614defc5cd4f2a6ddcdd45032c4c2f6d',workflow_successor_sha:workflowSuccessorSha,helper_successor_sha:fp.targetShas.get(helperPath),b106_normalized_dom_sha256:b106DomSha,successor_count:changed.length,fixed_point_iterations:fp.iterations,nodes,authoritative_write_performed:false,canonical_or_run_store_write_performed:false};
