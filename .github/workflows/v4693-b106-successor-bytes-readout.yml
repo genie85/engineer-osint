@@ -1,0 +1,40 @@
+name: ENGINEER OSINT B106 successor bytes readout
+
+on:
+  push:
+    branches:
+      - 'agent/v4693-b106-compat-fixed-point-readout'
+    paths:
+      - 'docs/engineer-osint/tests/v4693-b106-compat-fixed-point-readout.test.mjs'
+      - '.github/workflows/v4693-b106-successor-bytes-readout.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact diagnostic branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Derive exact B106 successor bytes
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test docs/engineer-osint/tests/v4693-b106-compat-fixed-point-readout.test.mjs 2>&1 | tee /tmp/v4693-b106-fixed-point.log
+          test -s /tmp/v4693-b106-fixed-point.json
+      - name: Upload exact read-only successor bytes
+        uses: actions/upload-artifact@v7
+        with:
+          name: v4693-b106-successor-bytes-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          path: |
+            /tmp/v4693-b106-fixed-point.log
+            /tmp/v4693-b106-fixed-point.json
