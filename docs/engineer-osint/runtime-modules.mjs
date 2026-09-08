@@ -54,6 +54,7 @@ export const PRESENTATION_MODULES=[
   ['engineer-overview-delta-cleanup-module','ui-overview-delta-cleanup.js'],
   ['engineer-ui-v4-public-module','ui-v4-public.js'],
   ['engineer-ui-v41-intelligence-module','ui-v41-intelligence.js'],
+  ['engineer-ui-v4-i18n-stability-module','ui-v4-i18n-stability.js'],
   ['engineer-ui-v42-situation-hubs-module','ui-v42-situation-hubs.js'],
   ['engineer-ui-v421-cleanup-module','ui-v421-cleanup.js'],
   ['engineer-ui-v422-visual-polish-module','ui-v422-visual-polish.js'],
