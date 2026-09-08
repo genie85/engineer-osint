@@ -12,7 +12,7 @@ const gitBlobSha=value=>{
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
 const correctedB105Successor='5b5e323951608a6a92fa058fa02f8282e4134c09';
-const correctedPostwriteSuccessor='0a395fe6267d8676d149f4684806822b91571018';
+const correctedPostwriteSuccessor='a0bc5d5be5ad84dc70420abb6209eb4e3bf98355';
 
 test('v4.6.70 pins the exact red V4669B implementation and immutable V4669A authorization',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4669a-lifecycle-compatibility-authorization-v1');

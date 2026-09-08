@@ -22,7 +22,7 @@ const b101IdentityWorkflowSha='744daab32ba9e55c1546b38ab2dd049562777906';
 const b102IdentityWorkflowSha='3a14efd69c46d464c50543431565b57b4517ae39';
 const b103IdentityWorkflowSha='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104IdentityWorkflowSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
-const b105IdentityWorkflowSha='0aded293ae69be3844c73f6613f0a70b05320156';
+const b105IdentityWorkflowSha='e44cb9caf5fc61c83ad254f7b829977245abec49';
 
 function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8');

@@ -12,8 +12,8 @@ const gitBlobSha=value=>{
 };
 const correctedB105V4670Successor='4761fa6a89494c18b5d297ed9c728508050efdcb';
 const correctedB105V4669aSuccessor='5b5e323951608a6a92fa058fa02f8282e4134c09';
-const correctedPostwriteV4670Successor='931c5edb18647754102b6077a3d9409a089cddb2';
-const correctedPostwriteV4669aSuccessor='0a395fe6267d8676d149f4684806822b91571018';
+const correctedPostwriteV4670Successor='0057f57722486cb7e82c23d6acc9fdbfc58ef874';
+const correctedPostwriteV4669aSuccessor='a0bc5d5be5ad84dc70420abb6209eb4e3bf98355';
 
 test('v4.6.78a pins immutable upstream and two pre-materialized replacement successors',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4669a-successor-materialization-correction-authorization-v1');

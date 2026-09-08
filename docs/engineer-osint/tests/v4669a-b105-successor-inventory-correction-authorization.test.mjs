@@ -60,7 +60,7 @@ test('v4.6.69a admits only exact atomic historical, V4687A, or corrected postwri
     [v4667.source_git_blob_sha,v4668a.source_git_blob_sha],
     [v4667.successor_git_blob_sha,v4668a.successor_git_blob_sha],
     ['9597733075b12debafacb3e3ebf1795f1a426b02','29b096b0d5332497788a8d7d1215b3aed0b143b3'],
-    ['d3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e','090a0b41cd9ca3c42efd216569aaa698f37f80c0']
+    ['a6234a0be19d4ebbfaf212e0b4750f298132fd85','29e59f245b0e795b7f2df8a0708771a2d7668265']
   ];
   assert.ok(allowedPairs.some(pair=>current.every((blob,index)=>blob===pair[index])),'guard state must be one exact authorized atomic pair');
   assert.equal(v4667.source_git_blob_sha,'2e032f86c83e405a7bc341c8b7aa57c9edb854b3');

@@ -23,9 +23,9 @@ const sha256=value=>createHash('sha256').update(value).digest('hex');
 const runId='engineer-osint-20260904-B105';
 const digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 const workflowPre='cb7e4d186ff3a79675ace8c48754317ffdede233';
-const workflowPost='0aded293ae69be3844c73f6613f0a70b05320156';
+const workflowPost='e44cb9caf5fc61c83ad254f7b829977245abec49';
 const helperPre='7e9480f421cdd811c2660033e4539f926ce5ad7b';
-const helperPost='c7527860a5f175000b634a25d170698d70569b53';
+const helperPost='8c029f4fcf2e969b02887b5d4d5e46a6625948bc';
 
 test('v4.6.58 authorization pins exact immutable B105 readiness and candidate evidence',()=>{
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');

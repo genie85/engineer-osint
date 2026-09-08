@@ -11,7 +11,7 @@ const gitBlobSha=value=>{
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');
 };
 const correctedB105V4670Successor='4761fa6a89494c18b5d297ed9c728508050efdcb';
-const correctedPostwriteV4670Successor='931c5edb18647754102b6077a3d9409a089cddb2';
+const correctedPostwriteV4670Successor='0057f57722486cb7e82c23d6acc9fdbfc58ef874';
 
 test('v4.6.72a preserves V4671 as immutable evidence and records the unavailable successor pin',()=>{
   assert.equal(auth.schema_version,'engineer-osint-v4671-successor-pin-correction-authorization-v1');

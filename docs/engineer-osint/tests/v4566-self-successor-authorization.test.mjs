@@ -15,7 +15,7 @@ const exactB102V4565TestSuccessor='560be7e8e60c82a6742e1c39519397fc9ebdefd6';
 const exactExecutorV4565TestSuccessor='df7fc02c0ea38e13beff10781414f31cd6e51a6a';
 const exactB103V4565TestSuccessor='c20250619fd3dfc95fefc5717fcc1fcd083231a4';
 const exactB104V4565TestSuccessor='a74bdbbf767cdc986862da828ee394cfc09b3334';
-const exactB105V4565TestSuccessor='1b889cd96fb1a057dc374af269a44601bf920444';
+const exactB105V4565TestSuccessor='e7efa6f7c3c1cc94696299d3e1067b1227fea191';
 
 test('v4.5.66 is authorization-only and pinned to exact v4.5.65 main',()=>{
   assert.equal(policy.schema_version,'engineer-osint-self-successor-authorization-v1');
@@ -65,7 +65,7 @@ test('v4.5.66 keeps immutable policy and recognizes only baseline/action/B100/B1
     assert.match(v4565TestText,/no exact digest authorized for current run/);
   }
   if(current===exactB105V4565TestSuccessor){
-    for(const sha of ['c7527860a5f175000b634a25d170698d70569b53','7fbe5e37d92e53a7c7425844add443ae0e20cf54','c1611a3de4b54a17e7ceeb127ca7d3ab271af05f','f755fc73525db951d84c8880976047f2358c02b7','0aded293ae69be3844c73f6613f0a70b05320156','25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'])assert.match(v4565TestText,new RegExp(sha),`exact B105 lifecycle evidence missing ${sha}`);
+    for(const sha of ['8c029f4fcf2e969b02887b5d4d5e46a6625948bc','d6945ba94e3e83604657db590d4004977b7cbd32','1f699f28252cbe66b4900bc3c7902eff353406a6','7be8f750eba4a8b9de3f49ccba815e8957acb5ab','e44cb9caf5fc61c83ad254f7b829977245abec49','25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'])assert.match(v4565TestText,new RegExp(sha),`exact B105 lifecycle evidence missing ${sha}`);
     assert.match(v4565TestText,/b105TestMode/);
     assert.match(v4565TestText,/b105WorkflowMode/);
     assert.match(v4565TestText,/no exact digest authorized for current run/);

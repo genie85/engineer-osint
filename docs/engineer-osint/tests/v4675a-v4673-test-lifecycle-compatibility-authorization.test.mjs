@@ -9,7 +9,7 @@ const correction=JSON.parse(readFileSync(`${root}/V4676A_V4675_SUCCESSOR_PIN_COR
 const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextV4673aSuccessor='6f93795d7522d8c182cc69affe0e3c5139b785c0';
 const correctedB105V4673aSuccessor='ee5c6c3a2f55f59a11f0cd9398ec58a5ec8ffa39';
-const correctedPostwriteV4673aSuccessor='7b6d285e32b705d417211f6a1f7a6a96bbb31f2a';
+const correctedPostwriteV4673aSuccessor='f683427cba704ebd2f5b3d3c139f9152620415c8';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');

@@ -16,7 +16,7 @@ const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15d
 const b105Digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
 const expectedPredecessorBlob='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const expectedSuccessorBlob='cb7e4d186ff3a79675ace8c48754317ffdede233';
-const expectedB105SuccessorBlob='0aded293ae69be3844c73f6613f0a70b05320156';
+const expectedB105SuccessorBlob='e44cb9caf5fc61c83ad254f7b829977245abec49';
 const gitBlobSha=value=>createHash('sha1').update(`blob ${Buffer.byteLength(value)}\0`).update(value).digest('hex');
 
 test('v4.6.47 applies exactly the separately authorized B104 pair while permitting only the exact later B105 workflow successor',()=>{

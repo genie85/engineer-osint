@@ -10,18 +10,18 @@ const workflowPath='.github/workflows/identity-fix-retirement-regression.yml';
 const helperPath=`${root}/tests/v4556-workflow-lifecycle-helper.mjs`;
 const workflowPre='cb7e4d186ff3a79675ace8c48754317ffdede233';
 const helperPre='7e9480f421cdd811c2660033e4539f926ce5ad7b';
-const workflowPost='0aded293ae69be3844c73f6613f0a70b05320156';
-const helperPost='c7527860a5f175000b634a25d170698d70569b53';
+const workflowPost='e44cb9caf5fc61c83ad254f7b829977245abec49';
+const helperPost='8c029f4fcf2e969b02887b5d4d5e46a6625948bc';
 
 const expectedTests=new Map([
-  [`${root}/tests/v4557-browser-digest-normalization-hotfix.test.mjs`,{source:'9939fbcbf9c7f09f61a9a5c82c795873bddd0a61',successor:'7fbe5e37d92e53a7c7425844add443ae0e20cf54'}],
-  [`${root}/tests/v4562-active-node24-migration.test.mjs`,{source:'c61540fa8c9be9cb21129e46fe488391502102dd',successor:'c1611a3de4b54a17e7ceeb127ca7d3ab271af05f'}],
-  [`${root}/tests/v4563-action-node24-authorization.test.mjs`,{source:'558b54212ff856a01be7c1a5dedfaa871e5c820c',successor:'f755fc73525db951d84c8880976047f2358c02b7'}],
-  [`${root}/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs`,{source:'a74bdbbf767cdc986862da828ee394cfc09b3334',successor:'1b889cd96fb1a057dc374af269a44601bf920444'}],
-  [`${root}/tests/v4619-b103-public-cz-authorization.test.mjs`,{source:'9bd857b2f9bb785fd4fcb75be3697bb18712fdd1',successor:'0bee343905a8de962d4c105351cf8e124f219c2d',corrected:'c51f6a756a2b4cd86de302a47a93b582e3b6996b'}],
-  [`${root}/tests/v4643-b104-wave2-local-image-authorization.test.mjs`,{source:'0d73c824951f3eade09b24f5b59a389fb67b6d33',successor:'be37f8ad1a6a31d0c4214d00fe1c28e856632692',corrected:'acc1c241f42bc71dbb3638ac117d8317520aa83f'}],
-  [`${root}/tests/v4646-b104-cc0-authorization.test.mjs`,{source:'87656fdd7ceccdf55bdb2ceac23093a694165a3b',successor:'7a6b45ea97299ffe15643f22c17f6679cdca18f9',corrected:'44ee3ea62eaee274bfaeebac5fab6478f9bcc019'}],
-  [`${root}/tests/v4647-b104-browser-digest-successor.test.mjs`,{source:'233793d6acb49931b52f56d1543a7b92e9e3b3f6',successor:'b16234c3b58a1a829a86cfb66931bc70355ead83',corrected:'cfa7ec4573761379758babac3b2e71959aa8b1ba'}]
+  [`${root}/tests/v4557-browser-digest-normalization-hotfix.test.mjs`,{source:'9939fbcbf9c7f09f61a9a5c82c795873bddd0a61',successor:'d6945ba94e3e83604657db590d4004977b7cbd32'}],
+  [`${root}/tests/v4562-active-node24-migration.test.mjs`,{source:'c61540fa8c9be9cb21129e46fe488391502102dd',successor:'1f699f28252cbe66b4900bc3c7902eff353406a6'}],
+  [`${root}/tests/v4563-action-node24-authorization.test.mjs`,{source:'558b54212ff856a01be7c1a5dedfaa871e5c820c',successor:'7be8f750eba4a8b9de3f49ccba815e8957acb5ab'}],
+  [`${root}/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs`,{source:'a74bdbbf767cdc986862da828ee394cfc09b3334',successor:'e7efa6f7c3c1cc94696299d3e1067b1227fea191'}],
+  [`${root}/tests/v4619-b103-public-cz-authorization.test.mjs`,{source:'9bd857b2f9bb785fd4fcb75be3697bb18712fdd1',successor:'0bee343905a8de962d4c105351cf8e124f219c2d',corrected:'fddeb1e87bd367ca663b93361d690f1a25855e2a'}],
+  [`${root}/tests/v4643-b104-wave2-local-image-authorization.test.mjs`,{source:'0d73c824951f3eade09b24f5b59a389fb67b6d33',successor:'be37f8ad1a6a31d0c4214d00fe1c28e856632692',corrected:'f2a7f3de317d81fec9aaecdbe5cf6d3527ccff09'}],
+  [`${root}/tests/v4646-b104-cc0-authorization.test.mjs`,{source:'87656fdd7ceccdf55bdb2ceac23093a694165a3b',successor:'7a6b45ea97299ffe15643f22c17f6679cdca18f9',corrected:'6c137eaf01e7a03751f48367e3c0887d9db4988c'}],
+  [`${root}/tests/v4647-b104-browser-digest-successor.test.mjs`,{source:'233793d6acb49931b52f56d1543a7b92e9e3b3f6',successor:'b16234c3b58a1a829a86cfb66931bc70355ead83',corrected:'9186b169b8bd2d73a97932ee4dbf18d8f0ed86d8'}]
 ]);
 
 const currentTestShas=new Map([...expectedTests].map(([path])=>[path,gitBlobSha(readFileSync(path,'utf8'))]));
@@ -72,7 +72,7 @@ test('v4.6.60 preserves fail-closed safety boundaries and does not authorize can
     assert.equal(impl[key],false,key);
   }
   const semantics=auth.authorized_semantics.join('\n');
-  assert.match(semantics,/only workflow blob 0aded293ae69be3844c73f6613f0a70b05320156/);
+  assert.match(semantics,/only workflow blob e44cb9caf5fc61c83ad254f7b829977245abec49/);
   assert.match(semantics,/preserve every previously accepted historical workflow blob/);
   assert.match(semantics,/preserve fail-closed rejection of wildcard/);
   assert.ok(auth.forbidden_changes.some(x=>x.includes('wildcard/current-state/unknown-descendant')));

@@ -38,15 +38,15 @@ const exactSuccessorBlobs=new Map([
   ['docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs','89354a2ec0ae6c213dec0df203ca8ec5ba748d3b'],
   ['docs/engineer-osint/tests/v4616-b103-public-cz-candidate.test.mjs','4e812347b7a69c522d9857f6367a816254964c87'],
   ['docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs','abfc216575e1a372faa5ebc0982ee7f4bb52ae30'],
-  ['docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs','c51f6a756a2b4cd86de302a47a93b582e3b6996b'],
+  ['docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs','fddeb1e87bd367ca663b93361d690f1a25855e2a'],
   ['docs/engineer-osint/tests/v4620-b103-browser-digest-discovery.test.mjs','97637327b84932cfa3debcb7eb8f819cdf2ed392'],
   ['docs/engineer-osint/tests/v4642-b104-browser-digest-discovery.test.mjs','558bee8f3c599ff4afa5bb1f58e009b69b43903f'],
   ['docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs','86ec36b718eb1437effefb414b386891c4b87858'],
-  ['docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs','acc1c241f42bc71dbb3638ac117d8317520aa83f'],
+  ['docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs','f2a7f3de317d81fec9aaecdbe5cf6d3527ccff09'],
   ['docs/engineer-osint/tests/v4645-b104-cc0-readiness.test.mjs','62502ae22d405e3e0e8c57afda80151aff569b29'],
   ['docs/engineer-osint/tests/v4645-b104-cc0-rediscovery.test.mjs','bd4a242f6f910f8cd54dc0a0aad9a020fd336e47'],
-  ['docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs','44ee3ea62eaee274bfaeebac5fab6478f9bcc019'],
-  ['docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs','cfa7ec4573761379758babac3b2e71959aa8b1ba']
+  ['docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs','6c137eaf01e7a03751f48367e3c0887d9db4988c'],
+  ['docs/engineer-osint/tests/v4647-b104-browser-digest-successor.test.mjs','9186b169b8bd2d73a97932ee4dbf18d8f0ed86d8']
 ]);
 const exactPostwriteRepairBlobs=new Map([
   ['docs/engineer-osint/tests/v4642-b104-wave2-local-image-discovery.test.mjs','238caca505c322d3641021293466b1e309b80a39'],

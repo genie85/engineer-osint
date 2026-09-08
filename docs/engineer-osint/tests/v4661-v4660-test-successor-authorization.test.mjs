@@ -9,7 +9,7 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const targetPath=auth.target_test.path;
 const source='e6bd4b89b9f7802103c092c2c67d2da594c32e81';
 const successor='001a6625e2bdc2fa20f5f0d97b5eb23c29bb4388';
-const correctedSuccessor='027db23d5a6cdd91f93afa8575265d7fb366ac9f';
+const correctedSuccessor='de600491ea27773a6ac8758bc11bbb13b2c89f01';
 
 test('v4.6.61 pins one exact v4660 test successor and the reviewed main',()=>{
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');
@@ -24,9 +24,9 @@ test('v4.6.61 pins one exact v4660 test successor and the reviewed main',()=>{
 test('v4.6.61 pins the exact complete B105 transition identities and forbids mixed/wildcard modes',()=>{
   const c=auth.exact_transition_contract;
   assert.equal(c.workflow_predecessor_git_blob_sha,'cb7e4d186ff3a79675ace8c48754317ffdede233');
-  assert.equal(c.workflow_successor_git_blob_sha,'0aded293ae69be3844c73f6613f0a70b05320156');
+  assert.equal(c.workflow_successor_git_blob_sha,'e44cb9caf5fc61c83ad254f7b829977245abec49');
   assert.equal(c.helper_predecessor_git_blob_sha,'7e9480f421cdd811c2660033e4539f926ce5ad7b');
-  assert.equal(c.helper_successor_git_blob_sha,'c7527860a5f175000b634a25d170698d70569b53');
+  assert.equal(c.helper_successor_git_blob_sha,'8c029f4fcf2e969b02887b5d4d5e46a6625948bc');
   assert.equal(c.historical_test_source_and_successor_blobs.length,8);
   assert.equal(new Set(c.historical_test_source_and_successor_blobs.map(x=>x[0])).size,8);
   for(const [path,src,dst] of c.historical_test_source_and_successor_blobs){

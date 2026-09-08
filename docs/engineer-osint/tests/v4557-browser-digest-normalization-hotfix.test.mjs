@@ -9,7 +9,7 @@ const b101Successor='744daab32ba9e55c1546b38ab2dd049562777906';
 const b102Successor='3a14efd69c46d464c50543431565b57b4517ae39';
 const b103Successor='ba0517693b06a0360e1254f47e8b9004942bba0f';
 const b104Successor='cb7e4d186ff3a79675ace8c48754317ffdede233';
-const b105Successor='0aded293ae69be3844c73f6613f0a70b05320156';
+const b105Successor='e44cb9caf5fc61c83ad254f7b829977245abec49';
 
 test('v4.5.57 records the exact red-main browser failure and one semantic-equivalent label case drift',()=>{
   assert.equal(v4557.reviewed_main_sha,'418802da8c46e26588dfb9fc56cbdef95bc7c317');

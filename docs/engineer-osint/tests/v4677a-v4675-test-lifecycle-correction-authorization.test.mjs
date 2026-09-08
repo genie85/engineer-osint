@@ -8,7 +8,7 @@ const auth=JSON.parse(readFileSync(`${root}/V4677A_V4675_TEST_LIFECYCLE_CORRECTI
 const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
 const historicalNextV4675aSuccessor='fa5b95c00ab915f246462c7255fd4eb037a433c2';
 const correctedB105V4675aSuccessor='b67f5450e044f595a0520ddf10e72b6f632e8e79';
-const correctedPostwriteV4675aSuccessor='497a7b4677e93b8022e1ed38662fc4fc43126312';
+const correctedPostwriteV4675aSuccessor='e1ab1715d9ececcd44b77eea1e22c865b843639d';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');

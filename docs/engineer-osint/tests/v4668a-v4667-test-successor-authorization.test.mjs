@@ -43,7 +43,7 @@ test('v4.6.69a admits only historical or corrected v4667 guard and complete corr
     historicalAuth.authorized_target.successor_git_blob_sha,
     correction.corrected_guard_targets.v4667_test.successor_git_blob_sha,
     '9597733075b12debafacb3e3ebf1795f1a426b02',
-    'd3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e'
+    'a6234a0be19d4ebbfaf212e0b4750f298132fd85'
   ]);
   assert.ok(allowedTargetBlobs.has(targetBlob),'v4667 guard is outside exact historical/corrected/postwrite-repair states');
   const observed=correction.corrected_exact_test_state_pairs.map(([path,source,successor])=>({path,source,successor,actual:gitBlobSha(readFileSync(path))}));

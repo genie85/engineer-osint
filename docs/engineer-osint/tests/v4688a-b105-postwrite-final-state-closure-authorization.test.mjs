@@ -59,8 +59,8 @@ test('v4.6.88a pins preauthorization materialization and deterministic phase-bou
   assert.equal(auth.materialization_evidence.preauthorization_candidate_tree_base_sha,'0247887bc8be9280aeea729a6397157c91a47e47');
   assert.equal(auth.materialization_evidence.preauthorization_candidate_tree_read_back_verified,true);
   assert.equal(auth.materialization_evidence.candidate_tree_is_authoritative,false);
-  assert.equal(auth.deterministic_simulation.v4660_current_git_blob_sha,'027db23d5a6cdd91f93afa8575265d7fb366ac9f');
-  assert.equal(auth.deterministic_simulation.v4661_current_git_blob_sha,'81a290e30e65d6ab9dc391c6958a2bea2c891ca1');
+  assert.equal(auth.deterministic_simulation.v4660_current_git_blob_sha,'de600491ea27773a6ac8758bc11bbb13b2c89f01');
+  assert.equal(auth.deterministic_simulation.v4661_current_git_blob_sha,'f615341ea7b6f2de560eeadaefa1a5d02500d93e');
   assert.equal(auth.deterministic_simulation.v4680_phase_boundary_baseline_verified,true);
   assert.equal(auth.deterministic_simulation.final_guard_chain_closed_over_known_exact_dependencies,true);
   assert.equal(auth.deterministic_simulation.outer_v4686a_atomic_guard_included,true);

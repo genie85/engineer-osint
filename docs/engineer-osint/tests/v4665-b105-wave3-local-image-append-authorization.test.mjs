@@ -147,7 +147,7 @@ test('v4.6.65 proves the exact B105 browser successor and protected executor rem
   const pair=`'${B105}':'${B105_DIGEST}'`;
 
   assert.equal(gitBlobSha(workflow),auth.browser_workflow_successor.installed_git_blob_sha);
-  assert.equal(auth.browser_workflow_successor.installed_git_blob_sha,'0aded293ae69be3844c73f6613f0a70b05320156');
+  assert.equal(auth.browser_workflow_successor.installed_git_blob_sha,'e44cb9caf5fc61c83ad254f7b829977245abec49');
   assert.equal(auth.browser_workflow_successor.guarded_run_id,B105);
   assert.equal(auth.browser_workflow_successor.normalized_dom_sha256,B105_DIGEST);
   assert.equal(workflow.split(pair).length-1,2,'B105 run/digest pair must exist in exactly both workflow digest maps');

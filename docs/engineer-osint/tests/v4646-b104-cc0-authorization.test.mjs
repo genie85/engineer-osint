@@ -27,7 +27,7 @@ const exactWorkflowSuccessorSha='cb7e4d186ff3a79675ace8c48754317ffdede233';
 const b105RunId='engineer-osint-20260904-B105';
 const b105CanonicalSha='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
 const b105Digest='25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7';
-const exactB105WorkflowSuccessorSha='0aded293ae69be3844c73f6613f0a70b05320156';
+const exactB105WorkflowSuccessorSha='e44cb9caf5fc61c83ad254f7b829977245abec49';
 const expectedCards=['ENG-TECH-0045','ENG-TECH-0048','ENG-TECH-0049'];
 const expectedVisuals=['ENG-VIS-LOCAL-0045','ENG-VIS-LOCAL-0048','ENG-VIS-LOCAL-0049'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');

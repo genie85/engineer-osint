@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4683A_V4682A_LIFECYCLE_SELF_PIN_CORRECTION_AUTHORIZATION.json`,'utf8'));
 const repair=JSON.parse(readFileSync(`${root}/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json`,'utf8'));
-const correctedPostwriteV4682aSuccessor='00e15a66c6c6e12e71ea61d2fe6e1ddef2e52fb4';
+const correctedPostwriteV4682aSuccessor='a62d8bdcde93351de7698a063208d88fa1c6ee63';
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');
   return createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`),bytes])).digest('hex');

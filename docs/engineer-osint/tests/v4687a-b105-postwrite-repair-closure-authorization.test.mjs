@@ -42,7 +42,7 @@ test('v4.6.87a preserves V4686A and admits only exact atomic source, V4687A succ
   const observed=auth.compatibility_guard_targets.map(target=>gitBlobSha(readFileSync(target.path)));
   const sourcePair=auth.compatibility_guard_targets.map(target=>target.source_git_blob_sha);
   const v4687aPair=auth.compatibility_guard_targets.map(target=>target.successor_git_blob_sha);
-  const correctedPair=['d3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e','090a0b41cd9ca3c42efd216569aaa698f37f80c0'];
+  const correctedPair=['a6234a0be19d4ebbfaf212e0b4750f298132fd85','29e59f245b0e795b7f2df8a0708771a2d7668265'];
   assert.ok([sourcePair,v4687aPair,correctedPair].some(pair=>observed.every((blob,index)=>blob===pair[index])),'compatibility guards must be one exact authorized atomic pair');
 });
 

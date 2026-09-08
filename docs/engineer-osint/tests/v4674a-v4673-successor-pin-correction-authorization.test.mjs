@@ -15,8 +15,8 @@ const correctedB105GuardSuccessors=new Map([
   [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'4f7d1c980a426bdec50afeb7dbeff34c78d1c9ec']
 ]);
 const correctedPostwriteGuardSuccessors=new Map([
-  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'c62af7e855930f67b5f4ec3e656261275dfacd4a'],
-  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'2778f959bafa46e0ebcff8db25557615807a9e90']
+  [`${root}/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs`,'0f503e8a3393ca116b955e45b7f896ff83d78589'],
+  [`${root}/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs`,'e2fda7495906fa2587566835b21dd6abcc00bcee']
 ]);
 const gitBlobSha=value=>{
   const bytes=Buffer.isBuffer(value)?value:Buffer.from(value,'utf8');

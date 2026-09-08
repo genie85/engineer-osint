@@ -8,7 +8,7 @@ const authText=readFileSync(`${root}/V4663_V4566_B105_SELF_SUCCESSOR_AUTHORIZATI
 const auth=JSON.parse(authText);
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const source='a74bdbbf767cdc986862da828ee394cfc09b3334';
-const successor='1b889cd96fb1a057dc374af269a44601bf920444';
+const successor='e7efa6f7c3c1cc94696299d3e1067b1227fea191';
 
 test('v4.6.63 pins the exact failed B105 retry and current reviewed main',()=>{
   assert.equal(gitBlobSha(authText),'4055a24660602d9a42d81fa80e283fe3810402ae');
