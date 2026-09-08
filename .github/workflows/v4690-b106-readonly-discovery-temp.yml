@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/v4690-b106-readonly-discovery-temp.yml
       - docs/engineer-osint/v4690-b106-readonly-discovery.mjs
+      - docs/engineer-osint/v4690-b106-projected-test-probe.mjs
 
 permissions:
   contents: read
@@ -14,7 +15,7 @@ permissions:
 jobs:
   discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - name: Checkout exact discovery branch
         uses: actions/checkout@v5
@@ -33,11 +34,14 @@ jobs:
           BASE=4b34bde2e3f19005c3d3394534c9b46054a547f4
           git merge-base --is-ancestor "$BASE" HEAD
           actual="$(git diff --name-only "$BASE"...HEAD | sort)"
-          expected="$(printf '%s\n' '.github/workflows/v4690-b106-readonly-discovery-temp.yml' 'docs/engineer-osint/v4690-b106-readonly-discovery.mjs' | sort)"
+          expected="$(printf '%s\n' '.github/workflows/v4690-b106-readonly-discovery-temp.yml' 'docs/engineer-osint/v4690-b106-readonly-discovery.mjs' 'docs/engineer-osint/v4690-b106-projected-test-probe.mjs' | sort)"
           test "$actual" = "$expected"
 
       - name: Recompute B106 against actual canonical B105 without authoritative writes
         run: env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-readonly-discovery.mjs
+
+      - name: Probe complete projected B106 P0/P1 compatibility surface
+        run: env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-projected-test-probe.mjs
 
       - name: Assert repository remained read-only
         shell: bash
