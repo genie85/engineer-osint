@@ -1,0 +1,85 @@
+{
+  "schema_version": "engineer-osint-v4698-browser-i18n-key-normalization-authorization-v1",
+  "status": "READY_FOR_SEPARATE_IMPLEMENTATION",
+  "reviewed_on": "2026-09-08",
+  "reviewed_main_sha": "8faef3e4c907b96a44d97e98d6aefed4837ca4ec",
+  "reviewed_main_tree_sha": "311c21b7a6c671086fbc7d567fa3ca753acb67b7",
+  "canonical_precondition": {
+    "current_run_id": "engineer-osint-20260904-B105",
+    "current_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "b105_must_remain_canonical": true,
+    "b106_execution_forbidden_in_this_slice": true
+  },
+  "production_failure": {
+    "postmerge_main_sha": "8faef3e4c907b96a44d97e98d6aefed4837ca4ec",
+    "workflow_run_id": 34256195709,
+    "green_pr_artifact_id": 10067892732,
+    "red_postmerge_artifact_id": 10068022875,
+    "green_normalized_dom_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "red_normalized_dom_sha256": "859db6d9aabdcad2af203e9400a8c24e7832b4b224538249b160cf6c041563eb",
+    "normalized_dom_difference_count": 1,
+    "isolated_difference": {
+      "kind": "ATTRIBUTE_INSERTION_ONLY",
+      "inserted_bytes": 34,
+      "attribute": "data-i18n-key=\"Intelligence gaps\"",
+      "element_text_green": "Informační mezery",
+      "element_text_red": "Informační mezery",
+      "semantic_text_changed": false
+    }
+  },
+  "root_cause": {
+    "runtime_file": "docs/engineer-osint/ui-phase6-i18n.js",
+    "mechanism": "translateStatic() assigns el.dataset.i18nKey when a translatable leaf is decorated; MutationObserver queueing can decorate the dynamically rendered Intelligence gaps heading before or after headless DOM capture.",
+    "classification": "HEADLESS_CAPTURE_I18N_BOOKKEEPING_RACE",
+    "canonical_content_drift": false,
+    "runtime_semantic_content_drift": false
+  },
+  "authorized_successor": {
+    "target_path": ".github/workflows/identity-fix-retirement-regression.yml",
+    "source_git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "successor_git_blob_sha": "47aeb40ee8362695bf6aa8499a6dea39bffd87d1",
+    "successor_materialized_as_unreferenced_git_blob": true,
+    "successor_read_back_verified": true,
+    "normalization_change": "remove exactly whitespace-prefixed data-i18n-key=\"Intelligence gaps\" before whitespace collapse and digest",
+    "expected_b105_browser_sha256_unchanged": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7"
+  },
+  "deterministic_simulation": {
+    "green_fixture_attribute_removals": 0,
+    "green_fixture_result_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "red_fixture_attribute_removals": 1,
+    "red_fixture_result_sha256": "25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7",
+    "all_data_i18n_key_stripping_rejected_as_overbroad": true,
+    "all_data_i18n_key_stripping_result_sha256": "3529d08b61a34762ee5f196bc7ac0aee2f69340208ed50b41b78b8e97a94690c",
+    "stable_green_data_i18n_key_attribute_count": 24,
+    "red_data_i18n_key_attribute_count": 25
+  },
+  "safety_boundary": {
+    "expected_browser_digest_edit_authorized": false,
+    "canonical_data_edit_authorized": false,
+    "run_store_manifest_edit_authorized": false,
+    "run_append_authorized": false,
+    "runtime_i18n_module_edit_authorized": false,
+    "historical_authorization_edit_authorized": false,
+    "arbitrary_text_drift_normalization_authorized": false,
+    "all_i18n_metadata_stripping_authorized": false,
+    "prompt_or_executor_edit_authorized": false
+  },
+  "implementation_requirements": {
+    "authorization_must_merge_before_implementation": true,
+    "one_active_write_slice": true,
+    "fresh_main_collision_gate_required": true,
+    "exact_source_blob_required": "0aded293ae69be3844c73f6613f0a70b05320156",
+    "exact_successor_blob_required": "47aeb40ee8362695bf6aa8499a6dea39bffd87d1",
+    "full_exact_head_ci_required": true,
+    "fresh_green_gate_before_merge": true,
+    "expected_head_sha_required": true,
+    "postmerge_final_identity_green_required": true,
+    "b106_recovery_must_wait_for_postmerge_green": true
+  },
+  "execution_state": {
+    "workflow_implementation_performed": false,
+    "canonical_write_performed": false,
+    "run_store_write_performed": false,
+    "b106_execution_performed": false
+  }
+}
