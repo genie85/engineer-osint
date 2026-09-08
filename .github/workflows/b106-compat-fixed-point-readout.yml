@@ -1,0 +1,40 @@
+name: ENGINEER OSINT B106 compatibility fixed-point readout
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/engineer-osint/tests/v4693-b106-compat-fixed-point-readout.test.mjs'
+      - '.github/workflows/b106-compat-fixed-point-readout.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact diagnostic state
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - name: Capture deterministic fixed-point test output
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test docs/engineer-osint/tests/v4693-b106-compat-fixed-point-readout.test.mjs 2>&1 | tee /tmp/v4693-b106-fixed-point.log
+
+      - name: Upload read-only fixed-point evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: v4693-b106-fixed-point-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          path: /tmp/v4693-b106-fixed-point.log
