@@ -16,7 +16,7 @@ test('v4.6.99 stability module parses and runs immediately after the V4 public r
 });
 
 test('v4.6.99 stabilizes only the existing V4-owned public DOM boundary',()=>{
-  assert.match(src,/\[data-v4-public=\\"1\\"\]/);
+  assert.match(src,/\[data-v4-public="1"\]/);
   assert.match(src,/querySelectorAll\('\[data-i18n-key\]'\)/);
   assert.match(src,/removeAttribute\('data-i18n-key'\)/);
   assert.match(src,/attributeFilter:\['data-i18n-key'\]/);
