@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   materialize-targets:
@@ -23,11 +23,15 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '24'
-      - name: Materialize exact B106 compatibility targets read-only
+      - name: Materialize exact unreachable Git blobs and candidate tree
+        env:
+          V4694_GIT_OBJECT_MATERIALIZE: '1'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node docs/engineer-osint/tools/v4694-b106-compat-target-materializer.mjs
-      - name: Upload exact target artifact
+      - name: Upload exact target and read-back evidence artifact
         uses: actions/upload-artifact@v7
         with:
           name: v4694-b106-compat-targets-${{ github.run_id }}-${{ github.run_attempt }}
           if-no-files-found: error
+          include-hidden-files: true
           path: /tmp/v4694-b106-compat-targets
