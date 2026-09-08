@@ -14,8 +14,8 @@ const lifecycleSuccessorPath=`${root}/photo-review-candidates/v4690-b106-v4588-l
 const runId='engineer-osint-20260904-B106';
 const parentRun='engineer-osint-20260904-B105';
 const parentCanonical='a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9';
-const resultingCanonical='9d7b818412b0d94724dc24a8212180b95046d290c872f349a61cc9681e835bcd';
-const expectedCandidateSha256='09aeb6938aaa73955d07152152f2b304f8d7676384fa5ff1c9da242b40054db0';
+const resultingCanonical='9d7b8184a9c1d8d6e05ce44c2e13261b175d5565411fda5a983de8d8f9a514c2';
+const expectedCandidateSha256='09aeb6934bf47596a473c20a029b51cd54ad0b785e5a2dae1b11c21e05f5add4';
 const expectedSuccessorGitBlob='87205d41d6169d9ef646fd7dcbc6c912366ca36c';
 const sha256=v=>createHash('sha256').update(v).digest('hex');
 const gitBlob=v=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${v.length}\0`),v])).digest('hex');
