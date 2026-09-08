@@ -1,0 +1,46 @@
+name: ENGINEER OSINT V4690 B106 read-only discovery
+
+on:
+  push:
+    branches:
+      - agent/v4690-b106-readonly-discovery
+    paths:
+      - .github/workflows/v4690-b106-readonly-discovery-temp.yml
+      - docs/engineer-osint/v4690-b106-readonly-discovery.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact discovery branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify exact B105 main ancestry and isolated discovery diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=4b34bde2e3f19005c3d3394534c9b46054a547f4
+          git merge-base --is-ancestor "$BASE" HEAD
+          actual="$(git diff --name-only "$BASE"...HEAD | sort)"
+          expected="$(printf '%s\n' '.github/workflows/v4690-b106-readonly-discovery-temp.yml' 'docs/engineer-osint/v4690-b106-readonly-discovery.mjs' | sort)"
+          test "$actual" = "$expected"
+
+      - name: Recompute B106 against actual canonical B105 without authoritative writes
+        run: env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-readonly-discovery.mjs
+
+      - name: Assert repository remained read-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain=v1)"
