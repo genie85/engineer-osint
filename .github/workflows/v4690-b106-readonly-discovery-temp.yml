@@ -40,8 +40,12 @@ jobs:
       - name: Recompute B106 against actual canonical B105 without authoritative writes
         run: env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-readonly-discovery.mjs
 
-      - name: Probe complete projected B106 P0/P1 compatibility surface
-        run: env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-projected-test-probe.mjs
+      - name: Emit compact projected B106 P0/P1 compatibility closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          env -u GITHUB_SHA node docs/engineer-osint/v4690-b106-projected-test-probe.mjs > /tmp/v4690-b106-probe.log 2>&1
+          grep -E '^(V4690_B106_PROJECTED_TEST_COUNT|V4690_B106_PROJECTED_TEST_EXIT|not ok [0-9]+ - |V4690_B106_PROJECTED_P0P1)' /tmp/v4690-b106-probe.log
 
       - name: Assert repository remained read-only
         shell: bash
