@@ -11,6 +11,7 @@ const helperSourceSha='c7527860a5f175000b634a25d170698d70569b53';
 const helperSuccessorSha='8c029f4fcf2e969b02887b5d4d5e46a6625948bc';
 const b106DomSha='52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c';
 const reviewedMain='98e8b80e614defc5cd4f2a6ddcdd45032c4c2f6d';
+const reviewedMainTree='5315dbad00ce56187a797204338f86be6d856360';
 const outRoot=process.env.V4694_OUT_ROOT||'/tmp/v4694-b106-compat-targets';
 
 const gitBlobSha=value=>{
@@ -74,6 +75,16 @@ function fixedPoint(sourceTexts,roots){
   assert.ok(count<64,'fixed point did not converge');
   return {paths,sourceShas,texts,shas,iterations:count+1};
 }
+async function gh(path,{method='GET',body}={}){
+  const token=process.env.GITHUB_TOKEN;
+  assert.ok(token,'GITHUB_TOKEN missing for Git-object materialization');
+  const repo=process.env.GITHUB_REPOSITORY;
+  assert.ok(repo,'GITHUB_REPOSITORY missing');
+  const r=await fetch(`https://api.github.com/repos/${repo}${path}`,{method,headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+  const text=await r.text();
+  if(!r.ok)throw new Error(`GitHub API ${method} ${path} failed ${r.status}: ${text}`);
+  return text?JSON.parse(text):{};
+}
 
 const testPaths=walk('docs/engineer-osint/tests').filter(path=>path.endsWith('.mjs')).sort();
 const sourceTexts=new Map([[workflowPath,readFileSync(workflowPath,'utf8')],...testPaths.map(path=>[path,readFileSync(path,'utf8')])]);
@@ -92,7 +103,27 @@ for(const node of nodes){
   mkdirSync(dirname(out),{recursive:true});
   writeFileSync(out,text,'utf8');
 }
-const manifest={schema_version:'engineer-osint-v4694-b106-compat-target-materialization-v1',status:'PASS_NON_AUTHORITATIVE_TARGET_MATERIALIZATION',reviewed_main_sha:reviewedMain,b106_normalized_dom_sha256:b106DomSha,successor_count:nodes.length,fixed_point_iterations:fp.iterations,workflow_successor_sha:workflowSuccessorSha,helper_successor_sha:helperSuccessorSha,nodes,authoritative_write_performed:false,canonical_or_run_store_write_performed:false};
+const manifest={schema_version:'engineer-osint-v4694-b106-compat-target-materialization-v2',status:'PASS_NON_AUTHORITATIVE_TARGET_MATERIALIZATION',reviewed_main_sha:reviewedMain,reviewed_main_tree_sha:reviewedMainTree,b106_normalized_dom_sha256:b106DomSha,successor_count:nodes.length,fixed_point_iterations:fp.iterations,workflow_successor_sha:workflowSuccessorSha,helper_successor_sha:helperSuccessorSha,nodes,git_objects_materialized:false,candidate_tree_sha:null,authoritative_write_performed:false,canonical_or_run_store_write_performed:false,ref_update_performed:false};
+if(process.env.V4694_GIT_OBJECT_MATERIALIZE==='1'){
+  const current=await gh(`/git/commits/${reviewedMain}`);
+  assert.equal(current.tree.sha,reviewedMainTree,'reviewed main tree drifted');
+  for(const node of nodes){
+    const content=fp.texts.get(node.path);
+    const created=await gh('/git/blobs',{method:'POST',body:{content,encoding:'utf-8'}});
+    assert.equal(created.sha,node.successor_sha,`${node.path}: materialized blob SHA mismatch`);
+    const readback=await gh(`/git/blobs/${node.successor_sha}`);
+    assert.equal(readback.sha,node.successor_sha,`${node.path}: blob read-back SHA mismatch`);
+    const decoded=Buffer.from(readback.content.replace(/\n/g,''),'base64');
+    assert.equal(gitBlobSha(decoded),node.successor_sha,`${node.path}: blob read-back content mismatch`);
+  }
+  const tree=await gh('/git/trees',{method:'POST',body:{base_tree:reviewedMainTree,tree:nodes.map(node=>({path:node.path,mode:'100644',type:'blob',sha:node.successor_sha}))}});
+  assert.ok(tree.sha,'candidate tree SHA missing');
+  const readTree=await gh(`/git/trees/${tree.sha}?recursive=1`);
+  const byPath=new Map(readTree.tree.map(x=>[x.path,x]));
+  for(const node of nodes)assert.equal(byPath.get(node.path)?.sha,node.successor_sha,`${node.path}: candidate tree read-back mismatch`);
+  manifest.git_objects_materialized=true;
+  manifest.candidate_tree_sha=tree.sha;
+}
 mkdirSync(outRoot,{recursive:true});
 writeFileSync(join(outRoot,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
-console.log(`V4694_B106_TARGET_MATERIALIZATION PASS successors=${nodes.length} iterations=${fp.iterations}`);
+console.log(`V4694_B106_TARGET_MATERIALIZATION PASS successors=${nodes.length} iterations=${fp.iterations} git_objects=${manifest.git_objects_materialized} candidate_tree=${manifest.candidate_tree_sha??'NONE'}`);
