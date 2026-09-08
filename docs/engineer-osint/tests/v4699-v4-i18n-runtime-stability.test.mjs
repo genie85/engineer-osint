@@ -15,12 +15,20 @@ test('v4.6.99 stability module parses and runs immediately after the V4 public r
   assert.ok(v4>=0&&stable>v4&&v41>stable);
 });
 
+test('v4.6.99 is exact-B105-only and remains inert for historical B103/B104 browser proofs',()=>{
+  assert.match(src,/engineer-osint-20260904-B105/);
+  assert.match(src,/currentRun\(\)===exactRun/);
+  assert.match(src,/dashboard_materialization\?\.current_run_id/);
+  assert.match(src,/__ENGINEER_CANONICAL_DATA__/);
+  assert.match(src,/__ENGINEER_DATA__/);
+  assert.doesNotMatch(src,/__ENGINEER_(?:CANONICAL_)?DATA__\s*=/);
+});
+
 test('v4.6.99 stabilizes only the existing V4-owned public DOM boundary',()=>{
   assert.match(src,/\[data-v4-public="1"\]/);
   assert.match(src,/querySelectorAll\('\[data-i18n-key\]'\)/);
   assert.match(src,/removeAttribute\('data-i18n-key'\)/);
   assert.match(src,/attributeFilter:\['data-i18n-key'\]/);
-  assert.doesNotMatch(src,/__ENGINEER_(?:CANONICAL_)?DATA__/);
   assert.doesNotMatch(src,/run-store|canonical_write|run_appended/i);
 });
 
