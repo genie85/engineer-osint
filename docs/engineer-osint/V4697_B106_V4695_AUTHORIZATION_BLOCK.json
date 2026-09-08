@@ -1,0 +1,69 @@
+{
+  "schema_version": "engineer-osint-v4697-b106-v4695-authorization-block-v1",
+  "status": "BLOCKED_INCOMPLETE_SEMANTIC_CLOSURE",
+  "reviewed_on": "2026-09-08",
+  "reviewed_main_sha": "33daaf9caf737663d4e800ebeba79fa4548e378d",
+  "canonical_precondition": {
+    "current_run_id": "engineer-osint-20260904-B105",
+    "current_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "b105_must_remain_canonical": true
+  },
+  "blocked_authorization": {
+    "path": "docs/engineer-osint/V4695_B106_BROWSER_COMPATIBILITY_AUTHORIZATION.json",
+    "git_blob_sha": "cdf0836911f57a46754862c29ed866e9012c667f",
+    "historical_status": "READY_FOR_IMPLEMENTATION",
+    "historical_evidence_remains_immutable": true,
+    "implementation_permission_superseded": true,
+    "must_not_be_used_for_future_implementation": true
+  },
+  "deterministic_red_evidence": {
+    "implementation_pr": 457,
+    "implementation_pr_closed_unmerged": true,
+    "exact_head_sha": "7c2ee6e3763a0b36a184b88bff5be686086c0905",
+    "exact_tree_sha": "1714035e9c21823f61b59f4afa7c447e462ec475",
+    "final_identity_workflow_run_id": 34254552438,
+    "final_identity_workflow_job_id": 102156931742,
+    "workflow_conclusion": "failure",
+    "test_total": 656,
+    "test_pass": 636,
+    "test_fail": 17,
+    "test_skip": 3,
+    "failure_class": "DETERMINISTIC_EXACT_LIFECYCLE_SEMANTIC_CLOSURE"
+  },
+  "root_causes": [
+    "The v4.6.93 fixed-point derivation propagated exact Git SHA dependencies with global textual replacement. That was hash-deterministic but semantically rewrote historical authorization identities and B105/B104 reduction anchors that must remain immutable.",
+    "The v4.6.95 authorization regression test was created after preauthorization materialization and was not included in the 35-file closure. It requires the source vector after installation and therefore rejects the exact successor state it authorized."
+  ],
+  "repository_self_consistency_evidence": {
+    "v4695_exact_target_count": 35,
+    "v4695_authorization_guard_path": "docs/engineer-osint/tests/v4695-b106-browser-compatibility-authorization.test.mjs",
+    "v4695_authorization_guard_in_exact_target_vector": false,
+    "v4695_guard_requires_source_sha_for_each_target": true
+  },
+  "required_recovery": {
+    "fresh_semantic_dependency_closure_materialization_required": true,
+    "preserve_immutable_historical_authorization_identities": true,
+    "model_exact_b106_descendants_separately": true,
+    "authorization_guard_must_be_included_in_final_state_simulation": true,
+    "full_p0_p1_must_pass_against_exact_materialized_final_candidate_tree_before_new_authorization": true,
+    "all_future_successor_git_objects_must_be_materialized_and_read_back_verified_before_new_authorization": true,
+    "new_separate_authorization_required": true,
+    "new_separate_implementation_required": true,
+    "postmerge_green_required_before_b106_canonical_authorization": true
+  },
+  "forbidden": {
+    "retry_v4695_exact_35_file_vector": true,
+    "reuse_pr457_red_head_as_implementation": true,
+    "manual_canonical_or_run_store_write": true,
+    "b106_canonical_execution": true,
+    "prompt_or_executor_change_in_this_slice": true,
+    "historical_v4695_mutation": true,
+    "wildcard_or_unknown_descendant_acceptance": true
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_store_write_performed": false,
+    "b106_execution_performed": false,
+    "replacement_authorization_created": false
+  }
+}
