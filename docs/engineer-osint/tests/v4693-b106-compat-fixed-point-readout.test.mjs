@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 
 const workflowPath='.github/workflows/identity-fix-retirement-regression.yml';
@@ -110,6 +110,8 @@ test('v4.6.93 derives the exact B106 compatibility successor fixed point without
     return {path,kind:roots.has(path)?'ROOT_SUCCESSOR':'TRANSITIVE_EXACT_HASH_SUCCESSOR',source_sha:fp.sourceShas.get(path),successor_sha:fp.targetShas.get(path),replacements};
   });
   const report={schema_version:'engineer-osint-v4693-b106-compat-fixed-point-readout-v1',status:'PASS_READ_ONLY',reviewed_main_sha:'98e8b80e614defc5cd4f2a6ddcdd45032c4c2f6d',workflow_successor_sha:workflowSuccessorSha,helper_successor_sha:fp.targetShas.get(helperPath),b106_normalized_dom_sha256:b106DomSha,successor_count:changed.length,fixed_point_iterations:fp.iterations,nodes,authoritative_write_performed:false,canonical_or_run_store_write_performed:false};
+  const materialization={...report,target_files:changed.map(path=>({path,successor_sha:fp.targetShas.get(path),content_base64:Buffer.from(fp.targetTexts.get(path),'utf8').toString('base64')}))};
+  writeFileSync('/tmp/v4693-b106-fixed-point.json',JSON.stringify(materialization));
   console.log(`::notice title=V4693_B106_FIXED_POINT::${JSON.stringify(report)}`);
   console.log(`V4693_B106_FIXED_POINT PASS successors=${changed.length} iterations=${fp.iterations} helper=${fp.targetShas.get(helperPath)}`);
 });
