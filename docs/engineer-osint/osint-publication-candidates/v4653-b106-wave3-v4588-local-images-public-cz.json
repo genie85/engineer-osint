@@ -1,0 +1,135 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260904-B106",
+    "parent_run_id": "engineer-osint-20260904-B105",
+    "status": "SUCCESS",
+    "window_from": "2026-09-04T18:45:03+02:00",
+    "window_to": "2026-09-04T18:45:04+02:00",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 2,
+      "NEW": 0,
+      "UPDATE": 2,
+      "CONFIRMATION": 2,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 0,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 0,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 2,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE",
+    "reviewed_main_sha": "58a2cb5547d9b8292056cddf1fb1cde0d245e8e4",
+    "reviewed_parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+    "source_acquisition_batch": "v4.6.52",
+    "source_acquisition_path": "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json",
+    "lifecycle_source_path": "docs/engineer-osint/photo-review-batches/v4588.json",
+    "lifecycle_successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b106-v4588-local-image-status.json",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "scope": "EXACT_2_REPOSITORY_LOCAL_LICENSED_IMAGES_ONLY"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 2
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-TECH-0038",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0038"
+      ]
+    },
+    {
+      "id": "ENG-TECH-0041",
+      "visual_ids": [
+        "ENG-VIS-LOCAL-0041"
+      ]
+    }
+  ],
+  "sources": [],
+  "relations": [],
+  "evidence": [],
+  "visuals": [
+    {
+      "asset_id": "ENG-VIS-LOCAL-0038",
+      "id": "ENG-VIS-LOCAL-0038",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "DOK-ING MV-10 — heavy remotely controlled mechanized demining system in Ukraine — repository-local licensed image",
+      "title_cs": "DOK-ING MV-10 — těžký dálkově řízený systém mechanizovaného odminování na Ukrajině — licencovaný obrázek uložený v repozitáři",
+      "related_ids": [
+        "ENG-TECH-0038"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0038-mv-10.webp",
+      "sha256": "7113afc3b4ddfbdb466bc509191747659012705cb6833cdd8cc5ff525cbf9caa",
+      "source_sha256": "b7eaab69ad4d70f2da1dc1bd6d01cf83b7f2ff1a38d9142f0d734c153b91e1df",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:UA-made_MV-10_01.jpg",
+      "source_title": "UA-made MV-10 01.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_OFFICIAL_UKRAINIAN_PROVENANCE",
+      "author_rightsholder": "Міністерство економіки України",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution_requirement": "Credit Міністерство економіки України, identify the Wikimedia Commons source, link the CC BY 4.0 licence, and indicate modifications.",
+      "identity_evidence": "The Wikimedia Commons file explicitly describes the image as a localized A3tech unmanned demining machine MV-10, dates it 13 June 2024, and traces it to archived Ministry of Economy of Ukraine news pages. The current Ukrainian state certification list independently identifies MV-10 as a remote-controlled/heavy-duty robotic demining system, supporting exact platform identity without visual-only inference.",
+      "license_evidence": "The Commons file page explicitly licenses the exact photograph under Creative Commons Attribution 4.0 International, identifies the Ministry of Economy of Ukraine as author, and preserves official Ukrainian source provenance. This satisfies the open-licence provenance threshold for READY_FOR_IMPORT; the binary is not yet stored in the repository.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-04",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    },
+    {
+      "asset_id": "ENG-VIS-LOCAL-0041",
+      "id": "ENG-VIS-LOCAL-0041",
+      "asset_type": "LOCAL_IMAGE",
+      "title": "Uran-6 — public state-export technical profile of a remotely controlled demining UGV — repository-local licensed image",
+      "title_cs": "Uran-6 — veřejný státní exportní technický profil dálkově řízeného odminovacího UGV — licencovaný obrázek uložený v repozitáři",
+      "related_ids": [
+        "ENG-TECH-0041"
+      ],
+      "local_image_path": "assets/photos/eng-tech-0041-uran-6.webp",
+      "sha256": "debf811805bbd54cd8bf4eb6aa6978c5b1a5dc78669e1a99b2e087759d035797",
+      "source_sha256": "8afbf76953e0565805c249140e7b330def958379cc4b23e4b65ed434e4052cb5",
+      "origin_url": "https://commons.wikimedia.org/wiki/File:Uran-6.jpg",
+      "source_title": "Uran-6.jpg",
+      "source_type": "WIKIMEDIA_COMMONS_WITH_RUSSIAN_MOD_PROVENANCE",
+      "author_rightsholder": "Ministry of Defence of the Russian Federation; attribution Mil.ru",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution_requirement": "Credit Ministry of Defence of the Russian Federation / Mil.ru, identify the Wikimedia Commons source, link the CC BY 4.0 licence, and indicate modifications.",
+      "identity_evidence": "The Commons file page explicitly identifies the system as Uran-6 and describes it in an engineer-unit exercise context. It records the original source as the Russian Ministry of Defence multimedia gallery and the author as the Ministry of Defence of the Russian Federation. Commons also maintains a dedicated Uran-6 category identifying the platform as a demining robot, so the identity is source-explicit rather than inferred from appearance.",
+      "license_evidence": "The exact Commons file page states that the Russian Ministry of Defence image is licensed under Creative Commons Attribution 4.0 and requires attribution to Mil.ru. The file page supplies the original military source, author and explicit CC BY 4.0 terms, satisfying the READY_FOR_IMPORT licence/provenance contract while no repository binary is yet claimed.",
+      "reviewed_at": "2026-09-01",
+      "acquired_at": "2026-09-04",
+      "modifications": "EXIF orientation normalized; resized only if long edge >1600 px; WebP quality 82 with Pillow 11.3.0, method 6, exact=True; no crop, no upscale and no editorial alteration.",
+      "verification_status": "LICENSE_AND_IDENTITY_VERIFIED_LOCAL_BINARY_SHA256_PINNED"
+    }
+  ],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "mode": "LOCAL_IMAGE_CANONICAL_LINKAGE_CANDIDATE_DRY_RUN_ONLY",
+    "multimedia_status": "COMPLETE_WITH_CANONICAL_MEDIA_ADDITION",
+    "local_image_count": 2,
+    "canonical_write_performed": false,
+    "photo_review_status_successor_applied": false,
+    "requires_separate_authorization_and_execution": true
+  }
+}
