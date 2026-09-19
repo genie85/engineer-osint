@@ -1,12 +1,12 @@
+import {historicalWorkflowNames as historicalWorkflowSurface} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync} from 'node:fs';
 import {assertActiveProtectionCurrentOrV4557,assertV4556Applied,gitBlobSha,v4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json`,'utf8'));
 const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
-const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.56 consumes exactly the two v4.5.55 authorized historical anchors',()=>{
   assert.equal(v4556.reviewed_main_sha,'a3d6caf23b00a15a011ef5a1b954c900b006b844');

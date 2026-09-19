@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "engineer.guard-workflow-addition.v2",
+  "basisRequest": "20260919T182642Z-bff9f7dde2",
+  "reviewedBase": "ca19dee75b96a8360fd7457640ee793d6f7ee57f",
+  "reviewedGuardHead": "1ab473e8373ee15288f64c823bba29926d2d055c",
+  "status": "LOCAL_PROPOSAL_NOT_ACTIVATED",
+  "bootstrapSelfAuthorization": false,
+  "authorization": {
+    "canonicalExecution": false,
+    "mergeAuthorized": false,
+    "deployAuthorized": false,
+    "wildcardSuccessors": false
+  },
+  "baseWorkflows": [
+    {
+      "path": ".github/workflows/authorized-canonical-executor.yml",
+      "gitBlob": "682f28fa04233916ba73da433e9e57d4ea2c7ff4"
+    },
+    {
+      "path": ".github/workflows/first-three-overlay-retirement-regression.yml",
+      "gitBlob": "a0a1586824981f3154c78e24656d3cd19e1d7609"
+    },
+    {
+      "path": ".github/workflows/i18n-switch-regression.yml",
+      "gitBlob": "c616f37d870b93b428f652a284a3dc5de13df609"
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-authorization.yml",
+      "gitBlob": "3677ce503119901bdf763698e78884733c49daf0"
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-readiness.yml",
+      "gitBlob": "1eeb1dfbbef509b288aa0aaff703dcf91ecb4239"
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-regression.yml",
+      "gitBlob": "0aded293ae69be3844c73f6613f0a70b05320156"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "gitBlob": "47102c7d9481beaeedbdf03532ffaad72675af43"
+    },
+    {
+      "path": ".github/workflows/runtime-audit-snapshot.yml",
+      "gitBlob": "9cffd58764aa5ed02aa11dcbe7745772077f06c7"
+    }
+  ],
+  "guardArtifacts": [
+    {
+      "path": ".github/workflows/safe-automerge-dry-run.yml",
+      "gitBlob": "748298da14649d68457f74cfd3037dc9a674ab14"
+    },
+    {
+      "path": "tools/safe_automerge.py",
+      "gitBlob": "6c98d05067a1901fd7db697a524722fac47bda3a"
+    },
+    {
+      "path": "tools/safe-automerge-policy.json",
+      "gitBlob": "2dd24c66c07591081f04170562d30a2124a64a82"
+    }
+  ],
+  "exactSuccessors": [
+    {
+      "path": "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
+      "sourceGitBlob": "49a394ef9d21fa39fb9615e40647106631453ca0",
+      "successorGitBlob": "af5e5cebf1c96dc6368e1ee7f38c168d6c603e6c"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+      "sourceGitBlob": "76c1f7b5d0f3a2e8817919dec79c990b109c9ef4",
+      "successorGitBlob": "4d8d6e8f5c90968941e1d014c83bad41afddb0ea"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4548-migration-workflow-classification.test.mjs",
+      "sourceGitBlob": "cb8aae9e8d5ef3ab721a4c8c64784914313adf0f",
+      "successorGitBlob": "dd8a6e33de7af3bd8524f1953b0cd92853c9eba4"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4550-one-shot-workflow-removal.test.mjs",
+      "sourceGitBlob": "3936d282fe60661e731e126459bcd6e16c16bc9e",
+      "successorGitBlob": "6688d21131f3a391e93046233d3f4593107d3f6b"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4551-readonly-migration-workflow-disposition.test.mjs",
+      "sourceGitBlob": "9839878689b21afcb36253d6d7fde4b8e50026ec",
+      "successorGitBlob": "a430ad177876077bb792a68c325a48576a24d4da"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4552-readonly-workflow-removal-authorization.test.mjs",
+      "sourceGitBlob": "889de4092ab2fdac22ed4a572745c562bc11e0b9",
+      "successorGitBlob": "50139337ecbdc8a463447e0418e927010b9f81ca"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4553-readonly-workflow-removal.test.mjs",
+      "sourceGitBlob": "e5319f4d2e67dd903ebc4b615b14695e62b846ba",
+      "successorGitBlob": "b5e0296a5c14a94188082f7ec2b23dccf15f2818"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4554-minimized-workflow-trigger-coverage.test.mjs",
+      "sourceGitBlob": "cb2db6966905393a93c85f770fa1a741db6a5cde",
+      "successorGitBlob": "77042822f69ddfe90ff6408249633ce9c68679e6"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4555-historical-trigger-manual-only-authorization.test.mjs",
+      "sourceGitBlob": "09b5486358d6187979b7238b57eae9c29d37d59f",
+      "successorGitBlob": "099704b2bbb76f0d1c3a167406069d072901faa3"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4556-historical-manual-only-execution.test.mjs",
+      "sourceGitBlob": "1f40621bec38bda233c6e10a3d1afebd6ec9bd30",
+      "successorGitBlob": "67fc51e8ac46951bce6bdbf12095f726bfe9a1b4"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
+import {historicalWorkflowNames as historicalWorkflowSurface} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const root='docs/engineer-osint';
 const policy=JSON.parse(readFileSync(`${root}/V4548_MIGRATION_WORKFLOW_CLASSIFICATION.json`,'utf8'));
@@ -11,7 +12,6 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const removedOneShots=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
 const removedReadOnly=['b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml','identity-fix-b99-candidate-readiness.yml','identity-fix-b99-mirror-sync-candidate-readiness.yml','identity-fix-readiness.yml','identity-mirror-parity-readiness.yml'];
 const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
-const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(name=>name.endsWith('.yml')&&name!==laterAuthorizedWorkflow).sort();
 const byClass=name=>policy.workflows.filter(item=>item.classification===name);
 
 test('v4.5.48 preserves its exact 18-workflow historical classification across authorized v4.5.50/v4.5.53 lifecycle',()=>{
