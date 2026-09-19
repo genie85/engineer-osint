@@ -1,54 +1,53 @@
-# Advisory safe-automerge dry-run
+# Trusted-base advisory classifier
 
-This is a deterministic diff classifier, not an auto-merger or a full QA receipt.
-Every result sets `mergeAuthorized=false`. `ELIGIBLE_FOR_REVIEW` only means the
-small allowlist matched. Two independent reviews and all relevant QA are still
-required. Labels, PR text and agent claims are not inputs.
+Every receipt is advisory and sets `mergeAuthorized=false`. This is not full QA,
+a review approval, an activated auto-merger or a signed permanent audit ledger.
 
-The initial allowlist is deliberately limited to single Markdown files under
-`docs/technical-notes/`. All other paths are BLOCK, including application code,
-tests, workflows, canonical/source data, permissions, credentials, license,
-visibility, publication, deletion and governance. Protected terms in changed
-content also BLOCK. Expansion of this allowlist requires a separately reviewed
-policy change; this bootstrap PR itself must BLOCK.
+The issuer workflow is `pull_request_target` from the base/default branch. It has
+only contents/read and pull-requests/read. It checks out **only github.sha (base)**
+and runs only the base helper/policy. There is no candidate-controlled shell or
+candidate unit-test job. No secrets or write permissions are supplied. Referenced
+Actions are pinned and checkout credentials are not persisted.
 
-The classifier checks the checkout, ordered integration parents, integration tree,
-policy digest, and fresh GitHub base/head/integration identities before and after
-classification. It requires the exact reviewed read-only canonical-execution
-stop-gate workflow on the base. Until that separate prerequisite lands, it BLOCKs.
-No classifier result authorizes the old privileged canonical executor.
+The helper reads fresh PR metadata, fetches passive head/integration Git objects
+from a fixed public repository, and never checks out/imports/executes those
+objects. Git diff disables external diff/textconv. The checked-out HEAD must stay
+on base. Both API reads must match base/head/integration; ordered integration
+parents, base helper bytes/policy and workflow commit identity are checked.
+Receipts carry trusted workflow/helper/policy Git blob identities, exact SHAs,
+policy digest, tree SHA, event, run/attempt and `mergeAuthorized=false`.
 
-The pull_request workflow runs unit tests in a read-only job. Classification is
-in another read-only job; its Python helper and policy are extracted from the
-exact PR base, never the candidate head. On the bootstrap PR the base has no
-trusted guard: the expected receipt is `BLOCK / BOOTSTRAP_TRUSTED_GUARD_MISSING`.
-The workflow itself is still PR-supplied during bootstrap, so its artifact is
-advisory and must never be accepted as an independent approval or merge authority.
-All referenced Actions are pinned to full commit SHAs. Checkout credentials are
-not persisted. There is no third-party secret, private token, write permission,
-merge command, deployment, or pull_request_target trigger.
+Consumers must verify those identities against GitHub run provenance, not trust
+JSON content or artifact names. A candidate can make a lookalike artifact from
+another workflow; it is not an issuer. `pull_request` artifacts must be rejected.
+Repository-wide concurrency is advisory only: cancelled/missing/stale receipts
+are BLOCK and cannot inherit a prior head's result. Owner writes are not locked.
 
-Repository-wide workflow concurrency prevents running these classification jobs
-simultaneously and does not cancel an active run. GitHub may supersede pending
-runs; a missing/cancelled receipt is BLOCK, never inherited from another head.
-This concurrency does not serialize unrelated workflows or owner writes. Fresh
-API reads do not provide an atomic base precondition for a future merge. That
-server-side enforcement and trusted independent review infrastructure are outside
-this draft and remain activation blockers.
+**Bootstrap is BLOCK.** Until this workflow/helper exist on the trusted base,
+there is no trusted target run and no authority to issue an eligible receipt.
+Do not manufacture a bootstrap receipt with candidate code. Local evaluation or
+absence of a trusted receipt must be recorded as BOOTSTRAP_TRUSTED_GUARD_MISSING.
+After a separately reviewed merge, a subsequent docs-only PR can exercise the
+base issuer; this task performs no push, PR, merge or activation.
 
-A completed dry-run workflow means an observation completed, not that the PR may
-merge. BLOCK returns zero only to preserve the advisory artifact; consumers must
-validate `decision`, `scope`, exact identity, provenance and `mergeAuthorized`.
-Retention is seven days. Artifacts can disappear and are not signed permanent
-audit records; this workflow must not be configured as a sufficient required
-merge check. API failure, dirty checkout, stale SHA, unknown/missing diff and
-unapproved base executor all produce BLOCK or an absent receipt.
+Only plain ASCII Markdown notes at `docs/technical-notes/<name>.md` are initially
+eligible for review. Unknown paths and any .github/helper/policy change BLOCK.
+Canonical/source data, political fields, governance, secrets/permissions,
+license/visibility, deployment/publication, billing and destructive changes BLOCK.
+Full before/after note blobs are scanned, not just changed fragments. HTML/entity
+syntax, non-ASCII Unicode, control characters and ambiguous encodings BLOCK;
+joined alphanumeric scanning detects whitespace/Markdown splitting. This purposely
+rejects some harmless notes (including accented text) rather than interpreting
+obfuscated content. Expanding the accepted language needs separate review.
 
-Local regression command (no installs):
+The base canonical executor must also match the exact read-only stop-gate hash
+pinned by policy. There is no automatic canonical execution or publication.
+Successor governance alignment and live GitHub validation remain prerequisites.
+
+Local tests, no install:
 
     PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/tests -p test_safe_automerge.py -v
 
-Rollback after any future separately approved merge: stop consuming advisory
-receipts; revert the draft workflow through normal reviewed Git. Never reactivate
-the privileged canonical executor as a rollback shortcut. This change does not
-alter Pages, repository settings, credentials or any live service.
+Local tests must be preceded by the task's disk gate. No candidate tests run in
+the issuer workflow. A BLOCK classification can finish successfully to preserve
+the artifact, so workflow success is never sufficient to allow merge.

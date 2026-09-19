@@ -42,14 +42,19 @@ def classify(changes, policy):
             reasons.append('PROTECTED_OR_UNKNOWN_PATH:' + path)
         if status not in {'A', 'M'} or item['mode'] != '100644':
             reasons.append('DESTRUCTIVE_OR_NONREGULAR:' + path)
-        if PROTECTED.search(patch) or 'Binary files ' in patch or 'GIT binary patch' in patch:
+        # The narrow notes allowlist accepts plain ASCII only. Ambiguous encodings
+        # and markup are BLOCK, not guessed. Scan joined letters across whitespace
+        # and Markdown punctuation as well as the original text.
+        joined = re.sub(r'[^a-z0-9]', '', patch.lower())
+        ambiguous = any(ord(c) > 126 or (ord(c) < 32 and c not in '\n\r\t') for c in patch) or any(c in patch for c in '<>&')
+        if ambiguous or PROTECTED.search(patch) or PROTECTED.search(joined) or 'Binary files ' in patch or 'GIT binary patch' in patch:
             reasons.append('PROTECTED_CONTENT_OR_BINARY:' + path)
     return {'decision': 'BLOCK' if reasons else 'ELIGIBLE_FOR_REVIEW',
             'mergeAuthorized': False, 'reasons': sorted(set(reasons))}
 
 
 def git(repo, *args):
-    return subprocess.check_output(['git', '-C', str(repo), *args], stderr=subprocess.PIPE)
+    return subprocess.check_output(['git', '-C', str(repo), *args], stderr=subprocess.PIPE, timeout=30)
 
 
 def evaluate(repo, identity, initial, final, policy):
@@ -64,6 +69,18 @@ def evaluate(repo, identity, initial, final, policy):
         if not all(isinstance(s, str) and SHA.fullmatch(s) for s in (b, h, i)):
             raise ValueError('INVALID_SHA')
         receipt.update(baseSha=b, headSha=h, integrationSha=i)
+        if identity.get('eventName') != 'pull_request_target' or identity.get('workflowSha') != b:
+            raise ValueError('UNTRUSTED_WORKFLOW_IDENTITY')
+        receipt['eventName'] = 'pull_request_target'
+        receipt['trustedWorkflowCommitSha'] = b
+        for key, path in [('trustedWorkflowBlobSha','.github/workflows/safe-automerge-dry-run.yml'),
+                          ('trustedHelperBlobSha','tools/safe_automerge.py'),
+                          ('trustedPolicyBlobSha','tools/safe-automerge-policy.json')]:
+            receipt[key] = git(repo, 'rev-parse', b+':'+path).decode().strip()
+        if git(repo, 'show', b+':tools/safe_automerge.py') != Path(__file__).read_bytes():
+            raise ValueError('HELPER_NOT_FROM_BASE')
+        if json.loads(git(repo, 'show', b+':tools/safe-automerge-policy.json')) != policy:
+            raise ValueError('POLICY_NOT_FROM_BASE')
         for snapshot in (initial, final):
             if (snapshot['state'] != 'open' or snapshot.get('merge_commit_sha') != i or snapshot['base']['sha'] != b
                     or snapshot['head']['sha'] != h or snapshot['base']['ref'] != policy['baseRef']
@@ -71,7 +88,7 @@ def evaluate(repo, identity, initial, final, policy):
                 raise ValueError('STALE_OR_INVALID_PR_IDENTITY')
         if git(repo, 'status', '--porcelain', '--untracked-files=normal').strip():
             raise ValueError('DIRTY_WORKTREE')
-        if git(repo, 'rev-parse', 'HEAD').decode().strip() != i:
+        if git(repo, 'rev-parse', 'HEAD').decode().strip() != b:
             raise ValueError('CHECKOUT_MISMATCH')
         parents = git(repo, 'show', '-s', '--format=%P', i).decode().split()
         if parents != [b, h]:
@@ -87,13 +104,18 @@ def evaluate(repo, identity, initial, final, policy):
         for status, path in zip(raw[0:-1:2], raw[1:-1:2]):
             entry = git(repo, 'ls-tree', i, '--', path).decode()
             mode = entry.split()[0] if entry else 'missing'
-            patch = git(repo, 'diff', '--no-ext-diff', '--no-textconv', '--no-renames', '--unified=0', b, i, '--', path)
-            if len(patch) > 262144:
-                raise ValueError('DIFF_TOO_LARGE')
-            changes.append({'status': status, 'path': path, 'mode': mode, 'patch': patch.decode('utf-8')})
+            # Unknown paths are rejected without materializing their contents.
+            content = ''
+            if re.fullmatch(r'docs/technical-notes/[A-Za-z0-9_-]+\.md', path) and status in {'A','M'} and mode == '100644':
+                for revision in ([b, i] if status == 'M' else [i]):
+                    size = int(git(repo, 'cat-file', '-s', revision+':'+path))
+                    if size > 262144:
+                        raise ValueError('CONTENT_TOO_LARGE')
+                    content += git(repo, 'show', revision+':'+path).decode('utf-8') + '\n'
+            changes.append({'status': status, 'path': path, 'mode': mode, 'patch': content})
         receipt['changedPaths'] = [x['path'] for x in changes]
         receipt.update(classify(changes, policy))
-    except (ValueError, KeyError, TypeError, UnicodeError, subprocess.CalledProcessError) as exc:
+    except (ValueError, KeyError, TypeError, UnicodeError, subprocess.SubprocessError) as exc:
         receipt.update(blocked(str(exc)))
     return receipt
 
@@ -116,11 +138,20 @@ def main():
     args = ap.parse_args()
     try:
         policy = json.loads(Path(args.policy).read_text())
-        identity = dict(zip(('baseSha', 'headSha', 'integrationSha'),
-                            [os.environ[k] for k in ('BASE_SHA', 'HEAD_SHA', 'INTEGRATION_SHA')]))
+        if os.environ.get('GITHUB_EVENT_NAME') != 'pull_request_target' or os.environ.get('GITHUB_REPOSITORY') != policy['repository']:
+            raise ValueError('UNTRUSTED_EVENT')
         initial = fetch_pr(os.environ['PR_NUMBER'])
+        identity = {'baseSha':os.environ['BASE_SHA'], 'headSha':os.environ['HEAD_SHA'],
+                    'integrationSha':initial['merge_commit_sha'],
+                    'workflowSha':os.environ['GITHUB_WORKFLOW_SHA'], 'eventName':'pull_request_target'}
+        # Fetch passive objects from the fixed public origin. Never checkout, import
+        # or execute candidate files. Ref names/remote URLs never come from PR text.
+        for sha in (identity['headSha'], identity['integrationSha']):
+            if not isinstance(sha, str) or not SHA.fullmatch(sha):
+                raise ValueError('INVALID_OBJECT_SHA')
+        git(args.repo, '-c', 'core.hooksPath=/dev/null', 'fetch', '--no-tags', '--no-recurse-submodules', '--no-write-fetch-head',
+            'https://github.com/genie85/engineer-osint.git', identity['headSha'], identity['integrationSha'])
         receipt = evaluate(args.repo, identity, initial, initial, policy)
-        # Re-evaluate after classification with a fresh API read; no cached PR text/labels.
         final = fetch_pr(os.environ['PR_NUMBER'])
         receipt = evaluate(args.repo, identity, initial, final, policy)
     except Exception as exc:

@@ -24,6 +24,10 @@ class GuardTests(unittest.TestCase):
         fixture.parent.mkdir(parents=True)
         fixture.write_text('permissions: {contents: read}\n')
         self.policy = {**POLICY, 'canonicalExecutorWorkflowSha256': hashlib.sha256(fixture.read_bytes()).hexdigest()}
+        (self.repo/'tools').mkdir()
+        (self.repo/'tools/safe_automerge.py').write_bytes(Path(guard.__file__).read_bytes())
+        (self.repo/'tools/safe-automerge-policy.json').write_text(json.dumps(self.policy))
+        (self.repo/'.github/workflows/safe-automerge-dry-run.yml').write_bytes((Path(__file__).parents[2]/'.github/workflows/safe-automerge-dry-run.yml').read_bytes())
         self.git('add', '.')
         self.git('commit', '-qm', 'base')
         self.base = self.git('rev-parse', 'HEAD')
@@ -45,7 +49,8 @@ class GuardTests(unittest.TestCase):
         self.git('switch', '-q', 'main')
         self.git('merge', '--no-ff', '-qm', 'integration', 'change')
         self.integration = self.git('rev-parse', 'HEAD')
-        self.identity = {'baseSha': self.base, 'headSha': self.head, 'integrationSha': self.integration}
+        self.identity = {'baseSha': self.base, 'headSha': self.head, 'integrationSha': self.integration,'workflowSha':self.base,'eventName':'pull_request_target'}
+        self.git('checkout','--detach',self.base)
         self.snapshot = {'merge_commit_sha':self.integration,'state':'open', 'base':{'sha':self.base,'ref':'main', 'repo':{'id':1336467398}}, 'head':{'sha':self.head}}
 
     def evaluate(self, final=None, identity=None):
@@ -65,6 +70,23 @@ class GuardTests(unittest.TestCase):
         self.assertEqual(r['headSha'], self.head)
         self.assertEqual(len(r['policyDigest']),64)
         self.assertEqual(r['scope'],'diff-classification-only')
+
+    def test_reviewer_obfuscations_are_blocked(self):
+        for text in ['sta<!-- -->tus','de&#112;loy','permis&#115;ion','sta\ntus',
+                     's t a t u s','ＳＴＡＴＵＳ','sta\u200btus','sta\x00tus',
+                     'STA\tTUS','de&amp;#112;loy','sta\r\ntus','stаtus']:
+            with self.subTest(text=text):
+                self.blocked(guard.classify([{'path':'docs/technical-notes/n.md','status':'A','mode':'100644','patch':'+ '+text}],POLICY))
+
+    def test_receipt_binds_trusted_base_blobs_without_candidate_checkout(self):
+        self.change()
+        self.git('checkout','--detach',self.base)
+        r=self.evaluate()
+        self.assertEqual(r['decision'],'ELIGIBLE_FOR_REVIEW')
+        self.assertEqual(self.git('rev-parse','HEAD'),self.base)
+        self.assertEqual(r['trustedWorkflowCommitSha'],self.base)
+        self.assertEqual(r['trustedWorkflowBlobSha'],self.git('rev-parse',self.base+':.github/workflows/safe-automerge-dry-run.yml'))
+        self.assertEqual(r['trustedHelperBlobSha'],self.git('rev-parse',self.base+':tools/safe_automerge.py'))
 
     def test_protected_paths_and_unknown_are_blocked(self):
         for path in ['.github/workflows/x.yml','LICENSE','docs/engineer-osint/data/source.json','docs/policy.md','tools/safe-automerge-policy.json','app.py','docs/technical-notes/deploy.md']:
@@ -104,6 +126,36 @@ class GuardTests(unittest.TestCase):
         final={**self.snapshot, 'merge_commit_sha':'f'*40}
         self.blocked(self.evaluate(final=final))
 
+    def test_candidate_checkout_and_untrusted_issuer_are_blocked(self):
+        self.change()
+        for key,value in [('workflowSha',self.head),('eventName','pull_request')]:
+            self.blocked(self.evaluate(identity={**self.identity,key:value}))
+        self.git('checkout','--detach',self.integration)
+        self.blocked(self.evaluate())
+
+    def test_candidate_helper_workflow_and_policy_edits_are_passive_and_blocked(self):
+        for path in ['tools/safe_automerge.py','tools/safe-automerge-policy.json',
+                     '.github/workflows/safe-automerge-dry-run.yml','.github/other.md']:
+            self.blocked(guard.classify([{'path':path,'status':'M','mode':'100644','patch':'arbitrary candidate code'}],POLICY))
+
+    def test_cli_fetch_is_passive_and_never_checks_out_candidate(self):
+        import os
+        from unittest.mock import patch
+        self.change()
+        output=self.repo/'receipt.json'
+        env={'GITHUB_EVENT_NAME':'pull_request_target','GITHUB_REPOSITORY':'genie85/engineer-osint',
+             'BASE_SHA':self.base,'HEAD_SHA':self.head,'PR_NUMBER':'1','GITHUB_WORKFLOW_SHA':self.base}
+        argv=['guard','--repo',str(self.repo),'--policy',str(self.repo/'tools/safe-automerge-policy.json'),'--output',str(output)]
+        with patch.dict(os.environ,env), patch('sys.argv',argv), patch.object(guard,'fetch_pr',return_value=self.snapshot), patch.object(guard,'git',return_value=b'') as calls, patch.object(guard,'evaluate',return_value=guard.blocked('fixture')):
+            self.assertEqual(guard.main(),0)
+        args=calls.call_args.args
+        self.assertIn('--no-recurse-submodules',args)
+        self.assertIn('core.hooksPath=/dev/null',args)
+        self.assertIn('https://github.com/genie85/engineer-osint.git',args)
+        self.assertNotIn('checkout',args)
+        self.assertNotIn('switch',args)
+        self.assertIs(json.loads(output.read_text())['mergeAuthorized'],False)
+
     def test_dirty_worktree_blocks(self):
         self.change();(self.repo/'base.txt').write_text('dirty')
         self.blocked(self.evaluate())
@@ -125,14 +177,17 @@ class GuardTests(unittest.TestCase):
     def test_workflow_has_only_read_token_and_pinned_actions(self):
         import re
         w=(Path(__file__).parents[2]/'.github/workflows/safe-automerge-dry-run.yml').read_text()
-        self.assertIn('pull_request:',w)
-        self.assertNotIn('pull_request_target',w)
+        self.assertIn('pull_request_target:',w)
+        self.assertNotIn('pull_request:',w)
+        self.assertNotIn('guard-tests:',w)
+        self.assertIn('ref: ${{ github.sha }}',w)
+        self.assertNotIn('head.sha }}\n          fetch-depth',w)
         self.assertNotIn('secrets.',w)
         self.assertNotIn(': write',w)
         self.assertIn('persist-credentials: false',w)
         self.assertIn('cancel-in-progress: false',w)
         for ref in re.findall(r'uses:\s+(\S+)',w):self.assertRegex(ref,r'^[\w/-]+@[a-f0-9]{40}$')
-        self.assertIn('BASE_SHA:tools/safe_automerge.py',w)
-        self.assertIn('BOOTSTRAP_TRUSTED_GUARD_MISSING',w)
+        self.assertIn('python3 tools/safe_automerge.py',w)
+        self.assertNotIn("receipt = dict",w)
 
 if __name__=='__main__':unittest.main()
