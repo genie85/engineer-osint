@@ -1,4 +1,4 @@
-import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
+import {historicalBlob, historicalWorkflow, assertGuardWorkflowAddition} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -48,15 +48,18 @@ test('v4.5.62 migration scope is Node-runtime-only and fail-closed', () => {
   assert.equal(migration.findings.ui_edit_performed, false);
 });
 
-test('v4.5.62 contract covers its exact seven-workflow historical surface plus only the v4.6.06 authorized executor addition', () => {
+test('v4.5.62 preserves its seven-workflow history and validates the exact additive guard inventory', () => {
+  const addition=assertGuardWorkflowAddition();
   const allCurrent = fs.readdirSync(workflowsDir).filter((name) => /\.ya?ml$/i.test(name)).sort();
-  const historicalCurrent=allCurrent.filter(name=>name!==laterAuthorizedWorkflow);
+  const baseCurrent=addition.baseWorkflows.map(item=>path.basename(item.path)).sort();
+  assert.deepEqual(allCurrent,[...baseCurrent,'safe-automerge-dry-run.yml'].sort());
+  const historicalCurrent=baseCurrent.filter(name=>name!==laterAuthorizedWorkflow);
   const contracted = migration.workflows.map((item) => item.file).sort();
   assert.deepEqual(contracted, historicalCurrent);
   assert.equal(historicalCurrent.length, migration.workflow_count);
   assert.equal(new Set(contracted).size, contracted.length);
   assert.equal(historicalCurrent.length, 7);
-  assert.deepEqual(allCurrent,[...historicalCurrent,laterAuthorizedWorkflow].sort());
+  assert.deepEqual(baseCurrent,[...historicalCurrent,laterAuthorizedWorkflow].sort());
   assert.equal(executorAuth.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(executorAuth.authorized_targets.workflow_path,`.github/workflows/${laterAuthorizedWorkflow}`);
   const executorWorkflow=historicalWorkflow();
