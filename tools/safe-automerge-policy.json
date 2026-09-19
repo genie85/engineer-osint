@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "engineer.dry-run-policy.v1",
+  "repositoryId": 1336467398,
+  "repository": "genie85/engineer-osint",
+  "baseRef": "main",
+  "allowedNotesPrefix": "docs/technical-notes/",
+  "mergeAuthorized": false,
+  "requiredIndependentReviews": 2,
+  "canonicalExecutorWorkflowSha256": "369d289393b5456db5df834287a33c8f9c3ad210ae203816d57a38324e2fce2b"
+}

@@ -1,0 +1,77 @@
+name: Advisory safe-automerge dry-run
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: engineer-safe-automerge-dry-run
+  cancel-in-progress: false
+
+jobs:
+  guard-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - run: python3 -m unittest discover -s tools/tests -p test_safe_automerge.py -v
+
+  classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      INTEGRATION_SHA: ${{ github.sha }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Classify using guard and policy from the exact base only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git show "$BASE_SHA:tools/safe_automerge.py" > "$RUNNER_TEMP/trusted-guard.py" &&
+             git show "$BASE_SHA:tools/safe-automerge-policy.json" > "$RUNNER_TEMP/trusted-policy.json"; then
+            python3 "$RUNNER_TEMP/trusted-guard.py" --repo "$GITHUB_WORKSPACE" \
+              --policy "$RUNNER_TEMP/trusted-policy.json" --output "$RUNNER_TEMP/dry-run-receipt.json"
+          else
+            python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = dict(decision='BLOCK', mergeAuthorized=False,
+                         scope='diff-classification-only',
+                         reasons=['BOOTSTRAP_TRUSTED_GUARD_MISSING'],
+                         baseSha=os.environ['BASE_SHA'], headSha=os.environ['HEAD_SHA'],
+                         integrationSha=os.environ['INTEGRATION_SHA'],
+                         runId=os.environ['GITHUB_RUN_ID'], runAttempt=os.environ['GITHUB_RUN_ATTEMPT'])
+          Path(os.environ['RUNNER_TEMP'], 'dry-run-receipt.json').write_text(json.dumps(receipt, indent=2)+'\n')
+          PY
+          fi
+      - name: Preserve advisory receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dry-run-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dry-run-receipt.json
+          if-no-files-found: error
+          retention-days: 7
