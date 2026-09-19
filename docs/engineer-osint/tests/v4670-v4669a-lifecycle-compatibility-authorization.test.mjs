@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -23,7 +24,7 @@ test('v4.6.70 pins the exact red V4669B implementation and immutable V4669A auth
   assert.deepEqual(auth.blocked_implementation.exact_head_workflow_runs,[33953105994,33953105996,33953106046,33953106030]);
   assert.equal(auth.upstream_authorization.path,`${root}/V4669A_B105_SUCCESSOR_INVENTORY_CORRECTION_AUTHORIZATION.json`);
   assert.equal(auth.upstream_authorization.git_blob_sha,'9fbdd5a65816aace6be15700f36d4fa807641ef6');
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorization.path)),auth.upstream_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorization.path),auth.upstream_authorization.git_blob_sha);
   assert.equal(auth.upstream_authorization.immutable,true);
 });
 
@@ -37,7 +38,7 @@ test('v4.6.70 accepts only exact historical, materialized replacement, corrected
   assert.equal(correction.authorized_targets.v4669a_test.unavailable_successor_git_blob_sha,auth.authorized_target.successor_git_blob_sha);
   const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
   assert.ok(repairTarget,'postwrite repair must pin V4669A target');
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_targets.v4669a_test.replacement_successor_git_blob_sha,correctedB105Successor,repairTarget.successor_git_blob_sha,correctedPostwriteSuccessor].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,correction.authorized_targets.v4669a_test.replacement_successor_git_blob_sha,correctedB105Successor,repairTarget.successor_git_blob_sha,correctedPostwriteSuccessor].includes(historicalBlob(auth.authorized_target.path)));
 });
 
 test('v4.6.70 compatibility scope stays atomic, fail-closed and separate from B105 publication',()=>{

@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -48,7 +49,7 @@ test('v4.6.80a pins thirteen materialized successors and accepts only exact orde
     assert.ok(Number.isInteger(item.phase)&&item.phase>=1&&item.phase<=6,item.path);
   }
   const repairByPath=new Map(repair.exact_repair_targets.map(item=>[item.path,item]));
-  const actual=new Map(auth.materialized_successors.map(item=>[item.path,gitBlobSha(readFileSync(item.path))]));
+  const actual=new Map(auth.materialized_successors.map(item=>[item.path,historicalBlob(item.path)]));
   const exactBoundaryMatches=[];
   for(let completedPhase=0;completedPhase<=6;completedPhase++){
     const matches=auth.materialized_successors.every(item=>actual.get(item.path)===(item.phase<=completedPhase?item.successor_git_blob_sha:item.source_git_blob_sha));

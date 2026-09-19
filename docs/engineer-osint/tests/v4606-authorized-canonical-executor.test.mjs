@@ -207,12 +207,14 @@ test('v4.6.06 rejects an unrecognized canonical write without explicit authoriza
   }
 });
 
-test('v4.6.06 workflow is same-repository PR-only and cannot merge or target main directly',()=>{
+test('canonical request workflow is a read-only stop gate and cannot execute PR code',()=>{
   assert.match(workflowRaw,/\bpull_request:/);
   assert.doesNotMatch(workflowRaw,/pull_request_target/);
   assert.match(workflowRaw,/head\.repo\.full_name == github\.repository/);
-  assert.match(workflowRaw,/ref: \$\{\{ github\.event\.pull_request\.head\.sha \}\}/);
-  assert.match(workflowRaw,/contents: write/);
+  assert.doesNotMatch(workflowRaw,/uses:|\bnode\b|--execute|contents: write/);
+  assert.match(workflowRaw,/contents: read/);
+  assert.match(workflowRaw,/exit 1/);
+  assert.match(workflowRaw,/mergeAuthorized=false/);
   assert.match(workflowRaw,/canonical-execution-requests\/\*\.json/);
   assert.doesNotMatch(workflowRaw,/merge_pull_request|gh pr merge|git push origin main/);
   assert.match(executorRaw,/Direct main execution is forbidden/);

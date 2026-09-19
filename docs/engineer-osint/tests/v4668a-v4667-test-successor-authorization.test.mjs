@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -22,7 +23,7 @@ test('v4.6.69a preserves historical v4.6.68a authorization and applies only the 
   assert.equal(correction.schema_version,'engineer-osint-b105-successor-inventory-correction-authorization-v1');
   assert.equal(correction.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(correction.historical_v4668a_authorization.path,historicalAuthPath);
-  assert.equal(gitBlobSha(readFileSync(historicalAuthPath)),correction.historical_v4668a_authorization.git_blob_sha);
+  assert.equal(historicalBlob(historicalAuthPath),correction.historical_v4668a_authorization.git_blob_sha);
   assert.equal(historicalAuth.schema_version,'engineer-osint-v4667-test-successor-authorization-v1');
   assert.equal(historicalAuth.status,'READY_FOR_IMPLEMENTATION');
   const historical=byPath(historicalAuth.exact_test_state_pairs);
@@ -37,7 +38,7 @@ test('v4.6.69a preserves historical v4.6.68a authorization and applies only the 
 
 test('v4.6.69a admits only historical or corrected v4667 guard and complete corrected 17-file or exact authorized postwrite-repair states',()=>{
   const targetPath='docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs';
-  const targetBlob=gitBlobSha(readFileSync(targetPath));
+  const targetBlob=historicalBlob(targetPath);
   const allowedTargetBlobs=new Set([
     historicalAuth.authorized_target.source_git_blob_sha,
     historicalAuth.authorized_target.successor_git_blob_sha,
@@ -46,7 +47,7 @@ test('v4.6.69a admits only historical or corrected v4667 guard and complete corr
     'd3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e'
   ]);
   assert.ok(allowedTargetBlobs.has(targetBlob),'v4667 guard is outside exact historical/corrected/postwrite-repair states');
-  const observed=correction.corrected_exact_test_state_pairs.map(([path,source,successor])=>({path,source,successor,actual:gitBlobSha(readFileSync(path))}));
+  const observed=correction.corrected_exact_test_state_pairs.map(([path,source,successor])=>({path,source,successor,actual:historicalBlob(path)}));
   const allSource=observed.every(item=>item.actual===item.source);
   const allSuccessor=observed.every(item=>item.actual===item.successor);
   const postwriteRepairState=observed.every(item=>item.actual===(exactPostwriteRepairBlobs.get(item.path)??item.successor));

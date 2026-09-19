@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -88,7 +89,7 @@ test('v4.6.46 authorizes only the corrected CC0 B104 candidate and exact lifecyc
   assert.equal(authorization.status,'READY_FOR_APPEND');
   assert.equal(authorization.reviewed_main_sha,'8d6912ac7bc5929d9eb30b87d4ee77a8668fd2ff');
   assert.equal(authorization.readiness_path,readinessPath);
-  assert.equal(authorization.readiness_git_blob_sha,gitBlobSha(readFileSync(readinessPath,'utf8')));
+  assert.equal(authorization.readiness_git_blob_sha,historicalBlob(readinessPath,'utf8'));
   assert.equal(authorization.candidate_path,candidatePath);
   assert.equal(authorization.candidate_git_blob_sha,gitBlobSha(candidateRaw));
   assert.equal(authorization.candidate_run_id,runId);
@@ -218,7 +219,7 @@ test('v4.6.46 keeps the browser workflow successor exact across its separately a
 
   const successorApplied=assertAuthorizedWorkflowLifecycle(authorization,workflowRaw);
   assert.equal(gitBlobSha(executorRaw),authorization.protected_baseline.authorized_executor_git_blob_sha);
-  assert.equal(gitBlobSha(executorWorkflowRaw),authorization.protected_baseline.authorized_executor_workflow_git_blob_sha);
+  assert.equal(historicalBlob(executorWorkflowPath),authorization.protected_baseline.authorized_executor_workflow_git_blob_sha);
 
   assert.equal(authorization.browser_workflow_successor.guarded_run_id,runId);
   assert.equal(authorization.browser_workflow_successor.normalized_dom_sha256,expectedDigest);

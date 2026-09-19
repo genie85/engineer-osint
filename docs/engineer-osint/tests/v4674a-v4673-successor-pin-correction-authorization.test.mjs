@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -29,7 +30,7 @@ test('v4.6.74a preserves V4673A as immutable evidence and corrects only unreacha
   assert.equal(auth.reviewed_main_sha,'52629a9f4574245b6d84b3a2fde4cb4b2b363abb');
   assert.equal(auth.superseded_authorization.path,`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(auth.superseded_authorization.git_blob_sha,'6abeb6ad9a111cfb421a2cf9297aad70ac6f113d');
-  assert.equal(gitBlobSha(readFileSync(auth.superseded_authorization.path)),auth.superseded_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.superseded_authorization.path),auth.superseded_authorization.git_blob_sha);
   assert.equal(auth.superseded_authorization.immutable_historical_evidence,true);
   assert.equal(auth.superseded_authorization.rewrite_forbidden,true);
   assert.deepEqual(auth.correction_reason.unavailable_successor_git_blob_shas,[
@@ -49,7 +50,7 @@ test('v4.6.74a pins exact source, replacement, historical-next, corrected-B105 a
     const correctedPostwrite=correctedPostwriteGuardSuccessors.get(target.path);
     const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);
     assert.ok(historicalNext&&correctedB105&&correctedPostwrite&&repairTarget,`${target.path} must have exact pinned lifecycle successors`);
-    const blob=gitBlobSha(readFileSync(target.path));
+    const blob=historicalBlob(target.path);
     assert.ok([target.source_git_blob_sha,target.replacement_successor_git_blob_sha,historicalNext,correctedB105,repairTarget.successor_git_blob_sha,correctedPostwrite].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
 });

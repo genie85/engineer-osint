@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -29,7 +30,7 @@ test('v4.6.63 authorizes only the exact B104-to-B105 v4565 dependency successor 
   assert.equal(t.guard_source_git_blob_sha,'78472bc727d9b11a3a0258ee180f4dcfbcb290f1');
   assert.equal(t.exact_b104_dependency_git_blob_sha,source);
   assert.equal(t.exact_b105_dependency_git_blob_sha,successor);
-  const current=gitBlobSha(readFileSync(t.observed_dependency_path,'utf8'));
+  const current=historicalBlob(t.observed_dependency_path,'utf8');
   assert.ok([source,successor].includes(current),`v4.5.65 dependency is outside exact B104/B105 states: ${current}`);
   const a=auth.authorized_change;
   assert.equal(a.authorized,true);

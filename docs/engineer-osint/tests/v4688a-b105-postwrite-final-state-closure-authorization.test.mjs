@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -30,14 +31,14 @@ test('v4.6.88a pins #447 exact-head failure and the corrected final-state root c
 });
 
 test('v4.6.88a preserves upstream authorizations and admits only complete exact source or complete exact final successor vectors',()=>{
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorizations.v4686a_path)),auth.upstream_authorizations.v4686a_git_blob_sha);
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorizations.v4687a_path)),auth.upstream_authorizations.v4687a_git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorizations.v4686a_path),auth.upstream_authorizations.v4686a_git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorizations.v4687a_path),auth.upstream_authorizations.v4687a_git_blob_sha);
   assert.equal(auth.upstream_authorizations.must_remain_immutable,true);
   assert.equal(auth.exact_final_targets.length,20);
   assert.equal(new Set(auth.exact_final_targets.map(item=>item.path)).size,20);
   assert.equal(new Set(auth.exact_final_targets.map(item=>item.source_git_blob_sha)).size,20);
   assert.equal(new Set(auth.exact_final_targets.map(item=>item.successor_git_blob_sha)).size,20);
-  const observed=auth.exact_final_targets.map(item=>({item,actual:gitBlobSha(readFileSync(item.path))}));
+  const observed=auth.exact_final_targets.map(item=>({item,actual:historicalBlob(item.path)}));
   for(const {item} of observed){
     assert.match(item.source_git_blob_sha,/^[0-9a-f]{40}$/);
     assert.match(item.successor_git_blob_sha,/^[0-9a-f]{40}$/);

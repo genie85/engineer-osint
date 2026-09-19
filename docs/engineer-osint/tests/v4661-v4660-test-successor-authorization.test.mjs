@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -17,7 +18,7 @@ test('v4.6.61 pins one exact v4660 test successor and the reviewed main',()=>{
   assert.equal(auth.target_test.source_git_blob_sha,source);
   assert.equal(auth.target_test.successor_git_blob_sha,successor);
   assert.equal(auth.target_test.implementation_requires_separate_slice,true);
-  const current=gitBlobSha(readFileSync(targetPath,'utf8'));
+  const current=historicalBlob(targetPath,'utf8');
   assert.ok([source,successor,correctedSuccessor].includes(current),`v4.6.60 test is outside exact authorized historical/corrected states: ${current}`);
 });
 

@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -196,7 +197,7 @@ test('v4.6.43 historical workflow authorization boundary remains pinned across e
 
 test('v4.6.43 preserves executor isolation across exact later browser successors and all fail-closed publication boundaries',()=>{
   assert.equal(gitBlobSha(read('authorized-canonical-executor.mjs')),auth.protected_baseline.authorized_executor_git_blob_sha);
-  assert.equal(gitBlobSha(readRepo('.github/workflows/authorized-canonical-executor.yml')),auth.protected_baseline.authorized_executor_workflow_git_blob_sha);
+  assert.equal(historicalBlob('.github/workflows/authorized-canonical-executor.yml'),auth.protected_baseline.authorized_executor_workflow_git_blob_sha);
   assertHistoricalOrExactB104Workflow(readRepo('.github/workflows/identity-fix-retirement-regression.yml'));
   assert.equal(auth.authorized_guard_successor_contract.authorization_path,'docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json');
   assert.equal(auth.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);

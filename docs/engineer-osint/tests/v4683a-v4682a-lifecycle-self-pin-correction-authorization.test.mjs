@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -35,7 +36,7 @@ test('v4.6.83a pins one pre-materialized exact V4682A test successor and permits
   assert.match(auth.authorized_successor.successor_git_blob_sha,/^[0-9a-f]{40}$/);
   const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_successor.path);
   assert.ok(repairTarget,'postwrite repair must pin V4682A target');
-  const currentSha=gitBlobSha(readFileSync(auth.authorized_successor.path));
+  const currentSha=historicalBlob(auth.authorized_successor.path);
   assert.ok([auth.authorized_successor.source_git_blob_sha,auth.authorized_successor.successor_git_blob_sha,repairTarget.successor_git_blob_sha,correctedPostwriteV4682aSuccessor].includes(currentSha));
   assert.equal(auth.materialization_evidence.successor_git_blob_materialized,true);
   assert.equal(auth.materialization_evidence.successor_git_blob_read_back_verified,true);

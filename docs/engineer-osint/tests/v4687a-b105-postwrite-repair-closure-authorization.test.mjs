@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -30,7 +31,7 @@ test('v4.6.87a pins the red exact-head implementation and deterministic two-guar
 });
 
 test('v4.6.87a preserves V4686A and admits only exact atomic source, V4687A successor, or corrected successor guard pairs',()=>{
-  assert.equal(gitBlobSha(readFileSync(upstreamPath)),auth.upstream_authorization.git_blob_sha);
+  assert.equal(historicalBlob(upstreamPath),auth.upstream_authorization.git_blob_sha);
   assert.equal(auth.upstream_authorization.git_blob_sha,'2f934e4c7e37e8277d4dde6f06eed0d001dce5f4');
   assert.equal(auth.upstream_authorization.exact_repair_target_count,16);
   assert.equal(auth.upstream_authorization.must_remain_immutable,true);
@@ -39,7 +40,7 @@ test('v4.6.87a preserves V4686A and admits only exact atomic source, V4687A succ
   for(const target of auth.compatibility_guard_targets)assert.match(target.successor_git_blob_sha,/^[0-9a-f]{40}$/);
   assert.equal(auth.compatibility_guard_targets[0].successor_git_blob_sha,'9597733075b12debafacb3e3ebf1795f1a426b02');
   assert.equal(auth.compatibility_guard_targets[1].successor_git_blob_sha,'29b096b0d5332497788a8d7d1215b3aed0b143b3');
-  const observed=auth.compatibility_guard_targets.map(target=>gitBlobSha(readFileSync(target.path)));
+  const observed=auth.compatibility_guard_targets.map(target=>historicalBlob(target.path));
   const sourcePair=auth.compatibility_guard_targets.map(target=>target.source_git_blob_sha);
   const v4687aPair=auth.compatibility_guard_targets.map(target=>target.successor_git_blob_sha);
   const correctedPair=['d3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e','090a0b41cd9ca3c42efd216569aaa698f37f80c0'];

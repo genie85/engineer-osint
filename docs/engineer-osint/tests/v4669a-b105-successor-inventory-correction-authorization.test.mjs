@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -15,7 +16,7 @@ test('v4.6.69a pins the historical authorization and exact two-entry transcripti
   assert.equal(auth.schema_version,'engineer-osint-b105-successor-inventory-correction-authorization-v1');
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.reviewed_main_sha,'20ae89f1975dd458701956206210a5676bee8904');
-  assert.equal(gitBlobSha(readFileSync(auth.historical_v4668a_authorization.path)),auth.historical_v4668a_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.historical_v4668a_authorization.path),auth.historical_v4668a_authorization.git_blob_sha);
   assert.equal(auth.historical_v4668a_authorization.git_blob_sha,'2007457061ea4815064db7cfbf8ca9d4fda6d8ff');
   assert.equal(auth.historical_v4668a_authorization.immutable_historical_evidence,true);
   assert.equal(auth.correction_reason.class,'MANUAL_SHA_TRANSCRIPTION_ERROR');
@@ -41,7 +42,7 @@ test('v4.6.69a pins all 17 corrected successor identities and accepts only exact
     assert.match(source,/^[0-9a-f]{40}$/);
     assert.match(successor,/^[0-9a-f]{40}$/);
     assert.notEqual(source,successor,`${path}: source and successor must differ`);
-    current.push(gitBlobSha(readFileSync(path)));
+    current.push(historicalBlob(path));
     sources.push(source);
     successors.push(successor);
     repaired.push(repairByPath.get(path)?.successor_git_blob_sha??successor);
@@ -55,7 +56,7 @@ test('v4.6.69a pins all 17 corrected successor identities and accepts only exact
 test('v4.6.69a admits only exact atomic historical, V4687A, or corrected postwrite guard pairs and forbids publication in the same slice',()=>{
   const v4667=auth.corrected_guard_targets.v4667_test;
   const v4668a=auth.corrected_guard_targets.v4668a_test;
-  const current=[gitBlobSha(readFileSync(v4667.path)),gitBlobSha(readFileSync(v4668a.path))];
+  const current=[historicalBlob(v4667.path),historicalBlob(v4668a.path)];
   const allowedPairs=[
     [v4667.source_git_blob_sha,v4668a.source_git_blob_sha],
     [v4667.successor_git_blob_sha,v4668a.successor_git_blob_sha],

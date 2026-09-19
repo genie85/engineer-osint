@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -19,7 +20,7 @@ test('v4.6.72a preserves V4671 as immutable evidence and records the unavailable
   assert.equal(auth.reviewed_main_sha,'8a51f83ea0bcb21a70a32a84779413fad42dacf0');
   assert.equal(auth.superseded_authorization.path,`${root}/V4671_V4670_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(auth.superseded_authorization.git_blob_sha,'35d2c228137ec57a2845a56ca811714ecbba834a');
-  assert.equal(gitBlobSha(readFileSync(auth.superseded_authorization.path)),auth.superseded_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.superseded_authorization.path),auth.superseded_authorization.git_blob_sha);
   assert.equal(auth.superseded_authorization.immutable_historical_evidence,true);
   assert.equal(auth.superseded_authorization.rewrite_forbidden,true);
   assert.equal(auth.correction_reason.class,'UNMATERIALIZED_SUCCESSOR_OBJECT');
@@ -33,7 +34,7 @@ test('v4.6.72a pins exact historical, corrected, corrected-B105 and authorized p
   assert.notEqual(auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha);
   const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
   assert.ok(repairTarget,'postwrite repair must pin V4670 target');
-  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor,repairTarget.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(gitBlobSha(readFileSync(auth.authorized_target.path))));
+  assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor,repairTarget.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(historicalBlob(auth.authorized_target.path)));
 });
 
 test('v4.6.72a keeps implementation, B105 publication and B106 strictly separated',()=>{

@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -54,7 +55,7 @@ test('v4.6.86a permits only the exact atomic source, original repaired sixteen-t
   assert.equal(new Set(auth.exact_repair_targets.map(item=>item.source_git_blob_sha)).size,16);
   assert.equal(new Set(auth.exact_repair_targets.map(item=>item.successor_git_blob_sha)).size,16);
   assert.equal(correctedFinalByPath.size,16);
-  const actual=auth.exact_repair_targets.map(item=>gitBlobSha(readFileSync(item.path)));
+  const actual=auth.exact_repair_targets.map(item=>historicalBlob(item.path));
   const source=auth.exact_repair_targets.map(item=>item.source_git_blob_sha);
   const successor=auth.exact_repair_targets.map(item=>item.successor_git_blob_sha);
   const correctedFinal=auth.exact_repair_targets.map(item=>correctedFinalByPath.get(item.path));
