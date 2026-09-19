@@ -30,6 +30,65 @@ const guardBlobs=new Map([
 const blob=raw=>createHash('sha1').update(`blob ${Buffer.byteLength(raw)}\0`).update(raw).digest('hex');
 const sha256=raw=>createHash('sha256').update(raw).digest('hex');
 
+function exactObject(value,keys,label){
+  if(value===null || typeof value!=='object' || Array.isArray(value) ||
+     JSON.stringify(Object.keys(value).sort())!==JSON.stringify([...keys].sort())){
+    throw Error(`${label} schema drift`);
+  }
+}
+
+function parseAddition(raw){
+  let value;
+  const text=String(raw);
+  try{value=JSON.parse(text);}catch{throw Error('guard JSON syntax drift');}
+  // JSON.parse alone silently accepts the last occurrence of a repeated key.
+  // Grammar is already validated above; tokenized strings keep escaped quotes,
+  // braces and colons inside values from being mistaken for object structure.
+  const tokens=text.match(/"(?:[^"\\]|\\[\s\S])*"|[{}\[\],:]/g)??[];
+  const stack=[];
+  for(let i=0;i<tokens.length;i++){
+    const token=tokens[i];
+    if(token==='{')stack.push(new Set());
+    else if(token==='[')stack.push(null);
+    else if(token==='}' || token===']')stack.pop();
+    else if(token.startsWith('"') && tokens[i+1]===':'){
+      const key=JSON.parse(token); // Decodes equivalent spellings such as \\u0041.
+      const keys=stack.at(-1);
+      if(!(keys instanceof Set) || keys.has(key))throw Error('guard duplicate JSON key drift');
+      keys.add(key);
+    }
+  }
+  return value;
+}
+
+function validateAdditionSchema(addition){
+  exactObject(addition,[
+    'schemaVersion','basisRequest','reviewedBase','reviewedGuardHead','status',
+    'bootstrapSelfAuthorization','authorization','baseWorkflows','guardArtifacts','exactSuccessors',
+  ],'guard root');
+  for(const key of ['schemaVersion','basisRequest','reviewedBase','reviewedGuardHead','status']){
+    if(typeof addition[key]!=='string')throw Error(`guard ${key} type drift`);
+  }
+  if(typeof addition.bootstrapSelfAuthorization!=='boolean')throw Error('guard bootstrap type drift');
+  exactObject(addition.authorization,[
+    'canonicalExecution','mergeAuthorized','deployAuthorized','wildcardSuccessors',
+  ],'guard authorization');
+  for(const value of Object.values(addition.authorization)){
+    if(typeof value!=='boolean')throw Error('guard authorization type drift');
+  }
+  for(const collection of ['baseWorkflows','guardArtifacts','exactSuccessors']){
+    if(!Array.isArray(addition[collection]))throw Error(`guard ${collection} type drift`);
+    const keys=collection==='exactSuccessors'?['path','sourceGitBlob','successorGitBlob']:['path','gitBlob'];
+    for(const item of addition[collection]){
+      exactObject(item,keys,`guard ${collection} item`);
+      for(const key of keys){
+        if(typeof item[key]!=='string')throw Error(`guard ${collection} ${key} type drift`);
+        if(key!=='path' && !/^[a-f0-9]{40}$/.test(item[key]))throw Error(`guard ${collection} hash drift`);
+      }
+    }
+  }
+}
+
 function exactPaths(items,paths,label){
   if(!Array.isArray(items) || items.length!==paths.length ||
      JSON.stringify(items.map(x=>x.path).sort())!==JSON.stringify([...paths].sort())){
@@ -45,16 +104,15 @@ function verifyState(read,list){
     throw Error('hardening record drift');
   }
   const record=JSON.parse(original);
-  const addition=JSON.parse(read(additionPath));
-  if(addition.schemaVersion!=='engineer.guard-workflow-addition.v1' ||
+  const addition=parseAddition(read(additionPath));
+  validateAdditionSchema(addition);
+  if(addition.schemaVersion!=='engineer.guard-workflow-addition.v2' ||
      addition.basisRequest!=='20260919T182642Z-bff9f7dde2' ||
      addition.reviewedBase!=='ca19dee75b96a8360fd7457640ee793d6f7ee57f' ||
      addition.reviewedGuardHead!=='1ab473e8373ee15288f64c823bba29926d2d055c' ||
      addition.status!=='LOCAL_PROPOSAL_NOT_ACTIVATED' ||
      addition.bootstrapSelfAuthorization!==false ||
-     JSON.stringify(Object.keys(addition.authorization??{}).sort())!==JSON.stringify([
-       'canonicalExecution','deployAuthorized','mergeAuthorized','wildcardSuccessors',
-     ]) || Object.values(addition.authorization).some(value=>value!==false)){
+     Object.values(addition.authorization).some(value=>value!==false)){
     throw Error('guard addition authorization drift');
   }
   exactPaths(addition.baseWorkflows,baseWorkflowNames.map(x=>`.github/workflows/${x}`),'base workflow');

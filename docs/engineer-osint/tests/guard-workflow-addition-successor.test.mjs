@@ -19,7 +19,8 @@ const altered=(path,raw)=>name=>name===path?Buffer.from(raw):readFileSync(name);
 
 test('guard addition pins one exact ninth workflow and preserves the P0 record',()=>{
   const record=check();
-  assert.equal(sha256(readFileSync(recordPath)),'9830280f343186e6884399745505d68dc314588c518362ff62d7e5551bc69411');
+  assert.equal(record.schemaVersion,'engineer.guard-workflow-addition.v2');
+  assert.equal(sha256(readFileSync(recordPath)),'5766ebb8fcabe957b645e5303c5b6f263926d21995090e49d42fdd9442f50f6b');
   assert.equal(sha256(readFileSync(p0Path)),'cefcb81bc4d436be23e4be54ea24e5ee24acbb9f220320794d4cf036eb640601');
   assert.deepEqual(record.authorization,{canonicalExecution:false,mergeAuthorized:false,deployAuthorized:false,wildcardSuccessors:false});
   assert.equal(record.baseWorkflows.length,8);
@@ -84,6 +85,7 @@ test('unknown or missing successor, wrong source hash and changed scope fail clo
     r=>r.reviewedBase='0'.repeat(40),
     r=>r.basisRequest='different-request',
     r=>r.bootstrapSelfAuthorization=true,
+    r=>r.schemaVersion='engineer.guard-workflow-addition.v1',
   ];
   for(const mutate of mutations){
     const record=JSON.parse(readFileSync(recordPath));mutate(record);
@@ -100,4 +102,81 @@ test('P0 source pins and all historical authorization bytes remain immutable',()
   }
   assert.throws(()=>check(altered(p0Path,'{}')),/drift/);
   assert.equal(state.historicalBlob(root+'tests/v4562-active-node24-migration.test.mjs'),'c1611a3de4b54a17e7ceeb127ca7d3ab271af05f');
+});
+
+const grantKeys=['canonicalExecution','mergeAuthorized','deployAuthorized','wildcardSuccessors'];
+const rejectMutation=mutate=>{
+  const record=JSON.parse(readFileSync(recordPath));mutate(record);
+  assert.throws(()=>check(altered(recordPath,JSON.stringify(record))),/drift/);
+};
+
+for(const key of grantKeys){
+  test(`schema rejects misplaced ${key} true and false at every object level`,()=>{
+    for(const value of [true,false]){
+      rejectMutation(r=>r[key]=value);
+      for(const collection of ['baseWorkflows','guardArtifacts','exactSuccessors']){
+        rejectMutation(r=>r[collection][0][key]=value);
+      }
+    }
+  });
+}
+
+test('schema rejects unknown root, authority aliases and unknown nested keys',()=>{
+  for(const key of ['unknown','authority','permissions','merge_authorized','MergeAuthorized','authorizatio\u006eAlias','authorizatiоn','authorization ']){
+    for(const select of [r=>r,r=>r.authorization,r=>r.baseWorkflows[0],r=>r.guardArtifacts[0],r=>r.exactSuccessors[0]]){
+      rejectMutation(r=>select(r)[key]={mergeAuthorized:true});
+    }
+  }
+});
+
+test('schema rejects missing keys at each object level',()=>{
+  const original=JSON.parse(readFileSync(recordPath));
+  const selectors=[r=>r,r=>r.authorization,r=>r.baseWorkflows[0],r=>r.guardArtifacts[0],r=>r.exactSuccessors[0]];
+  for(const select of selectors){
+    for(const key of Object.keys(select(original)))rejectMutation(r=>delete select(r)[key]);
+  }
+});
+
+test('schema rejects wrong root, collection, item, field and flag types',()=>{
+  for(const raw of ['null','[]','false','1','"object"'])assert.throws(()=>check(altered(recordPath,raw)),/drift/);
+  for(const wrong of [null,[],{},true,42,'false']){
+    rejectMutation(r=>r.authorization=wrong);
+    for(const key of grantKeys)rejectMutation(r=>r.authorization[key]=wrong);
+    rejectMutation(r=>r.bootstrapSelfAuthorization=wrong);
+    for(const collection of ['baseWorkflows','guardArtifacts','exactSuccessors']){
+      rejectMutation(r=>r[collection]=wrong);
+      rejectMutation(r=>r[collection][0]=wrong);
+      rejectMutation(r=>r[collection][0].path=wrong);
+      const hash=collection==='exactSuccessors'?'successorGitBlob':'gitBlob';
+      rejectMutation(r=>r[collection][0][hash]=wrong);
+    }
+    for(const key of ['schemaVersion','basisRequest','reviewedBase','reviewedGuardHead','status']){
+      rejectMutation(r=>r[key]=wrong);
+    }
+  }
+});
+
+test('schema rejects extra items, duplicate paths and changed expected paths or hashes',()=>{
+  for(const collection of ['baseWorkflows','guardArtifacts','exactSuccessors']){
+    rejectMutation(r=>r[collection].push({...r[collection][0]}));
+    rejectMutation(r=>r[collection][1]={...r[collection][0]});
+    rejectMutation(r=>r[collection][0].path='unexpected.yml');
+    const hash=collection==='exactSuccessors'?'successorGitBlob':'gitBlob';
+    rejectMutation(r=>r[collection][0][hash]='0'.repeat(40));
+  }
+});
+
+test('schema rejects duplicate raw JSON keys including escaped-equivalent authority names',()=>{
+  const raw=readFileSync(recordPath,'utf8');
+  const cases=[
+    raw.replace('"schemaVersion":','"schemaVersion":"conflicting", "schemaVersion":'),
+    raw.replace('"authorization": {','"authorization":{"mergeAuthorized":true}, "authorization": {'),
+    raw.replace('"mergeAuthorized": false','"mergeAuthorized":true, "mergeAuthorized": false'),
+    raw.replace('"mergeAuthorized": false','"merge\\u0041uthorized":true, "mergeAuthorized": false'),
+    raw.replace('"mergeAuthorized": false','"mergeAuthorized":false, "mergeAuthorized": false'),
+    raw.replace('"path":','"path":"other", "path":'),
+    raw.replace('"gitBlob":','"gitBlob":"wrong", "gitBlob":'),
+    raw.replace('"successorGitBlob":','"successorGitBlob":"wrong", "successorGitBlob":'),
+  ];
+  for(const text of cases)assert.throws(()=>check(altered(recordPath,text)),/drift/);
 });

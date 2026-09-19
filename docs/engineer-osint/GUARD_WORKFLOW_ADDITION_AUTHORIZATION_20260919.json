@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "engineer.guard-workflow-addition.v1",
+  "schemaVersion": "engineer.guard-workflow-addition.v2",
   "basisRequest": "20260919T182642Z-bff9f7dde2",
   "reviewedBase": "ca19dee75b96a8360fd7457640ee793d6f7ee57f",
   "reviewedGuardHead": "1ab473e8373ee15288f64c823bba29926d2d055c",
@@ -63,7 +63,7 @@
     {
       "path": "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
       "sourceGitBlob": "49a394ef9d21fa39fb9615e40647106631453ca0",
-      "successorGitBlob": "5989a7ccad0b5f3b3b60fca2b35147aad8d3c05b"
+      "successorGitBlob": "d50bbb9b5857bb2495a85d721f5b7946b2817620"
     },
     {
       "path": "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
