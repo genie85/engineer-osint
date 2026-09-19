@@ -1,0 +1,177 @@
+{
+  "schema_version": "engineer-osint-b106-append-readiness-review-20260919-v1",
+  "status": "BLOCKED_PENDING_SEPARATE_EXECUTION_AUTHORIZATION",
+  "reviewed_on": "2026-09-19",
+  "reviewed_main_sha": "b7d0ff9ecfde01eade12f2c362a3d330a277d7db",
+  "reviewed_tree_sha": "d03431ad7e5113ce4f0c225b816190cca44ac163",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json",
+  "candidate_git_blob_sha": "e578ed3ea06ed0e67dfec7a1b2b979a0b2c418b1",
+  "candidate_run_id": "engineer-osint-20260904-B106",
+  "expected_parent_run_id": "engineer-osint-20260904-B105",
+  "expected_parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+  "exact_candidate_file_sha256": "56b4896445fd48d201c38a6d807a6600f7fc407f5a1d880c969f579029b6fc76",
+  "expected_resulting_canonical_sha256": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+  "expected_counts": {
+    "new_records": 0,
+    "updated_records": 2,
+    "sources": 0,
+    "relations": 0,
+    "evidence": 0,
+    "visuals": 2,
+    "media": 0,
+    "technology_signals": 0,
+    "lead_updates": 0,
+    "observed_minimum_updates": 0,
+    "lessons_learned": 0
+  },
+  "expected_state_counts": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 2,
+    "NEW": 0,
+    "UPDATE": 2,
+    "CONFIRMATION": 2,
+    "CORRECTION": 0,
+    "CONTRADICTION": 0,
+    "LEAD": 0,
+    "NEW_RELATIONS": 0,
+    "UPDATED_RELATIONS": 0,
+    "NEW_EVIDENCE": 0,
+    "UPDATED_EVIDENCE": 0,
+    "NEW_SOURCES": 0,
+    "UPDATED_SOURCES": 0,
+    "NEW_VISUALS": 2,
+    "NEW_MEDIA": 0
+  },
+  "expected_card_ids": [
+    "ENG-TECH-0038",
+    "ENG-TECH-0041"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0038",
+    "ENG-VIS-LOCAL-0041"
+  ],
+  "local_files": [
+    {
+      "card_id": "ENG-TECH-0038",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0038-mv-10.webp",
+      "sha256": "7113afc3b4ddfbdb466bc509191747659012705cb6833cdd8cc5ff525cbf9caa",
+      "git_blob_sha": "da2a351168bc8d7f8c9ddaa17757471ff6211bb3"
+    },
+    {
+      "card_id": "ENG-TECH-0041",
+      "path": "docs/engineer-osint/assets/photos/eng-tech-0041-uran-6.webp",
+      "sha256": "debf811805bbd54cd8bf4eb6aa6978c5b1a5dc78669e1a99b2e087759d035797",
+      "git_blob_sha": "f5a000db3a7e9ded188606ecc2dc2965a97c9f62"
+    }
+  ],
+  "photo_review_status_successor": {
+    "source_path": "docs/engineer-osint/photo-review-batches/v4588.json",
+    "source_sha256": "91deb584722586892c3fbc316cd35cc08cfd9dec2cee563754b4787307173eff",
+    "source_git_blob_sha": "9bc5162a34a4d43292732c3e603669b28fab4338",
+    "successor_path": "docs/engineer-osint/photo-review-candidates/v4653-b106-v4588-local-image-status.json",
+    "successor_sha256": "5bab8bd462fe27bafcc36d7cc244287ec7de5ceacc143067110c31fbb94314da",
+    "successor_git_blob_sha": "87205d41d6169d9ef646fd7dcbc6c912366ca36c"
+  },
+  "protected_files": [
+    {
+      "path": "docs/engineer-osint/data/run-store-manifest.json",
+      "sha256": "265d2b4f2c19c641f770d2b30b640d4dad933ae2ab7669a0c989ee955dd0afa6",
+      "git_blob_sha": "08006d2b0ae794b4e03d0b1d074ed19625b041b8"
+    },
+    {
+      "path": "docs/engineer-osint/append-run.mjs",
+      "sha256": "dc1d00b4876b0c9aea8aa2838ec0a8486598c148c325dc3535616b5778ebab22",
+      "git_blob_sha": "376bdf810c47c3bf934d0cadeacff3b1f61e1115"
+    },
+    {
+      "path": "docs/engineer-osint/authorized-canonical-executor.mjs",
+      "sha256": "e651f465b733be5d6b8831abd78270d8a101bb901cb91c5cca9945592493cbd2",
+      "git_blob_sha": "306f6aefc969d95d8dcb71373ea2d99f6cdb114f"
+    },
+    {
+      "path": "docs/engineer-osint/V4695_B106_BROWSER_COMPATIBILITY_AUTHORIZATION.json",
+      "sha256": "b7ade73af43cc2fa906387bd925124c117c2198383a739973c51955aa9320b61",
+      "git_blob_sha": "cdf0836911f57a46754862c29ed866e9012c667f"
+    },
+    {
+      "path": "docs/engineer-osint/V4697_B106_V4695_AUTHORIZATION_BLOCK.json",
+      "sha256": "01e8cc8297f63f5a27963f898af5783406df5ded13371c3fbd0e9246841bc04b",
+      "git_blob_sha": "2c7b913f1c1d701d0aea5784debd5c467f405952"
+    },
+    {
+      "path": "docs/engineer-osint/photo-local-acquisitions/v4652-wave3-ready-for-import.json",
+      "sha256": "615e0555104e34979e676a39a0cf2a704a532d3e8e57fbb45e639a43208510be",
+      "git_blob_sha": "91afbe68fa1247aeab914f062368572987feeb7a"
+    },
+    {
+      "path": "docs/engineer-osint/photo-review-batches/v4588.json",
+      "sha256": "91deb584722586892c3fbc316cd35cc08cfd9dec2cee563754b4787307173eff",
+      "git_blob_sha": "9bc5162a34a4d43292732c3e603669b28fab4338"
+    },
+    {
+      "path": "docs/engineer-osint/photo-review-candidates/v4653-b106-v4588-local-image-status.json",
+      "sha256": "5bab8bd462fe27bafcc36d7cc244287ec7de5ceacc143067110c31fbb94314da",
+      "git_blob_sha": "87205d41d6169d9ef646fd7dcbc6c912366ca36c"
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-regression.yml",
+      "sha256": "e66ab5aa718b01e7ebd374eb2fd424fdf6276e0f0842453c33ed494b314664f7",
+      "git_blob_sha": "0aded293ae69be3844c73f6613f0a70b05320156"
+    },
+    {
+      "path": ".github/workflows/authorized-canonical-executor.yml",
+      "sha256": "369d289393b5456db5df834287a33c8f9c3ad210ae203816d57a38324e2fce2b",
+      "git_blob_sha": "682f28fa04233916ba73da433e9e57d4ea2c7ff4"
+    }
+  ],
+  "execution_gate": {
+    "status": "BLOCKED_PENDING_SEPARATE_EXECUTION_AUTHORIZATION",
+    "separately_reviewed_strict_execution_authorization_successor_required": true,
+    "fresh_exact_execution_base_receipt_required": true,
+    "v4697_recovery_and_exact_final_state_qa_required": true,
+    "v4697_recovery_receipt": null,
+    "exact_postappend_browser_qa_required": true,
+    "execution_allowed_in_this_slice": false
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false,
+    "photo_review_status_successor_applied": false,
+    "B106_EXECUTION_PERFORMED": false
+  },
+  "provenance": {
+    "request_id": "20260919T231103Z-887cdb0595",
+    "kind": "READINESS_REVIEW_ONLY",
+    "source_reviewed_artifact_sha256": "281a22fa69561e7bcee809b23e63008ef69826e7fc8be009fecfd6acab3b7c25",
+    "rejected_unsafe_authorization_sha256": "dabebb459137ace578fa590833317cc0271159e61fb357b843544a84d0c56d94",
+    "historical_v4695_permission_reused": false
+  },
+  "grants": {
+    "canonical_write": false,
+    "append": false,
+    "manifest_change": false,
+    "lifecycle_change": false,
+    "candidate_change": false,
+    "asset_change": false,
+    "history_rewrite": false,
+    "future_run": false,
+    "workflow_change": false,
+    "runtime_change": false,
+    "executor_change": false,
+    "push": false,
+    "pull_request": false,
+    "merge": false,
+    "publish": false,
+    "deploy": false
+  },
+  "request_hash_discrepancy": {
+    "field": "expected_resulting_canonical_sha256",
+    "request_value": "7dbaa3654c8e08aca298c755a99a165f26a033d84af34a3902fa4842b6836396",
+    "recomputed_value": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+    "resolution": "Preserve independently recomputed exact B105 plus immutable candidate result; request value does not match repository evidence."
+  },
+  "reviewed_git_inventory_sha256": "f0e2ce66b95b2b9781da1cfe024f7df85e3431ad530400e4b00dc1cb7862f57e"
+}
