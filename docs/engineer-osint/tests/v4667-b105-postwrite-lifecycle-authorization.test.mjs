@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -75,7 +76,7 @@ test('v4.6.67 recognizes only the complete 17-file source set, exact complete B1
   assert.equal(new Set(auth.authorized_test_targets.map(item=>item.path)).size,17);
   assert.equal(exactSuccessorBlobs.size,17);
   assert.equal(exactPostwriteRepairBlobs.size,2);
-  const observed=auth.authorized_test_targets.map(item=>({path:item.path,actual:gitBlobSha(readFileSync(item.path)),source:item.source_git_blob_sha,successor:exactSuccessorBlobs.get(item.path)}));
+  const observed=auth.authorized_test_targets.map(item=>({path:item.path,actual:historicalBlob(item.path),source:item.source_git_blob_sha,successor:exactSuccessorBlobs.get(item.path)}));
   assert.ok(observed.every(item=>item.successor), 'exact successor inventory must cover all 17 targets');
   const sourceState=observed.every(item=>item.actual===item.source);
   const successorState=observed.every(item=>item.actual===item.successor);

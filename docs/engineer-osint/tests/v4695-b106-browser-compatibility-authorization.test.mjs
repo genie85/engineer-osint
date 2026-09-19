@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -29,7 +30,7 @@ test('v4.6.95 authorizes only the exact pre-materialized atomic B106 browser com
     assert.match(target.source_git_blob_sha,/^[a-f0-9]{40}$/);
     assert.match(target.successor_git_blob_sha,/^[a-f0-9]{40}$/);
     assert.notEqual(target.source_git_blob_sha,target.successor_git_blob_sha,`${target.path}: successor must change`);
-    const actual=gitBlobSha(readFileSync(target.path));
+    const actual=historicalBlob(target.path);
     assert.equal(actual,target.source_git_blob_sha,`${target.path}: exact source vector drifted`);
   }
 

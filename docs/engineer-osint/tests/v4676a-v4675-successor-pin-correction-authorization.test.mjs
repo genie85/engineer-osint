@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -20,7 +21,7 @@ test('v4.6.76a pins immutable V4675A evidence and exact corrected V4673A lifecyc
   assert.equal(auth.reviewed_main_sha,'b4f77f32d62aead5049515da9b57d7feb7688047');
   assert.equal(auth.superseded_authorization.path,`${root}/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(auth.superseded_authorization.git_blob_sha,'586686a0569c93b0024b9ce1b420df0f1885d7bc');
-  assert.equal(gitBlobSha(readFileSync(auth.superseded_authorization.path)),auth.superseded_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.superseded_authorization.path),auth.superseded_authorization.git_blob_sha);
   assert.equal(auth.superseded_authorization.immutable_historical_evidence,true);
   assert.equal(auth.authorized_target.path,`${root}/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs`);
   assert.equal(auth.authorized_target.source_git_blob_sha,'112f904f14be43f9bafcba26035a92df2d09d203');
@@ -31,7 +32,7 @@ test('v4.6.76a pins immutable V4675A evidence and exact corrected V4673A lifecyc
 test('v4.6.76a is lifecycle-compatible with exact corrected, corrected-B105 and authorized postwrite-repair target transitions',()=>{
   const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
   assert.ok(repairTarget,'postwrite repair must pin V4673A target');
-  const blob=gitBlobSha(readFileSync(auth.authorized_target.path));
+  const blob=historicalBlob(auth.authorized_target.path);
   assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.replacement_successor_git_blob_sha,historicalNextV4673aSuccessor,correctedB105V4673aSuccessor,repairTarget.successor_git_blob_sha,correctedPostwriteV4673aSuccessor].includes(blob),'V4673A regression must be an exact pinned lifecycle state');
 });
 

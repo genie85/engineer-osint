@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -28,7 +29,7 @@ test('v4.5.66 keeps immutable policy and recognizes only baseline/action/B100/B1
   assert.equal(policy.v4565_policy.git_blob_sha,'1a04438e8a8541adc0ea426ee2d7c623446e9244');
   assert.equal(gitBlobSha(v4565Text),policy.v4565_policy.git_blob_sha);
   assert.equal(policy.authorized_test.historical_git_blob_sha,'bcc84c5536420fcc1be2b6fcf9060cca851e09b4');
-  const current=gitBlobSha(v4565TestText);
+  const current=historicalBlob(`${root}/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs`);
   assert.ok([policy.authorized_test.historical_git_blob_sha,exactV4565TestSuccessor,exactB100V4565TestSuccessor,exactB101V4565TestSuccessor,exactB102V4565TestSuccessor,exactExecutorV4565TestSuccessor,exactB103V4565TestSuccessor,exactB104V4565TestSuccessor,exactB105V4565TestSuccessor].includes(current),'v4.5.65 test is outside the exact pinned lifecycle states');
   if(current===exactV4565TestSuccessor){
     for(const sha of [

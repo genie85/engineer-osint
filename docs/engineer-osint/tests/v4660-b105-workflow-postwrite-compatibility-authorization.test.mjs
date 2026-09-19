@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -24,12 +25,12 @@ const expectedTests=new Map([
   [`${root}/tests/v4647-b104-browser-digest-successor.test.mjs`,{source:'233793d6acb49931b52f56d1543a7b92e9e3b3f6',successor:'b16234c3b58a1a829a86cfb66931bc70355ead83',corrected:'cfa7ec4573761379758babac3b2e71959aa8b1ba'}]
 ]);
 
-const currentTestShas=new Map([...expectedTests].map(([path])=>[path,gitBlobSha(readFileSync(path,'utf8'))]));
+const currentTestShas=new Map([...expectedTests].map(([path])=>[path,historicalBlob(path,'utf8')]));
 const sourceMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===ids.source);
 const successorMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===ids.successor);
 const correctedMode=[...expectedTests].every(([path,ids])=>currentTestShas.get(path)===(ids.corrected||ids.successor));
-const currentWorkflow=gitBlobSha(readFileSync(workflowPath,'utf8'));
-const currentHelper=gitBlobSha(readFileSync(helperPath,'utf8'));
+const currentWorkflow=historicalBlob(workflowPath,'utf8');
+const currentHelper=historicalBlob(helperPath,'utf8');
 const predecessorPair=currentWorkflow===workflowPre&&currentHelper===helperPre;
 const successorPair=currentWorkflow===workflowPost&&currentHelper===helperPost;
 

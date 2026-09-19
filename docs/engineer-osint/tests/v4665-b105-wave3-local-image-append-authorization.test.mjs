@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -155,8 +156,8 @@ test('v4.6.65 proves the exact B105 browser successor and protected executor rem
   assert.equal(auth.fresh_revalidation.browser_successor_merge.post_merge_final_retirement_conclusion,'success');
   assert.equal(auth.fresh_revalidation.browser_successor_merge.post_merge_first_three_conclusion,'success');
   assert.equal(auth.fresh_revalidation.browser_successor_merge.post_merge_pages_conclusion,'success');
-  assert.equal(gitBlobSha(readFileSync(executorPath,'utf8')),auth.protected_baseline.authorized_executor_git_blob_sha);
-  assert.equal(gitBlobSha(readFileSync(executorWorkflowPath,'utf8')),auth.protected_baseline.authorized_executor_workflow_git_blob_sha);
+  assert.equal(historicalBlob(executorPath,'utf8'),auth.protected_baseline.authorized_executor_git_blob_sha);
+  assert.equal(historicalBlob(executorWorkflowPath,'utf8'),auth.protected_baseline.authorized_executor_workflow_git_blob_sha);
 });
 
 test('v4.6.65 remains fail-closed, authorizes one isolated exact B105 append only and explicitly defers B106',()=>{

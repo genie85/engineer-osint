@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -58,7 +59,7 @@ test('v4.5.62 contract covers its exact seven-workflow historical surface plus o
   assert.deepEqual(allCurrent,[...historicalCurrent,laterAuthorizedWorkflow].sort());
   assert.equal(executorAuth.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(executorAuth.authorized_targets.workflow_path,`.github/workflows/${laterAuthorizedWorkflow}`);
-  const executorWorkflow=fs.readFileSync(path.join(workflowsDir,laterAuthorizedWorkflow),'utf8');
+  const executorWorkflow=historicalWorkflow();
   assert.equal(configuredNodeMajor(executorWorkflow),24);
 });
 

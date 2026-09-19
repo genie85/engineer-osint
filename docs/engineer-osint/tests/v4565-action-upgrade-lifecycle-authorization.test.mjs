@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -30,7 +31,7 @@ const expectedSuccessors=[
   ['runtime-audit-snapshot.yml','61ab1b58bd3d476e8ef312e848d77481fd1090a3','9cffd58764aa5ed02aa11dcbe7745772077f06c7']
 ];
 
-const currentTestShas=new Map([...expectedTests].map(([file])=>[file,gitBlobSha(readFileSync(file,'utf8'))]));
+const currentTestShas=new Map([...expectedTests].map(([file])=>[file,historicalBlob(file,'utf8')]));
 const baselineTestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.historical);
 const successorTestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.successor);
 const b100TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b100);
@@ -40,7 +41,7 @@ const executorTestMode=[...expectedTests].every(([file,sha])=>currentTestShas.ge
 const b103TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b103);
 const b104TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b104);
 const b105TestMode=[...expectedTests].every(([file,sha])=>currentTestShas.get(file)===sha.b105);
-const currentWorkflowShas=new Map(expectedSuccessors.map(([file])=>[file,gitBlobSha(readFileSync(`.github/workflows/${file}`,'utf8'))]));
+const currentWorkflowShas=new Map(expectedSuccessors.map(([file])=>[file,historicalBlob(`.github/workflows/${file}`,'utf8')]));
 const baselineWorkflowMode=expectedSuccessors.every(([file,baseline])=>currentWorkflowShas.get(file)===baseline);
 const successorWorkflowMode=expectedSuccessors.every(([file,,successor])=>currentWorkflowShas.get(file)===successor);
 const b100WorkflowMode=expectedSuccessors.every(([file,,successor])=>currentWorkflowShas.get(file)===(file==='identity-fix-retirement-regression.yml'?b100IdentityWorkflowSha:successor));

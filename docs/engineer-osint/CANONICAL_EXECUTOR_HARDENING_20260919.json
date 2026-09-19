@@ -1,0 +1,391 @@
+{
+  "schemaVersion": "engineer.canonical-hardening.v1",
+  "basisRequest": "20260919T173925Z-c87e1c3b34",
+  "reviewedBase": "34db89ce68c9432152bb77cbb289e7dda64dfcbf",
+  "status": "LOCAL_PROPOSAL_NOT_ACTIVATED",
+  "historicalAuthorityDisposition": "historical-only-superseded-for-current-execution",
+  "authorization": {
+    "canonicalExecution": false,
+    "merge": false,
+    "deploy": false,
+    "wildcardSuccessors": false,
+    "scope": "exact-readonly-stop-gate-and-historical-assertions"
+  },
+  "exactSuccessors": [
+    {
+      "path": ".github/workflows/authorized-canonical-executor.yml",
+      "sourceGitBlob": "a0c390755bbd38bfbe5d1329155606bb84dc4a93",
+      "successorGitBlob": "682f28fa04233916ba73da433e9e57d4ea2c7ff4"
+    },
+    {
+      "path": "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
+      "sourceGitBlob": null,
+      "successorGitBlob": "49a394ef9d21fa39fb9615e40647106631453ca0"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs",
+      "sourceGitBlob": "c1611a3de4b54a17e7ceeb127ca7d3ab271af05f",
+      "successorGitBlob": "76c1f7b5d0f3a2e8817919dec79c990b109c9ef4"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4565-action-upgrade-lifecycle-authorization.test.mjs",
+      "sourceGitBlob": "1b889cd96fb1a057dc374af269a44601bf920444",
+      "successorGitBlob": "c4faa6dc7165ac04e375cdec75af9322c426d7a8"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4566-self-successor-authorization.test.mjs",
+      "sourceGitBlob": "3a29c4d00a1a49f0462956aab30915b551655337",
+      "successorGitBlob": "f909dd32168bfeeb16f97c5e4c814bce3fe7714c"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+      "sourceGitBlob": "89354a2ec0ae6c213dec0df203ca8ec5ba748d3b",
+      "successorGitBlob": "b5af004df50e680d433f3e949a9ce9f4f4346f97"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4643-b104-wave2-local-image-authorization.test.mjs",
+      "sourceGitBlob": "acc1c241f42bc71dbb3638ac117d8317520aa83f",
+      "successorGitBlob": "7cfb8fa3fc9995baeba38d2692bb49c215202c13"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4646-b104-cc0-authorization.test.mjs",
+      "sourceGitBlob": "44ee3ea62eaee274bfaeebac5fab6478f9bcc019",
+      "successorGitBlob": "13532c5093bda8cce0ba695ee68637358648b114"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4660-b105-workflow-postwrite-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "027db23d5a6cdd91f93afa8575265d7fb366ac9f",
+      "successorGitBlob": "214c1ea33e01890e01bd5273a106828bf225fe60"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4661-v4660-test-successor-authorization.test.mjs",
+      "sourceGitBlob": "81a290e30e65d6ab9dc391c6958a2bea2c891ca1",
+      "successorGitBlob": "4f457212bd6499d37af64e464801d4156dcb27e5"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4663-v4566-b105-self-successor-authorization.test.mjs",
+      "sourceGitBlob": "4af1c93058ba1c7406309e0fd760f0b3650d43e3",
+      "successorGitBlob": "90c2e5ad74a5383aa8c61aef2399e9db296d70c5"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4665-b105-wave3-local-image-append-authorization.test.mjs",
+      "sourceGitBlob": "2b2b8fe5d3adf4f7f10a8f180523e4acc7867bfc",
+      "successorGitBlob": "bd2faf8fa54faebd752b4b58e1c7d4e50a16f3f2"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4667-b105-postwrite-lifecycle-authorization.test.mjs",
+      "sourceGitBlob": "d3a1cb0dce53b5c8a9f5bdca7dd3735b62cdba6e",
+      "successorGitBlob": "33f32fd7e9204f4a0dcf1ce5c9a8549580087f38"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4668a-v4667-test-successor-authorization.test.mjs",
+      "sourceGitBlob": "090a0b41cd9ca3c42efd216569aaa698f37f80c0",
+      "successorGitBlob": "6470c34e9e089bf6b76186c5a5c1a67eb0f7d0c3"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4669a-b105-successor-inventory-correction-authorization.test.mjs",
+      "sourceGitBlob": "0a395fe6267d8676d149f4684806822b91571018",
+      "successorGitBlob": "610187a78a9048779aa3a56ca63813444fe68859"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "931c5edb18647754102b6077a3d9409a089cddb2",
+      "successorGitBlob": "8135d2a2638ce38167e26ae9adeca65b8cd7fa9a"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4671-v4670-test-lifecycle-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "c62af7e855930f67b5f4ec3e656261275dfacd4a",
+      "successorGitBlob": "b6aa7baaade94f6141fc04c5a178d8b24a7b3e06"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4672a-v4671-successor-pin-correction-authorization.test.mjs",
+      "sourceGitBlob": "2778f959bafa46e0ebcff8db25557615807a9e90",
+      "successorGitBlob": "0f8640b64fe5f10518fe091eab8f5eb5e005a2e3"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4673a-v4671-v4672a-lifecycle-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "7b6d285e32b705d417211f6a1f7a6a96bbb31f2a",
+      "successorGitBlob": "53a67df96ed690ef1632f92ca0121551430e7453"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4674a-v4673-successor-pin-correction-authorization.test.mjs",
+      "sourceGitBlob": "283329b6985dbff68ae6149497677690bc95fa69",
+      "successorGitBlob": "b84851b5822869b42abf88386d7f4b6b143ac07e"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4675a-v4673-test-lifecycle-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "497a7b4677e93b8022e1ed38662fc4fc43126312",
+      "successorGitBlob": "14d9a250957c6acd32bb01c669bc2253c91b57fa"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4676a-v4675-successor-pin-correction-authorization.test.mjs",
+      "sourceGitBlob": "89ddd78d9b7b47f1a40891f25a996fa6d21fdc0e",
+      "successorGitBlob": "51a10ee0368a13b4b3507248ae8eddf02057e724"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4677a-v4675-test-lifecycle-correction-authorization.test.mjs",
+      "sourceGitBlob": "2c6c2881c73d38c5e8431818b0340757ed207c1f",
+      "successorGitBlob": "97ff25e0a0e47a5231dd713fdcf69ed9afa3e0df"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4678a-v4669a-successor-materialization-correction-authorization.test.mjs",
+      "sourceGitBlob": "aaf6e051d8136f5c708088b465a73b3fe69534d1",
+      "successorGitBlob": "4e3337fe6b88ac32ef4f9e16572b4218b922d058"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4679a-v4678a-transitive-dependency-closure-authorization.test.mjs",
+      "sourceGitBlob": "a0be81315b45e152e3e83f10b7104aa41ddae2e0",
+      "successorGitBlob": "f7d50ffbf4808d0d90550b7b77a2154169ae76ab"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4680a-b105-corrected-target-transitive-closure-authorization.test.mjs",
+      "sourceGitBlob": "c00415c34a903d38813064835276aa29c56a7419",
+      "successorGitBlob": "0991c367b02b3cc68a22a3882013b7d5837d6e33"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4682a-v4680a-phase-boundary-source-pin-correction-authorization.test.mjs",
+      "sourceGitBlob": "00e15a66c6c6e12e71ea61d2fe6e1ddef2e52fb4",
+      "successorGitBlob": "9f4bfa60c23d654d45321fbb228087a5d04c1130"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4683a-v4682a-lifecycle-self-pin-correction-authorization.test.mjs",
+      "sourceGitBlob": "319e8ef3d85b8f7a8ee64e81e84d85d6d8a9e85c",
+      "successorGitBlob": "7c5cea96f999fbece4ce2153f96051a926fca3f1"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4686a-b105-postwrite-fixture-repair-authorization.test.mjs",
+      "sourceGitBlob": "94b2c0e3e12835fa33e5c40b80d9fa317ccbd6ae",
+      "successorGitBlob": "0426326df62e346be7e2f7fe316952e4ad0ee969"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4687a-b105-postwrite-repair-closure-authorization.test.mjs",
+      "sourceGitBlob": "bf91115c6a90fd83f6f6825d4f7c4f48f7de63a4",
+      "successorGitBlob": "e7019d446a41af82f4af03cb3443ec41d900fcef"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4688a-b105-postwrite-final-state-closure-authorization.test.mjs",
+      "sourceGitBlob": "64f71a15735788fd25ed20d79e5928b09d210fc9",
+      "successorGitBlob": "6762a60f6d98ecff18c203220103ece06d735296"
+    },
+    {
+      "path": "docs/engineer-osint/tests/v4695-b106-browser-compatibility-authorization.test.mjs",
+      "sourceGitBlob": "1305287502989ae81b3d3318d5874e840b6b7041",
+      "successorGitBlob": "8af37dbe1df8e688326b06ebbf2efb86ab638a5b"
+    }
+  ],
+  "historicalAuthorizations": [
+    {
+      "path": "docs/engineer-osint/V4511_B96_APPEND_AUTHORIZATION.json",
+      "gitBlob": "aa5f822cfa7aa2911815dd743b04fd6389049881"
+    },
+    {
+      "path": "docs/engineer-osint/V4518_B97_APPEND_AUTHORIZATION.json",
+      "gitBlob": "69c879cac698d230c8a71d24b799fb9ea82ccbcc"
+    },
+    {
+      "path": "docs/engineer-osint/V4526_B98_APPEND_AUTHORIZATION.json",
+      "gitBlob": "59b3c91bcd34f92695eae40b20a36a15ebc4b136"
+    },
+    {
+      "path": "docs/engineer-osint/V4540_B99_APPEND_AUTHORIZATION.json",
+      "gitBlob": "a1bb41bb82253f206d226699bfa63568bd5e3333"
+    },
+    {
+      "path": "docs/engineer-osint/V4545_IDENTITY_FIX_RETIREMENT_AUTHORIZATION.json",
+      "gitBlob": "06439dace8c0053cd18e1ecc07d2a3262eb8243f"
+    },
+    {
+      "path": "docs/engineer-osint/V4549_ONE_SHOT_WORKFLOW_REMOVAL_AUTHORIZATION.json",
+      "gitBlob": "8ef9ab22c1d92dd8caa29c5a71360df3d7888499"
+    },
+    {
+      "path": "docs/engineer-osint/V4552_READONLY_WORKFLOW_REMOVAL_AUTHORIZATION.json",
+      "gitBlob": "9394a1f6a4749b12c127128b8555ac358e751f4c"
+    },
+    {
+      "path": "docs/engineer-osint/V4555_HISTORICAL_TRIGGER_MANUAL_ONLY_AUTHORIZATION.json",
+      "gitBlob": "b5a1c26cdf715b5f10dadda19f13540b6a574afd"
+    },
+    {
+      "path": "docs/engineer-osint/V4563_ACTION_NODE24_AUTHORIZATION.json",
+      "gitBlob": "b4fee6677566e25c4c063024cba801f2eddac3ca"
+    },
+    {
+      "path": "docs/engineer-osint/V4565_ACTION_UPGRADE_LIFECYCLE_AUTHORIZATION.json",
+      "gitBlob": "1a04438e8a8541adc0ea426ee2d7c623446e9244"
+    },
+    {
+      "path": "docs/engineer-osint/V4566_SELF_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "321ebaff97a1d3e4333f43a26c7bf30a0f6b58d8"
+    },
+    {
+      "path": "docs/engineer-osint/V4593_B100_APPEND_AUTHORIZATION.json",
+      "gitBlob": "bc4e44194a2ebaa6432d4d6674d79111da8a7ae8"
+    },
+    {
+      "path": "docs/engineer-osint/V4596_B101_APPEND_AUTHORIZATION.json",
+      "gitBlob": "de6e6c386087981274ae03b34b63a530590fcf0a"
+    },
+    {
+      "path": "docs/engineer-osint/V4599_B102_APPEND_AUTHORIZATION.json",
+      "gitBlob": "c69c9c54745ee1b5323b13906cfa8160e1d11b91"
+    },
+    {
+      "path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+      "gitBlob": "7024735e648e6fe7642f178901e0787a743fa5d9"
+    },
+    {
+      "path": "docs/engineer-osint/V4605_CANONICAL_EXECUTOR_AUTHORIZATION.json",
+      "gitBlob": "7917c6154530a32da0defa8fbe9acfbedef0d019"
+    },
+    {
+      "path": "docs/engineer-osint/V4608_B103_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "167eef8af4b5267051063bbfd7d74cb7778fbed8"
+    },
+    {
+      "path": "docs/engineer-osint/V4613_EXECUTOR_DIRTY_PATH_PARSER_AUTHORIZATION.json",
+      "gitBlob": "6bfefc68e53bfbdeadab956667c600b3df24fecc"
+    },
+    {
+      "path": "docs/engineer-osint/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json",
+      "gitBlob": "29f3c4e377b2c01ab87445f3b689050a19b5592e"
+    },
+    {
+      "path": "docs/engineer-osint/V4621_B103_BROWSER_DIGEST_WORKFLOW_AUTHORIZATION.json",
+      "gitBlob": "fd6f82117b11dc2449c490c0ef6ebbf216c8f7b5"
+    },
+    {
+      "path": "docs/engineer-osint/V4623_B103_WORKFLOW_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "c892a722632d9bf6895c31e5a5b3dc73c668304f"
+    },
+    {
+      "path": "docs/engineer-osint/V4625_V4566_B103_SELF_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "60045c6d26cf608830398240aecf48cb323d68c6"
+    },
+    {
+      "path": "docs/engineer-osint/V4630_B103_POSTWRITE_LIFECYCLE_AUTHORIZATION.json",
+      "gitBlob": "ab28b0bfae14eeaa773e6f272795eb7b21bbe965"
+    },
+    {
+      "path": "docs/engineer-osint/V4640_WAVE2_PHOTO_ACQUISITION_WORKFLOW_AUTHORIZATION.json",
+      "gitBlob": "831e8488c3e85e0e6d92853e4bc1ace2cfb5f3a6"
+    },
+    {
+      "path": "docs/engineer-osint/V4643_B104_WAVE2_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+      "gitBlob": "006fd3c249e43b9f588227cb6db2d21d093bd105"
+    },
+    {
+      "path": "docs/engineer-osint/V4646_B104_CC0_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+      "gitBlob": "7b753de908c5bdb6c8395f9e42d72c32085d3418"
+    },
+    {
+      "path": "docs/engineer-osint/V4648_B104_POSTWRITE_LIFECYCLE_AUTHORIZATION.json",
+      "gitBlob": "72f7da2b93c44311b2a05b18f1f86839e0b6a951"
+    },
+    {
+      "path": "docs/engineer-osint/V4651_WAVE3_PHOTO_ACQUISITION_WORKFLOW_AUTHORIZATION.json",
+      "gitBlob": "3b81122ec886c83fbc3583ec63f96f4837096c2e"
+    },
+    {
+      "path": "docs/engineer-osint/V4658_B105_BROWSER_WORKFLOW_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "75ae100621413d4673461407f1267f9970cdbfe8"
+    },
+    {
+      "path": "docs/engineer-osint/V4660_B105_WORKFLOW_POSTWRITE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "74f2dc91584cb6b8b3c4e0f678f41756a391d273"
+    },
+    {
+      "path": "docs/engineer-osint/V4661_V4660_TEST_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "5cf4ec70c6e942313f2c9d8aa0bf98706af35f3d"
+    },
+    {
+      "path": "docs/engineer-osint/V4663_V4566_B105_SELF_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "4055a24660602d9a42d81fa80e283fe3810402ae"
+    },
+    {
+      "path": "docs/engineer-osint/V4665_B105_WAVE3_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
+      "gitBlob": "a13e8c4b1d496923c6e5077141e06e5fdac24bc7"
+    },
+    {
+      "path": "docs/engineer-osint/V4667_B105_POSTWRITE_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "c156bfbf536e34a59b7e4b149615605892818f76"
+    },
+    {
+      "path": "docs/engineer-osint/V4668A_V4667_TEST_SUCCESSOR_AUTHORIZATION.json",
+      "gitBlob": "2007457061ea4815064db7cfbf8ca9d4fda6d8ff"
+    },
+    {
+      "path": "docs/engineer-osint/V4669A_B105_SUCCESSOR_INVENTORY_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "9fbdd5a65816aace6be15700f36d4fa807641ef6"
+    },
+    {
+      "path": "docs/engineer-osint/V4670_V4669A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "5ab11a756d1e1636cf79f7b9eac348067e538013"
+    },
+    {
+      "path": "docs/engineer-osint/V4671_V4670_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "35d2c228137ec57a2845a56ca811714ecbba834a"
+    },
+    {
+      "path": "docs/engineer-osint/V4672A_V4671_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "3502615f9383d6de8ac861cad60630a224da78f1"
+    },
+    {
+      "path": "docs/engineer-osint/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "6abeb6ad9a111cfb421a2cf9297aad70ac6f113d"
+    },
+    {
+      "path": "docs/engineer-osint/V4674A_V4673_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "4dd1c333b071bc0f613474fea199a0eb3d9768f7"
+    },
+    {
+      "path": "docs/engineer-osint/V4675A_V4673_TEST_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "586686a0569c93b0024b9ce1b420df0f1885d7bc"
+    },
+    {
+      "path": "docs/engineer-osint/V4676A_V4675_SUCCESSOR_PIN_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "511a26f25f6708024ecb4c4fa0290207cf794266"
+    },
+    {
+      "path": "docs/engineer-osint/V4677A_V4675_TEST_LIFECYCLE_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "a2ca36c8b77f46e13c6f650f20f52219d08d409a"
+    },
+    {
+      "path": "docs/engineer-osint/V4678A_V4669A_SUCCESSOR_MATERIALIZATION_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "c2c46171a3fec6f757a7a6473ffc3fd8c7f01afe"
+    },
+    {
+      "path": "docs/engineer-osint/V4679A_V4678A_TRANSITIVE_DEPENDENCY_CLOSURE_AUTHORIZATION.json",
+      "gitBlob": "d740f610d8db31dc4d0f1b62e5e4043f9235c991"
+    },
+    {
+      "path": "docs/engineer-osint/V4680A_B105_CORRECTED_TARGET_TRANSITIVE_CLOSURE_AUTHORIZATION.json",
+      "gitBlob": "baff51ddd281b7c838b4f62a4daffeb15cd4ede0"
+    },
+    {
+      "path": "docs/engineer-osint/V4682A_V4680A_PHASE_BOUNDARY_SOURCE_PIN_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "4a20841b92d5cfd5d12cb8c4a6c6aaffa5f541cd"
+    },
+    {
+      "path": "docs/engineer-osint/V4683A_V4682A_LIFECYCLE_SELF_PIN_CORRECTION_AUTHORIZATION.json",
+      "gitBlob": "7da1236517fbe9250f7a9fe6120660278d18cee8"
+    },
+    {
+      "path": "docs/engineer-osint/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json",
+      "gitBlob": "2f934e4c7e37e8277d4dde6f06eed0d001dce5f4"
+    },
+    {
+      "path": "docs/engineer-osint/V4687A_B105_POSTWRITE_REPAIR_CLOSURE_AUTHORIZATION.json",
+      "gitBlob": "874d4c4cca9b598be772f9377be9c3da3b29c9a9"
+    },
+    {
+      "path": "docs/engineer-osint/V4688A_B105_POSTWRITE_FINAL_STATE_CLOSURE_AUTHORIZATION.json",
+      "gitBlob": "614f503dc7a07ae08dbe8297cdc9c807675931f6"
+    },
+    {
+      "path": "docs/engineer-osint/V4695_B106_BROWSER_COMPATIBILITY_AUTHORIZATION.json",
+      "gitBlob": "cdf0836911f57a46754862c29ed866e9012c667f"
+    }
+  ],
+  "historicalWorkflow": "name: ENGINEER OSINT authorized canonical executor\n\non:\n  pull_request:\n    branches: [main]\n    types: [opened, synchronize, reopened]\n    paths:\n      - 'docs/engineer-osint/canonical-execution-requests/*.json'\n\npermissions:\n  contents: write\n  pull-requests: read\n\nconcurrency:\n  group: engineer-osint-canonical-executor-${{ github.event.pull_request.number }}\n  cancel-in-progress: false\n\njobs:\n  execute:\n    if: github.event.pull_request.head.repo.full_name == github.repository\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout exact same-repository PR head\n        uses: actions/checkout@v5\n        with:\n          ref: ${{ github.event.pull_request.head.sha }}\n          fetch-depth: 0\n      - name: Setup Node\n        uses: actions/setup-node@v5\n        with:\n          node-version: '24'\n      - name: Resolve isolated execution request\n        id: request\n        shell: bash\n        env:\n          BASE_SHA: ${{ github.event.pull_request.base.sha }}\n        run: |\n          set -euo pipefail\n          mapfile -t requests < <(git diff --name-only \"${BASE_SHA}...HEAD\" -- 'docs/engineer-osint/canonical-execution-requests/*.json')\n          if [ \"${#requests[@]}\" -ne 1 ]; then\n            printf 'Expected exactly one canonical execution request, found %s\\n' \"${#requests[@]}\" >&2\n            exit 1\n          fi\n          printf 'path=%s\\n' \"${requests[0]}\" >> \"$GITHUB_OUTPUT\"\n      - name: Execute exact authorized canonical request to PR head only\n        env:\n          GITHUB_EVENT_NAME: ${{ github.event_name }}\n          GITHUB_EVENT_PATH: ${{ github.event_path }}\n          GITHUB_REPOSITORY: ${{ github.repository }}\n        run: node docs/engineer-osint/authorized-canonical-executor.mjs '${{ steps.request.outputs.path }}' --execute\n"
+}

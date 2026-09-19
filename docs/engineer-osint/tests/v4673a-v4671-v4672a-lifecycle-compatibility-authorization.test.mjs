@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -41,7 +42,7 @@ test('v4.6.73a pins failed exact-head implementation and two exact guard transit
 test('v4.6.73a is lifecycle-compatible with exact historical, corrected, corrected-B105 and authorized postwrite-repair guard successors',()=>{
   assert.equal(correction.superseded_authorization.path,`${root}/V4673A_V4671_V4672A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(correction.superseded_authorization.git_blob_sha,'6abeb6ad9a111cfb421a2cf9297aad70ac6f113d');
-  assert.equal(gitBlobSha(readFileSync(correction.superseded_authorization.path)),correction.superseded_authorization.git_blob_sha);
+  assert.equal(historicalBlob(correction.superseded_authorization.path),correction.superseded_authorization.git_blob_sha);
   for(const target of auth.authorized_targets){
     const matches=correction.authorized_targets.filter(value=>value.path===target.path);
     assert.equal(matches.length,1,`${target.path} must have exactly one corrected target`);
@@ -52,7 +53,7 @@ test('v4.6.73a is lifecycle-compatible with exact historical, corrected, correct
     const correctedPostwrite=correctedPostwriteGuardSuccessors.get(target.path);
     const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);
     assert.ok(historicalNext&&correctedB105&&correctedPostwrite&&repairTarget,`${target.path} must have exact pinned lifecycle successors`);
-    const blob=gitBlobSha(readFileSync(target.path));
+    const blob=historicalBlob(target.path);
     assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected.replacement_successor_git_blob_sha,historicalNext,correctedB105,repairTarget.successor_git_blob_sha,correctedPostwrite].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
 });

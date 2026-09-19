@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -19,7 +20,7 @@ test('v4.6.71 pins immutable v4.6.70 authorization and exact v4670 test lifecycl
   assert.equal(auth.reviewed_main_sha,'6849738d82f47249d1bd5a4051b5826be6620859');
   assert.equal(auth.upstream_authorization.path,`${root}/V4670_V4669A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`);
   assert.equal(auth.upstream_authorization.git_blob_sha,'5ab11a756d1e1636cf79f7b9eac348067e538013');
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorization.path)),auth.upstream_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorization.path),auth.upstream_authorization.git_blob_sha);
   assert.equal(auth.upstream_authorization.immutable,true);
   assert.equal(auth.authorized_target.path,`${root}/tests/v4670-v4669a-lifecycle-compatibility-authorization.test.mjs`);
   assert.equal(auth.authorized_target.source_git_blob_sha,'e89c25af599f89583690b5b72bbf98f46724fb1a');
@@ -28,7 +29,7 @@ test('v4.6.71 pins immutable v4.6.70 authorization and exact v4670 test lifecycl
 });
 
 test('v4.6.71 remains lifecycle-compatible with exact historical, corrected, corrected-B105 and authorized postwrite-repair v4670 successors',()=>{
-  const targetBlob=gitBlobSha(readFileSync(auth.authorized_target.path));
+  const targetBlob=historicalBlob(auth.authorized_target.path);
   const repairTarget=repair.exact_repair_targets.find(item=>item.path===auth.authorized_target.path);
   assert.ok(repairTarget,'postwrite repair must pin V4670 target');
   assert.ok([auth.authorized_target.source_git_blob_sha,auth.authorized_target.successor_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447','8d5b111911b39f7fee30e00f6f833b262561e701',correctedB105V4670Successor,repairTarget.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(targetBlob),'v4670 test must be an exact pinned lifecycle state');

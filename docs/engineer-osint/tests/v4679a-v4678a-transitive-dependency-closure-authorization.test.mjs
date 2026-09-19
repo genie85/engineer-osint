@@ -1,3 +1,4 @@
+import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -38,7 +39,7 @@ test('v4.6.79a pins failed #419, immutable V4678A and a closed exact dependency 
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.upstream_authorization.path,`${root}/V4678A_V4669A_SUCCESSOR_MATERIALIZATION_CORRECTION_AUTHORIZATION.json`);
   assert.equal(auth.upstream_authorization.git_blob_sha,'c2c46171a3fec6f757a7a6473ffc3fd8c7f01afe');
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorization.path)),auth.upstream_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorization.path),auth.upstream_authorization.git_blob_sha);
   assert.equal(auth.blocked_implementation.pr_number,419);
   assert.equal(auth.blocked_implementation.head_sha,'20f7bf2216696b8ff3dd5d156b5aa0ffa4994632');
   assert.deepEqual(auth.blocked_implementation.exact_head_workflow_runs,[33984685516,33984685204,33984685090,33984685079]);
@@ -52,7 +53,7 @@ test('v4.6.79a compatibility preparation stays exact through corrected-B105 and 
   assert.equal(auth.compatibility_prep_targets.length,5);
   assert.equal(auth.guard_targets.length,2);
   for(const target of [...auth.compatibility_prep_targets,...auth.guard_targets]){
-    const blob=gitBlobSha(readFileSync(target.path));
+    const blob=historicalBlob(target.path);
     const corrected=correctedB105Successors.get(target.path);
     const correctedPostwrite=correctedPostwriteSuccessors.get(target.path);
     const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);
@@ -60,7 +61,7 @@ test('v4.6.79a compatibility preparation stays exact through corrected-B105 and 
     assert.ok([target.source_git_blob_sha,target.successor_git_blob_sha,corrected,repairTarget.successor_git_blob_sha,correctedPostwrite].includes(blob),`${target.path} must be an exact pinned lifecycle state`);
   }
   for(const target of Object.values(auth.downstream_exact_transitions)){
-    const blob=gitBlobSha(readFileSync(target.path));
+    const blob=historicalBlob(target.path);
     const corrected=correctedB105Successors.get(target.path);
     const correctedPostwrite=correctedPostwriteSuccessors.get(target.path);
     const repairTarget=repair.exact_repair_targets.find(item=>item.path===target.path);

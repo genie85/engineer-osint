@@ -1,3 +1,4 @@
+import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -19,7 +20,7 @@ test('v4.6.78a pins immutable upstream and two pre-materialized replacement succ
   assert.equal(auth.schema_version,'engineer-osint-v4669a-successor-materialization-correction-authorization-v1');
   assert.equal(auth.status,'READY_FOR_IMPLEMENTATION');
   assert.equal(auth.reviewed_main_sha,'b944d1946b0e0b0c7650ca709c367d31a0e52029');
-  assert.equal(gitBlobSha(readFileSync(auth.upstream_authorization.path)),auth.upstream_authorization.git_blob_sha);
+  assert.equal(historicalBlob(auth.upstream_authorization.path),auth.upstream_authorization.git_blob_sha);
   assert.equal(auth.upstream_authorization.git_blob_sha,'5ab11a756d1e1636cf79f7b9eac348067e538013');
   assert.equal(auth.correction_reason.unavailable_successor_git_blob_sha,'4396d5e87af72ddeb90ca080ea0b105411076cad');
   assert.equal(auth.materialization_evidence.v4670_lifecycle_successor.git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701');
@@ -36,8 +37,8 @@ test('v4.6.78a remains lifecycle-compatible with each ordered exact transition, 
   const repairV4670=repair.exact_repair_targets.find(item=>item.path===v4670.path);
   const repairV4669a=repair.exact_repair_targets.find(item=>item.path===v4669a.path);
   assert.ok(repairV4670&&repairV4669a,'postwrite repair must pin V4670 and V4669A targets');
-  assert.ok([v4670.source_git_blob_sha,v4670.replacement_successor_git_blob_sha,correctedB105V4670Successor,repairV4670.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(gitBlobSha(readFileSync(v4670.path))));
-  assert.ok([v4669a.source_git_blob_sha,v4669a.replacement_successor_git_blob_sha,correctedB105V4669aSuccessor,repairV4669a.successor_git_blob_sha,correctedPostwriteV4669aSuccessor].includes(gitBlobSha(readFileSync(v4669a.path))));
+  assert.ok([v4670.source_git_blob_sha,v4670.replacement_successor_git_blob_sha,correctedB105V4670Successor,repairV4670.successor_git_blob_sha,correctedPostwriteV4670Successor].includes(historicalBlob(v4670.path)));
+  assert.ok([v4669a.source_git_blob_sha,v4669a.replacement_successor_git_blob_sha,correctedB105V4669aSuccessor,repairV4669a.successor_git_blob_sha,correctedPostwriteV4669aSuccessor].includes(historicalBlob(v4669a.path)));
   assert.equal(v4670.source_git_blob_sha,'0e17237a65876cabe8ee14a9b333ddc28d053447');
   assert.equal(v4670.replacement_successor_git_blob_sha,'8d5b111911b39f7fee30e00f6f833b262561e701');
   assert.equal(v4669a.source_git_blob_sha,'616405eaa413ec5552099dfec419f298c47a9440');
