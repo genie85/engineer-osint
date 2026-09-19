@@ -1,8 +1,9 @@
+import {historicalWorkflowNames as historicalWorkflowSurface} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
@@ -11,7 +12,6 @@ const audit=readFileSync(`${root}/audit-one-shot-workflow-removal.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const targets=['b96-one-shot-publish.yml','b97-one-shot-publish.yml','b98-one-shot-publish.yml','b99-one-shot-publish.yml'];
 const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
-const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.50 applies exactly the v4.5.49-authorized four-workflow deletion',()=>{
   assert.equal(policy.schema_version,'engineer-osint-one-shot-workflow-removal-v1');

@@ -8,7 +8,42 @@ const recordPath='docs/engineer-osint/CANONICAL_EXECUTOR_HARDENING_20260919.json
 const additionPath='docs/engineer-osint/GUARD_WORKFLOW_ADDITION_AUTHORIZATION_20260919.json';
 const workflowPath='.github/workflows/authorized-canonical-executor.yml';
 const guardPath='.github/workflows/safe-automerge-dry-run.yml';
+const historicalInventorySources=new Map([
+  [
+    "docs/engineer-osint/tests/v4548-migration-workflow-classification.test.mjs",
+    "cb8aae9e8d5ef3ab721a4c8c64784914313adf0f"
+  ],
+  [
+    "docs/engineer-osint/tests/v4550-one-shot-workflow-removal.test.mjs",
+    "3936d282fe60661e731e126459bcd6e16c16bc9e"
+  ],
+  [
+    "docs/engineer-osint/tests/v4551-readonly-migration-workflow-disposition.test.mjs",
+    "9839878689b21afcb36253d6d7fde4b8e50026ec"
+  ],
+  [
+    "docs/engineer-osint/tests/v4552-readonly-workflow-removal-authorization.test.mjs",
+    "889de4092ab2fdac22ed4a572745c562bc11e0b9"
+  ],
+  [
+    "docs/engineer-osint/tests/v4553-readonly-workflow-removal.test.mjs",
+    "e5319f4d2e67dd903ebc4b615b14695e62b846ba"
+  ],
+  [
+    "docs/engineer-osint/tests/v4554-minimized-workflow-trigger-coverage.test.mjs",
+    "cb2db6966905393a93c85f770fa1a741db6a5cde"
+  ],
+  [
+    "docs/engineer-osint/tests/v4555-historical-trigger-manual-only-authorization.test.mjs",
+    "09b5486358d6187979b7238b57eae9c29d37d59f"
+  ],
+  [
+    "docs/engineer-osint/tests/v4556-historical-manual-only-execution.test.mjs",
+    "1f40621bec38bda233c6e10a3d1afebd6ec9bd30"
+  ]
+]);
 const closurePaths=[
+  ...historicalInventorySources.keys(),
   'docs/engineer-osint/lib/canonical-hardening-successor.mjs',
   'docs/engineer-osint/tests/v4562-active-node24-migration.test.mjs',
 ];
@@ -131,11 +166,12 @@ function verifyState(read,list){
   const overrides=new Map();
   for(const item of addition.exactSuccessors){
     const previous=record.exactSuccessors.find(x=>x.path===item.path);
-    if(item.sourceGitBlob!==previous?.successorGitBlob ||
+    if(item.sourceGitBlob!==(previous?.successorGitBlob??historicalInventorySources.get(item.path)) ||
        !/^[a-f0-9]{40}$/.test(item.successorGitBlob) ||
        item.successorGitBlob===item.sourceGitBlob){
       throw Error(`guard successor source drift: ${item.path}`);
     }
+    if(blob(read(item.path))!==item.successorGitBlob)throw Error(`guard successor target drift: ${item.path}`);
     overrides.set(item.path,item.successorGitBlob);
   }
 
@@ -170,9 +206,16 @@ export function historicalBlob(path){
   const item=record.exactSuccessors.find(x=>x.path===normalized);
   // Projection is allowed only after every successor and historical record matched.
   // Unknown or partially applied successors never reach this branch.
-  return item?.sourceGitBlob ?? blob(readFileSync(path));
+  return item?.sourceGitBlob ?? historicalInventorySources.get(normalized) ?? blob(readFileSync(path));
 }
 
 export function historicalWorkflow(){
   return assertHardeningState().historicalWorkflow;
+}
+
+// This projection is available only after exact validation of all nine live
+// workflows, their bytes, the explicit test closure and every authority record.
+export function historicalWorkflowNames(read=readFileSync,list=readdirSync){
+  verifyState(read,list);
+  return baseWorkflowNames.filter(name=>`.github/workflows/${name}`!==workflowPath).sort();
 }

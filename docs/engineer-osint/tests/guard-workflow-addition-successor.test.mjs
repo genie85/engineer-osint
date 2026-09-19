@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
 import * as state from '../lib/canonical-hardening-successor.mjs';
 
 const root='docs/engineer-osint/';
@@ -10,6 +9,8 @@ const recordPath=root+'GUARD_WORKFLOW_ADDITION_AUTHORIZATION_20260919.json';
 const p0Path=root+'CANONICAL_EXECUTOR_HARDENING_20260919.json';
 const base='ca19dee75b96a8360fd7457640ee793d6f7ee57f';
 const workflow='.github/workflows/safe-automerge-dry-run.yml';
+const sourceFixture=JSON.parse(readFileSync(root+'tests/fixtures/guard-workflow-addition-p0-sources.json'));
+const blob=raw=>createHash('sha1').update(`blob ${Buffer.byteLength(raw)}\0`).update(raw).digest('hex');
 const sha256=raw=>createHash('sha256').update(raw).digest('hex');
 const check=(read=readFileSync,list=readdirSync)=>{
   assert.equal(typeof state.assertGuardWorkflowAddition,'function');
@@ -20,7 +21,7 @@ const altered=(path,raw)=>name=>name===path?Buffer.from(raw):readFileSync(name);
 test('guard addition pins one exact ninth workflow and preserves the P0 record',()=>{
   const record=check();
   assert.equal(record.schemaVersion,'engineer.guard-workflow-addition.v2');
-  assert.equal(sha256(readFileSync(recordPath)),'5766ebb8fcabe957b645e5303c5b6f263926d21995090e49d42fdd9442f50f6b');
+  assert.equal(sha256(readFileSync(recordPath)),'be70cc2b35901a76c6a9a3b52b154eb4ce8a210117c7460db00777ae27e50715');
   assert.equal(sha256(readFileSync(p0Path)),'cefcb81bc4d436be23e4be54ea24e5ee24acbb9f220320794d4cf036eb640601');
   assert.deepEqual(record.authorization,{canonicalExecution:false,mergeAuthorized:false,deployAuthorized:false,wildcardSuccessors:false});
   assert.equal(record.baseWorkflows.length,8);
@@ -28,6 +29,14 @@ test('guard addition pins one exact ninth workflow and preserves the P0 record',
   assert.deepEqual(record.exactSuccessors.map(x=>x.path).sort(),[
     root+'lib/canonical-hardening-successor.mjs',
     root+'tests/v4562-active-node24-migration.test.mjs',
+    'docs/engineer-osint/tests/v4548-migration-workflow-classification.test.mjs',
+    'docs/engineer-osint/tests/v4550-one-shot-workflow-removal.test.mjs',
+    'docs/engineer-osint/tests/v4551-readonly-migration-workflow-disposition.test.mjs',
+    'docs/engineer-osint/tests/v4552-readonly-workflow-removal-authorization.test.mjs',
+    'docs/engineer-osint/tests/v4553-readonly-workflow-removal.test.mjs',
+    'docs/engineer-osint/tests/v4554-minimized-workflow-trigger-coverage.test.mjs',
+    'docs/engineer-osint/tests/v4555-historical-trigger-manual-only-authorization.test.mjs',
+    'docs/engineer-osint/tests/v4556-historical-manual-only-execution.test.mjs',
   ].sort());
   assert.equal(record.reviewedBase,base);
   assert.equal(record.reviewedGuardHead,'1ab473e8373ee15288f64c823bba29926d2d055c');
@@ -51,15 +60,26 @@ test('one changed byte in the ninth workflow, helper or policy is rejected',()=>
 test('all eight base workflows retain their exact blobs',()=>{
   const record=JSON.parse(readFileSync(recordPath));
   for(const item of record.baseWorkflows){
-    assert.deepEqual(readFileSync(item.path),execFileSync('git',['show',`${base}:${item.path}`]));
+    assert.equal(blob(readFileSync(item.path)),item.gitBlob);
     assert.throws(()=>check(altered(item.path,'changed')),/drift/);
   }
 });
 
 test('partial helper or inventory successor is rejected without historical fallback',()=>{
   const record=JSON.parse(readFileSync(recordPath));
+  const p0=JSON.parse(readFileSync(p0Path));
+  assert.deepEqual(Object.keys(sourceFixture).sort(),[root+'lib/canonical-hardening-successor.mjs',root+'tests/v4562-active-node24-migration.test.mjs'].sort());
+  for(const [path,text] of Object.entries(sourceFixture)){
+    assert.equal(blob(text),p0.exactSuccessors.find(x=>x.path===path).successorGitBlob);
+  }
   for(const item of record.exactSuccessors){
-    const previous=execFileSync('git',['show',`${base}:${item.path}`]);
+    const previous=sourceFixture[item.path];
+    if(previous===undefined){
+      // The eight inventory successors have immutable source pins in the helper.
+      assert.throws(()=>check(altered(item.path,'partial successor')),/drift/);
+      continue;
+    }
+    assert.equal(blob(previous),item.sourceGitBlob);
     assert.throws(()=>check(altered(item.path,previous)),/drift/);
     assert.throws(()=>state.assertHardeningState(altered(item.path,previous)),/drift/);
   }
@@ -94,11 +114,11 @@ test('unknown or missing successor, wrong source hash and changed scope fail clo
 });
 
 test('P0 source pins and all historical authorization bytes remain immutable',()=>{
-  const previous=execFileSync('git',['show',`${base}:${p0Path}`]);
-  assert.deepEqual(readFileSync(p0Path),previous);
+  const previous=readFileSync(p0Path);
+  assert.equal(sha256(previous),'cefcb81bc4d436be23e4be54ea24e5ee24acbb9f220320794d4cf036eb640601');
   const p0=JSON.parse(previous);
   for(const item of p0.historicalAuthorizations){
-    assert.deepEqual(readFileSync(item.path),execFileSync('git',['show',`${base}:${item.path}`]));
+    assert.equal(blob(readFileSync(item.path)),item.gitBlob);
   }
   assert.throws(()=>check(altered(p0Path,'{}')),/drift/);
   assert.equal(state.historicalBlob(root+'tests/v4562-active-node24-migration.test.mjs'),'c1611a3de4b54a17e7ceeb127ca7d3ab271af05f');
@@ -179,4 +199,22 @@ test('schema rejects duplicate raw JSON keys including escaped-equivalent author
     raw.replace('"successorGitBlob":','"successorGitBlob":"wrong", "successorGitBlob":'),
   ];
   for(const text of cases)assert.throws(()=>check(altered(recordPath,text)),/drift/);
+});
+
+
+test('historical inventory projection validates the complete current state before returning seven names',()=>{
+  assert.equal(typeof state.historicalWorkflowNames,'function');
+  assert.deepEqual(state.historicalWorkflowNames(),[
+    'first-three-overlay-retirement-regression.yml','i18n-switch-regression.yml',
+    'identity-fix-retirement-authorization.yml','identity-fix-retirement-readiness.yml',
+    'identity-fix-retirement-regression.yml','pages.yml','runtime-audit-snapshot.yml',
+  ]);
+  const names=readdirSync('.github/workflows');
+  for(const changed of [[...names,'unknown.yml'],names.filter(x=>x!=='safe-automerge-dry-run.yml')]){
+    assert.throws(()=>state.historicalWorkflowNames(readFileSync,()=>changed),/drift/);
+  }
+  assert.throws(()=>state.historicalWorkflowNames(altered(workflow,'changed')),/drift/);
+  for(const item of JSON.parse(readFileSync(recordPath)).exactSuccessors){
+    assert.throws(()=>state.historicalWorkflowNames(altered(item.path,'changed')),/drift/);
+  }
 });

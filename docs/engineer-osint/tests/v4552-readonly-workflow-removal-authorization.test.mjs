@@ -1,8 +1,9 @@
+import {historicalWorkflowNames as historicalWorkflowSurface} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {existsSync,readFileSync,readdirSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
@@ -13,7 +14,6 @@ const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)
 const v4553Path=`${root}/V4553_READONLY_WORKFLOW_REMOVAL.json`;
 const v4553=existsSync(v4553Path)?JSON.parse(readFileSync(v4553Path,'utf8')):null;
 const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
-const historicalWorkflowSurface=()=>readdirSync(workflowsDir).filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 const targetFiles=[
   'b97-readiness.yml','b98-readiness.yml','b98-post-ci-readiness.yml',

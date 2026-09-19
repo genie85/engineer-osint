@@ -1,7 +1,8 @@
+import {historicalWorkflowNames as historicalWorkflowSurface} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync} from 'node:fs';
 import {assertHistoricalWorkflowCurrentOrV4556,assertActiveProtectionCurrentOrV4557,assertV4556Applied,v4556} from './v4556-workflow-lifecycle-helper.mjs';
 
 const root='docs/engineer-osint';
@@ -9,7 +10,6 @@ const policy=JSON.parse(readFileSync(`${root}/V4555_HISTORICAL_TRIGGER_MANUAL_ON
 const audit=readFileSync(`${root}/audit-historical-trigger-manual-only-authorization.mjs`,'utf8');
 const gitBlobSha=text=>createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const laterAuthorizedWorkflow='authorized-canonical-executor.yml';
-const historicalWorkflowSurface=()=>readdirSync('.github/workflows').filter(x=>x.endsWith('.yml')&&x!==laterAuthorizedWorkflow).sort();
 
 test('v4.5.55 separately authorizes only the future manual-only trigger conversion',()=>{
   assert.equal(policy.schema_version,'engineer-osint-historical-trigger-manual-only-authorization-v1');
