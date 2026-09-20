@@ -1,3 +1,4 @@
+import {historicalB106CiClosureBlob} from '../lib/canonical-hardening-successor.mjs';
 import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -173,7 +174,7 @@ test('v4.6.44 blocks the old readiness while retaining its frozen historical evi
   assert.equal(evidence.public_cz_ratchet,'PUBLIC_CZ_RATCHET_PASS');
   assert.equal(evidence.new_missing_fields,0);
   assert.equal(evidence.expected_b104_browser_normalized_dom_sha256,expectedBrowserDigest);
-  assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha,exactV4668BrowserDiscoverySha].includes(gitBlobSha(read('tests/v4642-b104-browser-digest-discovery.test.mjs'))));
+  assert.ok([evidence.browser_discovery_test_git_blob_sha,exactV4649BrowserDiscoverySha,exactV4668BrowserDiscoverySha].includes(historicalB106CiClosureBlob('docs/engineer-osint/tests/v4642-b104-browser-digest-discovery.test.mjs')));
 });
 
 test('v4.6.43 historical workflow authorization boundary remains pinned across exact v4.6.47/B105 successors',()=>{

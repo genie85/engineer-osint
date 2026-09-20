@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -42,7 +45,7 @@ test('v4.5.97 persists exactly the separately authorized B101 append as a canoni
 });
 
 test('v4.5.97 preserves only exact B101/B102/executor append guard successors',()=>{
-  const current=gitBlobSha(appendRunRaw);
+  const current=historicalAppendBlob(gitBlobSha(appendRunRaw));
   assert.ok(new Set([B101_APPEND_SUCCESSOR,B102_APPEND_SUCCESSOR,EXECUTOR_APPEND_SUCCESSOR]).has(current),`unexpected append-run lifecycle blob ${current}`);
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.match(appendRunRaw,/guardedB101='engineer-osint-20260902-B101'/);

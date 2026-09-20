@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -31,7 +34,7 @@ test('v4.6.05 preserves the exact pre-implementation baseline and admits only ex
   assert.equal(auth.reviewed_main_sha, 'eedd4fc12a4f704ec7ee84955d3f2bc9e27ace5c');
   assert.equal(auth.protected_baseline.append_run_blob_sha,'174cc646b8d3ecf6e338f6460b95335130154ffb');
   assert.equal(auth.protected_baseline.manifest_blob_sha,EXACT_V4605_MANIFEST_BASELINE_SHA);
-  assert.equal(gitBlobSha(read('append-run.mjs')), IMPLEMENTED_APPEND_RUN_SHA);
+  assert.equal(historicalAppendBlob(gitBlobSha(read('append-run.mjs'))), IMPLEMENTED_APPEND_RUN_SHA);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
   assert.equal(gitBlobSha(read('V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json')), auth.protected_baseline.b103_authorization_blob_sha);

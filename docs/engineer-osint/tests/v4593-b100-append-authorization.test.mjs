@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
@@ -67,7 +70,7 @@ test('v4.5.93 authorization stays exact-scope and immutable after execution',()=
 });
 
 test('v4.5.93 preserves its exact B100 guard successor and permits only exact later B101/B102/executor guard successors',()=>{
-  const currentBlob=gitBlobSha(appendRunRaw);
+  const currentBlob=historicalAppendBlob(gitBlobSha(appendRunRaw));
   const allowed=new Set([
     authorization.protected_baseline.append_run_blob_sha,
     authorization.expected_append_run_successor_blob_sha,

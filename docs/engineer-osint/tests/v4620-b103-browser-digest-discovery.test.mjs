@@ -97,38 +97,19 @@ test('v4.6.20 discovers the exact normalized browser DOM digest for simulated PU
   try{
     cpSync(root,join(temp,root),{recursive:true});
     reconstructB102(temp);
-    const authRel=`${root}/.v4620-b103-browser-discovery-authorization.json`;
-    const auth={
-      schema_version:'engineer-osint-b103-browser-digest-discovery-v1',
-      status:'READY_FOR_APPEND',
-      candidate_path:candidatePath,
-      candidate_run_id:runId,
-      expected_parent_run_id:parentRunId,
-      expected_parent_canonical_sha256:parentCanonicalSha,
-      exact_candidate_file_sha256:expectedCandidateSha,
-      expected_resulting_canonical_sha256:expectedCanonicalSha,
-      authorized_guard_successor_contract:{
-        guarded_run_id:runId,
-        authorization_path:authRel,
-        schema_version:'engineer-osint-b103-browser-digest-discovery-v1',
-        required_status:'READY_FOR_APPEND',
-        require_exact_candidate_hashes:true,
-        allow_wildcard_or_current_state_acceptance:false
-      },
-      authorization:{
-        append_exact_candidate_only:true,
-        standard_append_run_write_required:true,
-        one_run_only:true,
-        isolated_review_branch_required:true,
-        execution_requires_separate_slice:true,
-        allow_manual_manifest_or_hash_edit:false,
-        allow_future_run_same_slice:false,
-        allow_canonical_history_rewrite:false
-      }
-    };
-    writeFileSync(join(temp,authRel),JSON.stringify(auth,null,2)+'\n');
+    // Replay the immutable historical authorization only inside the copied store.
+    const authRel=`${root}/V4619_B103_PUBLIC_CZ_APPEND_AUTHORIZATION.json`;
+    const authRaw=readFileSync(join(temp,authRel));
+    assert.equal(sha256(authRaw),'09a94a018a8f03d1a2efd22399fdfc16f034cd230ec3a186181e9d39a210d08d');
+    assert.deepEqual(authRaw,readFileSync(authRel));
     const appendPlan=JSON.parse(runNode(temp,`${root}/append-run.mjs`,candidatePath,'--write','--authorization',authRel));
     assert.equal(appendPlan.status,'APPENDED');
+    assert.deepEqual(readFileSync(join(temp,authRel)),authRaw);
+    const persisted=readFileSync(join(temp,root,'data/runs',runId+'.json'));
+    assert.equal(sha256(persisted),sha256(readFileSync(candidatePath)));
+    const simulatedStore=loadCanonicalRunStore({root:join(temp,root)});
+    assert.equal(simulatedStore.report.current_run_id,runId);
+    assert.equal(simulatedStore.report.canonical_sha256,appendPlan.entry.canonical_sha256);
     assert.equal(appendPlan.entry.run_id,runId);
     assert.equal(appendPlan.entry.canonical_sha256,expectedCanonicalSha);
     cpSync(join(temp,successorPath),join(temp,photoStatusPath));
