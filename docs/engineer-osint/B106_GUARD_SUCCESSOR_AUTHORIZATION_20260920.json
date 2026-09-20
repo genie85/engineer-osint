@@ -1,8 +1,8 @@
 {
   "schemaVersion": "engineer.b106-guard-successor.v1",
-  "basisRequest": "20260920T023833Z-0b28550bd7",
-  "reviewedBase": "b14f8a45d445d3cb7dd410f6e66418bf1786e26c",
-  "reviewedTree": "49cd7eb604ce8fc1cf5780c042c13f9c8b9bf59f",
+  "basisRequest": "20260920T034639Z-d27fa88a34",
+  "reviewedBase": "b9bc2e1c2b0a2038549f11dc4c3677bbb24388a0",
+  "reviewedTree": "e232906ba00eab6353107f22632429fe058d2043",
   "status": "GUARD_REVIEWED_NO_EXECUTION",
   "grants": {
     "append": false,
@@ -46,8 +46,8 @@
     {
       "path": "docs/engineer-osint/append-run.mjs",
       "sourceGitBlob": "376bdf810c47c3bf934d0cadeacff3b1f61e1115",
-      "targetGitBlob": "51eee7ffbaa7208bb3947d414cc7a27d16837425",
-      "targetSha256": "543f6ab009b248166e6cf08f56970b4cfab014a819c030a03b81b81d1b8d2ced"
+      "targetGitBlob": "db67f9508dcc5ba7554603bc6c822944419a549a",
+      "targetSha256": "c4c0470b25ca3ded2d05330806984ee9cc9899763b85584a106be3ea8328cf8e"
     },
     {
       "path": "docs/engineer-osint/tests/b106-strict-dispatcher.test.mjs",
@@ -58,70 +58,70 @@
     {
       "path": "docs/engineer-osint/tests/v4593-b100-append-authorization.test.mjs",
       "sourceGitBlob": "917aa10230d81de202f21e63c5e3ddd8eace510c",
-      "targetGitBlob": "a1257a52d68bc555b1aaf4b9e5798d4f3bee9f4a",
-      "targetSha256": "b1790b4325d414c24ce7f5443ab42b0cd5ee76c6f35e0a6a7e770602466108bc"
+      "targetGitBlob": "8b30ee354a4e5386a146ee7abdf698317e151418",
+      "targetSha256": "4b8c13707d2a53178a5c6f8c32c8f2830e5919bb2a40b11cc96fb9c8353182cd"
     },
     {
       "path": "docs/engineer-osint/tests/v4594-b100-execution.test.mjs",
       "sourceGitBlob": "60d10d3a255ddc22600a2db85a3cb89212318b6f",
-      "targetGitBlob": "7716dc36688751bd843d077dd58910b48fd461b3",
-      "targetSha256": "234c69bfd5d074e231b347f16fad166b25a5dbae4421e7de43b8ef26808bc8e2"
+      "targetGitBlob": "3bfc4697d6cf57c701c974ca2fa10e2099e31515",
+      "targetSha256": "09e07a54c446eb30cf268106f7d28f314cd0e8684540591cf4e970ed33d3787a"
     },
     {
       "path": "docs/engineer-osint/tests/v4596-b101-authorization-derivation.test.mjs",
       "sourceGitBlob": "8941fec2ce1a6bdcdcd12af2edf3a43fe0f014ee",
-      "targetGitBlob": "eb3df18ed9ee9beb3e18526a8286cc08b7513b37",
-      "targetSha256": "e6f73040abc3ab0ffb713adc69085dcb06e498868df09e849d68a04203fcf77c"
+      "targetGitBlob": "865d11e77174d92cfe79fcd4e829f0ec78e2e607",
+      "targetSha256": "574f868b1e473edf5242a7ce6d7770f7e3a2db53fe69965c8b09ac08303755d9"
     },
     {
       "path": "docs/engineer-osint/tests/v4597-b101-execution.test.mjs",
       "sourceGitBlob": "0ad2cef8827c11031210fed5088038f0f94378e9",
-      "targetGitBlob": "27c103e8da8782b9056d603a95d403fc041e7bcb",
-      "targetSha256": "c3656153c018db3ad6f3839d19a7461963ce69562fb10f779e58872bd5e7e3de"
+      "targetGitBlob": "dd65f3ee6f6b27000208c4dd7c4cf6bf427f352d",
+      "targetSha256": "8ab0f54062c0fc80e4dc41839cd2c03e045e15e51082a90d5b605d1bfcc23a45"
     },
     {
       "path": "docs/engineer-osint/tests/v4599-b102-authorization-derivation.test.mjs",
       "sourceGitBlob": "b8600bd47e3fb0dfdf579bca24e48f2cb1a52918",
-      "targetGitBlob": "45ff0b05a468e3a19ed7fb6735bab4918a3dbbb7",
-      "targetSha256": "0768c80ea0afefce4ce13e20da78505e20d5d994b1e4e75a6bbaa846c9641325"
+      "targetGitBlob": "7121ac6553019c0c0926d18fc6687703f29ea905",
+      "targetSha256": "88c27f7a5f88e179d8d70a51cf0eb2ded9979338c6b2885578e57e4dd4ee0e98"
     },
     {
       "path": "docs/engineer-osint/tests/v4600-b102-execution.test.mjs",
       "sourceGitBlob": "c93ecce95fa927fd5fe47e5982c5dfafd46c4973",
-      "targetGitBlob": "87778011f9079beff53fe1810ade3d312f092f45",
-      "targetSha256": "21ee3eb8eb82bd62474b09f876010cfe0794c7d2a7145ff916148da3c966e83e"
+      "targetGitBlob": "d2be6c460f021498dd628ff85a3c210b659f026a",
+      "targetSha256": "6ca9f9514aafe4d32560abce7c9c505943428e7cb1c22b436a7048a26cf7605b"
     },
     {
       "path": "docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs",
       "sourceGitBlob": "b56aa561f2271c5feac39ceb0b463cacb927da84",
-      "targetGitBlob": "21e0470036122eb316568b9b8d1be3b9d8d9e831",
-      "targetSha256": "9d778f3e3e941726f3ef47ed21c1215335395e1f2bb27993224a8a6690a1fd24"
+      "targetGitBlob": "c875c8e74230a8da783361883eeca30acf18f0b6",
+      "targetSha256": "a9f65019e45b8479391abea3c100ded528171621b67378e077fb1a09d345d63f"
     },
     {
       "path": "docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs",
       "sourceGitBlob": "c12146e71a4af724748904739ac4ddaaf7abafdd",
-      "targetGitBlob": "88f2ce2cefeeec5162ddadd7993ee81ba79b8e60",
-      "targetSha256": "a279a0dd42f1c37fa6765d298e0e57192cec9353877f969cc84d038b776d1e1e"
+      "targetGitBlob": "2bd9c943415fde579c6d5693a650af55a5677ced",
+      "targetSha256": "9e75da4c66724aa974a01676b295c495d6c4e4fa4b4c15bda88b6df09e960dd2"
     },
     {
       "path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
       "sourceGitBlob": "b5af004df50e680d433f3e949a9ce9f4f4346f97",
-      "targetGitBlob": "15ffcd4e9a25c2690d087d230718fb6d4396a47b",
-      "targetSha256": "43049ff18f1eb018f2580409cb2f1a161304b2290e47e63e8205384bce942650"
+      "targetGitBlob": "dcfd0a4223ab64e86630b01df8c7c46e679839c3",
+      "targetSha256": "329a1ee785ecb1ccf407b4f9127e8845d76db46ea6eaf6690e1956dee007c665"
     },
     {
       "path": "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs",
       "sourceGitBlob": "c51f6a756a2b4cd86de302a47a93b582e3b6996b",
-      "targetGitBlob": "80e68b7d8d691e668a7b652905bc443849c5c48b",
-      "targetSha256": "7079c5d450fb1f95eaa1c9e4d707bef2a7e4f06c9e08d55729b643a6f863d57c"
+      "targetGitBlob": "51614f53a431297a8f2d22cc6b3b69043cefde06",
+      "targetSha256": "d5680cb0fb2aee991fb2b84a51bf60e3b9f0bb9ccab4340230fadc56eca1aa96"
     }
   ],
   "phaseOneArtifacts": [
     {
       "path": "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
       "sourceGitBlob": "af5e5cebf1c96dc6368e1ee7f38c168d6c603e6c",
-      "targetGitBlob": "0f74d8438bf8fa0edcc2f171b8588015e3f0d1cb",
-      "targetSha256": "65be973589adeac79f6cc82db891faf8729b8d779533b392504ca24e05c701a6"
+      "targetGitBlob": "528134e1c8832a62e7add35bb76f76829e97a948",
+      "targetSha256": "a20794eb20b62b6f1c865ab3a8206bd2811daa9df089ae063b1c742c7813e399"
     },
     {
       "path": "docs/engineer-osint/tests/b106-guard-successor.test.mjs",
