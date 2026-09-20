@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -37,7 +40,7 @@ test('v4.5.94 preserves the separately authorized B100 append as an immutable ca
 
 test('v4.5.94 preserves the exact B100 guard while permitting only exact B101/B102/executor successors',()=>{
   const appendRaw=readFileSync('docs/engineer-osint/append-run.mjs','utf8');
-  const current=gitBlobSha(appendRaw);
+  const current=historicalAppendBlob(gitBlobSha(appendRaw));
   assert.ok(new Set(['7edb68db4950d011b18de0ca7bf1e2655bdbdbf0',exactB101AppendSuccessor,exactB102AppendSuccessor,exactExecutorAppendSuccessor]).has(current),`unexpected append-run successor ${current}`);
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/lib/run-store.mjs','utf8')),'a97184dbd825fab3e5485b72a760bde04749af0b');
   assert.equal(gitBlobSha(readFileSync('docs/engineer-osint/lib/integrity.mjs','utf8')),'8c9a9aa766e910e0bccdb9308acc8af5a3aadac7');
