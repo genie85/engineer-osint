@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {canonicalDigest,parseJsonStrict} from './lib/integrity.mjs';
+import {assertB106GuardState,B106_GUARD_PATH} from './lib/canonical-hardening-successor.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore} from './lib/run-store.mjs';
 export const BASE='950d96cfbe4be2979f1dc3a0f30051dd6ed68e6d';
 export const REVIEW_PATH='docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json';
@@ -39,7 +40,16 @@ export function parseReadiness(raw){
 // not branch ancestry, current remote-main freshness or permission to execute.
 export function baseInventoryDigest(raw){
  assert.ok(Buffer.isBuffer(raw)&&raw.at(-1)===0,'invalid Git tree inventory');
- const entries=raw.toString('utf8').slice(0,-1).split('\0');
+ const guard=assertB106GuardState();
+ const entries=raw.toString('utf8').slice(0,-1).split('\0').flatMap(entry=>{
+  const m=/^(\d{6}) (blob|tree|commit) ([a-f0-9]{40})\t([\s\S]+)$/.exec(entry);assert.ok(m,'invalid Git tree entry');
+  const path=m[4];
+  if(path===B106_GUARD_PATH){assert.equal(m[1],'100644');assert.equal(m[3],gitBlob(readFileSync(path)));return [];}
+  const item=[...guard.record.phaseOneArtifacts,...guard.record.implementationVector].find(x=>x.path===path);
+  if(!item)return [entry];
+  assert.equal(m[1],'100644');assert.equal(m[2],'blob');assert.ok([item.sourceGitBlob,item.targetGitBlob].includes(m[3]),'unknown guard tree blob');
+  return item.sourceGitBlob==='ABSENT'?[]:[`100644 blob ${item.sourceGitBlob}\t${path}`];
+ });
  const baseEntries=entries.filter(entry=>{
   const match=/^(\d{6}) (blob|tree|commit) ([a-f0-9]{40})\t([\s\S]+)$/.exec(entry);
   assert.ok(match,'invalid Git tree entry');
@@ -50,6 +60,7 @@ export function baseInventoryDigest(raw){
 export function loadEvidence(){
  assert.equal(existsSync(ROOT+'/B106_APPEND_AUTHORIZATION_20260919.json'),false,'blocked predecessor artifact must not exist');
  const a=parseReadiness(readFileSync(REVIEW_PATH,'utf8'));
+ const guard_state=assertB106GuardState();
  const store=loadCanonicalRunStore({root:ROOT});
  const candidate_raw=readFileSync(CANDIDATE,'utf8');const candidate=parseJsonStrict(candidate_raw);
  const pinned_raw=Object.fromEntries([...a.protected_files,...a.local_files].map(x=>[x.path,readFileSync(x.path)]));
@@ -60,7 +71,7 @@ export function loadEvidence(){
  const tracked=git('diff','--no-ext-diff','--name-only','HEAD').split('\n').filter(Boolean);
  const untracked=git('ls-files','--others','--exclude-standard').split('\n').filter(Boolean);
  assert.equal(existsSync(ROOT+'/data/runs/'+a.candidate_run_id+'.json'),false,'B106 already exists');
- return {base_inventory_sha256,parent_run_id:store.report.current_run_id,parent_canonical_sha256:store.report.canonical_sha256,candidate_raw,pinned_raw,changed_paths:[...new Set([...tracked,...untracked])],store,resulting_canonical:canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate))};
+ return {guard_state,base_inventory_sha256,parent_run_id:store.report.current_run_id,parent_canonical_sha256:store.report.canonical_sha256,candidate_raw,pinned_raw,changed_paths:[...new Set([...tracked,...untracked])],store,resulting_canonical:canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate))};
 }
 export function validateReadiness(a,e){
  exactPayload(a);
@@ -70,7 +81,10 @@ export function validateReadiness(a,e){
  assert.equal(e.base_inventory_sha256,a.reviewed_git_inventory_sha256,'stale/unreviewed base inventory');
  assert.equal(e.parent_run_id,a.expected_parent_run_id,'stale parent');
  assert.equal(e.parent_canonical_sha256,a.expected_parent_canonical_sha256,'stale parent hash');
- assert.ok(Array.isArray(e.changed_paths)&&e.changed_paths.every(p=>ALLOWED.includes(p)),'unrelated change');
+ assert.ok(e.guard_state&&['SOURCE','SUCCESSOR'].includes(e.guard_state.mode),'missing guard evidence');
+ const phasePaths=[B106_GUARD_PATH,...e.guard_state.record.phaseOneArtifacts.map(x=>x.path)];
+ const permitted=e.guard_state.mode==='SUCCESSOR'?[...phasePaths,...e.guard_state.record.implementationVector.map(x=>x.path)]:phasePaths;
+ assert.ok(Array.isArray(e.changed_paths)&&e.changed_paths.every(p=>permitted.includes(p)),'unrelated change');
  assert.equal(sha(e.candidate_raw),a.exact_candidate_file_sha256,'candidate byte drift');
  const candidate=parseJsonStrict(e.candidate_raw);finiteJson(candidate);
  assert.equal(gitBlob(Buffer.from(e.candidate_raw)),a.candidate_git_blob_sha);
@@ -81,7 +95,11 @@ export function validateReadiness(a,e){
  assert.deepEqual(candidate.updated_records.map(x=>x.id),a.expected_card_ids);assert.deepEqual(candidate.visuals.map(x=>x.id),a.expected_visual_ids);
  for(const p of [...a.protected_files,...a.local_files]){
   const raw=e.pinned_raw[p.path];assert.ok(Buffer.isBuffer(raw),'missing pinned bytes');
-  assert.equal(sha(raw),p.sha256,p.path+' byte drift');assert.equal(gitBlob(raw),p.git_blob_sha,p.path+' blob drift');
+  const future=e.guard_state.mode==='SUCCESSOR'&&e.guard_state.record.implementationVector.find(x=>x.path===p.path);
+  if(future){
+   // Original R2 helper pin remains historical evidence, not a claim of byte identity.
+   assert.equal(future.sourceGitBlob,p.git_blob_sha);assert.equal(gitBlob(raw),future.targetGitBlob);assert.equal(sha(raw),future.targetSha256);
+  }else{assert.equal(sha(raw),p.sha256,p.path+' byte drift');assert.equal(gitBlob(raw),p.git_blob_sha,p.path+' blob drift');}
  }
  const successor=parseJsonStrict(e.pinned_raw[a.photo_review_status_successor.successor_path].toString());
  for(const id of a.expected_card_ids)assert.equal(successor.entries.find(x=>x.card_id===id)?.status,'LOCAL_IMAGE');

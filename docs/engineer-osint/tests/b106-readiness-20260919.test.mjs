@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {assertB106GuardState} from '../lib/canonical-hardening-successor.mjs';
 import assert from 'node:assert/strict';
 import {copyFileSync,existsSync,lstatSync,mkdirSync,mkdtempSync,readFileSync,readdirSync,rmSync,statfsSync,writeFileSync} from 'node:fs';
 import {spawnSync,execFileSync} from 'node:child_process';
@@ -32,11 +33,12 @@ test('generic explicit append rejects readiness before any write in an isolated 
   visit(dir);return entries;
  };
  const sourceBefore=snapshot(source);
+ const future=assertB106GuardState().mode==='SUCCESSOR';
  try{
   // Real helper/imports plus the exact complete manifest-backed B105 chain.
   // Exclude UI, assets and unrelated research/tests; never mock or link source files.
   const manifest=JSON.parse(readFileSync(source+'/data/run-store-manifest.json','utf8'));
-  const paths=[source+'/append-run.mjs',source+'/lib/integrity.mjs',source+'/lib/run-store.mjs',
+  const paths=[source+'/append-run.mjs',source+'/lib/integrity.mjs',source+'/lib/run-store.mjs',source+'/lib/canonical-hardening-successor.mjs',
    source+'/schemas/patch-v1.schema.json',source+'/data/run-store-manifest.json',source+'/'+manifest.snapshot.path,
    ...manifest.runs.map(run=>source+'/'+run.path),review.candidate_path,readinessPath];
   for(const path of paths){
@@ -56,7 +58,7 @@ test('generic explicit append rejects readiness before any write in an isolated 
    const before=snapshot(temp);
    const result=spawnSync(process.execPath,[source+'/append-run.mjs',review.candidate_path,'--write','--authorization',readinessPath],{cwd:temp,encoding:'utf8',timeout:90000,maxBuffer:1024*1024});
    assert.equal(result.error,undefined,label);assert.equal(result.signal,null,label);
-   assert.equal(result.status,1,label);assert.match(result.stderr,reason,label);
+   assert.equal(result.status,1,label);assert.match(result.stderr,future?/Strict append dispatcher rejects/:reason,label);
    assert.equal(existsSync(join(temp,source,'data/runs',review.candidate_run_id+'.json')),false,label);
    assert.deepEqual(snapshot(temp),before,label+' changed copied files or created run/manifest temp');
   }
@@ -206,4 +208,11 @@ test('successor strict parser rejects recursive duplicates overflow and type con
  ]){assert.notEqual(bad,text);assert.throws(()=>parseReadiness(bad));}
  assert.throws(()=>parseReadiness(text+' true'));
  assert.throws(()=>parseReadiness(' '.repeat(65537)+text));
+});
+
+
+test('R2 remains blocked under the exact nonexecuting guard slice; a sixth path rejects',()=>{
+ const a=auth(),e=evidence();assert.ok(Object.values(e.guard_state.record.grants).every(v=>v===false));
+ assert.equal(validateReadiness(a,{...e,changed_paths:['docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json']}).execution_allowed,false);
+ for(const path of ['docs/engineer-osint/B106_READINESS_REVIEW_20260919.md','docs/engineer-osint/data/run-store-manifest.json','docs/engineer-osint/sixth.mjs'])assert.throws(()=>validateReadiness(a,{...e,changed_paths:[path]}),/unrelated change/);
 });
