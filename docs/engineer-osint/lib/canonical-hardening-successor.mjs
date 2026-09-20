@@ -1,8 +1,10 @@
 // Exact current hardening state, with a historical projection for old contracts.
 // This grants no execution, merge or deployment authority.
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync,readdirSync,lstatSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {relative,resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {parseJsonStrict,canonicalDigest} from './integrity.mjs';
 
 const recordPath='docs/engineer-osint/CANONICAL_EXECUTOR_HARDENING_20260919.json';
 const additionPath='docs/engineer-osint/GUARD_WORKFLOW_ADDITION_AUTHORIZATION_20260919.json';
@@ -132,6 +134,8 @@ function exactPaths(items,paths,label){
 }
 
 function verifyState(read,list){
+  const b106=assertB106GuardState(read);
+  const actualBlob=path=>b106.projection.get(path)??blob(read(path));
   // This branch admits exactly one additive successor. Missing records or partial
   // application never silently fall back to the previous, eight-workflow state.
   const original=read(recordPath);
@@ -158,7 +162,7 @@ function verifyState(read,list){
     throw Error('guard workflow inventory drift');
   }
   for(const item of [...addition.baseWorkflows,...addition.guardArtifacts]){
-    if(!/^[a-f0-9]{40}$/.test(item.gitBlob) || blob(read(item.path))!==item.gitBlob ||
+    if(!/^[a-f0-9]{40}$/.test(item.gitBlob) || actualBlob(item.path)!==item.gitBlob ||
        (guardBlobs.has(item.path) && item.gitBlob!==guardBlobs.get(item.path))){
       throw Error(`guard artifact drift: ${item.path}`);
     }
@@ -171,7 +175,7 @@ function verifyState(read,list){
        item.successorGitBlob===item.sourceGitBlob){
       throw Error(`guard successor source drift: ${item.path}`);
     }
-    if(blob(read(item.path))!==item.successorGitBlob)throw Error(`guard successor target drift: ${item.path}`);
+    if(actualBlob(item.path)!==item.successorGitBlob)throw Error(`guard successor target drift: ${item.path}`);
     overrides.set(item.path,item.successorGitBlob);
   }
 
@@ -183,13 +187,13 @@ function verifyState(read,list){
   if(new Set(paths).size!==paths.length || !paths.includes(workflowPath))throw Error('hardening inventory drift');
   for(const item of record.exactSuccessors){
     const expected=overrides.get(item.path)??item.successorGitBlob;
-    if(blob(read(item.path))!==expected)throw Error(`hardening successor drift: ${item.path}`);
+    if(actualBlob(item.path)!==expected)throw Error(`hardening successor drift: ${item.path}`);
   }
   for(const item of record.historicalAuthorizations){
-    if(blob(read(item.path))!==item.gitBlob)throw Error(`historical authorization drift: ${item.path}`);
+    if(actualBlob(item.path)!==item.gitBlob)throw Error(`historical authorization drift: ${item.path}`);
   }
   if(blob(record.historicalWorkflow)!==record.exactSuccessors.find(x=>x.path===workflowPath).sourceGitBlob)throw Error('historical workflow drift');
-  return {record,addition};
+  return {record,addition,b106};
 }
 
 export function assertHardeningState(read=readFileSync,list=readdirSync){
@@ -201,12 +205,12 @@ export function assertGuardWorkflowAddition(read=readFileSync,list=readdirSync){
 }
 
 export function historicalBlob(path){
-  const record=assertHardeningState();
+  const {record,b106}=verifyState(readFileSync,readdirSync);
   const normalized=relative(process.cwd(),resolve(path)).split('\\').join('/');
   const item=record.exactSuccessors.find(x=>x.path===normalized);
   // Projection is allowed only after every successor and historical record matched.
   // Unknown or partially applied successors never reach this branch.
-  return item?.sourceGitBlob ?? historicalInventorySources.get(normalized) ?? blob(readFileSync(path));
+  return item?.sourceGitBlob ?? historicalInventorySources.get(normalized) ?? b106.projection.get(normalized) ?? blob(readFileSync(path));
 }
 
 export function historicalWorkflow(){
@@ -218,4 +222,181 @@ export function historicalWorkflow(){
 export function historicalWorkflowNames(read=readFileSync,list=readdirSync){
   verifyState(read,list);
   return baseWorkflowNames.filter(name=>`.github/workflows/${name}`!==workflowPath).sort();
+}
+
+// B106 adds one finite implementation transition; this record grants no execution.
+export const B106_GUARD_PATH='docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json';
+const B106_VECTOR=[
+  {
+    "path": "docs/engineer-osint/append-run.mjs",
+    "sourceGitBlob": "376bdf810c47c3bf934d0cadeacff3b1f61e1115",
+    "targetGitBlob": "51eee7ffbaa7208bb3947d414cc7a27d16837425",
+    "targetSha256": "543f6ab009b248166e6cf08f56970b4cfab014a819c030a03b81b81d1b8d2ced"
+  },
+  {
+    "path": "docs/engineer-osint/tests/b106-strict-dispatcher.test.mjs",
+    "sourceGitBlob": "ABSENT",
+    "targetGitBlob": "1b08e17dd77f4ba7cf94d05f46d18359d9d42a8e",
+    "targetSha256": "7484f6fba1b3bb129634f2c9094de2faa9c028391191cb8f2cb3c66736c47a2e"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4593-b100-append-authorization.test.mjs",
+    "sourceGitBlob": "917aa10230d81de202f21e63c5e3ddd8eace510c",
+    "targetGitBlob": "a1257a52d68bc555b1aaf4b9e5798d4f3bee9f4a",
+    "targetSha256": "b1790b4325d414c24ce7f5443ab42b0cd5ee76c6f35e0a6a7e770602466108bc"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4594-b100-execution.test.mjs",
+    "sourceGitBlob": "60d10d3a255ddc22600a2db85a3cb89212318b6f",
+    "targetGitBlob": "7716dc36688751bd843d077dd58910b48fd461b3",
+    "targetSha256": "234c69bfd5d074e231b347f16fad166b25a5dbae4421e7de43b8ef26808bc8e2"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4596-b101-authorization-derivation.test.mjs",
+    "sourceGitBlob": "8941fec2ce1a6bdcdcd12af2edf3a43fe0f014ee",
+    "targetGitBlob": "eb3df18ed9ee9beb3e18526a8286cc08b7513b37",
+    "targetSha256": "e6f73040abc3ab0ffb713adc69085dcb06e498868df09e849d68a04203fcf77c"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4597-b101-execution.test.mjs",
+    "sourceGitBlob": "0ad2cef8827c11031210fed5088038f0f94378e9",
+    "targetGitBlob": "27c103e8da8782b9056d603a95d403fc041e7bcb",
+    "targetSha256": "c3656153c018db3ad6f3839d19a7461963ce69562fb10f779e58872bd5e7e3de"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4599-b102-authorization-derivation.test.mjs",
+    "sourceGitBlob": "b8600bd47e3fb0dfdf579bca24e48f2cb1a52918",
+    "targetGitBlob": "45ff0b05a468e3a19ed7fb6735bab4918a3dbbb7",
+    "targetSha256": "0768c80ea0afefce4ce13e20da78505e20d5d994b1e4e75a6bbaa846c9641325"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4600-b102-execution.test.mjs",
+    "sourceGitBlob": "c93ecce95fa927fd5fe47e5982c5dfafd46c4973",
+    "targetGitBlob": "87778011f9079beff53fe1810ade3d312f092f45",
+    "targetSha256": "21ee3eb8eb82bd62474b09f876010cfe0794c7d2a7145ff916148da3c966e83e"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4604-b103-local-image-authorization.test.mjs",
+    "sourceGitBlob": "b56aa561f2271c5feac39ceb0b463cacb927da84",
+    "targetGitBlob": "21e0470036122eb316568b9b8d1be3b9d8d9e831",
+    "targetSha256": "9d778f3e3e941726f3ef47ed21c1215335395e1f2bb27993224a8a6690a1fd24"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4605-canonical-executor-authorization.test.mjs",
+    "sourceGitBlob": "c12146e71a4af724748904739ac4ddaaf7abafdd",
+    "targetGitBlob": "88f2ce2cefeeec5162ddadd7993ee81ba79b8e60",
+    "targetSha256": "a279a0dd42f1c37fa6765d298e0e57192cec9353877f969cc84d038b776d1e1e"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4606-authorized-canonical-executor.test.mjs",
+    "sourceGitBlob": "b5af004df50e680d433f3e949a9ce9f4f4346f97",
+    "targetGitBlob": "15ffcd4e9a25c2690d087d230718fb6d4396a47b",
+    "targetSha256": "43049ff18f1eb018f2580409cb2f1a161304b2290e47e63e8205384bce942650"
+  },
+  {
+    "path": "docs/engineer-osint/tests/v4619-b103-public-cz-authorization.test.mjs",
+    "sourceGitBlob": "c51f6a756a2b4cd86de302a47a93b582e3b6996b",
+    "targetGitBlob": "80e68b7d8d691e668a7b652905bc443849c5c48b",
+    "targetSha256": "7079c5d450fb1f95eaa1c9e4d707bef2a7e4f06c9e08d55729b643a6f863d57c"
+  }
+];
+const B106_ANCHORS=[
+  {
+    "path": "docs/engineer-osint/CANONICAL_EXECUTOR_HARDENING_20260919.json",
+    "gitBlob": "f9290c4a2a42652c3800ae99153ee9d37e424cb1",
+    "sha256": "cefcb81bc4d436be23e4be54ea24e5ee24acbb9f220320794d4cf036eb640601"
+  },
+  {
+    "path": "docs/engineer-osint/GUARD_WORKFLOW_ADDITION_AUTHORIZATION_20260919.json",
+    "gitBlob": "f77f380f4fe3ba7b336e9a3fd3fd520c14299a02",
+    "sha256": "be70cc2b35901a76c6a9a3b52b154eb4ce8a210117c7460db00777ae27e50715"
+  },
+  {
+    "path": "docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json",
+    "gitBlob": "fb3a24998c99257b2e673b47e6b3edd818fd7807",
+    "sha256": "9093e54d76b1ee3e3f45125294b4d17db1ff23c781ba52ed160493481490ee7e"
+  },
+  {
+    "path": "docs/engineer-osint/B106_READINESS_REVIEW_20260919.md",
+    "gitBlob": "94c58b0ddfa6da317cb00d09dac09235e2be637c",
+    "sha256": "6b2cc8474e1c6cc417136c4958d413666e29f8bb331a2ef7ad75e54b43d78659"
+  },
+  {
+    "path": "docs/engineer-osint/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json",
+    "gitBlob": "e578ed3ea06ed0e67dfec7a1b2b979a0b2c418b1",
+    "sha256": "56b4896445fd48d201c38a6d807a6600f7fc407f5a1d880c969f579029b6fc76"
+  }
+];
+const B106_PHASE_PATHS=[
+  "docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json",
+  "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
+  "docs/engineer-osint/tests/b106-guard-successor.test.mjs",
+  "docs/engineer-osint/audit-b106-readiness-20260919.mjs",
+  "docs/engineer-osint/tests/b106-readiness-20260919.test.mjs"
+];
+const B106_BASE_INVENTORY='48f1e37c33d6b241ab51b6f29785e1a24340076f90e228b675a5ab488ce86bec';
+const B106_VERIFIER_SOURCE='af5e5cebf1c96dc6368e1ee7f38c168d6c603e6c';
+const B106_PHASE_SOURCES=["af5e5cebf1c96dc6368e1ee7f38c168d6c603e6c", "ABSENT", "7beee0bd4895ef3ea5b39f25ff4d4e84fcba19ee", "5a9e8985777b59392befb8ca3f4efc5a4fe984bf"];
+const guardFail=label=>{throw Error('B106 guard drift: '+label);};
+function equalGuard(value,expected,label){if(canonicalDigest(value)!==canonicalDigest(expected))guardFail(label);}
+function closedGuard(value,keys,label){
+ if(!value||typeof value!=='object'||Array.isArray(value))guardFail(label+' object');
+ equalGuard(Object.keys(value).sort(),[...keys].sort(),label+' keys');
+}
+export function b106GitInventory(){
+ const git=args=>execFileSync('git',args,{maxBuffer:4*1024*1024});
+ return {tree:git(['ls-tree','-r','-z','HEAD']),changed:[...new Set([...git(['diff','--no-ext-diff','--name-only','HEAD']).toString().split('\n'),...git(['ls-files','--others','--exclude-standard']).toString().split('\n')].filter(Boolean))]};
+}
+function checkB106Inventory(inventory){
+ const {tree,changed}=inventory;
+ if(!Buffer.isBuffer(tree)||tree.at(-1)!==0||!Array.isArray(changed))guardFail('inventory type');
+ const permitted=new Set([...B106_PHASE_PATHS,...B106_VECTOR.map(x=>x.path)]);
+ if(changed.some(p=>!permitted.has(p)))guardFail('additional changed path');
+ const seen=new Set(),rows=[];
+ for(const row of tree.toString().slice(0,-1).split('\0')){
+  const m=/^(\d{6}) (blob|tree|commit) ([a-f0-9]{40})\t([^\0]+)$/.exec(row);if(!m||seen.has(m[4]))guardFail('tree entry');seen.add(m[4]);
+  const [_,mode,type,id,path]=m;
+  if(B106_PHASE_PATHS.includes(path)){if(mode!=='100644'||type!=='blob')guardFail('phase mode');continue;}
+  const item=B106_VECTOR.find(x=>x.path===path);
+  if(item){
+   if(mode!=='100644'||type!=='blob'||![item.sourceGitBlob,item.targetGitBlob].includes(id))guardFail('vector tree blob');
+   if(item.sourceGitBlob!=='ABSENT')rows.push(`100644 blob ${item.sourceGitBlob}\t${path}`);
+  }else rows.push(row);
+ }
+ if(sha256(Buffer.from(rows.join('\0')+'\0'))!==B106_BASE_INVENTORY)guardFail('original inventory');
+}
+export function assertB106GuardState(read=readFileSync,inventory=b106GitInventory){
+ if(read===readFileSync)read=path=>{
+  const parts=path.split('/');
+  for(let i=1;i<=parts.length;i++){const stat=lstatSync(parts.slice(0,i).join('/'));if(stat.isSymbolicLink()||(i<parts.length?!stat.isDirectory():!stat.isFile()||stat.nlink!==1))guardFail('aliased path '+path);}
+  return readFileSync(path);
+ };
+ let a;try{const raw=read(B106_GUARD_PATH).toString();a=parseJsonStrict(raw,{source:'B106 guard',maxBytes:65536,maxDepth:30});if(raw!==JSON.stringify(a,null,2)+'\n')guardFail('canonical record bytes');}catch(error){throw Error('B106 guard drift: '+error.message);}
+ closedGuard(a,['schemaVersion','basisRequest','reviewedBase','reviewedTree','status','grants','anchors','implementationVector','phaseOneArtifacts'],'record');
+ equalGuard({schemaVersion:a.schemaVersion,basisRequest:a.basisRequest,reviewedBase:a.reviewedBase,reviewedTree:a.reviewedTree,status:a.status},{schemaVersion:'engineer.b106-guard-successor.v1',basisRequest:'20260920T023833Z-0b28550bd7',reviewedBase:'b14f8a45d445d3cb7dd410f6e66418bf1786e26c',reviewedTree:'49cd7eb604ce8fc1cf5780c042c13f9c8b9bf59f',status:'GUARD_REVIEWED_NO_EXECUTION'},'identity');
+ equalGuard(a.grants,{append:false,write:false,execution:false,merge:false,deploy:false,publish:false,wildcard:false,currentState:false,bootstrap:false},'grants');
+ equalGuard(a.anchors,B106_ANCHORS,'anchors schema/values');equalGuard(a.implementationVector,B106_VECTOR,'vector schema/values');
+ for(const item of a.anchors){const raw=read(item.path);if(blob(raw)!==item.gitBlob||sha256(raw)!==item.sha256)guardFail('anchor '+item.path);}
+ if(!Array.isArray(a.phaseOneArtifacts)||a.phaseOneArtifacts.length!==4)guardFail('phase artifact inventory');
+ const projection=new Map();
+ for(const [i,item] of a.phaseOneArtifacts.entries()){
+  closedGuard(item,['path','sourceGitBlob','targetGitBlob','targetSha256'],'phase artifact');
+  if(item.path!==B106_PHASE_PATHS[i+1]||item.sourceGitBlob!==B106_PHASE_SOURCES[i]||typeof item.targetGitBlob!=='string'||!/^([a-f0-9]{40})$/.test(item.targetGitBlob)||typeof item.targetSha256!=='string'||!/^[a-f0-9]{64}$/.test(item.targetSha256)||item.targetGitBlob===item.sourceGitBlob)guardFail('phase artifact values');
+  const raw=read(item.path);if(blob(raw)!==item.targetGitBlob||sha256(raw)!==item.targetSha256)guardFail('phase artifact '+item.path);
+  if(item.sourceGitBlob!=='ABSENT')projection.set(item.path,item.sourceGitBlob);
+ }
+ let source=true,successor=true;
+ for(const item of a.implementationVector){
+  let actual;try{const raw=read(item.path);actual=blob(raw);if(actual===item.targetGitBlob&&sha256(raw)!==item.targetSha256)guardFail('target raw hash');}catch(error){if(error.code!=='ENOENT')throw error;actual='ABSENT';}
+  source&&=actual===item.sourceGitBlob;successor&&=actual===item.targetGitBlob;
+  projection.set(item.path,item.sourceGitBlob);
+ }
+ if(source===successor)guardFail('partial/mixed/third implementation state');
+ checkB106Inventory(inventory());
+ return {record:a,mode:source?'SOURCE':'SUCCESSOR',projection};
+}
+export function historicalB106Blob(path){
+ const state=assertB106GuardState();
+ if(!B106_VECTOR.some(x=>x.path===path))guardFail('unknown historical path');
+ return state.projection.get(path);
 }
