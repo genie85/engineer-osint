@@ -62,32 +62,6 @@ const reconstructB102=(temp)=>{
   assert.equal(restored.report.canonical_sha256,parentCanonicalSha);
 };
 
-// Historical discovery must not weaken the production write dispatcher. Validate the exact
-// candidate through append-run dry-run, then materialize only inside the disposable fixture.
-const materializeHistoricalDryRun=(temp)=>{
-  const tempRoot=join(temp,root);
-  const plan=JSON.parse(run(temp,`${root}/append-run.mjs`,candidatePath));
-  assert.equal(plan.status,'VALIDATED_DRY_RUN');
-  assert.equal(plan.entry.run_id,runId);
-  assert.equal(plan.entry.parent_run_id,parentRunId);
-  assert.equal(plan.entry.parent_canonical_sha256,parentCanonicalSha);
-  assert.equal(plan.entry.file_sha256,expectedCandidateSha);
-  assert.equal(plan.entry.canonical_sha256,expectedCanonicalSha);
-  const manifestPath=join(tempRoot,'data/run-store-manifest.json');
-  const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
-  assert.equal(manifest.runs.at(-1)?.run_id,parentRunId);
-  const candidate=JSON.parse(readFileSync(join(temp,candidatePath),'utf8'));
-  const normalized=JSON.stringify(candidate,null,2)+'\n';
-  assert.equal(sha256(normalized),plan.entry.file_sha256);
-  writeFileSync(join(tempRoot,plan.entry.path),normalized);
-  manifest.runs.push(plan.entry);
-  writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
-  const verified=loadCanonicalRunStore({root:tempRoot});
-  assert.equal(verified.report.current_run_id,runId);
-  assert.equal(verified.report.canonical_sha256,expectedCanonicalSha);
-  return plan;
-};
-
 test('v4.6.18 pre-authorization simulation materializes exact V4616 B103 and passes the real PUBLIC-CZ ratchet',()=>{
   const raw=readFileSync(candidatePath,'utf8');
   const candidate=JSON.parse(raw);
@@ -122,8 +96,45 @@ test('v4.6.18 pre-authorization simulation materializes exact V4616 B103 and pas
   try{
     cpSync(root,join(temp,root),{recursive:true});
     reconstructB102(temp);
-    const appendPlan=materializeHistoricalDryRun(temp);
-    assert.equal(appendPlan.status,'VALIDATED_DRY_RUN');
+    const authRel=`${root}/.v4618-b103-preauth-simulation-authorization.json`;
+    const auth={
+      schema_version:'engineer-osint-b103-preauthorization-simulation-v1',
+      status:'READY_FOR_APPEND',
+      candidate_path:candidatePath,
+      candidate_run_id:runId,
+      expected_parent_run_id:parentRunId,
+      expected_parent_canonical_sha256:parentCanonicalSha,
+      exact_candidate_file_sha256:expectedCandidateSha,
+      expected_resulting_canonical_sha256:expectedCanonicalSha,
+      authorized_guard_successor_contract:{
+        guarded_run_id:runId,
+        authorization_path:authRel,
+        schema_version:'engineer-osint-b103-preauthorization-simulation-v1',
+        required_status:'READY_FOR_APPEND',
+        require_exact_candidate_hashes:true,
+        allow_wildcard_or_current_state_acceptance:false
+      },
+      authorization:{
+        append_exact_candidate_only:true,
+        standard_append_run_write_required:true,
+        one_run_only:true,
+        isolated_review_branch_required:true,
+        execution_requires_separate_slice:true,
+        allow_manual_manifest_or_hash_edit:false,
+        allow_future_run_same_slice:false,
+        allow_canonical_history_rewrite:false
+      }
+    };
+    writeFileSync(join(temp,authRel),JSON.stringify(auth,null,2)+'\n');
+
+    const appendOutput=run(temp,`${root}/append-run.mjs`,candidatePath,'--write','--authorization',authRel);
+    const appendPlan=JSON.parse(appendOutput);
+    assert.equal(appendPlan.status,'APPENDED');
+    assert.equal(appendPlan.entry.run_id,runId);
+    assert.equal(appendPlan.entry.parent_run_id,parentRunId);
+    assert.equal(appendPlan.entry.parent_canonical_sha256,parentCanonicalSha);
+    assert.equal(appendPlan.entry.file_sha256,expectedCandidateSha);
+    assert.equal(appendPlan.entry.canonical_sha256,expectedCanonicalSha);
 
     cpSync(join(temp,successorPath),join(temp,photoStatusPath));
     const simulated=loadCanonicalRunStore({root:join(temp,root)});
