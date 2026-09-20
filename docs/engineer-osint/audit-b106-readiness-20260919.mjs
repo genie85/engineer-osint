@@ -7,11 +7,11 @@ import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {canonicalDigest,parseJsonStrict} from './lib/integrity.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore} from './lib/run-store.mjs';
-export const BASE='b7d0ff9ecfde01eade12f2c362a3d330a277d7db';
+export const BASE='950d96cfbe4be2979f1dc3a0f30051dd6ed68e6d';
 export const REVIEW_PATH='docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json';
 const ROOT='docs/engineer-osint';
 const CANDIDATE=ROOT+'/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json';
-const CONTRACT_DIGEST='f84d4de36edef51a5077f6dc7fb794b83ef8436dfd1f5e0a995ebb934557c731';
+const CONTRACT_DIGEST='dc9e6416e6d2e583fe55e4dd73fb422eb13f850181492fc289e8b1af3da76b33';
 const ALLOWED=[REVIEW_PATH,ROOT+'/audit-b106-readiness-20260919.mjs',ROOT+'/tests/b106-readiness-20260919.test.mjs',ROOT+'/B106_READINESS_REVIEW_20260919.md'];
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const gitBlob=b=>createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${b.length}\0`),b])).digest('hex');
@@ -30,6 +30,9 @@ function exactPayload(a){
  // grants, type substitutions and wildcard/current-state values change this pin.
  assert.equal(canonicalDigest(a),CONTRACT_DIGEST,'unreviewed exact readiness payload');
 }
+export function parseReadiness(raw){
+ const a=parseJsonStrict(raw,{source:'B106 R2 readiness',maxBytes:65536,maxDepth:40});exactPayload(a);return a;
+}
 // Git's NUL-delimited inventory binds every base path, mode, object type and blob.
 // The immutable digest is computed from exact base bytes during review, not fetched
 // from a remote or historical commit during validation. This proves content identity,
@@ -46,7 +49,7 @@ export function baseInventoryDigest(raw){
 }
 export function loadEvidence(){
  assert.equal(existsSync(ROOT+'/B106_APPEND_AUTHORIZATION_20260919.json'),false,'blocked predecessor artifact must not exist');
- const a=parseJsonStrict(readFileSync(REVIEW_PATH,'utf8'));exactPayload(a);
+ const a=parseReadiness(readFileSync(REVIEW_PATH,'utf8'));
  const store=loadCanonicalRunStore({root:ROOT});
  const candidate_raw=readFileSync(CANDIDATE,'utf8');const candidate=parseJsonStrict(candidate_raw);
  const pinned_raw=Object.fromEntries([...a.protected_files,...a.local_files].map(x=>[x.path,readFileSync(x.path)]));
@@ -61,6 +64,9 @@ export function loadEvidence(){
 }
 export function validateReadiness(a,e){
  exactPayload(a);
+ assert.deepEqual(a.frozen_predecessor.files.map(p=>p.path).sort(),[...ALLOWED].sort(),'predecessor exact four paths');
+ assert.equal(a.frozen_predecessor.main_sha,BASE);
+ assert.equal(a.reviewed_main_sha,BASE);
  assert.equal(e.base_inventory_sha256,a.reviewed_git_inventory_sha256,'stale/unreviewed base inventory');
  assert.equal(e.parent_run_id,a.expected_parent_run_id,'stale parent');
  assert.equal(e.parent_canonical_sha256,a.expected_parent_canonical_sha256,'stale parent hash');
@@ -85,7 +91,7 @@ export function validateReadiness(a,e){
  assert.equal(e.store.report.canonical_sha256,a.expected_parent_canonical_sha256,'store parent hash mismatch');
  const resultingCanonical=canonicalDigest(applyStrictPatchToCanonicalData(e.store.data,candidate));
  assert.equal(resultingCanonical,a.expected_resulting_canonical_sha256);assert.equal(e.resulting_canonical,resultingCanonical);
- return {readiness_payload_valid:true,resulting_canonical:resultingCanonical,execution_allowed:false,B106_EXECUTION_PERFORMED:false,blocker:'SEPARATE_STRICT_EXECUTION_AUTHORIZATION_AND_V4697_RECOVERY_REQUIRED'};
+ return {readiness_payload_valid:true,resulting_canonical:resultingCanonical,execution_allowed:false,B106_EXECUTION_PERFORMED:false,blocker:'SEPARATELY_MERGED_STRICT_DISPATCHER_AUTHORIZATION_AND_FINAL_BROWSER_QA_REQUIRED'};
 }
 export function assertExecutionClosed(a,context){
  exactPayload(a);
@@ -94,6 +100,6 @@ export function assertExecutionClosed(a,context){
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  assert.equal(process.argv.length,2,'read-only audit accepts no execution arguments');
- const a=parseJsonStrict(readFileSync(REVIEW_PATH,'utf8'));
+ const a=parseReadiness(readFileSync(REVIEW_PATH,'utf8'));
  console.log(JSON.stringify(validateReadiness(a,loadEvidence()),null,2));
 }
