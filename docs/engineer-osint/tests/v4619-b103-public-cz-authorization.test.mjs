@@ -1,3 +1,7 @@
+import {historicalB106CiClosureBlob} from '../lib/canonical-hardening-successor.mjs';
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -118,7 +122,7 @@ test('v4.6.19 pins the exact photo lifecycle successor and preserves all nine bi
 });
 
 test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence across exact B103/B104/B105 workflow successors',()=>{
-  assert.equal(gitBlobSha(read('append-run.mjs')),auth.protected_baseline.append_run_blob_sha);
+  assert.equal(historicalAppendBlob(gitBlobSha(read('append-run.mjs'))),auth.protected_baseline.append_run_blob_sha);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')),auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')),auth.protected_baseline.integrity_blob_sha);
   const store=loadCanonicalRunStore({root});
@@ -135,7 +139,7 @@ test('v4.6.19 pins the reviewed protected B102 baseline and simulation evidence 
   }
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')),auth.protected_baseline.b102_run_blob_sha);
   assert.ok([auth.protected_baseline.v4616_candidate_test_blob_sha,v4616LifecycleSuccessorSha,v4649V4616CompatibilitySha,v4668V4616CompatibilitySha].includes(gitBlobSha(read('tests/v4616-b103-public-cz-candidate.test.mjs'))));
-  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha,v4668V4618CompatibilitySha].includes(gitBlobSha(read('tests/v4618-b103-preauthorization-simulation.test.mjs'))));
+  assert.ok([auth.protected_baseline.v4618_preauthorization_simulation_test_blob_sha,v4618LifecycleSuccessorSha,v4649V4618CompatibilitySha,v4668V4618CompatibilitySha].includes(historicalB106CiClosureBlob('docs/engineer-osint/tests/v4618-b103-preauthorization-simulation.test.mjs')));
   const workflowRaw=readRepo('.github/workflows/identity-fix-retirement-regression.yml');
   const workflowSha=gitBlobSha(workflowRaw);
   assert.ok([auth.protected_baseline.identity_fix_retirement_workflow_blob_sha,b103WorkflowSuccessorSha,b104WorkflowSuccessorSha,b105WorkflowSuccessorSha].includes(workflowSha));

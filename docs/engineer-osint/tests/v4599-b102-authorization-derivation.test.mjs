@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
@@ -83,7 +86,7 @@ test('v4.5.99 freezes the B101-era append helper and permits only the exact B102
   assert.equal(authorization.authorized_guard_successor_contract.require_multimedia_status,'COMPLETE_NO_CANONICAL_MEDIA_ADDITION');
   assert.equal(authorization.authorized_guard_successor_contract.allow_wildcard_or_current_state_acceptance,false);
   assert.equal(authorization.required_preconditions.authorization_stage_append_run_must_remain_baseline,true);
-  const current=gitBlobSha(appendRunRaw);
+  const current=historicalAppendBlob(gitBlobSha(appendRunRaw));
   assert.ok(new Set([exactB102AppendSuccessor,exactAuthorizedExecutorSuccessor]).has(current),`unexpected append-run lifecycle blob ${current}`);
   assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
   assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);

@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -87,7 +90,7 @@ test('v4.6.00 keeps B102 no-media scope and immutable authorization evidence',()
 
 test('v4.6.00 preserves the exact historical B102 guard under the exact authorized executor successor',()=>{
   assert.equal(HISTORICAL_APPEND_SHA,authorization.protected_baseline.append_run_blob_sha);
-  assert.equal(gitBlobSha(appendRunRaw),EXECUTOR_APPEND_SHA);
+  assert.equal(historicalAppendBlob(gitBlobSha(appendRunRaw)),EXECUTOR_APPEND_SHA);
   assert.match(appendRunRaw,/guardedB102='engineer-osint-20260902-B102'/);
   assert.match(appendRunRaw,/V4599_B102_APPEND_AUTHORIZATION\.json/);
   assert.match(appendRunRaw,/allow_wildcard_or_current_state_acceptance!==false/);

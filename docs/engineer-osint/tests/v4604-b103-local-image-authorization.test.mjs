@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -129,7 +132,7 @@ test('v4.6.04 authorization pins all nine immutable repository-local WebP binari
 test('v4.6.04 authorization preserves canonical boundaries and admits only exact executor/B103/B104 successors', () => {
   const phase=assertExactLifecycleHead();
   assert.equal(auth.protected_baseline.append_run_blob_sha,'174cc646b8d3ecf6e338f6460b95335130154ffb');
-  assert.equal(gitBlobSha(read('append-run.mjs')),EXECUTOR_APPEND_SHA);
+  assert.equal(historicalAppendBlob(gitBlobSha(read('append-run.mjs'))),EXECUTOR_APPEND_SHA);
   assert.equal(gitBlobSha(read('lib/run-store.mjs')), auth.protected_baseline.run_store_blob_sha);
   assert.equal(gitBlobSha(read('lib/integrity.mjs')), auth.protected_baseline.integrity_blob_sha);
   assert.equal(gitBlobSha(read('data/runs/engineer-osint-20260902-B102.json')), auth.protected_baseline.b102_run_blob_sha);

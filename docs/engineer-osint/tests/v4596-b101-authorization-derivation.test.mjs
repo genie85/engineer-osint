@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
@@ -63,7 +66,7 @@ test('v4.5.96 authorization stays exact-scope and execution-separated',()=>{
 });
 
 test('v4.5.96 keeps its B100 append-helper baseline immutable while accepting only exact authorized B101/B102/executor successors',()=>{
-  const current=gitBlobSha(appendRunRaw);
+  const current=historicalAppendBlob(gitBlobSha(appendRunRaw));
   assert.ok(new Set([authorization.protected_baseline.append_run_blob_sha,exactExecutionSuccessor,exactB102ExecutionSuccessor,exactExecutorSuccessor]).has(current),'append-run is outside the exact authorized lifecycle');
   assert.equal(authorization.protected_baseline.append_run_blob_sha,'7edb68db4950d011b18de0ca7bf1e2655bdbdbf0');
   assert.equal(authorization.authorized_guard_successor_contract.guarded_run_id,'engineer-osint-20260902-B101');

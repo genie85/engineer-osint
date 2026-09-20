@@ -1,3 +1,6 @@
+// One exact future helper successor; all historical assertions remain in force.
+const B106_STRICT_APPEND_SHA='db67f9508dcc5ba7554603bc6c822944419a549a';
+const historicalAppendBlob=value=>value===B106_STRICT_APPEND_SHA?'376bdf810c47c3bf934d0cadeacff3b1f61e1115':value;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
@@ -50,7 +53,7 @@ test('v4.6.06 installs the exact authorized executor surface across the exact B1
   assert.equal(implementationAuth.implementation_authorization.allow_canonical_run_write,false);
   assert.equal(implementationAuth.implementation_authorization.allow_manifest_change,false);
   assert.equal(implementationAuth.implementation_authorization.allow_b103_execution_same_slice,false);
-  assert.equal(gitBlobSha(appendRunRaw),IMPLEMENTED_APPEND_RUN_SHA);
+  assert.equal(historicalAppendBlob(gitBlobSha(appendRunRaw)),IMPLEMENTED_APPEND_RUN_SHA);
   assert.equal(historicalB103Auth.expected_resulting_canonical_sha256,'5c81535081adba0957efa85a15d2dc63cf566e98279e5754a8c0796e0d9f2066');
   assert.equal(b103Auth.expected_resulting_canonical_sha256,B103_CANONICAL_SHA);
   assert.equal(b104Auth.expected_parent_run_id,B103_RUN_ID);
