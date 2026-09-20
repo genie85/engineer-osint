@@ -1,9 +1,9 @@
 {
-  "schema_version": "engineer-osint-b106-append-readiness-review-20260919-v1",
-  "status": "BLOCKED_PENDING_SEPARATE_EXECUTION_AUTHORIZATION",
-  "reviewed_on": "2026-09-19",
-  "reviewed_main_sha": "b7d0ff9ecfde01eade12f2c362a3d330a277d7db",
-  "reviewed_tree_sha": "d03431ad7e5113ce4f0c225b816190cca44ac163",
+  "schema_version": "engineer-osint-b106-append-readiness-review-20260920-r2-v1",
+  "status": "BLOCKED_PENDING_STRICT_EXECUTION_AUTHORIZATION_AND_FINAL_QA",
+  "reviewed_on": "2026-09-20",
+  "reviewed_main_sha": "950d96cfbe4be2979f1dc3a0f30051dd6ed68e6d",
+  "reviewed_tree_sha": "4ca795c63134c4ee2875ecf921df6e70c9c93977",
   "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json",
   "candidate_git_blob_sha": "e578ed3ea06ed0e67dfec7a1b2b979a0b2c418b1",
   "candidate_run_id": "engineer-osint-20260904-B106",
@@ -127,12 +127,13 @@
     }
   ],
   "execution_gate": {
-    "status": "BLOCKED_PENDING_SEPARATE_EXECUTION_AUTHORIZATION",
-    "separately_reviewed_strict_execution_authorization_successor_required": true,
-    "fresh_exact_execution_base_receipt_required": true,
-    "v4697_recovery_and_exact_final_state_qa_required": true,
+    "status": "BLOCKED_PENDING_STRICT_EXECUTION_AUTHORIZATION_AND_FINAL_QA",
+    "requirements": [
+      "Separately merged strict dispatcher and exact execution authorization",
+      "Fresh exact execution base and V4697 semantic/final-state recovery",
+      "Post-append final/browser/publication QA in the separate execution slice"
+    ],
     "v4697_recovery_receipt": null,
-    "exact_postappend_browser_qa_required": true,
     "execution_allowed_in_this_slice": false
   },
   "execution_state": {
@@ -143,9 +144,9 @@
     "B106_EXECUTION_PERFORMED": false
   },
   "provenance": {
-    "request_id": "20260919T231103Z-887cdb0595",
-    "kind": "READINESS_REVIEW_ONLY",
-    "source_reviewed_artifact_sha256": "281a22fa69561e7bcee809b23e63008ef69826e7fc8be009fecfd6acab3b7c25",
+    "request_id": "20260920T002323Z-90ad6d3255",
+    "kind": "R2_SUCCESSOR_IN_PLACE_EVIDENCE_ONLY",
+    "source_reviewed_artifact_sha256": "9f639246a437cc0fa21e39480b994071907430d799935374e6c1c7f6d027689d",
     "rejected_unsafe_authorization_sha256": "dabebb459137ace578fa590833317cc0271159e61fb357b843544a84d0c56d94",
     "historical_v4695_permission_reused": false
   },
@@ -165,7 +166,11 @@
     "pull_request": false,
     "merge": false,
     "publish": false,
-    "deploy": false
+    "deploy": false,
+    "authority": false,
+    "execution": false,
+    "write": false,
+    "media": false
   },
   "request_hash_discrepancy": {
     "field": "expected_resulting_canonical_sha256",
@@ -173,5 +178,139 @@
     "recomputed_value": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
     "resolution": "Preserve independently recomputed exact B105 plus immutable candidate result; request value does not match repository evidence."
   },
-  "reviewed_git_inventory_sha256": "f0e2ce66b95b2b9781da1cfe024f7df85e3431ad530400e4b00dc1cb7862f57e"
+  "reviewed_git_inventory_sha256": "f0e2ce66b95b2b9781da1cfe024f7df85e3431ad530400e4b00dc1cb7862f57e",
+  "frozen_predecessor": {
+    "main_sha": "950d96cfbe4be2979f1dc3a0f30051dd6ed68e6d",
+    "tree_sha": "4ca795c63134c4ee2875ecf921df6e70c9c93977",
+    "reviewed_head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+    "readiness_canonical_sha256": "f84d4de36edef51a5077f6dc7fb794b83ef8436dfd1f5e0a995ebb934557c731",
+    "files": [
+      {
+        "path": "docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json",
+        "mode": "100644",
+        "git_blob_sha": "6ff88fe46f92a0c1aa907f4120b720691bb17068",
+        "sha256": "9f639246a437cc0fa21e39480b994071907430d799935374e6c1c7f6d027689d"
+      },
+      {
+        "path": "docs/engineer-osint/B106_READINESS_REVIEW_20260919.md",
+        "mode": "100644",
+        "git_blob_sha": "766261d912295d4e5068a622f1e52493804eadcd",
+        "sha256": "3c8902f705417705beadebeb8b8888d36318f3ef152a1e2bc010fd65ba169f01"
+      },
+      {
+        "path": "docs/engineer-osint/audit-b106-readiness-20260919.mjs",
+        "mode": "100644",
+        "git_blob_sha": "e6848904f88fb37e71f0bd1020e3afc1c7e8becb",
+        "sha256": "b6951447cd60bbb6d2e55a8b64ca6bbc2e10ac4c3dae9ba5e81bef1677fd7123"
+      },
+      {
+        "path": "docs/engineer-osint/tests/b106-readiness-20260919.test.mjs",
+        "mode": "100644",
+        "git_blob_sha": "977e3a8ff0ff8a5f4d7efee29aff1f413ec7c72f",
+        "sha256": "73ba17d972e21709e73c4301aa09d09bd73b3e3942e00ba62fc49cfd7c526b3c"
+      }
+    ]
+  },
+  "r1_reviews": [
+    {
+      "delegation_id": "deleg_1c9216e3",
+      "task_id": 0,
+      "role": "security",
+      "source_path": "/home/nina/.hermes/cache/delegation/live/deleg_1c9216e3/task-0.log",
+      "sha256": "92dd2fee2bc6fda9590507e93cdec7774508df0af2ef907d78444c04069f5b55",
+      "bytes": 8572,
+      "reviewed_head": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "reviewed_tree": "4ca795c63134c4ee2875ecf921df6e70c9c93977",
+      "completed": true,
+      "scope": "R1 readiness only; no canonical execution approval",
+      "transcript_limit": "Some tool output in live transcript is truncated; receipt pins available completed transcript bytes."
+    },
+    {
+      "delegation_id": "deleg_1c9216e3",
+      "task_id": 1,
+      "role": "independent_shallow_ci_integrity",
+      "source_path": "/home/nina/.hermes/cache/delegation/live/deleg_1c9216e3/task-1.log",
+      "sha256": "c5c0efe214b6f8ed989a84a94bc31a140739c6552cb6d92db95cd836b30ca81b",
+      "bytes": 15168,
+      "reviewed_head": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "reviewed_tree": "4ca795c63134c4ee2875ecf921df6e70c9c93977",
+      "completed": true,
+      "scope": "R1 readiness only; no canonical execution approval",
+      "transcript_limit": "Some tool output in live transcript is truncated; receipt pins available completed transcript bytes."
+    }
+  ],
+  "r1_green_runs": [
+    {
+      "id": 35476668327,
+      "name": "Trusted base advisory merge classification",
+      "head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/genie85/engineer-osint/actions/runs/35476668327",
+      "created_at": "2026-09-19T23:38:27Z",
+      "updated_at": "2026-09-19T23:38:44Z"
+    },
+    {
+      "id": 35476669628,
+      "name": "ENGINEER OSINT final identity-fix retirement regression",
+      "head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/genie85/engineer-osint/actions/runs/35476669628",
+      "created_at": "2026-09-19T23:38:29Z",
+      "updated_at": "2026-09-19T23:40:49Z"
+    },
+    {
+      "id": 35476669731,
+      "name": "ENGINEER OSINT runtime audit snapshot",
+      "head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/genie85/engineer-osint/actions/runs/35476669731",
+      "created_at": "2026-09-19T23:38:29Z",
+      "updated_at": "2026-09-19T23:40:02Z"
+    },
+    {
+      "id": 35476669779,
+      "name": "ENGINEER OSINT first-three overlay retirement regression",
+      "head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/genie85/engineer-osint/actions/runs/35476669779",
+      "created_at": "2026-09-19T23:38:29Z",
+      "updated_at": "2026-09-19T23:41:08Z"
+    },
+    {
+      "id": 35476669846,
+      "name": "Deploy ENGINEER OSINT to GitHub Pages",
+      "head_sha": "68a3dab4e97e38a664175d0fdbf6882b7f559703",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/genie85/engineer-osint/actions/runs/35476669846",
+      "created_at": "2026-09-19T23:38:29Z",
+      "updated_at": "2026-09-19T23:41:08Z"
+    }
+  ],
+  "receipt_scope": "R1 readiness only. Historical automated reviews and exact PR #463 green runs do not approve this R2 successor, strict dispatcher, canonical execution, or final/browser/publication QA.",
+  "recovery": {
+    "v4697_disposition": "BLOCK_REMAINS_EFFECTIVE_FOR_EXECUTION",
+    "old_v4695_grant_usable": false,
+    "old_35_file_vector_retry_allowed": false,
+    "r1_shallow_ci_blocker": "CLOSED_BY_MERGED_R1",
+    "strict_dispatcher_and_authorization": "SEPARATE_MERGE_REQUIRED",
+    "v4697_semantic_final_state_closure": "REQUIRED_NOT_PROVEN_BY_R1_RECEIPTS",
+    "post_append_final_browser_qa": "REQUIRED_IN_SEPARATE_EXECUTION_SLICE_NOT_PERFORMED",
+    "publication_qa": "REQUIRED_NOT_PERFORMED",
+    "independent_security_approval_for_this_successor": false
+  }
 }
