@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {existsSync,readFileSync} from 'node:fs';
+import {existsSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 
 const root='docs/engineer-osint';
 const executionPath=`${root}/V4556_HISTORICAL_MANUAL_ONLY_EXECUTION.json`;

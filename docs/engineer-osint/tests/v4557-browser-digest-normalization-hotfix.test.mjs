@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 import {assertV4557Applied,gitBlobSha,v4557,v4561,v4562,v4565} from './v4556-workflow-lifecycle-helper.mjs';
 
 const workflow=readFileSync('.github/workflows/identity-fix-retirement-regression.yml','utf8');

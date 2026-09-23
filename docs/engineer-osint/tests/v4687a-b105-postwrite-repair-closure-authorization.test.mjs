@@ -2,7 +2,7 @@ import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-suc
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 
 const authPath='docs/engineer-osint/V4687A_B105_POSTWRITE_REPAIR_CLOSURE_AUTHORIZATION.json';
 const upstreamPath='docs/engineer-osint/V4686A_B105_POSTWRITE_FIXTURE_REPAIR_AUTHORIZATION.json';

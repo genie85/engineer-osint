@@ -1,7 +1,9 @@
 import {historicalBlob, historicalWorkflow, assertGuardWorkflowAddition} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
+import nativeFs from 'node:fs';
+import {readDescendantEvidence} from '../lib/b106-descendant-inspection.mjs';
+const fs={...nativeFs,readFileSync:readDescendantEvidence};
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';

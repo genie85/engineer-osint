@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 
 const root='docs/engineer-osint';
 const authPath=`${root}/V4658_B105_BROWSER_WORKFLOW_SUCCESSOR_AUTHORIZATION.json`;

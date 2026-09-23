@@ -10,6 +10,16 @@ import {loadEvidence,validateReadiness,assertExecutionClosed,REVIEW_PATH,BASE,ba
 const auth=()=>parseReadiness(readFileSync(REVIEW_PATH,'utf8'));
 let cachedEvidence;const evidence=()=>cachedEvidence??=loadEvidence();
 
+// BEGIN B106 ACTIVE DISK CONTRACT
+// Active project-local policy approved 2026-09-23; historical receipts stay immutable.
+function assertB106DiskGate(worktreeBytes,scratchBytes){
+ assert.equal(typeof worktreeBytes,'bigint','worktree capacity must be bigint');
+ assert.equal(typeof scratchBytes,'bigint','scratch capacity must be bigint');
+ assert.ok(worktreeBytes>=13000000000n,'worktree disk gate');
+ assert.ok(scratchBytes>=13000000000n,'scratch disk gate');
+}
+// END B106 ACTIVE DISK CONTRACT
+
 // Run the subprocess fixture before caching the materialized store in this process.
 // Keeping both copies alive at once causes memory pressure on the constrained host.
 test('generic explicit append rejects readiness before any write in an isolated disposable copy',()=>{
@@ -17,8 +27,7 @@ test('generic explicit append rejects readiness before any write in an isolated 
  const readinessPath=source+'/B106_APPEND_READINESS_REVIEW_20260919.json';
  const review=JSON.parse(readFileSync(readinessPath,'utf8'));
  const free=path=>{const s=statfsSync(path,{bigint:true});return s.bavail*s.bsize;};
- assert.ok(free(process.cwd())>=14000000000n,'worktree disk gate');
- assert.ok(free(tmpdir())>=14000000000n,'scratch disk gate');
+ assertB106DiskGate(free(process.cwd()),free(tmpdir()));
  const temp=mkdtempSync(join(tmpdir(),'engineer-b106-readiness-'));
  const snapshot=dir=>{
   const entries={};
@@ -139,15 +148,21 @@ test('current HEAD inventory binds all base content without branch or ancestor l
  const raw=execFileSync('git',['ls-tree','-r','-z','HEAD']);
  assert.equal(baseInventoryDigest(raw),a.reviewed_git_inventory_sha256);
  const records=raw.toString('utf8').slice(0,-1).split('\0');
+ const rejects=bytes=>{
+  let digest;
+  try{digest=baseInventoryDigest(bytes);}
+  catch(error){assert.match(error.message,/^B106 external root drift: unknown complete candidate inventory$/);return;}
+  assert.notEqual(digest,a.reviewed_git_inventory_sha256);
+ };
  const index=records.findIndex(entry=>entry.endsWith('\tREADME.md'));assert.ok(index>=0);
  for(const replacement of [records[index].replace(/[a-f0-9]{40}/,'0'.repeat(40)),records[index].replace(/^100644/,'100755'),records[index].replace('README.md','UNREVIEWED.md')]){
   const changed=[...records];changed[index]=replacement;
-  assert.notEqual(baseInventoryDigest(Buffer.from(changed.join('\0')+'\0')),a.reviewed_git_inventory_sha256);
+  rejects(Buffer.from(changed.join('\0')+'\0'));
  }
  const removed=records.filter((_,i)=>i!==index);
- assert.notEqual(baseInventoryDigest(Buffer.from(removed.join('\0')+'\0')),a.reviewed_git_inventory_sha256);
+ rejects(Buffer.from(removed.join('\0')+'\0'));
  const added=Buffer.concat([raw,Buffer.from('100644 blob '+'0'.repeat(40)+'\tunrelated.txt\0')]);
- assert.notEqual(baseInventoryDigest(added),a.reviewed_git_inventory_sha256);
+ rejects(added);
  assert.throws(()=>baseInventoryDigest(Buffer.from('malformed')));
 });
 
@@ -215,4 +230,19 @@ test('R2 remains blocked under the exact nonexecuting guard slice; a sixth path 
  const a=auth(),e=evidence();assert.ok(Object.values(e.guard_state.record.grants).every(v=>v===false));
  assert.equal(validateReadiness(a,{...e,changed_paths:['docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json']}).execution_allowed,false);
  for(const path of ['docs/engineer-osint/B106_READINESS_REVIEW_20260919.md','docs/engineer-osint/data/run-store-manifest.json','docs/engineer-osint/sixth.mjs'])assert.throws(()=>validateReadiness(a,{...e,changed_paths:[path]}),/unrelated change/);
+});
+
+test('active B106 disk contract accepts exactly 13GB in worktree and scratch',()=>{
+ assert.doesNotThrow(()=>assertB106DiskGate(13000000000n,13000000000n));
+ assert.doesNotThrow(()=>assertB106DiskGate(15000000000n,15000000000n));
+});
+test('active B106 disk contract rejects either capacity one byte below 13GB',()=>{
+ assert.throws(()=>assertB106DiskGate(12999999999n,13000000000n),/worktree disk gate/);
+ assert.throws(()=>assertB106DiskGate(13000000000n,12999999999n),/scratch disk gate/);
+});
+test('active B106 disk contract rejects malformed and type-confused capacities',()=>{
+ for(const value of [13000000000,'13000000000',null,undefined,true,false,NaN,Infinity,{},[],{valueOf:()=>15000000000n}]){
+  assert.throws(()=>assertB106DiskGate(value,15000000000n));
+  assert.throws(()=>assertB106DiskGate(15000000000n,value));
+ }
 });

@@ -2,7 +2,7 @@ import {historicalBlob} from '../lib/canonical-hardening-successor.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4661_V4660_TEST_SUCCESSOR_AUTHORIZATION.json`,'utf8'));

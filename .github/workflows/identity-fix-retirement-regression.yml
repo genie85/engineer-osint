@@ -37,7 +37,38 @@ jobs:
           node-version: '24'
 
       - name: Test complete P0/P1 contract
-        run: node --test docs/engineer-osint/tests/*.test.mjs
+        env:
+          B106_CI_NOTES_COMMIT: ${{ vars.B106_CI_NOTES_COMMIT }}
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          [[ "$B106_CI_NOTES_COMMIT" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$B106_CI_NOTES_COMMIT" != 0000000000000000000000000000000000000000 ]]
+          unset NODE_OPTIONS
+          for inherited_git_var in ${!GIT_@}; do unset "$inherited_git_var"; done
+          export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_TERMINAL_PROMPT=0 GIT_NO_REPLACE_OBJECTS=1
+          runner_temp="$(realpath -- "$RUNNER_TEMP")"
+          checkout_root="$(pwd -P)"
+          case "$runner_temp/" in "$checkout_root/"*) exit 1 ;; esac
+          case "$checkout_root/" in "$runner_temp/"*) exit 1 ;; esac
+          node -e 'const fs=require("node:fs");const s=fs.statfsSync(process.env.RUNNER_TEMP,{bigint:true});if(s.bavail*s.bsize<13000000000n)throw Error("13GB disk gate");'
+          timeout 30s git fetch --no-tags --depth=1 origin refs/notes/b106-ci-fixture:refs/notes/b106-ci-fixture
+          [[ "$(git rev-parse --verify refs/notes/b106-ci-fixture)" == "$B106_CI_NOTES_COMMIT" ]]
+          source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693
+          timeout 30s git fetch --no-tags --depth=1 origin "$source_commit"
+          pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c
+          pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8
+          timeout 30s git fetch --no-tags --depth=1 origin "$pr1_commit"
+          [[ "$(git rev-parse "$pr1_commit^{tree}")" == "$pr1_tree" ]] || exit 1
+          git ls-tree -rz "$pr1_tree" >/dev/null
+          source_dir="$(mktemp -d "$runner_temp/b106-source.XXXXXX")"
+          timeout 30s git -c core.hooksPath=/dev/null worktree add --detach "$source_dir" "$source_commit"
+          export B106_EXTERNAL_SOURCE_FIXTURE_DIR="$source_dir/"
+          fixture_receipt="$(node docs/engineer-osint/ci/prepare-b106-fixture.mjs)"
+          fixture_path="$(printf '%s' "$fixture_receipt" | node -e 'let s="";process.stdin.on("data",b=>s+=b);process.stdin.on("end",()=>{const a=JSON.parse(s);if(typeof a.fixturePath!=="string"||/[\r\n]/.test(a.fixturePath)||a.execution_allowed!==false)throw Error("invalid fixture receipt");process.stdout.write(a.fixturePath);});')"
+          export B106_EXTERNAL_INVENTORY_FIXTURE="$fixture_path"
+          node --import ./docs/engineer-osint/ci/b106-root-preload.mjs --test docs/engineer-osint/tests/*.test.mjs
 
       - name: Validate append-only canonical chain
         run: node docs/engineer-osint/validate-patch.mjs
@@ -124,7 +155,7 @@ jobs:
               'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7',
               'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a',
               'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
-              'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'
+              'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c'
           }
           expected=expected_by_run.get(current)
           if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
@@ -147,7 +178,7 @@ jobs:
             'engineer-osint-20260902-B102':'5122d347541c53638a59c8f3c855c417db8ae2ea5a04b002948d655d91b5e6d7',
             'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a',
             'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
-            'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7'
+            'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c'
           };
           const expected=expectedByRun[b.current_run_id];
           if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);
