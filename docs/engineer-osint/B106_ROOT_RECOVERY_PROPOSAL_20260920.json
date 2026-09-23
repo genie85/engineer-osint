@@ -1,0 +1,17 @@
+{
+  "schema": "engineer.b106.root-recovery-proposal.v2",
+  "status": "PENDING_EXPLICIT_USER_ROOT_GRANT",
+  "approved": false,
+  "grants": {
+    "execution": false,
+    "write": false,
+    "append": false,
+    "merge": false,
+    "deploy": false,
+    "publish": false
+  },
+  "source_commit": "1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+  "source_tree": "3537a52a3b291bbc069367a839249c770dc2cd9d",
+  "source_inventory_sha256": "99a12425f2550b62957fb031eb34e4905d2523819858e8812d8d96e22020f1c6",
+  "external_fixture_is_live_authority": false
+}

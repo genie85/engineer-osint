@@ -60,7 +60,7 @@ test('one changed byte in the ninth workflow, helper or policy is rejected',()=>
 test('all eight base workflows retain their exact blobs',()=>{
   const record=JSON.parse(readFileSync(recordPath));
   for(const item of record.baseWorkflows){
-    assert.equal(blob(readFileSync(item.path)),item.gitBlob);
+    assert.equal(blob(state.readRootHistoricalEvidence(item.path)),item.gitBlob);
     assert.throws(()=>check(altered(item.path,'changed')),/drift/);
   }
 });

@@ -1,6 +1,7 @@
 // Exact current hardening state, with a historical projection for old contracts.
 // This grants no execution, merge or deployment authority.
-import {readFileSync,readdirSync,lstatSync} from 'node:fs';
+import {readFileSync as nativeRootReadFileSync,readdirSync,lstatSync} from 'node:fs';
+const readFileSync=(...args)=>rootReadFileSync(...args);
 import {createHash} from 'node:crypto';
 import {relative,resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -135,6 +136,8 @@ function exactPaths(items,paths,label){
 
 function verifyState(read,list){
   const b106=assertB106GuardState(read);
+  // Preserve injected-reader mutation rejection, then project the same proven live reads.
+  if(rootSession&&read!==readFileSync)read=rootSession.ctx.projectRead(read);
   const actualBlob=path=>b106.projection.get(path)??blob(read(path));
   // This branch admits exactly one additive successor. Missing records or partial
   // application never silently fall back to the previous, eight-workflow state.
@@ -344,6 +347,7 @@ function closedGuard(value,keys,label){
  equalGuard(Object.keys(value).sort(),[...keys].sort(),label+' keys');
 }
 export function b106GitInventory(){
+ if(rootSession){verifyRootInspection();return rootSession.ctx.projectedInventory();}
  const git=args=>execFileSync('git',args,{maxBuffer:4*1024*1024});
  return {tree:git(['ls-tree','-r','-z','HEAD']),changed:[...new Set([...git(['diff','--no-ext-diff','--name-only','HEAD']).toString().split('\n'),...git(['ls-files','--others','--exclude-standard']).toString().split('\n')].filter(Boolean))]};
 }
@@ -549,6 +553,7 @@ function ciInventory(inventory,a,liveMode){
  if(sha256(Buffer.from(rows.join('\0')+'\0'))!==CI_BASE_INVENTORY)guardFail('CI base inventory');
 }
 export function assertB106CiClosureState(read=readFileSync,inventory=b106GitInventory){
+ if(rootSession){verifyRootInspection();if(read!==readFileSync)read=rootSession.ctx.projectRead(read);}
  if(read===readFileSync)read=path=>{
   const parts=path.split('/');
   for(let i=1;i<=parts.length;i++){
@@ -611,4 +616,108 @@ export function historicalB106Blob(path){
  const s=assertB106GuardState();
  if(!B106_VECTOR.some(x=>x.path===path))guardFail('unknown historical path');
  return s.projection.get(path);
+}
+
+// B106 v2: explicit external *inspection fixture*. No fixture lives in this repo,
+// no fixture self-authorizes, and no execution grant is accepted by this layer.
+const ROOT_BASE='1df9875a50d5ad47188d0ba4a262ea11e3e65693';
+const ROOT_TREE='3537a52a3b291bbc069367a839249c770dc2cd9d';
+const ROOT_INVENTORY='99a12425f2550b62957fb031eb34e4905d2523819858e8812d8d96e22020f1c6';
+const rootFail=label=>{throw Error('B106 external root drift: '+label);};
+const rootSha=raw=>createHash('sha256').update(raw).digest('hex');
+const rootBlob=raw=>createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex');
+const rootKeys=(x,keys)=>{
+ if(!x||typeof x!=='object'||Array.isArray(x)||JSON.stringify(Object.keys(x).sort())!==JSON.stringify([...keys].sort()))rootFail('closed schema');
+};
+const rootInventory=rows=>Buffer.from(rows.map(x=>`${x.mode} ${x.type} ${x.blob}\t${x.path}`).join('\0')+'\0');
+function rootRows(rows){
+ if(!Array.isArray(rows)||rows.length===0)rootFail('rows');let prior='';
+ for(const x of rows){
+  rootKeys(x,['path','mode','type','blob','sha256']);
+  if(typeof x.path!=='string'||x.path<=prior||x.path.startsWith('/')||x.path.includes('\\')||/[\x00-\x1f]/.test(x.path)||x.path.split('/').some(p=>!p||p==='.'||p==='..')||!['100644','100755'].includes(x.mode)||x.type!=='blob'||typeof x.blob!=='string'||!/^[0-9a-f]{40}$/.test(x.blob)||typeof x.sha256!=='string'||!/^[0-9a-f]{64}$/.test(x.sha256))rootFail('path/mode/type/hash');
+  prior=x.path;
+ }
+}
+export function rootGitTree(rows){
+ rootRows(rows);const root=new Map();
+ for(const row of rows){const parts=row.path.split('/');let at=root;for(const p of parts.slice(0,-1)){if(!at.has(p))at.set(p,new Map());at=at.get(p);if(!(at instanceof Map))rootFail('file/directory collision');}if(at.has(parts.at(-1)))rootFail('duplicate tree path');at.set(parts.at(-1),row);}
+ const tree=map=>{
+  const chunks=[...map].sort(([a,x],[b,y])=>Buffer.compare(Buffer.from(a+(x instanceof Map?'/':'')),Buffer.from(b+(y instanceof Map?'/':'')))).map(([name,x])=>Buffer.concat([Buffer.from(`${x instanceof Map?'40000':x.mode} ${name}\0`),Buffer.from(x instanceof Map?tree(x):x.blob,'hex')]));
+  const raw=Buffer.concat(chunks);return createHash('sha1').update(`tree ${raw.length}\0`).update(raw).digest('hex');
+ };return tree(root);
+}
+function rootMatch(rows,map){
+ if(!(map instanceof Map)||map.size!==rows.length)return false;
+ for(const row of rows){const f=map.get(row.path);if(!f||f.mode!==row.mode||f.type!==row.type||!Buffer.isBuffer(f.raw)||rootSha(f.raw)!==row.sha256||rootBlob(f.raw)!==row.blob)return false;}
+ return true;
+}
+const rootBrands=new WeakSet();
+let rootSession=null;
+export function createRootInspection(raw,trustedSha256,sourceFiles){
+ if(typeof raw!=='string'||typeof trustedSha256!=='string'||!/^[a-f0-9]{64}$/.test(trustedSha256)||rootSha(raw)!==trustedSha256)rootFail('missing/external trust pin');
+ const grant=parseJsonStrict(raw,{maxBytes:4194304,maxDepth:30});
+ if(raw!==JSON.stringify(grant,null,2)+'\n')rootFail('canonical grant bytes');
+ rootKeys(grant,['schema','purpose','approved','sourceCommit','sourceTree','sourceInventorySha256','source','targets','grants']);
+ if(grant.schema!=='engineer.b106.external-root-fixture.v1'||grant.purpose!=='OFFLINE_INSPECTION_ONLY'||grant.approved!==true||grant.sourceCommit!==ROOT_BASE||grant.sourceTree!==ROOT_TREE||grant.sourceInventorySha256!==ROOT_INVENTORY)rootFail('unapproved/stale fixture');
+ rootKeys(grant.grants,['execution','write','append','merge','deploy','publish']);
+ if(Object.values(grant.grants).some(v=>v!==false))rootFail('operational grant');
+ rootRows(grant.source);
+ if(rootSha(rootInventory(grant.source))!==ROOT_INVENTORY||rootGitTree(grant.source)!==ROOT_TREE||!rootMatch(grant.source,sourceFiles))rootFail('source inventory/bytes');
+ const immutable=p=>p.endsWith('.json')||p.startsWith('docs/engineer-osint/data/')||p.startsWith('docs/engineer-osint/assets/photos/')||p.startsWith('docs/engineer-osint/photo-');
+ if(!Array.isArray(grant.targets)||grant.targets.length!==2)rootFail('target stages');
+ for(const [i,t] of grant.targets.entries()){
+  rootKeys(t,['name','tree','inventorySha256','files']);rootRows(t.files);
+  if(t.name!==['PR1','PR2'][i]||rootGitTree(t.files)!==t.tree||rootSha(rootInventory(t.files))!==t.inventorySha256||t.tree===ROOT_TREE)rootFail('target tree/inventory');
+  const m=new Map(t.files.map(x=>[x.path,x]));
+  for(const row of grant.source)if(immutable(row.path)&&JSON.stringify(m.get(row.path))!==JSON.stringify(row))rootFail('frozen history '+row.path);
+  if(m.has('docs/engineer-osint/data/runs/engineer-osint-20260904-B106.json')||m.has('docs/engineer-osint/B106_STRICT_APPEND_AUTHORIZATION_20260920.json'))rootFail('execution/replay artifact');
+ }
+ if(grant.targets[0].tree===grant.targets[1].tree)rootFail('ambiguous stages');
+ // Private canonical inventories are bound by the verified external fixture,
+ // including this verifier and every proposal. Never infer a target from HEAD.
+ const inventories=[rootInventory(grant.source),...grant.targets.map(t=>rootInventory(t.files))];
+ const sourceCopy=new Map([...sourceFiles].map(([p,x])=>[p,{...x,raw:Buffer.from(x.raw)}]));let live=null,stage=null;
+ const ctx=Object.freeze({
+  executionAllowed:false,
+  verify(files){
+   if(live&&files instanceof Map&&files.size===live.size&&[...live].every(([p,x])=>{const y=files.get(p);return y&&y.mode===x.mode&&y.type===x.type&&Buffer.isBuffer(y.raw)&&y.raw.equals(x.raw);}))return {stage,execution_allowed:false,fixture_only:true};
+   const modes=[{name:'SOURCE',files:grant.source},...grant.targets].filter(t=>rootMatch(t.files,files));
+   if(modes.length!==1)rootFail('mixed/third/missing/extra state');
+   // Freeze private evidence copies; caller mutation cannot alter a projection.
+   live=new Map([...files].map(([p,x])=>[p,{...x,raw:Buffer.from(x.raw)}]));stage=modes[0].name;
+   return {stage,execution_allowed:false,fixture_only:true};
+  },
+  projectedInventory(){if(!live)rootFail('unverified inspection');return {tree:Buffer.from(rootInventory(grant.source)),changed:[]};},
+  projectInventory(raw){
+   if(!live)rootFail('unverified inspection');
+   if(!Buffer.isBuffer(raw)||!inventories.some(exact=>exact.equals(raw)))rootFail('unknown complete candidate inventory');
+   return Buffer.from(inventories[0]);
+  },
+  projectRead(reader){return (path,...args)=>{
+   if(!live)rootFail('unverified read');
+   const value=reader(path,...args),buf=Buffer.isBuffer(value)?value:Buffer.from(value);
+   if(!live.has(path)||!buf.equals(live.get(path).raw))rootFail('bound read '+path);
+   const out=Buffer.from((sourceCopy.get(path)??live.get(path)).raw);
+   return typeof value==='string'?out.toString('utf8'):out;
+  };},
+  rejectExecution(){rootFail('fixture is never execution authority');}
+ });rootBrands.add(ctx);return ctx;
+}
+export function installExternalRootInspection(ctx,snapshotter){
+ if(rootSession||!rootBrands.has(ctx)||typeof snapshotter!=='function')rootFail('invalid/replayed installation');
+ ctx.verify(snapshotter());rootSession={ctx,snapshotter};
+}
+function verifyRootInspection(){if(rootSession)rootSession.ctx.verify(rootSession.snapshotter());}
+export function assertNoRootFixtureExecution(){if(rootSession)rootSession.ctx.rejectExecution();}
+function rootReadFileSync(path,...args){return rootSession?rootSession.ctx.projectRead(nativeRootReadFileSync)(path,...args):nativeRootReadFileSync(path,...args);}
+
+// Explicit historical evidence API: every read revalidates the complete external fixture.
+// Outside that inspection context it is exactly the native read, without a fallback grant.
+export function readRootHistoricalEvidence(path,...args){verifyRootInspection();return rootReadFileSync(path,...args);}
+
+// Exact candidate inventory must pass before any historical projection. Native
+// historical guards remain authoritative when no external inspection is installed.
+export function projectRootHistoricalInventory(raw){
+ if(!rootSession)return raw;
+ verifyRootInspection();return rootSession.ctx.projectInventory(raw);
 }

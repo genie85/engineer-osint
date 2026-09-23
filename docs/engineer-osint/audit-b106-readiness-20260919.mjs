@@ -1,12 +1,12 @@
 // Read-only readiness evidence. Never an append authorization or execution entrypoint.
 import assert from 'node:assert/strict';
-import {readFileSync,existsSync} from 'node:fs';
+import {existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {canonicalDigest,parseJsonStrict} from './lib/integrity.mjs';
-import {assertB106GuardState,B106_GUARD_PATH} from './lib/canonical-hardening-successor.mjs';
+import {assertB106GuardState,B106_GUARD_PATH,b106GitInventory,projectRootHistoricalInventory,readRootHistoricalEvidence as readFileSync} from './lib/canonical-hardening-successor.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore} from './lib/run-store.mjs';
 export const BASE='950d96cfbe4be2979f1dc3a0f30051dd6ed68e6d';
 export const REVIEW_PATH='docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json';
@@ -39,6 +39,7 @@ export function parseReadiness(raw){
 // from a remote or historical commit during validation. This proves content identity,
 // not branch ancestry, current remote-main freshness or permission to execute.
 export function baseInventoryDigest(raw){
+ raw=projectRootHistoricalInventory(raw);
  assert.ok(Buffer.isBuffer(raw)&&raw.at(-1)===0,'invalid Git tree inventory');
  const guard=assertB106GuardState();
  const entries=raw.toString('utf8').slice(0,-1).split('\0').flatMap(entry=>{
@@ -66,12 +67,10 @@ export function loadEvidence(){
  const pinned_raw=Object.fromEntries([...a.protected_files,...a.local_files].map(x=>[x.path,readFileSync(x.path)]));
  // Only current HEAD objects are required: works in detached fetch-depth:1 CI.
  // Excluding exactly the four review paths must reproduce the pinned base inventory.
- const tree=execFileSync('git',['ls-tree','-r','-z','HEAD']);
+ const {tree,changed}=b106GitInventory();
  const base_inventory_sha256=baseInventoryDigest(tree);
- const tracked=git('diff','--no-ext-diff','--name-only','HEAD').split('\n').filter(Boolean);
- const untracked=git('ls-files','--others','--exclude-standard').split('\n').filter(Boolean);
  assert.equal(existsSync(ROOT+'/data/runs/'+a.candidate_run_id+'.json'),false,'B106 already exists');
- return {guard_state,base_inventory_sha256,parent_run_id:store.report.current_run_id,parent_canonical_sha256:store.report.canonical_sha256,candidate_raw,pinned_raw,changed_paths:[...new Set([...tracked,...untracked])],store,resulting_canonical:canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate))};
+ return {guard_state,base_inventory_sha256,parent_run_id:store.report.current_run_id,parent_canonical_sha256:store.report.canonical_sha256,candidate_raw,pinned_raw,changed_paths:changed,store,resulting_canonical:canonicalDigest(applyStrictPatchToCanonicalData(store.data,candidate))};
 }
 export function validateReadiness(a,e){
  exactPayload(a);
