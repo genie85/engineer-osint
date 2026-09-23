@@ -55,6 +55,11 @@ jobs:
           [[ "$(git rev-parse --verify refs/notes/b106-ci-fixture)" == "$B106_CI_NOTES_COMMIT" ]]
           source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693
           timeout 30s git fetch --no-tags --depth=1 origin "$source_commit"
+          pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c
+          pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8
+          timeout 30s git fetch --no-tags --depth=1 origin "$pr1_commit"
+          [[ "$(git rev-parse "$pr1_commit^{tree}")" == "$pr1_tree" ]] || exit 1
+          git ls-tree -rz "$pr1_tree" >/dev/null
           source_dir="$(mktemp -d "$runner_temp/b106-source.XXXXXX")"
           timeout 30s git -c core.hooksPath=/dev/null worktree add --detach "$source_dir" "$source_commit"
           export B106_EXTERNAL_SOURCE_FIXTURE_DIR="$source_dir/"

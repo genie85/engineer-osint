@@ -7,7 +7,7 @@ import {relative,resolve} from 'node:path';
 import {b106GitInventory} from './canonical-hardening-successor.mjs';
 import {parseJsonStrict} from './integrity.mjs';
 const path='docs/engineer-osint/B106_DESCENDANT_PROPOSAL_20260920.json';
-const expectedRecordSha='83dd8ebb1e3fda3eaf377990a268197c3c87bbee62523b5e98be65cc6eb2db87';
+const expectedRecordSha='a6db127cc718f7a6e5d5a1ef846c4776baa85c25949b74a775d2068d59c17884';
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const blob=b=>createHash('sha1').update(`blob ${b.length}\0`).update(b).digest('hex');
 function parse(raw){

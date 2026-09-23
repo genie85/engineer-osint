@@ -69,3 +69,50 @@ test('Git read environment removes inherited overrides and global preload',()=>{
  assert.equal(e.PATH,'/bin');for(const key of ['GIT_DIR','GIT_WORK_TREE','GIT_CONFIG_COUNT','GIT_SSH_COMMAND','NODE_OPTIONS'])assert.equal(e[key],undefined);
  assert.equal(e.GIT_CONFIG_NOSYSTEM,'1');assert.equal(e.GIT_CONFIG_GLOBAL,'/dev/null');
 });
+
+// Append to b106-ci-transport.test.mjs; uses existing native fs/Git imports.
+const historicalPr1Commit='58171850e92da3cc61a94a85f615eadbf6d9419c';
+const historicalPr1Tree='1baffdf744fe0bf07f7db0ac859013c253190ef8';
+function exactPr1Block(text){
+ const start=`pr1_commit=${historicalPr1Commit}\n`,last='git ls-tree -rz "$pr1_tree" >/dev/null\n';
+ const script=text.split('\n').map(x=>x.startsWith('          ')?x.slice(10):x).join('\n');
+ assert.equal(script.split(start).length,2,'one exact PR1 commit');
+ const from=script.indexOf(start),end=script.indexOf(last,from);assert.ok(end>from,'PR1 tree must be checked before tests');
+ const block=script.slice(from,end+last.length);
+ assert.equal(block,`${start}pr1_tree=${historicalPr1Tree}\ntimeout 30s git fetch --no-tags --depth=1 origin "$pr1_commit"\n[[ "$(git rev-parse "$pr1_commit^{tree}")" == "$pr1_tree" ]] || exit 1\n${last}`);
+ assert.ok(end<script.indexOf('fixture_receipt=')&&end<script.indexOf('node --import'));
+ return block;
+}
+test('every CI workflow provisions only the pinned historical PR1 before fixture preparation',()=>{
+ for(const name of ['first-three-overlay-retirement-regression','pages','identity-fix-retirement-readiness','identity-fix-retirement-authorization','identity-fix-retirement-regression','runtime-audit-snapshot']){
+  exactPr1Block(readFileSync(`.github/workflows/${name}.yml`,'utf8'));
+ }
+});
+test('isolated shallow object store requires PR1 fetch and rejects missing/wrong identities',{timeout:15000},()=>{
+ const block=exactPr1Block(readFileSync('.github/workflows/pages.yml','utf8'));
+ const temp=mkdtempSync(join(process.env.RUNNER_TEMP,'b106-pr1-fetch-'));
+ const env=gitReadEnvironment();delete env.B106_EXTERNAL_INVENTORY_FIXTURE;
+ const git=(cwd,args,input)=>{
+  const r=spawnSync('git',['-c','core.hooksPath=/dev/null',...args],{cwd,env,input,encoding:'utf8',timeout:3000,maxBuffer:65536});
+  assert.equal(r.error,undefined);assert.equal(r.status,0,r.stderr);return r.stdout.trim();
+ };
+ const remote=join(temp,'remote.git');git(temp,['init','--bare',remote]);
+ const obj=raw=>git(remote,['hash-object','-w','--stdin'],raw);
+ const tree=b=>git(remote,['mktree'],`100644 blob ${obj(b)}\tfixture\n`);
+ const commit=t=>git(remote,['-c','user.name=Synthetic','-c','user.email=fixture@invalid','commit-tree',t], 'offline fixture\n');
+ const sourceTree=tree('source\n'),sourceCommit=commit(sourceTree),targetTree=tree('target\n'),targetCommit=commit(targetTree),pr1Tree=tree('pr1\n'),pr1Commit=commit(pr1Tree);
+ for(const [name,id] of [['source',sourceCommit],['target',targetCommit],['pr1',pr1Commit]])git(remote,['update-ref',`refs/heads/${name}`,id]);
+ for(const kind of ['valid','wrong-commit','wrong-tree','unavailable']){
+  const client=join(temp,kind+'.git');git(temp,['init','--bare',client]);git(client,['remote','add','origin','file://'+remote]);
+  for(const id of [sourceCommit,targetCommit])git(client,['fetch','--no-tags','--depth=1','origin',id]);
+  const before=spawnSync('git',['ls-tree','-rz',pr1Tree],{cwd:client,env,encoding:'utf8',timeout:3000});assert.notEqual(before.status,0);assert.match(before.stderr,/not a tree object/);
+  const requested=kind==='wrong-commit'?targetCommit:kind==='unavailable'?'f'.repeat(40):pr1Commit;
+  const expected=kind==='wrong-tree'?sourceTree:pr1Tree;
+  const script='set -euo pipefail\n'+block.replace(historicalPr1Commit,requested).replace(historicalPr1Tree,expected)+'printf TEST_STARTED\n';
+  const result=spawnSync('bash',['-c',script],{cwd:client,env,encoding:'utf8',timeout:5000,maxBuffer:65536});assert.equal(result.error,undefined);
+  if(kind==='valid'){
+   assert.equal(result.status,0,result.stderr);assert.equal(result.stdout,'TEST_STARTED');
+   assert.equal(git(client,['ls-tree','-rz',pr1Tree]),git(remote,['ls-tree','-rz',pr1Tree]));
+  }else{assert.notEqual(result.status,0);assert.equal(result.stdout.includes('TEST_STARTED'),false);}
+ }
+});
