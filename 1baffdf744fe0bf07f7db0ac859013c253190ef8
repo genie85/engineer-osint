@@ -7990,8 +7990,8 @@
     },
     {
       "name": "PR2",
-      "tree": "a4460736d881c4c387e68dbcaa14dfd3cda84186",
-      "inventorySha256": "998b66f5a0a7ea01a7fdc59266720c0bc8c0c42fcf0c3f7e9681ca9b61bafe6e",
+      "tree": "2c4beea8af6aa85b626f4ced89b6a3050ac2d790",
+      "inventorySha256": "7250650eb447a6e552b3ebdbf234e056b6fbf1866ea50b4e569e2b42275238d1",
       "files": [
         {
           "path": ".github/workflows/authorized-canonical-executor.yml",
@@ -8004,8 +8004,8 @@
           "path": ".github/workflows/first-three-overlay-retirement-regression.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "1b8e3bf29bfc9e4bbf5caa1fafa0ad2256ab0b8b",
-          "sha256": "12ebf9ad07bd50b7df586efd6f51084afe92ea7e78a1f98a2452f1a45375f3cd"
+          "blob": "f20b63660a3e0480f50c1512cfe16be6701d7df6",
+          "sha256": "2cda971a902561de280da96679d5770f2ac5329beb2774b38e0eec66a1979088"
         },
         {
           "path": ".github/workflows/i18n-switch-regression.yml",
@@ -8018,36 +8018,36 @@
           "path": ".github/workflows/identity-fix-retirement-authorization.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "1f5f0c907217394c3953acaa14265f1f22ef310c",
-          "sha256": "635a76ddb121b697957f130873cbf39ff9d8b3ce16c455db40f3eff7d4baecdc"
+          "blob": "7360415ae986116931b24eb42a5fe8bba30fee6b",
+          "sha256": "334fbcf0250d15a643f9042637bf4d1a626b2949a10c3d8f15f23643c25f9bc3"
         },
         {
           "path": ".github/workflows/identity-fix-retirement-readiness.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "c0e0830d20a8b70064e8d12d128935c5ce5e8bc8",
-          "sha256": "caf880578d2a0c9e4aad931852bdedda9b27bb6056f432f5ac4bb3ecc0ad8a40"
+          "blob": "14c9e2bfa0e503d18c9b83656af6f35abc363e17",
+          "sha256": "c65d4363973fa3d67df797d54450d51affbefa65e68560ec0d1c36a09811223c"
         },
         {
           "path": ".github/workflows/identity-fix-retirement-regression.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "5fc6285caf3b82b9471e12d0f94898c75a1a2dcf",
-          "sha256": "4f911d511cfa51b2577646a6db0bed0ec89a77be3721f71fe0cac9fbaec70f9e"
+          "blob": "65a08ad2fb982d95e459eb8d8bfe889de188bc68",
+          "sha256": "48d04628cca2453aa5ec607866c5390e0087712130babb05946eed261a9930e7"
         },
         {
           "path": ".github/workflows/pages.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "58399ecc04a6143eff5a995666d3c363d4641726",
-          "sha256": "d4aba44ef957a2bde5ed6986f6d87eb86c5019cb05b1fa4791f468b7e8f6ad4e"
+          "blob": "20fc04212a898bc0437d06921cc3a27e5fcaffa1",
+          "sha256": "4fa671620b1382b4ce6e4101cef331793a76ec94d0e54b77845f622215890e6f"
         },
         {
           "path": ".github/workflows/runtime-audit-snapshot.yml",
           "mode": "100644",
           "type": "blob",
-          "blob": "f24cfeff3090fdda0d9a680f511bffe37cc3b7c2",
-          "sha256": "545bfe18555218f7b9dee29b75cb978ec8c38ecba63718e0a8db8caf584264db"
+          "blob": "b9cad85193df16660c0c0e44e3e7858d04bc6f1b",
+          "sha256": "8336e88d55b4ea5fac81af52497822abff8e6ae932106be06d0fcb88279544a3"
         },
         {
           "path": ".github/workflows/safe-automerge-dry-run.yml",
@@ -8116,8 +8116,8 @@
           "path": "docs/engineer-osint/B106_DESCENDANT_PROPOSAL_20260920.json",
           "mode": "100644",
           "type": "blob",
-          "blob": "3cd45130175d8e4665c546e30baccd914824ab78",
-          "sha256": "83dd8ebb1e3fda3eaf377990a268197c3c87bbee62523b5e98be65cc6eb2db87"
+          "blob": "15af5ee36b00803e000b5f489a29fd15e39013a6",
+          "sha256": "a6db127cc718f7a6e5d5a1ef846c4776baa85c25949b74a775d2068d59c17884"
         },
         {
           "path": "docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json",
@@ -10132,8 +10132,8 @@
           "path": "docs/engineer-osint/lib/b106-descendant-inspection.mjs",
           "mode": "100644",
           "type": "blob",
-          "blob": "744a604ba2d60b8f24a76df44374fa3bcd113071",
-          "sha256": "c2b0952a5c00aa1757b0fa67a3018b2d4629461ca398bc9c0210cf163f7ddae8"
+          "blob": "bd19df83f14902061497472ce2635bca776e755f",
+          "sha256": "e9700a1d722d252d3b385fa330af14571e7da6eec245afa0eed10293aa3313ab"
         },
         {
           "path": "docs/engineer-osint/lib/canonical-hardening-successor.mjs",
@@ -10608,8 +10608,8 @@
           "path": "docs/engineer-osint/tests/b106-ci-transport.test.mjs",
           "mode": "100644",
           "type": "blob",
-          "blob": "b9e01bf0edd3fc10dc49f7aa33d75839112e1f65",
-          "sha256": "fa4e2e8cd21d1108aca2980e9b8d1eb21a127d7faab6bbe3476ad568a68fb5fb"
+          "blob": "ecf9dc44cecfcb605815393d366c1c1454ced7ea",
+          "sha256": "72b109f4b4e601d8725ffc7bce824472d69c222bd9cf96fd62487faa2df31db2"
         },
         {
           "path": "docs/engineer-osint/tests/b106-descendant-inspection.test.mjs",
