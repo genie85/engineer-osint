@@ -3,7 +3,7 @@ import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-suc
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 import {applyStrictPatchToCanonicalData,loadCanonicalRunStore} from '../lib/run-store.mjs';
 import {canonicalDigest} from '../lib/integrity.mjs';
 

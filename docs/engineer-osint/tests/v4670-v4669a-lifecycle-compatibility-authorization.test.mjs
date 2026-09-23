@@ -2,7 +2,7 @@ import {historicalBlob, historicalWorkflow} from '../lib/canonical-hardening-suc
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readDescendantEvidence as readFileSync} from '../lib/b106-descendant-inspection.mjs';
 
 const root='docs/engineer-osint';
 const auth=JSON.parse(readFileSync(`${root}/V4670_V4669A_LIFECYCLE_COMPATIBILITY_AUTHORIZATION.json`,'utf8'));
