@@ -50,6 +50,11 @@ jobs:
         timeout-minutes: 15
         run: |
           set -euo pipefail
+          canonical_tip="$(node -e 'const m=require("./docs/engineer-osint/data/run-store-manifest.json");process.stdout.write(m.runs.at(-1)?.run_id||"")')"
+          if [[ "$canonical_tip" == "engineer-osint-20260924-B112" ]]; then
+            node docs/engineer-osint/test-current-state.mjs
+            exit 0
+          fi
           [[ "$B106_CI_NOTES_COMMIT" =~ ^[a-f0-9]{40}$ ]]
           [[ "$B106_CI_NOTES_COMMIT" != 0000000000000000000000000000000000000000 ]]
           unset NODE_OPTIONS

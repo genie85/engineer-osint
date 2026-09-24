@@ -1,0 +1,854 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260923-B108",
+    "parent_run_id": "engineer-osint-20260923-B107",
+    "status": "SUCCESS",
+    "window_from": "2026-09-23T20:00:00Z",
+    "window_to": "2026-09-23T20:01:00Z",
+    "counts": {
+      "CURRENT_DELTA": 7,
+      "LATE_DISCOVERED_CURRENT": 1,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 8,
+      "UPDATE": 0,
+      "CONFIRMATION": 8,
+      "CORRECTION": 1,
+      "CONTRADICTION": 1,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 12,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 16,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "BATCH_CONTENT_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "4c91f001a00937d39f46e0b880eba64e3071842a00ca6fbd06039735ee4f5de9",
+    "source_adjudication": "ADJUDICATION_WAVE3.md",
+    "prerequisite_candidate": "CONTENT_CANDIDATE_WAVE2.json",
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "held_topics": [
+      "62nd Engineer Battalion / 591st CEC-I source conflict",
+      "Poland border engineering pending direct primary readback and sensitivity review"
+    ],
+    "no_change_topics": [
+      "Unsupported exact Q1 2026 versus Q4 2025 UGV mission ratio",
+      "Secondary 21,500 UGV mission figure already absent from canonical"
+    ],
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 7,
+    "LATE_DISCOVERED_CURRENT": 1,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0044",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Operation Vivaldi — publicly claimed air delivery of ground robots with unresolved priority",
+      "title_cs": "Operace Vivaldi — veřejně tvrzená vzdušná doprava pozemních robotů s nevyřešenou prioritou",
+      "summary_en": "Ukraine’s Third Army Corps reported on 20 September 2026 that heavy UAVs delivered kamikaze ground robots during Operation Vivaldi. Earlier public reporting by Militarnyi on 19 July described a similar heavy-drone delivery of an ARK-1-type ground vehicle.",
+      "summary_cs": "Ukrajinský Third Army Corps 20. září 2026 uvedl, že během operace Vivaldi těžké UAV dopravovaly kamikaze pozemní roboty. Starší veřejná zpráva Militarnyi z 19. července popisovala podobnou dopravu pozemního prostředku typu ARK-1 těžkým dronem.",
+      "fact_en": "Ukraine’s Third Army Corps reported on 20 September 2026 that heavy UAVs delivered kamikaze ground robots during Operation Vivaldi. Earlier public reporting by Militarnyi on 19 July described a similar heavy-drone delivery of an ARK-1-type ground vehicle.",
+      "fact_cs": "Ukrajinský Third Army Corps 20. září 2026 uvedl, že během operace Vivaldi těžké UAV dopravovaly kamikaze pozemní roboty. Starší veřejná zpráva Militarnyi z 19. července popisovala podobnou dopravu pozemního prostředku typu ARK-1 těžkým dronem.",
+      "analysis_en": "The sources support the existence of an air-delivered-UGV tactic in public reporting, but their chronology conflicts with the unit’s world-first framing. Exact mission dates, unit linkage and priority remain unresolved.",
+      "analysis_cs": "Zdroje podporují existenci veřejně popsané taktiky dopravy UGV vzduchem, jejich chronologie však odporuje tvrzení jednotky o světovém prvenství. Přesná data misí, vazba na jednotku a priorita zůstávají nevyřešeny.",
+      "what_it_does_not_prove_en": "World-first status, the claimed delivery distance as independently verified performance, identity of the two reported events, or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Světové prvenství, nezávisle ověřený výkon deklarovaného dosahu, totožnost obou popsaných událostí ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0551",
+        "ENG-SRC-0552"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0240",
+        "ENG-EVID-0241"
+      ],
+      "publication_date": "2026-09-20",
+      "temporal_status": "RECENT_ATTRIBUTED_COMBAT_REPORT_WITH_CHRONOLOGY_CONFLICT",
+      "classification": "ATTRIBUTED_OFFICIAL_REPORT_WITH_PUBLIC_COUNTEREVIDENCE",
+      "confidence": "MEDIUM_FOR_TACTIC_EXISTENCE_LOW_FOR_PRIORITY_AND_PERFORMANCE",
+      "topics": [
+        "AIR_DELIVERED_UGV",
+        "GROUND_ROBOTICS",
+        "UKRAINE",
+        "SOURCE_CONFLICT"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0127",
+      "type": "ENG-EVT",
+      "country": "PHL/USA",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "MASA 26 — bilateral EOD and UAS familiarization exchange",
+      "title_cs": "MASA 26 — bilaterální výměna zkušeností EOD a seznámení s UAS",
+      "summary_en": "DVIDS documents a September 2026 EOD exchange in Manila involving U.S. Marines, Armed Forces of the Philippines and Philippine Coast Guard personnel, including equipment familiarization involving a small UAS.",
+      "summary_cs": "DVIDS dokumentuje zářijovou výměnu EOD zkušeností v Manile za účasti U.S. Marines, ozbrojených sil Filipín a filipínské pobřežní stráže, včetně seznámení s vybavením zahrnujícím malé UAS.",
+      "fact_en": "DVIDS documents a September 2026 EOD exchange in Manila involving U.S. Marines, Armed Forces of the Philippines and Philippine Coast Guard personnel, including equipment familiarization involving a small UAS.",
+      "fact_cs": "DVIDS dokumentuje zářijovou výměnu EOD zkušeností v Manile za účasti U.S. Marines, ozbrojených sil Filipín a filipínské pobřežní stráže, včetně seznámení s vybavením zahrnujícím malé UAS.",
+      "analysis_en": "For Photo ID 9952957, the displayed Date Taken is 7 September while the caption, VIRIN and embedded EXIF support 8 September 2026. The discrepancy is retained without assigning a cause.",
+      "analysis_cs": "U Photo ID 9952957 je zobrazené Date Taken 7. září, zatímco popisek, VIRIN a embedded EXIF podporují 8. září 2026. Rozpor je zachován bez určení příčiny.",
+      "what_it_does_not_prove_en": "Procedural EOD techniques, complete participant roster, certification, readiness gain, or the technical cause of the metadata offset.",
+      "what_it_does_not_prove_cs": "Procedurální EOD techniky, úplný seznam účastníků, certifikaci, nárůst připravenosti ani technickou příčinu posunu metadat.",
+      "source_ids": [
+        "ENG-SRC-0553",
+        "ENG-SRC-0554"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0242",
+        "ENG-EVID-0243"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "RECENT_BILATERAL_TRAINING_WITH_METADATA_CONFLICT",
+      "classification": "FACT_ABOUT_OFFICIAL_HIGH_LEVEL_TRAINING_EVENT",
+      "confidence": "HIGH_FOR_EVENT_MEDIUM_FOR_EXACT_ASSET_DATE",
+      "topics": [
+        "EOD",
+        "UAS",
+        "MASA_26",
+        "INTEROPERABILITY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0128",
+      "type": "ENG-EVT",
+      "country": "PRT/NATO",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "REPMUS26 and Dynamic Messenger — maritime uncrewed-system experimentation",
+      "title_cs": "REPMUS26 a Dynamic Messenger — experimentování s námořními bezosádkovými systémy",
+      "summary_en": "Portuguese Navy reporting described REPMUS26 as involving more than 3,700 participants in large-scale maritime uncrewed-system experimentation. Official Portuguese and German reporting also identifies mine-laying and mine-countermeasure scenarios and distinguishes prototype experimentation from operational-integration testing.",
+      "summary_cs": "Portugalské námořnictvo popsalo REPMUS26 jako rozsáhlé experimentování s námořními bezosádkovými systémy za účasti více než 3 700 osob. Oficiální portugalské a německé zdroje uvádějí také scénáře kladení min a mine countermeasures a rozlišují experimentování s prototypy od testování operační integrace.",
+      "fact_en": "Portuguese Navy reporting described REPMUS26 as involving more than 3,700 participants in large-scale maritime uncrewed-system experimentation. Official Portuguese and German reporting also identifies mine-laying and mine-countermeasure scenarios and distinguishes prototype experimentation from operational-integration testing.",
+      "fact_cs": "Portugalské námořnictvo popsalo REPMUS26 jako rozsáhlé experimentování s námořními bezosádkovými systémy za účasti více než 3 700 osob. Oficiální portugalské a německé zdroje uvádějí také scénáře kladení min a mine countermeasures a rozlišují experimentování s prototypy od testování operační integrace.",
+      "analysis_en": "The exercise is evidence of multinational experimentation and interoperability work, not of completed adoption or fielded readiness.",
+      "analysis_cs": "Cvičení dokládá mnohonárodní experimentování a práci na interoperabilitě, nikoli dokončené zavedení či operační připravenost.",
+      "what_it_does_not_prove_en": "Procurement, standardized doctrine, operational fielding, combat effectiveness, or validated live-mine clearance performance.",
+      "what_it_does_not_prove_cs": "Pořízení, standardizovanou doktrínu, operační zavedení, bojovou účinnost ani ověřený výkon při odstraňování ostrých min.",
+      "source_ids": [
+        "ENG-SRC-0555",
+        "ENG-SRC-0556",
+        "ENG-SRC-0557"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0244"
+      ],
+      "publication_date": "2026-09-18",
+      "temporal_status": "ONGOING_MULTINATIONAL_EXPERIMENTATION",
+      "classification": "FACT_ABOUT_OFFICIAL_EXERCISE_SCOPE",
+      "confidence": "HIGH_FOR_REPORTED_SCOPE_LOW_FOR_FIELDING",
+      "topics": [
+        "MARITIME_UNCREWED_SYSTEMS",
+        "MINE_COUNTERMEASURES",
+        "MINELAYING",
+        "INTEROPERABILITY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0129",
+      "type": "ENG-EVT",
+      "country": "CZE",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "151st Engineer Battalion — field training before Engineer Spirit 2026 certification exercise",
+      "title_cs": "151. ženijní prapor — polní výcvik před certifikačním cvičením Engineer Spirit 2026",
+      "summary_en": "Official 15th Engineer Regiment reporting documents complex field training by the 151st Engineer Battalion in September 2026 covering command, logistics and tactical activity as preparation for the Engineer Spirit 2026 certification exercise.",
+      "summary_cs": "Oficiální zprávy 15. ženijního pluku dokumentují komplexní polní výcvik 151. ženijního praporu v září 2026 zahrnující velení, logistiku a taktickou činnost jako přípravu na certifikační cvičení Engineer Spirit 2026.",
+      "fact_en": "Official 15th Engineer Regiment reporting documents complex field training by the 151st Engineer Battalion in September 2026 covering command, logistics and tactical activity as preparation for the Engineer Spirit 2026 certification exercise.",
+      "fact_cs": "Oficiální zprávy 15. ženijního pluku dokumentují komplexní polní výcvik 151. ženijního praporu v září 2026 zahrnující velení, logistiku a taktickou činnost jako přípravu na certifikační cvičení Engineer Spirit 2026.",
+      "analysis_en": "The articles establish a structured preparation cycle before certification; they do not report the later exercise outcome.",
+      "analysis_cs": "Články dokládají strukturovaný přípravný cyklus před certifikací; neuvádějí výsledek následného cvičení.",
+      "what_it_does_not_prove_en": "That Engineer Spirit 2026 was completed, that the battalion passed certification, or that a specific readiness standard was achieved.",
+      "what_it_does_not_prove_cs": "Že Engineer Spirit 2026 proběhl, že prapor certifikací prošel nebo že dosáhl konkrétního standardu připravenosti.",
+      "source_ids": [
+        "ENG-SRC-0558",
+        "ENG-SRC-0559"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0245"
+      ],
+      "publication_date": "2026-09-10",
+      "temporal_status": "RECENT_PRE_CERTIFICATION_TRAINING",
+      "classification": "FACT_ABOUT_OFFICIAL_PREPARATORY_TRAINING",
+      "confidence": "HIGH_FOR_PREPARATION_LOW_FOR_CERTIFICATION_OUTCOME",
+      "topics": [
+        "COMBAT_ENGINEERING",
+        "TRAINING",
+        "CERTIFICATION_PREPARATION",
+        "ENGINEER_SPIRIT_2026"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0130",
+      "type": "ENG-EVT",
+      "country": "BRN/ADMM_PLUS",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "ADMM-Plus Humanitarian Mine Action field training exercise, September 2026",
+      "title_cs": "Polní cvičení ADMM-Plus v humanitárním odminování, září 2026",
+      "summary_en": "Royal Brunei Land Forces reported that 135 participants from 11 ADMM-Plus countries attended a field exercise in Nizhny Novgorod from 7 to 12 September 2026 covering battle-area clearance, minefield and mechanical clearance, mine-detection dogs and C-IED training.",
+      "summary_cs": "Royal Brunei Land Forces uvedly, že polního cvičení v Nižním Novgorodu ve dnech 7.–12. září 2026 se účastnilo 135 osob z 11 zemí ADMM-Plus; výcvik zahrnoval battle-area clearance, čištění minových polí, mechanické odminování, minové psy a C-IED.",
+      "fact_en": "Royal Brunei Land Forces reported that 135 participants from 11 ADMM-Plus countries attended a field exercise in Nizhny Novgorod from 7 to 12 September 2026 covering battle-area clearance, minefield and mechanical clearance, mine-detection dogs and C-IED training.",
+      "fact_cs": "Royal Brunei Land Forces uvedly, že polního cvičení v Nižním Novgorodu ve dnech 7.–12. září 2026 se účastnilo 135 osob z 11 zemí ADMM-Plus; výcvik zahrnoval battle-area clearance, čištění minových polí, mechanické odminování, minové psy a C-IED.",
+      "analysis_en": "The verified Brunei source supports participation and broad training areas. The unavailable China MoD page is not required for this record.",
+      "analysis_cs": "Ověřený brunejský zdroj podporuje účast a obecné oblasti výcviku. Nedostupná stránka čínského MoD není pro tento záznam použita.",
+      "what_it_does_not_prove_en": "Common certification, standardized proficiency, operational effectiveness, or transfer of specific procedures.",
+      "what_it_does_not_prove_cs": "Společnou certifikaci, standardizovanou úroveň dovedností, operační účinnost ani předání konkrétních postupů.",
+      "source_ids": [
+        "ENG-SRC-0560"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0246"
+      ],
+      "publication_date": "2026-09-12",
+      "temporal_status": "RECENT_MULTINATIONAL_FIELD_TRAINING",
+      "classification": "FACT_ABOUT_OFFICIAL_MULTINATIONAL_HMA_EXERCISE",
+      "confidence": "HIGH_FOR_REPORTED_EVENT_LOW_FOR_OUTCOMES",
+      "topics": [
+        "HUMANITARIAN_MINE_ACTION",
+        "C_IED",
+        "ADMM_PLUS",
+        "INTEROPERABILITY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0045",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Ukraine reports field tests of four concepts against jet-powered Shahed-type UAVs",
+      "title_cs": "Ukrajina uvádí polní testy čtyř konceptů proti proudovým UAV typu Shahed",
+      "summary_en": "ArmyInform reported on 30 August 2026, citing Ukraine’s defence minister, that four potential interceptor solutions for jet-powered Shahed-type UAVs had undergone field tests and that rapid maturation and production scaling were the stated next objectives.",
+      "summary_cs": "ArmyInform 30. srpna 2026 s odkazem na ukrajinského ministra obrany uvedl, že čtyři potenciální prostředky proti proudovým UAV typu Shahed absolvovaly polní testy a že deklarovaným dalším cílem je jejich rychlé dotažení a škálování výroby.",
+      "fact_en": "ArmyInform reported on 30 August 2026, citing Ukraine’s defence minister, that four potential interceptor solutions for jet-powered Shahed-type UAVs had undergone field tests and that rapid maturation and production scaling were the stated next objectives.",
+      "fact_cs": "ArmyInform 30. srpna 2026 s odkazem na ukrajinského ministra obrany uvedl, že čtyři potenciální prostředky proti proudovým UAV typu Shahed absolvovaly polní testy a že deklarovaným dalším cílem je jejich rychlé dotažení a škálování výroby.",
+      "analysis_en": "This is a single attributed official-defence-media report and is retained as an adaptation signal, not independent performance verification.",
+      "analysis_cs": "Jde o jediné připsané sdělení oficiálního obranného média, vedené jako signál adaptace, nikoli nezávislé ověření výkonu.",
+      "what_it_does_not_prove_en": "Interceptor identities, specifications, success rate, readiness, procurement, serial production, fielding or combat effectiveness.",
+      "what_it_does_not_prove_cs": "Identitu prostředků, specifikace, úspěšnost, připravenost, pořízení, sériovou výrobu, zavedení ani bojovou účinnost.",
+      "source_ids": [
+        "ENG-SRC-0561"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0247"
+      ],
+      "publication_date": "2026-08-30",
+      "temporal_status": "LATE_DISCOVERED_CURRENT_FIELD_TEST_REPORT",
+      "classification": "ATTRIBUTED_OFFICIAL_DEFENCE_MEDIA_REPORT",
+      "confidence": "MEDIUM_FOR_STATEMENT_EXISTENCE_LOW_FOR_EFFECTIVENESS",
+      "topics": [
+        "COUNTER_UAS",
+        "INTERCEPTORS",
+        "JET_SHAHED",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0131",
+      "type": "ENG-EVT",
+      "country": "EST",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "Estonian 1st Infantry Brigade — five-day professional refresher with pioneer skills",
+      "title_cs": "Estonská 1. pěší brigáda — pětidenní zdokonalovací výcvik s ženijními dovednostmi",
+      "summary_en": "The Estonian Defence Forces reported that nearly 150 active-duty personnel from the 1st Infantry Brigade completed a five-day refresher including high-level pioneer skills and other individual soldier tasks. The brigade commander linked some training priorities to lessons from Russia’s war against Ukraine.",
+      "summary_cs": "Estonské obranné síly uvedly, že téměř 150 vojáků z povolání 1. pěší brigády absolvovalo pětidenní zdokonalovací výcvik zahrnující obecné ženijní dovednosti a další individuální úkoly. Velitel brigády spojil část priorit výcviku se zkušenostmi z ruské války proti Ukrajině.",
+      "fact_en": "The Estonian Defence Forces reported that nearly 150 active-duty personnel from the 1st Infantry Brigade completed a five-day refresher including high-level pioneer skills and other individual soldier tasks. The brigade commander linked some training priorities to lessons from Russia’s war against Ukraine.",
+      "fact_cs": "Estonské obranné síly uvedly, že téměř 150 vojáků z povolání 1. pěší brigády absolvovalo pětidenní zdokonalovací výcvik zahrnující obecné ženijní dovednosti a další individuální úkoly. Velitel brigády spojil část priorit výcviku se zkušenostmi z ruské války proti Ukrajině.",
+      "analysis_en": "The source shows recent-war lessons influencing training priorities at individual level, without proving formal doctrine adoption.",
+      "analysis_cs": "Zdroj ukazuje vliv zkušeností ze současné války na priority individuálního výcviku, nikoli formální přijetí doktríny.",
+      "what_it_does_not_prove_en": "Adoption of a specific Ukrainian TTP, brigade-wide readiness improvement, certification, or measured post-training effect.",
+      "what_it_does_not_prove_cs": "Převzetí konkrétní ukrajinské TTP, zlepšení připravenosti celé brigády, certifikaci ani měřený účinek výcviku.",
+      "source_ids": [
+        "ENG-SRC-0562"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0248"
+      ],
+      "publication_date": "2026-09-18",
+      "temporal_status": "RECENT_PROFESSIONAL_REFRESHER",
+      "classification": "FACT_ABOUT_OFFICIAL_TRAINING_REPORT",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_READINESS_EFFECT",
+      "topics": [
+        "PIONEER_TRAINING",
+        "INDIVIDUAL_SKILLS",
+        "LESSONS_OBSERVED",
+        "ESTONIA"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0132",
+      "type": "ENG-EVT",
+      "country": "USA",
+      "record_role": "EXERCISE_OR_TRAINING_EVENT",
+      "title_en": "Maritime Operations for Bomb Technicians course, Hawaii, September 2026",
+      "title_cs": "Kurz Maritime Operations for Bomb Technicians, Havaj, září 2026",
+      "summary_en": "DVIDS documents a five-day Maritime Operations for Bomb Technicians course in Hawaii from 7 to 11 September 2026 for U.S. Army EOD personnel from the 303rd Ordnance Battalion and Marine EOD personnel from Marine Wing Support Squadron 174, led by FBI Hazardous Devices School instructors.",
+      "summary_cs": "DVIDS dokumentuje pětidenní kurz Maritime Operations for Bomb Technicians na Havaji ve dnech 7.–11. září 2026 pro armádní EOD personál 303rd Ordnance Battalion a Marine EOD personál Marine Wing Support Squadron 174, vedený instruktory FBI Hazardous Devices School.",
+      "fact_en": "DVIDS documents a five-day Maritime Operations for Bomb Technicians course in Hawaii from 7 to 11 September 2026 for U.S. Army EOD personnel from the 303rd Ordnance Battalion and Marine EOD personnel from Marine Wing Support Squadron 174, led by FBI Hazardous Devices School instructors.",
+      "fact_cs": "DVIDS dokumentuje pětidenní kurz Maritime Operations for Bomb Technicians na Havaji ve dnech 7.–11. září 2026 pro armádní EOD personál 303rd Ordnance Battalion a Marine EOD personál Marine Wing Support Squadron 174, vedený instruktory FBI Hazardous Devices School.",
+      "analysis_en": "Video ID 1023652 displays Date Taken 11 September while its VIRIN begins 260912. The course range is supported by the narrative and companion imagery; no cause is assigned to the metadata divergence.",
+      "analysis_cs": "Video ID 1023652 zobrazuje Date Taken 11. září, zatímco jeho VIRIN začíná 260912. Rozsah kurzu podporuje popis i doprovodné snímky; příčina rozdílu metadat není určena.",
+      "what_it_does_not_prove_en": "Procedural EOD methods, full participant roster, certification outcome, operational effectiveness, or cause of the metadata conflict.",
+      "what_it_does_not_prove_cs": "Procedurální EOD metody, úplný seznam účastníků, výsledek certifikace, operační účinnost ani příčinu konfliktu metadat.",
+      "source_ids": [
+        "ENG-SRC-0563",
+        "ENG-SRC-0564"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0249"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "RECENT_INTERAGENCY_MARITIME_EOD_TRAINING",
+      "classification": "FACT_ABOUT_OFFICIAL_HIGH_LEVEL_TRAINING_EVENT",
+      "confidence": "HIGH_FOR_EVENT_AND_DATE_RANGE_MEDIUM_FOR_VIDEO_ASSET_DATE",
+      "topics": [
+        "EOD",
+        "MARITIME_OPERATIONS",
+        "INTERAGENCY_TRAINING",
+        "HAWAII"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0551",
+      "title": "Operation Vivaldi",
+      "title_en": "Operation Vivaldi",
+      "publisher": "Third Army Corps, Armed Forces of Ukraine",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-23",
+      "url": "https://ab3.army/en/operations/vivaldi",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MILITARY_UNIT_PRIMARY",
+      "role": "PRIMARY_ATTRIBUTED_OPERATION_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Operation Vivaldi"
+    },
+    {
+      "id": "ENG-SRC-0552",
+      "title": "Defense Forces Begin Using Heavy Bomber Drones to Transport Kamikaze UGVs",
+      "title_en": "Defense Forces Begin Using Heavy Bomber Drones to Transport Kamikaze UGVs",
+      "publisher": "Militarnyi",
+      "publication_date": "2026-07-19",
+      "accessed_at": "2026-09-23",
+      "url": "https://militarnyi.com/en/news/heavy-bomber-drones-transport-kamikaze-ugvs/",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "SECONDARY_DEFENCE_REPORTING",
+      "role": "CHRONOLOGY_COUNTEREVIDENCE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Defense Forces Begin Using Heavy Bomber Drones to Transport Kamikaze UGVs"
+    },
+    {
+      "id": "ENG-SRC-0553",
+      "title": "MASA 26: US, Philippine forces exchange tactics and training on explosive ordnance disposal",
+      "title_en": "MASA 26: US, Philippine forces exchange tactics and training on explosive ordnance disposal",
+      "publisher": "DVIDS / U.S. Marine Corps",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/image/9952957/masa-26-us-philippine-forces-exchange-tactics-and-training-explosive-ordnance-disposal",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_EVENT_AND_METADATA_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: MASA 26: US, Philippine forces exchange tactics and training on explosive ordnance disposal"
+    },
+    {
+      "id": "ENG-SRC-0554",
+      "title": "MASA 26 DVIDS-sourced file metadata mirror",
+      "title_en": "MASA 26 DVIDS-sourced file metadata mirror",
+      "publisher": "Wikimedia Commons",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-23",
+      "url": "https://commons.wikimedia.org/wiki/File:MASA_26-_US,_Philippine_forces_exchange_tactics_and_training_on_explosive_ordnance_disposal_(9952957).jpg",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "DERIVED_MEDIA_MIRROR",
+      "role": "EMBEDDED_EXIF_CORROBORATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: MASA 26 DVIDS-sourced file metadata mirror"
+    },
+    {
+      "id": "ENG-SRC-0555",
+      "title": "REPMUS 26 agenda notice",
+      "title_en": "REPMUS 26 agenda notice",
+      "publisher": "Portuguese Navy",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.marinha.pt/pt/media-center/Noticias/Paginas/nota-de-agenda-presidente-da-republica-visita-o-exercicio-repmus-26.aspx",
+      "language": "pt",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_SCOPE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: REPMUS 26 agenda notice"
+    },
+    {
+      "id": "ENG-SRC-0556",
+      "title": "REPMUS and Dynamic Messenger",
+      "title_en": "REPMUS and Dynamic Messenger",
+      "publisher": "Bundeswehr",
+      "publication_date": "2026-09-17",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.bundeswehr.de/de/auftrag/uebungen/repmus-dynamic-messenger",
+      "language": "de",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: REPMUS and Dynamic Messenger"
+    },
+    {
+      "id": "ENG-SRC-0557",
+      "title": "REPMUS26 mine-laying exercise",
+      "title_en": "REPMUS26 mine-laying exercise",
+      "publisher": "Portuguese Navy",
+      "publication_date": "2026-09-08",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.marinha.pt/pt/media-center/Noticias/Paginas/REPMUS26-NRP-Figueira-da-Foz-realiza-exercicio-de-lancamento-de-minas.aspx",
+      "language": "pt",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_MINE_WARFARE_EVENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: REPMUS26 mine-laying exercise"
+    },
+    {
+      "id": "ENG-SRC-0558",
+      "title": "Mobile command post directs 151st Engineer Battalion training",
+      "title_en": "Mobile command post directs 151st Engineer Battalion training",
+      "publisher": "15th Engineer Regiment, Czech Armed Forces",
+      "publication_date": "2026-09-07",
+      "accessed_at": "2026-09-23",
+      "url": "https://zenijnipluk.mo.gov.cz/aktuality/veleni-v-pohybu-mobilni-misto-veleni-ridi-vycvik-151-zenijniho-praporu",
+      "language": "cs",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_PRE_CERTIFICATION_TRAINING",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Mobile command post directs 151st Engineer Battalion training"
+    },
+    {
+      "id": "ENG-SRC-0559",
+      "title": "Tactical training tested soldier responses",
+      "title_en": "Tactical training tested soldier responses",
+      "publisher": "15th Engineer Regiment, Czech Armed Forces",
+      "publication_date": "2026-09-10",
+      "accessed_at": "2026-09-23",
+      "url": "https://zenijnipluk.mo.gov.cz/aktuality/kazdy-kontakt-meni-situaci-takticky-vycvik-proveril-reakce-vojaku",
+      "language": "cs",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_PRE_CERTIFICATION_TRAINING",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Tactical training tested soldier responses"
+    },
+    {
+      "id": "ENG-SRC-0560",
+      "title": "ADMM-Plus EWG on Humanitarian Mine Action multinational field training exercise",
+      "title_en": "ADMM-Plus EWG on Humanitarian Mine Action multinational field training exercise",
+      "publisher": "Royal Brunei Land Forces",
+      "publication_date": "2026-09-12",
+      "accessed_at": "2026-09-23",
+      "url": "https://land.mindef.gov.bn/multinational-field-training-exercise-under-asean-defence-ministers-meeting-plus-experts-working-group-on-humanitarian/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: ADMM-Plus EWG on Humanitarian Mine Action multinational field training exercise"
+    },
+    {
+      "id": "ENG-SRC-0561",
+      "title": "Field tests of interceptors against jet-powered Shahed-type UAVs",
+      "title_en": "Field tests of interceptors against jet-powered Shahed-type UAVs",
+      "publisher": "ArmyInform",
+      "publication_date": "2026-08-30",
+      "accessed_at": "2026-09-23",
+      "url": "https://armyinform.com.ua/2026/08/30/protydiya-reaktyvnym-shahedam-yevgenij-hmara-povidomyv-pro-vyprobuvannya-perehoplyuvachiv/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_DEFENCE_MEDIA",
+      "role": "ATTRIBUTED_MINISTERIAL_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Field tests of interceptors against jet-powered Shahed-type UAVs"
+    },
+    {
+      "id": "ENG-SRC-0562",
+      "title": "1st Infantry Brigade active-duty personnel refreshed soldier skills",
+      "title_en": "1st Infantry Brigade active-duty personnel refreshed soldier skills",
+      "publisher": "Estonian Defence Forces",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://mil.ee/uudised/1-jalavaebrigaadi-tegevvaelased-taiustasid-oma-sodurioskusi/",
+      "language": "et",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_TRAINING_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: 1st Infantry Brigade active-duty personnel refreshed soldier skills"
+    },
+    {
+      "id": "ENG-SRC-0563",
+      "title": "Maritime Operations for Bomb Technicians course video",
+      "title_en": "Maritime Operations for Bomb Technicians course video",
+      "publisher": "DVIDS / 8th Theater Sustainment Command",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/video/1023652/maritime-operations-bomb-technicians-course",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_MEDIA",
+      "role": "PRIMARY_COURSE_AND_METADATA_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Maritime Operations for Bomb Technicians course video"
+    },
+    {
+      "id": "ENG-SRC-0564",
+      "title": "Maritime Operations for Bomb Technicians course image",
+      "title_en": "Maritime Operations for Bomb Technicians course image",
+      "publisher": "DVIDS / 8th Theater Sustainment Command",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/image/9941909/maritime-operations-bomb-technicians-course",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_DATE_RANGE_CORROBORATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Maritime Operations for Bomb Technicians course image"
+    },
+    {
+      "id": "ENG-SRC-0565",
+      "title": "MV-8 Komodo Uncrewed Breaching System Presented at CEL 2026",
+      "title_en": "MV-8 Komodo Uncrewed Breaching System Presented at CEL 2026",
+      "publisher": "DOK-ING",
+      "publication_date": "2026-02-16",
+      "accessed_at": "2026-09-23",
+      "url": "https://dok-ing.hr/news/mv-8-komodo-uncrewed-breaching-system/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_FEBRUARY_CHRONOLOGY",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: MV-8 Komodo Uncrewed Breaching System Presented at CEL 2026"
+    },
+    {
+      "id": "ENG-SRC-0566",
+      "title": "Trilateral uncrewed mine-breaching configuration at Eurosatory 2026",
+      "title_en": "Trilateral uncrewed mine-breaching configuration at Eurosatory 2026",
+      "publisher": "Pearson Engineering",
+      "publication_date": "2026-06-15",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.pearson-eng.com/news/combat-engineering-heavyweights-join-forces-to-launch-world-first-uncrewed-mine-breaching-system-at-eurosatory-2026/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_JUNE_CONFIGURATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Trilateral uncrewed mine-breaching configuration at Eurosatory 2026"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0240",
+      "evidence_id": "ENG-EVID-0240",
+      "evidence_type": "MILITARY_UNIT_ATTRIBUTED_OPERATION_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0044"
+      ],
+      "source_ids": [
+        "ENG-SRC-0551"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the unit claim that heavy UAVs delivered ground robots during Operation Vivaldi.",
+      "what_it_supports_cs": "Podporuje tvrzení jednotky, že při operaci Vivaldi těžká UAV dopravovala pozemní roboty.",
+      "what_it_does_not_prove_en": "World-first priority, independently verified distance or performance.",
+      "what_it_does_not_prove_cs": "Světové prvenství, nezávisle ověřený dosah ani výkon.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0241",
+      "evidence_id": "ENG-EVID-0241",
+      "evidence_type": "PUBLIC_CHRONOLOGY_COUNTEREVIDENCE",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0044"
+      ],
+      "source_ids": [
+        "ENG-SRC-0552"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports an earlier public report of a similar heavy-drone/UGV tactic.",
+      "what_it_supports_cs": "Podporuje starší veřejnou zprávu o podobné taktice těžkého dronu a UGV.",
+      "what_it_does_not_prove_en": "Exact mission date, unit identity or relation to Vivaldi.",
+      "what_it_does_not_prove_cs": "Přesné datum mise, identitu jednotky ani vztah k Vivaldi.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0242",
+      "evidence_id": "ENG-EVID-0242",
+      "evidence_type": "OFFICIAL_DVIDS_EVENT_AND_METADATA",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0127"
+      ],
+      "source_ids": [
+        "ENG-SRC-0553"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the MASA 26 EOD exchange, participants, UAS familiarization and provider metadata conflict.",
+      "what_it_supports_cs": "Podporuje výměnu EOD při MASA 26, účastníky, seznámení s UAS a konflikt metadat poskytovatele.",
+      "what_it_does_not_prove_en": "Procedural techniques, certification or cause of the date offset.",
+      "what_it_does_not_prove_cs": "Procedurální techniky, certifikaci ani příčinu posunu data.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0243",
+      "evidence_id": "ENG-EVID-0243",
+      "evidence_type": "DERIVED_FILE_EXIF_CORROBORATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0127"
+      ],
+      "source_ids": [
+        "ENG-SRC-0554"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports 8 September for Photo ID 9952957 through caption, VIRIN and embedded EXIF.",
+      "what_it_supports_cs": "Podporuje 8. září pro Photo ID 9952957 pomocí popisku, VIRIN a embedded EXIF.",
+      "what_it_does_not_prove_en": "Independent camera-clock calibration or provider correction.",
+      "what_it_does_not_prove_cs": "Nezávislou kalibraci hodin fotoaparátu ani opravu poskytovatele.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0244",
+      "evidence_id": "ENG-EVID-0244",
+      "evidence_type": "MULTI_SOURCE_OFFICIAL_EXERCISE_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0128"
+      ],
+      "source_ids": [
+        "ENG-SRC-0555",
+        "ENG-SRC-0556",
+        "ENG-SRC-0557"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports REPMUS26 scale, experimentation and mine-warfare/MCM contexts.",
+      "what_it_supports_cs": "Podporuje rozsah REPMUS26, experimentování a kontext minové války/MCM.",
+      "what_it_does_not_prove_en": "Fielding, doctrine, procurement or operational readiness.",
+      "what_it_does_not_prove_cs": "Zavedení, doktrínu, pořízení ani operační připravenost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0245",
+      "evidence_id": "ENG-EVID-0245",
+      "evidence_type": "OFFICIAL_PRE_CERTIFICATION_TRAINING_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0129"
+      ],
+      "source_ids": [
+        "ENG-SRC-0558",
+        "ENG-SRC-0559"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports structured field training before Engineer Spirit 2026.",
+      "what_it_supports_cs": "Podporuje strukturovaný polní výcvik před Engineer Spirit 2026.",
+      "what_it_does_not_prove_en": "Completion or successful certification.",
+      "what_it_does_not_prove_cs": "Dokončení ani úspěšnou certifikaci.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0246",
+      "evidence_id": "ENG-EVID-0246",
+      "evidence_type": "OFFICIAL_MULTINATIONAL_HMA_EXERCISE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0130"
+      ],
+      "source_ids": [
+        "ENG-SRC-0560"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports dates, participant count, country count and broad HMA/C-IED training areas.",
+      "what_it_supports_cs": "Podporuje termíny, počty účastníků a zemí a obecné oblasti HMA/C-IED výcviku.",
+      "what_it_does_not_prove_en": "Common certification, proficiency or effectiveness.",
+      "what_it_does_not_prove_cs": "Společnou certifikaci, dovednostní úroveň ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0247",
+      "evidence_id": "ENG-EVID-0247",
+      "evidence_type": "ATTRIBUTED_OFFICIAL_DEFENCE_MEDIA_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0045"
+      ],
+      "source_ids": [
+        "ENG-SRC-0561"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the reported four field-tested interceptor concepts and stated scaling objective.",
+      "what_it_supports_cs": "Podporuje zprávu o čtyřech polně testovaných konceptech interceptorů a deklarovaný cíl škálování.",
+      "what_it_does_not_prove_en": "Identity, effectiveness, procurement, production or fielding.",
+      "what_it_does_not_prove_cs": "Identitu, účinnost, pořízení, výrobu ani zavedení.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0248",
+      "evidence_id": "ENG-EVID-0248",
+      "evidence_type": "OFFICIAL_ESTONIAN_TRAINING_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0131"
+      ],
+      "source_ids": [
+        "ENG-SRC-0562"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the five-day refresher, nearly 150 participants and pioneer-skills inclusion.",
+      "what_it_supports_cs": "Podporuje pětidenní výcvik, téměř 150 účastníků a zahrnutí ženijních dovedností.",
+      "what_it_does_not_prove_en": "Specific Ukrainian TTP adoption, certification or measured readiness effect.",
+      "what_it_does_not_prove_cs": "Převzetí konkrétní ukrajinské TTP, certifikaci ani měřený vliv na připravenost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0249",
+      "evidence_id": "ENG-EVID-0249",
+      "evidence_type": "OFFICIAL_DVIDS_COURSE_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0132"
+      ],
+      "source_ids": [
+        "ENG-SRC-0563",
+        "ENG-SRC-0564"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports course identity, 7–11 September range, named formations, FBI HDS instruction and video metadata conflict.",
+      "what_it_supports_cs": "Podporuje identitu kurzu, termín 7.–11. září, pojmenované útvary, vedení FBI HDS a konflikt metadat videa.",
+      "what_it_does_not_prove_en": "Procedural EOD methods, full roster, certification or metadata-conflict cause.",
+      "what_it_does_not_prove_cs": "Procedurální EOD metody, úplný seznam, certifikaci ani příčinu konfliktu metadat.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0250",
+      "evidence_id": "ENG-EVID-0250",
+      "evidence_type": "MANUFACTURER_PRIMARY_FEBRUARY_PRESENTATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0001"
+      ],
+      "source_ids": [
+        "ENG-SRC-0565"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the DOK-ING/Pearson public presentation at CEL in February 2026.",
+      "what_it_supports_cs": "Podporuje veřejnou prezentaci DOK-ING/Pearson na CEL v únoru 2026.",
+      "what_it_does_not_prove_en": "The later trilateral configuration, procurement or fielding.",
+      "what_it_does_not_prove_cs": "Pozdější trilaterální konfiguraci, pořízení ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0251",
+      "evidence_id": "ENG-EVID-0251",
+      "evidence_type": "MANUFACTURER_PRIMARY_JUNE_CONFIGURATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-TECH-0001"
+      ],
+      "source_ids": [
+        "ENG-SRC-0566"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the June trilateral configuration, variants in test and future PATH A-Kit integration.",
+      "what_it_supports_cs": "Podporuje červnovou trilaterální konfiguraci, testované varianty a budoucí integraci PATH A-Kit.",
+      "what_it_does_not_prove_en": "First-ever public presentation, completed autonomy integration, procurement or fielding.",
+      "what_it_does_not_prove_cs": "Historicky první veřejnou prezentaci, dokončenou integraci autonomie, pořízení ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_AFTER_WAVE2_ONLY",
+    "topic_count": 9,
+    "new_record_count": 8,
+    "updated_record_count": 0,
+    "correction_operation_count": 1,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "operations_v1": [
+      {
+        "operation_id": "ENG-OP-B108-MV8-KOMODO-CHRONOLOGY",
+        "op": "REPLACE_FIELD",
+        "collection": "records",
+        "target_id": "ENG-TECH-0001",
+        "field": "fact",
+        "value": "DOK-ING and Pearson presented the MV-8 KOMODO at Combat Engineer & Logistics in Krakow on 10–12 February 2026. A distinct trilateral Rheinmetall/DOK-ING/Pearson configuration was unveiled at Eurosatory on 15 June 2026, with light and heavy variants described as in test; PATH A-Kit integration for semi-autonomous and autonomous mission execution remained future work.",
+        "reason": "Correct incomplete MV-8 KOMODO public chronology by separating the February DOK-ING/Pearson presentation from the June trilateral configuration and retaining future-autonomy status.",
+        "source_ids": [
+          "ENG-SRC-0565",
+          "ENG-SRC-0566"
+        ]
+      }
+    ],
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

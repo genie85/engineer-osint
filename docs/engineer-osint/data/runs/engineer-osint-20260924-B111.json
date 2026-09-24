@@ -1,0 +1,1071 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260924-B111",
+    "parent_run_id": "engineer-osint-20260924-B110",
+    "status": "SUCCESS",
+    "window_from": "2026-09-24T00:01:00Z",
+    "window_to": "2026-09-24T00:02:00Z",
+    "counts": {
+      "CURRENT_DELTA": 8,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 4,
+      "ENTITY_ENRICHMENT": 2,
+      "NEW": 12,
+      "UPDATE": 2,
+      "CONFIRMATION": 14,
+      "CORRECTION": 0,
+      "CONTRADICTION": 2,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 14,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 17,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "BATCH_CONTENT_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "45a608cc6e40f269fe62867d64460bd8eda920186a45bd6974de13d94dcecb3e",
+    "source_adjudication": "ADJUDICATION_WAVE6.md",
+    "prerequisite_candidates": [
+      "CONTENT_CANDIDATE_WAVE2.json",
+      "CONTENT_CANDIDATE_WAVE3.json",
+      "CONTENT_CANDIDATE_WAVE4.json",
+      "CONTENT_CANDIDATE_WAVE5.json"
+    ],
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "held_topics": [
+      "GROUP-063 Bradley explicit handoff blockers",
+      "GROUP-065 Latvia/Hormuz final authorization absent"
+    ],
+    "no_change_topics": [
+      "GROUP-074 B159 metadata-only reconciliation correction"
+    ],
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 8,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 4,
+    "ENTITY_ENRICHMENT": 2
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0060",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "DOCTRINE_TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Professional debate on refocusing the U.S. Army Engineer Regiment for LSCO",
+      "title_cs": "Odborná debata o přesměrování U.S. Army Engineer Regiment pro LSCO",
+      "summary_en": "A May–June 2026 Military Review article proposed narrowing the uniformed Engineer Regiment toward mobility, countermobility and survivability and divesting selected specialties. A June Warrant Officer Journal article offered an alternative that retains greater construction and gap-crossing capacity.",
+      "summary_cs": "Článek Military Review z května–června 2026 navrhl zúžit uniformovaný Engineer Regiment na mobility, countermobility a survivability a vyvést vybrané specializace. Červnový Warrant Officer Journal nabídl alternativu zachovávající větší construction a gap-crossing kapacitu.",
+      "fact_en": "A May–June 2026 Military Review article proposed narrowing the uniformed Engineer Regiment toward mobility, countermobility and survivability and divesting selected specialties. A June Warrant Officer Journal article offered an alternative that retains greater construction and gap-crossing capacity.",
+      "fact_cs": "Článek Military Review z května–června 2026 navrhl zúžit uniformovaný Engineer Regiment na mobility, countermobility a survivability a vyvést vybrané specializace. Červnový Warrant Officer Journal nabídl alternativu zachovávající větší construction a gap-crossing kapacitu.",
+      "analysis_en": "Both are professional position papers. Broader GAO readiness findings do not establish that the regiment’s mission breadth caused vehicle-readiness problems.",
+      "analysis_cs": "Oba texty jsou profesní position papers. Širší zjištění GAO o readiness neprokazují, že problémy dostupnosti vozidel způsobila šíře poslání regimentu.",
+      "what_it_does_not_prove_en": "Adopted Army policy, approved force-design change, divestment, civilian construction corps, or causal proof linking mission breadth to readiness.",
+      "what_it_does_not_prove_cs": "Přijatou Army policy, schválenou změnu force design, divestment, civilní stavební sbor ani kauzální důkaz vazby šíře poslání na readiness.",
+      "source_ids": [
+        "ENG-SRC-0608",
+        "ENG-SRC-0609"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0279"
+      ],
+      "publication_date": "2026-06-01",
+      "temporal_status": "CURRENT_PROFESSIONAL_DEBATE",
+      "classification": "FACT_ABOUT_PUBLISHED_PROFESSIONAL_PROPOSALS",
+      "confidence": "HIGH_FOR_PUBLICATION_LOW_FOR_POLICY_ADOPTION",
+      "topics": [
+        "ENGINEER_REGIMENT",
+        "LSCO",
+        "FORCE_DESIGN_DEBATE",
+        "GAP_CROSSING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0061",
+      "type": "ENG-SIG",
+      "country": "SDN",
+      "record_role": "DOCTRINE_TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Explosive-ordnance clearance supports electricity recovery in Greater Khartoum",
+      "title_cs": "Odstraňování výbušné munice podporuje obnovu elektřiny ve Velkém Chartúmu",
+      "summary_en": "UNMAS reported work with Sudan’s National Mine Action Center and SafeLane Global at 15 high-priority electricity substations in Greater Khartoum, with seven reported cleared by August 2026 and related risk-education activity.",
+      "summary_cs": "UNMAS uvedla práci se sudánským National Mine Action Center a SafeLane Global na 15 prioritních elektrických rozvodnách ve Velkém Chartúmu, přičemž sedm mělo být do srpna 2026 vyčištěno; probíhala také risk education.",
+      "fact_en": "UNMAS reported work with Sudan’s National Mine Action Center and SafeLane Global at 15 high-priority electricity substations in Greater Khartoum, with seven reported cleared by August 2026 and related risk-education activity.",
+      "fact_cs": "UNMAS uvedla práci se sudánským National Mine Action Center a SafeLane Global na 15 prioritních elektrických rozvodnách ve Velkém Chartúmu, přičemž sedm mělo být do srpna 2026 vyčištěno; probíhala také risk education.",
+      "analysis_en": "Mine action is supported as an enabling layer for infrastructure repair. Earlier public evidence that named hubs had partial operation or rehabilitation in 2025 means clearance must not be assumed to precede first restoration at every site.",
+      "analysis_cs": "Mine action je podpořeno jako enabling layer oprav infrastruktury. Starší veřejné doklady částečného provozu či rehabilitace jmenovaných uzlů v roce 2025 znamenají, že clearance nelze automaticky klást před první obnovu každého místa.",
+      "what_it_does_not_prove_en": "Exact site-by-site clearance dates or footprints, independent replication of the seven-of-fifteen count, unique beneficiaries or causal proof for first restoration.",
+      "what_it_does_not_prove_cs": "Přesná data či footprint clearance jednotlivých míst, nezávislé potvrzení 7 z 15, unikátní počet příjemců ani kauzální důkaz první obnovy.",
+      "source_ids": [
+        "ENG-SRC-0610"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0280"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "CURRENT_HUMANITARIAN_MINE_ACTION_INFRASTRUCTURE_RECOVERY",
+      "classification": "ATTRIBUTED_UN_PROGRAMME_REPORT_WITH_CHRONOLOGY_BOUNDARY",
+      "confidence": "HIGH_FOR_PROGRAMME_REPORT_MEDIUM_FOR_SITE_CHRONOLOGY",
+      "topics": [
+        "EXPLOSIVE_ORDNANCE",
+        "CRITICAL_INFRASTRUCTURE",
+        "ELECTRICITY_RECOVERY",
+        "SUDAN"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0142",
+      "type": "ENG-EVT",
+      "country": "KOR",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Explosion during route-clearance preparation for a UN Command inspection in the DMZ",
+      "title_cs": "Výbuch při přípravě trasy pro inspekci United Nations Command v DMZ",
+      "summary_en": "JCS-attributed reporting states that a 12-person South Korean military team conducting route-clearance preparation for an upcoming United Nations Command inspection suffered an explosion in the western DMZ on 21 September 2026, seriously injuring two officers who were not in life-threatening condition after surgery.",
+      "summary_cs": "Zprávy připsané JCS uvádějí, že dvanáctičlenný jihokorejský vojenský tým při přípravě trasy pro chystanou inspekci United Nations Command zasáhl 21. září 2026 v západní DMZ výbuch; dva důstojníci byli vážně zraněni, po operaci však nebyli v ohrožení života.",
+      "fact_en": "JCS-attributed reporting states that a 12-person South Korean military team conducting route-clearance preparation for an upcoming United Nations Command inspection suffered an explosion in the western DMZ on 21 September 2026, seriously injuring two officers who were not in life-threatening condition after surgery.",
+      "fact_cs": "Zprávy připsané JCS uvádějí, že dvanáctičlenný jihokorejský vojenský tým při přípravě trasy pro chystanou inspekci United Nations Command zasáhl 21. září 2026 v západní DMZ výbuch; dva důstojníci byli vážně zraněni, po operaci však nebyli v ohrožení života.",
+      "analysis_en": "JCS kept all possibilities open pending a safe on-site inspection. Public descriptions differ in certainty about whether the device was a mine, and the relationship among the suspected area, route and exact blast site remained unconfirmed.",
+      "analysis_cs": "JCS ponechal do bezpečného místního šetření otevřené všechny možnosti. Veřejné popisy se liší v jistotě, zda šlo o minu, a vztah podezřelé oblasti, trasy a přesného místa výbuchu zůstal nepotvrzen.",
+      "what_it_does_not_prove_en": "Device type, North Korean origin, deliberate attack, exact location, route geometry, procedures or final investigation result.",
+      "what_it_does_not_prove_cs": "Typ zařízení, severokorejský původ, úmyslný útok, přesnou lokalitu, geometrii trasy, postupy ani konečný výsledek vyšetřování.",
+      "source_ids": [
+        "ENG-SRC-0611"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0281"
+      ],
+      "publication_date": "2026-09-22",
+      "temporal_status": "RECENT_ROUTE_CLEARANCE_INCIDENT_WITH_UNRESOLVED_CAUSE",
+      "classification": "ATTRIBUTED_OFFICIAL_BRIEFING_WITH_CAUSE_CONFLICT",
+      "confidence": "HIGH_FOR_INCIDENT_MEDIUM_FOR_MISSION_CONTEXT_LOW_FOR_CAUSE",
+      "topics": [
+        "DMZ",
+        "ROUTE_CLEARANCE",
+        "MINE_RISK",
+        "SOURCE_CONFLICT"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0143",
+      "type": "ENG-EVT",
+      "country": "LAO/CCM",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Convention on Cluster Munitions adopted the Vientiane Capital Action Plan 2027–2031",
+      "title_cs": "Úmluva o kazetové munici přijala Vientiane Capital Action Plan 2027–2031",
+      "summary_en": "The Third Review Conference of the Convention on Cluster Munitions met in Vientiane from 14 to 18 September 2026 and official sources confirm adoption of the Vientiane Capital Action Plan for 2027–2031.",
+      "summary_cs": "Third Review Conference Úmluvy o kazetové munici proběhla ve Vientiane 14.–18. září 2026 a oficiální zdroje potvrzují přijetí Vientiane Capital Action Plan pro roky 2027–2031.",
+      "fact_en": "The Third Review Conference of the Convention on Cluster Munitions met in Vientiane from 14 to 18 September 2026 and official sources confirm adoption of the Vientiane Capital Action Plan for 2027–2031.",
+      "fact_cs": "Third Review Conference Úmluvy o kazetové munici proběhla ve Vientiane 14.–18. září 2026 a oficiální zdroje potvrzují přijetí Vientiane Capital Action Plan pro roky 2027–2031.",
+      "analysis_en": "The official July advance draft contains 43 actions, including environmental/climate considerations and reference to IMAS developments. The exact final adopted binary was not retrieved, so draft and final text are not assumed identical.",
+      "analysis_cs": "Oficiální červencový advance draft obsahuje 43 actions včetně environmentálních a klimatických aspektů a odkazu na vývoj IMAS. Přesný finální přijatý soubor nebyl získán, proto není předpokládána totožnost draftu a final textu.",
+      "what_it_does_not_prove_en": "That the final adopted text contains exactly 43 unchanged actions, a new clearance method, performance gain, procurement or military-doctrine change.",
+      "what_it_does_not_prove_cs": "Že finální přijatý text obsahuje přesně 43 nezměněných actions, novou metodu clearance, výkonnostní přínos, procurement či změnu vojenské doktríny.",
+      "source_ids": [
+        "ENG-SRC-0612",
+        "ENG-SRC-0613"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0282"
+      ],
+      "publication_date": "2026-09-18",
+      "temporal_status": "RECENT_MULTILATERAL_POLICY_ADOPTION",
+      "classification": "FACT_ABOUT_ADOPTION_WITH_DRAFT_FINAL_PROVENANCE_BOUNDARY",
+      "confidence": "HIGH_FOR_ADOPTION_MEDIUM_FOR_EXACT_FINAL_TEXT",
+      "topics": [
+        "CLUSTER_MUNITIONS",
+        "MINE_ACTION_POLICY",
+        "VIENTIANE_ACTION_PLAN",
+        "PROVENANCE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0144",
+      "type": "ENG-EVT",
+      "country": "CAN/USA/DEU",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Canadian military engineers participated in Silver Flag 2026 at Ramstein",
+      "title_cs": "Kanadští ženisté se účastnili Silver Flag 2026 v Ramsteinu",
+      "summary_en": "A Canadian Military Engineers Association report states that sixteen Canadian Military Engineer Branch members trained with U.S. Air Force personnel at Silver Flag 2026 in command and control, expedient airfield repair, CBRN, damage control and protection against UAS threats.",
+      "summary_cs": "Zpráva Canadian Military Engineers Association uvádí, že šestnáct příslušníků Canadian Military Engineer Branch cvičilo s U.S. Air Force při Silver Flag 2026 v oblasti command and control, nouzových oprav letiště, CBRN, damage control a ochrany proti hrozbám UAS.",
+      "fact_en": "A Canadian Military Engineers Association report states that sixteen Canadian Military Engineer Branch members trained with U.S. Air Force personnel at Silver Flag 2026 in command and control, expedient airfield repair, CBRN, damage control and protection against UAS threats.",
+      "fact_cs": "Zpráva Canadian Military Engineers Association uvádí, že šestnáct příslušníků Canadian Military Engineer Branch cvičilo s U.S. Air Force při Silver Flag 2026 v oblasti command and control, nouzových oprav letiště, CBRN, damage control a ochrany proti hrozbám UAS.",
+      "analysis_en": "The report supports multinational expeditionary-engineering interoperability training but lacks an independently retrieved Canadian government after-action record.",
+      "analysis_cs": "Zpráva podporuje mnohonárodní výcvik interoperability expedičního ženijního zabezpečení, chybí však nezávisle získaný kanadský vládní after-action záznam.",
+      "what_it_does_not_prove_en": "Canadian doctrine change, procurement, permanent force-design change, exact home-unit roster, measured readiness gain or operational adoption.",
+      "what_it_does_not_prove_cs": "Změnu kanadské doktríny, pořízení, trvalou změnu force design, přesný seznam mateřských jednotek, měřený readiness gain ani operační přijetí.",
+      "source_ids": [
+        "ENG-SRC-0614"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0283"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "RECENT_MULTINATIONAL_ENGINEER_TRAINING",
+      "classification": "ASSOCIATION_REPORTED_EXERCISE_PARTICIPATION",
+      "confidence": "MEDIUM_FOR_PARTICIPATION_LOW_FOR_OUTCOMES",
+      "topics": [
+        "EXPEDITIONARY_ENGINEERING",
+        "AIRFIELD_REPAIR",
+        "COUNTER_UAS",
+        "SILVER_FLAG"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0062",
+      "type": "ENG-SIG",
+      "country": "BEL",
+      "record_role": "DOCTRINE_TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Belgian DEFRA call targets pulsed microwave and laser technology for future C-UAS effectors",
+      "title_cs": "Belgická výzva DEFRA cílí na pulzní mikrovlnné a laserové technologie pro budoucí C-UAS efektory",
+      "summary_en": "Belgium’s DEFRA programme opened a Pulsed Directed Energy Effectors thematic call with an indicative EUR 5 million budget, seeking technology-brick demonstrations up to TRL 4 in pulsed microwave and waveform-controlled pulsed laser approaches for future C-UAS capabilities.",
+      "summary_cs": "Belgický program DEFRA otevřel tematickou výzvu Pulsed Directed Energy Effectors s orientačním rozpočtem 5 milionů EUR, zaměřenou na demonstrace technologických prvků do TRL 4 v pulzních mikrovlnných a waveform-controlled pulzních laserových přístupech pro budoucí C-UAS schopnosti.",
+      "fact_en": "Belgium’s DEFRA programme opened a Pulsed Directed Energy Effectors thematic call with an indicative EUR 5 million budget, seeking technology-brick demonstrations up to TRL 4 in pulsed microwave and waveform-controlled pulsed laser approaches for future C-UAS capabilities.",
+      "fact_cs": "Belgický program DEFRA otevřel tematickou výzvu Pulsed Directed Energy Effectors s orientačním rozpočtem 5 milionů EUR, zaměřenou na demonstrace technologických prvků do TRL 4 v pulzních mikrovlnných a waveform-controlled pulzních laserových přístupech pro budoucí C-UAS schopnosti.",
+      "analysis_en": "The call funds early-stage technology maturation in two technical families; TRL 4 is controlled-environment validation, not operational maturity.",
+      "analysis_cs": "Výzva financuje ranou technologickou maturaci ve dvou technických rodinách; TRL 4 znamená ověření v kontrolovaném prostředí, nikoli operační zralost.",
+      "what_it_does_not_prove_en": "An operational weapon, procurement decision, fielding, military effectiveness, readiness or successful completion of funded projects.",
+      "what_it_does_not_prove_cs": "Operační zbraň, rozhodnutí o pořízení, zavedení, vojenskou účinnost, readiness ani úspěšné dokončení financovaných projektů.",
+      "source_ids": [
+        "ENG-SRC-0616"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0285"
+      ],
+      "publication_date": "2026-08-21",
+      "temporal_status": "CURRENT_EARLY_STAGE_R_AND_D_CALL",
+      "classification": "FACT_ABOUT_OFFICIAL_RESEARCH_CALL",
+      "confidence": "HIGH_FOR_CALL_SCOPE_LOW_FOR_FUTURE_EFFECTOR",
+      "topics": [
+        "COUNTER_UAS",
+        "DIRECTED_ENERGY",
+        "PULSED_MICROWAVE",
+        "PULSED_LASER"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0063",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "DOCTRINE_TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "DSNS pyrotechnic daily aggregates — selected August and September 2026 observations",
+      "title_cs": "Denní pyrotechnické agregáty DSNS — vybraná pozorování ze srpna a září 2026",
+      "summary_en": "Official DSNS aggregates relayed by Ukraine’s Cabinet reported 51 pyrotechnic-unit deployments, 263 explosive items and 32.46 hectares for the reporting day published 31 August 2026, and 125 deployments, 196 items and 35.14 hectares in the bulletin published 20 September.",
+      "summary_cs": "Oficiální agregáty DSNS převzaté ukrajinskou vládou uvedly v reportu zveřejněném 31. srpna 2026 celkem 51 nasazení pyrotechnických jednotek, 263 výbušných předmětů a 32,46 hektaru; bulletin z 20. září uvedl 125 nasazení, 196 položek a 35,14 hektaru.",
+      "fact_en": "Official DSNS aggregates relayed by Ukraine’s Cabinet reported 51 pyrotechnic-unit deployments, 263 explosive items and 32.46 hectares for the reporting day published 31 August 2026, and 125 deployments, 196 items and 35.14 hectares in the bulletin published 20 September.",
+      "fact_cs": "Oficiální agregáty DSNS převzaté ukrajinskou vládou uvedly v reportu zveřejněném 31. srpna 2026 celkem 51 nasazení pyrotechnických jednotek, 263 výbušných předmětů a 32,46 hektaru; bulletin z 20. září uvedl 125 nasazení, 196 položek a 35,14 hektaru.",
+      "analysis_en": "The two observations are maintained as one statistical series rather than separate event records. Different daily volumes do not establish productivity or threat-density change.",
+      "analysis_cs": "Obě pozorování jsou vedena jako jedna statistická řada místo samostatných event záznamů. Rozdílné denní objemy neprokazují změnu produktivity ani hustoty hrozeb.",
+      "what_it_does_not_prove_en": "Independent accuracy, completeness of all Ukrainian EOD activity, unique devices, effectiveness, readiness or comparability without task denominators.",
+      "what_it_does_not_prove_cs": "Nezávislou přesnost, úplnost všech ukrajinských EOD aktivit, unikátní zařízení, účinnost, readiness ani srovnatelnost bez task denominators.",
+      "source_ids": [
+        "ENG-SRC-0617",
+        "ENG-SRC-0618"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0286"
+      ],
+      "publication_date": "2026-09-20",
+      "temporal_status": "CURRENT_OFFICIAL_DAILY_AGGREGATE_SERIES",
+      "classification": "ATTRIBUTED_OFFICIAL_STATISTICAL_SERIES",
+      "confidence": "HIGH_FOR_PUBLISHED_TOTALS_MEDIUM_FOR_UNDERLYING_ACCURACY",
+      "topics": [
+        "DSNS",
+        "EOD_STATISTICS",
+        "UKRAINE",
+        "AGGREGATION"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0145",
+      "type": "ENG-EVT",
+      "country": "USA/JPN",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Sentinel Samurai 2026 — joint-service EOD interoperability at Kadena",
+      "title_cs": "Sentinel Samurai 2026 — mezisložková interoperabilita EOD na Kadeně",
+      "summary_en": "Official U.S. military media document Air Force, Navy and Marine Corps EOD personnel training together at Kadena Air Base in August 2026 to exchange procedures and support explosive-hazard response and continuity of airfield operations.",
+      "summary_cs": "Oficiální americká vojenská média dokumentují společný výcvik EOD personálu Air Force, Navy a Marine Corps na Kadena Air Base v srpnu 2026 zaměřený na výměnu postupů, reakci na výbušné hrozby a kontinuitu letištního provozu.",
+      "fact_en": "Official U.S. military media document Air Force, Navy and Marine Corps EOD personnel training together at Kadena Air Base in August 2026 to exchange procedures and support explosive-hazard response and continuity of airfield operations.",
+      "fact_cs": "Oficiální americká vojenská média dokumentují společný výcvik EOD personálu Air Force, Navy a Marine Corps na Kadena Air Base v srpnu 2026 zaměřený na výměnu postupů, reakci na výbušné hrozby a kontinuitu letištního provozu.",
+      "analysis_en": "The records establish exercise existence and joint-service participation within one DoD public-affairs lineage.",
+      "analysis_cs": "Záznamy dokládají existenci cvičení a mezisložkovou účast v rámci jedné DoD public-affairs lineage.",
+      "what_it_does_not_prove_en": "Measured readiness gain, combat effectiveness, certification, allied participation, new equipment fielding or force-wide adoption of procedures.",
+      "what_it_does_not_prove_cs": "Měřený růst připravenosti, bojovou účinnost, certifikaci, účast spojenců, zavedení nové techniky ani plošné převzetí postupů.",
+      "source_ids": [
+        "ENG-SRC-0619"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0287"
+      ],
+      "publication_date": "2026-08-28",
+      "temporal_status": "HISTORICAL_JOINT_SERVICE_EOD_EXERCISE",
+      "classification": "FACT_ABOUT_OFFICIAL_EXERCISE_RECORD",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_EFFECT",
+      "topics": [
+        "EOD",
+        "AIRFIELD_OPERATIONS",
+        "JOINT_SERVICE",
+        "INDO_PACIFIC"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0146",
+      "type": "ENG-EVT",
+      "country": "UKR",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Hrakove settlement-scale humanitarian demining reported complete",
+      "title_cs": "Humanitární odminování obce Hrakove v rozsahu celého sídla bylo oznámeno jako dokončené",
+      "summary_en": "Ukraine’s official mine-action portal reported completion of a little over six months of work across 58 hectares in Hrakove, with approximately 200 mines and more than 600 other explosive objects removed and demining certificates handed to the community.",
+      "summary_cs": "Ukrajinský oficiální mine-action portál oznámil dokončení více než šesti měsíců prací na 58 hektarech v Hrakove, odstranění přibližně 200 min a více než 600 dalších výbušných předmětů a předání certifikátů místní komunitě.",
+      "fact_en": "Ukraine’s official mine-action portal reported completion of a little over six months of work across 58 hectares in Hrakove, with approximately 200 mines and more than 600 other explosive objects removed and demining certificates handed to the community.",
+      "fact_cs": "Ukrajinský oficiální mine-action portál oznámil dokončení více než šesti měsíců prací na 58 hektarech v Hrakove, odstranění přibližně 200 min a více než 600 dalších výbušných předmětů a předání certifikátů místní komunitě.",
+      "analysis_en": "The portal framed Hrakove as the first entire village in Ukraine fully cleared; that nationwide-first characterization remains an attributed government claim.",
+      "analysis_cs": "Portál označil Hrakove za první zcela vyčištěnou obec na Ukrajině; toto celostátní prvenství zůstává připsaným vládním tvrzením.",
+      "what_it_does_not_prove_en": "Independent national-registry proof of first status, absence of all residual risk, audit of item counts or future land-use outcomes.",
+      "what_it_does_not_prove_cs": "Nezávislý registr dokazující prvenství, nepřítomnost veškerého zbytkového rizika, audit počtů předmětů ani budoucí výsledky využití půdy.",
+      "source_ids": [
+        "ENG-SRC-0621"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0289"
+      ],
+      "publication_date": "2026-08-29",
+      "temporal_status": "HISTORICAL_SETTLEMENT_SCALE_CLEARANCE_COMPLETION_REPORT",
+      "classification": "ATTRIBUTED_OFFICIAL_COMPLETION_REPORT",
+      "confidence": "HIGH_FOR_REPORT_MEDIUM_FOR_NATIONWIDE_FIRST_CLAIM",
+      "topics": [
+        "HUMANITARIAN_DEMINING",
+        "SETTLEMENT_CLEARANCE",
+        "UNITED24",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0147",
+      "type": "ENG-EVT",
+      "country": "FRA/EST",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "LION RAMPANT — French and Estonian engineers trained mobility, countermobility and protection",
+      "title_cs": "LION RAMPANT — francouzští a estonští ženisté cvičili mobility, countermobility a protection",
+      "summary_en": "The French Ministry of Armed Forces reported that French combat engineers and the Estonian Defence League conducted LION RAMPANT in Järva County from 10 to 16 August 2026 across five engineer work sites involving mobility support, reversible obstacles, field protection and drone-oriented protective measures.",
+      "summary_cs": "Francouzské ministerstvo ozbrojených sil uvedlo, že francouzští bojoví ženisté a Estonian Defence League provedli LION RAMPANT v Järva County od 10. do 16. srpna 2026 na pěti ženijních pracovištích zaměřených na podporu mobility, reverzibilní překážky, field protection a ochranná opatření proti dronům.",
+      "fact_en": "The French Ministry of Armed Forces reported that French combat engineers and the Estonian Defence League conducted LION RAMPANT in Järva County from 10 to 16 August 2026 across five engineer work sites involving mobility support, reversible obstacles, field protection and drone-oriented protective measures.",
+      "fact_cs": "Francouzské ministerstvo ozbrojených sil uvedlo, že francouzští bojoví ženisté a Estonian Defence League provedli LION RAMPANT v Järva County od 10. do 16. srpna 2026 na pěti ženijních pracovištích zaměřených na podporu mobility, reverzibilní překážky, field protection a ochranná opatření proti dronům.",
+      "analysis_en": "The event supports interoperability and field adaptation under high-intensity-war assumptions. Event-specific evidence is concentrated in French official reporting.",
+      "analysis_cs": "Událost podporuje interoperabilitu a polní adaptaci pro předpoklady high-intensity war. Event-specific evidence je soustředěna ve francouzských oficiálních zdrojích.",
+      "what_it_does_not_prove_en": "New doctrine, procurement, formal capability adoption, operational validation, specific threat performance or independent Estonian event confirmation.",
+      "what_it_does_not_prove_cs": "Novou doktrínu, pořízení, formální přijetí schopnosti, operační validaci, výkon proti konkrétní hrozbě ani nezávislé estonské potvrzení události.",
+      "source_ids": [
+        "ENG-SRC-0622"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0290"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "HISTORICAL_ALLIED_ENGINEER_EXERCISE",
+      "classification": "FACT_ABOUT_OFFICIAL_EXERCISE_REPORT",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_DOCTRINE_CHANGE",
+      "topics": [
+        "MOBILITY",
+        "COUNTERMOBILITY",
+        "FIELD_PROTECTION",
+        "INTEROPERABILITY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0148",
+      "type": "ENG-EVT",
+      "country": "USA/PLW",
+      "record_role": "EXERCISE_POLICY_OR_OPERATION_EVENT",
+      "title_en": "Tenacious Archer 26 integrated a real-world legacy-munitions response in Palau",
+      "title_cs": "Tenacious Archer 26 začlenil reálnou reakci na historickou munici v Palau",
+      "summary_en": "U.S. Army Pacific reported that Army EOD specialists completed a host-government-requested response to legacy World War II explosive remnants in Palau on 2 August 2026 and integrated the mission into Exercise Tenacious Archer 26.",
+      "summary_cs": "U.S. Army Pacific uvedla, že armádní specialisté EOD provedli 2. srpna 2026 v Palau na žádost hostitelské vlády zásah proti výbušným pozůstatkům z druhé světové války a začlenili misi do cvičení Tenacious Archer 26.",
+      "fact_en": "U.S. Army Pacific reported that Army EOD specialists completed a host-government-requested response to legacy World War II explosive remnants in Palau on 2 August 2026 and integrated the mission into Exercise Tenacious Archer 26.",
+      "fact_cs": "U.S. Army Pacific uvedla, že armádní specialisté EOD provedli 2. srpna 2026 v Palau na žádost hostitelské vlády zásah proti výbušným pozůstatkům z druhé světové války a začlenili misi do cvičení Tenacious Archer 26.",
+      "analysis_en": "The official account supports partner assistance and exercise adaptability within one U.S. DoD public-affairs lineage.",
+      "analysis_cs": "Oficiální zpráva podporuje partner assistance a adaptabilitu cvičení v rámci jedné U.S. DoD public-affairs lineage.",
+      "what_it_does_not_prove_en": "Measured readiness improvement, combat effectiveness, certification, fielding of new equipment or adoption of new doctrine.",
+      "what_it_does_not_prove_cs": "Měřený růst připravenosti, bojovou účinnost, certifikaci, zavedení nové techniky ani přijetí nové doktríny.",
+      "source_ids": [
+        "ENG-SRC-0623"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0291"
+      ],
+      "publication_date": "2026-08-12",
+      "temporal_status": "HISTORICAL_REAL_WORLD_MISSION_INTEGRATED_INTO_EXERCISE",
+      "classification": "FACT_ABOUT_OFFICIAL_PARTNER_SUPPORT_EVENT",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_CAPABILITY_EFFECT",
+      "topics": [
+        "EOD",
+        "LEGACY_MUNITIONS",
+        "PARTNER_SUPPORT",
+        "TENACIOUS_ARCHER_26"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0064",
+      "type": "ENG-SIG",
+      "country": "UKR/GICHD",
+      "record_role": "DOCTRINE_TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Mechanical rollers discussed as a supplementary post-clearance risk-management tool",
+      "title_cs": "Mechanické válce diskutovány jako doplňkový nástroj řízení rizika po clearance",
+      "summary_en": "ArmyInform reported a Kyiv technical meeting convened at GICHD’s invitation on roller-equipped machines for previously cleared agricultural land. Ukraine’s competent mine-action directorate stated that rollers do not replace non-technical survey, technical survey, clearance or quality control.",
+      "summary_cs": "ArmyInform informoval o technickém jednání v Kyjevě svolaném na pozvání GICHD k použití strojů s válci na již vyčištěné zemědělské půdě. Příslušná ukrajinská mine-action správa uvedla, že válce nenahrazují non-technical survey, technical survey, clearance ani quality control.",
+      "fact_en": "ArmyInform reported a Kyiv technical meeting convened at GICHD’s invitation on roller-equipped machines for previously cleared agricultural land. Ukraine’s competent mine-action directorate stated that rollers do not replace non-technical survey, technical survey, clearance or quality control.",
+      "fact_cs": "ArmyInform informoval o technickém jednání v Kyjevě svolaném na pozvání GICHD k použití strojů s válci na již vyčištěné zemědělské půdě. Příslušná ukrajinská mine-action správa uvedla, že válce nenahrazují non-technical survey, technical survey, clearance ani quality control.",
+      "analysis_en": "The concept is retained as exploratory supplementary risk management requiring research, testing, objective criteria and compliance with mine-action standards.",
+      "analysis_cs": "Koncept je veden jako průzkumný doplňkový nástroj řízení rizika vyžadující výzkum, testování, objektivní kritéria a soulad s mine-action standards.",
+      "what_it_does_not_prove_en": "Detection probability, residual-risk reduction, certification, adoption, procurement, operational effectiveness or authorization as a clearance substitute.",
+      "what_it_does_not_prove_cs": "Pravděpodobnost detekce, snížení zbytkového rizika, certifikaci, přijetí, pořízení, operační účinnost ani autorizaci jako náhradu clearance.",
+      "source_ids": [
+        "ENG-SRC-0624"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0292"
+      ],
+      "publication_date": "2026-08-31",
+      "temporal_status": "HISTORICAL_EXPLORATORY_POLICY_AND_TECHNOLOGY_SIGNAL",
+      "classification": "ATTRIBUTED_OFFICIAL_DEFENCE_MEDIA_POLICY_POSITION",
+      "confidence": "HIGH_FOR_STATED_BOUNDARY_LOW_FOR_EFFECTIVENESS",
+      "topics": [
+        "POST_CLEARANCE",
+        "MECHANICAL_ROLLERS",
+        "RISK_MANAGEMENT",
+        "HUMANITARIAN_MINE_ACTION"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [
+    {
+      "id": "ENG-EVT-0101",
+      "title_en": "ETACS 2026 — iterative VR/XR end-user testing in Slovakia and Hungary",
+      "title_cs": "ETACS 2026 — iterativní uživatelské testování VR/XR na Slovensku a v Maďarsku",
+      "summary_en": "The March 2026 EOD-course VR test is extended by a 14–15 September end-user event hosted by the Hungarian Defence Forces 1st EOD and Warship Regiment. NATO EOD COE presented the latest ETACS build and collected operational-user feedback on realism, usability, training value and future development.",
+      "summary_cs": "Březnový test VR v EOD kurzu rozšiřuje uživatelská akce 14.–15. září hostovaná Hungarian Defence Forces 1st EOD and Warship Regiment. NATO EOD COE představilo nejnovější verzi ETACS a sbíralo zpětnou vazbu operátorů k realismu, použitelnosti, výcvikové hodnotě a dalšímu vývoji.",
+      "analysis_en": "The Hungary event is continued iterative validation within an established development cycle, not evidence of operational acceptance.",
+      "analysis_cs": "Maďarská akce je pokračující iterativní validace v zavedeném vývojovém cyklu, nikoli důkaz operačního přijetí.",
+      "source_ids": [
+        "ENG-SRC-0388",
+        "ENG-SRC-0615"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0097",
+        "ENG-EVID-0284"
+      ],
+      "temporal_status": "CURRENT_ITERATIVE_END_USER_TESTING",
+      "classification": "FACT_ABOUT_OFFICIAL_MULTI_EVENT_TEST_CYCLE",
+      "confidence": "HIGH_FOR_EVENTS_LOW_FOR_OPERATIONAL_FIELDING",
+      "what_it_does_not_prove_en": "Operational fielding, procurement acceptance, doctrinal adoption or deployed use.",
+      "what_it_does_not_prove_cs": "Operační zavedení, procurement acceptance, doktrinální přijetí ani nasazené použití."
+    },
+    {
+      "id": "ENG-SIG-0045",
+      "summary_en": "ArmyInform’s 30 August report of four field-tested interceptor concepts is now accompanied by a 31 August ArmyInform relay of the Ukrainian Air Force stating that the Shahed component of a 121-UAV overnight attack was majority jet-powered. This confirms the publicly stated threat driver, not the exact model mix or interceptor effectiveness.",
+      "summary_cs": "Zprávu ArmyInform z 30. srpna o čtyřech polně testovaných konceptech interceptorů doplňuje převzaté sdělení ukrajinských vzdušných sil z 31. srpna, podle něhož ve složce Shahed při nočním útoku 121 UAV převažovaly proudové varianty. To potvrzuje veřejně popsaný threat driver, nikoli přesný model mix či účinnost interceptorů.",
+      "analysis_en": "The second report corroborates the existence of the emphasized threat category but shares the same official-statement lineage and does not validate a countermeasure.",
+      "analysis_cs": "Druhá zpráva potvrzuje existenci zdůrazněné kategorie hrozby, sdílí však stejnou linii oficiálního sdělení a nevaliduje protiopatření.",
+      "source_ids": [
+        "ENG-SRC-0561",
+        "ENG-SRC-0620"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0247",
+        "ENG-EVID-0288"
+      ],
+      "classification": "ATTRIBUTED_OFFICIAL_DEFENCE_MEDIA_REPORT_WITH_THREAT_CONFIRMATION",
+      "confidence": "HIGH_FOR_STATEMENT_EXISTENCE_MEDIUM_FOR_EXACT_COMPOSITION_LOW_FOR_INTERCEPTOR_EFFECTIVENESS",
+      "what_it_does_not_prove_en": "Exact model composition, origin, performance, interceptor identity, success rate, readiness, procurement, production or fielding.",
+      "what_it_does_not_prove_cs": "Přesné složení modelů, původ, výkon, identitu interceptorů, úspěšnost, připravenost, pořízení, výrobu ani zavedení."
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0608",
+      "title": "Forging an Engineer Regiment for Large-Scale Combat Operations",
+      "title_en": "Forging an Engineer Regiment for Large-Scale Combat Operations",
+      "publisher": "Military Review / Army University Press",
+      "publication_date": "2026-05",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.armyupress.army.mil/Journals/Military-Review/English-Edition-Archives/May-June-2026/Engineer-Regiment-for-LSCO/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PROFESSIONAL_MILITARY_JOURNAL",
+      "role": "PRIMARY_POSITION_PAPER",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Forging an Engineer Regiment for Large-Scale Combat Operations"
+    },
+    {
+      "id": "ENG-SRC-0609",
+      "title": "Crossing Chaos: Engineering Order in LSCO",
+      "title_en": "Crossing Chaos: Engineering Order in LSCO",
+      "publisher": "Warrant Officer Journal / Army University Press",
+      "publication_date": "2026-06-01",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.lineofdeparture.army.mil/Journals/Warrant-Officer-Journal/Archive/June-2026/Crossing-Chaos/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PROFESSIONAL_MILITARY_JOURNAL",
+      "role": "ALTERNATIVE_POSITION_PAPER",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Crossing Chaos: Engineering Order in LSCO"
+    },
+    {
+      "id": "ENG-SRC-0610",
+      "title": "Powering Recovery: Restoring Electricity to Greater Khartoum",
+      "title_en": "Powering Recovery: Restoring Electricity to Greater Khartoum",
+      "publisher": "UNMAS",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-24",
+      "url": "https://unmas.org/en/news/powering-recovery-restoring-electricity-to-greater-khartoum",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "INTERGOVERNMENTAL_IMPLEMENTER_PRIMARY",
+      "role": "PRIMARY_PROGRAMME_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Powering Recovery: Restoring Electricity to Greater Khartoum"
+    },
+    {
+      "id": "ENG-SRC-0611",
+      "title": "DMZ route-clearance explosion briefing",
+      "title_en": "DMZ route-clearance explosion briefing",
+      "publisher": "Yonhap News Agency",
+      "publication_date": "2026-09-22",
+      "accessed_at": "2026-09-24",
+      "url": "https://en.yna.co.kr/view/AEN20260922004900315",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "NEWS_AGENCY_DIRECT_OFFICIAL_ATTRIBUTION",
+      "role": "PRIMARY_ATTRIBUTED_JCS_BRIEFING",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: DMZ route-clearance explosion briefing"
+    },
+    {
+      "id": "ENG-SRC-0612",
+      "title": "Third Review Conference of the Convention on Cluster Munitions",
+      "title_en": "Third Review Conference of the Convention on Cluster Munitions",
+      "publisher": "Convention on Cluster Munitions",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.clusterconvention.org/third-review-conference-3rc/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "TREATY_SECRETARIAT_PRIMARY",
+      "role": "PRIMARY_ADOPTION_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Third Review Conference of the Convention on Cluster Munitions"
+    },
+    {
+      "id": "ENG-SRC-0613",
+      "title": "Draft Vientiane Capital Action Plan 2027–2031 — Advance Copy",
+      "title_en": "Draft Vientiane Capital Action Plan 2027–2031 — Advance Copy",
+      "publisher": "Convention on Cluster Munitions",
+      "publication_date": "2026-07-17",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.clusterconvention.org/wp-content/uploads/2026/07/CCM-CONF-2026-WP.2-Advance-Copy.pdf",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "TREATY_DOCUMENT_PRIMARY",
+      "role": "PRIMARY_DRAFT_TEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Draft Vientiane Capital Action Plan 2027–2031 — Advance Copy"
+    },
+    {
+      "id": "ENG-SRC-0614",
+      "title": "Canadian Military Engineers Strengthen Interoperability at Silver Flag 2026",
+      "title_en": "Canadian Military Engineers Strengthen Interoperability at Silver Flag 2026",
+      "publisher": "Canadian Military Engineers Association",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.cmea-agmc.ca/en/canadian-military-engineers-strengthen-interoperability-silver-flag-2026",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "PROFESSIONAL_ASSOCIATION_REPORT",
+      "role": "PRIMARY_PARTICIPANT_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Canadian Military Engineers Strengthen Interoperability at Silver Flag 2026"
+    },
+    {
+      "id": "ENG-SRC-0615",
+      "title": "ETACS End-User Testing in Hungary",
+      "title_en": "ETACS End-User Testing in Hungary",
+      "publisher": "NATO EOD Centre of Excellence",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.eodcoe.org/en/news/etacs-end-user-testing-hungary.html",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "NATO_COE_PRIMARY",
+      "role": "PRIMARY_TEST_EVENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: ETACS End-User Testing in Hungary"
+    },
+    {
+      "id": "ENG-SRC-0616",
+      "title": "DEFRA thematic call Pulsed Directed Energy Effectors",
+      "title_en": "DEFRA thematic call Pulsed Directed Energy Effectors",
+      "publisher": "BELSPO / RHID",
+      "publication_date": "2026-08-21",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.belspo.be/Belspo/defra/call_2026_Energy-Effectors_en.stm",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_RESEARCH_CALL_PRIMARY",
+      "role": "PRIMARY_CALL_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: DEFRA thematic call Pulsed Directed Energy Effectors"
+    },
+    {
+      "id": "ENG-SRC-0617",
+      "title": "DSNS pyrotechnic operational aggregate, 31 August 2026",
+      "title_en": "DSNS pyrotechnic operational aggregate, 31 August 2026",
+      "publisher": "Cabinet of Ministers of Ukraine / DSNS",
+      "publication_date": "2026-08-31",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.kmu.gov.ua/news/310826operatyvna-informatsiia-dsns-shchodo-likvidatsii-naslidkiv-vedennia-boiovykh-dii-rosiiskoiu-federatsiieiu-ta-roboty-pirotekhnichnykh-pidrozdiliv",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_DAILY_AGGREGATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: DSNS pyrotechnic operational aggregate, 31 August 2026"
+    },
+    {
+      "id": "ENG-SRC-0618",
+      "title": "DSNS pyrotechnic operational aggregate, 20 September 2026",
+      "title_en": "DSNS pyrotechnic operational aggregate, 20 September 2026",
+      "publisher": "Cabinet of Ministers of Ukraine / DSNS",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.kmu.gov.ua/news/operatyvna-informatsiia-dsns-shchodo-likvidatsii-naslidkiv-vedennia-boiovykh-dii-rohiiskoiu-pederatsiieiu-ta-roboty-pirotekhnichnykh-pidrozdiliv",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_DAILY_AGGREGATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: DSNS pyrotechnic operational aggregate, 20 September 2026"
+    },
+    {
+      "id": "ENG-SRC-0619",
+      "title": "PACAF EOD participates in Exercise Sentinel Samurai",
+      "title_en": "PACAF EOD participates in Exercise Sentinel Samurai",
+      "publisher": "DVIDS / PACAF",
+      "publication_date": "2026-08-28",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.dvidshub.net/audio/93526/pacaf-eod-participates-exercise-sentinal-samurai",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_MEDIA",
+      "role": "PRIMARY_EXERCISE_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: PACAF EOD participates in Exercise Sentinel Samurai"
+    },
+    {
+      "id": "ENG-SRC-0620",
+      "title": "Ukrainian Air Force reports majority jet-powered Shahed component",
+      "title_en": "Ukrainian Air Force reports majority jet-powered Shahed component",
+      "publisher": "ArmyInform",
+      "publication_date": "2026-08-31",
+      "accessed_at": "2026-09-24",
+      "url": "https://armyinform.com.ua/2026/08/31/ponad-120-bpla-ta-aviaczijna-raketa-vorog-vnochi-atakuvav-ukrayinu/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_DEFENCE_MEDIA",
+      "role": "ATTRIBUTED_AIR_FORCE_STATEMENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Ukrainian Air Force reports majority jet-powered Shahed component"
+    },
+    {
+      "id": "ENG-SRC-0621",
+      "title": "Hrakove settlement-scale clearance completion",
+      "title_en": "Hrakove settlement-scale clearance completion",
+      "publisher": "Demine Ukraine",
+      "publication_date": "2026-08-29",
+      "accessed_at": "2026-09-24",
+      "url": "https://demine.gov.ua/news/na-kharkivshchyni-vpershe-ochystyly-tsile-selo-hroshi-na-rozminuvannia-iakoho-zbyraly-na-platformi-united24",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_COMPLETION_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Hrakove settlement-scale clearance completion"
+    },
+    {
+      "id": "ENG-SRC-0622",
+      "title": "Exercise LION RAMPANT",
+      "title_en": "Exercise LION RAMPANT",
+      "publisher": "French Ministry of Armed Forces",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.defense.gouv.fr/operations/actualites/exercice-lion-rampant-sapeurs-francais-renforcent-leur-cooperation-ligue-defense-estonienne",
+      "language": "fr",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Exercise LION RAMPANT"
+    },
+    {
+      "id": "ENG-SRC-0623",
+      "title": "U.S. Army EOD specialists dispose of legacy munitions in Palau during Tenacious Archer 26",
+      "title_en": "U.S. Army EOD specialists dispose of legacy munitions in Palau during Tenacious Archer 26",
+      "publisher": "U.S. Army Pacific",
+      "publication_date": "2026-08-12",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.army.mil/article/294589/u_s_army_eod_specialists_dispose_of_legacy_munitions_in_palau_during_exercise_tenacious_archer_26",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EVENT_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: U.S. Army EOD specialists dispose of legacy munitions in Palau during Tenacious Archer 26"
+    },
+    {
+      "id": "ENG-SRC-0624",
+      "title": "Mechanical rollers as supplementary post-clearance safety-confirmation tools",
+      "title_en": "Mechanical rollers as supplementary post-clearance safety-confirmation tools",
+      "publisher": "ArmyInform",
+      "publication_date": "2026-08-31",
+      "accessed_at": "2026-09-24",
+      "url": "https://armyinform.com.ua/2026/08/31/vid-rozbudovy-doviry-do-pidtverdzhennya-bezpechnosti-novi-pidhody-do-vykorystannya-zemel-pislya-ochyshhennya-vid-vybuhonebezpechnyh-predmetiv/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_DEFENCE_MEDIA",
+      "role": "ATTRIBUTED_POLICY_POSITION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Mechanical rollers as supplementary post-clearance safety-confirmation tools"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0279",
+      "evidence_id": "ENG-EVID-0279",
+      "evidence_type": "PROFESSIONAL_MILITARY_DEBATE",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0060"
+      ],
+      "source_ids": [
+        "ENG-SRC-0608",
+        "ENG-SRC-0609"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports two published but competing Engineer Regiment proposals.",
+      "what_it_supports_cs": "Podporuje dva publikované, ale konkurenční návrhy pro Engineer Regiment.",
+      "what_it_does_not_prove_en": "Adopted policy or causal proof.",
+      "what_it_does_not_prove_cs": "Přijatou policy ani kauzální důkaz.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0280",
+      "evidence_id": "ENG-EVID-0280",
+      "evidence_type": "UN_PROGRAMME_INFRASTRUCTURE_CLEARANCE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0061"
+      ],
+      "source_ids": [
+        "ENG-SRC-0610"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the 15-site programme, seven reported cleared and risk-education activity.",
+      "what_it_supports_cs": "Podporuje program 15 míst, sedm hlášených jako vyčištěných a risk education.",
+      "what_it_does_not_prove_en": "Exact per-site chronology, independent count or first-restoration causality.",
+      "what_it_does_not_prove_cs": "Přesnou chronologii míst, nezávislé potvrzení počtu ani kauzalitu první obnovy.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0281",
+      "evidence_id": "ENG-EVID-0281",
+      "evidence_type": "NEWS_AGENCY_DIRECT_OFFICIAL_BRIEFING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0142"
+      ],
+      "source_ids": [
+        "ENG-SRC-0611"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the incident, route-clearance purpose, injuries and official uncertainty.",
+      "what_it_supports_cs": "Podporuje incident, účel route clearance, zranění a oficiální nejistotu.",
+      "what_it_does_not_prove_en": "Device type, origin, attack intent or exact location.",
+      "what_it_does_not_prove_cs": "Typ zařízení, původ, úmysl útoku ani přesnou lokalitu.",
+      "confidence": "MEDIUM_HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0282",
+      "evidence_id": "ENG-EVID-0282",
+      "evidence_type": "TREATY_ADOPTION_WITH_DRAFT_TEXT_PROVENANCE",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0143"
+      ],
+      "source_ids": [
+        "ENG-SRC-0612",
+        "ENG-SRC-0613"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports plan adoption and 43 actions in the advance draft.",
+      "what_it_supports_cs": "Podporuje přijetí plánu a 43 actions v advance draftu.",
+      "what_it_does_not_prove_en": "Byte identity or exact content of the final adopted text.",
+      "what_it_does_not_prove_cs": "Byte identity ani přesný obsah finálního přijatého textu.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0283",
+      "evidence_id": "ENG-EVID-0283",
+      "evidence_type": "PARTICIPANT_ASSOCIATION_EXERCISE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0144"
+      ],
+      "source_ids": [
+        "ENG-SRC-0614"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports Canadian participation and high-level training areas.",
+      "what_it_supports_cs": "Podporuje kanadskou účast a obecné oblasti výcviku.",
+      "what_it_does_not_prove_en": "Doctrine, procurement, permanent force design or measured readiness.",
+      "what_it_does_not_prove_cs": "Doktrínu, pořízení, trvalý force design ani měřenou připravenost.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0284",
+      "evidence_id": "ENG-EVID-0284",
+      "evidence_type": "NATO_COE_END_USER_TEST_EVENT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0101"
+      ],
+      "source_ids": [
+        "ENG-SRC-0615"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports September Hungary ETACS testing and feedback scope.",
+      "what_it_supports_cs": "Podporuje zářijové testování ETACS v Maďarsku a rozsah zpětné vazby.",
+      "what_it_does_not_prove_en": "Operational fielding or procurement acceptance.",
+      "what_it_does_not_prove_cs": "Operační zavedení ani procurement acceptance.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0285",
+      "evidence_id": "ENG-EVID-0285",
+      "evidence_type": "GOVERNMENT_R_AND_D_CALL",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0062"
+      ],
+      "source_ids": [
+        "ENG-SRC-0616"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports budget, technology families and TRL target.",
+      "what_it_supports_cs": "Podporuje rozpočet, technologické rodiny a cílové TRL.",
+      "what_it_does_not_prove_en": "Operational weapon or future project success.",
+      "what_it_does_not_prove_cs": "Operační zbraň ani budoucí úspěch projektů.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0286",
+      "evidence_id": "ENG-EVID-0286",
+      "evidence_type": "OFFICIAL_DAILY_STATISTICAL_SERIES",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0063"
+      ],
+      "source_ids": [
+        "ENG-SRC-0617",
+        "ENG-SRC-0618"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the two daily DSNS aggregate observations.",
+      "what_it_supports_cs": "Podporuje dvě denní agregovaná pozorování DSNS.",
+      "what_it_does_not_prove_en": "Independent audit, unique devices or productivity comparison.",
+      "what_it_does_not_prove_cs": "Nezávislý audit, unikátní zařízení ani srovnání produktivity.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0287",
+      "evidence_id": "ENG-EVID-0287",
+      "evidence_type": "OFFICIAL_JOINT_SERVICE_EOD_EXERCISE_RECORD",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0145"
+      ],
+      "source_ids": [
+        "ENG-SRC-0619"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports Sentinel Samurai and joint-service participation.",
+      "what_it_supports_cs": "Podporuje Sentinel Samurai a mezisložkovou účast.",
+      "what_it_does_not_prove_en": "Measured readiness or effectiveness.",
+      "what_it_does_not_prove_cs": "Měřenou připravenost ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0288",
+      "evidence_id": "ENG-EVID-0288",
+      "evidence_type": "ATTRIBUTED_AIR_FORCE_THREAT_CONFIRMATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0045"
+      ],
+      "source_ids": [
+        "ENG-SRC-0620"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the official statement that jet-powered variants were the majority of the reported Shahed component.",
+      "what_it_supports_cs": "Podporuje oficiální tvrzení, že ve hlášené složce Shahed převažovaly proudové varianty.",
+      "what_it_does_not_prove_en": "Exact model mix, performance or interceptor effectiveness.",
+      "what_it_does_not_prove_cs": "Přesný model mix, výkon ani účinnost interceptorů.",
+      "confidence": "MEDIUM_HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0289",
+      "evidence_id": "ENG-EVID-0289",
+      "evidence_type": "OFFICIAL_SETTLEMENT_CLEARANCE_COMPLETION_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0146"
+      ],
+      "source_ids": [
+        "ENG-SRC-0621"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports completion, area, reported item counts and certificates.",
+      "what_it_supports_cs": "Podporuje dokončení, plochu, hlášené počty předmětů a certifikáty.",
+      "what_it_does_not_prove_en": "Independent first-in-country proof or zero residual risk.",
+      "what_it_does_not_prove_cs": "Nezávislý důkaz prvenství ani nulové zbytkové riziko.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0290",
+      "evidence_id": "ENG-EVID-0290",
+      "evidence_type": "OFFICIAL_ALLIED_ENGINEER_EXERCISE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0147"
+      ],
+      "source_ids": [
+        "ENG-SRC-0622"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports dates and high-level engineer tasks.",
+      "what_it_supports_cs": "Podporuje termíny a obecné ženijní úkoly.",
+      "what_it_does_not_prove_en": "Doctrine, procurement or operational validation.",
+      "what_it_does_not_prove_cs": "Doktrínu, pořízení ani operační validaci.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0291",
+      "evidence_id": "ENG-EVID-0291",
+      "evidence_type": "OFFICIAL_REAL_WORLD_EOD_MISSION_IN_EXERCISE",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0148"
+      ],
+      "source_ids": [
+        "ENG-SRC-0623"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the Palau response and integration into Tenacious Archer 26.",
+      "what_it_supports_cs": "Podporuje zásah v Palau a začlenění do Tenacious Archer 26.",
+      "what_it_does_not_prove_en": "Measured readiness, combat effectiveness or new doctrine.",
+      "what_it_does_not_prove_cs": "Měřenou připravenost, bojovou účinnost ani novou doktrínu.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0292",
+      "evidence_id": "ENG-EVID-0292",
+      "evidence_type": "ATTRIBUTED_POST_CLEARANCE_POLICY_POSITION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0064"
+      ],
+      "source_ids": [
+        "ENG-SRC-0624"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the exploratory supplementary role and explicit non-substitution boundary.",
+      "what_it_supports_cs": "Podporuje průzkumnou doplňkovou roli a explicitní hranici nenahrazování.",
+      "what_it_does_not_prove_en": "Effectiveness, certification, adoption or operational authorization.",
+      "what_it_does_not_prove_cs": "Účinnost, certifikaci, přijetí ani operační autorizaci.",
+      "confidence": "MEDIUM_HIGH",
+      "observed_at": "2026-09-24"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_AFTER_WAVE2_TO_WAVE5_ONLY",
+    "adjudicated_topic_count": 17,
+    "candidate_topic_count": 14,
+    "new_record_count": 12,
+    "updated_record_count": 2,
+    "held_topic_count": 2,
+    "no_change_topic_count": 1,
+    "all_batch_groups_adjudicated": true,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

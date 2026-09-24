@@ -1,0 +1,62 @@
+{
+  "schema_version": "engineer-osint-intake-execution-receipt-v1",
+  "status": "EXECUTED_LOCALLY_QA_PASS_PENDING_PR_MERGE_DEPLOY",
+  "user_authorization": "Telegram: Proveď publikaci; confirmation of post-B106 guard transition and bounded cache cleanup received 2026-09-24",
+  "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+  "parent_run_id": "engineer-osint-20260904-B105",
+  "parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+  "run_ids": [
+    "engineer-osint-20260904-B106",
+    "engineer-osint-20260923-B107",
+    "engineer-osint-20260923-B108",
+    "engineer-osint-20260923-B109",
+    "engineer-osint-20260924-B110",
+    "engineer-osint-20260924-B111",
+    "engineer-osint-20260924-B112"
+  ],
+  "run_file_sha256": {
+    "engineer-osint-20260904-B106": "56b4896445fd48d201c38a6d807a6600f7fc407f5a1d880c969f579029b6fc76",
+    "engineer-osint-20260923-B107": "3b76a3bc86ad30d37be44b13ae708cc62ad644062ee63f8ce7a704f83b9f8f5f",
+    "engineer-osint-20260923-B108": "c0c172364b4ee5ca83bc4037157ac3c64259f24fdf3dec657a7f96b841e2bae0",
+    "engineer-osint-20260923-B109": "eb84b278234466ddfe205fd77d757fb40839f0ea7f5706503b316b3d3f500263",
+    "engineer-osint-20260924-B110": "1a654e258995bd253345c26ddd0aba432eb49a658eaf12e2b055774616e281d5",
+    "engineer-osint-20260924-B111": "d5dccef52b4a4170d69fb33c70f27e8977fce6713cda288568f6e80b0899eeae",
+    "engineer-osint-20260924-B112": "7920c05fb7ff4f4292df5c28bc7a8f81251bc1e698543d66f17bce2de6788796"
+  },
+  "final_run_id": "engineer-osint-20260924-B112",
+  "final_canonical_sha256": "39b41f5af58d33982fe60f9eea5b993eef740db35838521084adf02d0abb92e4",
+  "counts": {
+    "new_records": 54,
+    "updated_records": 11,
+    "content_updated_records": 9,
+    "b106_image_updates": 2,
+    "correction_operations": 1,
+    "new_sources": 100,
+    "new_evidence": 74,
+    "new_visuals": 2
+  },
+  "structure_scope": "CONTENT_DATA_AND_REQUIRED_POST_B106_GUARD_TRANSITION_ONLY",
+  "qa": {
+    "strict_patch_chain": "PASS",
+    "b106_exact_authorization": "PASS",
+    "canonical_digest": "PASS",
+    "post_b112_guard": "PASS_EXACT_HASH_PIN_FAIL_CLOSED",
+    "pages_build_and_artifact": "PASS",
+    "runtime_audit": "PASS",
+    "media_publish_gate": "PASS",
+    "public_cz_regression": "PASS",
+    "normalized_browser_dom_sha256": "ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0",
+    "publication_pending_pr_qa": false,
+    "public_cz_source_titles": "PASS_98_EXPLICIT_TITLE_CS_VALUES",
+    "content_run_multimedia_status": "PASS_EXPLICIT_COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "execution": {
+    "canonical_run_files_created": true,
+    "manifest_updated": true,
+    "commit": false,
+    "push": false,
+    "pull_request": false,
+    "merge": false,
+    "deploy": false
+  }
+}

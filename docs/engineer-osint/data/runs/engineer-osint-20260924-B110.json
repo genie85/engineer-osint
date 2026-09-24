@@ -1,0 +1,1176 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260924-B110",
+    "parent_run_id": "engineer-osint-20260923-B109",
+    "status": "SUCCESS",
+    "window_from": "2026-09-24T00:00:00Z",
+    "window_to": "2026-09-24T00:01:00Z",
+    "counts": {
+      "CURRENT_DELTA": 11,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 2,
+      "ENTITY_ENRICHMENT": 2,
+      "NEW": 14,
+      "UPDATE": 1,
+      "CONFIRMATION": 15,
+      "CORRECTION": 0,
+      "CONTRADICTION": 2,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 15,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 20,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "BATCH_CONTENT_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "8a28ead1aea41b0ec274f20f86b5031fa343ae451c0a14dfd5375c0acdc96d76",
+    "source_adjudication": "ADJUDICATION_WAVE5.md",
+    "prerequisite_candidates": [
+      "CONTENT_CANDIDATE_WAVE2.json",
+      "CONTENT_CANDIDATE_WAVE3.json",
+      "CONTENT_CANDIDATE_WAVE4.json"
+    ],
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 11,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 2,
+    "ENTITY_ENRICHMENT": 2
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0050",
+      "type": "ENG-SIG",
+      "country": "UKR/NATO",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "NATO SPS demonstrations included MINESEYE and other uncrewed demining applications",
+      "title_cs": "Demonstrace NATO SPS zahrnovaly MINESEYE a další bezosádkové aplikace pro odminování",
+      "summary_en": "NATO reported live demonstrations of air- and land-based uncrewed systems at Unmanned Valley in the Netherlands on 16 July 2026, including demining applications. NATO media identifies the Postup Foundation MINESEYE drone as one demonstrated system.",
+      "summary_cs": "NATO uvedlo živé demonstrace vzdušných a pozemních bezosádkových systémů v nizozemském Unmanned Valley dne 16. července 2026, včetně aplikací pro odminování. Média NATO označují dron MINESEYE nadace Postup za jeden z demonstrovaných systémů.",
+      "fact_en": "NATO reported live demonstrations of air- and land-based uncrewed systems at Unmanned Valley in the Netherlands on 16 July 2026, including demining applications. NATO media identifies the Postup Foundation MINESEYE drone as one demonstrated system.",
+      "fact_cs": "NATO uvedlo živé demonstrace vzdušných a pozemních bezosádkových systémů v nizozemském Unmanned Valley dne 16. července 2026, včetně aplikací pro odminování. Média NATO označují dron MINESEYE nadace Postup za jeden z demonstrovaných systémů.",
+      "analysis_en": "A project participant stated that prototypes progressed to real-world deployment with Ukraine’s State Emergency Service; that deployment claim remains attributed rather than independently verified.",
+      "analysis_cs": "Účastník projektu uvedl, že prototypy postoupily k reálnému nasazení s ukrajinskou DSNS; toto tvrzení zůstává připsané účastníkovi, nikoli nezávisle ověřené.",
+      "what_it_does_not_prove_en": "Procurement, standardized fielding, detection performance, operational effectiveness or independent confirmation of DSNS deployment.",
+      "what_it_does_not_prove_cs": "Pořízení, standardizované zavedení, detekční výkon, operační účinnost ani nezávislé potvrzení nasazení s DSNS.",
+      "source_ids": [
+        "ENG-SRC-0588"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0264"
+      ],
+      "publication_date": "2026-07-23",
+      "temporal_status": "RECENT_NATO_SPS_DEMONSTRATION",
+      "classification": "FACT_ABOUT_OFFICIAL_DEMONSTRATION_WITH_ATTRIBUTED_PARTICIPANT_CLAIM",
+      "confidence": "HIGH_FOR_EVENT_MEDIUM_FOR_DEPLOYMENT_CLAIM",
+      "topics": [
+        "HUMANITARIAN_DEMINING",
+        "UAS",
+        "MINESEYE",
+        "NATO_SPS"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0051",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Project R.E.D. — drone recovery prototype matured through Army–ARL collaboration",
+      "title_cs": "Project R.E.D. — prototyp pro vyzvedávání dronů rozvíjený spoluprací Army a ARL",
+      "summary_en": "A Pennsylvania National Guard team won Best Innovation at the inaugural Army Best Drone Warfighter Competition in February 2026 with Project R.E.D., an AI-assisted drone-recovery prototype. The team demonstrated an improved version at an Army Research Laboratory robotics showcase on 27 August 2026.",
+      "summary_cs": "Tým Pennsylvania National Guard získal v únoru 2026 cenu Best Innovation na prvním Army Best Drone Warfighter Competition s Project R.E.D., prototypem pro vyzvedávání dronů s podporou AI. Vylepšenou verzi předvedl 27. srpna 2026 na robotické přehlídce Army Research Laboratory.",
+      "fact_en": "A Pennsylvania National Guard team won Best Innovation at the inaugural Army Best Drone Warfighter Competition in February 2026 with Project R.E.D., an AI-assisted drone-recovery prototype. The team demonstrated an improved version at an Army Research Laboratory robotics showcase on 27 August 2026.",
+      "fact_cs": "Tým Pennsylvania National Guard získal v únoru 2026 cenu Best Innovation na prvním Army Best Drone Warfighter Competition s Project R.E.D., prototypem pro vyzvedávání dronů s podporou AI. Vylepšenou verzi předvedl 27. srpna 2026 na robotické přehlídce Army Research Laboratory.",
+      "analysis_en": "Official reporting describes a one-year R&D agreement and iterative prototype improvements, not a procurement or fielding decision.",
+      "analysis_cs": "Oficiální zdroj popisuje roční R&D dohodu a iterativní vylepšování prototypu, nikoli rozhodnutí o pořízení nebo zavedení.",
+      "what_it_does_not_prove_en": "Formal EOD adoption, procurement, production, unit fielding, intelligence yield or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Formální přijetí EOD, pořízení, výrobu, zavedení k jednotkám, zpravodajský přínos ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0589"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0265"
+      ],
+      "publication_date": "2026-09-11",
+      "temporal_status": "RECENT_R_AND_D_PROTOTYPE_DEMONSTRATION",
+      "classification": "FACT_ABOUT_OFFICIAL_PROTOTYPE_MATURATION",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_FIELDING",
+      "topics": [
+        "UAS_RECOVERY",
+        "AI_OBJECT_RECOGNITION",
+        "ARMY_RESEARCH_LAB",
+        "PROTOTYPING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0052",
+      "type": "ENG-SIG",
+      "country": "GBR",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Dstl Software Defined Swarms Phase 1 — two options tested with eight UAS",
+      "title_cs": "Dstl Software Defined Swarms Phase 1 — dvě varianty testované s osmi UAS",
+      "summary_en": "Dstl reported that Phase 1 tested two industry-led software-defined swarm options in realistic environments: BlueBear (Saab) and a Disruptor Group led by Applied Intuition. Army operators conducted eight weeks of experimentation using eight UAS, with further work planned for 2026–2027.",
+      "summary_cs": "Dstl uvedla, že Phase 1 testovala dvě průmyslově vedené varianty software-defined swarms v realistickém prostředí: BlueBear (Saab) a Disruptor Group vedenou Applied Intuition. Operátoři Army prováděli osm týdnů experimentů s osmi UAS a další práce jsou plánovány na roky 2026–2027.",
+      "fact_en": "Dstl reported that Phase 1 tested two industry-led software-defined swarm options in realistic environments: BlueBear (Saab) and a Disruptor Group led by Applied Intuition. Army operators conducted eight weeks of experimentation using eight UAS, with further work planned for 2026–2027.",
+      "fact_cs": "Dstl uvedla, že Phase 1 testovala dvě průmyslově vedené varianty software-defined swarms v realistickém prostředí: BlueBear (Saab) a Disruptor Group vedenou Applied Intuition. Operátoři Army prováděli osm týdnů experimentů s osmi UAS a další práce jsou plánovány na roky 2026–2027.",
+      "analysis_en": "The government release establishes experimentation and a swarm capability test bed, but does not identify a comparative winner.",
+      "analysis_cs": "Vládní zpráva dokládá experimentování a swarm capability test bed, neurčuje však srovnávacího vítěze.",
+      "what_it_does_not_prove_en": "Supplier selection, procurement, fielding, operational deployment or transfer of demonstrated performance to UGV/USV applications.",
+      "what_it_does_not_prove_cs": "Výběr dodavatele, pořízení, zavedení, operační nasazení ani přenos demonstrovaného výkonu na UGV/USV.",
+      "source_ids": [
+        "ENG-SRC-0590"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0266"
+      ],
+      "publication_date": "2026-09-18",
+      "temporal_status": "RECENT_PHASE_ONE_EXPERIMENTATION",
+      "classification": "FACT_ABOUT_GOVERNMENT_R_AND_D_EXPERIMENTATION",
+      "confidence": "HIGH_FOR_REPORTED_TRIAL_LOW_FOR_ACQUISITION",
+      "topics": [
+        "DRONE_SWARMS",
+        "OPEN_ARCHITECTURE",
+        "ARMY_AUTONOMY",
+        "DSTL"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0053",
+      "type": "ENG-SIG",
+      "country": "ITA",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "FAE PT550 D:MINE — vendor-described remote mechanical-demining platform",
+      "title_cs": "FAE PT550 D:MINE — dodavatelem popsaná dálkově řízená platforma pro mechanické odminování",
+      "summary_en": "FAE publicly describes PT550 D:MINE as a remotely controlled heavy mechanical-demining machine with tiller and flail attachments and states that it has been tested or certified against named standards. The manufacturer displayed it at MSPO 2026.",
+      "summary_cs": "FAE veřejně popisuje PT550 D:MINE jako dálkově řízený těžký stroj pro mechanické odminování s rotačním kypřičem a cepovým nástrojem a uvádí testování či certifikaci podle jmenovaných standardů. Výrobce jej vystavil na MSPO 2026.",
+      "fact_en": "FAE publicly describes PT550 D:MINE as a remotely controlled heavy mechanical-demining machine with tiller and flail attachments and states that it has been tested or certified against named standards. The manufacturer displayed it at MSPO 2026.",
+      "fact_cs": "FAE veřejně popisuje PT550 D:MINE jako dálkově řízený těžký stroj pro mechanické odminování s rotačním kypřičem a cepovým nástrojem a uvádí testování či certifikaci podle jmenovaných standardů. Výrobce jej vystavil na MSPO 2026.",
+      "analysis_en": "IMAS 09.50 is a framework for mechanical land release and equipment evaluation, not independent proof that this product holds a certificate. Product certification remains vendor-attributed.",
+      "analysis_cs": "IMAS 09.50 je rámec pro mechanický land release a hodnocení zařízení, nikoli nezávislý důkaz certifikátu tohoto výrobku. Certifikace produktu zůstává tvrzením dodavatele.",
+      "what_it_does_not_prove_en": "An independently retrieved certificate, procurement, fielding, deployment, clearance effectiveness or compliance beyond the vendor claim.",
+      "what_it_does_not_prove_cs": "Nezávisle získaný certifikát, pořízení, zavedení, nasazení, účinnost clearance ani shodu nad rámec tvrzení dodavatele.",
+      "source_ids": [
+        "ENG-SRC-0591",
+        "ENG-SRC-0592"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0267"
+      ],
+      "publication_date": "2026-09-01",
+      "temporal_status": "RECENT_VENDOR_PRODUCT_SIGNAL",
+      "classification": "ATTRIBUTED_MANUFACTURER_PRODUCT_AND_CERTIFICATION_CLAIM",
+      "confidence": "MEDIUM_FOR_CERTIFICATION_HIGH_FOR_PRODUCT_DESCRIPTION",
+      "topics": [
+        "MECHANICAL_DEMINING",
+        "REMOTE_CONTROL",
+        "PT550_D_MINE",
+        "PRODUCT_CERTIFICATION"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0138",
+      "type": "ENG-EVT",
+      "country": "USA/NATO",
+      "record_role": "EXERCISE_POLICY_OR_PROJECT_EVENT",
+      "title_en": "Saber Junction 26 — autonomous systems demonstrated for breaching and evacuation roles",
+      "title_cs": "Saber Junction 26 — autonomní systémy předvedené pro breaching a evakuační role",
+      "summary_en": "DVIDS documents a 31 August 2026 observation-day demonstration at Hohenfels by 1st Battalion, 4th Infantry Regiment using UAS and UGVs configured for obstacle-breaching and medical-evacuation roles.",
+      "summary_cs": "DVIDS dokumentuje demonstraci z 31. srpna 2026 při observation day v Hohenfels, kde 1st Battalion, 4th Infantry Regiment použil UAS a UGV konfigurované pro vytváření průchodů v překážkách a zdravotnickou evakuaci.",
+      "fact_en": "DVIDS documents a 31 August 2026 observation-day demonstration at Hohenfels by 1st Battalion, 4th Infantry Regiment using UAS and UGVs configured for obstacle-breaching and medical-evacuation roles.",
+      "fact_cs": "DVIDS dokumentuje demonstraci z 31. srpna 2026 při observation day v Hohenfels, kde 1st Battalion, 4th Infantry Regiment použil UAS a UGV konfigurované pro vytváření průchodů v překážkách a zdravotnickou evakuaci.",
+      "analysis_en": "The event shows recurring use of Hohenfels for robotics experimentation. The 2026 UGV is not identified as Project Origin or any other earlier platform.",
+      "analysis_cs": "Událost ukazuje opakované využití Hohenfels pro robotické experimentování. UGV z roku 2026 není identifikováno jako Project Origin ani jiná starší platforma.",
+      "what_it_does_not_prove_en": "Platform identity, acquisition lineage, procurement, fielding, operational readiness or continuity with the 2022 Project Origin event.",
+      "what_it_does_not_prove_cs": "Identitu platformy, akviziční návaznost, pořízení, zavedení, operační připravenost ani kontinuitu s Project Origin 2022.",
+      "source_ids": [
+        "ENG-SRC-0593"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0268"
+      ],
+      "publication_date": "2026-09-04",
+      "temporal_status": "RECENT_EXERCISE_DEMONSTRATION",
+      "classification": "FACT_ABOUT_OFFICIAL_AUTONOMOUS_SYSTEMS_DEMONSTRATION",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_PLATFORM_IDENTITY",
+      "topics": [
+        "AUTONOMOUS_BREACHING",
+        "UGV",
+        "UAS",
+        "SABER_JUNCTION_26"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0054",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Humanity & Inclusion formed an accredited humanitarian-demining team in Ukraine",
+      "title_cs": "Humanity & Inclusion vytvořila na Ukrajině akreditovaný tým humanitárního odminování",
+      "summary_en": "Humanity & Inclusion states that it formed an eight-person humanitarian-demining team in Ukraine in March 2026 and that relevant national authorities accredited the team as operationally ready in June 2026.",
+      "summary_cs": "Humanity & Inclusion uvádí, že v březnu 2026 vytvořila na Ukrajině osmičlenný tým humanitárního odminování a že příslušné státní orgány tým v červnu 2026 akreditovaly jako operačně připravený.",
+      "fact_en": "Humanity & Inclusion states that it formed an eight-person humanitarian-demining team in Ukraine in March 2026 and that relevant national authorities accredited the team as operationally ready in June 2026.",
+      "fact_cs": "Humanity & Inclusion uvádí, že v březnu 2026 vytvořila na Ukrajině osmičlenný tým humanitárního odminování a že příslušné státní orgány tým v červnu 2026 akreditovaly jako operačně připravený.",
+      "analysis_en": "The team-level June statement is retained as an implementer report. It is not automatically equated with earlier generic references to HI as a certified operator.",
+      "analysis_cs": "Červnové tvrzení o týmu je vedeno jako zpráva implementátora. Není automaticky ztotožněno se staršími obecnými označeními HI jako certifikovaného operátora.",
+      "what_it_does_not_prove_en": "A government certificate record, cleared area, task orders, deployment tempo, national-scale capacity or independent effectiveness.",
+      "what_it_does_not_prove_cs": "Vládní certifikační záznam, vyčištěnou plochu, task orders, tempo nasazení, celostátní kapacitu ani nezávislou účinnost.",
+      "source_ids": [
+        "ENG-SRC-0594"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0269"
+      ],
+      "publication_date": "2026-09-16",
+      "temporal_status": "RECENT_IMPLEMENTER_REPORTED_CAPACITY_EXPANSION",
+      "classification": "ATTRIBUTED_IMPLEMENTER_ACCREDITATION_REPORT",
+      "confidence": "MEDIUM_HIGH_FOR_TEAM_STATUS_LOW_FOR_OUTPUT",
+      "topics": [
+        "HUMANITARIAN_DEMINING",
+        "OPERATOR_CAPACITY",
+        "TEAM_ACCREDITATION",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0055",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Ukraine August 2026 humanitarian-demining programme results and sector capacity",
+      "title_cs": "Výsledky ukrajinského programu humanitárního odminování za srpen 2026 a sektorová kapacita",
+      "summary_en": "Ukraine’s official mine-action portal reported 3,555 hectares of agricultural land cleared in August 2026 under the budget programme, five completed contracts and UAH 251.2 million paid for completed work. It also reported 105 completed contracts returning 19,966 hectares to productive use and live sector-capacity counters.",
+      "summary_cs": "Ukrajinský oficiální mine-action portál uvedl za srpen 2026 v rozpočtovém programu 3 555 hektarů vyčištěné zemědělské půdy, pět dokončených kontraktů a 251,2 milionu UAH vyplacených za dokončenou práci. Uvedl také 105 dokončených kontraktů, které vrátily 19 966 hektarů k produktivnímu využití, a aktuální ukazatele sektorové kapacity.",
+      "fact_en": "Ukraine’s official mine-action portal reported 3,555 hectares of agricultural land cleared in August 2026 under the budget programme, five completed contracts and UAH 251.2 million paid for completed work. It also reported 105 completed contracts returning 19,966 hectares to productive use and live sector-capacity counters.",
+      "fact_cs": "Ukrajinský oficiální mine-action portál uvedl za srpen 2026 v rozpočtovém programu 3 555 hektarů vyčištěné zemědělské půdy, pět dokončených kontraktů a 251,2 milionu UAH vyplacených za dokončenou práci. Uvedl také 105 dokončených kontraktů, které vrátily 19 966 hektarů k produktivnímu využití, a aktuální ukazatele sektorové kapacity.",
+      "analysis_en": "The figures document programme throughput and institutional scale but lack denominators needed for cross-operator productivity or national completion forecasts.",
+      "analysis_cs": "Čísla dokumentují průchodnost programu a institucionální rozsah, postrádají však jmenovatele pro produktivitu mezi operátory či odhad celostátního dokončení.",
+      "what_it_does_not_prove_en": "Nationwide clearance effectiveness, quality, productivity per operator, future completion date or causal impact of any single capacity counter.",
+      "what_it_does_not_prove_cs": "Celostátní účinnost clearance, kvalitu, produktivitu na operátora, budoucí datum dokončení ani kauzální vliv jednotlivého ukazatele kapacity.",
+      "source_ids": [
+        "ENG-SRC-0595"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0270"
+      ],
+      "publication_date": "2026-09-03",
+      "temporal_status": "RECENT_OFFICIAL_PROGRAMME_RESULTS",
+      "classification": "FACT_ABOUT_OFFICIAL_PROGRAMME_AGGREGATES",
+      "confidence": "HIGH_FOR_REPORTED_TOTALS_LOW_FOR_PRODUCTIVITY_INFERENCE",
+      "topics": [
+        "HUMANITARIAN_DEMINING",
+        "AGRICULTURAL_LAND",
+        "CLEARANCE_MARKET",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0139",
+      "type": "ENG-EVT",
+      "country": "SYR/UKR",
+      "record_role": "EXERCISE_POLICY_OR_PROJECT_EVENT",
+      "title_en": "Syria and Ukraine signed a humanitarian mine-action cooperation agreement",
+      "title_cs": "Sýrie a Ukrajina podepsaly dohodu o spolupráci v humanitárním odminování",
+      "summary_en": "Ukraine’s Cabinet approved the draft cooperation agreement on 13 July 2026 and authorized its signature. Syrian state reporting states that Syria and Ukraine signed the agreement on 20 September, covering humanitarian demining, technical survey and recovery of contaminated agricultural land.",
+      "summary_cs": "Ukrajinská vláda 13. července 2026 schválila návrh dohody o spolupráci a zmocnila k podpisu. Syrský státní zdroj uvádí, že Sýrie a Ukrajina dohodu podepsaly 20. září; rozsah zahrnuje humanitární odminování, technický průzkum a obnovu kontaminované zemědělské půdy.",
+      "fact_en": "Ukraine’s Cabinet approved the draft cooperation agreement on 13 July 2026 and authorized its signature. Syrian state reporting states that Syria and Ukraine signed the agreement on 20 September, covering humanitarian demining, technical survey and recovery of contaminated agricultural land.",
+      "fact_cs": "Ukrajinská vláda 13. července 2026 schválila návrh dohody o spolupráci a zmocnila k podpisu. Syrský státní zdroj uvádí, že Sýrie a Ukrajina dohodu podepsaly 20. září; rozsah zahrnuje humanitární odminování, technický průzkum a obnovu kontaminované zemědělské půdy.",
+      "analysis_en": "The two official steps establish authorization and reported signature. Entry into force, implementation timing and delivered support remain unverified.",
+      "analysis_cs": "Dva oficiální kroky dokládají zmocnění a oznámený podpis. Vstup v platnost, harmonogram implementace a dodaná podpora zůstávají neověřené.",
+      "what_it_does_not_prove_en": "Entry into force, completed training, equipment delivery, Ukrainian expert deployment, cleared land or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Vstup v platnost, dokončený výcvik, dodávky vybavení, nasazení ukrajinských expertů, vyčištěnou půdu ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0597",
+        "ENG-SRC-0598"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0272"
+      ],
+      "publication_date": "2026-09-20",
+      "temporal_status": "RECENT_BILATERAL_AGREEMENT_SIGNATURE",
+      "classification": "FACT_ABOUT_OFFICIAL_AUTHORIZATION_AND_REPORTED_SIGNATURE",
+      "confidence": "HIGH_FOR_SIGNATURE_LOW_FOR_IMPLEMENTATION",
+      "topics": [
+        "HUMANITARIAN_MINE_ACTION",
+        "BILATERAL_AGREEMENT",
+        "SYRIA",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0056",
+      "type": "ENG-SIG",
+      "country": "SRB/GICHD",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Mine-action Innovation Technical Group formalized needs-led innovation planning",
+      "title_cs": "Innovation Technical Group pro mine action formalizuje plánování inovací podle provozních potřeb",
+      "summary_en": "Serbia’s Mine Action Centre reported hosting an Innovation Technical Group meeting in Belgrade on 8–9 September 2026 addressing national needs and gaps, operational-problem definition for research actors and the group’s 2027 activity plan.",
+      "summary_cs": "Srbské Mine Action Centre uvedlo, že 8.–9. září 2026 hostilo v Bělehradě jednání Innovation Technical Group zaměřené na národní potřeby a mezery, definování provozních problémů pro výzkumné aktéry a plán činnosti skupiny na rok 2027.",
+      "fact_en": "Serbia’s Mine Action Centre reported hosting an Innovation Technical Group meeting in Belgrade on 8–9 September 2026 addressing national needs and gaps, operational-problem definition for research actors and the group’s 2027 activity plan.",
+      "fact_cs": "Srbské Mine Action Centre uvedlo, že 8.–9. září 2026 hostilo v Bělehradě jednání Innovation Technical Group zaměřené na národní potřeby a mezery, definování provozních problémů pro výzkumné aktéry a plán činnosti skupiny na rok 2027.",
+      "analysis_en": "The meeting supports a needs-led governance pipeline from operational problems toward evaluation and partnerships, not adoption of a specific technology.",
+      "analysis_cs": "Jednání podporuje needs-led governance proces od provozních problémů k hodnocení a partnerstvím, nikoli přijetí konkrétní technologie.",
+      "what_it_does_not_prove_en": "Outcomes of later sessions, funded projects, procurement, field adoption or effectiveness of the governance model.",
+      "what_it_does_not_prove_cs": "Výsledky pozdějších jednání, financované projekty, pořízení, zavedení v terénu ani účinnost governance modelu.",
+      "source_ids": [
+        "ENG-SRC-0599"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0273"
+      ],
+      "publication_date": "2026-09-10",
+      "temporal_status": "RECENT_INNOVATION_GOVERNANCE_EVENT",
+      "classification": "FACT_ABOUT_OFFICIAL_WORKING_GROUP_MEETING",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_DOWNSTREAM_ADOPTION",
+      "topics": [
+        "MINE_ACTION_INNOVATION",
+        "GOVERNANCE",
+        "GICHD",
+        "SERBIA"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0140",
+      "type": "ENG-EVT",
+      "country": "IND/USA",
+      "record_role": "EXERCISE_POLICY_OR_PROJECT_EVENT",
+      "title_en": "Yudh Abhyas 2026 included an Indian Army quadruped robot demonstration",
+      "title_cs": "Yudh Abhyas 2026 zahrnovalo demonstraci čtyřnohého robotu Indian Army",
+      "summary_en": "U.S. Army reporting states that U.S. and Indian soldiers conducted a counterterrorism building-clearing demonstration in Auli on 16 September 2026 that included Indian Army snipers, canines and a robotic dog available for U.S. participants to observe and interact with.",
+      "summary_cs": "Zpráva U.S. Army uvádí, že američtí a indičtí vojáci provedli 16. září 2026 v Auli demonstraci counterterrorism building clearing, která zahrnovala indické odstřelovače, služební psy a robotického psa, s nímž se američtí účastníci mohli seznámit.",
+      "fact_en": "U.S. Army reporting states that U.S. and Indian soldiers conducted a counterterrorism building-clearing demonstration in Auli on 16 September 2026 that included Indian Army snipers, canines and a robotic dog available for U.S. participants to observe and interact with.",
+      "fact_cs": "Zpráva U.S. Army uvádí, že američtí a indičtí vojáci provedli 16. září 2026 v Auli demonstraci counterterrorism building clearing, která zahrnovala indické odstřelovače, služební psy a robotického psa, s nímž se američtí účastníci mohli seznámit.",
+      "analysis_en": "The government source confirms the quadruped’s presence but does not identify manufacturer, model, sensors or armament. DVIDS date metadata are inconsistent with the narrative date.",
+      "analysis_cs": "Vládní zdroj potvrzuje přítomnost čtyřnohého robotu, neidentifikuje však výrobce, model, senzory ani výzbroj. Datumová metadata DVIDS se rozcházejí s datem v textu.",
+      "what_it_does_not_prove_en": "Manufacturer, model, configuration, procurement status, fielding level, combat use or a single resolved media date.",
+      "what_it_does_not_prove_cs": "Výrobce, model, konfiguraci, stav pořízení, úroveň zavedení, bojové použití ani jednoznačně vyřešené datum médií.",
+      "source_ids": [
+        "ENG-SRC-0600"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0274"
+      ],
+      "publication_date": "2026-09-17",
+      "temporal_status": "RECENT_BILATERAL_EXERCISE_DEMONSTRATION",
+      "classification": "FACT_ABOUT_OFFICIAL_ROBOTIC_DOG_DEMONSTRATION",
+      "confidence": "HIGH_FOR_PRESENCE_LOW_FOR_IDENTITY",
+      "topics": [
+        "QUADRUPED_ROBOT",
+        "YUDH_ABHYAS_2026",
+        "COUNTERTERRORISM_TRAINING",
+        "IDENTITY_BOUNDARY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0057",
+      "type": "ENG-SIG",
+      "country": "KAZ/UNDOF",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Kazakhstan reports UNDOF engineer-EOD activity with conflicting cumulative wording",
+      "title_cs": "Kazachstán uvádí ženijně-pyrotechnickou činnost v UNDOF s rozporným kumulativním vyjádřením",
+      "summary_en": "Kazakhstan’s defence ministry reported that its third UNDOF contingent’s engineer group conducted explosive-ordnance work over four months. Two September releases describe the aggregate inconsistently as more than 350 explosive items and more than 1,800 small-arms rounds versus exactly 350 and 1,800.",
+      "summary_cs": "Kazašské ministerstvo obrany uvedlo, že ženijní skupina třetího kontingentu UNDOF prováděla po čtyři měsíce práci s výbušnou municí. Dvě zářijové zprávy popisují agregát rozdílně jako více než 350 výbušných předmětů a více než 1 800 kusů střeliva versus přesně 350 a 1 800.",
+      "fact_en": "Kazakhstan’s defence ministry reported that its third UNDOF contingent’s engineer group conducted explosive-ordnance work over four months. Two September releases describe the aggregate inconsistently as more than 350 explosive items and more than 1,800 small-arms rounds versus exactly 350 and 1,800.",
+      "fact_cs": "Kazašské ministerstvo obrany uvedlo, že ženijní skupina třetího kontingentu UNDOF prováděla po čtyři měsíce práci s výbušnou municí. Dvě zářijové zprávy popisují agregát rozdílně jako více než 350 výbušných předmětů a více než 1 800 kusů střeliva versus přesně 350 a 1 800.",
+      "analysis_en": "The activity is retained as an official attributed report, while the later wording is not treated as an exact monotonic update.",
+      "analysis_cs": "Činnost je vedena jako oficiálně připsaná zpráva, pozdější formulace však není považována za přesný monotónní update.",
+      "what_it_does_not_prove_en": "An independently audited total, exact cumulative progression, item-by-item breakdown, current locations or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Nezávisle auditovaný součet, přesný kumulativní vývoj, rozpad po položkách, aktuální lokality ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0601",
+        "ENG-SRC-0602"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0275"
+      ],
+      "publication_date": "2026-09-19",
+      "temporal_status": "RECENT_ATTRIBUTED_PEACEKEEPING_ACTIVITY_WITH_NUMERIC_CONFLICT",
+      "classification": "ATTRIBUTED_OFFICIAL_REPORT_WITH_UNRESOLVED_QUANTIFICATION",
+      "confidence": "MEDIUM_HIGH_FOR_ACTIVITY_LOW_FOR_EXACT_TOTAL",
+      "topics": [
+        "UNDOF",
+        "EOD",
+        "PEACEKEEPING_ENGINEERS",
+        "NUMERIC_CONFLICT"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0141",
+      "type": "ENG-EVT",
+      "country": "POL",
+      "record_role": "EXERCISE_POLICY_OR_PROJECT_EVENT",
+      "title_en": "Lubiatowo-Kopalino marine survey campaign completed over more than 600 hectares",
+      "title_cs": "Námořní průzkumná kampaň Lubiatowo-Kopalino dokončena na více než 600 hektarech",
+      "summary_en": "Poland’s Ministry of Energy reported completion of a ten-month marine UXO survey and recovery campaign for planned cooling-system infrastructure, covering more than 600 hectares of seabed and recovering about 500 mixed objects.",
+      "summary_cs": "Polské ministerstvo energetiky oznámilo dokončení desetiměsíční kampaně námořního UXO průzkumu a vyzvedávání pro plánovanou infrastrukturu chladicího systému, která pokryla více než 600 hektarů mořského dna a vyzvedla přibližně 500 různých objektů.",
+      "fact_en": "Poland’s Ministry of Energy reported completion of a ten-month marine UXO survey and recovery campaign for planned cooling-system infrastructure, covering more than 600 hectares of seabed and recovering about 500 mixed objects.",
+      "fact_cs": "Polské ministerstvo energetiky oznámilo dokončení desetiměsíční kampaně námořního UXO průzkumu a vyzvedávání pro plánovanou infrastrukturu chladicího systému, která pokryla více než 600 hektarů mořského dna a vyzvedla přibližně 500 různých objektů.",
+      "analysis_en": "The recovered set included archaeological and maritime-history finds. The source separately concludes that no hazardous armament remnants remained in the analysed area; the 500 objects are not 500 UXO.",
+      "analysis_cs": "Soubor nálezů zahrnoval archeologické a námořně-historické předměty. Zdroj samostatně uzavírá, že v analyzované oblasti nezůstaly nebezpečné zbytky výzbroje; 500 objektů neznamená 500 UXO.",
+      "what_it_does_not_prove_en": "Five hundred UXO items, zero risk outside the analysed area, future construction completion or independent audit of every recovered object.",
+      "what_it_does_not_prove_cs": "Pět set UXO, nulové riziko mimo analyzovanou oblast, dokončení budoucí výstavby ani nezávislý audit každého vyzvednutého objektu.",
+      "source_ids": [
+        "ENG-SRC-0603"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0276"
+      ],
+      "publication_date": "2026-09-11",
+      "temporal_status": "RECENT_MARINE_SURVEY_COMPLETION",
+      "classification": "FACT_ABOUT_OFFICIAL_PROJECT_SURVEY_RESULTS",
+      "confidence": "HIGH_FOR_REPORTED_SCOPE_LOW_FOR_BROADER_RISK",
+      "topics": [
+        "MARINE_UXO_SURVEY",
+        "INFRASTRUCTURE",
+        "SEABED_CLEARANCE",
+        "POLAND"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0058",
+      "type": "ENG-SIG",
+      "country": "YEM",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Project Masam reports 592,212 cleared explosive threats with an unresolved August-series anomaly",
+      "title_cs": "Project Masam uvádí 592 212 odstraněných výbušných hrozeb s nevyřešenou srpnovou anomálií",
+      "summary_en": "Project Masam reported a cumulative 592,212 cleared explosive threats through 18 September 2026: 7,726 anti-personnel mines, 153,049 anti-tank mines, 422,760 UXO and 8,677 IEDs. The categories sum to the reported total.",
+      "summary_cs": "Project Masam uvedl kumulativně 592 212 odstraněných výbušných hrozeb k 18. září 2026: 7 726 protipěchotních min, 153 049 protitankových min, 422 760 UXO a 8 677 IED. Součet kategorií odpovídá uvedenému celku.",
+      "fact_en": "Project Masam reported a cumulative 592,212 cleared explosive threats through 18 September 2026: 7,726 anti-personnel mines, 153,049 anti-tank mines, 422,760 UXO and 8,677 IEDs. The categories sum to the reported total.",
+      "fact_cs": "Project Masam uvedl kumulativně 592 212 odstraněných výbušných hrozeb k 18. září 2026: 7 726 protipěchotních min, 153 049 protitankových min, 422 760 UXO a 8 677 IED. Součet kategorií odpovídá uvedenému celku.",
+      "analysis_en": "An official KSrelief August item reported an incompatible 648,386 cumulative value. No explicit erratum was located, so the anomaly remains unresolved rather than silently corrected.",
+      "analysis_cs": "Oficiální srpnový výstup KSrelief uváděl neslučitelnou kumulativní hodnotu 648 386. Explicitní erratum nebylo nalezeno, proto anomálie zůstává nevyřešená a není tiše opravena.",
+      "what_it_does_not_prove_en": "Independent field audit, unique-device destruction, nationwide contamination reduction, operational effectiveness or a resolved August error mechanism.",
+      "what_it_does_not_prove_cs": "Nezávislý terénní audit, počet unikátně zničených zařízení, celostátní snížení kontaminace, operační účinnost ani vyřešený mechanismus srpnové chyby.",
+      "source_ids": [
+        "ENG-SRC-0604",
+        "ENG-SRC-0605"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0277"
+      ],
+      "publication_date": "2026-09-20",
+      "temporal_status": "CURRENT_PROJECT_REPORTED_CUMULATIVE_SERIES_WITH_ANOMALY",
+      "classification": "ATTRIBUTED_IMPLEMENTER_AGGREGATE_WITH_CONFLICT",
+      "confidence": "HIGH_FOR_PUBLISHED_TOTAL_MEDIUM_FOR_UNDERLYING_ACCURACY",
+      "topics": [
+        "HUMANITARIAN_MINE_ACTION",
+        "YEMEN",
+        "PROJECT_MASAM",
+        "NUMERIC_CONFLICT"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0059",
+      "type": "ENG-SIG",
+      "country": "GBR",
+      "record_role": "TECHNOLOGY_OR_CAPACITY_SIGNAL",
+      "title_en": "Babcock signed separate UGV cooperation agreements with DCE and Ark Robotics",
+      "title_cs": "Babcock podepsal samostatná memoranda o UGV s DCE a Ark Robotics",
+      "summary_en": "Babcock announced separate September 2026 memoranda with Digital Concepts Engineering and Ark Robotics to explore UK manufacture, systems and payload integration, support and international opportunities for uncrewed ground systems.",
+      "summary_cs": "Babcock oznámil dvě samostatná zářijová memoranda 2026 s Digital Concepts Engineering a Ark Robotics zaměřená na průzkum britské výroby, integrace systémů a payloadů, podpory a mezinárodních příležitostí pro bezosádkové pozemní systémy.",
+      "fact_en": "Babcock announced separate September 2026 memoranda with Digital Concepts Engineering and Ark Robotics to explore UK manufacture, systems and payload integration, support and international opportunities for uncrewed ground systems.",
+      "fact_cs": "Babcock oznámil dvě samostatná zářijová memoranda 2026 s Digital Concepts Engineering a Ark Robotics zaměřená na průzkum britské výroby, integrace systémů a payloadů, podpory a mezinárodních příležitostí pro bezosádkové pozemní systémy.",
+      "analysis_en": "The DCE announcement includes an X-Series logistics demonstration; the Ark announcement includes attributed Ukraine deployment and autonomy claims. Both remain cooperation signals, not procurement decisions.",
+      "analysis_cs": "Oznámení DCE zahrnuje logistickou demonstraci X-Series; oznámení Ark obsahuje připsaná tvrzení o nasazení na Ukrajině a autonomii. Obojí zůstává signálem spolupráce, nikoli rozhodnutím o pořízení.",
+      "what_it_does_not_prove_en": "A UK government order, the reported 15-vehicle Army quantity, production commitment, fielding, verified combat performance or completed autonomy integration.",
+      "what_it_does_not_prove_cs": "Vládní objednávku UK, uváděný počet 15 vozidel pro Army, výrobní závazek, zavedení, ověřený bojový výkon ani dokončenou integraci autonomie.",
+      "source_ids": [
+        "ENG-SRC-0606",
+        "ENG-SRC-0607"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0278"
+      ],
+      "publication_date": "2026-09-17",
+      "temporal_status": "RECENT_INDUSTRIAL_COOPERATION_SIGNAL",
+      "classification": "FACT_ABOUT_MANUFACTURER_ANNOUNCED_MEMORANDA",
+      "confidence": "HIGH_FOR_MOU_EXISTENCE_LOW_FOR_PROCUREMENT",
+      "topics": [
+        "UGV",
+        "INDUSTRIAL_PARTNERSHIP",
+        "DCE_X_SERIES",
+        "ARK_ROBOTICS"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [
+    {
+      "id": "ENG-SIG-0046",
+      "summary_en": "The government certification-body record continues to verify UCHP certificate No. 113 for explosive-ordnance risk education only. Separately, FSD reported on 9 September 2026 that a second FSD-trained UCHP demining team was fully operational and provided implementer-attributed activity and output figures. Operational-capacity reporting does not resolve the broader certification-scope conflict.",
+      "summary_cs": "Vládní záznam certifikačního orgánu nadále ověřuje pro UCHP pouze certifikát č. 113 pro explosive-ordnance risk education. FSD samostatně 9. září 2026 uvedla, že druhý jí vycvičený odminovací tým UCHP je plně operační, a poskytla implementer-attributed údaje o činnosti a výstupech. Zpráva o operační kapacitě neřeší konflikt širšího rozsahu certifikace.",
+      "analysis_en": "Certification scope and implementer-reported operational capacity are maintained as separate evidence layers. The latter may enrich the entity without overriding the narrower government registry.",
+      "analysis_cs": "Rozsah certifikace a implementer-attributed operační kapacita jsou vedeny jako oddělené vrstvy evidence. Druhá může obohatit záznam entity, ale nepřepisuje užší vládní registr.",
+      "source_ids": [
+        "ENG-SRC-0567",
+        "ENG-SRC-0568",
+        "ENG-SRC-0569",
+        "ENG-SRC-0596"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0252",
+        "ENG-EVID-0271"
+      ],
+      "classification": "FACT_ABOUT_PUBLIC_CERTIFICATION_SCOPE_WITH_ATTRIBUTED_OPERATIONAL_CAPACITY_ENRICHMENT",
+      "confidence": "HIGH_FOR_EORE_CERTIFICATE_MEDIUM_FOR_IMPLEMENTER_REPORTED_CAPACITY_LOW_FOR_BROADER_CERTIFICATION",
+      "what_it_does_not_prove_en": "Broader government-certified survey or clearance scope, independently audited outputs, national-scale capacity or effectiveness.",
+      "what_it_does_not_prove_cs": "Širší vládně certifikovaný rozsah survey či clearance, nezávisle auditované výstupy, celostátní kapacitu ani účinnost."
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0588",
+      "title": "NATO SPS Programme demonstrates applications of uncrewed and autonomous systems",
+      "title_en": "NATO SPS Programme demonstrates applications of uncrewed and autonomous systems",
+      "publisher": "NATO",
+      "publication_date": "2026-07-23",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.nato.int/en/news-and-events/articles/news/2026/07/23/nato-sps-programme-demonstrates-applications-of-uncrewed-and-autonomous-systems",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "INTERGOVERNMENTAL_PRIMARY",
+      "role": "PRIMARY_DEMONSTRATION_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: NATO SPS Programme demonstrates applications of uncrewed and autonomous systems"
+    },
+    {
+      "id": "ENG-SRC-0589",
+      "title": "Pennsylvania Guardsmen Demonstrate Drone Innovation Project",
+      "title_en": "Pennsylvania Guardsmen Demonstrate Drone Innovation Project",
+      "publisher": "U.S. National Guard",
+      "publication_date": "2026-09-11",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.nationalguard.mil/News/Article-View/Article/4590014/pennsylvania-guardsmen-demonstrate-drone-innovation-project/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_PROTOTYPE_UPDATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Pennsylvania Guardsmen Demonstrate Drone Innovation Project"
+    },
+    {
+      "id": "ENG-SRC-0590",
+      "title": "Dstl drone swarm accelerates Army autonomy ambition",
+      "title_en": "Dstl drone swarm accelerates Army autonomy ambition",
+      "publisher": "Dstl / GOV.UK",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.gov.uk/government/news/dstl-drone-swarm-accelerates-army-autonomy-ambition",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_R_AND_D_PRIMARY",
+      "role": "PRIMARY_PROGRAMME_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Dstl drone swarm accelerates Army autonomy ambition"
+    },
+    {
+      "id": "ENG-SRC-0591",
+      "title": "PT550 D:MINE Advanced Demining Vehicle",
+      "title_en": "PT550 D:MINE Advanced Demining Vehicle",
+      "publisher": "FAE",
+      "publication_date": "2026",
+      "accessed_at": "2026-09-23",
+      "url": "https://demining.fae-group.com/pt550-d-mine",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_VENDOR_PRODUCT_CLAIM",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: PT550 D:MINE Advanced Demining Vehicle"
+    },
+    {
+      "id": "ENG-SRC-0592",
+      "title": "IMAS 09.50 Mechanical land release",
+      "title_en": "IMAS 09.50 Mechanical land release",
+      "publisher": "International Mine Action Standards",
+      "publication_date": "2026",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.mineactionstandards.org/standards/09-50/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "NORMATIVE_STANDARD_PRIMARY",
+      "role": "STANDARD_SCOPE_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: IMAS 09.50 Mechanical land release"
+    },
+    {
+      "id": "ENG-SRC-0593",
+      "title": "Autonomous capabilities at Saber Junction 26",
+      "title_en": "Autonomous capabilities at Saber Junction 26",
+      "publisher": "DVIDS / 7th Army Training Command",
+      "publication_date": "2026-09-04",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/video/1021390/1st-battalion-4th-infantry-regiment-soldiers-demonstrate-autonomous-capabilities-saber-junction-26",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_MEDIA",
+      "role": "PRIMARY_EXERCISE_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Autonomous capabilities at Saber Junction 26"
+    },
+    {
+      "id": "ENG-SRC-0594",
+      "title": "HI ready for humanitarian demining",
+      "title_en": "HI ready for humanitarian demining",
+      "publisher": "Humanity & Inclusion",
+      "publication_date": "2026-09-16",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.hi.org/en/news/hi-ready-for-humanitarian-demining-",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "IMPLEMENTER_PRIMARY",
+      "role": "PRIMARY_TEAM_STATUS_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: HI ready for humanitarian demining"
+    },
+    {
+      "id": "ENG-SRC-0595",
+      "title": "August humanitarian-demining results",
+      "title_en": "August humanitarian-demining results",
+      "publisher": "Demine Ukraine",
+      "publication_date": "2026-09-03",
+      "accessed_at": "2026-09-23",
+      "url": "https://demine.gov.ua/news/pidsumky-humanitarnoho-rozminuvannia-za-serpen",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_PROGRAMME_RESULTS",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: August humanitarian-demining results"
+    },
+    {
+      "id": "ENG-SRC-0596",
+      "title": "Mine Clearance in Ukraine: Building Local Demining Capacity",
+      "title_en": "Mine Clearance in Ukraine: Building Local Demining Capacity",
+      "publisher": "FSD",
+      "publication_date": "2026-09-09",
+      "accessed_at": "2026-09-23",
+      "url": "https://fsd.ch/en/mine-clearance-ukraine/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "IMPLEMENTER_PRIMARY",
+      "role": "OPERATIONAL_CAPACITY_ENRICHMENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Mine Clearance in Ukraine: Building Local Demining Capacity"
+    },
+    {
+      "id": "ENG-SRC-0597",
+      "title": "Authorization to sign Ukraine–Syria mine-action agreement",
+      "title_en": "Authorization to sign Ukraine–Syria mine-action agreement",
+      "publisher": "Cabinet of Ministers of Ukraine",
+      "publication_date": "2026-07-13",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.kmu.gov.ua/npas/ubliky-shchodo-spivpratsi-u-sferi-protyminnoi-diialnosti-v-chastyninnia-i-685",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_SIGNATURE_AUTHORIZATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Authorization to sign Ukraine–Syria mine-action agreement"
+    },
+    {
+      "id": "ENG-SRC-0598",
+      "title": "Syria and Ukraine sign demining agreement",
+      "title_en": "Syria and Ukraine sign demining agreement",
+      "publisher": "Syrian Arab News Agency",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-23",
+      "url": "https://sana.sy/en/syria/2344345/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "STATE_MEDIA_PRIMARY_FOR_GOVERNMENT_ACTION",
+      "role": "PRIMARY_SIGNATURE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Syria and Ukraine sign demining agreement"
+    },
+    {
+      "id": "ENG-SRC-0599",
+      "title": "Serbia hosts Innovation Technical Group working meeting",
+      "title_en": "Serbia hosts Innovation Technical Group working meeting",
+      "publisher": "Mine Action Centre of the Republic of Serbia",
+      "publication_date": "2026-09-10",
+      "accessed_at": "2026-09-23",
+      "url": "https://czrs.gov.rs/en/mine-action-centre-of-the-republic-of-serbia-hosts-innovation-technical-group-working-meeting/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_AGENCY_PRIMARY",
+      "role": "PRIMARY_WORKING_GROUP_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Serbia hosts Innovation Technical Group working meeting"
+    },
+    {
+      "id": "ENG-SRC-0600",
+      "title": "U.S. and Indian Army Soldiers train together during Yudh Abhyas 2026",
+      "title_en": "U.S. and Indian Army Soldiers train together during Yudh Abhyas 2026",
+      "publisher": "U.S. Army",
+      "publication_date": "2026-09-17",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.army.mil/article/295426/u_s_indian_army_soldiers_train_together_on_counterterrorism_operations_during_yudh_abhyas_2026",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: U.S. and Indian Army Soldiers train together during Yudh Abhyas 2026"
+    },
+    {
+      "id": "ENG-SRC-0601",
+      "title": "Kazakhstan third UNDOF contingent four-month report",
+      "title_en": "Kazakhstan third UNDOF contingent four-month report",
+      "publisher": "Ministry of Defence of Kazakhstan",
+      "publication_date": "2026-09-19",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.gov.kz/memleket/entities/mod/press/news/details/1294829",
+      "language": "kk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_LATER_AGGREGATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Kazakhstan third UNDOF contingent four-month report"
+    },
+    {
+      "id": "ENG-SRC-0602",
+      "title": "Kazakhstan UNDOF engineer activity report",
+      "title_en": "Kazakhstan UNDOF engineer activity report",
+      "publisher": "Ministry of Defence of Kazakhstan",
+      "publication_date": "2026-09-10",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.gov.kz/memleket/entities/mod/press/news/details/1289101",
+      "language": "kk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EARLIER_AGGREGATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Kazakhstan UNDOF engineer activity report"
+    },
+    {
+      "id": "ENG-SRC-0603",
+      "title": "Lubiatowo-Kopalino marine UXO campaign completed",
+      "title_en": "Lubiatowo-Kopalino marine UXO campaign completed",
+      "publisher": "Polish Ministry of Energy",
+      "publication_date": "2026-09-11",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.gov.pl/web/energia/co-krylo-dno-baltyku-pej-zakonczyly-morska-kampanie-uxo-dla-elektrowni-jadrowej",
+      "language": "pl",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_PROJECT_COMPLETION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Lubiatowo-Kopalino marine UXO campaign completed"
+    },
+    {
+      "id": "ENG-SRC-0604",
+      "title": "Project Masam clears 592,212 explosive threats in Yemen",
+      "title_en": "Project Masam clears 592,212 explosive threats in Yemen",
+      "publisher": "Project Masam",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-23",
+      "url": "https://projectmasam.com/eng/project-masam-clears-592212-landmines-and-explosive-threats-in-yemen/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "IMPLEMENTER_PRIMARY",
+      "role": "CURRENT_CUMULATIVE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Project Masam clears 592,212 explosive threats in Yemen"
+    },
+    {
+      "id": "ENG-SRC-0605",
+      "title": "KSrelief MASAM August cumulative report",
+      "title_en": "KSrelief MASAM August cumulative report",
+      "publisher": "KSrelief",
+      "publication_date": "2026-08-23",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.ksrelief.org/en/Pages/NewsDetails/913e190f-ddcf-4602-9e5b-c8503308b203",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "SPONSOR_PRIMARY",
+      "role": "CONFLICTING_CUMULATIVE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: KSrelief MASAM August cumulative report"
+    },
+    {
+      "id": "ENG-SRC-0606",
+      "title": "Babcock to partner with DCE on UGV opportunities",
+      "title_en": "Babcock to partner with DCE on UGV opportunities",
+      "publisher": "Babcock International",
+      "publication_date": "2026-09-17",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.babcockinternational.com/news/babcock-to-partner-with-uncrewed-ground-vehicle-experts-dce-on-uk-and-international-opportunities/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_DCE_MOU",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Babcock to partner with DCE on UGV opportunities"
+    },
+    {
+      "id": "ENG-SRC-0607",
+      "title": "Babcock and Ark Robotics partner on uncrewed ground vehicles",
+      "title_en": "Babcock and Ark Robotics partner on uncrewed ground vehicles",
+      "publisher": "Babcock International",
+      "publication_date": "2026-09-16",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.babcockinternational.com/news/babcock-and-ark-robotics-partner-to-bring-combat-proven-uncrewed-ground-vehicles-to-uk-forces/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_ARK_MOU",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Babcock and Ark Robotics partner on uncrewed ground vehicles"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0264",
+      "evidence_id": "ENG-EVID-0264",
+      "evidence_type": "OFFICIAL_NATO_DEMONSTRATION_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0050"
+      ],
+      "source_ids": [
+        "ENG-SRC-0588"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the July SPS demonstration and MINESEYE identification.",
+      "what_it_supports_cs": "Podporuje červencovou demonstraci SPS a identifikaci MINESEYE.",
+      "what_it_does_not_prove_en": "Procurement, performance or independently verified deployment.",
+      "what_it_does_not_prove_cs": "Pořízení, výkon ani nezávisle ověřené nasazení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0265",
+      "evidence_id": "ENG-EVID-0265",
+      "evidence_type": "OFFICIAL_NATIONAL_GUARD_PROTOTYPE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0051"
+      ],
+      "source_ids": [
+        "ENG-SRC-0589"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports Project R.E.D. maturation and ARL collaboration.",
+      "what_it_supports_cs": "Podporuje rozvoj Project R.E.D. a spolupráci s ARL.",
+      "what_it_does_not_prove_en": "EOD adoption, procurement or fielding.",
+      "what_it_does_not_prove_cs": "Přijetí EOD, pořízení ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0266",
+      "evidence_id": "ENG-EVID-0266",
+      "evidence_type": "GOVERNMENT_R_AND_D_PHASE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0052"
+      ],
+      "source_ids": [
+        "ENG-SRC-0590"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports two tested options, eight UAS and planned follow-on work.",
+      "what_it_supports_cs": "Podporuje dvě testované varianty, osm UAS a plánované pokračování.",
+      "what_it_does_not_prove_en": "Winner, supplier selection, procurement or deployment.",
+      "what_it_does_not_prove_cs": "Vítěze, výběr dodavatele, pořízení ani nasazení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0267",
+      "evidence_id": "ENG-EVID-0267",
+      "evidence_type": "VENDOR_PRODUCT_WITH_STANDARD_CONTEXT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0053"
+      ],
+      "source_ids": [
+        "ENG-SRC-0591",
+        "ENG-SRC-0592"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the product description and separates vendor certification claims from the IMAS framework.",
+      "what_it_supports_cs": "Podporuje popis produktu a odděluje tvrzení dodavatele o certifikaci od rámce IMAS.",
+      "what_it_does_not_prove_en": "Independent product certificate, fielding or effectiveness.",
+      "what_it_does_not_prove_cs": "Nezávislý produktový certifikát, zavedení ani účinnost.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0268",
+      "evidence_id": "ENG-EVID-0268",
+      "evidence_type": "OFFICIAL_EXERCISE_MEDIA_RECORD",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0138"
+      ],
+      "source_ids": [
+        "ENG-SRC-0593"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the Saber Junction demonstration and stated roles.",
+      "what_it_supports_cs": "Podporuje demonstraci Saber Junction a uvedené role.",
+      "what_it_does_not_prove_en": "Platform identity, lineage or fielding.",
+      "what_it_does_not_prove_cs": "Identitu platformy, návaznost ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0269",
+      "evidence_id": "ENG-EVID-0269",
+      "evidence_type": "IMPLEMENTER_TEAM_ACCREDITATION_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0054"
+      ],
+      "source_ids": [
+        "ENG-SRC-0594"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the reported team formation and June operational accreditation.",
+      "what_it_supports_cs": "Podporuje oznámené vytvoření týmu a červnovou operační akreditaci.",
+      "what_it_does_not_prove_en": "Government certificate identity or independent output audit.",
+      "what_it_does_not_prove_cs": "Identitu vládního certifikátu ani nezávislý audit výstupů.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0270",
+      "evidence_id": "ENG-EVID-0270",
+      "evidence_type": "OFFICIAL_HMA_PROGRAMME_RESULTS",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0055"
+      ],
+      "source_ids": [
+        "ENG-SRC-0595"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports August area, contract and payment totals.",
+      "what_it_supports_cs": "Podporuje srpnové součty ploch, kontraktů a plateb.",
+      "what_it_does_not_prove_en": "Cross-operator productivity or completion forecast.",
+      "what_it_does_not_prove_cs": "Produktivitu mezi operátory ani odhad dokončení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0271",
+      "evidence_id": "ENG-EVID-0271",
+      "evidence_type": "IMPLEMENTER_OPERATIONAL_CAPACITY_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0046"
+      ],
+      "source_ids": [
+        "ENG-SRC-0596"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the reported second operational UCHP team and implementer output figures.",
+      "what_it_supports_cs": "Podporuje oznámený druhý operační tým UCHP a implementer údaje o výstupech.",
+      "what_it_does_not_prove_en": "Broader government-certified scope or independently audited effectiveness.",
+      "what_it_does_not_prove_cs": "Širší vládně certifikovaný rozsah ani nezávisle auditovanou účinnost.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0272",
+      "evidence_id": "ENG-EVID-0272",
+      "evidence_type": "BILATERAL_AGREEMENT_AUTHORIZATION_AND_SIGNATURE",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0139"
+      ],
+      "source_ids": [
+        "ENG-SRC-0597",
+        "ENG-SRC-0598"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports Ukrainian authorization and Syrian-reported signature.",
+      "what_it_supports_cs": "Podporuje ukrajinské zmocnění a Sýrií oznámený podpis.",
+      "what_it_does_not_prove_en": "Entry into force or implementation.",
+      "what_it_does_not_prove_cs": "Vstup v platnost ani implementaci.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0273",
+      "evidence_id": "ENG-EVID-0273",
+      "evidence_type": "OFFICIAL_INNOVATION_GOVERNANCE_MEETING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0056"
+      ],
+      "source_ids": [
+        "ENG-SRC-0599"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports meeting scope and 2027 planning.",
+      "what_it_supports_cs": "Podporuje rozsah jednání a plánování na rok 2027.",
+      "what_it_does_not_prove_en": "Downstream adoption or effectiveness.",
+      "what_it_does_not_prove_cs": "Následné zavedení ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0274",
+      "evidence_id": "ENG-EVID-0274",
+      "evidence_type": "OFFICIAL_BILATERAL_EXERCISE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0140"
+      ],
+      "source_ids": [
+        "ENG-SRC-0600"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports presence of the Indian Army robotic dog.",
+      "what_it_supports_cs": "Podporuje přítomnost robotického psa Indian Army.",
+      "what_it_does_not_prove_en": "Manufacturer, model, configuration or fielding.",
+      "what_it_does_not_prove_cs": "Výrobce, model, konfiguraci ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0275",
+      "evidence_id": "ENG-EVID-0275",
+      "evidence_type": "DUAL_OFFICIAL_AGGREGATE_CONFLICT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0057"
+      ],
+      "source_ids": [
+        "ENG-SRC-0601",
+        "ENG-SRC-0602"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the engineer activity and the exact-versus-greater-than wording conflict.",
+      "what_it_supports_cs": "Podporuje ženijní činnost a konflikt přesných hodnot proti formulaci „více než“.",
+      "what_it_does_not_prove_en": "Exact monotonic total or independent audit.",
+      "what_it_does_not_prove_cs": "Přesný monotónní součet ani nezávislý audit.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0276",
+      "evidence_id": "ENG-EVID-0276",
+      "evidence_type": "OFFICIAL_MARINE_SURVEY_COMPLETION_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0141"
+      ],
+      "source_ids": [
+        "ENG-SRC-0603"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports >600 hectares, about 500 mixed objects and the safety conclusion for the analysed area.",
+      "what_it_supports_cs": "Podporuje >600 hektarů, přibližně 500 různých objektů a bezpečnostní závěr pro analyzovanou oblast.",
+      "what_it_does_not_prove_en": "Five hundred UXO or risk outside the survey area.",
+      "what_it_does_not_prove_cs": "Pět set UXO ani riziko mimo zkoumanou oblast.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0277",
+      "evidence_id": "ENG-EVID-0277",
+      "evidence_type": "IMPLEMENTER_SERIES_WITH_OFFICIAL_CONFLICT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0058"
+      ],
+      "source_ids": [
+        "ENG-SRC-0604",
+        "ENG-SRC-0605"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the current category-summed total and an incompatible August publication.",
+      "what_it_supports_cs": "Podporuje aktuální součet kategorií a neslučitelnou srpnovou publikaci.",
+      "what_it_does_not_prove_en": "Independent audit or resolved error mechanism.",
+      "what_it_does_not_prove_cs": "Nezávislý audit ani vyřešený mechanismus chyby.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0278",
+      "evidence_id": "ENG-EVID-0278",
+      "evidence_type": "MANUFACTURER_MOU_ANNOUNCEMENTS",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0059"
+      ],
+      "source_ids": [
+        "ENG-SRC-0606",
+        "ENG-SRC-0607"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the two separate Babcock cooperation agreements.",
+      "what_it_supports_cs": "Podporuje dvě samostatná memoranda Babcock.",
+      "what_it_does_not_prove_en": "UK government order, production or fielding.",
+      "what_it_does_not_prove_cs": "Vládní objednávku UK, výrobu ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_AFTER_WAVE2_TO_WAVE4_ONLY",
+    "adjudicated_topic_count": 15,
+    "candidate_topic_count": 15,
+    "new_record_count": 14,
+    "updated_record_count": 1,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

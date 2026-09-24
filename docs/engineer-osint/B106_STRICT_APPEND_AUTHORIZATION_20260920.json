@@ -1,0 +1,67 @@
+{
+  "schema_version": "engineer-osint-b106-strict-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "reviewed_main_sha": "b14f8a45d445d3cb7dd410f6e66418bf1786e26c",
+  "reviewed_tree_sha": "49cd7eb604ce8fc1cf5780c042c13f9c8b9bf59f",
+  "candidate_path": "docs/engineer-osint/osint-publication-candidates/v4653-b106-wave3-v4588-local-images-public-cz.json",
+  "candidate_git_blob_sha": "e578ed3ea06ed0e67dfec7a1b2b979a0b2c418b1",
+  "exact_candidate_file_sha256": "56b4896445fd48d201c38a6d807a6600f7fc407f5a1d880c969f579029b6fc76",
+  "candidate_run_id": "engineer-osint-20260904-B106",
+  "expected_parent_run_id": "engineer-osint-20260904-B105",
+  "expected_parent_canonical_sha256": "a54077cf8765b5a1e53bea3680305e0c92ee51494a092ae09820e15db6a604b9",
+  "expected_resulting_canonical_sha256": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+  "readiness": {
+    "path": "docs/engineer-osint/B106_APPEND_READINESS_REVIEW_20260919.json",
+    "git_blob_sha": "fb3a24998c99257b2e673b47e6b3edd818fd7807",
+    "raw_sha256": "9093e54d76b1ee3e3f45125294b4d17db1ff23c781ba52ed160493481490ee7e",
+    "canonical_sha256": "dc9e6416e6d2e583fe55e4dd73fb422eb13f850181492fc289e8b1af3da76b33"
+  },
+  "guard": {
+    "path": "docs/engineer-osint/B106_GUARD_SUCCESSOR_AUTHORIZATION_20260920.json",
+    "git_blob_sha": "974435975ffa7a38f4d6c7c959701c0f67e83752",
+    "raw_sha256": "8188aeedb55ce611596b2d4fc1f7281e0abff5e800076b49295aed4fe4369dcb"
+  },
+  "expected_counts": {
+    "new_records": 0,
+    "updated_records": 2,
+    "sources": 0,
+    "relations": 0,
+    "evidence": 0,
+    "visuals": 2,
+    "media": 0,
+    "technology_signals": 0,
+    "lead_updates": 0,
+    "observed_minimum_updates": 0,
+    "lessons_learned": 0
+  },
+  "expected_card_ids": [
+    "ENG-TECH-0038",
+    "ENG-TECH-0041"
+  ],
+  "expected_visual_ids": [
+    "ENG-VIS-LOCAL-0038",
+    "ENG-VIS-LOCAL-0041"
+  ],
+  "allowed_outputs": [
+    "docs/engineer-osint/data/runs/engineer-osint-20260904-B106.json",
+    "docs/engineer-osint/data/run-store-manifest.json"
+  ],
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "allow_candidate_mutation": false,
+    "allow_authorization_mutation": false,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run": false,
+    "allow_history_rewrite": false,
+    "allow_runtime_change": false,
+    "allow_workflow_change": false,
+    "allow_lifecycle_change": false,
+    "allow_media_change": false,
+    "allow_deploy": false,
+    "allow_merge": false,
+    "allow_publish": false
+  },
+  "execution_state": {
+    "performed": false
+  }
+}
