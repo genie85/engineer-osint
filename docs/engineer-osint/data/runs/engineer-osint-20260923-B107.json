@@ -1,0 +1,911 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260923-B107",
+    "parent_run_id": "engineer-osint-20260904-B106",
+    "status": "SUCCESS",
+    "window_from": "2026-09-23T19:59:00Z",
+    "window_to": "2026-09-23T20:00:00Z",
+    "counts": {
+      "CURRENT_DELTA": 7,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 2,
+      "ENTITY_ENRICHMENT": 2,
+      "NEW": 7,
+      "UPDATE": 4,
+      "CONFIRMATION": 11,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 15,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 14,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "BATCH_CONTENT_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "7dbaa365cadfd690278e5ce085092e99d53828175525ef8ee0779121b6836396",
+    "source_adjudication": "ADJUDICATION_WAVE2.md",
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "excluded_pending_primary_reverification": [
+      "NAMC exact EABC award values",
+      "XM123 prototype-partner list from currently unavailable Army portfolio PDF"
+    ],
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 7,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 2,
+    "ENTITY_ENRICHMENT": 2
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0037",
+      "record_type": "technology_signal",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "CURRENT_AGGREGATED_COUNTER_UGV_METRIC_RECONCILIATION",
+      "title_cs": "Ukrajinské reportování ruských NŘK: oddělení zásahů DELTA od odhadovaných ztrát Generálního štábu",
+      "title_en": "Ukrainian reporting on Russian UGVs: separating DELTA strikes from General Staff estimated losses",
+      "summary_cs": "Ministerstvo obrany Ukrajiny zveřejnilo dvě odlišné agregované řady. Generální štáb k 19. září 2026 odhadoval ruské ztráty bezosádkových pozemních vozidel na 2 672 (+16), zatímco data DELTA zveřejněná 17. září uváděla více než 3 000 ruských NŘK zasažených drony od začátku roku, z toho 511 v srpnu a téměř 200 v první polovině září. Metriky nejsou zaměnitelné: zásah může zahrnovat poškozený nebo zničený systém a neprokazuje unikátní neopravitelné ztráty.",
+      "summary_en": "Ukraine's Ministry of Defence published two distinct aggregate series. As of 19 September 2026, the General Staff estimated Russian unmanned-ground-vehicle losses at 2,672 (+16), while DELTA data published on 17 September reported more than 3,000 Russian UGVs struck by drones since the start of the year, including 511 in August and nearly 200 in the first half of September. The metrics are not interchangeable: a strike may cover a damaged or destroyed system and does not establish unique irrecoverable losses.",
+      "fact_cs": "Oficiální ukrajinské zdroje zveřejnily současně ztrátovou řadu 2 672 NŘK k 19. září a samostatnou řadu více než 3 000 zásahů NŘK drony od začátku roku 2026.",
+      "fact_en": "Official Ukrainian sources concurrently published an estimated-loss series of 2,672 UGVs as of 19 September and a separate series of more than 3,000 UGV strikes by drones since the start of 2026.",
+      "analysis_cs": "Rozdíl mezi oběma řadami je metodický, nikoli automatický rozpor. Bez veřejné deduplikační metodiky nelze odvozovat velikost ruské flotily, podíl opakovaných zásahů, opravitelnost ani poměr zasažených a nenávratně ztracených systémů.",
+      "analysis_en": "The difference between the series is methodological rather than automatically contradictory. Without a public deduplication methodology, the figures cannot establish Russian fleet size, repeated-hit share, repairability, or a ratio between struck and irrecoverably lost systems.",
+      "intelligence_gaps_cs": "Veřejně chybí deduplikační pravidla, definice unikátní platformy, rozlišení poškození a zničení, informace o opakovaných zásazích a nezávislá verifikace skutečných ztrát.",
+      "intelligence_gaps_en": "Public reporting does not provide deduplication rules, a unique-platform definition, damaged-versus-destroyed breakdown, repeated-hit information, or independent verification of actual losses.",
+      "what_it_does_not_prove_cs": "Neprokazuje více než 3 000 unikátních zničených NŘK, skutečný inventář, attrition ratio, opravitelnost ani aktuální taktické rozmístění.",
+      "what_it_does_not_prove_en": "It does not establish more than 3,000 unique destroyed UGVs, actual inventory, an attrition ratio, repairability, or current tactical deployment.",
+      "geography": [
+        "Ukraine",
+        "Russia-Ukraine war"
+      ],
+      "topics": [
+        "UGV",
+        "GROUND_ROBOTIC_SYSTEMS",
+        "COUNTER_UGV",
+        "DELTA",
+        "LOSS_METRICS",
+        "DATA_QUALITY",
+        "TECHNOLOGY_SIGNAL"
+      ],
+      "publication_date": "2026-09-19T07:24:00+03:00",
+      "event_time": "AGGREGATED_2026-01-01_THROUGH_2026-09-19",
+      "temporal_status": "CURRENT_AGGREGATE_WITH_METRIC_RECONCILIATION",
+      "classification": "ATTRIBUTED_OFFICIAL_UKRAINIAN_WARTIME_REPORTING_NOT_INDEPENDENTLY_VERIFIED",
+      "confidence": "HIGH_FOR_PUBLICATION_AND_METRIC_SEPARATION_LOW_FOR_INDEPENDENT_LOSS_VERIFICATION",
+      "source_ids": [
+        "ENG-SRC-0537",
+        "ENG-SRC-0538"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0225",
+        "ENG-EVID-0226"
+      ],
+      "publication_safety": "PUBLIC_OK_AGGREGATED_NO_TACTICAL_LOCATION_OR_ACTIONABLE_COUNTERMEASURE"
+    },
+    {
+      "id": "ENG-SIG-0038",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Autonomous Volcano — remote-fire proof of concept and PC-C6 experimentation",
+      "title_cs": "Autonomous Volcano — proof of concept dálkového odpálení a experimentování při PC-C6",
+      "summary_en": "U.S. Army reporting documents a May 2026 proof of concept in which an Autonomous Volcano configuration combined an M139 Volcano dispenser on a PLS A1 truck with a By-Wire/Active Safety Kit. DVIDS imagery separately confirms 4th Infantry Division Soldiers experimenting with the system at Project Convergence Capstone 6 on 24 July 2026.",
+      "summary_cs": "U.S. Army doložila proof of concept z května 2026, při němž konfigurace Autonomous Volcano spojovala dávkovač M139 Volcano na vozidle PLS A1 se sadou By-Wire/Active Safety Kit. Snímky DVIDS samostatně potvrzují experimentování příslušníků 4th Infantry Division se systémem při Project Convergence Capstone 6 dne 24. července 2026.",
+      "fact_en": "U.S. Army reporting documents a May 2026 proof of concept in which an Autonomous Volcano configuration combined an M139 Volcano dispenser on a PLS A1 truck with a By-Wire/Active Safety Kit. DVIDS imagery separately confirms 4th Infantry Division Soldiers experimenting with the system at Project Convergence Capstone 6 on 24 July 2026.",
+      "fact_cs": "U.S. Army doložila proof of concept z května 2026, při němž konfigurace Autonomous Volcano spojovala dávkovač M139 Volcano na vozidle PLS A1 se sadou By-Wire/Active Safety Kit. Snímky DVIDS samostatně potvrzují experimentování příslušníků 4th Infantry Division se systémem při Project Convergence Capstone 6 dne 24. července 2026.",
+      "analysis_en": "The two official sources establish remote-fire demonstration and later experimentation, but they do not establish a production or fielding decision.",
+      "analysis_cs": "Dva oficiální zdroje dokládají demonstraci dálkového odpálení a pozdější experimentování, nikoli rozhodnutí o sériové výrobě nebo zavedení.",
+      "what_it_does_not_prove_en": "Production, procurement, operational fielding, unit issue, completion of every PC-C6 scenario, or formal identity with EABC or Sandhills 2.0.",
+      "what_it_does_not_prove_cs": "Sériovou výrobu, pořízení, operační zavedení, přidělení jednotkám, dokončení všech scénářů PC-C6 ani formální totožnost s EABC či Sandhills 2.0.",
+      "source_ids": [
+        "ENG-SRC-0539",
+        "ENG-SRC-0540"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0227",
+        "ENG-EVID-0228"
+      ],
+      "publication_date": "2026-07-26",
+      "temporal_status": "RECENT_EXPERIMENTATION",
+      "classification": "FACT_ABOUT_OFFICIAL_PROOF_OF_CONCEPT_AND_EXPERIMENTATION",
+      "confidence": "HIGH_FOR_DOCUMENTED_EVENTS_LOW_FOR_FIELDING",
+      "topics": [
+        "AUTONOMOUS_OBSTACLE_EMPLACEMENT",
+        "COMBAT_ENGINEERING",
+        "PC_C6"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0039",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "USMC LEON Increment 4 — unmanned surface-vessel field-user evaluation",
+      "title_cs": "USMC LEON Increment 4 — uživatelské hodnocení bezosádkového hladinového prostředku",
+      "summary_en": "Marine Corps reporting describes LEON as a five-increment system of systems. Its Increment 4 unmanned surface vessel underwent a Field User Evaluation at Camp Pendleton from 17 to 28 August 2026; the public description includes autonomous driving, sonar, FLIR, line-of-sight and acoustic communications, and a Mobile Gateway Buoy role.",
+      "summary_cs": "Marine Corps popisuje LEON jako systém pěti navazujících částí. Bezosádkový hladinový prostředek Increment 4 prošel v Camp Pendleton ve dnech 17.–28. srpna 2026 uživatelským hodnocením; veřejný popis zahrnuje autonomní řízení, sonar, FLIR, přímé i akustické spojení a roli Mobile Gateway Buoy.",
+      "fact_en": "Marine Corps reporting describes LEON as a five-increment system of systems. Its Increment 4 unmanned surface vessel underwent a Field User Evaluation at Camp Pendleton from 17 to 28 August 2026; the public description includes autonomous driving, sonar, FLIR, line-of-sight and acoustic communications, and a Mobile Gateway Buoy role.",
+      "fact_cs": "Marine Corps popisuje LEON jako systém pěti navazujících částí. Bezosádkový hladinový prostředek Increment 4 prošel v Camp Pendleton ve dnech 17.–28. srpna 2026 uživatelským hodnocením; veřejný popis zahrnuje autonomní řízení, sonar, FLIR, přímé i akustické spojení a roli Mobile Gateway Buoy.",
+      "analysis_en": "The official release presents a pathway toward FY2027 fielding and later family integration, not completed operational acceptance.",
+      "analysis_cs": "Oficiální zpráva popisuje cestu k zahájení zavádění ve FY2027 a následné integraci rodiny, nikoli dokončené operační přijetí.",
+      "what_it_does_not_prove_en": "Completed fielding, IOC, production acceptance, a specific commercial USV identity, or identity between Increment 4 USV and Increment 5 AUGV.",
+      "what_it_does_not_prove_cs": "Dokončené zavedení, IOC, výrobní přijetí, konkrétní komerční typ USV ani totožnost Increment 4 USV s Increment 5 AUGV.",
+      "source_ids": [
+        "ENG-SRC-0541"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0229"
+      ],
+      "publication_date": "2026-09-14",
+      "temporal_status": "RECENT_FIELD_USER_EVALUATION",
+      "classification": "FACT_ABOUT_OFFICIAL_FIELD_USER_EVALUATION_AND_STATED_PATHWAY",
+      "confidence": "HIGH_FOR_EVENT_AND_OFFICIAL_DESCRIPTION_LOW_FOR_FUTURE_FIELDING",
+      "topics": [
+        "EOD",
+        "LITTORAL_OPERATIONS",
+        "UNMANNED_SURFACE_VEHICLE",
+        "LEON"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0040",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Project Sandhills 2.0 — integrated autonomous engineer experimentation",
+      "title_cs": "Project Sandhills 2.0 — integrované experimentování s autonomními ženijními systémy",
+      "summary_en": "Official XVIII Airborne Corps reporting documents Project Sandhills experimentation at Fort Bragg from 17 to 28 August 2026 under the 20th Engineer Brigade, combining autonomous trucks, robotic breaching payloads, drone swarms, mine-detection systems and counter-UAS tools.",
+      "summary_cs": "Oficiální zpráva XVIII Airborne Corps dokládá experiment Project Sandhills ve Fort Bragg ve dnech 17.–28. srpna 2026 pod řízením 20th Engineer Brigade, který spojoval autonomní nákladní vozidla, robotické prostředky pro vytváření průchodů, roje dronů, systémy detekce min a prostředky counter-UAS.",
+      "fact_en": "Official XVIII Airborne Corps reporting documents Project Sandhills experimentation at Fort Bragg from 17 to 28 August 2026 under the 20th Engineer Brigade, combining autonomous trucks, robotic breaching payloads, drone swarms, mine-detection systems and counter-UAS tools.",
+      "fact_cs": "Oficiální zpráva XVIII Airborne Corps dokládá experiment Project Sandhills ve Fort Bragg ve dnech 17.–28. srpna 2026 pod řízením 20th Engineer Brigade, který spojoval autonomní nákladní vozidla, robotické prostředky pro vytváření průchodů, roje dronů, systémy detekce min a prostředky counter-UAS.",
+      "analysis_en": "The evidence supports an integrated experimentation and prototyping activity. Public descriptions of successful lanes do not by themselves establish operational fielding.",
+      "analysis_cs": "Podklady potvrzují integrované experimentování a prototypování. Veřejný popis úspěšných testovacích drah sám o sobě neprokazuje operační zavedení.",
+      "what_it_does_not_prove_en": "Program-of-record status, production, operational fielding, end-to-end autonomy without supervision, or formal identity with EABC, XM123 ABS, MARS or Autonomous Volcano.",
+      "what_it_does_not_prove_cs": "Status programu of record, výrobu, operační zavedení, plnou autonomii bez dohledu ani formální totožnost s EABC, XM123 ABS, MARS či Autonomous Volcano.",
+      "source_ids": [
+        "ENG-SRC-0543"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0231"
+      ],
+      "publication_date": "2026-08-26",
+      "temporal_status": "RECENT_EXPERIMENTATION",
+      "classification": "FACT_ABOUT_OFFICIAL_ARMY_EXPERIMENTATION",
+      "confidence": "HIGH_FOR_EVENT_SCOPE_LOW_FOR_OPERATIONAL_FIELDING",
+      "topics": [
+        "AUTONOMOUS_BREACHING",
+        "TERRAIN_SHAPING",
+        "COUNTER_UAS",
+        "HUMAN_MACHINE_TEAMING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0041",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "FY25 Army SBIR/AAL Engineer Operations testing",
+      "title_cs": "Testování Engineer Operations v programech Army SBIR/AAL ve FY25",
+      "summary_en": "The Army FUZE FY25 performance report states that Army Applications Lab and Army SBIR executed Remote Breaching and Deep Terrain Sensing projects under Engineer Ops in a live-virtual-constructive environment. Small Combat Engineer Company elements used prototypes during a live platoon situational training exercise and combined-arms operations, developed TTPs and provided feedback.",
+      "summary_cs": "Výroční zpráva Army FUZE za FY25 uvádí, že Army Applications Lab a Army SBIR provedly projekty Remote Breaching a Deep Terrain Sensing pod označením Engineer Ops v prostředí live-virtual-constructive. Menší prvky Combat Engineer Company používaly prototypy při četním situačním cvičení a combined-arms operacích, rozvíjely TTP a poskytovaly zpětnou vazbu.",
+      "fact_en": "The Army FUZE FY25 performance report states that Army Applications Lab and Army SBIR executed Remote Breaching and Deep Terrain Sensing projects under Engineer Ops in a live-virtual-constructive environment. Small Combat Engineer Company elements used prototypes during a live platoon situational training exercise and combined-arms operations, developed TTPs and provided feedback.",
+      "fact_cs": "Výroční zpráva Army FUZE za FY25 uvádí, že Army Applications Lab a Army SBIR provedly projekty Remote Breaching a Deep Terrain Sensing pod označením Engineer Ops v prostředí live-virtual-constructive. Menší prvky Combat Engineer Company používaly prototypy při četním situačním cvičení a combined-arms operacích, rozvíjely TTP a poskytovaly zpětnou vazbu.",
+      "analysis_en": "The report also describes a plan for 37 xTech Overwatch finalists and 20 intended Direct-to-Phase II advances in early FY26; these figures are retained as plans.",
+      "analysis_cs": "Zpráva dále popisuje plán 37 finalistů xTech Overwatch a zamýšlený postup 20 z nich do Direct-to-Phase II na začátku FY26; tato čísla zůstávají vedena jako plán.",
+      "what_it_does_not_prove_en": "Named Engineer Ops vendors, a formal lineage to later programs, or completed selection and award of the planned xTech counts.",
+      "what_it_does_not_prove_cs": "Konkrétní dodavatele Engineer Ops, formální návaznost na pozdější programy ani dokončený výběr a zadání plánovaných počtů xTech.",
+      "source_ids": [
+        "ENG-SRC-0544"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0232"
+      ],
+      "publication_date": "2026-03",
+      "temporal_status": "HISTORICAL_BACKFILL_FY25_TESTING",
+      "classification": "FACT_ABOUT_OFFICIAL_PROGRAM_PERFORMANCE_REPORT",
+      "confidence": "HIGH_FOR_REPORTED_TESTING_LOW_FOR_UNNAMED_VENDOR_IDENTITY",
+      "topics": [
+        "REMOTE_BREACHING",
+        "DEEP_TERRAIN_SENSING",
+        "SBIR",
+        "AAL"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0042",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Ukraine — first closed trials of domestically produced remotely controlled buggies",
+      "title_cs": "Ukrajina — první uzavřené testy domácích dálkově řízených buggy",
+      "summary_en": "Ukraine’s Ministry of Defence reported on 18 September 2026 that it and Brave1 had conducted the first closed tests of domestically produced remotely controlled buggies for the Defence Forces. Personnel of the Defence Intelligence Tymur Special Unit operated the vehicles and provided immediate feedback to developers.",
+      "summary_cs": "Ministerstvo obrany Ukrajiny 18. září 2026 oznámilo, že spolu s Brave1 provedlo první uzavřené testy domácích dálkově řízených buggy pro obranné síly. Příslušníci Tymurovy speciální jednotky vojenské rozvědky vozidla přímo ovládali a poskytovali vývojářům zpětnou vazbu.",
+      "fact_en": "Ukraine’s Ministry of Defence reported on 18 September 2026 that it and Brave1 had conducted the first closed tests of domestically produced remotely controlled buggies for the Defence Forces. Personnel of the Defence Intelligence Tymur Special Unit operated the vehicles and provided immediate feedback to developers.",
+      "fact_cs": "Ministerstvo obrany Ukrajiny 18. září 2026 oznámilo, že spolu s Brave1 provedlo první uzavřené testy domácích dálkově řízených buggy pro obranné síly. Příslušníci Tymurovy speciální jednotky vojenské rozvědky vozidla přímo ovládali a poskytovali vývojářům zpětnou vazbu.",
+      "analysis_en": "The ministry presents the vehicles as a faster mobility and logistics complement to slower ground robotic systems. This is an official rationale rather than independent performance verification.",
+      "analysis_cs": "Ministerstvo představuje vozidla jako rychlejší doplněk pomalejších pozemních robotických systémů pro mobilitu a logistiku. Jde o oficiální zdůvodnění, nikoli nezávislé ověření výkonu.",
+      "what_it_does_not_prove_en": "Operational acceptance, procurement quantity, fielding date, mass production, complete vendor roster, detailed trial criteria, control range or communications architecture.",
+      "what_it_does_not_prove_cs": "Operační přijetí, počet objednaných kusů, datum zavedení, sériovou výrobu, úplný seznam dodavatelů, podrobná kritéria testů, dosah řízení ani komunikační architekturu.",
+      "source_ids": [
+        "ENG-SRC-0548"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0237"
+      ],
+      "publication_date": "2026-09-18",
+      "temporal_status": "RECENT_CLOSED_TRIALS",
+      "classification": "ATTRIBUTED_OFFICIAL_UKRAINIAN_REPORTING",
+      "confidence": "HIGH_FOR_OFFICIAL_EVENT_REPORT_LOW_FOR_OPERATIONAL_ACCEPTANCE",
+      "topics": [
+        "REMOTE_CONTROLLED_VEHICLES",
+        "GROUND_ROBOTICS",
+        "BRAVE1",
+        "MOBILITY_LOGISTICS"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0043",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "USMC Common Robotics System–Heavy / T7 fielding and training",
+      "title_cs": "USMC Common Robotics System–Heavy / T7 — zavádění a výcvik",
+      "summary_en": "Official Marine Corps imagery documents New Equipment Training on 1 September 2026 for a newly fielded Common Robotics System–Heavy for Marine EOD use, with DVIDS metadata tagging the system T7. L3Harris separately reports a multi-year award supporting the Navy and Marine Corps with 34 T7 robots, deliveries beginning in 2026 and operator training included.",
+      "summary_cs": "Oficiální snímky Marine Corps dokumentují New Equipment Training dne 1. září 2026 pro nově zaváděný Common Robotics System–Heavy určený Marine EOD; metadata DVIDS systém označují tagem T7. L3Harris samostatně uvádí víceletý kontrakt na podporu Navy a Marine Corps celkem 34 roboty T7, s dodávkami zahájenými v roce 2026 a zahrnutým výcvikem obsluh.",
+      "fact_en": "Official Marine Corps imagery documents New Equipment Training on 1 September 2026 for a newly fielded Common Robotics System–Heavy for Marine EOD use, with DVIDS metadata tagging the system T7. L3Harris separately reports a multi-year award supporting the Navy and Marine Corps with 34 T7 robots, deliveries beginning in 2026 and operator training included.",
+      "fact_cs": "Oficiální snímky Marine Corps dokumentují New Equipment Training dne 1. září 2026 pro nově zaváděný Common Robotics System–Heavy určený Marine EOD; metadata DVIDS systém označují tagem T7. L3Harris samostatně uvádí víceletý kontrakt na podporu Navy a Marine Corps celkem 34 roboty T7, s dodávkami zahájenými v roce 2026 a zahrnutým výcvikem obsluh.",
+      "analysis_en": "The event and award are strongly consistent, but no recovered order identifier directly links the photographed training event to the January award. The Army CRS-H/Kobra branch is separate.",
+      "analysis_cs": "Událost a kontrakt spolu silně souvisejí, ale nebyl získán identifikátor objednávky, který by přímo spojil fotografovaný výcvik s lednovým kontraktem. Army CRS-H/Kobra je samostatná větev.",
+      "what_it_does_not_prove_en": "A contract-level event-to-order link, Navy-versus-Marine allocation of 34 robots, unit quantities, or identity with the Army Teledyne FLIR/Kobra CRS-H configuration.",
+      "what_it_does_not_prove_cs": "Přímou kontraktační vazbu události na objednávku, rozdělení 34 robotů mezi Navy a Marines, počty u jednotek ani totožnost s armádní konfigurací CRS-H Teledyne FLIR/Kobra.",
+      "source_ids": [
+        "ENG-SRC-0549",
+        "ENG-SRC-0550"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0238",
+        "ENG-EVID-0239"
+      ],
+      "publication_date": "2026-09-15",
+      "temporal_status": "RECENT_NEW_EQUIPMENT_TRAINING_AND_DELIVERY_WINDOW",
+      "classification": "FACT_ABOUT_OFFICIAL_TRAINING_WITH_VENDOR_AWARD_CONTEXT",
+      "confidence": "HIGH_FOR_TRAINING_AND_T7_TAG_MEDIUM_HIGH_FOR_AWARD_ASSOCIATION",
+      "topics": [
+        "EOD",
+        "CRS_H",
+        "T7",
+        "SERVICE_CONFIGURATION_BOUNDARY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [
+    {
+      "id": "ENG-TTP-0004",
+      "title_en": "Remote and digital wet-gap reconnaissance — Phase 3 UAV-deployed sensing update",
+      "title_cs": "Dálkový a digitální průzkum vodních překážek — aktualizace o senzory nesené UAV ve Phase 3",
+      "summary_en": "The existing remote wet-gap reconnaissance baseline is extended by UK Map the Gap Phase 3. The £2 million competition seeks TRL 6 demonstrators for ground-bearing-capacity measurement from UAS and river-bed profiling with sensors or secondary uncrewed vehicles deployed by UAS; the intended October 2026 start remains a plan, not an award.",
+      "summary_cs": "Stávající základ dálkového průzkumu vodních překážek rozšiřuje britský Map the Gap Phase 3. Soutěž za 2 miliony liber hledá demonstrátory TRL 6 pro měření únosnosti terénu z UAS a profilování říčního dna pomocí senzorů nebo sekundárních bezosádkových prostředků nesených UAS; zamýšlený start v říjnu 2026 je plán, nikoli udělený kontrakt.",
+      "source_ids": [
+        "ENG-SRC-0174",
+        "ENG-SRC-0176",
+        "ENG-SRC-0177",
+        "ENG-SRC-0542"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0230"
+      ],
+      "temporal_status": "CURRENT_R_AND_D_COMPETITION_PHASE_3",
+      "classification": "OFFICIAL_R_AND_D_COMPETITION_UPDATE",
+      "confidence": "HIGH_FOR_COMPETITION_SCOPE_LOW_FOR_FUTURE_AWARD_AND_FIELDING",
+      "what_it_does_not_prove_en": "Selected suppliers, completed contracts, operational fielding, or a standardized NATO autonomous reconnaissance TTP.",
+      "what_it_does_not_prove_cs": "Vybrané dodavatele, dokončené kontrakty, operační zavedení ani standardizovanou alianční autonomní průzkumnou TTP."
+    },
+    {
+      "id": "ENG-SIG-0002",
+      "title_en": "Rheinmetall acquires 51% of DOK-ING and establishes Rheinmetall Unmanned Vehicles",
+      "title_cs": "Rheinmetall získal 51 % DOK-ING a založil Rheinmetall Unmanned Vehicles",
+      "summary_en": "Rheinmetall announced completion on 1 July 2026 of its acquisition of a 51% majority stake in DOK-ING, with the founder retaining 49%. The company is to operate as Rheinmetall Unmanned Vehicles d.o.o. and act as a competence centre for heavy autonomous and unmanned vehicles, with mine clearing and mine laying among stated combat-support priorities.",
+      "summary_cs": "Rheinmetall 1. července 2026 oznámil dokončení akvizice 51% většinového podílu v DOK-ING; zakladatel si ponechal 49 %. Podnik má působit jako Rheinmetall Unmanned Vehicles d.o.o. a kompetenční centrum pro těžká autonomní a bezosádková vozidla, přičemž mezi deklarované priority bojové podpory patří odminování a kladení min.",
+      "source_ids": [
+        "ENG-SRC-0016"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0233"
+      ],
+      "classification": "FACT_ABOUT_COMPLETED_CORPORATE_ACQUISITION_AND_STATED_INDUSTRIAL_ROLE",
+      "confidence": "HIGH_FOR_ACQUISITION_AND_CORPORATE_ROLE_LOW_FOR_PRODUCT_FIELDING",
+      "what_it_does_not_prove_en": "A customer order, operational deployment, production or completed autonomy integration for MV-8 KOMODO.",
+      "what_it_does_not_prove_cs": "Objednávku zákazníka, operační nasazení, výrobu ani dokončenou integraci autonomie pro MV-8 KOMODO."
+    },
+    {
+      "id": "ENG-SIG-0020",
+      "summary_en": "The U.S. Army selected Caterpillar, Forterra, IDV USA and Overland AI for EABC competitive prototyping. A September 2026 IDV disclosure identifies VIKING UGV as IDV USA’s proposed mobility platform and describes demonstrations, operational assessments and a later unit assessment with Soldier feedback. Exact NAMC award values are withheld pending renewed primary read-back.",
+      "summary_cs": "U.S. Army vybrala Caterpillar, Forterra, IDV USA a Overland AI pro konkurenční prototypování EABC. Zářijové sdělení IDV z roku 2026 označuje VIKING UGV za navrhovanou mobilní platformu IDV USA a popisuje demonstrace, operační hodnocení a pozdější unit assessment se zpětnou vazbou vojáků. Přesné částky NAMC jsou do nového primárního read-backu vynechány.",
+      "source_ids": [
+        "ENG-SRC-0430",
+        "ENG-SRC-0545"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0138",
+        "ENG-EVID-0234"
+      ],
+      "maturity": "COMPETITIVE_PROTOTYPING_PARTICIPANTS_WITH_PARTIAL_VENDOR_CONFIGURATION_DISCLOSURE",
+      "classification": "FACT_ABOUT_OFFICIAL_SELECTION_AND_VENDOR_ATTRIBUTED_CONFIGURATION",
+      "confidence": "HIGH_FOR_SELECTION_AND_IDV_VIKING_ATTRIBUTION_LOW_FOR_FUTURE_FIELDING",
+      "what_it_does_not_prove_en": "Successful demonstrations, production, IOC/FOC, operational fielding, Caterpillar configuration, or exact award values.",
+      "what_it_does_not_prove_cs": "Úspěšné demonstrace, výrobu, IOC/FOC, operační zavedení, konfiguraci Caterpillar ani přesné částky kontraktů."
+    },
+    {
+      "id": "ENG-SIG-0021",
+      "summary_en": "The core canonical fact remains that the FY2027 Army budget calls XM123 ABS the program previously referred to as GOBLN. FY2024 material and a March 2024 Yuma test already use XM123 GOBLN, while January 2026 Army reporting uses ABS and a PC-C5 caption uses GOBLIN. The safe interpretation is continuity of the XM123 designation with overlapping public terminology, not a precisely dated formal rename.",
+      "summary_cs": "Základní canonical fakt zůstává: rozpočtový dokument Army pro FY2027 označuje XM123 ABS za program dříve nazývaný GOBLN. Materiály FY2024 a test v Yumě z března 2024 už používají XM123 GOBLN, zatímco lednová zpráva Army z roku 2026 používá ABS a popisek z PC-C5 variantu GOBLIN. Bezpečný výklad je kontinuita označení XM123 s překrývající se veřejnou terminologií, nikoli přesně datované formální přejmenování.",
+      "source_ids": [
+        "ENG-SRC-0435",
+        "ENG-SRC-0546",
+        "ENG-SRC-0547"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0143",
+        "ENG-EVID-0235",
+        "ENG-EVID-0236"
+      ],
+      "classification": "FACT_ABOUT_OFFICIAL_PROGRAM_LINEAGE_WITH_NOMENCLATURE_QUALIFIER",
+      "confidence": "HIGH_FOR_XM123_CONTINUITY_AND_PUBLIC_NAME_OVERLAP_LOW_FOR_FORMAL_RENAME_DATE",
+      "what_it_does_not_prove_en": "A formal rename effective date, production, materiel release, operational fielding, or identity with EABC, Sandhills 2.0 or MARS.",
+      "what_it_does_not_prove_cs": "Datum účinnosti formálního přejmenování, výrobu, materiel release, operační zavedení ani totožnost s EABC, Sandhills 2.0 či MARS."
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0537",
+      "title": "Total russian combat losses in Ukraine as of September 19, 2026",
+      "title_cs": "Odhadované ruské bojové ztráty k 19. září 2026",
+      "title_en": "Total russian combat losses in Ukraine as of September 19, 2026",
+      "publisher": "Ministry of Defence of Ukraine / General Staff of the Armed Forces of Ukraine",
+      "publication_date": "2026-09-19T07:24:00+03:00",
+      "accessed_at": "2026-09-23T18:27:59Z",
+      "url": "https://mod.gov.ua/en/news/total-russian-combat-losses-in-ukraine-as-of-september-19-2026",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_MOD_ATTRIBUTED_GENERAL_STAFF_ESTIMATE",
+      "source_family": "UKRAINE_MOD_GENERAL_STAFF_LOSS_SERIES",
+      "role": "ESTIMATED_CUMULATIVE_RUSSIAN_UGV_LOSS_SERIES",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_cs": "OVĚŘEN PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT"
+    },
+    {
+      "id": "ENG-SRC-0538",
+      "title": "Понад 3 000 російських НРК уражено дронами з початку року",
+      "title_cs": "Od začátku roku bylo drony zasaženo více než 3 000 ruských NŘK",
+      "title_en": "More than 3,000 Russian UGVs struck by drones since the start of the year",
+      "publisher": "Ministry of Defence of Ukraine / DELTA",
+      "publication_date": "2026-09-17T16:30:00+03:00",
+      "accessed_at": "2026-09-23T18:27:59Z",
+      "url": "https://mod.gov.ua/news/ponad-3-000-rosiiskykh-nrk-urazheno-dronamy-z-pochatku-roku",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_MOD_DELTA_AGGREGATE",
+      "source_family": "UKRAINE_MOD_DELTA_COUNTER_UGV_SERIES",
+      "role": "AGGREGATED_RUSSIAN_UGV_STRIKE_SERIES",
+      "verification_status": "VERIFIED_PRIMARY_OFFICIAL_PUBLIC_TEXT",
+      "verification_status_cs": "OVĚŘEN PRIMÁRNÍ OFICIÁLNÍ VEŘEJNÝ TEXT",
+      "verification_status_en": "VERIFIED PRIMARY OFFICIAL PUBLIC TEXT"
+    },
+    {
+      "id": "ENG-SRC-0539",
+      "title": "Warfighter milestone: Soldiers successfully remote fire Autonomous Volcano",
+      "title_en": "Warfighter milestone: Soldiers successfully remote fire Autonomous Volcano",
+      "publisher": "U.S. Army / Picatinny Arsenal",
+      "publication_date": "2026-07-07",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.army.mil/article/293741/warfighter_milestone_soldiers_successfully_remote_fire_next_generation_obstacle_emplacement_capability_autonomous_volcano",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY_ARTICLE",
+      "role": "AUTONOMOUS_VOLCANO_REMOTE_FIRE_PROOF_OF_CONCEPT",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: Warfighter milestone: Soldiers successfully remote fire Autonomous Volcano"
+    },
+    {
+      "id": "ENG-SRC-0540",
+      "title": "U.S. Soldiers experiment with an Autonomous Volcano System during PC-C6",
+      "title_en": "U.S. Soldiers experiment with an Autonomous Volcano System during PC-C6",
+      "publisher": "DVIDS / Army Communications and Outreach Office",
+      "publication_date": "2026-07-26",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/image/9832693/us-soldiers-experiment-with-autonomous-volcano-system-during-pc-c6",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_DVIDS_METADATA",
+      "role": "AUTONOMOUS_VOLCANO_PC_C6_EXPERIMENTATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: U.S. Soldiers experiment with an Autonomous Volcano System during PC-C6"
+    },
+    {
+      "id": "ENG-SRC-0541",
+      "title": "The Unmanned Surface Vessel enhances Littoral Explosive Ordnance Neutralization",
+      "title_en": "The Unmanned Surface Vessel enhances Littoral Explosive Ordnance Neutralization",
+      "publisher": "DVIDS / Portfolio Acquisition Executive Marine Corps",
+      "publication_date": "2026-09-14",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/news/573785/unmanned-surface-vessel-enhances-littoral-explosive-ordnance-neutralization",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_USMC_DVIDS_RELEASE",
+      "role": "LEON_INCREMENT_4_FIELD_USER_EVALUATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: The Unmanned Surface Vessel enhances Littoral Explosive Ordnance Neutralization"
+    },
+    {
+      "id": "ENG-SRC-0542",
+      "title": "Map the Gap (Phase 3): Competition Document",
+      "title_en": "Map the Gap (Phase 3): Competition Document",
+      "publisher": "UK Defence Innovation / Dstl / British Army",
+      "publication_date": "2026-05-15",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.gov.uk/government/publications/map-the-gap-phase-3/map-the-gap-phase-3-competition-document",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UK_GOVERNMENT_COMPETITION_DOCUMENT",
+      "role": "MAP_THE_GAP_PHASE_3_SCOPE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: Map the Gap (Phase 3): Competition Document"
+    },
+    {
+      "id": "ENG-SRC-0543",
+      "title": "XVIII Airborne Corps Tests Emerging Autonomous Attritable Systems for Today’s Battlefield",
+      "title_en": "XVIII Airborne Corps Tests Emerging Autonomous Attritable Systems for Today’s Battlefield",
+      "publisher": "DVIDS / XVIII Airborne Corps",
+      "publication_date": "2026-08-26",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/news/573299/xviii-airborne-corps-tests-emerging-autonomous-attritable-systems-todays-battlefield",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY_DVIDS_RELEASE",
+      "role": "PROJECT_SANDHILLS_EXPERIMENTATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: XVIII Airborne Corps Tests Emerging Autonomous Attritable Systems for Today’s Battlefield"
+    },
+    {
+      "id": "ENG-SRC-0544",
+      "title": "FY25 Army SBIR/STTR Performance Report",
+      "title_en": "FY25 Army SBIR/STTR Performance Report",
+      "publisher": "U.S. Army FUZE SBIR/STTR Program",
+      "publication_date": "2026-03",
+      "accessed_at": "2026-09-23",
+      "url": "https://armysbir.army.mil/wp-content/uploads/2026/03/FY25-SBIR-STTR_Performance-Report.pdf",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY_PROGRAM_REPORT",
+      "role": "FY25_ENGINEER_OPS_AND_XTECH_OVERWATCH",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: FY25 Army SBIR/STTR Performance Report"
+    },
+    {
+      "id": "ENG-SRC-0545",
+      "title": "IDV selected for U.S. Army Engineer Autonomous Breaching Capability Initiative",
+      "title_en": "IDV selected for U.S. Army Engineer Autonomous Breaching Capability Initiative",
+      "publisher": "IDV",
+      "publication_date": "2026-09-15",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.idvgroup.com/2026/09/15/idv-selected-for-u-s-army-engineer-autonomous-breaching-capability-initiative/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY_ANNOUNCEMENT",
+      "role": "EABC_IDV_VIKING_CONFIGURATION",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: IDV selected for U.S. Army Engineer Autonomous Breaching Capability Initiative"
+    },
+    {
+      "id": "ENG-SRC-0546",
+      "title": "Autonomous Breaching System will surpass legacy systems to enhance breaching operations",
+      "title_en": "Autonomous Breaching System will surpass legacy systems to enhance breaching operations",
+      "publisher": "U.S. Army C5ISR Center",
+      "publication_date": "2026-01-27",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.army.mil/article/290196/autonomous_breaching_system_will_surpass_legacy_systems_to_enhance_breaching_operations",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_US_ARMY_ARTICLE",
+      "role": "ABS_CAPABILITY_AND_PUBLIC_NOMENCLATURE",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: Autonomous Breaching System will surpass legacy systems to enhance breaching operations"
+    },
+    {
+      "id": "ENG-SRC-0547",
+      "title": "Ground Obstacle Breaching Lane Neutralizer test at Yuma Proving Ground",
+      "title_en": "Ground Obstacle Breaching Lane Neutralizer test at Yuma Proving Ground",
+      "publisher": "DVIDS / U.S. Army Yuma Proving Ground",
+      "publication_date": "2024-04-16",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/video/919394/ground-obstacle-breaching-lane-neutralizer-test-yuma-proving-ground",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_DVIDS_METADATA",
+      "role": "XM123_GOBLN_2024_TEST",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: Ground Obstacle Breaching Lane Neutralizer test at Yuma Proving Ground"
+    },
+    {
+      "id": "ENG-SRC-0548",
+      "title": "First tests of Ukrainian remotely controlled buggies for the Defence Forces",
+      "title_en": "First tests of Ukrainian remotely controlled buggies for the Defence Forces",
+      "publisher": "Ministry of Defence of Ukraine / Brave1",
+      "publication_date": "2026-09-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://mod.gov.ua/news/vpershe-vidbulysia-testuvannia-ukrainskykh-bahi-z-dystantsiinym-dlia-syl-oborony",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_UKRAINIAN_MOD_REPORT",
+      "role": "REMOTE_CONTROLLED_BUGGY_CLOSED_TRIALS",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: First tests of Ukrainian remotely controlled buggies for the Defence Forces"
+    },
+    {
+      "id": "ENG-SRC-0549",
+      "title": "PAE Marine Corps fields Common Robotics System–Heavy",
+      "title_en": "PAE Marine Corps fields Common Robotics System–Heavy",
+      "publisher": "DVIDS / Portfolio Acquisition Executive Marine Corps",
+      "publication_date": "2026-09-15",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/image/9938530/pae-marine-corps-fields-common-robotics-system-heavy",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "PRIMARY_OFFICIAL_DVIDS_METADATA",
+      "role": "USMC_CRS_H_T7_NEW_EQUIPMENT_TRAINING",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: PAE Marine Corps fields Common Robotics System–Heavy"
+    },
+    {
+      "id": "ENG-SRC-0550",
+      "title": "US Navy and Marines Select L3Harris T7 Robots to Enhance Ordnance Disposal Capabilities",
+      "title_en": "US Navy and Marines Select L3Harris T7 Robots to Enhance Ordnance Disposal Capabilities",
+      "publisher": "L3Harris Technologies",
+      "publication_date": "2026-01-14",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.l3harris.com/newsroom/press-release/2026/01/us-navy-and-marines-select-l3harris-t7-robots-enhance-ordnance",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY_CONTRACT_ANNOUNCEMENT",
+      "role": "NAVY_MARINES_T7_AWARD_AND_DELIVERY_WINDOW",
+      "verification_status": "VERIFIED_DIRECT_PUBLIC_PRIMARY_SOURCE_2026-09-23",
+      "title_cs": "Zdroj: US Navy and Marines Select L3Harris T7 Robots to Enhance Ordnance Disposal Capabilities"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0225",
+      "evidence_id": "ENG-EVID-0225",
+      "evidence_type": "OFFICIAL_UKRAINIAN_GENERAL_STAFF_ESTIMATED_UGV_LOSS_SERIES",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED_ATTRIBUTED_ESTIMATE",
+      "related_ids": [
+        "ENG-SIG-0037"
+      ],
+      "source_ids": [
+        "ENG-SRC-0537"
+      ],
+      "evidence_date": "2026-09-19",
+      "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_cs": "Podporuje, že MO Ukrajiny zveřejnilo odhad Generálního štábu 2 672 (+16) ruských bezosádkových pozemních vozidel ve ztrátové řadě k 19. září 2026.",
+      "what_it_supports_en": "Supports that Ukraine's MoD published the General Staff estimate of 2,672 (+16) Russian unmanned ground vehicles in the loss series as of 19 September 2026.",
+      "what_it_does_not_prove_cs": "Nejde o nezávisle ověřený inventář ani forenzně potvrzený počet unikátních nenávratných ztrát.",
+      "what_it_does_not_prove_en": "It is not an independently verified inventory or a forensically confirmed count of unique irrecoverable losses.",
+      "confidence": "HIGH_FOR_ATTRIBUTED_PUBLICATION_LOW_FOR_INDEPENDENT_LOSS_VERIFICATION"
+    },
+    {
+      "id": "ENG-EVID-0226",
+      "evidence_id": "ENG-EVID-0226",
+      "evidence_type": "OFFICIAL_UKRAINIAN_DELTA_COUNTER_UGV_STRIKE_AGGREGATE",
+      "evidence_status": "DIRECT_PRIMARY_OFFICIAL_TEXT_VERIFIED_ATTRIBUTED_WARTIME_REPORTING",
+      "related_ids": [
+        "ENG-SIG-0037"
+      ],
+      "source_ids": [
+        "ENG-SRC-0538"
+      ],
+      "evidence_date": "2026-09-17",
+      "observation_basis": "DIRECT_OFFICIAL_WEB_TEXT_NO_PIXEL_OR_FRAME_INSPECTION",
+      "what_it_supports_cs": "Podporuje, že MO Ukrajiny s odkazem na DELTA zveřejnilo více než 3 000 zásahů ruských NŘK drony od začátku roku 2026, včetně 511 v srpnu a téměř 200 v první polovině září.",
+      "what_it_supports_en": "Supports that Ukraine's MoD, citing DELTA, published more than 3,000 Russian UGV strikes by drones since the start of 2026, including 511 in August and nearly 200 in the first half of September.",
+      "what_it_does_not_prove_cs": "Neprokazuje více než 3 000 unikátních zničených platforem, neopravitelnost, inventář ani metodiku deduplikace.",
+      "what_it_does_not_prove_en": "It does not establish more than 3,000 unique destroyed platforms, irrecoverability, inventory, or the deduplication methodology.",
+      "confidence": "HIGH_FOR_ATTRIBUTED_PUBLICATION_AND_MONTHLY_SERIES_LOW_FOR_INDEPENDENT_BATTLE_DAMAGE_VERIFICATION"
+    },
+    {
+      "id": "ENG-EVID-0227",
+      "evidence_id": "ENG-EVID-0227",
+      "evidence_type": "OFFICIAL_US_ARMY_PROOF_OF_CONCEPT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0038"
+      ],
+      "source_ids": [
+        "ENG-SRC-0539"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the May 2026 Autonomous Volcano remote-fire proof of concept and the disclosed PLS A1 / By-Wire configuration.",
+      "what_it_supports_cs": "Podporuje květnový proof of concept dálkového odpálení Autonomous Volcano a zveřejněnou konfiguraci PLS A1 / By-Wire.",
+      "what_it_does_not_prove_en": "Production, procurement or operational fielding.",
+      "what_it_does_not_prove_cs": "Výrobu, pořízení ani operační zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0228",
+      "evidence_id": "ENG-EVID-0228",
+      "evidence_type": "OFFICIAL_DVIDS_EVENT_METADATA",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0038"
+      ],
+      "source_ids": [
+        "ENG-SRC-0540"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports 4th Infantry Division experimentation with Autonomous Volcano at PC-C6 on 24 July 2026.",
+      "what_it_supports_cs": "Podporuje experimentování 4th Infantry Division s Autonomous Volcano při PC-C6 dne 24. července 2026.",
+      "what_it_does_not_prove_en": "Completion of all PC-C6 scenarios or a fielding decision.",
+      "what_it_does_not_prove_cs": "Dokončení všech scénářů PC-C6 ani rozhodnutí o zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0229",
+      "evidence_id": "ENG-EVID-0229",
+      "evidence_type": "OFFICIAL_USMC_FIELD_USER_EVALUATION",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0039"
+      ],
+      "source_ids": [
+        "ENG-SRC-0541"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the LEON Increment 4 USV Field User Evaluation, dates, users and stated system roles.",
+      "what_it_supports_cs": "Podporuje Field User Evaluation USV LEON Increment 4, termín, účastníky a deklarované role systému.",
+      "what_it_does_not_prove_en": "Acceptance, IOC, completed fielding or a named commercial platform.",
+      "what_it_does_not_prove_cs": "Přijetí, IOC, dokončené zavedení ani konkrétní komerční platformu.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0230",
+      "evidence_id": "ENG-EVID-0230",
+      "evidence_type": "OFFICIAL_UK_R_AND_D_COMPETITION",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-TTP-0004"
+      ],
+      "source_ids": [
+        "ENG-SRC-0542"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the Phase 3 funding, two UAV-based challenge areas, TRL 6 target and intended schedule.",
+      "what_it_supports_cs": "Podporuje financování Phase 3, dvě challenge založené na UAV, cíl TRL 6 a zamýšlený harmonogram.",
+      "what_it_does_not_prove_en": "Selected suppliers, awarded contracts or operational fielding.",
+      "what_it_does_not_prove_cs": "Vybrané dodavatele, udělené kontrakty ani operační zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0231",
+      "evidence_id": "ENG-EVID-0231",
+      "evidence_type": "OFFICIAL_US_ARMY_EXPERIMENT_REPORT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0040"
+      ],
+      "source_ids": [
+        "ENG-SRC-0543"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the dates, 20th Engineer Brigade management and integrated Sandhills experiment scope.",
+      "what_it_supports_cs": "Podporuje termín, řízení 20th Engineer Brigade a integrovaný rozsah experimentu Sandhills.",
+      "what_it_does_not_prove_en": "Program-of-record status, production or unsupervised end-to-end autonomy.",
+      "what_it_does_not_prove_cs": "Status programu of record, výrobu ani plnou autonomii bez dohledu.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0232",
+      "evidence_id": "ENG-EVID-0232",
+      "evidence_type": "OFFICIAL_US_ARMY_PROGRAM_REPORT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0041"
+      ],
+      "source_ids": [
+        "ENG-SRC-0544"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports FY25 Engineer Ops testing and the stated early-FY26 xTech Overwatch plan.",
+      "what_it_supports_cs": "Podporuje testování Engineer Ops ve FY25 a zveřejněný plán xTech Overwatch na začátek FY26.",
+      "what_it_does_not_prove_en": "Unnamed vendors, formal later-program lineage or completed planned awards.",
+      "what_it_does_not_prove_cs": "Nejmenované dodavatele, formální návaznost pozdějších programů ani dokončené plánované awardy.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0233",
+      "evidence_id": "ENG-EVID-0233",
+      "evidence_type": "MANUFACTURER_PRIMARY_CORPORATE_ANNOUNCEMENT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0002"
+      ],
+      "source_ids": [
+        "ENG-SRC-0016"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports completed 51% acquisition, retained 49%, new company name and stated competence-centre role.",
+      "what_it_supports_cs": "Podporuje dokončenou akvizici 51 %, ponechaných 49 %, nový název společnosti a deklarovanou roli kompetenčního centra.",
+      "what_it_does_not_prove_en": "A KOMODO order, production, fielding or completed autonomy integration.",
+      "what_it_does_not_prove_cs": "Objednávku, výrobu či zavedení KOMODO ani dokončenou integraci autonomie.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0234",
+      "evidence_id": "ENG-EVID-0234",
+      "evidence_type": "MANUFACTURER_PRIMARY_PROGRAM_PARTICIPANT_DISCLOSURE",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0020"
+      ],
+      "source_ids": [
+        "ENG-SRC-0545"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports IDV USA participation, proposed VIKING mobility platform and stated future assessment path.",
+      "what_it_supports_cs": "Podporuje účast IDV USA, navrhovanou platformu VIKING a deklarovanou budoucí cestu hodnocení.",
+      "what_it_does_not_prove_en": "Exact NAMC award values, Caterpillar configuration, successful demonstrations or fielding.",
+      "what_it_does_not_prove_cs": "Přesné částky NAMC, konfiguraci Caterpillar, úspěšné demonstrace ani zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0235",
+      "evidence_id": "ENG-EVID-0235",
+      "evidence_type": "OFFICIAL_US_ARMY_ABS_DESCRIPTION",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0021"
+      ],
+      "source_ids": [
+        "ENG-SRC-0546"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports 2026 ABS terminology, multi-mission sensing and onboard AI/ML detection context.",
+      "what_it_supports_cs": "Podporuje terminologii ABS v roce 2026 a kontext multi-mission sensing a palubní AI/ML detekce.",
+      "what_it_does_not_prove_en": "A formal rename date, production or operational fielding.",
+      "what_it_does_not_prove_cs": "Datum formálního přejmenování, výrobu ani operační zavedení.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0236",
+      "evidence_id": "ENG-EVID-0236",
+      "evidence_type": "OFFICIAL_DVIDS_GOBLN_TEST_METADATA",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0021"
+      ],
+      "source_ids": [
+        "ENG-SRC-0547"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports public GOBLN terminology and the March 2024 Yuma test chronology.",
+      "what_it_supports_cs": "Podporuje veřejnou terminologii GOBLN a chronologii testu v Yumě z března 2024.",
+      "what_it_does_not_prove_en": "The exact effective date or authority of a later rename.",
+      "what_it_does_not_prove_cs": "Přesné datum účinnosti ani autoritu pozdějšího přejmenování.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0237",
+      "evidence_id": "ENG-EVID-0237",
+      "evidence_type": "OFFICIAL_UKRAINIAN_MOD_TRIAL_REPORT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0042"
+      ],
+      "source_ids": [
+        "ENG-SRC-0548"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the first closed domestic remotely controlled buggy tests and Tymur unit participation.",
+      "what_it_supports_cs": "Podporuje první uzavřené testy domácích dálkově řízených buggy a účast Tymurovy jednotky.",
+      "what_it_does_not_prove_en": "Operational acceptance, quantities, production or independently verified performance.",
+      "what_it_does_not_prove_cs": "Operační přijetí, počty, výrobu ani nezávisle ověřený výkon.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0238",
+      "evidence_id": "ENG-EVID-0238",
+      "evidence_type": "OFFICIAL_USMC_DVIDS_TRAINING_METADATA",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0043"
+      ],
+      "source_ids": [
+        "ENG-SRC-0549"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the 1 September 2026 CRS-H New Equipment Training event and T7 metadata tag.",
+      "what_it_supports_cs": "Podporuje New Equipment Training CRS-H dne 1. září 2026 a tag T7 v metadatech.",
+      "what_it_does_not_prove_en": "The precise contract/order link or identity with Army CRS-H/Kobra.",
+      "what_it_does_not_prove_cs": "Přesnou vazbu na kontrakt či objednávku ani totožnost s Army CRS-H/Kobra.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0239",
+      "evidence_id": "ENG-EVID-0239",
+      "evidence_type": "MANUFACTURER_PRIMARY_CONTRACT_ANNOUNCEMENT",
+      "evidence_status": "DIRECT_PRIMARY_PUBLIC_TEXT_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0043"
+      ],
+      "source_ids": [
+        "ENG-SRC-0550"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the Navy/Marines award for 34 T7 robots, 2026 delivery start and included training.",
+      "what_it_supports_cs": "Podporuje kontrakt Navy/Marines na 34 robotů T7, zahájení dodávek v roce 2026 a zahrnutý výcvik.",
+      "what_it_does_not_prove_en": "Service allocation, unit quantities or direct linkage to the photographed September event.",
+      "what_it_does_not_prove_cs": "Rozdělení mezi složky, počty u jednotek ani přímou vazbu na fotografovanou zářijovou událost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_ONLY",
+    "topic_count": 11,
+    "new_record_count": 7,
+    "updated_record_count": 4,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

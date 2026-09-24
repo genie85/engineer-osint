@@ -1,0 +1,985 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260923-B109",
+    "parent_run_id": "engineer-osint-20260923-B108",
+    "status": "SUCCESS",
+    "window_from": "2026-09-23T20:01:00Z",
+    "window_to": "2026-09-23T20:02:00Z",
+    "counts": {
+      "CURRENT_DELTA": 7,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 2,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 9,
+      "UPDATE": 1,
+      "CONFIRMATION": 10,
+      "CORRECTION": 0,
+      "CONTRADICTION": 2,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 12,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 21,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "BATCH_CONTENT_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "13c11bc07ec977476c49cd8ad6e014425dbcd7e90028eb74f83aed4f493fa8d3",
+    "source_adjudication": "ADJUDICATION_WAVE4.md",
+    "prerequisite_candidates": [
+      "CONTENT_CANDIDATE_WAVE2.json",
+      "CONTENT_CANDIDATE_WAVE3.json"
+    ],
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "excluded_topics": [
+      "DSNS daily series pending aggregation with GROUP-071",
+      "ANAMA weekly statistics without direct primary table",
+      "BALTRON/Namejs pending successful primary readback",
+      "Lithuania composite delta pending split",
+      "NAMC program identity conflict"
+    ],
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 7,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 2,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-SIG-0046",
+      "type": "ENG-SIG",
+      "country": "UKR",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "UCHP certification scope — EORE verified, broader clearance scope unresolved",
+      "title_cs": "Rozsah certifikace UCHP — EORE ověřeno, širší clearance scope nevyřešen",
+      "summary_en": "A Ukrainian certification-body list current to 18 May 2026 records UCHP certificate No. 113, valid from 7 June 2024 to 6 June 2027, for explosive-ordnance risk education. UCHP’s current site also lists EORE as active while non-technical survey, technical survey and manual humanitarian demining remain in process.",
+      "summary_cs": "Seznam ukrajinského certifikačního orgánu aktuální k 18. květnu 2026 uvádí pro UCHP certifikát č. 113 platný od 7. června 2024 do 6. června 2027 pro explosive-ordnance risk education. Aktuální web UCHP rovněž uvádí EORE jako aktivní, zatímco non-technical survey, technical survey a manual humanitarian demining zůstávají v procesu.",
+      "fact_en": "A Ukrainian certification-body list current to 18 May 2026 records UCHP certificate No. 113, valid from 7 June 2024 to 6 June 2027, for explosive-ordnance risk education. UCHP’s current site also lists EORE as active while non-technical survey, technical survey and manual humanitarian demining remain in process.",
+      "fact_cs": "Seznam ukrajinského certifikačního orgánu aktuální k 18. květnu 2026 uvádí pro UCHP certifikát č. 113 platný od 7. června 2024 do 6. června 2027 pro explosive-ordnance risk education. Aktuální web UCHP rovněž uvádí EORE jako aktivní, zatímco non-technical survey, technical survey a manual humanitarian demining zůstávají v procesu.",
+      "analysis_en": "A March FSD statement described broader accreditation, but later certification-body and operator pages do not expose matching broader certificate details. The narrower current scope is retained.",
+      "analysis_cs": "Březnové sdělení FSD popisovalo širší akreditaci, pozdější stránky certifikačního orgánu a operátora však neuvádějí odpovídající širší certifikáty. Zachován je užší aktuálně doložený rozsah.",
+      "what_it_does_not_prove_en": "Broader UCHP certification for survey or clearance, operational output, national-scale capacity or independent effectiveness.",
+      "what_it_does_not_prove_cs": "Širší certifikaci UCHP pro survey či clearance, operační výstupy, celostátní kapacitu ani nezávisle ověřenou účinnost.",
+      "source_ids": [
+        "ENG-SRC-0567",
+        "ENG-SRC-0568",
+        "ENG-SRC-0569"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0252"
+      ],
+      "publication_date": "2026-05-18",
+      "temporal_status": "CURRENT_CERTIFICATION_SCOPE_WITH_CONFLICT",
+      "classification": "FACT_ABOUT_PUBLIC_CERTIFICATION_SCOPE",
+      "confidence": "HIGH_FOR_EORE_CERTIFICATE_LOW_FOR_BROADER_SCOPE",
+      "topics": [
+        "HUMANITARIAN_MINE_ACTION",
+        "OPERATOR_CERTIFICATION",
+        "EORE",
+        "UKRAINE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0133",
+      "type": "ENG-EVT",
+      "country": "DEU/NATO",
+      "record_role": "EXERCISE_OR_POLICY_EVENT",
+      "title_en": "Eifel Krabben IED Rodeo 2026 integrated UAS for the first time",
+      "title_cs": "Eifel Krabben IED Rodeo 2026 poprvé zahrnulo UAS",
+      "summary_en": "The 52nd Fighter Wing reported that the ninth Eifel Krabben IED Rodeo ran at Spangdahlem from 24 August to 3 September 2026, hosted eight teams from six partner nations and integrated unmanned aircraft systems for the first time.",
+      "summary_cs": "52nd Fighter Wing uvedlo, že deváté Eifel Krabben IED Rodeo proběhlo ve Spangdahlem od 24. srpna do 3. září 2026, hostilo osm týmů ze šesti partnerských zemí a poprvé zahrnulo bezpilotní letouny.",
+      "fact_en": "The 52nd Fighter Wing reported that the ninth Eifel Krabben IED Rodeo ran at Spangdahlem from 24 August to 3 September 2026, hosted eight teams from six partner nations and integrated unmanned aircraft systems for the first time.",
+      "fact_cs": "52nd Fighter Wing uvedlo, že deváté Eifel Krabben IED Rodeo proběhlo ve Spangdahlem od 24. srpna do 3. září 2026, hostilo osm týmů ze šesti partnerských zemí a poprvé zahrnulo bezpilotní letouny.",
+      "analysis_en": "The official article establishes the exercise window and UAS integration. Later DVIDS date surfaces do not by themselves establish a formal follow-on phase.",
+      "analysis_cs": "Oficiální článek dokládá termín cvičení a integraci UAS. Pozdější datumové údaje DVIDS samy neprokazují formální následnou fázi.",
+      "what_it_does_not_prove_en": "A follow-on phase after 3 September, certification outcome, operational effectiveness or exact media capture chronology.",
+      "what_it_does_not_prove_cs": "Následnou fázi po 3. září, výsledek certifikace, operační účinnost ani přesnou chronologii pořízení médií.",
+      "source_ids": [
+        "ENG-SRC-0570"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0253"
+      ],
+      "publication_date": "2026-09-10",
+      "temporal_status": "RECENT_MULTINATIONAL_EOD_EXERCISE",
+      "classification": "FACT_ABOUT_OFFICIAL_EXERCISE_SCOPE",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_LATER_DATE_SURFACES",
+      "topics": [
+        "EOD",
+        "COUNTER_IED",
+        "UAS",
+        "MULTINATIONAL_TRAINING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0134",
+      "type": "ENG-EVT",
+      "country": "UKR/AZE",
+      "record_role": "EXERCISE_OR_POLICY_EVENT",
+      "title_en": "Ukraine–Azerbaijan humanitarian-demining cooperation, 2025–2026",
+      "title_cs": "Ukrajinsko-ázerbájdžánská spolupráce v humanitárním odminování, 2025–2026",
+      "summary_en": "ANAMA reported signing a training memorandum with Ukraine’s State Emergency Service at UMAC 2025. In September 2026 Ukraine’s official mine-action portal reported discussion of expanded practical experience exchange and possible joint projects, including urban humanitarian-demining work.",
+      "summary_cs": "ANAMA oznámila podpis výcvikového memoranda s ukrajinskou státní záchrannou službou na UMAC 2025. V září 2026 ukrajinský oficiální mine-action portál uvedl diskusi o rozšířené praktické výměně zkušeností a možných společných projektech včetně humanitárního odminování ve městech.",
+      "fact_en": "ANAMA reported signing a training memorandum with Ukraine’s State Emergency Service at UMAC 2025. In September 2026 Ukraine’s official mine-action portal reported discussion of expanded practical experience exchange and possible joint projects, including urban humanitarian-demining work.",
+      "fact_cs": "ANAMA oznámila podpis výcvikového memoranda s ukrajinskou státní záchrannou službou na UMAC 2025. V září 2026 ukrajinský oficiální mine-action portál uvedl diskusi o rozšířené praktické výměně zkušeností a možných společných projektech včetně humanitárního odminování ve městech.",
+      "analysis_en": "The sources support continuing bilateral cooperation from a signed training framework toward broader experience exchange, not completed downstream implementation.",
+      "analysis_cs": "Zdroje podporují pokračující bilaterální spolupráci od podepsaného výcvikového rámce k širší výměně zkušeností, nikoli dokončenou následnou implementaci.",
+      "what_it_does_not_prove_en": "Completed training sessions, implemented new projects, transfer of specific methods or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Dokončené výcvikové běhy, realizované nové projekty, přenos konkrétních metod ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0571",
+        "ENG-SRC-0572",
+        "ENG-SRC-0573"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0254",
+        "ENG-EVID-0255"
+      ],
+      "publication_date": "2026-09-10",
+      "temporal_status": "CURRENT_BILATERAL_HMA_COOPERATION",
+      "classification": "FACT_ABOUT_OFFICIAL_COOPERATION_MILESTONES",
+      "confidence": "HIGH_FOR_REPORTED_MILESTONES_LOW_FOR_IMPLEMENTATION",
+      "topics": [
+        "HUMANITARIAN_MINE_ACTION",
+        "BILATERAL_COOPERATION",
+        "URBAN_CLEARANCE",
+        "TRAINING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0047",
+      "type": "ENG-SIG",
+      "country": "AUS/USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "Dura-Base expeditionary aircraft surface — progression through Bronze Croc 26",
+      "title_cs": "Expediční povrch Dura-Base pro letouny — vývoj do Bronze Croc 26",
+      "summary_en": "Australian Defence reporting documents a 2024 F-35A Dura-Base trial, a 2025 supplier announcement that additional mats were being fast-tracked to the RAAF, and a Bronze Croc 26 demonstration in which a P-8A traversed the surface under power.",
+      "summary_cs": "Australské obranné zdroje dokumentují test Dura-Base s F-35A v roce 2024, dodavatelské oznámení z roku 2025 o urychlené dodávce dalších rohoží RAAF a demonstraci při Bronze Croc 26, během níž P-8A přejel povrch vlastní silou.",
+      "fact_en": "Australian Defence reporting documents a 2024 F-35A Dura-Base trial, a 2025 supplier announcement that additional mats were being fast-tracked to the RAAF, and a Bronze Croc 26 demonstration in which a P-8A traversed the surface under power.",
+      "fact_cs": "Australské obranné zdroje dokumentují test Dura-Base s F-35A v roce 2024, dodavatelské oznámení z roku 2025 o urychlené dodávce dalších rohoží RAAF a demonstraci při Bronze Croc 26, během níž P-8A přejel povrch vlastní silou.",
+      "analysis_en": "The sequence supports capability maturation and multinational engineering use. The 2026 milestone is bounded to the specific heavy-aircraft-under-power demonstration.",
+      "analysis_cs": "Posloupnost podporuje zrání schopnosti a mnohonárodní ženijní využití. Milník roku 2026 je omezen na konkrétní demonstraci těžkého letounu pohybujícího se vlastní silou.",
+      "what_it_does_not_prove_en": "Fleet-wide fielding, doctrinal adoption, completed delivery of every announced mat, or replacement of AM2.",
+      "what_it_does_not_prove_cs": "Plošné zavedení, doktrinální přijetí, dokončení dodávky všech oznámených rohoží ani náhradu AM2.",
+      "source_ids": [
+        "ENG-SRC-0574",
+        "ENG-SRC-0575",
+        "ENG-SRC-0576"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0256",
+        "ENG-EVID-0257"
+      ],
+      "publication_date": "2026-09-04",
+      "temporal_status": "RECENT_EXERCISE_DEMONSTRATION_WITH_HISTORICAL_PROGRESSION",
+      "classification": "FACT_ABOUT_OFFICIAL_TRIAL_AND_DEMONSTRATION_SEQUENCE",
+      "confidence": "HIGH_FOR_EVENTS_LOW_FOR_FLEET_FIELDING",
+      "topics": [
+        "EXPEDITIONARY_AIRFIELD",
+        "DURA_BASE",
+        "MILITARY_ENGINEERING",
+        "BRONZE_CROC_26"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0135",
+      "type": "ENG-EVT",
+      "country": "KHM",
+      "record_role": "EXERCISE_OR_POLICY_EVENT",
+      "title_en": "Cambodia launched National Mine Action Policy 2026–2035",
+      "title_cs": "Kambodža zahájila National Mine Action Policy 2026–2035",
+      "summary_en": "Cambodia officially launched its National Mine Action Policy 2026–2035 on 2 September 2026. Official Cambodian and UNDP reporting distinguish the broader policy horizon through 2035 from a stated goal of mine-free status by 2030.",
+      "summary_cs": "Kambodža 2. září 2026 oficiálně zahájila National Mine Action Policy 2026–2035. Oficiální kambodžské a UNDP zdroje rozlišují širší politický horizont do roku 2035 od deklarovaného cíle stavu mine-free do roku 2030.",
+      "fact_en": "Cambodia officially launched its National Mine Action Policy 2026–2035 on 2 September 2026. Official Cambodian and UNDP reporting distinguish the broader policy horizon through 2035 from a stated goal of mine-free status by 2030.",
+      "fact_cs": "Kambodža 2. září 2026 oficiálně zahájila National Mine Action Policy 2026–2035. Oficiální kambodžské a UNDP zdroje rozlišují širší politický horizont do roku 2035 od deklarovaného cíle stavu mine-free do roku 2030.",
+      "analysis_en": "The dates concern different scopes and are not treated as a contradiction. Detailed phased clearance targets are omitted without the final policy text.",
+      "analysis_cs": "Data se týkají odlišných rozsahů a nejsou vedena jako rozpor. Podrobné etapové cíle clearance jsou bez finálního textu politiky vynechány.",
+      "what_it_does_not_prove_en": "Achievement of mine-free status, completion of broader EO work, detailed phased targets or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Dosažení mine-free statusu, dokončení širší práce s explosive ordnance, podrobné etapové cíle ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0577",
+        "ENG-SRC-0578"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0258"
+      ],
+      "publication_date": "2026-09-02",
+      "temporal_status": "CURRENT_NATIONAL_POLICY_LAUNCH",
+      "classification": "FACT_ABOUT_OFFICIAL_POLICY_LAUNCH_AND_SCOPE",
+      "confidence": "HIGH_FOR_LAUNCH_MEDIUM_FOR_SCOPE_BOUNDARY",
+      "topics": [
+        "MINE_ACTION_POLICY",
+        "HUMANITARIAN_MINE_ACTION",
+        "CAMBODIA",
+        "POLICY_HORIZON"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0136",
+      "type": "ENG-EVT",
+      "country": "USA/POL/NATO",
+      "record_role": "EXERCISE_OR_POLICY_EVENT",
+      "title_en": "82nd Combat Engineer Company-Armored qualification table in Poland",
+      "title_cs": "Qualification table 82nd Combat Engineer Company-Armored v Polsku",
+      "summary_en": "DVIDS records posted on 21 September 2026 document soldiers of the 82nd Combat Engineer Company-Armored, NATO Forward Land Forces Battle Group-Poland, conducting an engineer qualification table at Bemowo Piskie Training Area.",
+      "summary_cs": "Záznamy DVIDS zveřejněné 21. září 2026 dokumentují vojáky 82nd Combat Engineer Company-Armored, NATO Forward Land Forces Battle Group-Poland, při engineer qualification table ve výcvikovém prostoru Bemowo Piskie.",
+      "fact_en": "DVIDS records posted on 21 September 2026 document soldiers of the 82nd Combat Engineer Company-Armored, NATO Forward Land Forces Battle Group-Poland, conducting an engineer qualification table at Bemowo Piskie Training Area.",
+      "fact_cs": "Záznamy DVIDS zveřejněné 21. září 2026 dokumentují vojáky 82nd Combat Engineer Company-Armored, NATO Forward Land Forces Battle Group-Poland, při engineer qualification table ve výcvikovém prostoru Bemowo Piskie.",
+      "analysis_en": "Caption and VIRIN evidence favors 17 September for at least part of the activity, while displayed Date Taken and derived file metadata remain mixed. A multi-day or cross-midnight activity remains possible.",
+      "analysis_cs": "Popisek a VIRIN podporují 17. září alespoň pro část aktivity, zatímco zobrazené Date Taken a odvozená metadata souborů zůstávají smíšená. Vícedenní aktivita nebo přechod přes půlnoc zůstává možný.",
+      "what_it_does_not_prove_en": "A single exact whole-event date, doctrine change, force-design change, permanent mission change or certification effect.",
+      "what_it_does_not_prove_cs": "Jediné přesné datum celé události, změnu doktríny, force design, trvalé mise ani účinek certifikace.",
+      "source_ids": [
+        "ENG-SRC-0579"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0259"
+      ],
+      "publication_date": "2026-09-21",
+      "temporal_status": "RECENT_ENGINEER_QUALIFICATION_EVENT_WITH_DATE_AMBIGUITY",
+      "classification": "FACT_ABOUT_OFFICIAL_TRAINING_RECORD",
+      "confidence": "HIGH_FOR_EVENT_MEDIUM_FOR_EXACT_DATE",
+      "topics": [
+        "COMBAT_ENGINEERING",
+        "QUALIFICATION_TRAINING",
+        "NATO_FLF_POLAND",
+        "DATE_PROVENANCE"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0137",
+      "type": "ENG-EVT",
+      "country": "USA/INTERNATIONAL",
+      "record_role": "EXERCISE_OR_POLICY_EVENT",
+      "title_en": "National Robot Rodeo 2026 — EOD robotics evaluation and feedback event",
+      "title_cs": "National Robot Rodeo 2026 — hodnocení EOD robotiky a zpětná vazba",
+      "summary_en": "NAVSEA reported that the 2026 National Robot Rodeo ran in Oriskany, New York, from 17 to 21 August with dozens of participants across 10 military, public-safety and international EOD teams, more than 85 pieces of technology and 41 industry partners.",
+      "summary_cs": "NAVSEA uvedlo, že National Robot Rodeo 2026 proběhlo v Oriskany ve státě New York od 17. do 21. srpna za účasti desítek osob v 10 vojenských, public-safety a mezinárodních EOD týmech, více než 85 kusů techniky a 41 průmyslových partnerů.",
+      "fact_en": "NAVSEA reported that the 2026 National Robot Rodeo ran in Oriskany, New York, from 17 to 21 August with dozens of participants across 10 military, public-safety and international EOD teams, more than 85 pieces of technology and 41 industry partners.",
+      "fact_cs": "NAVSEA uvedlo, že National Robot Rodeo 2026 proběhlo v Oriskany ve státě New York od 17. do 21. srpna za účasti desítek osob v 10 vojenských, public-safety a mezinárodních EOD týmech, více než 85 kusů techniky a 41 průmyslových partnerů.",
+      "analysis_en": "The official event supports hands-on operational evaluation and user feedback. Public organizers disagree whether this was the ninth or tenth annual event.",
+      "analysis_cs": "Oficiální událost podporuje praktické operační hodnocení a uživatelskou zpětnou vazbu. Veřejní organizátoři se rozcházejí v tom, zda šlo o devátý, nebo desátý ročník.",
+      "what_it_does_not_prove_en": "Procurement, fielding, comparative winner, validated operational effectiveness or resolved annual-event numbering.",
+      "what_it_does_not_prove_cs": "Pořízení, zavedení, srovnávacího vítěze, ověřenou operační účinnost ani vyřešené číslování ročníku.",
+      "source_ids": [
+        "ENG-SRC-0583"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0261"
+      ],
+      "publication_date": "2026-08-31",
+      "temporal_status": "RECENT_EOD_ROBOTICS_EVALUATION_EVENT",
+      "classification": "FACT_ABOUT_OFFICIAL_EVENT_SCOPE",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_PROCUREMENT",
+      "topics": [
+        "EOD_ROBOTICS",
+        "USER_EVALUATION",
+        "INDUSTRY_FEEDBACK",
+        "INTERAGENCY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0048",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "SCARAB — Phase I autonomous robotic bridging feasibility effort",
+      "title_cs": "SCARAB — Phase I studie proveditelnosti autonomního robotického mostu",
+      "summary_en": "The U.S. Army SBIR topic A25D-003 sought autonomous control of dispersed floating bays. The federal award record identifies Hydronalix with UTARI for SCARAB under contract W51701-25-C-A253, total award value $249,994, with work from 28 August 2025 to 2 March 2026.",
+      "summary_cs": "Téma U.S. Army SBIR A25D-003 hledalo autonomní řízení rozptýlených plovoucích mostních dílů. Federální award record uvádí Hydronalix s UTARI pro SCARAB pod kontraktem W51701-25-C-A253 v celkové hodnotě 249 994 USD, s prací od 28. srpna 2025 do 2. března 2026.",
+      "fact_en": "The U.S. Army SBIR topic A25D-003 sought autonomous control of dispersed floating bays. The federal award record identifies Hydronalix with UTARI for SCARAB under contract W51701-25-C-A253, total award value $249,994, with work from 28 August 2025 to 2 March 2026.",
+      "fact_cs": "Téma U.S. Army SBIR A25D-003 hledalo autonomní řízení rozptýlených plovoucích mostních dílů. Federální award record uvádí Hydronalix s UTARI pro SCARAB pod kontraktem W51701-25-C-A253 v celkové hodnotě 249 994 USD, s prací od 28. srpna 2025 do 2. března 2026.",
+      "analysis_en": "The evidence establishes a Phase I feasibility, simulation and testing effort, separate from other wet-gap autonomy demonstrations.",
+      "analysis_cs": "Podklady dokládají Phase I proveditelnost, simulace a testování, oddělené od jiných demonstrací autonomie při překonávání vodních překážek.",
+      "what_it_does_not_prove_en": "Phase II award, production, Army fielding, operational deployment or identity with MSPIX Bridge Erection Boat work.",
+      "what_it_does_not_prove_cs": "Phase II award, výrobu, zavedení Army, operační nasazení ani totožnost s projekty Bridge Erection Boat v MSPIX.",
+      "source_ids": [
+        "ENG-SRC-0584",
+        "ENG-SRC-0585"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0262"
+      ],
+      "publication_date": "2025-08-28",
+      "temporal_status": "HISTORICAL_PHASE_I_R_AND_D",
+      "classification": "FACT_ABOUT_PUBLIC_SBIR_TOPIC_AND_AWARD",
+      "confidence": "HIGH_FOR_AWARD_LOW_FOR_TRANSITION",
+      "topics": [
+        "AUTONOMOUS_BRIDGING",
+        "SBIR",
+        "SCARAB",
+        "WET_GAP_CROSSING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0049",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_SIGNAL",
+      "title_en": "MSPIX 2025 — remote and autonomous Bridge Erection Boat retrofit demonstrations",
+      "title_cs": "MSPIX 2025 — demonstrace retrofitů Bridge Erection Boat pro dálkové a autonomní řízení",
+      "summary_en": "U.S. Army reporting documents two private-company remote-control solutions for existing Bridge Erection Boats during MSPIX 2025 at Fort Leonard Wood. A 74th Multi-Role Bridge Company crewmember operated a BEB with a handheld controller during the May assessment.",
+      "summary_cs": "Zprávy U.S. Army dokumentují dvě řešení soukromých firem pro dálkové řízení stávajících Bridge Erection Boats během MSPIX 2025 ve Fort Leonard Wood. Příslušník 74th Multi-Role Bridge Company ovládal BEB ručním kontrolerem během květnového hodnocení.",
+      "fact_en": "U.S. Army reporting documents two private-company remote-control solutions for existing Bridge Erection Boats during MSPIX 2025 at Fort Leonard Wood. A 74th Multi-Role Bridge Company crewmember operated a BEB with a handheld controller during the May assessment.",
+      "fact_cs": "Zprávy U.S. Army dokumentují dvě řešení soukromých firem pro dálkové řízení stávajících Bridge Erection Boats během MSPIX 2025 ve Fort Leonard Wood. Příslušník 74th Multi-Role Bridge Company ovládal BEB ručním kontrolerem během květnového hodnocení.",
+      "analysis_en": "The government sources establish retrofit-oriented experimentation but do not name the two companies. Vendor self-reports are not used to identify the Army-photographed system.",
+      "analysis_cs": "Vládní zdroje dokládají experimentování zaměřené na retrofit, ale dvě firmy nejmenují. Dodavatelská self-report tvrzení nejsou použita k identifikaci systému na snímcích Army.",
+      "what_it_does_not_prove_en": "Vendor identity, procurement, fielding, successful autonomous mission completion or contractual lineage to a 2026 solicitation.",
+      "what_it_does_not_prove_cs": "Identitu dodavatele, pořízení, zavedení, úspěšné dokončení autonomní mise ani kontraktační návaznost na solicitation z roku 2026.",
+      "source_ids": [
+        "ENG-SRC-0586",
+        "ENG-SRC-0587"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0263"
+      ],
+      "publication_date": "2026-01-09",
+      "temporal_status": "HISTORICAL_EXPERIMENTATION_BACKFILL",
+      "classification": "FACT_ABOUT_OFFICIAL_ARMY_EXPERIMENTATION",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_VENDOR_IDENTITY",
+      "topics": [
+        "BRIDGE_ERECTION_BOAT",
+        "REMOTE_CONTROL",
+        "AUTONOMY",
+        "MSPIX"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [
+    {
+      "id": "ENG-DOC-0048",
+      "title_en": "Romanian naval EOD and unmanned hazards in the Black Sea — public incident series through September 2026",
+      "title_cs": "Rumunské námořní EOD a bezosádkové hrozby v Černém moři — veřejná série zásahů do září 2026",
+      "summary_en": "The August 2026 public incident series is extended by two Romanian Ministry of National Defence releases from 20 September: one EOD intervention neutralized drone debris after a Coast Guard request, and a separate operation recovered three drifting drone fragments reported by merchant vessels, assessed at recovery as posing no pyrotechnic risk. A July amendment separately expanded the Romania–Bulgaria–Türkiye MCM Black Sea Task Group mission set to protection of critical undersea infrastructure.",
+      "summary_cs": "Veřejná série incidentů ze srpna 2026 je rozšířena o dvě zprávy rumunského ministerstva obrany z 20. září: při jednom zásahu EOD neutralizovalo trosky dronu po žádosti pobřežní stráže a při oddělené operaci byly vyzvednuty tři unášené fragmenty dronu nahlášené obchodními plavidly, které při vyzvednutí nepředstavovaly pyrotechnické riziko. Červencový dodatek samostatně rozšířil úkoly Romania–Bulgaria–Türkiye MCM Black Sea Task Group o ochranu kritické podmořské infrastruktury.",
+      "analysis_en": "The added incidents reinforce recurring naval-EOD tasking against unmanned hazards. The MCM mission amendment is regional framework context and does not by itself change the EOD unit’s formal doctrine or structure.",
+      "analysis_cs": "Doplněné incidenty posilují obraz opakovaných úkolů námořního EOD proti bezosádkovým hrozbám. Rozšíření mise MCM je kontext regionálního rámce a samo nemění formální doktrínu či strukturu EOD jednotky.",
+      "what_it_does_not_prove_en": "That dashboard aggregates map to these incidents, a formal EOD doctrine or force-structure change, common device origin, or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Že dashboardové agregáty odpovídají těmto incidentům, formální změnu EOD doktríny či struktury, společný původ zařízení ani operační účinnost.",
+      "source_ids": [
+        "ENG-SRC-0458",
+        "ENG-SRC-0459",
+        "ENG-SRC-0460",
+        "ENG-SRC-0461",
+        "ENG-SRC-0580",
+        "ENG-SRC-0581",
+        "ENG-SRC-0582"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0260"
+      ],
+      "temporal_status": "CURRENT_TOPIC_ENRICHMENT_MULTI_EVENT_PRIMARY_OFFICIAL_THROUGH_2026_09",
+      "classification": "ENTITY_TOPIC_ENRICHMENT_WITH_REGIONAL_MCM_CONTEXT",
+      "confidence": "HIGH_FOR_OFFICIAL_INCIDENTS_MEDIUM_FOR_BROADER_OPERATIONAL_TREND"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0567",
+      "title": "Mine-action operator list current to 18 May 2026",
+      "title_en": "Mine-action operator list current to 18 May 2026",
+      "publisher": "Ukrainian Mine Action certification body",
+      "publication_date": "2026-05-18",
+      "accessed_at": "2026-09-23",
+      "url": "https://kpontcksp.mil.gov.ua/orhan-z-sertyfikatsii",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_CERTIFICATION_PRIMARY",
+      "role": "PRIMARY_OPERATOR_CERTIFICATE_SCOPE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Mine-action operator list current to 18 May 2026"
+    },
+    {
+      "id": "ENG-SRC-0568",
+      "title": "UCHP certification and services",
+      "title_en": "UCHP certification and services",
+      "publisher": "Ukrainian Center for Humanitarian Protection",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-23",
+      "url": "https://uchp.org.ua/",
+      "language": "uk",
+      "source_tier": 1,
+      "source_class": "OPERATOR_PRIMARY",
+      "role": "CURRENT_OPERATOR_SCOPE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: UCHP certification and services"
+    },
+    {
+      "id": "ENG-SRC-0569",
+      "title": "FSD Ukraine update",
+      "title_en": "FSD Ukraine update",
+      "publisher": "FSD",
+      "publication_date": "2026-03-24",
+      "accessed_at": "2026-09-23",
+      "url": "https://fsd.ch/en/fsd-ukraine-update/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "IMPLEMENTER_PRIMARY",
+      "role": "CONFLICTING_BROADER_SCOPE_CLAIM",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: FSD Ukraine update"
+    },
+    {
+      "id": "ENG-SRC-0570",
+      "title": "52nd CES hosts ninth IED Rodeo, integrates unmanned aircraft systems",
+      "title_en": "52nd CES hosts ninth IED Rodeo, integrates unmanned aircraft systems",
+      "publisher": "52nd Fighter Wing, U.S. Air Force",
+      "publication_date": "2026-09-10",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.spangdahlem.af.mil/News/Article/4595477/52nd-ces-hosts-ninth-ied-rodeo-integrates-unmanned-aircraft-systems/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EXERCISE_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: 52nd CES hosts ninth IED Rodeo, integrates unmanned aircraft systems"
+    },
+    {
+      "id": "ENG-SRC-0571",
+      "title": "ANAMA participates in UMAC 2025 in Tokyo",
+      "title_en": "ANAMA participates in UMAC 2025 in Tokyo",
+      "publisher": "ANAMA",
+      "publication_date": "2025-10-23",
+      "accessed_at": "2026-09-23",
+      "url": "https://anama.gov.az/en/news/362",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_AGENCY_PRIMARY",
+      "role": "PRIMARY_MOU_SIGNING",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: ANAMA participates in UMAC 2025 in Tokyo"
+    },
+    {
+      "id": "ENG-SRC-0572",
+      "title": "Ukraine and Azerbaijan expand exchange of experience in humanitarian demining",
+      "title_en": "Ukraine and Azerbaijan expand exchange of experience in humanitarian demining",
+      "publisher": "Demine Ukraine",
+      "publication_date": "2026-09-10",
+      "accessed_at": "2026-09-23",
+      "url": "https://demine.gov.ua/en/news/ukraine-and-azerbaijan-expand-exchange-of-experience-in-humanitarian-demining",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "PRIMARY_2026_COOPERATION_UPDATE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Ukraine and Azerbaijan expand exchange of experience in humanitarian demining"
+    },
+    {
+      "id": "ENG-SRC-0573",
+      "title": "Fourth International Mine Action Conference announcement",
+      "title_en": "Fourth International Mine Action Conference announcement",
+      "publisher": "ANAMA",
+      "publication_date": "2026-05-01",
+      "accessed_at": "2026-09-23",
+      "url": "https://anama.gov.az/news/412",
+      "language": "az",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_AGENCY_PRIMARY",
+      "role": "PRIMARY_URBAN_HMA_CONFERENCE_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Fourth International Mine Action Conference announcement"
+    },
+    {
+      "id": "ENG-SRC-0574",
+      "title": "Paving the taxiway to success",
+      "title_en": "Paving the taxiway to success",
+      "publisher": "Royal Australian Air Force News",
+      "publication_date": "2026-09-04",
+      "accessed_at": "2026-09-23",
+      "url": "https://news.defence.gov.au/airforce/activity/2026-09-04/paving-taxiway-success",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_2026_DEMONSTRATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Paving the taxiway to success"
+    },
+    {
+      "id": "ENG-SRC-0575",
+      "title": "More than surface value",
+      "title_en": "More than surface value",
+      "publisher": "Australian Department of Defence",
+      "publication_date": "2024-11-26",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.defence.gov.au/news-events/news/2024-11-26/more-than-surface-value",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_2024_TRIAL",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: More than surface value"
+    },
+    {
+      "id": "ENG-SRC-0576",
+      "title": "Babcock expedites Dura-Base shipment to RAAF",
+      "title_en": "Babcock expedites Dura-Base shipment to RAAF",
+      "publisher": "Babcock Australia",
+      "publication_date": "2025-04-11",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.babcock.com.au/news/babcock-expedites-fresh-shipment-of-game-changing-airfield-surface-mats-to-the-royal-australian-air-force/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "SUPPLIER_PROCUREMENT_ANNOUNCEMENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Babcock expedites Dura-Base shipment to RAAF"
+    },
+    {
+      "id": "ENG-SRC-0577",
+      "title": "Official launch of National Mine Action Policy 2026–2035",
+      "title_en": "Official launch of National Mine Action Policy 2026–2035",
+      "publisher": "Cambodian Mine Action and Victim Assistance Authority",
+      "publication_date": "2026-09-02",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.cmaa.gov.kh/en/news/the-official-launch-ceremony-of-the-national-mine-action-policy-2026-2035",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_AGENCY_PRIMARY",
+      "role": "PRIMARY_POLICY_LAUNCH",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Official launch of National Mine Action Policy 2026–2035"
+    },
+    {
+      "id": "ENG-SRC-0578",
+      "title": "Launch of the National Mine Action Policy 2026–2035",
+      "title_en": "Launch of the National Mine Action Policy 2026–2035",
+      "publisher": "UNDP Cambodia",
+      "publication_date": "2026-09-02",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.undp.org/cambodia/news/launch-national-mine-action-policy-nmap-2026-2035",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "INTERGOVERNMENTAL_PRIMARY",
+      "role": "PRIMARY_POLICY_SCOPE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Launch of the National Mine Action Policy 2026–2035"
+    },
+    {
+      "id": "ENG-SRC-0579",
+      "title": "U.S. engineers with NATO FLF Battle Group-Poland conduct engineer qualification table",
+      "title_en": "U.S. engineers with NATO FLF Battle Group-Poland conduct engineer qualification table",
+      "publisher": "DVIDS",
+      "publication_date": "2026-09-21",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.dvidshub.net/image/9952297/us-engineers-with-nato-flf-battle-group-poland-conduct-engineer-qualification-table",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_EVENT_AND_METADATA_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: U.S. engineers with NATO FLF Battle Group-Poland conduct engineer qualification table"
+    },
+    {
+      "id": "ENG-SRC-0580",
+      "title": "Romanian Naval Forces EOD intervention on drone debris",
+      "title_en": "Romanian Naval Forces EOD intervention on drone debris",
+      "publisher": "Romanian Ministry of National Defence",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.mapn.ro/cpresa/19407_Informa%C5%A3ie-de-pres%C4%83",
+      "language": "ro",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_DEFENCE_PRIMARY",
+      "role": "PRIMARY_EOD_INCIDENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Romanian Naval Forces EOD intervention on drone debris"
+    },
+    {
+      "id": "ENG-SRC-0581",
+      "title": "Romanian Naval Forces recover three drifting drone fragments",
+      "title_en": "Romanian Naval Forces recover three drifting drone fragments",
+      "publisher": "Romanian Ministry of National Defence",
+      "publication_date": "2026-09-20",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.mapn.ro/cpresa/19408_Informa%C5%A3ie-de-pres%C4%83",
+      "language": "ro",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_DEFENCE_PRIMARY",
+      "role": "PRIMARY_EOD_INCIDENT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Romanian Naval Forces recover three drifting drone fragments"
+    },
+    {
+      "id": "ENG-SRC-0582",
+      "title": "Romania, Bulgaria and Türkiye expand MCM Black Sea Task Group missions",
+      "title_en": "Romania, Bulgaria and Türkiye expand MCM Black Sea Task Group missions",
+      "publisher": "Romanian Ministry of National Defence",
+      "publication_date": "2026-07-08",
+      "accessed_at": "2026-09-23",
+      "url": "https://english.mapn.ro/cpresa/6813_romania%2C-bulgaria-and-turkiye-expand-the-mcm-black-sea-tg-missions",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_DEFENCE_PRIMARY",
+      "role": "PRIMARY_REGIONAL_MCM_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Romania, Bulgaria and Türkiye expand MCM Black Sea Task Group missions"
+    },
+    {
+      "id": "ENG-SRC-0583",
+      "title": "NSWC Indian Head Division supports National Robot Rodeo to advance EOD",
+      "title_en": "NSWC Indian Head Division supports National Robot Rodeo to advance EOD",
+      "publisher": "NAVSEA",
+      "publication_date": "2026-08-31",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.navsea.navy.mil/Media/News/Article-View/Article/4586739/nswc-indian-head-division-supports-national-robot-rodeo-to-advance-eod/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_EVENT_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: NSWC Indian Head Division supports National Robot Rodeo to advance EOD"
+    },
+    {
+      "id": "ENG-SRC-0584",
+      "title": "Autonomous Robotic Bridging topic A25D-003",
+      "title_en": "Autonomous Robotic Bridging topic A25D-003",
+      "publisher": "U.S. Army SBIR/STTR",
+      "publication_date": "2025",
+      "accessed_at": "2026-09-23",
+      "url": "https://armysbir.army.mil/topics/autonomous-robotic-bridging/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PROGRAM_PRIMARY",
+      "role": "PRIMARY_R_AND_D_TOPIC",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Autonomous Robotic Bridging topic A25D-003"
+    },
+    {
+      "id": "ENG-SRC-0585",
+      "title": "SCARAB SBIR award record",
+      "title_en": "SCARAB SBIR award record",
+      "publisher": "SBIR.gov",
+      "publication_date": "2025-08-28",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.sbir.gov/awards/215754",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_AWARD_PRIMARY",
+      "role": "PRIMARY_AWARD_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: SCARAB SBIR award record"
+    },
+    {
+      "id": "ENG-SRC-0586",
+      "title": "Warfighters put emerging technologies to the test at Fort Leonard Wood",
+      "title_en": "Warfighters put emerging technologies to the test at Fort Leonard Wood",
+      "publisher": "U.S. Army",
+      "publication_date": "2025-05-15",
+      "accessed_at": "2026-09-23",
+      "url": "https://www.army.mil/article/285563/warfighters_put_emerging_technologies_to_the_test_at_fort_leonard_wood",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_MSPIX_DEMONSTRATION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: Warfighters put emerging technologies to the test at Fort Leonard Wood"
+    },
+    {
+      "id": "ENG-SRC-0587",
+      "title": "A New Horizon for Maneuver Support Experimentation",
+      "title_en": "A New Horizon for Maneuver Support Experimentation",
+      "publisher": "Fort Leonard Wood, U.S. Army",
+      "publication_date": "2026-01-09",
+      "accessed_at": "2026-09-23",
+      "url": "https://home.army.mil/wood/contact/publications/ppb/A-New-Horizon-for-Maneuver-Support-Experimentation-The-Final-MSPIX-and-a-Vision-for-the-Future",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_MILITARY_PRIMARY",
+      "role": "PRIMARY_RETROSPECTIVE",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-23",
+      "title_cs": "Zdroj: A New Horizon for Maneuver Support Experimentation"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0252",
+      "evidence_id": "ENG-EVID-0252",
+      "evidence_type": "CERTIFICATION_SCOPE_RECONCILIATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0046"
+      ],
+      "source_ids": [
+        "ENG-SRC-0567",
+        "ENG-SRC-0568",
+        "ENG-SRC-0569"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports active EORE certificate No. 113 and a conflict over broader scope.",
+      "what_it_supports_cs": "Podporuje aktivní EORE certifikát č. 113 a konflikt ohledně širšího rozsahu.",
+      "what_it_does_not_prove_en": "Broader survey/clearance certification or effectiveness.",
+      "what_it_does_not_prove_cs": "Širší certifikaci survey/clearance ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0253",
+      "evidence_id": "ENG-EVID-0253",
+      "evidence_type": "OFFICIAL_MULTINATIONAL_EXERCISE_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0133"
+      ],
+      "source_ids": [
+        "ENG-SRC-0570"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the 24 August–3 September window, eight teams, six nations and first UAS integration.",
+      "what_it_supports_cs": "Podporuje termín 24. srpna–3. září, osm týmů, šest zemí a první integraci UAS.",
+      "what_it_does_not_prove_en": "A later formal phase or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Pozdější formální fázi ani operační účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0254",
+      "evidence_id": "ENG-EVID-0254",
+      "evidence_type": "OFFICIAL_BILATERAL_MOU_AND_EXCHANGE_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0134"
+      ],
+      "source_ids": [
+        "ENG-SRC-0571",
+        "ENG-SRC-0572"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the 2025 memorandum and 2026 experience-exchange discussion.",
+      "what_it_supports_cs": "Podporuje memorandum z roku 2025 a diskusi o výměně zkušeností v roce 2026.",
+      "what_it_does_not_prove_en": "Completed implementation or transfer of specific methods.",
+      "what_it_does_not_prove_cs": "Dokončenou implementaci ani přenos konkrétních metod.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0255",
+      "evidence_id": "ENG-EVID-0255",
+      "evidence_type": "OFFICIAL_URBAN_HMA_CONFERENCE_CONTEXT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0134"
+      ],
+      "source_ids": [
+        "ENG-SRC-0573"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the urban-recovery context of the September 2026 conference.",
+      "what_it_supports_cs": "Podporuje kontext obnovy měst na konferenci v září 2026.",
+      "what_it_does_not_prove_en": "A completed bilateral urban-clearance project.",
+      "what_it_does_not_prove_cs": "Dokončený bilaterální projekt městského odminování.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0256",
+      "evidence_id": "ENG-EVID-0256",
+      "evidence_type": "OFFICIAL_DURABASE_TRIAL_AND_DEMONSTRATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0047"
+      ],
+      "source_ids": [
+        "ENG-SRC-0574",
+        "ENG-SRC-0575"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the 2024 F-35A trial and 2026 powered P-8A exercise demonstration.",
+      "what_it_supports_cs": "Podporuje test F-35A v roce 2024 a demonstraci P-8A vlastní silou při cvičení v roce 2026.",
+      "what_it_does_not_prove_en": "Fleet-wide fielding or AM2 replacement.",
+      "what_it_does_not_prove_cs": "Plošné zavedení ani náhradu AM2.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0257",
+      "evidence_id": "ENG-EVID-0257",
+      "evidence_type": "SUPPLIER_DURABASE_PROCUREMENT_ANNOUNCEMENT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0047"
+      ],
+      "source_ids": [
+        "ENG-SRC-0576"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the supplier-reported 2025 fast-tracked shipment.",
+      "what_it_supports_cs": "Podporuje dodavatelské oznámení o urychlené zásilce v roce 2025.",
+      "what_it_does_not_prove_en": "Completed delivery of all mats or standardized fielding.",
+      "what_it_does_not_prove_cs": "Dokončení dodávky všech rohoží ani standardizované zavedení.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0258",
+      "evidence_id": "ENG-EVID-0258",
+      "evidence_type": "OFFICIAL_POLICY_LAUNCH_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0135"
+      ],
+      "source_ids": [
+        "ENG-SRC-0577",
+        "ENG-SRC-0578"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the policy launch and distinct 2030/2035 scope constructs.",
+      "what_it_supports_cs": "Podporuje zahájení politiky a odlišné rozsahy 2030/2035.",
+      "what_it_does_not_prove_en": "Achievement or detailed phased targets absent final policy text.",
+      "what_it_does_not_prove_cs": "Dosažení cílů ani podrobné etapové cíle bez finálního textu.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0259",
+      "evidence_id": "ENG-EVID-0259",
+      "evidence_type": "OFFICIAL_DVIDS_TRAINING_METADATA",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0136"
+      ],
+      "source_ids": [
+        "ENG-SRC-0579"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the qualification event and its date-provenance ambiguity.",
+      "what_it_supports_cs": "Podporuje qualification event a nejednoznačnost jeho datové provenance.",
+      "what_it_does_not_prove_en": "Doctrine, force-design or permanent mission change.",
+      "what_it_does_not_prove_cs": "Změnu doktríny, force design ani trvalé mise.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0260",
+      "evidence_id": "ENG-EVID-0260",
+      "evidence_type": "OFFICIAL_ROMANIAN_NAVAL_EOD_AND_MCM_REPORTING",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-DOC-0048"
+      ],
+      "source_ids": [
+        "ENG-SRC-0580",
+        "ENG-SRC-0581",
+        "ENG-SRC-0582"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports two September naval-EOD reports and the separate regional MCM mission amendment.",
+      "what_it_supports_cs": "Podporuje dvě zářijové zprávy námořního EOD a oddělené rozšíření regionální mise MCM.",
+      "what_it_does_not_prove_en": "Incident-to-dashboard mapping or formal EOD doctrine change.",
+      "what_it_does_not_prove_cs": "Mapování incidentů na dashboard ani formální změnu EOD doktríny.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0261",
+      "evidence_id": "ENG-EVID-0261",
+      "evidence_type": "OFFICIAL_EOD_ROBOTICS_EVENT_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0137"
+      ],
+      "source_ids": [
+        "ENG-SRC-0583"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports event dates, teams, technology count and industry participation.",
+      "what_it_supports_cs": "Podporuje termín, týmy, počet technologií a průmyslovou účast.",
+      "what_it_does_not_prove_en": "Procurement, fielding or comparative winner.",
+      "what_it_does_not_prove_cs": "Pořízení, zavedení ani srovnávacího vítěze.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0262",
+      "evidence_id": "ENG-EVID-0262",
+      "evidence_type": "OFFICIAL_SBIR_TOPIC_AND_AWARD",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0048"
+      ],
+      "source_ids": [
+        "ENG-SRC-0584",
+        "ENG-SRC-0585"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports SCARAB Phase I scope, awardee, value and period.",
+      "what_it_supports_cs": "Podporuje rozsah SCARAB Phase I, příjemce, hodnotu a období.",
+      "what_it_does_not_prove_en": "Phase II, production, fielding or MSPIX identity.",
+      "what_it_does_not_prove_cs": "Phase II, výrobu, zavedení ani totožnost s MSPIX.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    },
+    {
+      "id": "ENG-EVID-0263",
+      "evidence_id": "ENG-EVID-0263",
+      "evidence_type": "OFFICIAL_ARMY_BEB_EXPERIMENTATION",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0049"
+      ],
+      "source_ids": [
+        "ENG-SRC-0586",
+        "ENG-SRC-0587"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports two retrofit-oriented BEB solutions and the May 2025 remote-control demonstration.",
+      "what_it_supports_cs": "Podporuje dvě retrofitová řešení BEB a demonstraci dálkového řízení v květnu 2025.",
+      "what_it_does_not_prove_en": "Vendor identity, procurement, fielding or 2026 solicitation lineage.",
+      "what_it_does_not_prove_cs": "Identitu dodavatele, pořízení, zavedení ani návaznost na solicitation 2026.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-23"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_AFTER_WAVE2_AND_WAVE3_ONLY",
+    "adjudicated_topic_count": 15,
+    "candidate_topic_count": 10,
+    "new_record_count": 9,
+    "updated_record_count": 1,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

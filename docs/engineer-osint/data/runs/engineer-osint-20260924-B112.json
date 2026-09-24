@@ -1,0 +1,560 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260924-B112",
+    "parent_run_id": "engineer-osint-20260924-B111",
+    "status": "SUCCESS",
+    "window_from": "2026-09-24T00:02:00Z",
+    "window_to": "2026-09-24T00:03:00Z",
+    "counts": {
+      "CURRENT_DELTA": 2,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 2,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 4,
+      "UPDATE": 1,
+      "CONFIRMATION": 5,
+      "CORRECTION": 0,
+      "CONTRADICTION": 2,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 6,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 12,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "SUPPLEMENTAL_COVERAGE_CANDIDATE_DRY_RUN_NOT_AUTHORIZED_NOT_PUBLISHED",
+    "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+    "reviewed_parent_canonical_sha256": "846add0bed230ad95bb35a78683edba9ba0e9a0a3685d3989410a6344c279cd5",
+    "source_adjudication": "ADJUDICATION_WAVE7.md",
+    "prerequisite_candidates": [
+      "CONTENT_CANDIDATE_WAVE2.json",
+      "CONTENT_CANDIDATE_WAVE3.json",
+      "CONTENT_CANDIDATE_WAVE4.json",
+      "CONTENT_CANDIDATE_WAVE5.json",
+      "CONTENT_CANDIDATE_WAVE6.json"
+    ],
+    "identifier_allocation": "FINAL_REVALIDATED_AFTER_B106",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "held_topics": [
+      "GROUP-018 XM123 prototype partner list pending primary portfolio readback"
+    ],
+    "merged_topics": [
+      "GROUP-013 merged into Wave2 XM123/ABS update",
+      "GROUP-016 merged with GROUP-001 Wave1 metric-separation signal"
+    ],
+    "structural_scope": "CONTENT_AND_DATA_ONLY_NO_HTML_CSS_JS_NAVIGATION_ROUTING_OR_LAYOUT_CHANGE"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 2,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 2,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [
+    {
+      "id": "ENG-EVT-0149",
+      "type": "ENG-EVT",
+      "country": "BRN/USA",
+      "record_role": "BILATERAL_TRAINING_EVENT",
+      "title_en": "CARAT Brunei 2026 — underwater-navigation and dive interoperability exchange",
+      "title_cs": "CARAT Brunei 2026 — výměna zkušeností v podvodní navigaci a potápěčské interoperabilitě",
+      "summary_en": "DVIDS documents Royal Brunei Navy and U.S. personnel conducting underwater-navigation training in September 2026. Captions across the series attribute participants to U.S. Navy EODMU 3, 5, 9 and 11 with different levels of person- or group-specific linkage.",
+      "summary_cs": "DVIDS dokumentuje zářijový výcvik Royal Brunei Navy a amerického personálu v podvodní navigaci. Popisky série připisují účast personálu U.S. Navy EODMU 3, 5, 9 a 11 s různou úrovní vazby na jednotlivce či skupinu.",
+      "fact_en": "DVIDS documents Royal Brunei Navy and U.S. personnel conducting underwater-navigation training in September 2026. Captions across the series attribute participants to U.S. Navy EODMU 3, 5, 9 and 11 with different levels of person- or group-specific linkage.",
+      "fact_cs": "DVIDS dokumentuje zářijový výcvik Royal Brunei Navy a amerického personálu v podvodní navigaci. Popisky série připisují účast personálu U.S. Navy EODMU 3, 5, 9 a 11 s různou úrovní vazby na jednotlivce či skupinu.",
+      "analysis_en": "Caption and tag differences are treated as metadata non-uniformity, not proof that named units were absent. The event supports sub-surface interoperability at high level.",
+      "analysis_cs": "Rozdíly mezi popisky a tagy jsou vedeny jako nejednotnost metadat, nikoli důkaz nepřítomnosti jmenovaných jednotek. Událost na vysoké úrovni podporuje sub-surface interoperability.",
+      "what_it_does_not_prove_en": "An exhaustive participant roster, RBN EOD qualification, explosive-disposal procedure training, equipment adoption, effectiveness or cause of date offsets.",
+      "what_it_does_not_prove_cs": "Úplný seznam účastníků, EOD kvalifikaci RBN, výcvik postupů likvidace výbušnin, přijetí vybavení, účinnost ani příčinu datumových posunů.",
+      "source_ids": [
+        "ENG-SRC-0625",
+        "ENG-SRC-0626"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0293"
+      ],
+      "publication_date": "2026-09-16",
+      "temporal_status": "RECENT_BILATERAL_UNDERWATER_TRAINING",
+      "classification": "FACT_ABOUT_OFFICIAL_MEDIA_SERIES_WITH_METADATA_BOUNDARY",
+      "confidence": "HIGH_FOR_EVENT_MEDIUM_FOR_COMPLETE_ROSTER",
+      "topics": [
+        "UNDERWATER_NAVIGATION",
+        "NAVAL_EOD",
+        "CARAT_BRUNEI",
+        "INTEROPERABILITY"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0065",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_OR_ACQUISITION_SIGNAL",
+      "title_en": "USMC LEON AUGV / Bayonet 250 acquisition lineage",
+      "title_cs": "USMC LEON AUGV / Bayonet 250 — akviziční návaznost",
+      "summary_en": "Greensea IQ reported a February 2025 award through DLA and Darley for customized Bayonet 250 AUGVs supporting USMC LEON. In August 2025 it reported a $9 million task order for nine new Bayonet 250 robots, refurbishment of six earlier systems and spares under a larger LEON AUGV IDIQ.",
+      "summary_cs": "Greensea IQ oznámila v únoru 2025 award přes DLA a Darley na upravené Bayonet 250 AUGV pro USMC LEON. V srpnu 2025 uvedla task order za 9 milionů USD na devět nových robotů Bayonet 250, renovaci šesti dřívějších systémů a náhradní díly v rámci širšího LEON AUGV IDIQ.",
+      "fact_en": "Greensea IQ reported a February 2025 award through DLA and Darley for customized Bayonet 250 AUGVs supporting USMC LEON. In August 2025 it reported a $9 million task order for nine new Bayonet 250 robots, refurbishment of six earlier systems and spares under a larger LEON AUGV IDIQ.",
+      "fact_cs": "Greensea IQ oznámila v únoru 2025 award přes DLA a Darley na upravené Bayonet 250 AUGV pro USMC LEON. V srpnu 2025 uvedla task order za 9 milionů USD na devět nových robotů Bayonet 250, renovaci šesti dřívějších systémů a náhradní díly v rámci širšího LEON AUGV IDIQ.",
+      "analysis_en": "The aligned vendor and public-award identifiers strongly support the acquisition lineage. This AUGV branch remains separate from LEON Increment 4 USV.",
+      "analysis_cs": "Shodné dodavatelské a veřejné award identifikátory silně podporují akviziční návaznost. Tato AUGV větev zůstává oddělena od LEON Increment 4 USV.",
+      "what_it_does_not_prove_en": "Identity with Increment 4 USV, completed delivery or refurbishment, operational acceptance, IOC/FOC, effectiveness or allocation beyond reported quantities.",
+      "what_it_does_not_prove_cs": "Totožnost s Increment 4 USV, dokončené dodávky či renovace, operační přijetí, IOC/FOC, účinnost ani rozdělení nad rámec hlášených počtů.",
+      "source_ids": [
+        "ENG-SRC-0627",
+        "ENG-SRC-0628",
+        "ENG-SRC-0629"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0294",
+        "ENG-EVID-0295"
+      ],
+      "publication_date": "2025-08-15",
+      "temporal_status": "HISTORICAL_ACQUISITION_LINEAGE_BACKFILL",
+      "classification": "FACT_ABOUT_VENDOR_AND_PUBLIC_CONTRACT_LINEAGE",
+      "confidence": "HIGH_FOR_AWARD_LINEAGE_MEDIUM_FOR_DELIVERY_STATUS",
+      "topics": [
+        "LEON",
+        "AUGV",
+        "BAYONET_250",
+        "USMC_EOD"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-EVT-0150",
+      "type": "ENG-EVT",
+      "country": "THA/USA",
+      "record_role": "BILATERAL_TRAINING_EVENT",
+      "title_en": "Thailand–USMC bilateral EOD and humanitarian mine-action training, 2026",
+      "title_cs": "Bilaterální výcvik Thailand–USMC v EOD a humanitárním odminování, 2026",
+      "summary_en": "DVIDS documents a bilateral exercise in Thailand between U.S. Marines from 3rd EOD Company, 9th Engineer Support Battalion and Thailand Mine Action Center, with opening and closing ceremonies described for 24 August and 4 September 2026.",
+      "summary_cs": "DVIDS dokumentuje bilaterální cvičení v Thajsku mezi U.S. Marines z 3rd EOD Company, 9th Engineer Support Battalion a Thailand Mine Action Center, s úvodním a závěrečným ceremoniálem popsaným pro 24. srpna a 4. září 2026.",
+      "fact_en": "DVIDS documents a bilateral exercise in Thailand between U.S. Marines from 3rd EOD Company, 9th Engineer Support Battalion and Thailand Mine Action Center, with opening and closing ceremonies described for 24 August and 4 September 2026.",
+      "fact_cs": "DVIDS dokumentuje bilaterální cvičení v Thajsku mezi U.S. Marines z 3rd EOD Company, 9th Engineer Support Battalion a Thailand Mine Action Center, s úvodním a závěrečným ceremoniálem popsaným pro 24. srpna a 4. září 2026.",
+      "analysis_en": "A 2022 official record shows an established cooperation line. The Thai formal entity name is preferred over a divergent DVIDS caption label.",
+      "analysis_cs": "Oficiální záznam z roku 2022 ukazuje zavedenou linii spolupráce. Formální thajský název entity má přednost před odlišným označením v popisku DVIDS.",
+      "what_it_does_not_prove_en": "A first-ever interaction, permanent doctrine or force-design change, readiness gain, operational effect, exact procedural content or cause of date-field discrepancies.",
+      "what_it_does_not_prove_cs": "Historicky první interakci, trvalou změnu doktríny či force design, růst připravenosti, operační efekt, přesný procedurální obsah ani příčinu rozdílů datumových polí.",
+      "source_ids": [
+        "ENG-SRC-0632",
+        "ENG-SRC-0633",
+        "ENG-SRC-0634"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0297"
+      ],
+      "publication_date": "2026-09-14",
+      "temporal_status": "RECENT_BILATERAL_EOD_HMA_TRAINING",
+      "classification": "FACT_ABOUT_OFFICIAL_TRAINING_RECORD_WITH_ENTITY_NAME_QUALIFIER",
+      "confidence": "HIGH_FOR_EVENT_LOW_FOR_OUTCOME",
+      "topics": [
+        "EOD",
+        "HUMANITARIAN_MINE_ACTION",
+        "THAILAND_MINE_ACTION_CENTER",
+        "BILATERAL_TRAINING"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    },
+    {
+      "id": "ENG-SIG-0066",
+      "type": "ENG-SIG",
+      "country": "USA",
+      "record_role": "TECHNOLOGY_OR_ACQUISITION_SIGNAL",
+      "title_en": "Overland AI reports $14.3M autonomous-breaching SBIR effort with MARS lineage",
+      "title_cs": "Overland AI uvádí SBIR projekt autonomního breaching za 14,3 mil. USD s návazností MARS",
+      "summary_en": "Overland AI announced a $14.3 million contract to integrate off-road autonomy on commercial heavy trucks for breaching missions, funded with FY2025 Defense-Wide and FY2026 Army funds and expected to complete in October 2027. The company explicitly links the effort to earlier work with 36th Engineer Brigade under MARS.",
+      "summary_cs": "Overland AI oznámila kontrakt za 14,3 milionu USD na integraci off-road autonomie na komerční těžká vozidla pro breaching, financovaný prostředky FY2025 Defense-Wide a FY2026 Army s plánovaným dokončením v říjnu 2027. Firma projekt výslovně váže na dřívější práci s 36th Engineer Brigade v rámci MARS.",
+      "fact_en": "Overland AI announced a $14.3 million contract to integrate off-road autonomy on commercial heavy trucks for breaching missions, funded with FY2025 Defense-Wide and FY2026 Army funds and expected to complete in October 2027. The company explicitly links the effort to earlier work with 36th Engineer Brigade under MARS.",
+      "fact_cs": "Overland AI oznámila kontrakt za 14,3 milionu USD na integraci off-road autonomie na komerční těžká vozidla pro breaching, financovaný prostředky FY2025 Defense-Wide a FY2026 Army s plánovaným dokončením v říjnu 2027. Firma projekt výslovně váže na dřívější práci s 36th Engineer Brigade v rámci MARS.",
+      "analysis_en": "The vendor announcement supports a technology-lineage claim but describes a separate SBIR award path from the company’s EABC contract.",
+      "analysis_cs": "Dodavatelské oznámení podporuje technologickou návaznost, popisuje však jinou SBIR award path než firemní kontrakt EABC.",
+      "what_it_does_not_prove_en": "Independent government confirmation of the exact award, formal program identity with EABC or Sandhills, production, fielding, operational readiness or effectiveness.",
+      "what_it_does_not_prove_cs": "Nezávislé vládní potvrzení přesného awardu, formální programovou totožnost s EABC či Sandhills, výrobu, zavedení, operační připravenost ani účinnost.",
+      "source_ids": [
+        "ENG-SRC-0635",
+        "ENG-SRC-0636"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0298"
+      ],
+      "publication_date": "2026-09-11",
+      "temporal_status": "RECENT_VENDOR_REPORTED_SBIR_BREACHING_AWARD",
+      "classification": "ATTRIBUTED_VENDOR_CONTRACT_AND_TECHNOLOGY_LINEAGE_REPORT",
+      "confidence": "HIGH_FOR_VENDOR_ANNOUNCEMENT_MEDIUM_FOR_AWARD_DETAILS_LOW_FOR_FIELDING",
+      "topics": [
+        "AUTONOMOUS_BREACHING",
+        "MARS",
+        "SBIR",
+        "OVERLAND_AI"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_NON_ACTIONABLE_NO_TACTICAL_LOCATION"
+    }
+  ],
+  "updated_records": [
+    {
+      "id": "ENG-SIG-0049",
+      "summary_en": "U.S. Army reporting establishes two unnamed retrofit-oriented remote-control solutions for existing Bridge Erection Boats at MSPIX 2025. Separately, Birdon currently markets BEB control features including remote, coordinated and semi-autonomous modes and described remote/autonomous controls for Netherlands BEBs in 2024. This vendor context does not identify Birdon as either Army-demonstrated supplier.",
+      "summary_cs": "Zprávy U.S. Army dokládají dvě nepojmenovaná retrofitová řešení dálkového řízení stávajících Bridge Erection Boats při MSPIX 2025. Birdon samostatně aktuálně uvádí pro BEB dálkové, koordinované a poloautonomní režimy řízení a v roce 2024 popsal dálkové/autonomní řízení pro nizozemské BEB. Tento dodavatelský kontext neidentifikuje Birdon jako jednoho z demonstrátorů Army.",
+      "analysis_en": "Birdon is a relevant BEB autonomy entity and historical Army BEB contractor, but public evidence does not connect it to the photographed MSPIX system or the 2026 autonomy solicitation.",
+      "analysis_cs": "Birdon je relevantní subjekt pro autonomii BEB a historický kontraktor Army pro BEB, veřejné podklady jej však nespojují s fotografovaným systémem MSPIX ani se solicitation z roku 2026.",
+      "source_ids": [
+        "ENG-SRC-0586",
+        "ENG-SRC-0587",
+        "ENG-SRC-0630",
+        "ENG-SRC-0631"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0263",
+        "ENG-EVID-0296"
+      ],
+      "classification": "FACT_ABOUT_OFFICIAL_ARMY_EXPERIMENTATION_WITH_SEPARATE_VENDOR_ENTITY_CONTEXT",
+      "confidence": "HIGH_FOR_MSPIX_EVENT_AND_VENDOR_PRODUCT_CLAIMS_LOW_FOR_IDENTITY_OR_2026_AWARD",
+      "what_it_does_not_prove_en": "Birdon participation in MSPIX, identity of the Army-photographed system, 2026 solicitation submission or award, procurement, fielding or operational effectiveness.",
+      "what_it_does_not_prove_cs": "Účast Birdon v MSPIX, identitu systému na snímcích Army, submission či award v solicitation 2026, pořízení, zavedení ani operační účinnost."
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0625",
+      "title": "Underwater navigation training with the Royal Brunei Navy — group caption",
+      "title_en": "Underwater navigation training with the Royal Brunei Navy — group caption",
+      "publisher": "DVIDS",
+      "publication_date": "2026-09-16",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.dvidshub.net/image/9940583/ctf-7513-and-ctf-736-conduct-underwater-navigation-technology-training-with-royal-brunei-navy",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_GROUP_ATTRIBUTION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Underwater navigation training with the Royal Brunei Navy — group caption"
+    },
+    {
+      "id": "ENG-SRC-0626",
+      "title": "Underwater navigation training with the Royal Brunei Navy — individual caption",
+      "title_en": "Underwater navigation training with the Royal Brunei Navy — individual caption",
+      "publisher": "DVIDS",
+      "publication_date": "2026-09-16",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.dvidshub.net/image/9940595/ctf-7513-and-ctf-736-conduct-underwater-navigation-technology-training-with-royal-brunei-navy",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_INDIVIDUAL_ATTRIBUTION",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Underwater navigation training with the Royal Brunei Navy — individual caption"
+    },
+    {
+      "id": "ENG-SRC-0627",
+      "title": "DLA Special Operations Equipment IDIQ award context",
+      "title_en": "DLA Special Operations Equipment IDIQ award context",
+      "publisher": "U.S. Department of Defense",
+      "publication_date": "2021-01-05",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.defense.gov/News/Contracts/contract/article/2463012/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_CONTRACT_PRIMARY",
+      "role": "PRIMARY_PARENT_IDIQ_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: DLA Special Operations Equipment IDIQ award context"
+    },
+    {
+      "id": "ENG-SRC-0628",
+      "title": "Bayonet 250 surf-zone crawlers for USMC LEON",
+      "title_en": "Bayonet 250 surf-zone crawlers for USMC LEON",
+      "publisher": "Greensea IQ",
+      "publication_date": "2025-02-05",
+      "accessed_at": "2026-09-24",
+      "url": "https://greenseaiq.com/news/greensea-iq-secures-contract-for-bayonet-250-surf-zone-crawlers-to-support-u-s-marine-corps/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_EARLY_AWARD_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Bayonet 250 surf-zone crawlers for USMC LEON"
+    },
+    {
+      "id": "ENG-SRC-0629",
+      "title": "Greensea IQ awarded $9M for continuing Bayonet 250 acquisition",
+      "title_en": "Greensea IQ awarded $9M for continuing Bayonet 250 acquisition",
+      "publisher": "Greensea IQ",
+      "publication_date": "2025-08-15",
+      "accessed_at": "2026-09-24",
+      "url": "https://greenseaiq.com/news/greensea-iq-awarded-9-million-contract-by-us-marine-corps-for-continuing-acquisition-of-bayonet-250-robots/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "PRIMARY_TASK_ORDER_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Greensea IQ awarded $9M for continuing Bayonet 250 acquisition"
+    },
+    {
+      "id": "ENG-SRC-0630",
+      "title": "Bridge Erection Boats — autonomy-capable controls",
+      "title_en": "Bridge Erection Boats — autonomy-capable controls",
+      "publisher": "Birdon Group",
+      "publication_date": "2026",
+      "accessed_at": "2026-09-24",
+      "url": "https://birdongroup.com/products/complete-wet-gap-crossing-solution/",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "MANUFACTURER_PRIMARY",
+      "role": "CURRENT_VENDOR_PRODUCT_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Bridge Erection Boats — autonomy-capable controls"
+    },
+    {
+      "id": "ENG-SRC-0631",
+      "title": "Birdon Netherlands BEB delivery and autonomous-control context",
+      "title_en": "Birdon Netherlands BEB delivery and autonomous-control context",
+      "publisher": "Birdon Group via PR Newswire",
+      "publication_date": "2024-08-19",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.prnewswire.com/news-releases/birdon-set-to-deliver-first-tranche-of-bridge-erection-boats-bebs-to-the-netherlands-army-302225545.html",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "VENDOR_SUPPLIED_RELEASE",
+      "role": "HISTORICAL_VENDOR_CAPABILITY_CONTEXT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Birdon Netherlands BEB delivery and autonomous-control context"
+    },
+    {
+      "id": "ENG-SRC-0632",
+      "title": "Thailand–USMC bilateral EOD exercise opening",
+      "title_en": "Thailand–USMC bilateral EOD exercise opening",
+      "publisher": "DVIDS",
+      "publication_date": "2026-09-14",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.dvidshub.net/image/9933346/us-marines-and-thailand-mine-action-center-participate-deployed-training-bilateral-eod-exercise",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_OPENING_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Thailand–USMC bilateral EOD exercise opening"
+    },
+    {
+      "id": "ENG-SRC-0633",
+      "title": "Thailand–USMC bilateral EOD exercise closing",
+      "title_en": "Thailand–USMC bilateral EOD exercise closing",
+      "publisher": "DVIDS",
+      "publication_date": "2026-09-14",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.dvidshub.net/image/9933373/us-marines-and-thailand-mine-action-center-participate-deployed-training-bilateral-eod-exercise",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY_VISUAL_RECORD",
+      "role": "PRIMARY_CLOSING_RECORD",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Thailand–USMC bilateral EOD exercise closing"
+    },
+    {
+      "id": "ENG-SRC-0634",
+      "title": "Formal Thailand Mine Action Center entity name",
+      "title_en": "Formal Thailand Mine Action Center entity name",
+      "publisher": "Thai Ministry of Foreign Affairs",
+      "publication_date": "2025-10-15",
+      "accessed_at": "2026-09-24",
+      "url": "https://thai-inter-org.mfa.go.th/th/content/%E0%B8%9E%E0%B8%9A%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%AD%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A8%E0%B8%B9%E0%B8%99%E0%B8%A2%E0%B9%8C%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%94%E0%B9%81%E0%B8%AB%E0%B9%88%E0%B8%87?cate=62dfa3b9e5c6102618683d32",
+      "language": "th",
+      "source_tier": 1,
+      "source_class": "GOVERNMENT_PRIMARY",
+      "role": "ENTITY_NAME_AUTHORITY",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Formal Thailand Mine Action Center entity name"
+    },
+    {
+      "id": "ENG-SRC-0635",
+      "title": "Overland AI awarded $14.3M contract to automate the breach",
+      "title_en": "Overland AI awarded $14.3M contract to automate the breach",
+      "publisher": "Overland AI",
+      "publication_date": "2026-09-11",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.overland.ai/news/overland-ai-awarded-14-million-contract-to-automate-the-breach",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "VENDOR_PRIMARY",
+      "role": "PRIMARY_SBIR_AWARD_REPORT",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Overland AI awarded $14.3M contract to automate the breach"
+    },
+    {
+      "id": "ENG-SRC-0636",
+      "title": "Overland AI EABC award announcement",
+      "title_en": "Overland AI EABC award announcement",
+      "publisher": "Overland AI",
+      "publication_date": "2026-09-08",
+      "accessed_at": "2026-09-24",
+      "url": "https://www.overland.ai/news/overland-ai-awarded-20-million-contract-for-u-s-armys-engineer-autonomous-breaching-capability-initiative",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "VENDOR_PRIMARY",
+      "role": "SEPARATE_AWARD_BOUNDARY",
+      "verification_status": "VERIFIED_PUBLIC_READBACK_2026-09-24",
+      "title_cs": "Zdroj: Overland AI EABC award announcement"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0293",
+      "evidence_id": "ENG-EVID-0293",
+      "evidence_type": "OFFICIAL_DVIDS_MULTI_UNIT_TRAINING_SERIES",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0149"
+      ],
+      "source_ids": [
+        "ENG-SRC-0625",
+        "ENG-SRC-0626"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the underwater-navigation exchange and multiple captioned EODMU attributions.",
+      "what_it_supports_cs": "Podporuje výměnu v podvodní navigaci a více jednotek EODMU v popiscích.",
+      "what_it_does_not_prove_en": "Exhaustive roster, qualification, adoption or effectiveness.",
+      "what_it_does_not_prove_cs": "Úplný roster, kvalifikaci, přijetí ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0294",
+      "evidence_id": "ENG-EVID-0294",
+      "evidence_type": "VENDOR_EARLY_LEON_AUGV_AWARD_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0065"
+      ],
+      "source_ids": [
+        "ENG-SRC-0627",
+        "ENG-SRC-0628"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports DLA/Darley context and the February Bayonet 250 award report.",
+      "what_it_supports_cs": "Podporuje kontext DLA/Darley a únorovou zprávu o Bayonet 250 awardu.",
+      "what_it_does_not_prove_en": "Delivery completion or identity with LEON Increment 4 USV.",
+      "what_it_does_not_prove_cs": "Dokončení dodávek ani totožnost s LEON Increment 4 USV.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0295",
+      "evidence_id": "ENG-EVID-0295",
+      "evidence_type": "VENDOR_LEON_AUGV_TASK_ORDER_REPORT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0065"
+      ],
+      "source_ids": [
+        "ENG-SRC-0629"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the reported $9M task order, quantities and refurbishment scope.",
+      "what_it_supports_cs": "Podporuje hlášený task order za 9 mil. USD, počty a rozsah renovace.",
+      "what_it_does_not_prove_en": "Completed delivery, operational acceptance or effectiveness.",
+      "what_it_does_not_prove_cs": "Dokončené dodávky, operační přijetí ani účinnost.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0296",
+      "evidence_id": "ENG-EVID-0296",
+      "evidence_type": "VENDOR_BEB_AUTONOMY_CONTEXT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0049"
+      ],
+      "source_ids": [
+        "ENG-SRC-0630",
+        "ENG-SRC-0631"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports Birdon’s public BEB autonomy capability context.",
+      "what_it_supports_cs": "Podporuje veřejný Birdon kontext autonomie BEB.",
+      "what_it_does_not_prove_en": "Birdon identity in MSPIX or 2026 solicitation participation.",
+      "what_it_does_not_prove_cs": "Identitu Birdon v MSPIX ani účast v solicitation 2026.",
+      "confidence": "MEDIUM",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0297",
+      "evidence_id": "ENG-EVID-0297",
+      "evidence_type": "OFFICIAL_BILATERAL_EOD_TRAINING_RECORD",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0150"
+      ],
+      "source_ids": [
+        "ENG-SRC-0632",
+        "ENG-SRC-0633",
+        "ENG-SRC-0634"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports event chronology, participants and formal TMAC name.",
+      "what_it_supports_cs": "Podporuje chronologii, účastníky a formální název TMAC.",
+      "what_it_does_not_prove_en": "Readiness gain, doctrine change or procedural effectiveness.",
+      "what_it_does_not_prove_cs": "Růst připravenosti, změnu doktríny ani účinnost postupů.",
+      "confidence": "HIGH",
+      "observed_at": "2026-09-24"
+    },
+    {
+      "id": "ENG-EVID-0298",
+      "evidence_id": "ENG-EVID-0298",
+      "evidence_type": "VENDOR_AUTONOMOUS_BREACHING_AWARD_AND_BOUNDARY",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-SIG-0066"
+      ],
+      "source_ids": [
+        "ENG-SRC-0635",
+        "ENG-SRC-0636"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Supports the reported $14.3M SBIR effort, MARS lineage and separation from EABC.",
+      "what_it_supports_cs": "Podporuje hlášený SBIR projekt za 14,3 mil. USD, návaznost MARS a oddělení od EABC.",
+      "what_it_does_not_prove_en": "Independent government award confirmation, fielding or program identity.",
+      "what_it_does_not_prove_cs": "Nezávislé vládní potvrzení awardu, zavedení ani programovou totožnost.",
+      "confidence": "MEDIUM_HIGH",
+      "observed_at": "2026-09-24"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "PASS",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_VALIDATION_AFTER_WAVE2_TO_WAVE6_ONLY",
+    "supplemental_group_count": 6,
+    "candidate_topic_count": 5,
+    "new_record_count": 4,
+    "updated_record_count": 1,
+    "held_topic_count": 1,
+    "merged_topic_count": 2,
+    "all_batch_groups_adjudicated": true,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

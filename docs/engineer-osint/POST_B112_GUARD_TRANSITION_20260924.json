@@ -1,0 +1,31 @@
+{
+  "schema_version": "engineer-osint-post-b112-guard-transition-v1",
+  "status": "AUTHORIZED_AND_IMPLEMENTED_PENDING_PR_QA_MERGE_DEPLOY",
+  "authorized_at": "2026-09-24",
+  "authorization_source": "Telegram confirmation of items 1 and 2",
+  "reviewed_main_sha": "8d41033b49394a29c822d68fee9ecc670c3593c1",
+  "previous_canonical_run_id": "engineer-osint-20260904-B105",
+  "current_canonical_run_id": "engineer-osint-20260924-B112",
+  "current_canonical_sha256": "39b41f5af58d33982fe60f9eea5b993eef740db35838521084adf02d0abb92e4",
+  "normalized_browser_dom_sha256": "ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0",
+  "guard_mode": "EXACT_POST_B112_HASH_PIN_FAIL_CLOSED",
+  "historical_pre_b106_tests": "PRESERVED_NOT_CURRENT_STATE_CI",
+  "historical_b106_external_fixture": "PRESERVED_UNMODIFIED",
+  "workflow_behavior": {
+    "exact_b112": "RUN_POST_B112_PUBLICATION_CONTRACT",
+    "unknown_future_tip": "FAIL_CLOSED",
+    "pre_b106": "RETAIN_HISTORICAL_EXTERNAL_FIXTURE_PATH"
+  },
+  "authorized_changes": [
+    "materialize exact B106 through B112 append-only chain",
+    "apply exact B106 lifecycle successor",
+    "add exact post-B112 publication tests and dispatcher",
+    "route current CI workflows through the exact post-B112 contract"
+  ],
+  "prohibitions": {
+    "wildcard_future_run": true,
+    "history_rewrite": true,
+    "candidate_mutation": true,
+    "silent_guard_bypass": true
+  }
+}
