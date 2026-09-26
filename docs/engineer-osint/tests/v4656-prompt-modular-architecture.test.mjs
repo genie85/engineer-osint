@@ -12,6 +12,16 @@ const handoff=read('PROMPT_HANDOFF_CONTRACT.md');
 const schema=JSON.parse(read('prompt-handoff.schema.json'));
 const modules=[core,research,development];
 
+test('handoff semantic version matches the active master and execution views',()=>{
+  const active=/MASTER PROMPT v(\d+\.\d+)/.exec(master)?.[1];
+  assert.ok(active,'active master semantic version missing');
+  assert.match(core,new RegExp(`PROMPT CORE v${active.replace('.','\\.')}`));
+  assert.match(research,new RegExp(`PROMPT RESEARCH v${active.replace('.','\\.')}`));
+  assert.match(development,new RegExp(`PROMPT DEVELOPMENT v${active.replace('.','\\.')}`));
+  assert.match(handoff,new RegExp(`Prompt semantic version: ${active.replace('.','\\.')}`));
+  assert.equal(schema.properties.schema_version.const,'engineer-osint-research-development-handoff-v1');
+});
+
 const requiredHandoffFields=[
   'schema_version','handoff_id','producer','consumer','status','created_at','base_main_sha',
   'canonical_parent','candidate','factual_scope','claims','sources','evidence','conflicts','unresolved',
