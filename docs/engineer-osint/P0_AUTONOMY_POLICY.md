@@ -25,12 +25,12 @@ Do not autonomously publish personal contact data, non-public identities, exact 
 - A run uses one master-prompt revision and hash from start to finish.
 - The active master prompt must never be modified during its own run.
 - Self-maintenance may create a separate proposal only. It cannot activate that proposal.
-- The continuation parent, Drive latest identity/revision and GitHub base SHA are captured at run start and checked again immediately before finalization.
-- If any captured value changed, stop with `CONCURRENT_RUN_CONFLICT`; do not retry as a new parent inside the same run.
+- For a historically authorized Drive-chain continuation, capture its parent, Drive latest identity/revision and GitHub base SHA at run start and check them again before finalization. For post-B112 non-canonical research, record the observed archive pointer and fresh GitHub baseline as provenance only; do not derive a new parent from the archive.
+- If a captured value relevant to the proposed write changed, stop with `CONCURRENT_RUN_CONFLICT`; do not retry as a new parent inside the same run.
 
 ## Publication state machine
 
-Use explicit states:
+The following states describe historical shared-chain publication and remain valid for its immutable receipts:
 
 1. `PREPARED`
 2. `RESEARCH_VALIDATED`
@@ -39,12 +39,12 @@ Use explicit states:
 5. `DASHBOARD_PUBLISHED`
 6. `FULL_SUCCESS`
 
-Drive success is not GitHub success. A failed later phase must be resumable without repeating research or creating duplicate immutable artifacts.
+Drive success is not GitHub success. A failed later phase must be resumable without repeating research or creating duplicate immutable artifacts. Post-B112 non-canonical handoff must not claim `DRIVE_FINALIZED`, `DASHBOARD_PUBLISHED` or `FULL_SUCCESS` for the divergent archive; its future intake state contract needs separate approval.
 
 ## GitHub policy
 
 - Scheduled research must not write directly to `main`.
-- Produce one complete strict-v1 patch on a dedicated run branch and open a draft PR.
+- When a specific candidate has passed research and exact write preconditions, prepare one complete strict-v1 patch on a dedicated run branch and open a draft PR. Otherwise preserve a non-canonical research/handoff candidate; no empty or self-authorizing patch is required.
 - Scheduled agents never merge their own PRs and never write directly to `main`.
 - Use the expected base/blob SHA. A stale SHA is a concurrency conflict, not permission to overwrite.
 - Required integrity, runtime and security checks must pass before merge.
