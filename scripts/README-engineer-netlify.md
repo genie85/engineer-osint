@@ -13,6 +13,8 @@ The production command requires a clean local `main` branch, at least 11 GB free
 
 It runs the current B112/P0 integrity test, chain validation, Pages build and the relevant media, runtime, Czech and artifact gates. The deploy is skipped when every Netlify file SHA-1 matches the local build. After a changed deploy it verifies Netlify's published deploy ID, all file hashes, HTTP 200 and the public HTML SHA-256. If an upload returns an ambiguous result, reconcile the deploy ID in Netlify before retrying.
 
+Netlify Edge currently inserts a site-specific hosting comment immediately after the HTML charset declaration. Public readback accepts that exact comment at that exact position and otherwise requires byte equality with the built HTML; both source and public SHA-256 values are reported. Any other difference blocks verification.
+
 The Netlify project's visibility is controlled in Netlify UI. As of 26 September 2026, anonymous requests returned 401; the production command fails before upload until that access setting is corrected. [Netlify visibility instructions](https://docs.netlify.com/manage/security/secure-access-to-sites/project-visibility/).
 
 Historical Google Drive B96–B161 is a divergent research lineage and is not input to this deploy command. Resolve and review individual findings before a canonical run-store change. The private raw lineage map is kept outside this public repository.
