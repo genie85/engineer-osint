@@ -19,10 +19,10 @@ Create a complete strict patch on a fresh branch. Its parent must equal the curr
 node docs/engineer-osint/append-run.mjs /path/to/fresh-patch.json
 ```
 
-After review, materialize the run file and manifest update in the branch:
+After an exact, run-specific authorization and a compatible fail-closed dispatcher are installed, materialize the run file and manifest update in the isolated execution branch:
 
 ```bash
-node docs/engineer-osint/append-run.mjs /path/to/fresh-patch.json --write
+node docs/engineer-osint/append-run.mjs docs/engineer-osint/candidates/EXACT_REVIEWED_PATCH.json --write --authorization docs/engineer-osint/EXACT_RUN_AUTHORIZATION.json
 node docs/engineer-osint/validate-patch.mjs
 node docs/engineer-osint/build-pages.mjs
 node docs/engineer-osint/validate-runtime.mjs
@@ -40,12 +40,9 @@ Runs `engineer-osint-20260826-B88` and `engineer-osint-20260826-B89` are the com
 
 ## Research continuity versus publication continuity
 
-The Drive factual chain and the GitHub publication chain have separate tips:
+Historically, `FACTUAL_SUCCESS_TIP` named a verified Drive continuation tip and `PUBLISHED_TIP` named the final GitHub manifest entry. `PUBLICATION_LAG` described only a proven ancestor relationship on the same branch; it never permitted a fork or a skipped handoff. Preserve those historical run files and receipts without reinterpretation.
 
-- `FACTUAL_SUCCESS_TIP` is the verified Drive continuation tip. It is the parent of the next research run.
-- `PUBLISHED_TIP` is the final manifest entry. It is the parent accepted by `append-run.mjs`.
-
-The published tip may be an ancestor of the factual tip. This normal `PUBLICATION_LAG` must not block a later research run. It also does not weaken publication ordering: the helper still refuses a patch whose parent is not the current manifest tip.
+After the user's 2026-09-26 lineage decision, the GitHub manifest at B112 or a later individually authorized successor is the parent of a new public patch. The divergent Drive B96–B161 chain is an immutable research archive, not an ordered publication backlog and not the parent of a new factual/canonical run. New research may be stored as non-canonical handoff. A finding from the archive needs individual source validation, semantic deduplication, a new canonical ID with private legacy mapping, explicit factual approval and the exact append guard before publication. The current helper rejects unknown future runs; this policy text does not make B113 executable.
 
 ### Bounded contiguous publication batches
 
@@ -53,9 +50,9 @@ A publication PR may contain at most four consecutive missing runs when all are 
 
 Run `engineer-osint-20260826-B93` is an exact-artifact storage reconciliation, not a patch migration. Its original report stopped at `SUCCESS_CANDIDATE_PENDING_STORAGE_FINALIZATION`, but the same Drive folder contains the immutable strict delta with `state.status=SUCCESS`, the historical state and the report. The finalized B94 report then names B93 as its verified live SUCCESS parent, confirms the three required B93 artifacts, records byte-identical historical/latest state read-back and verifies lock release. The B93 raw file is therefore eligible without modifying its factual content; the evidence and hashes are pinned in `data/attestations/engineer-osint-20260826-B93-storage-reconciliation.md`.
 
-The publication executor reconciles immutable Drive handoffs with the manifest and appends exactly the first missing run. With GitHub at B67 and Drive at B68, it appends B68. If factual research has meanwhile produced B69 with parent B68, B69 remains pending until B68 is merged and confirmed as the manifest tip. Attempting B69 first fails the existing stale-parent check.
+The historical publication executor reconciled immutable Drive handoffs with the manifest and appended exactly the first missing run on a proven shared chain. Its B67/B68/B69 example is historical; it must not be applied to the divergent B96–B161 archive. Future approved patches must parent the fresh manifest tip, and the helper must reject a stale parent.
 
-A Drive SUCCESS does not imply that repository data, build, deploy or public read-back succeeded. Missing immutable handoff artefacts or a lineage divergence block both continuation and publication; a presentation-only or infrastructure publication failure leaves the factual chain valid and the ordered backlog pending.
+A Drive SUCCESS does not imply that repository data, build, deploy or public read-back succeeded. Missing immutable handoff artifacts or a divergence block dependent historical-chain continuation and publication; independent non-canonical research may continue. A presentation-only or infrastructure publication failure on a proven historical chain left that factual chain valid and its ordered backlog pending.
 
 ## Corrections and retractions
 
