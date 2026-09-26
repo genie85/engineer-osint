@@ -26,6 +26,11 @@ SITE_NAME = "engineer-osint"
 SITE_URL = "https://engineer-osint.netlify.app/"
 API = "https://api.netlify.com/api/v1"
 MIN_FREE_BYTES = 11_000_000_000
+NETLIFY_EDGE_COMMENT = (
+    b"<!-- This site is hosted on Netlify. Anyone can build and deploy a site\n"
+    b"     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=6d73e474-a47c-4328-a587-ab38534c901e\n"
+    b"     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->\n"
+)
 
 QA_BEFORE_BUILD = ["test-current-state.mjs", "validate-patch.mjs"]
 QA_AFTER_BUILD = [
@@ -96,6 +101,22 @@ def public_index_status():
         return error.code, b""
     except urllib.error.URLError:
         return None, b""
+
+
+def verified_public_index(live, expected):
+    """Accept only the exact observed Netlify Edge comment in the exact head slot."""
+    if live == expected:
+        return "exact"
+    anchor = b'<meta charset="utf-8">\n'
+    position = expected.find(anchor)
+    if position < 0:
+        fail("Expected HTML lacks the verified Netlify insertion point")
+    position += len(anchor)
+    if live.count(NETLIFY_EDGE_COMMENT) != 1 or live[position:position + len(NETLIFY_EDGE_COMMENT)] != NETLIFY_EDGE_COMMENT:
+        fail("Public HTML has an unrecognized difference")
+    if live[:position] + live[position + len(NETLIFY_EDGE_COMMENT):] != expected:
+        fail("Public HTML differs beyond the verified Netlify Edge comment")
+    return "netlify_edge_comment"
 
 
 def build():
@@ -175,10 +196,12 @@ def main():
     expected_hashes = {path: sha1(data) for path, data in files.items()}
     if len(remote_hashes) == len(files) and remote_hashes == expected_hashes:
         status, live = public_index_status()
-        if status != 200 or sha256(live) != sha256(index):
-            fail("No-op file hashes match, but public HTML readback differs")
+        if status != 200:
+            fail(f"No-op file hashes match, but public HTML returned HTTP {status}")
+        readback = verified_public_index(live, index)
         print(json.dumps({"phase": "no_change", "deploy_id": previous_deploy_id,
-                          "http": status, "index_sha256": sha256(live)}))
+                          "http": status, "source_index_sha256": sha256(index),
+                          "public_index_sha256": sha256(live), "readback": readback}))
         return
 
     archive = io.BytesIO()
@@ -204,10 +227,13 @@ def main():
     if {entry["path"]: entry["sha"] for entry in actual} != expected_hashes:
         fail("Netlify file hashes differ from validated build")
     status, live = public_index_status()
-    if status != 200 or sha256(live) != sha256(index):
+    if status != 200:
         fail(f"Netlify public readback failed: HTTP {status}; deploy ID {deploy_id}")
+    readback = verified_public_index(live, index)
     print(json.dumps({"phase": "verified", "previous_deploy_id": previous_deploy_id,
-                      "deploy_id": deploy_id, "http": status, "index_sha256": sha256(live)}, sort_keys=True))
+                      "deploy_id": deploy_id, "http": status,
+                      "source_index_sha256": sha256(index), "public_index_sha256": sha256(live),
+                      "readback": readback}, sort_keys=True))
 
 
 if __name__ == "__main__":
