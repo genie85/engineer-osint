@@ -25,12 +25,12 @@ Do not autonomously publish personal contact data, non-public identities, exact 
 - A run uses one master-prompt revision and hash from start to finish.
 - The active master prompt must never be modified during its own run.
 - Self-maintenance may create a separate proposal only. It cannot activate that proposal.
-- The continuation parent, Drive latest identity/revision and GitHub base SHA are captured at run start and checked again immediately before finalization.
-- If any captured value changed, stop with `CONCURRENT_RUN_CONFLICT`; do not retry as a new parent inside the same run.
+- For a historically authorized Drive-chain continuation, capture its parent, Drive latest identity/revision and GitHub base SHA at run start and check them again before finalization. For post-B112 non-canonical research, record the observed archive pointer and fresh GitHub baseline as provenance only; do not derive a new parent from the archive.
+- If a captured value relevant to the proposed write changed, stop with `CONCURRENT_RUN_CONFLICT`; do not retry as a new parent inside the same run.
 
 ## Publication state machine
 
-Use explicit states:
+The following states describe historical shared-chain publication and remain valid for its immutable receipts:
 
 1. `PREPARED`
 2. `RESEARCH_VALIDATED`
@@ -39,12 +39,12 @@ Use explicit states:
 5. `DASHBOARD_PUBLISHED`
 6. `FULL_SUCCESS`
 
-Drive success is not GitHub success. A failed later phase must be resumable without repeating research or creating duplicate immutable artifacts.
+Drive success is not GitHub success. A failed later phase must be resumable without repeating research or creating duplicate immutable artifacts. Post-B112 non-canonical handoff must not claim `DRIVE_FINALIZED`, `DASHBOARD_PUBLISHED` or `FULL_SUCCESS` for the divergent archive; its future intake state contract needs separate approval.
 
 ## GitHub policy
 
 - Scheduled research must not write directly to `main`.
-- Produce one complete strict-v1 patch on a dedicated run branch and open a draft PR.
+- When a specific candidate has passed research and exact write preconditions, prepare one complete strict-v1 patch on a dedicated run branch and open a draft PR. Otherwise preserve a non-canonical research/handoff candidate; no empty or self-authorizing patch is required.
 - Scheduled agents never merge their own PRs and never write directly to `main`.
 - Use the expected base/blob SHA. A stale SHA is a concurrency conflict, not permission to overwrite.
 - Required integrity, runtime and security checks must pass before merge.
@@ -64,14 +64,17 @@ Every run after the immutable cutoff `engineer-osint-20260823-B61` must use `sch
 
 The acknowledged legacy baseline contains three malformed revisions, five duplicate run IDs, two internal parent gaps and one external checkpoint parent. Their exact commit and content hashes are pinned. This is reported as `DEGRADED_LEGACY_ACKNOWLEDGED`, never as complete history. No new anomaly is accepted.
 
-Factual continuity and publication continuity use separate tips:
+## Historical lineage and current continuation
 
-- `FACTUAL_SUCCESS_TIP` is the latest raw-read-back-verified Drive SUCCESS and is the parent of the next factual research run.
-- `PUBLISHED_TIP` is the final GitHub run-store manifest entry and is the parent accepted by the publication append helper.
-- A `PUBLISHED_TIP` that is a proven ancestor of `FACTUAL_SUCCESS_TIP` is normal `PUBLICATION_LAG` and must not block the next factual research run.
-- Every intervening unpublished SUCCESS run must have a complete, validated and immutable handoff; research must never skip the factual parent.
-- Publication lag does not permit reordering: publication recovery appends exactly the first missing immutable run and the helper must reject a patch whose parent is not the current manifest tip.
-- Missing immutable handoff artifacts, an unverifiable ancestor relationship or a lineage divergence are `FACTUAL_PUBLICATION_LINEAGE_DIVERGENCE` and block both factual continuation and publication. Drive SUCCESS never implies dashboard data, build, deploy or public read-back success.
+The original two-tip contract remains the interpretation of historical artifacts on a **single proven ancestor chain**. In that historical contract, `FACTUAL_SUCCESS_TIP` meant a raw-read-back-verified Drive SUCCESS and `PUBLISHED_TIP` meant the final GitHub run-store manifest entry. A proven ancestor-only `PUBLICATION_LAG` allowed research to continue from the factual tip while the publication helper appended exactly the first missing immutable run. Every intervening SUCCESS required a complete, validated handoff. Missing handoffs, an unverifiable ancestor relationship or a fork were `FACTUAL_PUBLICATION_LINEAGE_DIVERGENCE` and blocked dependent continuation and publication. These historical labels and receipts must not be rewritten.
+
+For work after the user lineage decision of 2026-09-26:
+
+- The GitHub run-store manifest at `engineer-osint-20260924-B112`, or a later individually authorized canonical successor, is the only parent for a new public canonical patch. Fresh-read its current tip and SHA before each proposal, authorization and execution. B112 is the decision anchor, not a permanently fixed current tip.
+- The divergent Drive B96–B161 branch is an immutable historical archive. It is not `PUBLICATION_LAG`, not an ancestor of the GitHub B96 branch, and not a parent for a new factual/canonical successor. Do not change its `_latest`, fabricate a bridge, reset or renumber runs, or reinterpret its declared SUCCESS as independent atomic acceptance. The final read-back of B155 and B159 remains unverified.
+- New discoveries and rechecks may continue as traceable **non-canonical** research/handoff material in an already approved transport. A new handoff must identify its source, raw hash, observed limits, dedupe state and current GitHub baseline; storing it grants no canonical or publication authority.
+- Consider one archived finding at a time against the fresh canonical data and unconsumed backlog. Any accepted import uses a new canonical ID and retains its legacy ID, run ID, path and raw hash in a private reconciliation map. A protected factual approval, exact append guard, QA, reviewed merge and public read-back remain separate gates.
+- Until the relevant run-store guard and repository contracts are separately authorized and installed, block any B113 or later canonical write. The historical Drive/GitHub fork does not block independent read-only research or non-canonical handoff. Drive SUCCESS never implies dashboard data, build, deploy or public read-back success.
 
 ## PUBLIC-CZ regression ratchet
 
