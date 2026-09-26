@@ -1,8 +1,10 @@
 # ENGINEER OSINT — RESEARCH → DEVELOPMENT HANDOFF CONTRACT v1
 
-Prompt semantic version: 3.7
+Prompt semantic version: 3.8
 Canonical prompt authority: `MASTER_PROMPT.md`
 Machine schema: `prompt-handoff.schema.json`
+
+Tento semantic-version alignment nemění wire formát `engineer-osint-research-development-handoff-v1`, povolené statusy ani acceptance/publication authority. Starší schema-valid v1 handoff zůstává čitelný, ale před použitím musí stejně projít fresh base/parent, konflikty, bezpečností a aktuálním CORE v3.8; automatická konverze `REVIEW_REQUIRED` nebo `BLOCKED_RESEARCH` na `READY_FOR_DEVELOPMENT` není dovolena.
 
 ## 1. Účel
 
