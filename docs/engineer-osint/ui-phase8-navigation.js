@@ -18,7 +18,7 @@
   /* The legacy global filter bar only affects the original Activity Feed and Technology
      renderers. Hide it everywhere else instead of presenting controls that do nothing. */
   const globalFilterPanel=()=>document.querySelector('main>.filterbar')||document.getElementById('searchInput')?.parentElement||null;
-  const mobileViewport=window.matchMedia('(max-width:799px)');
+  const mobileViewport=window.matchMedia('(max-width:767px)');
   const filterPanel=globalFilterPanel();
   const originalFilterId=filterPanel?.id||'';
   let mobileFilterButton=null,mobileStyle=null;
@@ -34,7 +34,7 @@
     filterPanel.before(mobileFilterButton);
     mobileStyle=document.createElement('style');
     mobileStyle.textContent='#engineerMobileFilterToggle{display:none}'+
-      '@media(max-width:799px){#engineerMobileFilterToggle:not([hidden]){display:flex;width:100%;justify-content:space-between;align-items:center;margin:0 0 10px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);cursor:pointer;text-align:left}#engineerMobileFilterToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}main>.filterbar[data-mobile-open="false"]{display:none!important}#view .records{grid-template-columns:minmax(0,1fr)}#view .entity-card{min-width:0;overflow-wrap:anywhere}}';
+      '@media(max-width:767px){#engineerMobileFilterToggle:not([hidden]){display:flex;width:100%;justify-content:space-between;align-items:center;margin:0 0 10px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);cursor:pointer;text-align:left}#engineerMobileFilterToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}main>.filterbar[data-mobile-open="false"]{display:none!important}#view .records{grid-template-columns:minmax(0,1fr)}#view .entity-card{min-width:0;overflow-wrap:anywhere}}';
     document.head.appendChild(mobileStyle);
   };
   let mobileFiltersOpen=false,lastFilterRoute='';
