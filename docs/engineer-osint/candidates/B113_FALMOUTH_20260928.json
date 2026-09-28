@@ -1,0 +1,169 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20260928-B113",
+    "parent_run_id": "engineer-osint-20260924-B112",
+    "status": "SUCCESS",
+    "window_from": "2026-09-23T00:00:00Z",
+    "window_to": "2026-09-28T22:35:00Z",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 2,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "SPECIFIC_USER_APPROVAL_2026_09_28_PENDING_GUARDED_APPEND",
+    "reviewed_main_sha": "3ea0b9a67533324961de96242f5c3b4731f69289",
+    "reviewed_parent_canonical_sha256": "39b41f5af58d33982fe60f9eea5b993eef740db35838521084adf02d0abb92e4",
+    "source_adjudication": "HANDOFF-20260927T045743Z-GBR-FALMOUTH-UXO-CLOSURE-R3-READY-01",
+    "input_handoff_raw_sha256": "bb9918e07172276e7e107bfe089c3dd763ffb3a6609b7caf74353025a12dba07",
+    "prerequisite_candidates": [],
+    "identifier_allocation": "FRESH_DEDUPE_AGAINST_B112_2026_09_28",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "held_topics": [],
+    "merged_topics": [],
+    "structural_scope": "ONE_HIGH_LEVEL_HISTORICAL_EVENT_TWO_PRIMARY_SOURCES_ONE_EVIDENCE_NO_MEDIA"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-EVT-0151",
+      "type": "ENG-EVT",
+      "country": "GBR",
+      "record_role": "HISTORICAL_MARITIME_EOD_PUBLIC_SAFETY_MILESTONE",
+      "title_en": "Falmouth WWII ordnance removed and evacuation cordon lifted",
+      "title_cs": "Falmouth: válečná munice odstraněna a evakuační uzávěra zrušena",
+      "summary_en": "Cornwall Council reported that WWII ordnance was removed from Falmouth Docks and the evacuation cordon lifted on 23 September 2026. Royal Navy reporting connects Bravo Squadron with the Falmouth response. Later final disposal at sea was not confirmed by the reviewed sources.",
+      "summary_cs": "Podle rady hrabství Cornwall byla 23. září 2026 nevybuchlá munice z druhé světové války bezpečně odstraněna z oblasti přístavu Falmouth a evakuační uzávěra byla zrušena. Královské námořnictvo potvrdilo účast jednotky Bravo Squadron. Dokončení pozdější likvidace munice na moři tento podklad nedokládá.",
+      "fact_en": "Cornwall Council's 23 September updates state that the ordnance had been removed from Falmouth Docks and the evacuation cordon was lifted. A Royal Navy article dated 25 September identifies Bravo Squadron personnel as involved in the Falmouth response.",
+      "fact_cs": "Aktualizace rady hrabství Cornwall z 23. září uvádí odstranění munice z přístavu Falmouth a zrušení evakuační uzávěry. Článek Královského námořnictva z 25. září spojuje s reakcí ve Falmouthu příslušníky jednotky Bravo Squadron.",
+      "analysis_en": "This is a completed public-safety and maritime EOD response milestone. The reviewed primary sources distinguish removal and return of residents from planned later final disposal at sea.",
+      "analysis_cs": "Jde o dokončený milník veřejné bezpečnosti a námořní EOD reakce. Ověřené primární zdroje odlišují odstranění munice a návrat obyvatel od plánované pozdější konečné likvidace na moři.",
+      "what_it_does_not_prove_en": "It does not establish that the later at-sea disposal was completed, nor any measured change in operational readiness.",
+      "what_it_does_not_prove_cs": "Nedokládá dokončení pozdější likvidace na moři ani měřenou změnu operační připravenosti.",
+      "source_ids": [
+        "ENG-SRC-0637",
+        "ENG-SRC-0638"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0299"
+      ],
+      "publication_date": "2026-09-23",
+      "temporal_status": "SEPTEMBER_2026_REMOVAL_AND_CORDON_LIFT_CONFIRMED_LATER_DISPOSAL_UNVERIFIED",
+      "classification": "FACT_WITH_EXPLICIT_LATER_DISPOSAL_BOUNDARY",
+      "confidence": "HIGH_FOR_REMOVAL_AND_CORDON_LIFT",
+      "topics": [
+        "MARITIME_EOD",
+        "PUBLIC_SAFETY",
+        "UNITED_KINGDOM"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_HISTORICAL_NON_ACTIONABLE"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0637",
+      "title": "Falmouth incident - live updates",
+      "title_en": "Falmouth incident - live updates",
+      "title_cs": "Falmouth: oficiální průběžné zprávy rady hrabství Cornwall",
+      "publisher": "Cornwall Council",
+      "publication_date": "2026-09-23",
+      "accessed_at": "2026-09-28",
+      "url": "https://www.cornwall.gov.uk/falmouthincident",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_LOCAL_AUTHORITY_PRIMARY_INCIDENT_UPDATES",
+      "role": "PRIMARY_REMOVAL_CORDON_AND_ROYAL_NAVY_QUOTE",
+      "verification_status": "DIRECT_PUBLIC_TEXT_READBACK_2026-09-28"
+    },
+    {
+      "id": "ENG-SRC-0638",
+      "title": "Highest humanitarian award for Royal Navy Divers dealing with lethal legacy of unexploded ordnance",
+      "title_en": "Highest humanitarian award for Royal Navy Divers dealing with lethal legacy of unexploded ordnance",
+      "title_cs": "Královské námořnictvo: ocenění potápěčů a zmínka o zásahu ve Falmouthu",
+      "publisher": "Royal Navy",
+      "publication_date": "2026-09-25",
+      "accessed_at": "2026-09-28",
+      "url": "https://www.royalnavy.mod.uk/news/2026/september/25/20260925-firmin-sword",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_ROYAL_NAVY_PRIMARY_REPORT",
+      "role": "PRIMARY_UNIT_INVOLVEMENT_CONTEXT",
+      "verification_status": "DIRECT_PUBLIC_TEXT_READBACK_2026-09-28"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0299",
+      "evidence_id": "ENG-EVID-0299",
+      "evidence_type": "OFFICIAL_FALMOUTH_INCIDENT_UPDATES",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0151"
+      ],
+      "source_ids": [
+        "ENG-SRC-0637",
+        "ENG-SRC-0638"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Removal of WWII ordnance from Falmouth Docks and lifting of the evacuation cordon on 23 September 2026; Royal Navy Bravo Squadron connection to the response.",
+      "what_it_supports_cs": "Odstranění munice z druhé světové války z přístavu Falmouth a zrušení evakuační uzávěry 23. září 2026; zapojení jednotky Bravo Squadron do zásahu.",
+      "what_it_does_not_prove_en": "Completion of subsequent final disposal at sea or a measured readiness improvement.",
+      "what_it_does_not_prove_cs": "Dokončení následné konečné likvidace na moři ani měřené zlepšení připravenosti.",
+      "confidence": "HIGH_FOR_SOURCE_CONTENT",
+      "observed_at": "2026-09-28"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "SPECIFIC_USER_APPROVAL_PENDING_GUARDED_APPEND",
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION",
+    "mode": "IN_MEMORY_STRICT_PATCH_WITH_USER_APPROVAL",
+    "supplemental_group_count": 1,
+    "candidate_topic_count": 1,
+    "new_record_count": 1,
+    "updated_record_count": 0,
+    "held_topic_count": 0,
+    "merged_topic_count": 0,
+    "all_batch_groups_adjudicated": true,
+    "canonical_write_performed": false,
+    "publication_performed": false
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

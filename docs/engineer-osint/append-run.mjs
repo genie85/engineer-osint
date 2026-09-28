@@ -51,6 +51,21 @@ export const B106=Object.freeze({
     "docs/engineer-osint/data/run-store-manifest.json"
   ]
 });
+export const B113=Object.freeze({
+  run:'engineer-osint-20260928-B113',
+  parent:'engineer-osint-20260924-B112',
+  parent_canonical:'39b41f5af58d33982fe60f9eea5b993eef740db35838521084adf02d0abb92e4',
+  result_canonical:'c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b',
+  candidate:'docs/engineer-osint/candidates/B113_FALMOUTH_20260928.json',
+  candidate_sha256:'4ff481952ba2f4eb705dc3ce830e43f57f669191d93e39be090438553bb91f17',
+  candidate_blob:'b81af06a988eb83da382e3ae48d4606d60045952',
+  authorization:'docs/engineer-osint/B113_FALMOUTH_APPEND_AUTHORIZATION_20260928.json',
+  authorization_sha256:'215e61ccead84fa16c76a8fcdc3484d1bc8a8ff115e1cb1a0e413384bebf52c5',
+  outputs:[
+    'docs/engineer-osint/data/runs/engineer-osint-20260928-B113.json',
+    'docs/engineer-osint/data/run-store-manifest.json'
+  ]
+});
 const LEGACY=[
   {
     "path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
@@ -121,10 +136,29 @@ export function parseAppendCli(args){
  if(authorization&&!write)throw Error('Authorization requires explicit write intent');
  return {input,write,authorization};
 }
-function assertRoute(run,input,authorization){
+export function assertRoute(run,input,authorization){
  strictRepoPath(authorization);
  if(run===B106.run){if(input!==B106.candidate||authorization!==B106.authorization)throw Error('Strict append dispatcher rejects B106 path');return;}
+ if(run===B113.run){if(input!==B113.candidate||authorization!==B113.authorization)throw Error('Strict append dispatcher rejects B113 path');return;}
  if(!LEGACY.some(x=>x.run===run&&x.candidate===input&&x.path===authorization))throw Error('Strict append dispatcher rejects unknown run/path');
+}
+export function validateStrictB113(authRaw,{candidateRaw,store,resultingCanonical}){
+ if(sha256Text(authRaw)!==B113.authorization_sha256)throw Error('Strict B113 authorization bytes drift');
+ if(sha256Text(candidateRaw)!==B113.candidate_sha256||gitBlob(candidateRaw)!==B113.candidate_blob)throw Error('Strict B113 candidate bytes drift');
+ const authorization=parseJsonStrict(authRaw,{maxBytes:65536,maxDepth:40});finite(authorization);
+ const candidate=parseJsonStrict(candidateRaw);finite(candidate);
+ if(sha256Text(JSON.stringify(candidate,null,2)+'\n')!==B113.candidate_sha256)throw Error('Strict B113 normalized candidate drift');
+ if(authorization.schema_version!=='engineer-osint-b113-falmouth-append-authorization-v1'||authorization.status!=='READY_FOR_APPEND')throw Error('Strict B113 authorization state drift');
+ if(authorization.candidate_run_id!==B113.run||authorization.candidate_path!==B113.candidate||authorization.candidate_git_blob_sha!==B113.candidate_blob||authorization.exact_candidate_file_sha256!==B113.candidate_sha256)throw Error('Strict B113 candidate identity drift');
+ if(authorization.expected_parent_run_id!==B113.parent||authorization.expected_parent_canonical_sha256!==B113.parent_canonical||authorization.expected_resulting_canonical_sha256!==B113.result_canonical)throw Error('Strict B113 authorization lineage drift');
+ if(canonicalDigest(authorization.allowed_outputs)!==canonicalDigest(B113.outputs))throw Error('Strict B113 outputs drift');
+ if(candidate.state.run_id!==B113.run||candidate.state.parent_run_id!==B113.parent||store.report.current_run_id!==B113.parent||store.report.canonical_sha256!==B113.parent_canonical||resultingCanonical!==B113.result_canonical)throw Error('Strict B113 parent/result drift');
+ if(candidate.continuity?.canonical_write_performed!==false||candidate.qa?.publication_performed!==false||candidate.visuals?.length||candidate.media?.length)throw Error('Strict B113 candidate scope drift');
+ const a=authorization.authorization;
+ if(a?.append_exact_candidate_only!==true||a.one_run_only!==true||a.isolated_review_branch_required!==true||a.execution_requires_separate_slice!==true)throw Error('Strict B113 execution scope incomplete');
+ for(const key of ['allow_manual_manifest_or_hash_edit','allow_future_run_same_slice','allow_canonical_history_rewrite','allow_candidate_mutation','allow_media_change','allow_workflow_change','allow_deploy_in_guard_slice'])if(a[key]!==false)throw Error(`Strict B113 forbidden scope: ${key}`);
+ if(authorization.execution_state?.canonical_write_performed!==false||authorization.execution_state?.run_file_created!==false||authorization.execution_state?.manifest_updated!==false)throw Error('Strict B113 authorization must be pre-execution');
+ return {valid:true,run:B113.run,outputs:[...B113.outputs],execution_performed:false};
 }
 export function strictB106Expectation(guardRaw){
  return {schema_version:'engineer-osint-b106-strict-append-authorization-v1',status:'READY_FOR_APPEND',reviewed_main_sha:B106.base,reviewed_tree_sha:B106.tree,candidate_path:B106.candidate,candidate_git_blob_sha:B106.candidate_blob,exact_candidate_file_sha256:B106.candidate_sha256,candidate_run_id:B106.run,expected_parent_run_id:B106.parent,expected_parent_canonical_sha256:B106.parent_canonical,expected_resulting_canonical_sha256:B106.result_canonical,readiness:{path:B106.readiness,git_blob_sha:B106.readiness_blob,raw_sha256:B106.readiness_sha256,canonical_sha256:B106.readiness_canonical},guard:{path:B106.guard,git_blob_sha:gitBlob(guardRaw),raw_sha256:sha256Text(guardRaw)},expected_counts:B106.counts,expected_card_ids:B106.cards,expected_visual_ids:B106.visuals,allowed_outputs:B106.outputs,authorization:{append_exact_candidate_only:true,allow_candidate_mutation:false,allow_authorization_mutation:false,allow_manual_manifest_or_hash_edit:false,allow_future_run:false,allow_history_rewrite:false,allow_runtime_change:false,allow_workflow_change:false,allow_lifecycle_change:false,allow_media_change:false,allow_deploy:false,allow_merge:false,allow_publish:false},execution_state:{performed:false}};
@@ -317,7 +351,13 @@ if(write&&runId===B106.run){
  validateStrictB106(authorizationFile.raw,{candidateRaw:raw,readinessRaw:readinessFile.raw,guardRaw:guardFile.raw,store,resultingCanonical:entry.canonical_sha256});
  b106Files=[candidateFile,authorizationFile,readinessFile,guardFile,readStableFile(source+'/data/run-store-manifest.json')];
 }
-if(write&&!legacyGuardedRuns.has(runId)&&runId!==B106.run){
+let b113Files=null;
+if(write&&runId===B113.run){
+ const authorizationFile=readStableFile(B113.authorization);
+ validateStrictB113(authorizationFile.raw,{candidateRaw:raw,store,resultingCanonical:entry.canonical_sha256});
+ b113Files=[candidateFile,authorizationFile,readStableFile(source+'/data/run-store-manifest.json')];
+}
+if(write&&!legacyGuardedRuns.has(runId)&&runId!==B106.run&&runId!==B113.run){
   if(!explicitAuthorizationPath)throw new Error(`Explicit append authorization required for unrecognized write run ${runId}`);
   const authorizationPath=explicitAuthorizationPath.replaceAll('\\','/');
   if(!authorizationPath.startsWith(`${source}/`)||authorizationPath.split('/').includes('..'))throw new Error('Explicit append authorization path is outside docs/engineer-osint');
@@ -348,6 +388,11 @@ if(write&&b106Files){
   for(const file of b106Files)assertUnchanged(file);
   for(const output of B106.outputs)assertSafeParents(output);
   if(existsSync(destination))throw Error('B106 replay blocked');
+}
+if(write&&b113Files){
+ for(const file of b113Files)assertUnchanged(file);
+ for(const output of B113.outputs)assertSafeParents(output);
+ if(existsSync(destination))throw Error('B113 replay blocked');
 }
 if(write){
   const manifestPath=join(source,'data/run-store-manifest.json'),runTemp=`${destination}.tmp`,manifestTemp=`${manifestPath}.tmp`;

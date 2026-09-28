@@ -1,0 +1,35 @@
+{
+  "schema_version": "engineer-osint-b113-falmouth-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "human_approval_source": "User confirmation in this conversation on 2026-09-28: 1) schvaluji; 2) schvaluji, in response to the exact B113 guard and Falmouth public fact proposal",
+  "candidate_run_id": "engineer-osint-20260928-B113",
+  "candidate_path": "docs/engineer-osint/candidates/B113_FALMOUTH_20260928.json",
+  "candidate_git_blob_sha": "b81af06a988eb83da382e3ae48d4606d60045952",
+  "exact_candidate_file_sha256": "4ff481952ba2f4eb705dc3ce830e43f57f669191d93e39be090438553bb91f17",
+  "expected_parent_run_id": "engineer-osint-20260924-B112",
+  "expected_parent_canonical_sha256": "39b41f5af58d33982fe60f9eea5b993eef740db35838521084adf02d0abb92e4",
+  "expected_resulting_canonical_sha256": "c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b",
+  "source_handoff_raw_sha256": "bb9918e07172276e7e107bfe089c3dd763ffb3a6609b7caf74353025a12dba07",
+  "allowed_outputs": [
+    "docs/engineer-osint/data/runs/engineer-osint-20260928-B113.json",
+    "docs/engineer-osint/data/run-store-manifest.json"
+  ],
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_candidate_mutation": false,
+    "allow_media_change": false,
+    "allow_workflow_change": false,
+    "allow_deploy_in_guard_slice": false
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false
+  }
+}
