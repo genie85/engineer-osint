@@ -18,6 +18,27 @@
   /* The legacy global filter bar only affects the original Activity Feed and Technology
      renderers. Hide it everywhere else instead of presenting controls that do nothing. */
   const globalFilterPanel=()=>document.querySelector('main>.filterbar')||document.getElementById('searchInput')?.parentElement||null;
+  const mobileViewport=window.matchMedia('(max-width:767px)');
+  const filterPanel=globalFilterPanel();
+  const originalFilterId=filterPanel?.id||'';
+  let mobileFilterButton=null,mobileStyle=null;
+  const ensureMobileFilters=()=>{
+    if(!filterPanel||mobileFilterButton)return;
+    mobileFilterButton=document.createElement('button');
+    mobileFilterButton.type='button';
+    mobileFilterButton.id='engineerMobileFilterToggle';
+    mobileFilterButton.hidden=true;
+    filterPanel.id=originalFilterId||'engineerGlobalFilters';
+    mobileFilterButton.setAttribute('aria-controls',filterPanel.id);
+    mobileFilterButton.onclick=()=>{mobileFiltersOpen=!mobileFiltersOpen;syncGlobalFilterVisibility()};
+    filterPanel.before(mobileFilterButton);
+    mobileStyle=document.createElement('style');
+    mobileStyle.textContent='#engineerMobileFilterToggle{display:none}'+
+      '@media(max-width:767px){#engineerMobileFilterToggle:not([hidden]){display:flex;width:100%;justify-content:space-between;align-items:center;margin:0 0 10px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);cursor:pointer;text-align:left}#engineerMobileFilterToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}main>.filterbar[data-mobile-open="false"]{display:none!important}#view .records{grid-template-columns:minmax(0,1fr)}#view .entity-card{min-width:0;overflow-wrap:anywhere}}';
+    document.head.appendChild(mobileStyle);
+  };
+  let mobileFiltersOpen=false,lastFilterRoute='';
+  const activeFilterCount=()=>[...filterPanel?.querySelectorAll('select,input[type="search"]')||[]].filter(el=>String(el.value||'').trim()).length;
   const globalFiltersApply=()=>{
     const route=(location.hash||'#overview').slice(1).split('?')[0];
     const t=(document.getElementById('pageTitle')?.textContent||'').trim();
@@ -28,8 +49,31 @@
     const show=globalFiltersApply();
     panel.hidden=!show;
     panel.style.display=show?'':'none';
-    panel.setAttribute('aria-hidden',show?'false':'true');
+    if(!mobileViewport.matches){
+      if(mobileFilterButton){
+        mobileFilterButton.remove();mobileStyle.remove();
+        if(originalFilterId)panel.id=originalFilterId;else panel.removeAttribute('id');
+        panel.removeAttribute('data-mobile-open');
+        mobileFilterButton=null;mobileStyle=null;
+      }
+      panel.setAttribute('aria-hidden',show?'false':'true');
+      return;
+    }
+    ensureMobileFilters();
+    const route=(location.hash||'#overview').slice(1).split('?')[0];
+    if(route!==lastFilterRoute){mobileFiltersOpen=false;lastFilterRoute=route}
+    if(!show)mobileFiltersOpen=false;
+    panel.dataset.mobileOpen=mobileFiltersOpen?'true':'false';
+    panel.setAttribute('aria-hidden',show&&mobileFiltersOpen?'false':'true');
+    mobileFilterButton.hidden=!show;
+    mobileFilterButton.setAttribute('aria-expanded',mobileFiltersOpen?'true':'false');
+    const count=activeFilterCount();
+    mobileFilterButton.textContent=(lang()==='cs'?'Filtry a hledání':'Filters and search')+(count?' · '+count:'')+(mobileFiltersOpen?' −':' +');
   };
+  filterPanel?.addEventListener('input',syncGlobalFilterVisibility);
+  filterPanel?.addEventListener('change',syncGlobalFilterVisibility);
+  filterPanel?.querySelector('#resetFilters')?.addEventListener('click',()=>setTimeout(syncGlobalFilterVisibility,0));
+  mobileViewport.addEventListener('change',syncGlobalFilterVisibility);
 
   function listPage(button,cs,en,pred){
     activate(button);
