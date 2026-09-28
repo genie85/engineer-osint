@@ -44,8 +44,12 @@ jobs:
         run: |
           set -euo pipefail
           canonical_tip="$(node -e 'const m=require("./docs/engineer-osint/data/run-store-manifest.json");process.stdout.write(m.runs.at(-1)?.run_id||"")')"
-          if [[ "$canonical_tip" == "engineer-osint-20260924-B112" ]]; then
+          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" ]]; then
             node docs/engineer-osint/test-current-state.mjs
+            exit 0
+          fi
+          if [[ "$canonical_tip" == "engineer-osint-20260924-B112" ]]; then
+            node --test docs/engineer-osint/tests/post-b112-publication.test.mjs
             exit 0
           fi
           [[ "$B106_CI_NOTES_COMMIT" =~ ^[a-f0-9]{40}$ ]]
@@ -161,7 +165,8 @@ jobs:
               'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a',
               'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
               'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
-              'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0'
+              'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
+              'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966'
           }
           expected=expected_by_run.get(current)
           if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
@@ -185,7 +190,8 @@ jobs:
             'engineer-osint-20260902-B103':'68892883c8acc3dbdd7d9acc2e2d48682ac61008ad8b8a49f55c01fbef71e87a',
             'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
             'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
-            'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0'
+            'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
+            'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966'
           };
           const expected=expectedByRun[b.current_run_id];
           if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);
