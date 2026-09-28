@@ -31,7 +31,32 @@
     panel.setAttribute('aria-hidden',show?'false':'true');
   };
 
-  function listPage(button,cs,en,pred){activate(button);const v=view();if(!v)return;const xs=records().filter(pred);setTitle(lang()==='cs'?cs:en);v.dataset.i18nManaged='1';v.innerHTML='<section class="card section" data-i18n-managed="1"><div class="entity-page-head"><div><h2>'+esc(lang()==='cs'?cs:en)+'</h2><div class="muted">'+xs.length+' '+(lang()==='cs'?'záznamů':'records')+'</div></div><input id="engineerEntityFilter" placeholder="'+esc(lang()==='cs'?'Hledat název nebo ENG-* ID':'Search title or ENG-* ID')+'"></div><div id="engineerEntityList">'+xs.map(card).join('')+'</div></section>';wire(v);const input=document.getElementById('engineerEntityFilter');if(input)input.oninput=()=>{const q=input.value.trim().toLowerCase();document.querySelectorAll('#engineerEntityList [data-open]').forEach(el=>el.style.display=!q||el.textContent.toLowerCase().includes(q)?'block':'none')};}
+  function listPage(button,cs,en,pred){
+    activate(button);
+    const v=view();if(!v)return;
+    const xs=records().filter(pred),isCs=lang()==='cs';
+    setTitle(isCs?cs:en);
+    v.dataset.i18nManaged='1';
+    v.innerHTML='<section class="card section" data-i18n-managed="1"><div class="entity-page-head"><div><h2>'+esc(isCs?cs:en)+'</h2><div id="engineerEntityCount" class="muted" role="status" aria-live="polite"></div></div><div><label for="engineerEntityFilter">'+esc(isCs?'Hledat v záznamech':'Search records')+'</label><input id="engineerEntityFilter" type="search" aria-controls="engineerEntityList" placeholder="'+esc(isCs?'Název nebo ENG-* ID':'Title or ENG-* ID')+'"></div></div><div id="engineerEntityList">'+xs.map(card).join('')+'</div><p id="engineerEntityEmpty" class="muted" hidden>'+esc(isCs?'Žádné záznamy neodpovídají hledání.':'No records match your search.')+'</p></section>';
+    wire(v);
+    const input=v.querySelector('#engineerEntityFilter');
+    const count=v.querySelector('#engineerEntityCount');
+    const empty=v.querySelector('#engineerEntityEmpty');
+    const cards=[...v.querySelectorAll('#engineerEntityList [data-open]')];
+    const update=()=>{
+      const q=input.value.trim().toLocaleLowerCase(isCs?'cs':'en');
+      let found=0;
+      for(const el of cards){
+        const matches=!q||el.textContent.toLocaleLowerCase(isCs?'cs':'en').includes(q);
+        el.style.display=matches?'':'none';
+        if(matches)found++;
+      }
+      count.textContent=isCs?`${found} z ${xs.length} záznamů`:`${found} of ${xs.length} records`;
+      empty.hidden=found!==0;
+    };
+    input.addEventListener('input',update);
+    update();
+  }
 
   const legacy=[...nav.children];
   const legacyOverview=legacy.find(x=>/^\s*(Přehled|Overview)\s*$/i.test(x.textContent||''));
