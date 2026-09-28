@@ -11,6 +11,9 @@ if(tip?.run_id!==EXPECTED_RUN||tip?.canonical_sha256!==EXPECTED_DIGEST){
 }
 const fs=statfsSync('.',{bigint:true});
 if(fs.bavail*fs.bsize<12_000_000_000n)throw new Error('12GB disk gate');
-const result=spawnSync(process.execPath,['--test','docs/engineer-osint/tests/post-b112-publication.test.mjs'],{stdio:'inherit'});
+const result=spawnSync(process.execPath,['--test',
+  'docs/engineer-osint/tests/post-b112-publication.test.mjs',
+  'docs/engineer-osint/tests/b113-falmouth-guard.test.mjs'
+],{stdio:'inherit'});
 if(result.error)throw result.error;
 process.exit(result.status ?? 1);
