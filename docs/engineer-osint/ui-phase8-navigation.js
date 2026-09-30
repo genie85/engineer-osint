@@ -13,19 +13,24 @@
   const activate=b=>{document.querySelectorAll('#sidebar nav button,#sidebar nav a').forEach(x=>x.classList.remove('active'));b?.classList.add('active');close()};
   const open=id=>{if(typeof window.openDetail==='function')return window.openDetail(id);const r=records().find(x=>x.id===id),v=view();if(!r||!v)return;v.innerHTML='<section class="card section"><div class="mono">'+esc(r.id)+'</div><h2>'+esc(title(r))+'</h2><p>'+esc(summary(r)||'—')+'</p></section>'};
   const card=r=>'<article class="item" data-open="'+esc(r.id)+'" style="cursor:pointer"><div class="mono muted">'+esc(r.id)+' · '+esc(r.country||'')+'</div><strong>'+esc(title(r))+'</strong>'+(lang()==='cs'&&!r.title_cs&&!r.summary_cs?'<span class="translation-fallback-badge" style="font-size:8px;color:#e7ca84;margin-left:5px"> CHYBÍ ČEŠTINA · ZOBRAZENA ANGLIČTINA</span>':'')+(summary(r)?'<p>'+esc(summary(r))+'</p>':'')+'</article>';
-  const wire=root=>root.querySelectorAll('[data-open]').forEach(e=>{
-    e.setAttribute('role','button');
-    e.tabIndex=0;
-    e.onclick=()=>open(e.dataset.open);
-    e.onkeydown=event=>{
-      if(event.key!=='Enter'&&event.key!==' ')return;
-      event.preventDefault();
-      open(e.dataset.open);
-    };
-  });
-  const cardFocusStyle=document.createElement('style');
-  cardFocusStyle.textContent='#view [data-open]:focus-visible{outline:2px solid #9ec8ef;outline-offset:2px}';
-  document.head.appendChild(cardFocusStyle);
+  const wire=root=>{
+    if(!document.getElementById('engineerCardFocusStyle')){
+      const style=document.createElement('style');
+      style.id='engineerCardFocusStyle';
+      style.textContent='#view [data-open]:focus-visible{outline:2px solid #9ec8ef;outline-offset:2px}';
+      document.head.appendChild(style);
+    }
+    root.querySelectorAll('[data-open]').forEach(e=>{
+      e.setAttribute('role','button');
+      e.tabIndex=0;
+      e.onclick=()=>open(e.dataset.open);
+      e.onkeydown=event=>{
+        if(event.key!=='Enter'&&event.key!==' ')return;
+        event.preventDefault();
+        open(e.dataset.open);
+      };
+    });
+  };
 
   /* The legacy global filter bar only affects the original Activity Feed and Technology
      renderers. Hide it everywhere else instead of presenting controls that do nothing. */
