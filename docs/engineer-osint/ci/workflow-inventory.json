@@ -33,9 +33,7 @@
       "top_level_permissions": [
         "contents: read"
       ],
-      "dependency_references": [
-        "docs/engineer-osint/canonical-execution-requests/*.json"
-      ]
+      "dependency_references": []
     },
     {
       "path": ".github/workflows/first-three-overlay-retirement-regression.yml",
@@ -73,7 +71,11 @@
         "docs/engineer-osint/validate-patch.mjs",
         "docs/engineer-osint/validate-public-cz-regression.mjs",
         "docs/engineer-osint/validate-runtime.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
@@ -147,7 +149,11 @@
         "docs/engineer-osint/tests/*.test.mjs",
         "docs/engineer-osint/tests/post-b112-publication.test.mjs",
         "docs/engineer-osint/validate-patch.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
@@ -179,7 +185,11 @@
         "docs/engineer-osint/tests/*.test.mjs",
         "docs/engineer-osint/tests/post-b112-publication.test.mjs",
         "docs/engineer-osint/validate-patch.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
@@ -214,7 +224,11 @@
         "docs/engineer-osint/tests/*.test.mjs",
         "docs/engineer-osint/tests/post-b112-publication.test.mjs",
         "docs/engineer-osint/validate-patch.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
@@ -273,7 +287,11 @@
         "docs/engineer-osint/verify-pages-artifact.mjs",
         "docs/engineer-osint/verify-post-b98-pages-readiness.mjs",
         "docs/engineer-osint/verify-stage-bc-pages-gate.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
@@ -309,7 +327,11 @@
         "docs/engineer-osint/validate-patch.mjs",
         "docs/engineer-osint/validate-public-cz-regression.mjs",
         "docs/engineer-osint/validate-runtime.mjs",
-        "refs/notes/b106-ci-fixture"
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
       ]
     },
     {
