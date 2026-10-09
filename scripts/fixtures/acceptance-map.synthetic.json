@@ -1,0 +1,111 @@
+{
+  "classification": "NONCANONICAL_EVIDENCE_INDEX",
+  "observed_main_sha": "dddddddddddddddddddddddddddddddddddddddd",
+  "authority": {
+    "canonical_import": false,
+    "publication": false,
+    "drive_cleanup": false,
+    "state_transition": false
+  },
+  "findings": [
+    {
+      "source": {
+        "file_id": "SYNTHETIC_FILE_NOT_ON_DRIVE",
+        "revision": "EXAMPLE_REVISION",
+        "revision_unknown_reason": null,
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hash_verification": "fresh",
+        "verification_evidence": "SYNTHETIC raw-byte observation, not actual evidence"
+      },
+      "finding_id": "EXAMPLE-1",
+      "source_locator": "/findings/0",
+      "recorded_disposition": "accepted",
+      "disposition_evidence": "SYNTHETIC research-owner assessment; never produced by this checker",
+      "accepted_scope": [
+        "SYNTHETIC bounded subclaim"
+      ],
+      "remaining_scope": [],
+      "canonical_evidence": [
+        {
+          "commit_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "run_id": "SYNTHETIC_RUN",
+          "record_id": "SYNTHETIC_RECORD",
+          "path": "EXAMPLE_ONLY/run.json",
+          "json_pointer": "/updated_records/0/summary",
+          "run_raw_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "verification_evidence": "SYNTHETIC locator, not actual canonical acceptance"
+        }
+      ],
+      "publication_evidence": []
+    },
+    {
+      "source": {
+        "file_id": "SYNTHETIC_FILE_NOT_ON_DRIVE",
+        "revision": "EXAMPLE_REVISION",
+        "revision_unknown_reason": null,
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hash_verification": "fresh",
+        "verification_evidence": "SYNTHETIC raw-byte observation, not actual evidence"
+      },
+      "finding_id": "EXAMPLE-2",
+      "source_locator": "/findings/1",
+      "recorded_disposition": "partial",
+      "disposition_evidence": "SYNTHETIC research-owner assessment; never produced by this checker",
+      "accepted_scope": [
+        "SYNTHETIC bounded subclaim"
+      ],
+      "remaining_scope": [
+        "SYNTHETIC unaccepted remainder"
+      ],
+      "canonical_evidence": [
+        {
+          "commit_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "run_id": "SYNTHETIC_RUN",
+          "record_id": "SYNTHETIC_RECORD",
+          "path": "EXAMPLE_ONLY/run.json",
+          "json_pointer": "/updated_records/0/summary",
+          "run_raw_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "verification_evidence": "SYNTHETIC locator, not actual canonical acceptance"
+        }
+      ],
+      "publication_evidence": []
+    },
+    {
+      "source": {
+        "file_id": "SYNTHETIC_FILE_NOT_ON_DRIVE",
+        "revision": "EXAMPLE_REVISION",
+        "revision_unknown_reason": null,
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hash_verification": "fresh",
+        "verification_evidence": "SYNTHETIC raw-byte observation, not actual evidence"
+      },
+      "finding_id": "EXAMPLE-3",
+      "source_locator": "/findings/2",
+      "recorded_disposition": "unresolved",
+      "disposition_evidence": "SYNTHETIC research-owner assessment; never produced by this checker",
+      "accepted_scope": [],
+      "remaining_scope": [],
+      "canonical_evidence": [],
+      "publication_evidence": []
+    },
+    {
+      "source": {
+        "file_id": "SYNTHETIC_FILE_NOT_ON_DRIVE",
+        "revision": "EXAMPLE_REVISION",
+        "revision_unknown_reason": null,
+        "raw_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "hash_verification": "inherited",
+        "verification_evidence": "SYNTHETIC previously reported hash; not rechecked"
+      },
+      "finding_id": "EXAMPLE-4",
+      "source_locator": "/findings/3",
+      "recorded_disposition": "unknown",
+      "disposition_evidence": "SYNTHETIC research-owner assessment; never produced by this checker",
+      "accepted_scope": [],
+      "remaining_scope": [],
+      "canonical_evidence": [],
+      "publication_evidence": []
+    }
+  ],
+  "schema_version": "engineer-osint-acceptance-map-v1"
+}
