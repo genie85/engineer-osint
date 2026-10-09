@@ -1,0 +1,357 @@
+{
+  "schema_version": "engineer-osint-workflow-inventory-v1",
+  "inventory_scope": ".github/workflows",
+  "inventory_base_main_sha": "84ccd23488045dce53232cfc53b13df8edff28ff",
+  "roadmap_phase": "Phase A — post-v4.5.46 consolidation",
+  "status": "INITIAL_CLASSIFICATION_ONLY",
+  "safety_class": "CLASS_B",
+  "deletion_authorized": false,
+  "notes": [
+    "This inventory is classification metadata only; it does not authorize workflow deletion, permission changes, canonical writes, merge, publication, or deployment.",
+    "REMOVABLE_CI_DEBT_CANDIDATE is intentionally unused in this initial pass because no workflow has yet been proven redundant by separate regression evidence.",
+    "dependency_references enumerates repository source/state inputs and refs explicitly consumed by workflow jobs; trigger path filters are tracked separately and generated docs/engineer-osint-dist outputs are excluded."
+  ],
+  "classification_counts": {
+    "ACTIVE_PRODUCTION_PROTECTION": 7,
+    "HISTORICAL_EVIDENCE_KEEP": 2,
+    "REMOVABLE_CI_DEBT_CANDIDATE": 0
+  },
+  "workflow_count": 9,
+  "workflows": [
+    {
+      "path": ".github/workflows/authorized-canonical-executor.yml",
+      "blob_sha": "682f28fa04233916ba73da433e9e57d4ea2c7ff4",
+      "workflow_name": "ENGINEER OSINT canonical execution stop gate",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Fail-closed PR stop gate for canonical-execution request paths; removal would weaken the current protected execution boundary.",
+      "trigger_types": [
+        "pull_request"
+      ],
+      "trigger_path_filters": [
+        "docs/engineer-osint/canonical-execution-requests/*.json"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": []
+    },
+    {
+      "path": ".github/workflows/first-three-overlay-retirement-regression.yml",
+      "blob_sha": "f693d01a0c56ff3841bf34b8368baf1fa61deeb0",
+      "workflow_name": "ENGINEER OSINT first-three overlay retirement regression",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Still auto-runs on main/PR docs changes and checks post-retirement/current-state invariants; treat as active until separate regression evidence proves redundancy.",
+      "trigger_types": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [
+        "docs/engineer-osint/**",
+        ".github/workflows/first-three-overlay-retirement-regression.yml"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/audit-media-history.mjs",
+        "docs/engineer-osint/audit-post-b98-steady-state.mjs",
+        "docs/engineer-osint/audit-public-cz-ui-latest.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/diagnose-v4530-retirement-digest.mjs",
+        "docs/engineer-osint/materialize-canonical-media-history.mjs",
+        "docs/engineer-osint/media-source-materialization.js",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-media-coverage.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "docs/engineer-osint/validate-public-cz-regression.mjs",
+        "docs/engineer-osint/validate-runtime.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/i18n-switch-regression.yml",
+      "blob_sha": "c616f37d870b93b428f652a284a3dc5de13df609",
+      "workflow_name": "ENGINEER OSINT i18n switch regression",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Current push/PR regression for CZ/EN runtime switching and canonical hydration.",
+      "trigger_types": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [
+        "docs/engineer-osint/canonical-snapshot.js",
+        "docs/engineer-osint/ui-phase6-i18n.js",
+        "docs/engineer-osint/i18n-language-switch-hardening.js",
+        "docs/engineer-osint/i18n-runtime-switch-fix.js",
+        "docs/engineer-osint/i18n-en-postrender-cleanup.js",
+        "docs/engineer-osint/runtime-modules.mjs",
+        "docs/engineer-osint/test-i18n-runtime-switch.mjs",
+        "docs/engineer-osint/tests/canonical-en-hydration.test.mjs",
+        "docs/engineer-osint/tests/i18n-en-postrender-cleanup.test.mjs",
+        "docs/engineer-osint/tests/i18n-en-postrender-sibling-recovery.test.mjs",
+        "docs/engineer-osint/tests/language-switch-control.test.mjs",
+        ".github/workflows/i18n-switch-regression.yml"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/canonical-snapshot.js",
+        "docs/engineer-osint/i18n-en-postrender-cleanup.js",
+        "docs/engineer-osint/i18n-language-switch-hardening.js",
+        "docs/engineer-osint/i18n-runtime-switch-fix.js",
+        "docs/engineer-osint/test-i18n-runtime-switch.mjs",
+        "docs/engineer-osint/tests/canonical-en-hydration.test.mjs",
+        "docs/engineer-osint/tests/i18n-en-postrender-cleanup.test.mjs",
+        "docs/engineer-osint/tests/i18n-en-postrender-sibling-recovery.test.mjs",
+        "docs/engineer-osint/tests/language-switch-control.test.mjs",
+        "docs/engineer-osint/ui-phase6-i18n.js"
+      ]
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-authorization.yml",
+      "blob_sha": "92385b3bc41d78817110fef3b15220d20d837d91",
+      "workflow_name": "ENGINEER OSINT identity-fix retirement authorization",
+      "classification": "HISTORICAL_EVIDENCE_KEEP",
+      "classification_basis": "Manual-only authorization-era workflow for a completed migration boundary; retain as audit evidence pending any separate retirement review.",
+      "trigger_types": [
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/audit-identity-fix-retirement-authorization.mjs",
+        "docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs",
+        "docs/engineer-osint/audit-identity-fix-retirement.mjs",
+        "docs/engineer-osint/audit-persistent-b99-identity.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/materialize-canonical-media-history.mjs",
+        "docs/engineer-osint/media-source-materialization.js",
+        "docs/engineer-osint/runtime-modules.mjs",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-readiness.yml",
+      "blob_sha": "28568beeac6b2f0ccc83b4c256f562da77950825",
+      "workflow_name": "ENGINEER OSINT identity-fix retirement readiness",
+      "classification": "HISTORICAL_EVIDENCE_KEEP",
+      "classification_basis": "Manual-only readiness workflow for a completed migration boundary; retain as audit evidence pending any separate retirement review.",
+      "trigger_types": [
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/audit-identity-fix-retirement-readiness.mjs",
+        "docs/engineer-osint/audit-identity-fix-retirement.mjs",
+        "docs/engineer-osint/audit-persistent-b99-identity.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/materialize-canonical-media-history.mjs",
+        "docs/engineer-osint/media-source-materialization.js",
+        "docs/engineer-osint/runtime-modules.mjs",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/identity-fix-retirement-regression.yml",
+      "blob_sha": "26831c655014a749cef958e6b576a295205248b7",
+      "workflow_name": "ENGINEER OSINT final identity-fix retirement regression",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Still auto-runs on main/PR docs changes and enforces final identity-retirement invariants; active until a separate retirement review proves redundancy.",
+      "trigger_types": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [
+        "docs/engineer-osint/**",
+        ".github/workflows/identity-fix-retirement-regression.yml"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/audit-identity-fix-retirement.mjs",
+        "docs/engineer-osint/audit-persistent-b99-identity.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/materialize-canonical-media-history.mjs",
+        "docs/engineer-osint/media-source-materialization.js",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "blob_sha": "ca5302475a9d795f8b4cd9305b5f59a8a8671860",
+      "workflow_name": "Deploy ENGINEER OSINT to GitHub Pages",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Current main/PR build-validation and GitHub Pages deployment workflow.",
+      "trigger_types": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [
+        "docs/engineer-osint/**",
+        ".github/workflows/pages.yml"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/*.js",
+        "docs/engineer-osint/*.mjs",
+        "docs/engineer-osint/V4525_B98_POST_CI_READINESS.json",
+        "docs/engineer-osint/append-run.mjs",
+        "docs/engineer-osint/audit-media-history.mjs",
+        "docs/engineer-osint/audit-overlay-compat-transition.mjs",
+        "docs/engineer-osint/audit-overlay-migration-dry-run.mjs",
+        "docs/engineer-osint/audit-overlay-production-preview.mjs",
+        "docs/engineer-osint/audit-overlay-provenance.mjs",
+        "docs/engineer-osint/audit-overlay-retirement.mjs",
+        "docs/engineer-osint/audit-overlay-stage-a-impact.mjs",
+        "docs/engineer-osint/audit-persistent-b96.mjs",
+        "docs/engineer-osint/audit-persistent-b97.mjs",
+        "docs/engineer-osint/audit-persistent-b98.mjs",
+        "docs/engineer-osint/audit-post-b98-steady-state.mjs",
+        "docs/engineer-osint/audit-public-cz-ui-latest.mjs",
+        "docs/engineer-osint/build-b98-readiness.mjs",
+        "docs/engineer-osint/build-overlay-stage-a-candidate.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/data/runs",
+        "docs/engineer-osint/lib/*.mjs",
+        "docs/engineer-osint/materialize-canonical-media-history.mjs",
+        "docs/engineer-osint/media-source-materialization.js",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-media-coverage.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "docs/engineer-osint/validate-public-cz-regression.mjs",
+        "docs/engineer-osint/validate-runtime.mjs",
+        "docs/engineer-osint/verify-pages-artifact.mjs",
+        "docs/engineer-osint/verify-post-b98-pages-readiness.mjs",
+        "docs/engineer-osint/verify-stage-bc-pages-gate.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/runtime-audit-snapshot.yml",
+      "blob_sha": "7bb6d59b469f64a6d6ce59cdf3a7e81fa441df75",
+      "workflow_name": "ENGINEER OSINT runtime audit snapshot",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Current PR/manual runtime audit surface for runtime and PUBLIC-CZ regressions.",
+      "trigger_types": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "trigger_path_filters": [
+        ".github/workflows/runtime-audit-snapshot.yml",
+        "docs/engineer-osint/**"
+      ],
+      "top_level_permissions": [
+        "contents: read"
+      ],
+      "dependency_references": [
+        "docs/engineer-osint/*.js",
+        "docs/engineer-osint/*.mjs",
+        "docs/engineer-osint/audit-public-cz-ui-latest.mjs",
+        "docs/engineer-osint/build-pages.mjs",
+        "docs/engineer-osint/ci/b106-root-preload.mjs",
+        "docs/engineer-osint/ci/prepare-b106-fixture.mjs",
+        "docs/engineer-osint/data/run-store-manifest.json",
+        "docs/engineer-osint/lib/*.mjs",
+        "docs/engineer-osint/public-cz-backlog-baseline.json",
+        "docs/engineer-osint/test-current-state.mjs",
+        "docs/engineer-osint/tests/*.test.mjs",
+        "docs/engineer-osint/tests/post-b112-publication.test.mjs",
+        "docs/engineer-osint/validate-patch.mjs",
+        "docs/engineer-osint/validate-public-cz-regression.mjs",
+        "docs/engineer-osint/validate-runtime.mjs",
+        "refs/notes/b106-ci-fixture",
+        "vars.B106_CI_NOTES_COMMIT",
+        "source_commit=1df9875a50d5ad47188d0ba4a262ea11e3e65693",
+        "pr1_commit=58171850e92da3cc61a94a85f615eadbf6d9419c",
+        "pr1_tree=1baffdf744fe0bf07f7db0ac859013c253190ef8"
+      ]
+    },
+    {
+      "path": ".github/workflows/safe-automerge-dry-run.yml",
+      "blob_sha": "748298da14649d68457f74cfd3037dc9a674ab14",
+      "workflow_name": "Trusted base advisory merge classification",
+      "classification": "ACTIVE_PRODUCTION_PROTECTION",
+      "classification_basis": "Trusted-base pull_request_target advisory classifier with read-only permissions; treat as current security-sensitive review protection.",
+      "trigger_types": [
+        "pull_request_target"
+      ],
+      "trigger_path_filters": [],
+      "top_level_permissions": [
+        "contents: read",
+        "pull-requests: read"
+      ],
+      "dependency_references": [
+        "tools/safe-automerge-policy.json",
+        "tools/safe_automerge.py"
+      ]
+    }
+  ]
+}
