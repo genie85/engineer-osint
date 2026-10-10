@@ -14,6 +14,15 @@ on:
       - 'docs/engineer-osint/**'
       - '.github/workflows/identity-fix-retirement-regression.yml'
   workflow_dispatch:
+    inputs:
+      washington_discovery:
+        description: 'Explicit reviewed sandbox discovery only; no append authority'
+        type: boolean
+        default: false
+      reviewed_head:
+        description: 'Exact 40-character approved checkout commit; required for discovery'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -31,6 +40,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Check explicitly approved discovery head
+        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          [[ "$REVIEWED_HEAD" =~ ^[a-f0-9]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$REVIEWED_HEAD"
+
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
@@ -44,7 +61,7 @@ jobs:
         run: |
           set -euo pipefail
           canonical_tip="$(node -e 'const m=require("./docs/engineer-osint/data/run-store-manifest.json");process.stdout.write(m.runs.at(-1)?.run_id||"")')"
-          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" ]]; then
+          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" || "$canonical_tip" == "engineer-osint-20261010-B114" ]]; then
             node docs/engineer-osint/test-current-state.mjs
             exit 0
           fi
@@ -124,14 +141,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test "$(id -u)" -ne 0
+          browser=""
+          for native in /opt/google/chrome/chrome /usr/lib/chromium/chromium; do
+            if [[ -x "$native" ]]; then browser="$native"; break; fi
+          done
           test -n "$browser"
-          "$browser" \
+          python3 -c 'import pathlib,sys; assert pathlib.Path(sys.argv[1]).read_bytes()[:4] == b"\x7fELF", "native ELF required"' "$browser"
+          profile="$(mktemp -d "$RUNNER_TEMP/b113-browser.XXXXXX")"
+          mkdir -m 700 "$profile/home" "$profile/cache" "$profile/config" "$profile/data" "$profile/runtime" "$profile/tmp"
+          echo "WASHINGTON_BROWSER=$browser" >> "$GITHUB_ENV"
+          test -n "$browser"
+          env -i PATH="$PATH" LANG=C.UTF-8 HOME="$profile/home" TMPDIR="$profile/tmp" XDG_CACHE_HOME="$profile/cache" XDG_CONFIG_HOME="$profile/config" XDG_DATA_HOME="$profile/data" XDG_RUNTIME_DIR="$profile/runtime" "$browser" \
+            --user-data-dir="$profile/chrome" \
             --headless=new \
-            --no-sandbox \
             --disable-gpu \
             --disable-dev-shm-usage \
-            --allow-file-access-from-files \
             --virtual-time-budget=5000 \
             --dump-dom \
             "file://${GITHUB_WORKSPACE}/docs/engineer-osint-dist/index.html" \
@@ -166,7 +191,8 @@ jobs:
               'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
               'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
               'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
-              'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966'
+              'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966',
+              'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05'
           }
           expected=expected_by_run.get(current)
           if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
@@ -191,7 +217,8 @@ jobs:
             'engineer-osint-20260903-B104':'5c931288915f7621771bbaa904814b63d8ab7b18461900c077ad85fc6279798c',
             'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
             'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
-            'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966'
+            'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966',
+            'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05'
           };
           const expected=expectedByRun[b.current_run_id];
           if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);
@@ -203,6 +230,17 @@ jobs:
           fs.appendFileSync('docs/engineer-osint-dist/health.txt',`identity_fix_retirement_browser_digest=${expected}\nidentity_fix_retirement_browser_parity=pass\n`);
           console.log(`V4546_IDENTITY_FIX_RETIREMENT=PASS_BROWSER_COMPLETE run=${b.current_run_id}`);
           NODE
+
+      - name: Discover Washington B114 in isolated fixture
+        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          python3 -I docs/engineer-osint/ci/discover-b114-browser.py --execute \
+            --checkout "$GITHUB_WORKSPACE" --expected-head "$REVIEWED_HEAD" \
+            --candidate "$GITHUB_WORKSPACE/docs/engineer-osint/candidates/B114_WASHINGTON_20261010.json" \
+            --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
+            --output "$RUNNER_TEMP/washington-discovery"
 
       - name: Upload final retirement evidence
         if: always()
@@ -219,3 +257,16 @@ jobs:
             /tmp/v4546-retired-dom.html
             /tmp/v4546-retired-normalized.html
             /tmp/v4546-browser-digest.txt
+            ${{ runner.temp }}/washington-discovery/status.json
+            ${{ runner.temp }}/washington-discovery/result.json
+            ${{ runner.temp }}/washington-discovery/B114.stderr
+            ${{ runner.temp }}/washington-discovery/B114-normalized-dom.html
+            ${{ runner.temp }}/washington-discovery/sandbox-dom.html
+            ${{ runner.temp }}/washington-discovery/*.log
+            ${{ runner.temp }}/washington-discovery/failure.*
+            ${{ runner.temp }}/washington-discovery/runtime-metadata.json
+            ${{ runner.temp }}/washington-discovery/browser-version.stdout
+            ${{ runner.temp }}/washington-discovery/browser-version.stderr
+            ${{ runner.temp }}/washington-discovery/sandbox-probe.stdout
+            ${{ runner.temp }}/washington-discovery/sandbox-probe.stderr
+            ${{ runner.temp }}/washington-discovery/B114-render.stderr

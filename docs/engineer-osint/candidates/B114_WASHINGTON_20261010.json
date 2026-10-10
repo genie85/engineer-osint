@@ -1,0 +1,176 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20261010-B114",
+    "parent_run_id": "engineer-osint-20260928-B113",
+    "status": "SUCCESS",
+    "window_from": "2026-09-23T00:00:00Z",
+    "window_to": "2026-10-10T00:00:00Z",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 1,
+      "ENTITY_ENRICHMENT": 0,
+      "NEW": 1,
+      "UPDATE": 0,
+      "CONFIRMATION": 1,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 1,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "NONCANONICAL_SIMULATION_PENDING_FACTUAL_APPROVAL",
+    "reviewed_main_sha": "f69f42dc562fea05bce5e3085ff347a6ac4407b9",
+    "reviewed_parent_canonical_sha256": "c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b",
+    "input_handoff_raw_sha256": "3342adb5a629a7343388014577efb9f3b90f56ae40d6b85522c080d8830a6023",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "identifier_allocation": "PROVISIONAL_SIMULATION_ONLY_NOT_RESERVED",
+    "structural_scope": "ONE_EVENT_THREE_SOURCES_ONE_EVIDENCE_NO_MEDIA",
+    "backlog_global_reconciliation_complete": false
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 1,
+    "ENTITY_ENRICHMENT": 0
+  },
+  "new_records": [
+    {
+      "id": "ENG-EVT-0152",
+      "type": "ENG-EVT",
+      "country": "USA",
+      "record_role": "HISTORICAL_FLOOD_PROTECTION_INSTALLATION_TEST",
+      "title_en": "Washington: annual test installation of the 17th Street closure",
+      "title_cs": "Washington: každoroční zkušební instalace uzávěry 17th Street",
+      "summary_en": "NPS announced the annual test for 23 September 2026. The USACE Baltimore District DVIDS text record documents the closure after installation on that date. The sources describe the test purpose, not an independently measured deployment time or reliability result.",
+      "summary_cs": "NPS oznámila každoroční zkoušku na 23. září 2026. Textový záznam USACE Baltimore District na DVIDS potvrzuje instalovanou uzávěru k tomuto datu. Zdroje popisují účel zkoušky, nikoli nezávisle měřenou dobu nasazení či spolehlivost.",
+      "fact_en": "NPS announced the annual test for 23 September 2026. The USACE Baltimore District DVIDS text record documents the closure after installation on that date. The sources describe the test purpose, not an independently measured deployment time or reliability result.",
+      "fact_cs": "NPS oznámila každoroční zkoušku na 23. září 2026. Textový záznam USACE Baltimore District na DVIDS potvrzuje instalovanou uzávěru k tomuto datu. Zdroje popisují účel zkoušky, nikoli nezávisle měřenou dobu nasazení či spolehlivost.",
+      "analysis_en": "The source record establishes an installation-test milestone and its stated flood-protection purpose.",
+      "analysis_cs": "Zdrojový záznam dokládá milník zkušební instalace a její deklarovaný účel protipovodňové ochrany.",
+      "what_it_does_not_prove_en": "An independently measured deployment time, reliability, effectiveness or improvement in operational readiness.",
+      "what_it_does_not_prove_cs": "Nezávisle změřenou dobu nasazení, spolehlivost, účinnost ani zlepšení operační připravenosti.",
+      "source_ids": [
+        "ENG-SRC-0639",
+        "ENG-SRC-0640",
+        "ENG-SRC-0641"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0300"
+      ],
+      "publication_date": "2026-09-23",
+      "temporal_status": "HISTORICAL_INSTALLATION_TEST_DOCUMENTED",
+      "classification": "FACT_WITH_EXPLICIT_PERFORMANCE_BOUNDARY",
+      "confidence": "HIGH_FOR_REPORTED_OCCURRENCE",
+      "topics": [
+        "FLOOD_PROTECTION",
+        "ENGINEERING_EXERCISE",
+        "UNITED_STATES"
+      ],
+      "translation_status": "ANALYST_TRANSLATION",
+      "publication_safety": "PUBLIC_OK_HIGH_LEVEL_HISTORICAL_NON_ACTIONABLE"
+    }
+  ],
+  "updated_records": [],
+  "sources": [
+    {
+      "id": "ENG-SRC-0639",
+      "title": "National Park Service to Conduct Annual Test Installation of the 17th Street Levee",
+      "title_en": "National Park Service to Conduct Annual Test Installation of the 17th Street Levee",
+      "title_cs": "NPS: oznámení každoroční zkušební instalace uzávěry 17th Street",
+      "publisher": "National Park Service",
+      "accessed_at": "2026-10-10",
+      "url": "https://www.nps.gov/nama/learn/news/national-park-service-to-conduct-annual-test-installation-of-the-17th-street-levee.htm",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_PRIMARY_REPORT",
+      "role": "PRIMARY_TEST_ANNOUNCEMENT",
+      "verification_status": "WEB_TEXT_READBACK_2026_10_10_NO_IMAGE_INFERENCE",
+      "publication_date": "2026-09-16"
+    },
+    {
+      "id": "ENG-SRC-0640",
+      "title": "USACE and NPS Test Flood Barrier Readiness at 17th Street Levee",
+      "title_en": "USACE and NPS Test Flood Barrier Readiness at 17th Street Levee",
+      "title_cs": "USACE a NPS: textový záznam instalované uzávěry 17th Street",
+      "publisher": "U.S. Army Corps of Engineers, Baltimore District / DVIDS",
+      "accessed_at": "2026-10-10",
+      "url": "https://www.dvidshub.net/image/9969772/usace-and-nps-test-flood-barrier-readiness-17th-street-levee",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_PRIMARY_REPORT",
+      "role": "PRIMARY_INSTALLED_STATE_TEXT",
+      "verification_status": "WEB_TEXT_READBACK_2026_10_10_NO_IMAGE_INFERENCE",
+      "publication_date": "2026-09-28"
+    },
+    {
+      "id": "ENG-SRC-0641",
+      "title": "17th Street levee",
+      "title_en": "17th Street levee",
+      "title_cs": "NPS: základní informace o uzávěře 17th Street",
+      "publisher": "National Park Service",
+      "accessed_at": "2026-10-10",
+      "url": "https://www.nps.gov/places/000/17th-street-levee.htm",
+      "language": "en",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_PRIMARY_REPORT",
+      "role": "PRIMARY_SYSTEM_CONTEXT",
+      "verification_status": "WEB_TEXT_READBACK_2026_10_10_NO_IMAGE_INFERENCE"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0300",
+      "evidence_id": "ENG-EVID-0300",
+      "evidence_type": "OFFICIAL_ANNUAL_INSTALLATION_TEST_TEXT",
+      "evidence_status": "PUBLIC_TEXT_READBACK_VERIFIED",
+      "related_ids": [
+        "ENG-EVT-0152"
+      ],
+      "source_ids": [
+        "ENG-SRC-0639",
+        "ENG-SRC-0640",
+        "ENG-SRC-0641"
+      ],
+      "observation_basis": "DIRECT_PUBLIC_SOURCE_TEXT_NO_MEDIA_INFERENCE",
+      "what_it_supports_en": "Announced annual installation test and documented installed state on 23 September 2026; NPS and USACE institutional context.",
+      "what_it_supports_cs": "Oznámená každoroční zkouška instalace a doložený instalovaný stav k 23. září 2026; institucionální kontext NPS a USACE.",
+      "what_it_does_not_prove_en": "An independently measured deployment time, reliability, effectiveness or improvement in operational readiness.",
+      "what_it_does_not_prove_cs": "Nezávisle změřenou dobu nasazení, spolehlivost, účinnost ani zlepšení operační připravenosti.",
+      "confidence": "HIGH_FOR_SOURCE_CONTENT",
+      "observed_at": "2026-10-10"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "REVIEW_REQUIRED_NOT_AUTHORIZED",
+    "mode": "IN_MEMORY_STRICT_PATCH_SIMULATION_ONLY",
+    "canonical_write_performed": false,
+    "publication_performed": false,
+    "full_downstream_validation_complete": false,
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}

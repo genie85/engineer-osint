@@ -1,0 +1,48 @@
+{
+  "schema_version": "engineer-osint-b114-washington-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "human_approval_source": "ChatGPT thread 01a0f93b-fbb7-735a-9c83-e5802d360036; user message Sentinel_e31b9888d08081918da7e67a218d4b3d (schvaluji), replying to assistant Sentinel_2d96ad05cbf08191b05278b23909197d; explicit delegated transcript approves review ZIP ee7f7f47aaa58d6de0cdca1d1ec325cc5d9c9d1a939557d068cfa68e136bca10 technical support, receipt finalization and draft PR publication only; canonical execution, merge and deploy require separate approval.",
+  "reviewed_main_sha": "f69f42dc562fea05bce5e3085ff347a6ac4407b9",
+  "reviewed_preparation_head_sha": "4570a71670bb0ba4e8bb52493725707f76cc01f3",
+  "candidate_run_id": "engineer-osint-20261010-B114",
+  "candidate_path": "docs/engineer-osint/candidates/B114_WASHINGTON_20261010.json",
+  "candidate_git_blob_sha": "15fb042653b93a3c510da0bf28b2971e45d87d86",
+  "exact_candidate_file_sha256": "6ff3aaf5c36085d3a21662421508a1a6f2da82a38ad849805e3a53e61f4b6ca4",
+  "expected_parent_run_id": "engineer-osint-20260928-B113",
+  "expected_parent_canonical_sha256": "c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b",
+  "expected_resulting_canonical_sha256": "6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8",
+  "parent_manifest_sha256": "d3480581360f8ffc120d951c74a8fd597c19d03cc7e0e2f1e64ed25f492a76c3",
+  "successor_manifest_sha256": "cabad4db4ec37f5c5e83b64bb4fcc1004a936869d06004243ec29009a257b928",
+  "allowed_outputs": [
+    "docs/engineer-osint/data/runs/engineer-osint-20261010-B114.json",
+    "docs/engineer-osint/data/run-store-manifest.json"
+  ],
+  "browser_evidence": {
+    "run_id": 38055535316,
+    "head": "b450d46ee33f34b35e083ec3bc3c0476a0bfc674",
+    "artifact_sha256": "6f295ae42cddbfb69c210de2b6614ba47fac0fda33794150da1b9a8c4f203dfd",
+    "normalized_dom_sha256": "b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05",
+    "status": "DISCOVERED_NOT_AUTHORIZED"
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_candidate_mutation": false,
+    "allow_media_change": false,
+    "allow_workflow_change": false,
+    "allow_deploy_in_guard_slice": false,
+    "allow_merge": false,
+    "allow_deploy": false,
+    "allow_publish": false
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false
+  }
+}
