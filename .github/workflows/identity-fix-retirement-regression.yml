@@ -19,6 +19,10 @@ on:
         description: 'Explicit reviewed sandbox discovery only; no append authority'
         type: boolean
         default: false
+      dmz_discovery:
+        description: 'Explicit B115 synthetic browser measurement; no append authority'
+        type: boolean
+        default: false
       reviewed_head:
         description: 'Exact 40-character approved checkout commit; required for discovery'
         type: string
@@ -41,10 +45,13 @@ jobs:
           fetch-depth: 1
 
       - name: Check explicitly approved discovery head
-        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        if: github.event_name == 'workflow_dispatch' && (inputs.washington_discovery == true || inputs.dmz_discovery == true)
         env:
           REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+          WASHINGTON_DISCOVERY: ${{ inputs.washington_discovery }}
+          DMZ_DISCOVERY: ${{ inputs.dmz_discovery }}
         run: |
+          test "$WASHINGTON_DISCOVERY:$DMZ_DISCOVERY" != true:true
           [[ "$REVIEWED_HEAD" =~ ^[a-f0-9]{40}$ ]]
           test "$(git rev-parse HEAD)" = "$REVIEWED_HEAD"
 
@@ -52,6 +59,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '24'
+
+      - name: Test B115 isolated discovery contract
+        run: python3 -B -I docs/engineer-osint/ci/test-b115-discovery.py
 
       - name: Test complete P0/P1 contract
         env:
@@ -242,6 +252,17 @@ jobs:
             --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
             --output "$RUNNER_TEMP/washington-discovery"
 
+      - name: Discover DMZ B115 in isolated fixture
+        if: github.event_name == 'workflow_dispatch' && inputs.dmz_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          python3 -B -I docs/engineer-osint/ci/discover-b115-browser.py --execute \
+            --checkout "$GITHUB_WORKSPACE" --expected-head "$REVIEWED_HEAD" \
+            --candidate "$GITHUB_WORKSPACE/docs/engineer-osint/candidates/B115_DMZ_20261010.json" \
+            --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
+            --output "$RUNNER_TEMP/dmz-discovery"
+
       - name: Upload final retirement evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -270,3 +291,12 @@ jobs:
             ${{ runner.temp }}/washington-discovery/sandbox-probe.stdout
             ${{ runner.temp }}/washington-discovery/sandbox-probe.stderr
             ${{ runner.temp }}/washington-discovery/B114-render.stderr
+            ${{ runner.temp }}/dmz-discovery/status.json
+            ${{ runner.temp }}/dmz-discovery/result.json
+            ${{ runner.temp }}/dmz-discovery/B115-normalized-dom.html
+            ${{ runner.temp }}/dmz-discovery/sandbox-dom.html
+            ${{ runner.temp }}/dmz-discovery/*.log
+            ${{ runner.temp }}/dmz-discovery/*.stderr
+            ${{ runner.temp }}/dmz-discovery/browser-version.stdout
+            ${{ runner.temp }}/dmz-discovery/sandbox-probe.stdout
+            ${{ runner.temp }}/dmz-discovery/runtime-metadata.json
