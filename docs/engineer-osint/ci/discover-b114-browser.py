@@ -1,7 +1,8 @@
 """Review-only CI discovery. Import is inert. CLI requires explicit --execute.
 No expected B114 digest is accepted; successful measurement grants no authority.
 """
-import argparse,hashlib,html,json,os,pathlib,re,shutil,stat,subprocess,tempfile
+import argparse,hashlib,html,json,os,pathlib,re,shutil,stat,subprocess,tempfile,platform,selectors,signal,time
+from html.parser import HTMLParser
 BASE='f69f42dc562fea05bce5e3085ff347a6ac4407b9'
 CANDIDATE='6ff3aaf5c36085d3a21662421508a1a6f2da82a38ad849805e3a53e61f4b6ca4'
 PARENT_MANIFEST='d3480581360f8ffc120d951c74a8fd597c19d03cc7e0e2f1e64ed25f492a76c3'
@@ -34,22 +35,166 @@ def normalize(dom):
 def baseline_digest(dom):
  digest=sha(normalize(dom).encode());require(digest==B113_DOM,'B113 exact DOM mismatch');return digest
 
-def sandbox_evidence(dom):
- # Chromium internal diagnostic table; unsupported formats fail closed.
- rows=re.findall(r'<tr\b[^>]*>(.*?)</tr>',dom,re.I|re.S);values={}
- for row in rows:
-  cells=re.findall(r'<t[dh]\b[^>]*>(.*?)</t[dh]>',row,re.I|re.S)
-  if len(cells)==2:values[re.sub('<[^>]+>','',html.unescape(cells[0])).strip()]=re.sub('<[^>]+>','',html.unescape(cells[1])).strip()
- require(values.get('Seccomp-BPF sandbox')=='Yes','Seccomp sandbox not evidenced')
- require(values.get('Namespace sandbox')=='Yes' or values.get('SUID sandbox')=='Yes','sandbox isolation not evidenced')
- return values
+SANDBOX_SCHEMA='chromium-linux-layer1-v1'
+SANDBOX_SOURCE_VERSION='154.0.8037.97'
+SANDBOX_FIELDS={
+ 'Layer 1 Sandbox':{'Namespace','SUID','None'},
+ 'PID namespaces':{'Yes','No'},
+ 'Network namespaces':{'Yes','No'},
+ 'Seccomp-BPF sandbox':{'Yes','No'},
+ 'Seccomp-BPF sandbox supports TSYNC':{'Yes','No'},
+ 'Ptrace Protection with Yama LSM (Broker)':{'Yes','No'},
+ 'Ptrace Protection with Yama LSM (Non-broker)':{'Yes','No'},
+}
+
+class SandboxTableParser(HTMLParser):
+ def __init__(self):
+  super().__init__(convert_charrefs=True)
+  self.stack=[];self.tables=0;self.values={};self.cells=None;self.cell=None
+  self.evaluation=None;self.evaluations=0;self.evaluation_open=False
+ def handle_starttag(self,tag,attrs):
+  ids=[v for k,v in attrs if k=='id']
+  require(len(ids)<=1,'duplicate id attribute')
+  if self.evaluation_open:raise ValueError('nested evaluation markup')
+  if self.stack:
+   parent=self.stack[-1]
+   require((parent=='table' and tag in {'tbody','tr'}) or (parent=='tbody' and tag=='tr') or (parent=='tr' and tag=='td'),'unsupported sandbox table structure')
+   self.stack.append(tag)
+   if tag=='tr':self.cells=[]
+   if tag=='td':self.cell=''
+  elif tag=='table':
+   require(ids==['sandbox-status'],'unknown sandbox table')
+   self.tables+=1;require(self.tables==1,'duplicate sandbox table');self.stack=['table']
+  elif ids==['evaluation']:
+   require(tag=='p','invalid evaluation element');self.evaluations+=1
+   require(self.evaluations==1,'duplicate evaluation');self.evaluation='';self.evaluation_open=True
+  elif tag in {'tr','td','th','tbody'}:raise ValueError('sandbox row outside table')
+ def handle_endtag(self,tag):
+  if self.stack:
+   require(tag==self.stack[-1],'mismatched sandbox table tag');self.stack.pop()
+   if tag=='td':self.cells.append(self.cell.strip());self.cell=None
+   if tag=='tr':
+    require(len(self.cells)==2,'sandbox row must have exactly two cells')
+    key,value=self.cells;require(key in SANDBOX_FIELDS,'unknown sandbox field: '+key)
+    require(key not in self.values,'duplicate sandbox field: '+key)
+    require(value in SANDBOX_FIELDS[key],'unknown sandbox value: '+key)
+    self.values[key]=value;self.cells=None
+  elif self.evaluation_open:
+   require(tag=='p','mismatched evaluation tag');self.evaluation_open=False
+  elif tag in {'table','tbody','tr','td','th'}:raise ValueError('unmatched sandbox table tag')
+ def handle_data(self,data):
+  if self.cell is not None:self.cell+=data
+  elif self.stack:require(not data.strip(),'unexpected table text')
+  elif self.evaluation_open:self.evaluation+=data
+ def handle_startendtag(self,tag,attrs):
+  require(not self.stack and not self.evaluation_open,'self-closing diagnostic markup')
+  require(tag not in {'table','tbody','tr','td','th'} and not any(k=='id' and v in {'sandbox-status','evaluation'} for k,v in attrs),'self-closing diagnostic element')
+
+def sandbox_evidence(dom,*,schema=SANDBOX_SCHEMA):
+ # Source-derived format contract, not a claim about the measured browser version.
+ require(schema==SANDBOX_SCHEMA,'unsupported sandbox schema')
+ if re.search(r'<ntp-app\b|new_tab_page\.js|<title\b[^>]*>\s*New Tab\s*</title>',dom,re.I):
+  raise ValueError('SANDBOX_DIAGNOSTIC_WRONG_PAGE: New Tab; sandbox remains unproven')
+ parser=SandboxTableParser();parser.feed(dom);parser.close()
+ require(not parser.stack and not parser.evaluation_open,'incomplete sandbox markup')
+ require(parser.tables==1 and parser.evaluations==1,'sandbox diagnostic identity missing')
+ values=parser.values
+ require(set(values)==set(SANDBOX_FIELDS),'missing sandbox fields')
+ require(values['Layer 1 Sandbox'] in {'Namespace','SUID'},'sandbox isolation not evidenced')
+ for key in ['PID namespaces','Network namespaces','Seccomp-BPF sandbox']:
+  require(values[key]=='Yes',key+' not evidenced')
+ if values['Layer 1 Sandbox']=='Namespace' or values['Ptrace Protection with Yama LSM (Broker)']=='No':
+  require(values['Ptrace Protection with Yama LSM (Non-broker)']=='No','contradictory Yama status')
+ require(parser.evaluation.strip()=='You are adequately sandboxed.','sandbox evaluation missing or contradictory')
+ return {'schema':SANDBOX_SCHEMA,'source_version':SANDBOX_SOURCE_VERSION,'values':values}
 
 def browser_args(browser,profile,url):
- require(url.startswith('file:///') or url=='chrome://sandbox','unsupported navigation')
+ # Render-only invocation: never opt into privileged chrome:// navigation.
+ require(url.startswith('file:///'),'unsupported render navigation')
  return [str(browser),'--user-data-dir='+str(profile),'--headless=new','--disable-gpu','--disable-dev-shm-usage','--virtual-time-budget=5000','--dump-dom',url]
 
+def sandbox_probe_args(browser,profile,url='chrome://sandbox'):
+ require(url=='chrome://sandbox','unsupported diagnostic navigation')
+ return [str(browser),'--user-data-dir='+str(profile),'--headless=new','--disable-gpu','--disable-dev-shm-usage','--virtual-time-budget=5000','--dump-dom','--allow-chrome-scheme-url',url]
+
+
+STDOUT_LIMIT=32*1024*1024
+STDERR_LIMIT=1024*1024
+PROCESS_TIMEOUT=180
+class OutputLimitExceeded(subprocess.SubprocessError):
+ def __init__(self,stream,limit,stdout,stderr):
+  super().__init__(f'OUTPUT_LIMIT_EXCEEDED: {stream} > {limit} bytes')
+  self.stdout=stdout;self.stderr=stderr;self.stream=stream;self.limit=limit
+
+def bounded_run(argv,cwd,env,*,stdout_limit=STDOUT_LIMIT,stderr_limit=STDERR_LIMIT,timeout=PROCESS_TIMEOUT):
+ require(stdout_limit>=0 and stderr_limit>=0 and timeout>0,'invalid process budget')
+ deadline=time.monotonic()+timeout
+ buffers={'stdout':bytearray(),'stderr':bytearray()};limits={'stdout':stdout_limit,'stderr':stderr_limit}
+ process=None;selector=selectors.DefaultSelector()
+ try:
+  process=subprocess.Popen(argv,cwd=cwd,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  for name,pipe in [('stdout',process.stdout),('stderr',process.stderr)]:
+   os.set_blocking(pipe.fileno(),False);selector.register(pipe,selectors.EVENT_READ,name)
+  while selector.get_map():
+   remaining_time=deadline-time.monotonic()
+   if remaining_time<=0:raise subprocess.TimeoutExpired(argv,timeout,output=bytes(buffers['stdout']),stderr=bytes(buffers['stderr']))
+   for key,_ in selector.select(remaining_time):
+    name=key.data;remaining_bytes=limits[name]-len(buffers[name])
+    # Read no more than budget plus one detection byte; never buffer unbounded output.
+    chunk=os.read(key.fd,min(65536,remaining_bytes+1))
+    if not chunk:selector.unregister(key.fileobj);continue
+    if len(chunk)>remaining_bytes:
+     buffers[name].extend(chunk[:remaining_bytes])
+     raise OutputLimitExceeded(name,limits[name],bytes(buffers['stdout']),bytes(buffers['stderr']))
+    buffers[name].extend(chunk)
+  remaining_time=deadline-time.monotonic()
+  if remaining_time<=0:raise subprocess.TimeoutExpired(argv,timeout,output=bytes(buffers['stdout']),stderr=bytes(buffers['stderr']))
+  try:code=process.wait(timeout=remaining_time)
+  except subprocess.TimeoutExpired:raise subprocess.TimeoutExpired(argv,timeout,output=bytes(buffers['stdout']),stderr=bytes(buffers['stderr']))
+  stdout=bytes(buffers['stdout']);stderr=bytes(buffers['stderr'])
+  if code:raise subprocess.CalledProcessError(code,argv,output=stdout,stderr=stderr)
+  return subprocess.CompletedProcess(argv,code,stdout.decode('utf-8'),stderr.decode('utf-8'))
+ finally:
+  selector.close()
+  # Kill the session's process group, including descendants retaining a pipe.
+  if process is not None:
+   try:
+    try:os.killpg(process.pid,signal.SIGKILL)
+    except ProcessLookupError:pass
+   finally:
+    try:process.wait(timeout=5)
+    finally:
+     process.stdout.close();process.stderr.close()
+
 def run(argv,cwd,env):
- return subprocess.run(argv,cwd=cwd,env=env,check=True,capture_output=True,text=True,timeout=180)
+ return bounded_run(argv,cwd,env)
+
+def save_stream(out,name,value):
+ # Error buffers are raw bounded bytes; do not expand invalid UTF-8 with replacement.
+ (out/name).write_bytes(value if isinstance(value,bytes) else (value or '').encode('utf-8'))
+
+def save_runtime(out,metadata):
+ temporary=out/'runtime-metadata.json.tmp'
+ temporary.write_text(json.dumps(metadata,indent=2)+'\n');temporary.replace(out/'runtime-metadata.json')
+
+def recorded_browser_run(argv,cwd,env,out,metadata,phase,execute=None):
+ # Submitted argv are evidence of our invocation, not introspected child argv.
+ item={'phase':phase,'submitted_argv':list(argv),'cwd':str(cwd),'state':'STARTING','returncode':None}
+ metadata['browser_invocations'].append(item);save_runtime(out,metadata)
+ try:
+  result=(execute or run)(argv,cwd,env)
+ except (subprocess.CalledProcessError,subprocess.TimeoutExpired,OutputLimitExceeded) as exc:
+  item.update(state='FAILED',returncode=getattr(exc,'returncode',None),error_type=type(exc).__name__)
+  if phase!='B114-render':save_stream(out,phase+'.stdout',exc.stdout)
+  save_stream(out,phase+'.stderr',exc.stderr)
+  save_runtime(out,metadata);raise
+ except Exception as exc:
+  item.update(state='FAILED',error_type=type(exc).__name__);save_runtime(out,metadata);raise
+ if phase!='B114-render':save_stream(out,phase+'.stdout',result.stdout)
+ save_stream(out,phase+'.stderr',result.stderr)
+ item.update(state='COMPLETED',returncode=result.returncode,stdout_sha256=sha(result.stdout.encode()),stderr_sha256=sha(result.stderr.encode()))
+ if phase=='browser-version':metadata['browser_version']=result.stdout.strip()
+ save_runtime(out,metadata);return result
 
 def simulate(checkout,candidate,work,execute=run):
  """Writes only a new disjoint synthetic copy, using strict repo materialization."""
@@ -96,11 +241,13 @@ def main():
  allowed={'ci/discover-b114-browser.py','ci/simulate-b114.mjs','ci/b113-source-pins.json','candidates/B114_WASHINGTON_20261010.json'}
  require(set(before)==set(pins)|allowed,'unexpected source file set')
  out.mkdir(parents=True);(out/'status.json').write_text(json.dumps({'status':'RUNNING_NOT_AUTHORIZED'}))
+ metadata={'schema':'washington-runtime-diagnostic-v1','authority_granted':False,'tested_head':head,'reviewed_head':a.expected_head,'browser_executable':str(browser),'browser_sha256':browser_hash,'browser_version':None,'kernel':platform.release(),'machine':platform.machine(),'baseline_observed':baseline,'candidate_sha256':CANDIDATE,'run_id':os.environ.get('GITHUB_RUN_ID'),'run_attempt':os.environ.get('GITHUB_RUN_ATTEMPT'),'requested_diagnostic_url':'chrome://sandbox','actual_diagnostic_url':None,'browser_invocations':[],'process_limits':{'stdout_bytes':STDOUT_LIMIT,'stderr_bytes':STDERR_LIMIT,'shared_timeout_seconds':PROCESS_TIMEOUT,'kill_reap_timeout_seconds':5},'raw_B114_stdout_persisted':False}
+ save_runtime(out,metadata)
  try:
   work=out/'simulation';simulate(root,a.candidate,work);env=clean_env(work)
-  version=run([str(browser),'--version'],work,env).stdout.strip()
+  version=recorded_browser_run([str(browser),'--version'],work,env,out,metadata,'browser-version').stdout.strip()
   with tempfile.TemporaryDirectory(dir=work,prefix='sandbox-profile-') as profile:
-   proof=run(browser_args(browser,profile,'chrome://sandbox'),work,env)
+   proof=recorded_browser_run(sandbox_probe_args(browser,profile),work,env,out,metadata,'sandbox-probe')
   (out/'sandbox-dom.html').write_text(proof.stdout);sandbox=sandbox_evidence(proof.stdout)
   for script in SCRIPTS:
    if script=='INJECT':inject(work);continue
@@ -108,7 +255,7 @@ def main():
   require(sha(raw(work/'docs/engineer-osint/data/run-store-manifest.json'))==SUCCESSOR_MANIFEST,'post-build manifest drift')
   htmlpath=work/'docs/engineer-osint-dist/index.html'
   with tempfile.TemporaryDirectory(dir=work,prefix='render-profile-') as profile:
-   args=browser_args(browser,profile,htmlpath.as_uri());result=run(args,work,env)
+   args=browser_args(browser,profile,htmlpath.as_uri());result=recorded_browser_run(args,work,env,out,metadata,'B114-render')
   (out/'B114.stderr').write_text(result.stderr);dom=result.stdout
   require('<html' in dom.lower() and 'ENGINEER OSINT' in dom,'invalid DOM');require('engineer-data-integrity-identity-fixes-module' not in dom and 'engineer-overlay-transition-runtime-guard-module' in dom,'retirement mismatch')
   normalized=normalize(dom);(out/'B114-normalized-dom.html').write_text(normalized)
@@ -116,7 +263,7 @@ def main():
   receipt=discovered(baseline,sha(normalized.encode()),{'tested_head':head,'candidate_sha256':CANDIDATE,'parent_manifest_sha256':PARENT_MANIFEST,'successor_manifest_sha256':SUCCESSOR_MANIFEST,'baseline_dom_raw_sha256':sha(raw(a.baseline_dom)),'source_pins_sha256':sha(raw(pathlib.Path(__file__).with_name('b113-source-pins.json'))),'run_id':os.environ.get('GITHUB_RUN_ID'),'run_attempt':os.environ.get('GITHUB_RUN_ATTEMPT'),'browser_sha256':browser_hash,'browser_version':version,'browser_args':args,'sandbox':sandbox,'artifacts':snapshot(work/'docs/engineer-osint-dist')})
   (out/'result.json').write_text(json.dumps(receipt,indent=2)+'\n');(out/'status.json').write_text(json.dumps({'status':receipt['status']}))
  except Exception as exc:
-  if isinstance(exc,subprocess.CalledProcessError):
-   (out/'failure.stdout').write_text(exc.stdout or '');(out/'failure.stderr').write_text(exc.stderr or '')
+  if isinstance(exc,(subprocess.CalledProcessError,subprocess.TimeoutExpired,OutputLimitExceeded)):
+   save_stream(out,'failure.stderr',exc.stderr)
   (out/'status.json').write_text(json.dumps({'status':'BLOCKED','error':str(exc),'authority_granted':False}));raise
 if __name__=='__main__':main()

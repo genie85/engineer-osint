@@ -262,3 +262,9 @@ jobs:
             ${{ runner.temp }}/washington-discovery/sandbox-dom.html
             ${{ runner.temp }}/washington-discovery/*.log
             ${{ runner.temp }}/washington-discovery/failure.*
+            ${{ runner.temp }}/washington-discovery/runtime-metadata.json
+            ${{ runner.temp }}/washington-discovery/browser-version.stdout
+            ${{ runner.temp }}/washington-discovery/browser-version.stderr
+            ${{ runner.temp }}/washington-discovery/sandbox-probe.stdout
+            ${{ runner.temp }}/washington-discovery/sandbox-probe.stderr
+            ${{ runner.temp }}/washington-discovery/B114-render.stderr
