@@ -1,22 +1,41 @@
 """Read-only source checks and disjoint synthetic fixture tests; no browser/authority."""
-import importlib.util,json,pathlib,tempfile,unittest,subprocess,sys
+import importlib.util,json,pathlib,tempfile,unittest,subprocess,sys,shutil
 sys.dont_write_bytecode=True
 HERE=pathlib.Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('b115_discovery',HERE/'discover-b115-browser.py');d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
 ROOT=HERE.parents[2]
 class Discovery(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  cls.parent_checkout=ROOT
+  mp=HERE.parent/'data/run-store-manifest.json';raw=mp.read_bytes()
+  if d.sha(raw)==d.SUCCESSOR_MANIFEST:
+   cls.temp=tempfile.TemporaryDirectory();cls.addClassCleanup(cls.temp.cleanup)
+   cls.parent_checkout=pathlib.Path(cls.temp.name)/'B114-parent'
+   shutil.copytree(HERE.parent,cls.parent_checkout/'docs/engineer-osint')
+   manifest=json.loads(raw);last=manifest['runs'].pop()
+   if last['run_id']!='engineer-osint-20261010-B115':raise ValueError('exact B115 successor required')
+   parent=(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode()
+   if d.sha(parent)!=d.PARENT_MANIFEST:raise ValueError('exact historical B114 prefix required')
+   r=cls.parent_checkout/'docs/engineer-osint';(r/'data/run-store-manifest.json').write_bytes(parent)
+   run=r/last['path']
+   if d.sha(run.read_bytes())!=d.CANDIDATE:raise ValueError('B115 run drift')
+   run.unlink()
+  elif d.sha(raw)!=d.PARENT_MANIFEST:raise ValueError('unknown lifecycle state')
  def test_exact_source_closure(self):
   pins=json.loads((HERE/'b114-dmz-source-pins.json').read_text());snap=d.snapshot(HERE.parent)
-  self.assertEqual(set(snap)-set(pins),{'ci/discover-b115-browser.py','ci/simulate-b115.mjs','ci/b114-dmz-source-pins.json','ci/test-b115-discovery.py'})
+  if snap['data/run-store-manifest.json']==d.SUCCESSOR_MANIFEST:
+   pins['data/run-store-manifest.json']=d.SUCCESSOR_MANIFEST; pins['data/runs/engineer-osint-20261010-B115.json']=d.CANDIDATE
+  self.assertEqual(set(snap),set(pins)|{'ci/discover-b115-browser.py','ci/simulate-b115.mjs','ci/b114-dmz-source-pins.json','ci/test-b115-discovery.py'})
   for name,value in pins.items():self.assertEqual(snap[name],value,name)
  def test_actual_strict_simulation_and_unchanged_inputs(self):
   before=d.snapshot(HERE.parent)
   with tempfile.TemporaryDirectory() as temp:
-   work=pathlib.Path(temp)/'simulation';d.simulate(ROOT,HERE.parent/'candidates/B115_DMZ_20261010.json',work)
+   work=pathlib.Path(temp)/'simulation';d.simulate(self.parent_checkout,HERE.parent/'candidates/B115_DMZ_20261010.json',work)
    self.assertFalse((work/'.git').exists());self.assertTrue((work/'NONCANONICAL_SIMULATION.txt').exists())
    self.assertEqual(d.sha(d.raw(work/'docs/engineer-osint/data/run-store-manifest.json')),d.SUCCESSOR_MANIFEST)
    self.assertEqual(d.sha(d.raw(work/'docs/engineer-osint/data/runs/engineer-osint-20261010-B115.json')),d.CANDIDATE)
-   with self.assertRaisesRegex(ValueError,'destination must be new'):d.simulate(ROOT,HERE.parent/'candidates/B115_DMZ_20261010.json',work)
+   with self.assertRaisesRegex(ValueError,'destination must be new'):d.simulate(self.parent_checkout,HERE.parent/'candidates/B115_DMZ_20261010.json',work)
   self.assertEqual(before,d.snapshot(HERE.parent))
  def test_changed_candidate_rejected_before_copy(self):
   with tempfile.TemporaryDirectory() as temp:

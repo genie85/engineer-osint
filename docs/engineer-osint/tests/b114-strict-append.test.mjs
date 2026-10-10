@@ -5,8 +5,16 @@ import {loadCanonicalRunStore} from '../lib/run-store.mjs';
 const root='docs/engineer-osint',source=readFileSync(root+'/append-run.mjs','utf8');
 const candidateRaw=readFileSync(root+'/candidates/B114_WASHINGTON_20261010.json','utf8');
 const actual=loadCanonicalRunStore({root});
-const isPost=actual.report.current_run_id==='engineer-osint-20261010-B114';
-const parentManifest=isPost?{...actual.manifest,runs:actual.manifest.runs.slice(0,-1)}:actual.manifest;
+const allowedTips=new Map([
+ ['engineer-osint-20260928-B113','d3480581360f8ffc120d951c74a8fd597c19d03cc7e0e2f1e64ed25f492a76c3'],
+ ['engineer-osint-20261010-B114','cabad4db4ec37f5c5e83b64bb4fcc1004a936869d06004243ec29009a257b928'],
+ ['engineer-osint-20261010-B115','b2aaea408de90d214b1519748c288e0dbd16a2d647d2f4eb549237be7dc16f7b']
+]);
+assert.equal(sha256Text(JSON.stringify(actual.manifest,null,2)+'\n'),allowedTips.get(actual.report.current_run_id),'exact historical/current manifest required');
+const parentIndex=actual.manifest.runs.findIndex(x=>x.run_id==='engineer-osint-20260928-B113');
+assert.notEqual(parentIndex,-1);
+const parentManifest={...actual.manifest,runs:actual.manifest.runs.slice(0,parentIndex+1)};
+assert.equal(sha256Text(JSON.stringify(parentManifest,null,2)+'\n'),'d3480581360f8ffc120d951c74a8fd597c19d03cc7e0e2f1e64ed25f492a76c3');
 const manifestRaw=JSON.stringify(parentManifest,null,2)+'\n';
 const entry={run_id:'engineer-osint-20261010-B114',parent_run_id:'engineer-osint-20260928-B113',parent_canonical_sha256:'c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b',path:'data/runs/engineer-osint-20261010-B114.json',file_sha256:'6ff3aaf5c36085d3a21662421508a1a6f2da82a38ad849805e3a53e61f4b6ca4',canonical_sha256:'6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8'};
 const successorManifestRaw=JSON.stringify({...parentManifest,runs:[...parentManifest.runs,entry]},null,2)+'\n';

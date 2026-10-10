@@ -51,7 +51,7 @@ jobs:
         run: |
           set -euo pipefail
           canonical_tip="$(node -e 'const m=require("./docs/engineer-osint/data/run-store-manifest.json");process.stdout.write(m.runs.at(-1)?.run_id||"")')"
-          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" || "$canonical_tip" == "engineer-osint-20261010-B114" ]]; then
+          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" || "$canonical_tip" == "engineer-osint-20261010-B114" || "$canonical_tip" == "engineer-osint-20261010-B115" ]]; then
             node docs/engineer-osint/test-current-state.mjs
             exit 0
           fi
