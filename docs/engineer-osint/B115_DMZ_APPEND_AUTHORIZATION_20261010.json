@@ -1,0 +1,62 @@
+{
+  "schema_version": "engineer-osint-b115-dmz-append-authorization-v1",
+  "status": "READY_FOR_APPEND",
+  "human_approval_source": "No owner approval to install this technical proposal or perform canonical execution is present at preparation. Discovery-only approval does not grant either. Any subsequent owner approval must identify the exact reviewed technical proposal and its scope separately.",
+  "reviewed_main_sha": "719edcc148c61f4f9cf1ddffbdd099b353765eeb",
+  "reviewed_preparation_head_sha": "2826a25499a2942203e08735b13fc1bfb38dcb70",
+  "candidate_run_id": "engineer-osint-20261010-B115",
+  "candidate_path": "docs/engineer-osint/candidates/B115_DMZ_20261010.json",
+  "candidate_git_blob_sha": "f2ce6f3183cbad1bb39d20b84266a8c57a77b82d",
+  "exact_candidate_file_sha256": "af62329bc1f7a6c0cc27011300031e2891a2d871bf6ce4ffc0b5e293fbda7b44",
+  "expected_parent_run_id": "engineer-osint-20261010-B114",
+  "expected_parent_canonical_sha256": "6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8",
+  "expected_resulting_canonical_sha256": "1a0e5b1272f928c0f20d815d091a77c2646dbc755a6e6274a6416ed758a6335f",
+  "parent_manifest_sha256": "cabad4db4ec37f5c5e83b64bb4fcc1004a936869d06004243ec29009a257b928",
+  "successor_manifest_sha256": "b2aaea408de90d214b1519748c288e0dbd16a2d647d2f4eb549237be7dc16f7b",
+  "allowed_outputs": [
+    "docs/engineer-osint/data/runs/engineer-osint-20261010-B115.json",
+    "docs/engineer-osint/data/run-store-manifest.json"
+  ],
+  "browser_evidence": {
+    "run_id": 38067250347,
+    "run_attempt": 1,
+    "head": "8f1698c6d604b5bdc7572a3d95fdd050b1c3e013",
+    "tree": "d9e9a9f7f15054f5836fd1dce8aa90bda56f1753",
+    "artifact_id": 11675645599,
+    "artifact_sha256": "db267d924197380967ce7a4f2295ee02d83e983916f4cd8695949397013c25d4",
+    "artifact_size_bytes": 923775,
+    "normalized_dom_sha256": "6a1af6a7ba50cbe779aec4f3f12a3bd131144b5e3f6b583162a5ca477ea62aca",
+    "normalized_dom_size_bytes": 75796,
+    "baseline_normalized_dom_sha256": "b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05",
+    "status": "DISCOVERED_NOT_AUTHORIZED",
+    "authority_granted": false,
+    "canonical_write": false,
+    "raw_evidence_verifier": "Parent agent explicit delegated byte/CRC/receipt verification; executor raw transfer blocked.",
+    "executor_independent_raw_verification": false
+  },
+  "authorization": {
+    "append_exact_candidate_only": true,
+    "one_run_only": true,
+    "isolated_review_branch_required": true,
+    "execution_requires_separate_slice": true,
+    "allow_manual_manifest_or_hash_edit": false,
+    "allow_future_run_same_slice": false,
+    "allow_canonical_history_rewrite": false,
+    "allow_candidate_mutation": false,
+    "allow_media_change": false,
+    "allow_workflow_change": false,
+    "allow_deploy_in_guard_slice": false,
+    "allow_merge": false,
+    "allow_deploy": false,
+    "allow_publish": false
+  },
+  "execution_state": {
+    "canonical_write_performed": false,
+    "run_file_created": false,
+    "manifest_updated": false
+  },
+  "proposal_only": true,
+  "owner_installation_approval_present_at_preparation": false,
+  "owner_execution_approval_present_at_preparation": false,
+  "status_meaning": "READY_FOR_APPEND describes exact technical input readiness only; it is not human approval or execution permission."
+}

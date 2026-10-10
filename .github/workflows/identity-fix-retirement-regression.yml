@@ -19,6 +19,10 @@ on:
         description: 'Explicit reviewed sandbox discovery only; no append authority'
         type: boolean
         default: false
+      dmz_discovery:
+        description: 'Explicit B115 synthetic browser measurement; no append authority'
+        type: boolean
+        default: false
       reviewed_head:
         description: 'Exact 40-character approved checkout commit; required for discovery'
         type: string
@@ -41,10 +45,13 @@ jobs:
           fetch-depth: 1
 
       - name: Check explicitly approved discovery head
-        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        if: github.event_name == 'workflow_dispatch' && (inputs.washington_discovery == true || inputs.dmz_discovery == true)
         env:
           REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+          WASHINGTON_DISCOVERY: ${{ inputs.washington_discovery }}
+          DMZ_DISCOVERY: ${{ inputs.dmz_discovery }}
         run: |
+          test "$WASHINGTON_DISCOVERY:$DMZ_DISCOVERY" != true:true
           [[ "$REVIEWED_HEAD" =~ ^[a-f0-9]{40}$ ]]
           test "$(git rev-parse HEAD)" = "$REVIEWED_HEAD"
 
@@ -52,6 +59,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '24'
+
+      - name: Test B115 isolated discovery contract
+        run: python3 -B -I docs/engineer-osint/ci/test-b115-discovery.py
 
       - name: Test complete P0/P1 contract
         env:
@@ -61,7 +71,7 @@ jobs:
         run: |
           set -euo pipefail
           canonical_tip="$(node -e 'const m=require("./docs/engineer-osint/data/run-store-manifest.json");process.stdout.write(m.runs.at(-1)?.run_id||"")')"
-          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" || "$canonical_tip" == "engineer-osint-20261010-B114" ]]; then
+          if [[ "$canonical_tip" == "engineer-osint-20260928-B113" || "$canonical_tip" == "engineer-osint-20261010-B114" || "$canonical_tip" == "engineer-osint-20261010-B115" ]]; then
             node docs/engineer-osint/test-current-state.mjs
             exit 0
           fi
@@ -192,7 +202,8 @@ jobs:
               'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
               'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
               'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966',
-              'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05'
+              'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05',
+              'engineer-osint-20261010-B115':'6a1af6a7ba50cbe779aec4f3f12a3bd131144b5e3f6b583162a5ca477ea62aca'
           }
           expected=expected_by_run.get(current)
           if expected is None: raise SystemExit(f'V4546_BROWSER_DIGEST: no exact digest authorized for current run {current}')
@@ -218,7 +229,8 @@ jobs:
             'engineer-osint-20260904-B105':'25157418735741c5deec91f8ced48a920fd2086bf20d38df95277e03568f13c7','engineer-osint-20260904-B106':'52ab8b1d862de74128cd25e49b46f4cbb3d316cc8b8413850781a46aa6a8200c',
             'engineer-osint-20260924-B112':'ee63f7fbd2ab3470c5cf70c5cf7e9258688b2f882e3bb9dd3bf8341806a7e0b0',
             'engineer-osint-20260928-B113':'103ec5f6a6a502cf5b412b1626b74b9c1c523df0078535d36c1ead301b3c7966',
-            'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05'
+            'engineer-osint-20261010-B114':'b529dbb03b27671b717ea9580a7330e836b5808c47af174e9e58b67584ef4f05',
+              'engineer-osint-20261010-B115':'6a1af6a7ba50cbe779aec4f3f12a3bd131144b5e3f6b583162a5ca477ea62aca'
           };
           const expected=expectedByRun[b.current_run_id];
           if(!expected)throw new Error(`no exact browser digest authorized for ${b.current_run_id}`);
@@ -241,6 +253,17 @@ jobs:
             --candidate "$GITHUB_WORKSPACE/docs/engineer-osint/candidates/B114_WASHINGTON_20261010.json" \
             --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
             --output "$RUNNER_TEMP/washington-discovery"
+
+      - name: Discover DMZ B115 in isolated fixture
+        if: github.event_name == 'workflow_dispatch' && inputs.dmz_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          python3 -B -I docs/engineer-osint/ci/discover-b115-browser.py --execute \
+            --checkout "$GITHUB_WORKSPACE" --expected-head "$REVIEWED_HEAD" \
+            --candidate "$GITHUB_WORKSPACE/docs/engineer-osint/candidates/B115_DMZ_20261010.json" \
+            --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
+            --output "$RUNNER_TEMP/dmz-discovery"
 
       - name: Upload final retirement evidence
         if: always()
@@ -270,3 +293,12 @@ jobs:
             ${{ runner.temp }}/washington-discovery/sandbox-probe.stdout
             ${{ runner.temp }}/washington-discovery/sandbox-probe.stderr
             ${{ runner.temp }}/washington-discovery/B114-render.stderr
+            ${{ runner.temp }}/dmz-discovery/status.json
+            ${{ runner.temp }}/dmz-discovery/result.json
+            ${{ runner.temp }}/dmz-discovery/B115-normalized-dom.html
+            ${{ runner.temp }}/dmz-discovery/sandbox-dom.html
+            ${{ runner.temp }}/dmz-discovery/*.log
+            ${{ runner.temp }}/dmz-discovery/*.stderr
+            ${{ runner.temp }}/dmz-discovery/browser-version.stdout
+            ${{ runner.temp }}/dmz-discovery/sandbox-probe.stdout
+            ${{ runner.temp }}/dmz-discovery/runtime-metadata.json
