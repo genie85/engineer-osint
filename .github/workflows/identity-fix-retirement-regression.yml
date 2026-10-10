@@ -14,6 +14,15 @@ on:
       - 'docs/engineer-osint/**'
       - '.github/workflows/identity-fix-retirement-regression.yml'
   workflow_dispatch:
+    inputs:
+      washington_discovery:
+        description: 'Explicit reviewed sandbox discovery only; no append authority'
+        type: boolean
+        default: false
+      reviewed_head:
+        description: 'Exact 40-character approved checkout commit; required for discovery'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -30,6 +39,14 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+
+      - name: Check explicitly approved discovery head
+        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          [[ "$REVIEWED_HEAD" =~ ^[a-f0-9]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$REVIEWED_HEAD"
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -124,14 +141,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test "$(id -u)" -ne 0
+          browser=""
+          for native in /opt/google/chrome/chrome /usr/lib/chromium/chromium; do
+            if [[ -x "$native" ]]; then browser="$native"; break; fi
+          done
           test -n "$browser"
-          "$browser" \
+          python3 -c 'import pathlib,sys; assert pathlib.Path(sys.argv[1]).read_bytes()[:4] == b"\x7fELF", "native ELF required"' "$browser"
+          profile="$(mktemp -d "$RUNNER_TEMP/b113-browser.XXXXXX")"
+          mkdir -m 700 "$profile/home" "$profile/cache" "$profile/config" "$profile/data" "$profile/runtime" "$profile/tmp"
+          echo "WASHINGTON_BROWSER=$browser" >> "$GITHUB_ENV"
+          test -n "$browser"
+          env -i PATH="$PATH" LANG=C.UTF-8 HOME="$profile/home" TMPDIR="$profile/tmp" XDG_CACHE_HOME="$profile/cache" XDG_CONFIG_HOME="$profile/config" XDG_DATA_HOME="$profile/data" XDG_RUNTIME_DIR="$profile/runtime" "$browser" \
+            --user-data-dir="$profile/chrome" \
             --headless=new \
-            --no-sandbox \
             --disable-gpu \
             --disable-dev-shm-usage \
-            --allow-file-access-from-files \
             --virtual-time-budget=5000 \
             --dump-dom \
             "file://${GITHUB_WORKSPACE}/docs/engineer-osint-dist/index.html" \
@@ -204,6 +229,17 @@ jobs:
           console.log(`V4546_IDENTITY_FIX_RETIREMENT=PASS_BROWSER_COMPLETE run=${b.current_run_id}`);
           NODE
 
+      - name: Discover Washington B114 in isolated fixture
+        if: github.event_name == 'workflow_dispatch' && inputs.washington_discovery == true
+        env:
+          REVIEWED_HEAD: ${{ inputs.reviewed_head }}
+        run: |
+          python3 -I docs/engineer-osint/ci/discover-b114-browser.py --execute \
+            --checkout "$GITHUB_WORKSPACE" --expected-head "$REVIEWED_HEAD" \
+            --candidate "$GITHUB_WORKSPACE/docs/engineer-osint/candidates/B114_WASHINGTON_20261010.json" \
+            --browser "$WASHINGTON_BROWSER" --baseline-dom /tmp/v4546-retired-dom.html \
+            --output "$RUNNER_TEMP/washington-discovery"
+
       - name: Upload final retirement evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -219,3 +255,10 @@ jobs:
             /tmp/v4546-retired-dom.html
             /tmp/v4546-retired-normalized.html
             /tmp/v4546-browser-digest.txt
+            ${{ runner.temp }}/washington-discovery/status.json
+            ${{ runner.temp }}/washington-discovery/result.json
+            ${{ runner.temp }}/washington-discovery/B114.stderr
+            ${{ runner.temp }}/washington-discovery/B114-normalized-dom.html
+            ${{ runner.temp }}/washington-discovery/sandbox-dom.html
+            ${{ runner.temp }}/washington-discovery/*.log
+            ${{ runner.temp }}/washington-discovery/failure.*

@@ -127,15 +127,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          browser="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test "$(id -u)" -ne 0
+          browser=""
+          for native in /opt/google/chrome/chrome /usr/lib/chromium/chromium; do
+            if [[ -x "$native" ]]; then browser="$native"; break; fi
+          done
+          test -n "$browser"
+          python3 -c 'import pathlib,sys; assert pathlib.Path(sys.argv[1]).read_bytes()[:4] == b"\x7fELF", "native ELF required"' "$browser"
+          profile="$(mktemp -d "$RUNNER_TEMP/b113-browser.XXXXXX")"
+          mkdir -m 700 "$profile/home" "$profile/cache" "$profile/config" "$profile/data" "$profile/runtime" "$profile/tmp"
+          echo "WASHINGTON_BROWSER=$browser" >> "$GITHUB_ENV"
           test -n "$browser"
           echo "Using browser: $browser"
-          "$browser" \
+          env -i PATH="$PATH" LANG=C.UTF-8 HOME="$profile/home" TMPDIR="$profile/tmp" XDG_CACHE_HOME="$profile/cache" XDG_CONFIG_HOME="$profile/config" XDG_DATA_HOME="$profile/data" XDG_RUNTIME_DIR="$profile/runtime" "$browser" \
+            --user-data-dir="$profile/chrome" \
             --headless=new \
-            --no-sandbox \
             --disable-gpu \
             --disable-dev-shm-usage \
-            --allow-file-access-from-files \
             --virtual-time-budget=4000 \
             --dump-dom \
             "file://${GITHUB_WORKSPACE}/docs/engineer-osint-dist/index.html" \
