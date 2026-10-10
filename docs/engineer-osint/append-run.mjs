@@ -66,6 +66,24 @@ export const B113=Object.freeze({
     'docs/engineer-osint/data/run-store-manifest.json'
   ]
 });
+// REVIEW-ONLY proposal: pending authorization pin makes every B114 write fail closed.
+export const B114=Object.freeze({
+  "run": "engineer-osint-20261010-B114",
+  "parent": "engineer-osint-20260928-B113",
+  "parent_canonical": "c7ff079cfade9b35093f4779624bee6075a7df67b8069a47f040f8ae4d6c1d9b",
+  "result_canonical": "6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8",
+  "candidate": "docs/engineer-osint/candidates/B114_WASHINGTON_20261010.json",
+  "candidate_sha256": "6ff3aaf5c36085d3a21662421508a1a6f2da82a38ad849805e3a53e61f4b6ca4",
+  "candidate_blob": "15fb042653b93a3c510da0bf28b2971e45d87d86",
+  "authorization": "docs/engineer-osint/B114_WASHINGTON_APPEND_AUTHORIZATION_20261010.json",
+  "authorization_sha256": "8501cdd70e775cc26425118c7e2d60137b63edf749b9af1767f3c9be88fa19e6",
+  "parent_manifest_sha256": "d3480581360f8ffc120d951c74a8fd597c19d03cc7e0e2f1e64ed25f492a76c3",
+  "successor_manifest_sha256": "cabad4db4ec37f5c5e83b64bb4fcc1004a936869d06004243ec29009a257b928",
+  "outputs": [
+    "docs/engineer-osint/data/runs/engineer-osint-20261010-B114.json",
+    "docs/engineer-osint/data/run-store-manifest.json"
+  ]
+});
 const LEGACY=[
   {
     "path": "docs/engineer-osint/V4604_B103_LOCAL_IMAGE_APPEND_AUTHORIZATION.json",
@@ -140,6 +158,7 @@ export function assertRoute(run,input,authorization){
  strictRepoPath(authorization);
  if(run===B106.run){if(input!==B106.candidate||authorization!==B106.authorization)throw Error('Strict append dispatcher rejects B106 path');return;}
  if(run===B113.run){if(input!==B113.candidate||authorization!==B113.authorization)throw Error('Strict append dispatcher rejects B113 path');return;}
+ if(run===B114.run){if(input!==B114.candidate||authorization!==B114.authorization)throw Error('Strict append dispatcher rejects B114 path');return;}
  if(!LEGACY.some(x=>x.run===run&&x.candidate===input&&x.path===authorization))throw Error('Strict append dispatcher rejects unknown run/path');
 }
 export function validateStrictB113(authRaw,{candidateRaw,store,resultingCanonical}){
@@ -159,6 +178,26 @@ export function validateStrictB113(authRaw,{candidateRaw,store,resultingCanonica
  for(const key of ['allow_manual_manifest_or_hash_edit','allow_future_run_same_slice','allow_canonical_history_rewrite','allow_candidate_mutation','allow_media_change','allow_workflow_change','allow_deploy_in_guard_slice'])if(a[key]!==false)throw Error(`Strict B113 forbidden scope: ${key}`);
  if(authorization.execution_state?.canonical_write_performed!==false||authorization.execution_state?.run_file_created!==false||authorization.execution_state?.manifest_updated!==false)throw Error('Strict B113 authorization must be pre-execution');
  return {valid:true,run:B113.run,outputs:[...B113.outputs],execution_performed:false};
+}
+export function validateStrictB114(authRaw,{candidateRaw,store,resultingCanonical,manifestRaw,successorManifestRaw}){
+ if(sha256Text(authRaw)!==B114.authorization_sha256)throw Error('Strict B114 authorization bytes drift');
+ if(sha256Text(candidateRaw)!==B114.candidate_sha256||gitBlob(candidateRaw)!==B114.candidate_blob)throw Error('Strict B114 candidate bytes drift');
+ if(sha256Text(manifestRaw)!==B114.parent_manifest_sha256||sha256Text(successorManifestRaw)!==B114.successor_manifest_sha256)throw Error('Strict B114 manifest bytes drift');
+ const authorization=parseJsonStrict(authRaw,{maxBytes:65536,maxDepth:40});finite(authorization);
+ const candidate=parseJsonStrict(candidateRaw);finite(candidate);
+ if(sha256Text(JSON.stringify(candidate,null,2)+'\n')!==B114.candidate_sha256)throw Error('Strict B114 normalized candidate drift');
+ if(authorization.schema_version!=='engineer-osint-b114-washington-append-authorization-v1'||authorization.status!=='READY_FOR_APPEND')throw Error('Strict B114 authorization state drift');
+ if(authorization.candidate_run_id!==B114.run||authorization.candidate_path!==B114.candidate||authorization.candidate_git_blob_sha!==B114.candidate_blob||authorization.exact_candidate_file_sha256!==B114.candidate_sha256)throw Error('Strict B114 candidate identity drift');
+ if(authorization.expected_parent_run_id!==B114.parent||authorization.expected_parent_canonical_sha256!==B114.parent_canonical||authorization.expected_resulting_canonical_sha256!==B114.result_canonical)throw Error('Strict B114 authorization lineage drift');
+ if(canonicalDigest(authorization.allowed_outputs)!==canonicalDigest(B114.outputs))throw Error('Strict B114 outputs drift');
+ if(candidate.state.run_id!==B114.run||candidate.state.parent_run_id!==B114.parent||store.report.current_run_id!==B114.parent||store.report.canonical_sha256!==B114.parent_canonical||resultingCanonical!==B114.result_canonical)throw Error('Strict B114 parent/result drift');
+ if(candidate.continuity?.canonical_write_performed!==false||candidate.qa?.publication_performed!==false||candidate.visuals?.length||candidate.media?.length)throw Error('Strict B114 candidate scope drift');
+ if(candidate.updated_records?.length||candidate.new_records?.length!==1||candidate.sources?.length!==3||candidate.evidence?.length!==1||candidate.qa?.multimedia_status!=='COMPLETE_NO_CANONICAL_MEDIA_ADDITION')throw Error('Strict B114 delta drift');
+ const a=authorization.authorization;
+ if(a?.append_exact_candidate_only!==true||a.one_run_only!==true||a.isolated_review_branch_required!==true||a.execution_requires_separate_slice!==true)throw Error('Strict B114 execution scope incomplete');
+ for(const key of ['allow_manual_manifest_or_hash_edit','allow_future_run_same_slice','allow_canonical_history_rewrite','allow_candidate_mutation','allow_media_change','allow_workflow_change','allow_deploy_in_guard_slice'])if(a[key]!==false)throw Error(`Strict B114 forbidden scope: ${key}`);
+ if(authorization.execution_state?.canonical_write_performed!==false||authorization.execution_state?.run_file_created!==false||authorization.execution_state?.manifest_updated!==false)throw Error('Strict B114 authorization must be pre-execution');
+ return {valid:true,run:B114.run,outputs:[...B114.outputs],execution_performed:false};
 }
 export function strictB106Expectation(guardRaw){
  return {schema_version:'engineer-osint-b106-strict-append-authorization-v1',status:'READY_FOR_APPEND',reviewed_main_sha:B106.base,reviewed_tree_sha:B106.tree,candidate_path:B106.candidate,candidate_git_blob_sha:B106.candidate_blob,exact_candidate_file_sha256:B106.candidate_sha256,candidate_run_id:B106.run,expected_parent_run_id:B106.parent,expected_parent_canonical_sha256:B106.parent_canonical,expected_resulting_canonical_sha256:B106.result_canonical,readiness:{path:B106.readiness,git_blob_sha:B106.readiness_blob,raw_sha256:B106.readiness_sha256,canonical_sha256:B106.readiness_canonical},guard:{path:B106.guard,git_blob_sha:gitBlob(guardRaw),raw_sha256:sha256Text(guardRaw)},expected_counts:B106.counts,expected_card_ids:B106.cards,expected_visual_ids:B106.visuals,allowed_outputs:B106.outputs,authorization:{append_exact_candidate_only:true,allow_candidate_mutation:false,allow_authorization_mutation:false,allow_manual_manifest_or_hash_edit:false,allow_future_run:false,allow_history_rewrite:false,allow_runtime_change:false,allow_workflow_change:false,allow_lifecycle_change:false,allow_media_change:false,allow_deploy:false,allow_merge:false,allow_publish:false},execution_state:{performed:false}};
@@ -357,7 +396,13 @@ if(write&&runId===B113.run){
  validateStrictB113(authorizationFile.raw,{candidateRaw:raw,store,resultingCanonical:entry.canonical_sha256});
  b113Files=[candidateFile,authorizationFile,readStableFile(source+'/data/run-store-manifest.json')];
 }
-if(write&&!legacyGuardedRuns.has(runId)&&runId!==B106.run&&runId!==B113.run){
+let b114Files=null;
+if(write&&runId===B114.run){
+ const authorizationFile=readStableFile(B114.authorization),manifestFile=readStableFile(source+'/data/run-store-manifest.json');
+ validateStrictB114(authorizationFile.raw,{candidateRaw:raw,store,resultingCanonical:entry.canonical_sha256,manifestRaw:manifestFile.raw,successorManifestRaw:JSON.stringify(manifest,null,2)+'\n'});
+ b114Files=[candidateFile,authorizationFile,manifestFile];
+}
+if(write&&!legacyGuardedRuns.has(runId)&&runId!==B106.run&&runId!==B113.run&&runId!==B114.run){
   if(!explicitAuthorizationPath)throw new Error(`Explicit append authorization required for unrecognized write run ${runId}`);
   const authorizationPath=explicitAuthorizationPath.replaceAll('\\','/');
   if(!authorizationPath.startsWith(`${source}/`)||authorizationPath.split('/').includes('..'))throw new Error('Explicit append authorization path is outside docs/engineer-osint');
@@ -393,6 +438,11 @@ if(write&&b113Files){
  for(const file of b113Files)assertUnchanged(file);
  for(const output of B113.outputs)assertSafeParents(output);
  if(existsSync(destination))throw Error('B113 replay blocked');
+}
+if(write&&b114Files){
+ for(const file of b114Files)assertUnchanged(file);
+ for(const output of B114.outputs)assertSafeParents(output);
+ if(existsSync(destination))throw Error('B114 replay blocked');
 }
 if(write){
   const manifestPath=join(source,'data/run-store-manifest.json'),runTemp=`${destination}.tmp`,manifestTemp=`${manifestPath}.tmp`;
