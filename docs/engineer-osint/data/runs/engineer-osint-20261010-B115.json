@@ -1,0 +1,195 @@
+{
+  "schema_version": "engineer-osint-patch-v1",
+  "state": {
+    "run_id": "engineer-osint-20261010-B115",
+    "parent_run_id": "engineer-osint-20261010-B114",
+    "status": "SUCCESS",
+    "window_from": "2026-09-22T00:00:00Z",
+    "window_to": "2026-10-11T00:00:00Z",
+    "counts": {
+      "CURRENT_DELTA": 0,
+      "LATE_DISCOVERED_CURRENT": 0,
+      "HISTORICAL_BACKFILL": 0,
+      "ENTITY_ENRICHMENT": 1,
+      "NEW": 0,
+      "UPDATE": 1,
+      "CONFIRMATION": 0,
+      "CORRECTION": 0,
+      "CONTRADICTION": 0,
+      "LEAD": 0,
+      "NEW_RELATIONS": 0,
+      "UPDATED_RELATIONS": 0,
+      "NEW_EVIDENCE": 3,
+      "UPDATED_EVIDENCE": 0,
+      "NEW_SOURCES": 3,
+      "UPDATED_SOURCES": 0,
+      "NEW_VISUALS": 0,
+      "NEW_MEDIA": 0
+    }
+  },
+  "continuity": {
+    "status": "PRIVATE_REVIEW_REQUIRED_NOT_AUTHORIZED",
+    "reviewed_main_sha": "719edcc148c61f4f9cf1ddffbdd099b353765eeb",
+    "reviewed_parent_canonical_sha256": "6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8",
+    "input_handoff_raw_sha256": "d798302238ac053ef5f796f241b7d9258ea9b8fb103e3843335577b7978c8e6e",
+    "canonical_write_authorized": false,
+    "canonical_write_performed": false,
+    "identifier_allocation": "PROVISIONAL_SIMULATION_ONLY_NOT_RESERVED",
+    "original_proposal_comparison_complete": true,
+    "original_proposal_raw_sha256": "57051579314a896d6375aa29a9dcb0449cec40189a08eb191f47dd09d737e883"
+  },
+  "true_delta": {
+    "CURRENT_DELTA": 0,
+    "LATE_DISCOVERED_CURRENT": 0,
+    "HISTORICAL_BACKFILL": 0,
+    "ENTITY_ENRICHMENT": 1
+  },
+  "new_records": [],
+  "updated_records": [
+    {
+      "id": "ENG-EVT-0142",
+      "summary_en": "On 5 October 2026, South Korea’s Joint Chiefs of Staff (JCS) attributed the 21 September DMZ blasts to North Korean resin-bodied antipersonnel mines deliberately laid south of the Military Demarcation Line. It reported two seriously and one lightly injured soldier from the same incident. Reuters reported that North Korea’s Foreign Ministry rejected the findings on 6 October. Responsibility remains disputed.",
+      "summary_cs": "Jihokorejský Sbor náčelníků štábů (JCS) 5. října 2026 oznámil, že výbuchy v DMZ z 21. září přičítá severokorejským protipěchotním minám s pryskyřičným tělem, záměrně položeným jižně od vojenské demarkační linie. U téhož incidentu uvedl dva těžce a jednoho lehce zraněného vojáka. Podle Reuters severokorejské ministerstvo zahraničí 6. října závěry odmítlo. Přičtení odpovědnosti zůstává sporné.",
+      "summary": "On 5 October 2026, South Korea’s Joint Chiefs of Staff (JCS) attributed the 21 September DMZ blasts to North Korean resin-bodied antipersonnel mines deliberately laid south of the Military Demarcation Line. It reported two seriously and one lightly injured soldier from the same incident. Reuters reported that North Korea’s Foreign Ministry rejected the findings on 6 October. Responsibility remains disputed.",
+      "fact_en": "On 5 October 2026, South Korea’s Joint Chiefs of Staff (JCS) attributed the 21 September DMZ blasts to North Korean resin-bodied antipersonnel mines deliberately laid south of the Military Demarcation Line. It reported two seriously and one lightly injured soldier from the same incident. Reuters reported that North Korea’s Foreign Ministry rejected the findings on 6 October. Responsibility remains disputed.",
+      "fact_cs": "Jihokorejský Sbor náčelníků štábů (JCS) 5. října 2026 oznámil, že výbuchy v DMZ z 21. září přičítá severokorejským protipěchotním minám s pryskyřičným tělem, záměrně položeným jižně od vojenské demarkační linie. U téhož incidentu uvedl dva těžce a jednoho lehce zraněného vojáka. Podle Reuters severokorejské ministerstvo zahraničí 6. října závěry odmítlo. Přičtení odpovědnosti zůstává sporné.",
+      "fact": "On 5 October 2026, South Korea’s Joint Chiefs of Staff (JCS) attributed the 21 September DMZ blasts to North Korean resin-bodied antipersonnel mines deliberately laid south of the Military Demarcation Line. It reported two seriously and one lightly injured soldier from the same incident. Reuters reported that North Korea’s Foreign Ministry rejected the findings on 6 October. Responsibility remains disputed.",
+      "analysis_en": "The 22 September open-cause report, the 28 September preliminary attribution and the 5 October JCS conclusion describe successive investigation stages. The conclusion and the 6 October denial remain attributed statements, not independent proof of responsibility or intent. The injury counts describe the same incident, not additional casualties.",
+      "analysis_cs": "Zpráva z 22. září s otevřenou příčinou, předběžné přičtení z 28. září a závěr JCS z 5. října zachycují postupné fáze vyšetřování. Závěr i odmítnutí z 6. října zůstávají připsanými vyjádřeními, nikoli nezávislým důkazem odpovědnosti či úmyslu. Počty zraněných se vztahují k témuž incidentu, nejde o další zraněné.",
+      "analysis": "The 22 September open-cause report, the 28 September preliminary attribution and the 5 October JCS conclusion describe successive investigation stages. The conclusion and the 6 October denial remain attributed statements, not independent proof of responsibility or intent. The injury counts describe the same incident, not additional casualties.",
+      "what_it_does_not_prove_en": "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+      "what_it_does_not_prove_cs": "Nezávislý důkaz odpovědnosti či úmyslu; původní forenzní spis ani původní vyjádření KCNA nebyly získány. Není vyjasněno, koho zahrnují počty členů týmu 12 a 18, proto nový souhrn velikost týmu neuvádí.",
+      "source_ids": [
+        "ENG-SRC-0611",
+        "ENG-SRC-0642",
+        "ENG-SRC-0643",
+        "ENG-SRC-0644"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0281",
+        "ENG-EVID-0301",
+        "ENG-EVID-0302",
+        "ENG-EVID-0303"
+      ],
+      "temporal_status": "DATED_JCS_CONCLUSION_WITH_REPORTED_DENIAL",
+      "classification": "ATTRIBUTED_OFFICIAL_CONCLUSION_WITH_DISPUTED_RESPONSIBILITY",
+      "confidence": "HIGH_FOR_ATTRIBUTED_STATEMENTS_NOT_INDEPENDENT_CAUSATION"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0642",
+      "title": "Yonhap: preliminary JCS assessment of the DMZ blasts",
+      "title_en": "Yonhap: preliminary JCS assessment of the DMZ blasts",
+      "title_cs": "Yonhap: předběžné hodnocení výbuchů v DMZ podle JCS",
+      "publisher": "Yonhap News Agency",
+      "url": "https://en.yna.co.kr/view/AEN20260928011900315",
+      "publication_date": "2026-09-28",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "NEWS_AGENCY_OFFICIAL_ATTRIBUTION",
+      "verification_status": "HISTORICAL_READBACK_IN_LOCALLY_HASH_VERIFIED_R4"
+    },
+    {
+      "id": "ENG-SRC-0643",
+      "title": "JCS final investigation briefing on the DMZ blasts",
+      "title_en": "JCS final investigation briefing on the DMZ blasts",
+      "title_cs": "JCS: závěrečná tisková zpráva k vyšetřování výbuchů v DMZ",
+      "publisher": "Republic of Korea government / JCS",
+      "url": "https://www.korea.kr/briefing/policyBriefingView.do?newsId=156784294",
+      "publication_date": "2026-10-05",
+      "language": "ko",
+      "source_tier": 1,
+      "source_class": "OFFICIAL_PRIMARY_ATTRIBUTED_CONCLUSION",
+      "verification_status": "EXECUTOR_WEB_TEXT_READBACK_2026_10_10"
+    },
+    {
+      "id": "ENG-SRC-0644",
+      "title": "Reuters: North Korea rejects South Korean mine-blast findings",
+      "title_en": "Reuters: North Korea rejects South Korean mine-blast findings",
+      "title_cs": "Reuters: KLDR odmítá jihokorejské závěry o výbuchu min",
+      "publisher": "Reuters via MarketScreener",
+      "url": "https://www.marketscreener.com/news/north-korea-warns-of-stronger-action-toward-south-korea-over-mine-blast-accusations-ce785dd8d08af122",
+      "publication_date": "2026-10-06",
+      "language": "en",
+      "source_tier": 2,
+      "source_class": "NEWS_AGENCY_REPORTED_OFFICIAL_DENIAL",
+      "verification_status": "PARENT_CONVERSATION_CONTENT_READBACK_2026_10_10"
+    }
+  ],
+  "relations": [],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0301",
+      "evidence_id": "ENG-EVID-0301",
+      "evidence_type": "NEWS_AGENCY_OFFICIAL_ATTRIBUTION",
+      "evidence_status": "HISTORICAL_READBACK_IN_LOCALLY_HASH_VERIFIED_R4",
+      "related_ids": [
+        "ENG-EVT-0142"
+      ],
+      "source_ids": [
+        "ENG-SRC-0642"
+      ],
+      "what_it_supports_en": "The dated 28 September preliminary JCS attribution reported by Yonhap, as preserved in R4.",
+      "what_it_supports_cs": "Předběžné přičtení JCS z 28. září ve zprávě Yonhap zachované v R4.",
+      "what_it_does_not_prove_en": "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+      "what_it_does_not_prove_cs": "Nezávislý důkaz odpovědnosti či úmyslu; původní forenzní spis ani původní vyjádření KCNA nebyly získány. Není vyjasněno, koho zahrnují počty členů týmu 12 a 18, proto nový souhrn velikost týmu neuvádí.",
+      "confidence": "HIGH_FOR_ATTRIBUTED_REPORT_CONTENT"
+    },
+    {
+      "id": "ENG-EVID-0302",
+      "evidence_id": "ENG-EVID-0302",
+      "evidence_type": "OFFICIAL_PRIMARY_ATTRIBUTED_CONCLUSION",
+      "evidence_status": "EXECUTOR_WEB_TEXT_READBACK_2026_10_10",
+      "related_ids": [
+        "ENG-EVT-0142"
+      ],
+      "source_ids": [
+        "ENG-SRC-0643"
+      ],
+      "what_it_supports_en": "The 5 October JCS conclusion and its report of two seriously and one lightly injured soldier in the same 21 September incident.",
+      "what_it_supports_cs": "Závěr JCS z 5. října a jeho údaj o dvou těžce a jednom lehce zraněném vojákovi při témže incidentu z 21. září.",
+      "what_it_does_not_prove_en": "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+      "what_it_does_not_prove_cs": "Nezávislý důkaz odpovědnosti či úmyslu; původní forenzní spis ani původní vyjádření KCNA nebyly získány. Není vyjasněno, koho zahrnují počty členů týmu 12 a 18, proto nový souhrn velikost týmu neuvádí.",
+      "confidence": "HIGH_FOR_ATTRIBUTED_REPORT_CONTENT"
+    },
+    {
+      "id": "ENG-EVID-0303",
+      "evidence_id": "ENG-EVID-0303",
+      "evidence_type": "NEWS_AGENCY_REPORTED_OFFICIAL_DENIAL",
+      "evidence_status": "PARENT_CONVERSATION_CONTENT_READBACK_2026_10_10",
+      "related_ids": [
+        "ENG-EVT-0142"
+      ],
+      "source_ids": [
+        "ENG-SRC-0644"
+      ],
+      "what_it_supports_en": "Reuters reporting on 6 October that North Korea rejected the findings.",
+      "what_it_supports_cs": "Zpráva Reuters z 6. října, podle níž KLDR závěry odmítla.",
+      "what_it_does_not_prove_en": "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+      "what_it_does_not_prove_cs": "Nezávislý důkaz odpovědnosti či úmyslu; původní forenzní spis ani původní vyjádření KCNA nebyly získány. Není vyjasněno, koho zahrnují počty členů týmu 12 a 18, proto nový souhrn velikost týmu neuvádí.",
+      "confidence": "HIGH_FOR_ATTRIBUTED_REPORT_CONTENT"
+    }
+  ],
+  "visuals": [],
+  "media": [],
+  "technology_signals": [],
+  "lead_updates": [],
+  "observed_minimum_updates": [],
+  "lessons_learned": [],
+  "qa": {
+    "status": "REVIEW_REQUIRED_NOT_AUTHORIZED",
+    "mode": "IN_MEMORY_STRICT_PATCH_SIMULATION_ONLY",
+    "canonical_write_performed": false,
+    "publication_performed": false,
+    "full_downstream_validation_complete": false,
+    "multimedia_status": "COMPLETE_NO_CANONICAL_MEDIA_ADDITION"
+  },
+  "extensions": {
+    "intelligence_v1": {
+      "assessments": [],
+      "gaps": [],
+      "contradictions": []
+    }
+  }
+}
