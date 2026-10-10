@@ -1,0 +1,200 @@
+{
+  "schema_version": "engineer-osint-research-development-handoff-v1",
+  "handoff_id": "HANDOFF-20261010-DMZ-B114-PRIVATE-UI-REVIEW",
+  "producer": "RESEARCH",
+  "consumer": "DEVELOPMENT",
+  "status": "REVIEW_REQUIRED",
+  "created_at": "2026-10-10T15:07:00.174556Z",
+  "base_main_sha": "719edcc148c61f4f9cf1ddffbdd099b353765eeb",
+  "canonical_parent": {
+    "run_id": "engineer-osint-20261010-B114",
+    "canonical_sha256": "6e70d18d5aeb59c68b761c271e5c1cd74d9498cedcfaaa64bf0b044801a4e6c8"
+  },
+  "candidate": {
+    "path": "docs/engineer-osint/candidates/B115_DMZ_20261010.json",
+    "run_id": "engineer-osint-20261010-B115",
+    "sha256": "af62329bc1f7a6c0cc27011300031e2891a2d871bf6ce4ffc0b5e293fbda7b44",
+    "git_blob_sha": "f2ce6f3183cbad1bb39d20b84266a8c57a77b82d"
+  },
+  "factual_scope": [
+    "Update only ENG-EVT-0142; same 21 September 2026 incident; no duplicate event or additional casualty aggregate.",
+    "Preserve 22 September uncertainty and 28 September preliminary assessment as dated history; add attributed 5 October JCS conclusion and Reuters-reported 6 October DPRK denial.",
+    "Exact approved summaries preserved; existing canonical titles retained instead of proposed replacement titles. Analysis adds explicit dates, attribution and same-incident injury boundary; limitations add unreconciled team denominator.",
+    "Three provisional new source/evidence IDs, including Sep28 Yonhap for chronology; none reserved. No tactical detail or media."
+  ],
+  "claims": [
+    {
+      "id": "DMZ-CHRONOLOGY",
+      "statement": "Yonhap reported the 28 September preliminary JCS attribution, preserved in the hash-verified historical R4.",
+      "classification": "FACT",
+      "confidence": "HIGH",
+      "source_ids": [
+        "ENG-SRC-0642"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0301"
+      ],
+      "observed_at": "2026-10-10T15:07:00.174556Z"
+    },
+    {
+      "id": "DMZ-JCS",
+      "statement": "On 5 October JCS announced its conclusion attributing the same incident to North Korean resin-bodied antipersonnel mines deliberately laid south of the MDL, and reported two seriously and one lightly injured soldier. This claim is about the JCS statement, not independently proven responsibility.",
+      "classification": "FACT",
+      "confidence": "HIGH",
+      "source_ids": [
+        "ENG-SRC-0643"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0302"
+      ],
+      "observed_at": "2026-10-10T15:07:00.174556Z"
+    },
+    {
+      "id": "DMZ-DENIAL",
+      "statement": "Reuters reported on 6 October that North Korea’s Foreign Ministry rejected the findings. Original KCNA statement not retrieved.",
+      "classification": "FACT",
+      "confidence": "HIGH",
+      "source_ids": [
+        "ENG-SRC-0644"
+      ],
+      "evidence_ids": [
+        "ENG-EVID-0303"
+      ],
+      "observed_at": "2026-10-10T15:07:00.174556Z"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ENG-SRC-0642",
+      "url": "https://en.yna.co.kr/view/AEN20260928011900315",
+      "source_type": "NEWS_AGENCY_OFFICIAL_ATTRIBUTION",
+      "published_at": "2026-09-28T21:09:00+09:00",
+      "retrieved_at": "2026-09-28T20:48:17Z",
+      "primary": false
+    },
+    {
+      "id": "ENG-SRC-0643",
+      "url": "https://www.korea.kr/briefing/policyBriefingView.do?newsId=156784294",
+      "source_type": "OFFICIAL_PRIMARY_ATTRIBUTED_CONCLUSION",
+      "published_at": null,
+      "retrieved_at": "2026-10-10T15:07:00.174556Z",
+      "primary": true
+    },
+    {
+      "id": "ENG-SRC-0644",
+      "url": "https://www.marketscreener.com/news/north-korea-warns-of-stronger-action-toward-south-korea-over-mine-blast-accusations-ce785dd8d08af122",
+      "source_type": "NEWS_AGENCY_REPORTED_OFFICIAL_DENIAL_PARENT_PROPOSAL_ATTESTED_READBACK_CHECKPOINT",
+      "published_at": null,
+      "retrieved_at": "2026-10-10T09:11:00Z",
+      "primary": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ENG-EVID-0301",
+      "source_ids": [
+        "ENG-SRC-0642"
+      ],
+      "supports_claim_ids": [
+        "DMZ-CHRONOLOGY"
+      ],
+      "summary": "The dated 28 September preliminary JCS attribution reported by Yonhap, as preserved in R4.",
+      "limitations": [
+        "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+        "Historical source readback inherited from R4, not refreshed."
+      ]
+    },
+    {
+      "id": "ENG-EVID-0302",
+      "source_ids": [
+        "ENG-SRC-0643"
+      ],
+      "supports_claim_ids": [
+        "DMZ-JCS"
+      ],
+      "summary": "The 5 October JCS conclusion and its report of two seriously and one lightly injured soldier in the same 21 September incident.",
+      "limitations": [
+        "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary."
+      ]
+    },
+    {
+      "id": "ENG-EVID-0303",
+      "source_ids": [
+        "ENG-SRC-0644"
+      ],
+      "supports_claim_ids": [
+        "DMZ-DENIAL"
+      ],
+      "summary": "Reuters reporting on 6 October that North Korea rejected the findings.",
+      "limitations": [
+        "Independent proof of responsibility or intent; the original forensic file and the original KCNA statement were not obtained. The denominator behind team sizes of 12 versus 18 remains unclear and is omitted from the new summary.",
+        "Reuters readback inherited from verified original proposal/parent; retrieved_at records that proposal review checkpoint, not an independently observed HTTP retrieval instant. Fresh executor fetch failed."
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "DMZ-RESPONSIBILITY-DISPUTED",
+      "claim_ids": [
+        "DMZ-JCS",
+        "DMZ-DENIAL"
+      ],
+      "description": "JCS conclusion and DPRK rejection coexist; responsibility/intent not independently resolved.",
+      "resolution_status": "UNRESOLVED"
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "INDEPENDENT-CAUSATION",
+      "description": "Original forensic file and KCNA statement not obtained; preserve attributed scope.",
+      "blocking": false
+    },
+    {
+      "id": "TEAM-DENOMINATOR",
+      "description": "12 versus18 population denominator unresolved; excluded from new synopsis.",
+      "blocking": false
+    },
+    {
+      "id": "CANONICAL-PUBLICATION-GATES",
+      "description": "Exact CLASS A authorization, guard and full required downstream canonical identity/publication validation absent. Private render validation is not an execution receipt.",
+      "blocking": true
+    }
+  ],
+  "safety_classification": "CLASS_A",
+  "media": [],
+  "expected_effect": [
+    "One existing record updated; 296 records remain; sources630→633 and evidence296→299 in private simulation.",
+    "CS detail uses existing enum registry before humanizing tokens; EN fallback and language switching retained.",
+    "No publication or live canonical mutation."
+  ],
+  "invariants_to_preserve": [
+    "Keep immutable B111 and ENG-SRC-0611/ENG-EVID-0281 unchanged.",
+    "Keep original publication date 2026-09-22 and same incident date 2026-09-21.",
+    "Keep exact approved bilingual summaries, denial and attribution.",
+    "Preserve generic/bilingual summary/fact/analysis coherence and old evidence links.",
+    "Do not reinterpret historical R3/R4 status as READY."
+  ],
+  "required_downstream_validations": [
+    "Refresh main/parent and one-active-write-slice before any authorized repo action.",
+    "Re-run strict patch and linked identity/count/immutability checks on exact candidate hash.",
+    "Review two-file technical diff and private browser CZ→EN→CZ results; run full required exact-head downstream checks if proceeding.",
+    "Obtain separate exact CLASS A canonical and publication authorization/guard; private candidate run ID not reserved."
+  ],
+  "deterministic_hashes": {
+    "candidate_sha256": "af62329bc1f7a6c0cc27011300031e2891a2d871bf6ce4ffc0b5e293fbda7b44",
+    "lifecycle_source_sha256": null,
+    "lifecycle_successor_sha256": null,
+    "browser_normalized_dom_sha256": null
+  },
+  "forbidden_mutations": [
+    "No push, merge, deploy or publication.",
+    "No live canonical write or append.",
+    "No credentials, permissions, governance or guard changes.",
+    "No historical rewrite, unqualified attribution, additional event, tactical content or media."
+  ],
+  "freshness": {
+    "parent_sensitive": true,
+    "revalidate_on_main_change": true,
+    "valid_until": null
+  }
+}

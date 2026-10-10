@@ -24,7 +24,7 @@
   const linked=(item,id)=>[item?.record_id,item?.related_record_id,item?.target_id,item?.entity_id,item?.subject_id,item?.object_id,...arr(item?.related_ids),...arr(item?.related_record_ids)].includes(id);
   const title=r=>pick(r,'title')||pick(r,'topic')||r?.name||r?.id||'—';
   const summary=r=>pick(r,'summary')||pick(r,'description')||'';
-  const fmt=v=>String(v||'').replaceAll('_',' ');
+  const fmt=v=>{const key=String(v||'');return window.__ENGINEER_I18N__?.ui?.[lang()]?.[key]??key.replaceAll('_',' ')};
   const localPhotoFor=r=>localPhotoAcquisitions().filter(p=>p?.card_id===r?.id&&p?.local_image_path).at(-1)||null;
   let activeId=null,wrapped=false,scheduled=false;
 
